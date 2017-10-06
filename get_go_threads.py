@@ -59,13 +59,15 @@ def save_and_clear_go_thread():
     save the current go_threads_df to disk
     and clear go_threads_df
     """
-    global file_count, total_go_threads_len, go_threads_df
+    global file_count, total_go_threads_len, go_threads_df, without_answer
     file_count += 1
     total_go_threads_len += len(go_threads_df)
     go_threads_df.to_csv(base_file_name + str(file_count) + '.csv')
+    without_answer.to_csv('./go_thread_data/without_answer_post.csv')
     
     go_threads_df = pd.DataFrame(None, columns=['question', 'answer', 'answerID'])
     go_threads_df.index.rename("questionID")
+
 
 
 
@@ -85,41 +87,47 @@ with open("./Posts.xml", "r") as f:
     f.readline()
     f.readline()
     for line in f:
-        current_line_id = int(key_content(line, "Id"))
-    #     if the post if a answer
-        if key_content(line, "PostTypeId") == "2":
-            if current_line_id in without_answer.answerID.tolist():
-                # if the post is an answer of a go question
-                # put the answer and question into go_threads_df
-                question_df = without_answer[without_answer.answerID == current_line_id]
-                go_threads_df = go_threads_df.append(
-                    pd.DataFrame([[question_df.question, line, current_line_id]], 
-                                 index=[question_df.index], 
-                                 columns=['question', 'answer', 'answerID']))
-                without_answer = without_answer[without_answer.answerID != current_line_id]
-    #     if the post if a question
-        elif 'Tags="' in line:
-            if ("&lt;go&gt" in key_content(line, "Tags")):
-    #             if the question has tag go
-    #             put the question into without_answer
-                if 'AcceptedAnswerId="' in line:
-                    AcceptedAnswerId = int(key_content(line, "AcceptedAnswerId"))
-                    without_answer = without_answer.append(
-                        pd.DataFrame([[line, AcceptedAnswerId]], 
-                                     index=[current_line_id], 
-                                     columns=['question', 'answerID']))
+        try:
+            if 'Id="' in line:
+                current_line_id = int(key_content(line, "Id"))
+            else:
+                continue
+        #     if the post if a answer
+            if key_content(line, "PostTypeId") == "2":
+                if current_line_id in without_answer.answerID.tolist():
+                    # if the post is an answer of a go question
+                    # put the answer and question into go_threads_df
+                    question_df = without_answer[without_answer.answerID == current_line_id]
+                    go_threads_df = go_threads_df.append(
+                        pd.DataFrame([[question_df.question, line, current_line_id]], 
+                                     index=[question_df.index], 
+                                     columns=['question', 'answer', 'answerID']))
+                    without_answer = without_answer[without_answer.answerID != current_line_id]
+        #     if the post if a question
+            elif 'Tags="' in line:
+                if ("&lt;go&gt" in key_content(line, "Tags")):
+        #             if the question has tag go
+        #             put the question into without_answer
+                    if 'AcceptedAnswerId="' in line:
+                        AcceptedAnswerId = int(key_content(line, "AcceptedAnswerId"))
+                        without_answer = without_answer.append(
+                            pd.DataFrame([[line, AcceptedAnswerId]], 
+                                         index=[current_line_id], 
+                                         columns=['question', 'answerID']))
 
-        if len(go_threads_df) > 5000:
-            # save and clear to go_thread once the len(go_threads_df) > 5000
-            save_and_clear_go_thread()
-            print('saved 5000 go threads to disk')
-    
+            if len(go_threads_df) > 5000:
+                # save and clear to go_thread once the len(go_threads_df) > 5000
+                save_and_clear_go_thread()
+                print('saved 5000 go threads to disk')
+        except:
+            print(line)
+            print("sth wrong, but continue")
+            continue
 
 
 # In[ ]:
 
 save_and_clear_go_thread()
-without_answer.to_csv("without_answer_post.csv")
 print("Program finished")
 
 
@@ -145,4 +153,9 @@ print("Program finished")
                 
 # save_and_clear_go_thread()
 # without_answer.to_csv("without_answer_post.csv")
+
+
+# In[ ]:
+
+
 
