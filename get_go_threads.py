@@ -79,7 +79,7 @@ go_threads_df.index.rename("questionID")
 without_answer = pd.DataFrame(None, columns=['question', 'answerID'])
 start_time = time.time()
 
-with open("../CZ4045_NLP/project/Posts.xml", "r") as f:
+with open("./Posts.xml", "r") as f:
     print("Start to open the file")
     # skip the first 2 lines
     f.readline()
