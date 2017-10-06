@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 import time
 import pickle
@@ -9,7 +9,7 @@ import pandas as pd
 import os
 
 
-# In[2]:
+# In[ ]:
 
 base_file_name = "./go_thread_data/go_thread_data_"
 file_count = 0
@@ -18,7 +18,7 @@ if (os.path.exists("./go_thread_data/")) is False:
     os.mkdir("./go_thread_data/")
 
 
-# In[3]:
+# In[ ]:
 
 def key_content(line, key):
     """
@@ -33,7 +33,7 @@ def key_content(line, key):
     return line[start_index + len(key + '="'): end_index]
 
 
-# In[4]:
+# In[ ]:
 
 # class Go_thread:
 #     def __init__(self, question, questionID, answer, answerID):
@@ -44,7 +44,7 @@ def key_content(line, key):
         
 
 
-# In[5]:
+# In[ ]:
 
 # def save_go_thread_to_file(go_threads, file_name):
 #     with open(file_name, 'wb') as output:
@@ -52,7 +52,7 @@ def key_content(line, key):
 #             pickle.dump(thread, output, pickle.HIGHEST_PROTOCOL)
 
 
-# In[6]:
+# In[ ]:
 
 def save_and_clear_go_thread():
     """
@@ -63,11 +63,11 @@ def save_and_clear_go_thread():
     file_count += 1
     total_go_threads_len += len(go_threads_df)
     go_threads_df.to_csv(base_file_name + str(file_count) + '.csv')
-    without_answer.to_csv("./go_thread_data/without_answer_post" + str(file_count) + '.csv')
+    without_answer.to_csv('./go_thread_data/without_answer_post.csv')
     
     go_threads_df = pd.DataFrame(None, columns=['question', 'answer', 'answerID'])
     go_threads_df.index.rename("questionID")
-    without_answer = pd.DataFrame(None, columns=['question', 'answerID'])
+
 
 
 
@@ -120,6 +120,7 @@ with open("../CZ4045_NLP/project/Posts.xml", "r") as f:
                 save_and_clear_go_thread()
                 print('saved 5000 go threads to disk')
         except:
+            print(line)
             print("sth wrong, but continue")
             continue
 
