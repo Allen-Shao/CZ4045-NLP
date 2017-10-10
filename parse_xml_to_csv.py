@@ -42,7 +42,7 @@ def dump_data():
 
 	global questions, answers
 
-	question_df = pd.DataFrame(data = questions, columns=['PostId', 'Body', 'Title', 'AnswerCount', 'AcceptedAnswerId', 'AnswerIds'])
+	question_df = pd.DataFrame(data = questions, columns=['PostId', 'Title', 'Body', 'AnswerCount', 'AcceptedAnswerId'])
 	answer_df = pd.DataFrame(data = answers, columns=['PostId', 'Body', 'ParentId'])
 
 	questions = []
@@ -99,13 +99,11 @@ with open("./Posts.xml", "r") as f:
 					answers.append(answer.__dict__)
 
 			# CheckPoint
-			if questions_count == 100:
+			if questions_count == 1000:
 				print("1000 questions collected.")
 				questions_count = 0
-				break
-				# if (questions_count % 5000 == 0):
-				# 	dump_data(questions_count // 5000)
-				# 	print("5000 ")
+
+
 		except KeyboardInterrupt:
 			print(str(questions_count) + " questions collected.")
 			dump_data()
