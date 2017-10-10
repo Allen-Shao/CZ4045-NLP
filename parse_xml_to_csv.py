@@ -112,7 +112,7 @@ with open("./Posts.xml", "r") as f:
 			print("sth wrong, but continue: ", sys.exc_info()[0])
 			continue
 
-
+print(str(questions_count) + " questions collected.")
 dump_data()
 
 print("Program finished")
