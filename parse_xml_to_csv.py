@@ -3,11 +3,29 @@
 
 # In[ ]:
 
-import time
-import pickle
 import pandas as pd
 import os
 import sys
+import html, re
+
+
+
+
+# In[ ]:
+
+class Question:
+	def __init__(self, post_id, title, body, accepted_answer, answer_count):
+		self.PostId = post_id
+		self.Title = strip_html(title) if title else ""
+		self.Body = strip_html(body) if body else ""
+		self.AcceptedAnswerId = int(accepted_answer) if accepted_answer else ""
+		self.AnswerCount = int(answer_count) if answer_count else ""
+
+class Answer:
+	def __init__(self, post_id, body, parent_id):
+		self.PostId = post_id
+		self.Body = strip_html(body) if body else ""
+		self.ParentId = int(parent_id) if parent_id else ""
 
 
 # In[ ]:
@@ -24,28 +42,30 @@ def key_content(line, key):
 	else:
 		return False
 
-
-# In[ ]:
-
-class Question:
-	def __init__(self, post_id, title, body, accepted_answer, answer_count):
-		self.PostId = post_id
-		self.Title = title if title else ""
-		self.Body = body if body else ""
-		self.AcceptedAnswerId = int(accepted_answer) if accepted_answer else ""
-		self.AnswerCount = int(answer_count) if answer_count else ""
-
-class Answer:
-	def __init__(self, post_id, body, parent_id):
-		self.PostId = post_id
-		self.Body = body if body else ""
-		self.ParentId = int(parent_id) if parent_id else ""
+def strip_html(content):
+	return re.sub(r'<.*?>','',html.unescape(content)) 
 
 
-total_go_threads_len = 0
+def dump_data(index):
 
+	global questions, answers
+
+	question_df = pd.DataFrame(data = questions, columns=['PostId', 'Body', 'Title', 'AnswerCount', 'AcceptedAnswerId', 'AnswerIds'])
+	answer_df = pd.DataFrame(data = answers, columns=['PostId', 'Body', 'ParentId'])
+
+	questions = []
+	answers = []
+
+	question_df.to_csv("questions.csv")
+	answer_df.to_csv("answers.csv")
+
+
+
+
+
+questions_count = 0
 questions = [] # Keep all the questions in list, later convert to DataFrame
-
+question_ids = [] # Keep track of question id for convenience
 answers = [] # Keep all the answers in list, later convert to DataFrame
 
 with open("./Posts.xml", "r") as f:
@@ -77,32 +97,34 @@ with open("./Posts.xml", "r") as f:
 					
 
 					questions.append(question.__dict__)
-					total_go_threads_len = total_go_threads_len + 1
+					question_ids.append(cur_id)
+					questions_count = questions_count + 1
 
 
 			if (post_type_id == 2): # Answer
-				body = key_content(line, "Body")
 				parent_id = key_content(line, "ParentId")
-				answer = Answer(cur_id, body, parent_id)
+				if parent_id and (int(parent_id) in question_ids):
+					body = key_content(line, "Body")
+					answer = Answer(cur_id, body, parent_id)
+					answers.append(answer.__dict__)
 
-				answers.append(answer.__dict__)
-
+			# CheckPoint
+			if questions_count == 1000:
+				print("1000 questions collected.")
+				questions_count = 0
+				# if (questions_count % 5000 == 0):
+				# 	dump_data(questions_count // 5000)
+				# 	print("5000 ")
+		except KeyboardInterrupt:
+			dump_data()
 		except:
 			print(line)
-			print("sth wrong, but continue: "+ sys.exc_info()[0])
+			print("sth wrong, but continue: ", sys.exc_info()[0])
 			continue
 
 
+dump_data()
 
-
-question_df = pd.DataFrame(data = questions, columns=['PostId', 'Body', 'AnswerCount', 'AcceptedAnswerId', 'AnswerIds'])
-answer_df = pd.DataFrame(data = answers, columns=['PostId', 'Body', 'ParentId'])
-
-question_df.to_csv("questions.csv")
-answer_df.to_csv("answers.csv")
-
-
-print("Total Go Threads: "+ str(total_go_threads_len))
 print("Program finished")
 
 
