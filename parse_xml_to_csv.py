@@ -1,17 +1,11 @@
 
 # coding: utf-8
 
-# In[ ]:
 
 import pandas as pd
 import os
 import sys
 import html, re
-
-
-
-
-# In[ ]:
 
 class Question:
 	def __init__(self, post_id, title, body, accepted_answer, answer_count):
@@ -28,8 +22,6 @@ class Answer:
 		self.ParentId = int(parent_id) if parent_id else ""
 
 
-# In[ ]:
-
 def key_content(line, key):
 
 	if (key in line):
@@ -43,10 +35,10 @@ def key_content(line, key):
 		return False
 
 def strip_html(content):
-	return re.sub(r'<.*?>','',html.unescape(content)) 
+	return re.sub(r'<.*?>','',html.unescape(html.unescape(content)))  ## Unescape twice to make it cleaner.
 
 
-def dump_data(index):
+def dump_data():
 
 	global questions, answers
 
@@ -60,9 +52,7 @@ def dump_data(index):
 	answer_df.to_csv("answers.csv")
 
 
-
-
-
+# Main
 questions_count = 0
 questions = [] # Keep all the questions in list, later convert to DataFrame
 question_ids = [] # Keep track of question id for convenience
@@ -109,13 +99,15 @@ with open("./Posts.xml", "r") as f:
 					answers.append(answer.__dict__)
 
 			# CheckPoint
-			if questions_count == 1000:
+			if questions_count == 100:
 				print("1000 questions collected.")
 				questions_count = 0
+				break
 				# if (questions_count % 5000 == 0):
 				# 	dump_data(questions_count // 5000)
 				# 	print("5000 ")
 		except KeyboardInterrupt:
+			print(str(questions_count) + " questions collected.")
 			dump_data()
 		except:
 			print(line)
