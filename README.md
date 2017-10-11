@@ -3,9 +3,9 @@
 ## Dependency
 * Pandas
 
-## DataFrame Structure
-Question DataFrame
+## DataFrame Structure  
+Question DataFrame  
 **Column**: "PostId", "Title", "Body", "AcceptedAnswerId", "AnswerCount"
 
-Answer DataFrame
+Answer DataFrame  
 **Column**: "PostId", "Body", "ParentId"
