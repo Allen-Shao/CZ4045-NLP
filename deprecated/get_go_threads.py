@@ -82,7 +82,7 @@ without_answer = pd.DataFrame(None, columns=['question', 'answerID'])
 start_time = time.time()
 
 # please change the directory!!!
-with open("../../CZ4045_NLP/project/Posts.xml", "r") as f:
+with open("../data/Posts.xml", "r") as f:
     print("Start to open the file")
     # skip the first 2 lines
     f.readline()
