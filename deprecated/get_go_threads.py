@@ -81,7 +81,8 @@ go_threads_df.index.rename("questionID")
 without_answer = pd.DataFrame(None, columns=['question', 'answerID'])
 start_time = time.time()
 
-with open("./Posts.xml", "r") as f:
+# please change the directory!!!
+with open("../../CZ4045_NLP/project/Posts.xml", "r") as f:
     print("Start to open the file")
     # skip the first 2 lines
     f.readline()
@@ -99,8 +100,8 @@ with open("./Posts.xml", "r") as f:
                     # put the answer and question into go_threads_df
                     question_df = without_answer[without_answer.answerID == current_line_id]
                     go_threads_df = go_threads_df.append(
-                        pd.DataFrame([[question_df.question, line, current_line_id]], 
-                                     index=[question_df.index], 
+                        pd.DataFrame([[question_df['question'].values[0], line, current_line_id]], 
+                                     index=[without_answer.index[without_answer.answerID == current_line_id]], 
                                      columns=['question', 'answer', 'answerID']))
                     without_answer = without_answer[without_answer.answerID != current_line_id]
         #     if the post if a question
