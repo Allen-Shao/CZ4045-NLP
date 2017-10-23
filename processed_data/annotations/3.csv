@@ -1,0 +1,143 @@
+,text,token,annotation
+0,// Copyright 2012 Stefan Nilsson,['// Copyright 2012 Stefan Nilsson'],"['comment', 'Copyright', '2012', 'Stefan', 'Nilsson']"
+1,//,['//'],['comment']
+2,"// Licensed under the Apache License, Version 2.0 (the ""License"");","['// Licensed under the Apache License, Version 2.0 (the ""License"");']","['comment', 'Licensed', 'under', 'the', 'Apache', 'License', ',', 'Version', '2.0', '(', 'the', '``', 'License', ""''"", ')', ';']"
+3,// you may not use this file except in compliance with the License.,['// you may not use this file except in compliance with the License.'],"['comment', 'you', 'may', 'not', 'use', 'this', 'file', 'except', 'in', 'compliance', 'with', 'the', 'License', '.']"
+4,// You may obtain a copy of the License at,['// You may obtain a copy of the License at'],"['comment', 'You', 'may', 'obtain', 'a', 'copy', 'of', 'the', 'License', 'at']"
+5,//,['//'],['comment']
+6,//     http://www.apache.org/licenses/LICENSE-2.0,['//     http://www.apache.org/licenses/LICENSE-2.0'],"['comment', 'http', ':', 'www.apache.org/licenses/LICENSE-2.0']"
+7,//,['//'],['comment']
+8,"// Unless required by applicable law or agreed to in writing, software","['// Unless required by applicable law or agreed to in writing, software']","['comment', 'Unless', 'required', 'by', 'applicable', 'law', 'or', 'agreed', 'to', 'in', 'writing', ',', 'software']"
+9,"// distributed under the License is distributed on an ""AS IS"" BASIS,","['// distributed under the License is distributed on an ""AS IS"" BASIS,']","['comment', 'distributed', 'under', 'the', 'License', 'is', 'distributed', 'on', 'an', '``', 'AS', 'IS', ""''"", 'BASIS', ',']"
+10,"// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.","['// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.']","['comment', 'WITHOUT', 'WARRANTIES', 'OR', 'CONDITIONS', 'OF', 'ANY', 'KIND', ',', 'either', 'express', 'or', 'implied', '.']"
+11,// See the License for the specific language governing permissions and,['// See the License for the specific language governing permissions and'],"['comment', 'See', 'the', 'License', 'for', 'the', 'specific', 'language', 'governing', 'permissions', 'and']"
+12,// limitations under the License.,['// limitations under the License.'],"['comment', 'limitations', 'under', 'the', 'License', '.']"
+13,// Package prio provides a priority queue.,['// Package prio provides a priority queue.'],"['comment', 'Package', 'prio', 'provides', 'a', 'priority', 'queue', '.']"
+14,// The queue can hold elements that implement the two methods of prio.Interface.,['// The queue can hold elements that implement the two methods of prio.Interface.'],"['comment', 'The', 'queue', 'can', 'hold', 'elements', 'that', 'implement', 'the', 'two', 'methods', 'of', 'prio.Interface', '.']"
+15,package prio,"['package', 'prio']","['keyword', 'identifier']"
+16,/*,['*'],['operator']
+17,A type that implements prio.Interface can be inserted into a priority queue.,"['A', 'type', 'that', 'implements', 'prio', '.', 'Interface', 'can', 'be', 'inserted', 'into', 'a', 'priority', 'queue', '.']","['identifier', 'keyword', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+18,The simplest use case looks like this:,"['The', 'simplest', 'use', 'case', 'looks', 'like', 'this', ':']","['identifier', 'identifier', 'identifier', 'keyword', 'identifier', 'identifier', 'identifier', 'operator']"
+19,        type myInt int,"['type', 'myInt', 'int']","['keyword', 'identifier', 'identifier']"
+20,        func (x myInt) Less(y prio.Interface) bool { return x < y.(myInt) },"['func', '(', 'x', 'myInt', ')', 'Less', '(', 'y', 'prio', '.', 'Interface', ')', 'bool', '{', 'return', 'x', '<', 'y', '.(', 'myInt', ')', '}']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+21,        func (x myInt) Index(i int)                {},"['func', '(', 'x', 'myInt', ')', 'Index', '(', 'i', 'int', ')', '{}']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+22,To use the Remove method you need to keep track of the index of elements,"['To', 'use', 'the', 'Remove', 'method', 'you', 'need', 'to', 'keep', 'track', 'of', 'the', 'index', 'of', 'elements']","['identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier']"
+23,"in the heap, e.g. like this:","['in', 'the', 'heap', ',', 'e', '.', 'g', '.', 'like', 'this', ':']","['identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator']"
+24,        type myType struct {,"['type', 'myType', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+25,                value int,"['value', 'int']","['identifier', 'identifier']"
+26,                index int // index in heap,"['index', 'int', '// index in heap']","['identifier', 'identifier', 'comment', 'index', 'in', 'heap']"
+27,        },['}'],['operator']
+28,        func (x *myType) Less(y prio.Interface) bool { return x.value < y.(*myType).value },"['func', '(', 'x', '*', 'myType', ')', 'Less', '(', 'y', 'prio', '.', 'Interface', ')', 'bool', '{', 'return', 'x', '.', 'value', '<', 'y', '.(*', 'myType', ').', 'value', '}']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+29,        func (x *myType) Index(i int)                { x.index = i },"['func', '(', 'x', '*', 'myType', ')', 'Index', '(', 'i', 'int', ')', '{', 'x', '.', 'index', '=', 'i', '}']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+30,*/,['*'],['operator']
+31,type Interface interface {,"['type', 'Interface', 'interface', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+32,        // Less returns whether this element should sort before element x.,['// Less returns whether this element should sort before element x.'],"['comment', 'Less', 'returns', 'whether', 'this', 'element', 'should', 'sort', 'before', 'element', 'x', '.']"
+33,        Less(x Interface) bool,"['Less', '(', 'x', 'Interface', ')', 'bool']","['identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier']"
+34,        // Index is called by the priority queue when this element is moved to index i.,['// Index is called by the priority queue when this element is moved to index i.'],"['comment', 'Index', 'is', 'called', 'by', 'the', 'priority', 'queue', 'when', 'this', 'element', 'is', 'moved', 'to', 'index', 'i', '.']"
+35,        Index(i int),"['Index', '(', 'i', 'int', ')']","['identifier', 'operator', 'identifier', 'identifier', 'operator']"
+36,},['}'],['operator']
+37,// Queue represents a priority queue.,['// Queue represents a priority queue.'],"['comment', 'Queue', 'represents', 'a', 'priority', 'queue', '.']"
+38,// The zero value for Queue is an empty queue ready to use.,['// The zero value for Queue is an empty queue ready to use.'],"['comment', 'The', 'zero', 'value', 'for', 'Queue', 'is', 'an', 'empty', 'queue', 'ready', 'to', 'use', '.']"
+39,type Queue struct {,"['type', 'Queue', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+40,        h []Interface,"['h', '[]', 'Interface']","['identifier', 'operator', 'identifier']"
+41,},['}'],['operator']
+42,// New returns an initialized priority queue with the given elements.,['// New returns an initialized priority queue with the given elements.'],"['comment', 'New', 'returns', 'an', 'initialized', 'priority', 'queue', 'with', 'the', 'given', 'elements', '.']"
+43,// A call of the form New(x...) uses the underlying array of x to implement,['// A call of the form New(x...) uses the underlying array of x to implement'],"['comment', 'A', 'call', 'of', 'the', 'form', 'New', '(', 'x', '...', ')', 'uses', 'the', 'underlying', 'array', 'of', 'x', 'to', 'implement']"
+44,// the queue and hence might change the elements of x.,['// the queue and hence might change the elements of x.'],"['comment', 'the', 'queue', 'and', 'hence', 'might', 'change', 'the', 'elements', 'of', 'x', '.']"
+45,"// The complexity is O(n), where n = len(x).","['// The complexity is O(n), where n = len(x).']","['comment', 'The', 'complexity', 'is', 'O', '(', 'n', ')', ',', 'where', 'n', '=', 'len', '(', 'x', ')', '.']"
+46,func New(x ...Interface) Queue {,"['func', 'New', '(', 'x', '...', 'Interface', ')', 'Queue', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+47,        q := Queue{x},"['q', ':=', 'Queue', '{', 'x', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+48,        heapify(q.h),"['heapify', '(', 'q', '.', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+49,        return q,"['return', 'q']","['keyword', 'identifier']"
+50,},['}'],['operator']
+51,// Push pushes the element x onto the queue.,['// Push pushes the element x onto the queue.'],"['comment', 'Push', 'pushes', 'the', 'element', 'x', 'onto', 'the', 'queue', '.']"
+52,// The complexity is O(log(n)) where n = q.Len().,['// The complexity is O(log(n)) where n = q.Len().'],"['comment', 'The', 'complexity', 'is', 'O', '(', 'log', '(', 'n', ')', ')', 'where', 'n', '=', 'q.Len', '(', ')', '.']"
+53,func (q *Queue) Push(x Interface) {,"['func', '(', 'q', '*', 'Queue', ')', 'Push', '(', 'x', 'Interface', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+54,        n := len(q.h),"['n', ':=', 'len', '(', 'q', '.', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+55,"        q.h = append(q.h, x)","['q', '.', 'h', '=', 'append', '(', 'q', '.', 'h', ',', 'x', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+56,"        up(q.h, n) // x.Index(n) is done by up.","['up', '(', 'q', '.', 'h', ',', 'n', ')', '// x.Index(n) is done by up.']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'x.Index', '(', 'n', ')', 'is', 'done', 'by', 'up', '.']"
+57,},['}'],['operator']
+58,// Pop removes a minimum element (according to Less) from the queue and returns it.,['// Pop removes a minimum element (according to Less) from the queue and returns it.'],"['comment', 'Pop', 'removes', 'a', 'minimum', 'element', '(', 'according', 'to', 'Less', ')', 'from', 'the', 'queue', 'and', 'returns', 'it', '.']"
+59,"// The complexity is O(log(n)), where n = q.Len().","['// The complexity is O(log(n)), where n = q.Len().']","['comment', 'The', 'complexity', 'is', 'O', '(', 'log', '(', 'n', ')', ')', ',', 'where', 'n', '=', 'q.Len', '(', ')', '.']"
+60,func (q *Queue) Pop() Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Pop', '()', 'Interface', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+61,        h := q.h,"['h', ':=', 'q', '.', 'h']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+62,        n := len(h) - 1,"['n', ':=', 'len', '(', 'h', ')', '-', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal']"
+63,        x := h[0],"['x', ':=', 'h', '[', '0', ']']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+64,"        h[0], h[n] = h[n], nil","['h', '[', '0', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+65,        h = h[:n],"['h', '=', 'h', '[:', 'n', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+66,        if n > 0 {,"['if', 'n', '>', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+67,"                down(h, 0) // h[0].Index(0) is done by down.","['down', '(', 'h', ',', '0', ')', '// h[0].Index(0) is done by down.']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'comment', 'h', '[', '0', ']', '.Index', '(', '0', ')', 'is', 'done', 'by', 'down', '.']"
+68,        },['}'],['operator']
+69,        q.h = h,"['q', '.', 'h', '=', 'h']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+70,        x.Index(-1) // for safety,"['x', '.', 'Index', '(-', '1', ')', '// for safety']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'comment', 'for', 'safety']"
+71,        return x,"['return', 'x']","['keyword', 'identifier']"
+72,},['}'],['operator']
+73,"// Peek returns, but does not remove, a minimum element (according to Less) of the queue.","['// Peek returns, but does not remove, a minimum element (according to Less) of the queue.']","['comment', 'Peek', 'returns', ',', 'but', 'does', 'not', 'remove', ',', 'a', 'minimum', 'element', '(', 'according', 'to', 'Less', ')', 'of', 'the', 'queue', '.']"
+74,func (q *Queue) Peek() Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Peek', '()', 'Interface', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+75,        return q.h[0],"['return', 'q', '.', 'h', '[', '0', ']']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+76,},['}'],['operator']
+77,// Remove removes the element at index i from the queue and returns it.,['// Remove removes the element at index i from the queue and returns it.'],"['comment', 'Remove', 'removes', 'the', 'element', 'at', 'index', 'i', 'from', 'the', 'queue', 'and', 'returns', 'it', '.']"
+78,"// The complexity is O(log(n)), where n = q.Len().","['// The complexity is O(log(n)), where n = q.Len().']","['comment', 'The', 'complexity', 'is', 'O', '(', 'log', '(', 'n', ')', ')', ',', 'where', 'n', '=', 'q.Len', '(', ')', '.']"
+79,func (q *Queue) Remove(i int) Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Remove', '(', 'i', 'int', ')', 'Interface', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+80,        h := q.h,"['h', ':=', 'q', '.', 'h']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+81,        n := len(h) - 1,"['n', ':=', 'len', '(', 'h', ')', '-', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal']"
+82,        x := h[i],"['x', ':=', 'h', '[', 'i', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+83,"        h[i], h[n] = h[n], nil","['h', '[', 'i', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+84,        h = h[:n],"['h', '=', 'h', '[:', 'n', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+85,        if i < n {,"['if', 'i', '<', 'n', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+86,"                down(h, i) // h[i].Index(i) is done by down.","['down', '(', 'h', ',', 'i', ')', '// h[i].Index(i) is done by down.']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'h', '[', 'i', ']', '.Index', '(', 'i', ')', 'is', 'done', 'by', 'down', '.']"
+87,"                up(h, i)","['up', '(', 'h', ',', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+88,        },['}'],['operator']
+89,        q.h = h,"['q', '.', 'h', '=', 'h']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+90,        x.Index(-1) // for safety,"['x', '.', 'Index', '(-', '1', ')', '// for safety']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'comment', 'for', 'safety']"
+91,        return x,"['return', 'x']","['keyword', 'identifier']"
+92,},['}'],['operator']
+93,// Len returns the number of elements in the queue.,['// Len returns the number of elements in the queue.'],"['comment', 'Len', 'returns', 'the', 'number', 'of', 'elements', 'in', 'the', 'queue', '.']"
+94,func (q *Queue) Len() int {,"['func', '(', 'q', '*', 'Queue', ')', 'Len', '()', 'int', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+95,        return len(q.h),"['return', 'len', '(', 'q', '.', 'h', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+96,},['}'],['operator']
+97,// Establishes the heap invariant in O(n) time.,['// Establishes the heap invariant in O(n) time.'],"['comment', 'Establishes', 'the', 'heap', 'invariant', 'in', 'O', '(', 'n', ')', 'time', '.']"
+98,func heapify(h []Interface) {,"['func', 'heapify', '(', 'h', '[]', 'Interface', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+99,        n := len(h),"['n', ':=', 'len', '(', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+100,        for i := n - 1; i >= n/2; i-- {,"['for', 'i', ':=', 'n', '-', '1', ';', 'i', '>=', 'n', '2', ';', 'i', '--', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+101,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+102,        },['}'],['operator']
+103,        for i := n/2 - 1; i >= 0; i-- { // h[i].Index(i) is done by down.,"['for', 'i', ':=', 'n', '2', '-', '1', ';', 'i', '>=', '0', ';', 'i', '--', '{', '// h[i].Index(i) is done by down.']","['keyword', 'identifier', 'operator', 'identifier', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator', 'comment', 'h', '[', 'i', ']', '.Index', '(', 'i', ')', 'is', 'done', 'by', 'down', '.']"
+104,"                down(h, i)","['down', '(', 'h', ',', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+105,        },['}'],['operator']
+106,},['}'],['operator']
+107,// Moves element at position i towards top of heap to restore invariant.,['// Moves element at position i towards top of heap to restore invariant.'],"['comment', 'Moves', 'element', 'at', 'position', 'i', 'towards', 'top', 'of', 'heap', 'to', 'restore', 'invariant', '.']"
+108,"func up(h []Interface, i int) {","['func', 'up', '(', 'h', '[]', 'Interface', ',', 'i', 'int', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+109,        for {,"['for', '{']","['keyword', 'operator']"
+110,                parent := (i - 1) / 2,"['parent', ':=', '(', 'i', '-', '1', ')', '2']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal']"
+111,                if i == 0 || h[parent].Less(h[i]) {,"['if', 'i', '==', '0', '||', 'h', '[', 'parent', '].', 'Less', '(', 'h', '[', 'i', '])', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+112,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+113,                        break,['break'],['keyword']
+114,                },['}'],['operator']
+115,"                h[parent], h[i] = h[i], h[parent]","['h', '[', 'parent', '],', 'h', '[', 'i', ']', '=', 'h', '[', 'i', '],', 'h', '[', 'parent', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+116,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+117,                i = parent,"['i', '=', 'parent']","['identifier', 'operator', 'identifier']"
+118,        },['}'],['operator']
+119,},['}'],['operator']
+120,// Moves element at position i towards bottom of heap to restore invariant.,['// Moves element at position i towards bottom of heap to restore invariant.'],"['comment', 'Moves', 'element', 'at', 'position', 'i', 'towards', 'bottom', 'of', 'heap', 'to', 'restore', 'invariant', '.']"
+121,"func down(h []Interface, i int) {","['func', 'down', '(', 'h', '[]', 'Interface', ',', 'i', 'int', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+122,        for {,"['for', '{']","['keyword', 'operator']"
+123,                n := len(h),"['n', ':=', 'len', '(', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+124,                left := 2*i + 1,"['left', ':=', '2', '*', 'i', '+', '1']","['identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal']"
+125,                if left >= n {,"['if', 'left', '>=', 'n', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+126,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+127,                        break,['break'],['keyword']
+128,                },['}'],['operator']
+129,                j := left,"['j', ':=', 'left']","['identifier', 'operator', 'identifier']"
+130,                if right := left + 1; right < n && h[right].Less(h[left]) {,"['if', 'right', ':=', 'left', '+', '1', ';', 'right', '<', 'n', '&&', 'h', '[', 'right', '].', 'Less', '(', 'h', '[', 'left', '])', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+131,                        j = right,"['j', '=', 'right']","['identifier', 'operator', 'identifier']"
+132,                },['}'],['operator']
+133,                if h[i].Less(h[j]) {,"['if', 'h', '[', 'i', '].', 'Less', '(', 'h', '[', 'j', '])', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+134,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+135,                        break,['break'],['keyword']
+136,                },['}'],['operator']
+137,"                h[i], h[j] = h[j], h[i]","['h', '[', 'i', '],', 'h', '[', 'j', ']', '=', 'h', '[', 'j', '],', 'h', '[', 'i', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+138,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+139,                i = j,"['i', '=', 'j']","['identifier', 'operator', 'identifier']"
+140,        },['}'],['operator']
+141,},['}'],['operator']

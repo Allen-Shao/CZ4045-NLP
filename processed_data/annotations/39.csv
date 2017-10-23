@@ -1,0 +1,105 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""encoding/json""","['""encoding/json""']",['string_literal']
+3,"    ""fmt""","['""fmt""']",['string_literal']
+4,"    ""io/ioutil""","['""io/ioutil""']",['string_literal']
+5,"    ""log""","['""log""']",['string_literal']
+6,"    ""net/http""","['""net/http""']",['string_literal']
+7,"    ""net/url""","['""net/url""']",['string_literal']
+8,"    ""os""","['""os""']",['string_literal']
+9,),[')'],['operator']
+10,type SlackResponse struct {,"['type', 'SlackResponse', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+11,    token        string,"['token', 'string']","['identifier', 'identifier']"
+12,    team_id      string,"['team_id', 'string']","['identifier', 'identifier']"
+13,    channel_id   string,"['chan', 'nel_id', 'string']","['keyword', 'identifier', 'identifier']"
+14,    channel_name string,"['chan', 'nel_name', 'string']","['keyword', 'identifier', 'identifier']"
+15,    timestamp    string,"['timestamp', 'string']","['identifier', 'identifier']"
+16,    user_id      string,"['user_id', 'string']","['identifier', 'identifier']"
+17,    user_name    string,"['user_name', 'string']","['identifier', 'identifier']"
+18,    text         string,"['text', 'string']","['identifier', 'identifier']"
+19,},['}'],['operator']
+20,type service_config struct {,"['type', 'service_config', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+21,    Services []struct {,"['Services', '[]', 'struct', '{']","['identifier', 'operator', 'keyword', 'operator']"
+22,        Name    string,"['Name', 'string']","['identifier', 'identifier']"
+23,        Command string,"['Command', 'string']","['identifier', 'identifier']"
+24,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['identifier', 'keyword', 'operator', 'identifier', 'operator', 'keyword', 'operator']"
+25,    },['}'],['operator']
+26,},['}'],['operator']
+27,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+28,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+29,"    content, err_read := ioutil.ReadFile(""config.ini"")","['content', ',', 'err_read', ':=', 'ioutil', '.', 'ReadFile', '(', '""config.ini""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+30,    if err_read != nil {,"['if', 'err_read', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+31,"        log.Println(""Could not read config"")","['log', '.', 'Println', '(', '""Could not read config""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+32,        return,['return'],['keyword']
+33,    },['}'],['operator']
+34,    log.Println(string(content)),"['log', '.', 'Println', '(', 'string', '(', 'content', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+35,"    err_json := json.Unmarshal(content, &ServiceConf)","['err_json', ':=', 'json', '.', 'Unmarshal', '(', 'content', ',', '&', 'ServiceConf', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+36,    if err_json != nil {,"['if', 'err_json', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+37,        log.Println(err_json),"['log', '.', 'Println', '(', 'err_json', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+38,    },['}'],['operator']
+39,"    http.HandleFunc(""/"", handler)","['http', '.', 'HandleFunc', '(', '""/""', ',', 'handler', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+40,"    http.ListenAndServe("":""+os.Getenv(""PORT""), nil)","['http', '.', 'ListenAndServe', '(', '"":""+os.Getenv(""PORT""', '),', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+41,},['}'],['operator']
+42,"func handler(w http.ResponseWriter, r *http.Request) {","['func', 'handler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+43,    slack_response := SlackResponse{,"['slack_response', ':=', 'SlackResponse', '{']","['identifier', 'operator', 'identifier', 'operator']"
+44,"        r.FormValue(""token""),","['r', '.', 'FormValue', '(', '""token""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+45,"        r.FormValue(""team_id""),","['r', '.', 'FormValue', '(', '""team_id""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+46,"        r.FormValue(""channel_id""),","['r', '.', 'FormValue', '(', '""channel_id""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+47,"        r.FormValue(""channel_name""),","['r', '.', 'FormValue', '(', '""channel_name""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+48,"        r.FormValue(""timestamp""),","['r', '.', 'FormValue', '(', '""timestamp""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+49,"        r.FormValue(""user_id""),","['r', '.', 'FormValue', '(', '""user_id""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+50,"        r.FormValue(""user_name""),","['r', '.', 'FormValue', '(', '""user_name""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+51,"        r.FormValue(""text""),","['r', '.', 'FormValue', '(', '""text""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+52,    },['}'],['operator']
+53,"    // log.Println(ServiceConf.Services[0].Request[""key""])","['// log.Println(ServiceConf.Services[0].Request[""key""])']","['comment', 'log.Println', '(', 'ServiceConf.Services', '[', '0', ']', '.Request', '[', '``', 'key', ""''"", ']', ')']"
+54,    // loop through services to find command phrases,['// loop through services to find command phrases'],"['comment', 'loop', 'through', 'services', 'to', 'find', 'command', 'phrases']"
+55,"    for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
+56,        log.Println(s),"['log', '.', 'Println', '(', 's', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+57,    },['}'],['operator']
+58,"    if slack_response.user_name == ""slackbot"" {","['if', 'slack_response', '.', 'user_name', '==', '""slackbot""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+59,        return,['return'],['keyword']
+60,    },['}'],['operator']
+61,"    // fmt.Fprintf(w, ""{ \""text\"": \""Master %s!  You said: '%s'\"" }"", slack_response.user_name, slack_response.text)","['// fmt.Fprintf(w, ""{ \\""text\\"": \\""Master %s!  You said: \'%s\'\\"" }"", slack_response.user_name, slack_response.text)']","['comment', 'fmt.Fprintf', '(', 'w', ',', '``', '{', '\\', ""''"", 'text\\', ""''"", ':', '\\', ""''"", 'Master', '%', 's', '!', 'You', 'said', ':', ""'"", '%', ""s'\\"", ""''"", '}', ""''"", ',', 'slack_response.user_name', ',', 'slack_response.text', ')']"
+62,"    content, err := getContent(""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q="" + url.QueryEscape(slack_response.text))","['content', ',', 'err', ':=', 'getContent', '(', '""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q=""', '+', 'url', '.', 'QueryEscape', '(', 'slack_response', '.', 'text', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+63,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+64,"        fmt.Fprintf(w, ""{ \""text\"": \""Huh?!\"" }"")","['fmt', '.', 'Fprintf', '(', 'w', ',', '""{ \\""text\\"": \\""Huh?!\\"" }""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+65,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+66,        type trans struct {,"['type', 'trans', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+67,            Data struct {,"['Data', 'struct', '{']","['identifier', 'keyword', 'operator']"
+68,                Translations []struct {,"['Translations', '[]', 'struct', '{']","['identifier', 'operator', 'keyword', 'operator']"
+69,"                    TranslatedText string `json:""translatedText""`","['TranslatedText', 'string', 'json', ':', '""translatedText""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+70,"                } `json:""translations""`","['}', 'json', ':', '""translations""']","['operator', 'identifier', 'operator', 'string_literal']"
+71,"            } `json:""data""`","['}', 'json', ':', '""data""']","['operator', 'identifier', 'operator', 'string_literal']"
+72,        },['}'],['operator']
+73,        f := trans{},"['f', ':=', 'trans', '{}']","['identifier', 'operator', 'identifier', 'operator']"
+74,"        err := json.Unmarshal(content, &f)","['err', ':=', 'json', '.', 'Unmarshal', '(', 'content', ',', '&', 'f', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+75,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+76,            log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+77,        },['}'],['operator']
+78,"        fmt.Fprintf(w, ""{ \""text\"": \""Translated to German you said: '%s'\"" }"", f.Data.Translations[0].TranslatedText)","['fmt', '.', 'Fprintf', '(', 'w', ',', '""{ \\""text\\"": \\""Translated to German you said: \'%s\'\\"" }""', ',', 'f', '.', 'Data', '.', 'Translations', '[', '0', '].', 'TranslatedText', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+79,    },['}'],['operator']
+80,},['}'],['operator']
+81,// array of bytes if retrieved successfully.,['// array of bytes if retrieved successfully.'],"['comment', 'array', 'of', 'bytes', 'if', 'retrieved', 'successfully', '.']"
+82,"func getContent(url string) ([]byte, error) {","['func', 'getContent', '(', 'url', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+83,    // Build the request,['// Build the request'],"['comment', 'Build', 'the', 'request']"
+84,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""GET""', ',', 'url', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+85,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+86,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+87,    },['}'],['operator']
+88,    // Send the request via a client,['// Send the request via a client'],"['comment', 'Send', 'the', 'request', 'via', 'a', 'client']"
+89,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+90,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+92,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+93,    },['}'],['operator']
+94,    // Defer the closing of the body,['// Defer the closing of the body'],"['comment', 'Defer', 'the', 'closing', 'of', 'the', 'body']"
+95,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+96,    // Read the content into a byte array,['// Read the content into a byte array'],"['comment', 'Read', 'the', 'content', 'into', 'a', 'byte', 'array']"
+97,"    body, err := ioutil.ReadAll(resp.Body)","['body', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'resp', '.', 'Body', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+98,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+99,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+100,    },['}'],['operator']
+101,    // At this point we're done - simply return the bytes,"[""// At this point we're done - simply return the bytes""]","['comment', 'At', 'this', 'point', 'we', ""'re"", 'done', '-', 'simply', 'return', 'the', 'bytes']"
+102,"    return body, nil","['return', 'body', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+103,},['}'],['operator']

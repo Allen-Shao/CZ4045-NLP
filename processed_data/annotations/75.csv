@@ -1,0 +1,19 @@
+,text,token,annotation
+0,"func New(res http.ResponseWriter, req *http.Request, next http.HandlerFunc) {","['func', 'New', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ',', 'next', 'http', '.', 'HandlerFunc', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+1,"    if err := process(security.ServeHttp(res, req), session.ServeHttp(res, req)); err != nil {","['if', 'err', ':=', 'process', '(', 'security', '.', 'ServeHttp', '(', 'res', ',', 'req', '),', 'session', '.', 'ServeHttp', '(', 'res', ',', 'req', '));', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+2,        res.WriteHeader(http.StatusInternalServerError),"['res', '.', 'WriteHeader', '(', 'http', '.', 'StatusInternalServerError', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+3,        return,['return'],['keyword']
+4,    },['}'],['operator']
+5,"    log.Println(""End of process middlewares"")","['log', '.', 'Println', '(', '""End of process middlewares""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+6,"    next(res, req)","['next', '(', 'res', ',', 'req', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+7,},['}'],['operator']
+8,// Process all middlewares,['// Process all middlewares'],"['comment', 'Process', 'all', 'middlewares']"
+9,func process(chErrs ...<-chan error) error {,"['func', 'process', '(', 'chErrs', '...<-', 'chan', 'error', ')', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
+10,"    for _, chErr := range chErrs {","['for', '_', ',', 'chErr', ':=', 'range', 'chErrs', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+11,"        // Will abort the loop, when error occurs","['// Will abort the loop, when error occurs']","['comment', 'Will', 'abort', 'the', 'loop', ',', 'when', 'error', 'occurs']"
+12,        if err := <-chErr; err != nil {,"['if', 'err', ':=', '<-', 'chErr', ';', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+13,            return err,"['return', 'err']","['keyword', 'identifier']"
+14,        },['}'],['operator']
+15,    },['}'],['operator']
+16,    return nil,"['return', 'nil']","['keyword', 'identifier']"
+17,},['}'],['operator']

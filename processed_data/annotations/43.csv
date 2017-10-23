@@ -1,0 +1,119 @@
+,text,token,annotation
+0,// web1 project main.go,['// web1 project main.go'],"['comment', 'web1', 'project', 'main.go']"
+1,package main,"['package', 'main']","['keyword', 'identifier']"
+2,import (,"['import', '(']","['keyword', 'operator']"
+3,"    ""errors""","['""errors""']",['string_literal']
+4,"    ""fmt""","['""fmt""']",['string_literal']
+5,"    ""github.com/jmcvetta/neoism""","['""github.com/jmcvetta/neoism""']",['string_literal']
+6,"    ""html/template""","['""html/template""']",['string_literal']
+7,"    ""io/ioutil""","['""io/ioutil""']",['string_literal']
+8,"    ""net/http""","['""net/http""']",['string_literal']
+9,"    ""regexp""","['""regexp""']",['string_literal']
+10,),[')'],['operator']
+11,type Page struct {,"['type', 'Page', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+12,    Title string,"['Title', 'string']","['identifier', 'identifier']"
+13,    Body  string,"['Body', 'string']","['identifier', 'identifier']"
+14,},['}'],['operator']
+15,func (p *Page) save() error {,"['func', '(', 'p', '*', 'Page', ')', 'save', '()', 'error', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+16,"    db, err := neoism.Connect(""http://localhost:7474/db/data"")","['db', ',', 'err', ':=', 'neoism', '.', 'Connect', '(', '""http://localhost:7474/db/data""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+17,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+18,        return err,"['return', 'err']","['keyword', 'identifier']"
+19,    },['}'],['operator']
+20,    res := []struct {,"['res', ':=', '[]', 'struct', '{']","['identifier', 'operator', 'operator', 'keyword', 'operator']"
+21,        N neoism.Node,"['N', 'neoism', '.', 'Node']","['identifier', 'identifier', 'operator', 'identifier']"
+22,    }{},['}{}'],['operator']
+23,    cq := neoism.CypherQuery{,"['cq', ':=', 'neoism', '.', 'CypherQuery', '{']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+24,"        Statement:  ""MERGE (n:Page {title: {title}}) ON MATCH SET n.body = {body} RETURN n"",","['Statement', ':', '""MERGE (n:Page {title: {title}}) ON MATCH SET n.body = {body} RETURN n""', ',']","['identifier', 'operator', 'string_literal', 'operator']"
+25,"        Parameters: neoism.Props{""title"": p.Title, ""body"": p.Body},","['Parameters', ':', 'neoism', '.', 'Props', '{', '""title"": p.Title, ""body""', ':', 'p', '.', 'Body', '},']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+26,"        Result:     &res,","['Result', ':', '&', 'res', ',']","['identifier', 'operator', 'operator', 'identifier', 'operator']"
+27,    },['}'],['operator']
+28,    db.Cypher(&cq),"['db', '.', 'Cypher', '(&', 'cq', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+29,    return nil,"['return', 'nil']","['keyword', 'identifier']"
+30,},['}'],['operator']
+31,"func loadPage(title string) (*Page, error) {","['func', 'loadPage', '(', 'title', 'string', ')', '(*', 'Page', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+32,"    db, err := neoism.Connect(""http://localhost:7474/db/data"")","['db', ',', 'err', ':=', 'neoism', '.', 'Connect', '(', '""http://localhost:7474/db/data""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+33,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+34,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+35,    },['}'],['operator']
+36,    res := []struct {,"['res', ':=', '[]', 'struct', '{']","['identifier', 'operator', 'operator', 'keyword', 'operator']"
+37,"        Title string `json:""a.title""` // `json` tag matches column name in query","['Title', 'string', 'json', ':', '""a.title""', '// `json` tag matches column name in query']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal', 'comment', '`json`', 'tag', 'matches', 'column', 'name', 'in', 'query']"
+38,"        Body  string `json:""a.body""`","['Body', 'string', 'json', ':', '""a.body""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+39,    }{},['}{}'],['operator']
+40,    cq := neoism.CypherQuery{,"['cq', ':=', 'neoism', '.', 'CypherQuery', '{']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,        Statement: `,"['Statement', ':']","['identifier', 'operator']"
+42,            MATCH (a:Page),"['MATCH', '(', 'a', ':', 'Page', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+43,            WHERE a.title = {name},"['WHERE', 'a', '.', 'title', '=', '{', 'name', '}']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+44,"            RETURN a.title, a.body","['RETURN', 'a', '.', 'title', ',', 'a', '.', 'body']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+45,"        `,","[',']",['operator']
+46,"        Parameters: neoism.Props{""name"": title},","['Parameters', ':', 'neoism', '.', 'Props', '{', '""name""', ':', 'title', '},']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+47,"        Result:     &res,","['Result', ':', '&', 'res', ',']","['identifier', 'operator', 'operator', 'identifier', 'operator']"
+48,    },['}'],['operator']
+49,    db.Cypher(&cq),"['db', '.', 'Cypher', '(&', 'cq', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+50,    r := res[0],"['r', ':=', 'res', '[', '0', ']']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+51,"    if r.Title == """" || r.Body == """" {","['if', 'r', '.', 'Title', '==', '"""" || r.Body == """"', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+52,"        return nil, errors.New(""Page doesn't exist"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""Page doesn\'t exist""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+53,    },['}'],['operator']
+54,"    return &Page{Title: r.Title, Body: r.Body}, nil","['return', '&', 'Page', '{', 'Title', ':', 'r', '.', 'Title', ',', 'Body', ':', 'r', '.', 'Body', '},', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+55,},['}'],['operator']
+56,"func viewHandler(w http.ResponseWriter, r *http.Request, title string) {","['func', 'viewHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'title', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+57,"    p, err := loadPage(title)","['p', ',', 'err', ':=', 'loadPage', '(', 'title', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+58,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+59,"        http.Redirect(w, r, ""/edit/""+title, http.StatusFound)","['http', '.', 'Redirect', '(', 'w', ',', 'r', ',', '""/edit/""', '+', 'title', ',', 'http', '.', 'StatusFound', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+60,        return,['return'],['keyword']
+61,    },['}'],['operator']
+62,"    renderTemplate(w, ""view"", p)","['renderTemplate', '(', 'w', ',', '""view""', ',', 'p', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+63,},['}'],['operator']
+64,"func editHandler(w http.ResponseWriter, r *http.Request, title string) {","['func', 'editHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'title', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+65,"    p, err := loadPage(title)","['p', ',', 'err', ':=', 'loadPage', '(', 'title', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+66,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+67,        p = &Page{Title: title},"['p', '=', '&', 'Page', '{', 'Title', ':', 'title', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+68,    },['}'],['operator']
+69,"    renderTemplate(w, ""edit"", p)","['renderTemplate', '(', 'w', ',', '""edit""', ',', 'p', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+70,},['}'],['operator']
+71,"func saveHandler(w http.ResponseWriter, r *http.Request, title string) {","['func', 'saveHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'title', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+72,"    body := r.FormValue(""body"")","['body', ':=', 'r', '.', 'FormValue', '(', '""body""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+73,"    p := &Page{Title: title, Body: body}","['p', ':=', '&', 'Page', '{', 'Title', ':', 'title', ',', 'Body', ':', 'body', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+74,    err := p.save(),"['err', ':=', 'p', '.', 'save', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+75,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+76,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+77,        return,['return'],['keyword']
+78,    },['}'],['operator']
+79,"    http.Redirect(w, r, ""/view/""+title, http.StatusFound)","['http', '.', 'Redirect', '(', 'w', ',', 'r', ',', '""/view/""', '+', 'title', ',', 'http', '.', 'StatusFound', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+80,},['}'],['operator']
+81,"func homeHandler(w http.ResponseWriter, r *http.Request) {","['func', 'homeHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+82,"    body, err := ioutil.ReadFile(""home.html"")","['body', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', '""home.html""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+83,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+84,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+85,        return,['return'],['keyword']
+86,    },['}'],['operator']
+87,"    fmt.Fprintf(w, ""%s"", body)","['fmt', '.', 'Fprintf', '(', 'w', ',', '""%s""', ',', 'body', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+88,},['}'],['operator']
+89,"func rootHandler(w http.ResponseWriter, r *http.Request) {","['func', 'rootHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+90,"    http.Redirect(w, r, ""/home"", http.StatusFound)","['http', '.', 'Redirect', '(', 'w', ',', 'r', ',', '""/home""', ',', 'http', '.', 'StatusFound', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+91,},['}'],['operator']
+92,"var templates = template.Must(template.ParseFiles(""edit.html"", ""view.html""))","['var', 'templates', '=', 'template', '.', 'Must', '(', 'template', '.', 'ParseFiles', '(', '""edit.html"", ""view.html""', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+93,"func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {","['func', 'renderTemplate', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'tmpl', 'string', ',', 'p', '*', 'Page', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+94,"    err := templates.ExecuteTemplate(w, tmpl+"".html"", p)","['err', ':=', 'templates', '.', 'ExecuteTemplate', '(', 'w', ',', 'tmpl', '+', '"".html""', ',', 'p', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+95,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+96,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+97,    },['}'],['operator']
+98,},['}'],['operator']
+99,"var validPath = regexp.MustCompile(""^/(edit|save|view)/([a-zA-Z0-9]+)$"")","['var', 'validPath', '=', 'regexp', '.', 'MustCompile', '(', '""^/(edit|save|view)/([a-zA-Z0-9]+)$""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+100,"func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {","['func', 'makeHandler', '(', 'fn', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'string', '))', 'http', '.', 'HandlerFunc', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+101,"    return func(w http.ResponseWriter, r *http.Request) {","['return', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+102,        m := validPath.FindStringSubmatch(r.URL.Path),"['m', ':=', 'validPath', '.', 'FindStringSubmatch', '(', 'r', '.', 'URL', '.', 'Path', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+103,        if m == nil {,"['if', 'm', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+104,"            http.NotFound(w, r)","['http', '.', 'NotFound', '(', 'w', ',', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+105,            return,['return'],['keyword']
+106,        },['}'],['operator']
+107,"        fn(w, r, m[2])","['fn', '(', 'w', ',', 'r', ',', 'm', '[', '2', '])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+108,    },['}'],['operator']
+109,},['}'],['operator']
+110,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+111,"    http.HandleFunc(""/view/"", makeHandler(viewHandler))","['http', '.', 'HandleFunc', '(', '""/view/""', ',', 'makeHandler', '(', 'viewHandler', '))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+112,"    http.HandleFunc(""/edit/"", makeHandler(editHandler))","['http', '.', 'HandleFunc', '(', '""/edit/""', ',', 'makeHandler', '(', 'editHandler', '))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+113,"    http.HandleFunc(""/save/"", makeHandler(saveHandler))","['http', '.', 'HandleFunc', '(', '""/save/""', ',', 'makeHandler', '(', 'saveHandler', '))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+114,"    http.HandleFunc(""/home"", homeHandler)","['http', '.', 'HandleFunc', '(', '""/home""', ',', 'homeHandler', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+115,"    http.HandleFunc(""/"", rootHandler)","['http', '.', 'HandleFunc', '(', '""/""', ',', 'rootHandler', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+116,"    http.ListenAndServe("":8082"", nil)","['http', '.', 'ListenAndServe', '(', '"":8082""', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+117,},['}'],['operator']

@@ -1,0 +1,146 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""bytes""","['""bytes""']",['string_literal']
+3,"    ""code.google.com/p/go.text/transform""","['""code.google.com/p/go.text/transform""']",['string_literal']
+4,"    ""code.google.com/p/go.text/unicode/norm""","['""code.google.com/p/go.text/unicode/norm""']",['string_literal']
+5,"    ""compress/zlib""","['""compress/zlib""']",['string_literal']
+6,"    ""encoding/gob""","['""encoding/gob""']",['string_literal']
+7,"    ""fmt""","['""fmt""']",['string_literal']
+8,"    ""github.com/AlasdairF/BinSearch""","['""github.com/AlasdairF/BinSearch""']",['string_literal']
+9,"    ""io/ioutil""","['""io/ioutil""']",['string_literal']
+10,"    ""os""","['""os""']",['string_literal']
+11,"    ""regexp""","['""regexp""']",['string_literal']
+12,"    ""runtime""","['""runtime""']",['string_literal']
+13,"    ""strings""","['""strings""']",['string_literal']
+14,"    ""unicode""","['""unicode""']",['string_literal']
+15,"    ""unicode/utf8""","['""unicode/utf8""']",['string_literal']
+16,),[')'],['operator']
+17,type TokensStruct struct {,"['type', 'TokensStruct', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+18,    binsearch.Key_string,"['binsearch', '.', 'Key_string']","['identifier', 'operator', 'identifier']"
+19,    Value [][5]uint32,"['Value', '[][', '5', ']', 'uint32']","['identifier', 'operator', 'decimal_literal', 'operator', 'identifier']"
+20,},['}'],['operator']
+21,type Trainer struct {,"['type', 'Trainer', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+22,    Tokens      TokensStruct,"['Tokens', 'TokensStruct']","['identifier', 'identifier']"
+23,    TokensCount uint,"['TokensCount', 'uint']","['identifier', 'identifier']"
+24,},['}'],['operator']
+25,func checkErr(err error) {,"['func', 'checkErr', '(', 'err', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+26,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+27,        return,['return'],['keyword']
+28,    },['}'],['operator']
+29,"    fmt.Println(`Some Error:`, err)","['fmt', '.', 'Println', '(', 'Some', 'Error', ':', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+30,    panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+31,},['}'],['operator']
+32,// Local helper function for normalization of UTF8 strings.,['// Local helper function for normalization of UTF8 strings.'],"['comment', 'Local', 'helper', 'function', 'for', 'normalization', 'of', 'UTF8', 'strings', '.']"
+33,func isMn(r rune) bool {,"['func', 'isMn', '(', 'r', 'rune', ')', 'bool', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+34,"    return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks","['return', 'unicode', '.', 'Is', '(', 'unicode', '.', 'Mn', ',', 'r', ')', '// Mn: nonspacing marks']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'Mn', ':', 'nonspacing', 'marks']"
+35,},['}'],['operator']
+36,// This map is used by RemoveAccents function to convert non-accented characters.,['// This map is used by RemoveAccents function to convert non-accented characters.'],"['comment', 'This', 'map', 'is', 'used', 'by', 'RemoveAccents', 'function', 'to', 'convert', 'non-accented', 'characters', '.']"
+37,"var transliterations = map[rune]string{'Æ': ""E"", 'Ð': ""D"", 'Ł': ""L"", 'Ø': ""OE"", 'Þ': ""Th"", 'ß': ""ss"", 'æ': ""e"", 'ð': ""d"", 'ł': ""l"", 'ø': ""oe"", 'þ': ""th"", 'Œ': ""OE"", 'œ': ""oe""}","['var', 'transliterations', '=', 'map', '[', 'rune', ']', 'string', '{', ':', '""E"", \'Ð\': ""D"", \'Ł\': ""L"", \'Ø\': ""OE"", \'Þ\': ""Th"", \'ß\': ""ss"", \'æ\': ""e"", \'ð\': ""d"", \'ł\': ""l"", \'ø\': ""oe"", \'þ\': ""th"", \'Œ\': ""OE"", \'œ\': ""oe""', '}']","['keyword', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'string_literal', 'operator']"
+38,"//  removeAccentsBytes converts accented UTF8 characters into their non-accented equivalents, from a []byte.","['//  removeAccentsBytes converts accented UTF8 characters into their non-accented equivalents, from a []byte.']","['comment', 'removeAccentsBytes', 'converts', 'accented', 'UTF8', 'characters', 'into', 'their', 'non-accented', 'equivalents', ',', 'from', 'a', '[', ']', 'byte', '.']"
+39,"func removeAccentsBytesDashes(b []byte) ([]byte, error) {","['func', 'removeAccentsBytesDashes', '(', 'b', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+40,"    mnBuf := make([]byte, len(b))","['mnBuf', ':=', 'make', '([]', 'byte', ',', 'len', '(', 'b', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,"    t := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)","['t', ':=', 'transform', '.', 'Chain', '(', 'norm', '.', 'NFD', ',', 'transform', '.', 'RemoveFunc', '(', 'isMn', '),', 'norm', '.', 'NFC', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+42,"    n, _, err := t.Transform(mnBuf, b, true)","['n', ',', '_', ',', 'err', ':=', 't', '.', 'Transform', '(', 'mnBuf', ',', 'b', ',', 'true', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+43,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+44,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+45,    },['}'],['operator']
+46,    mnBuf = mnBuf[:n],"['mnBuf', '=', 'mnBuf', '[:', 'n', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+47,"    tlBuf := bytes.NewBuffer(make([]byte, 0, len(mnBuf)*2))","['tlBuf', ':=', 'bytes', '.', 'NewBuffer', '(', 'make', '([]', 'byte', ',', '0', ',', 'len', '(', 'mnBuf', ')*', '2', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+48,"    for i, w := 0, 0; i < len(mnBuf); i += w {","['for', 'i', ',', 'w', ':=', '0', ',', '0', ';', 'i', '<', 'len', '(', 'mnBuf', ');', 'i', '+=', 'w', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+49,"        r, width := utf8.DecodeRune(mnBuf[i:])","['r', ',', 'width', ':=', 'utf8', '.', 'DecodeRune', '(', 'mnBuf', '[', 'i', ':])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+50,        if r == '-' {,"['if', 'r', '==', '-', '{']","['keyword', 'identifier', 'operator', 'operator', 'operator']"
+51,            tlBuf.WriteByte(' '),"['tlBuf', '.', 'WriteByte', '(', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator']"
+52,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+53,"            if d, ok := transliterations[r]; ok {","['if', 'd', ',', 'ok', ':=', 'transliterations', '[', 'r', '];', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+54,                tlBuf.WriteString(d),"['tlBuf', '.', 'WriteString', '(', 'd', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+55,            } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+56,                tlBuf.WriteRune(r),"['tlBuf', '.', 'WriteRune', '(', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+57,            },['}'],['operator']
+58,        },['}'],['operator']
+59,        w = width,"['w', '=', 'width']","['identifier', 'operator', 'identifier']"
+60,    },['}'],['operator']
+61,"    return tlBuf.Bytes(), nil","['return', 'tlBuf', '.', 'Bytes', '(),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+62,},['}'],['operator']
+63,"func LoadZip(filename string) ([]byte, error) {","['func', 'LoadZip', '(', 'filename', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+64,    // Open file for reading,['// Open file for reading'],"['comment', 'Open', 'file', 'for', 'reading']"
+65,"    fi, err := os.Open(filename)","['fi', ',', 'err', ':=', 'os', '.', 'Open', '(', 'filename', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+66,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+67,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+68,    },['}'],['operator']
+69,    defer fi.Close(),"['defer', 'fi', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+70,    // Attach ZIP reader,['// Attach ZIP reader'],"['comment', 'Attach', 'ZIP', 'reader']"
+71,"    fz, err := zlib.NewReader(fi)","['fz', ',', 'err', ':=', 'zlib', '.', 'NewReader', '(', 'fi', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+72,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+73,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+74,    },['}'],['operator']
+75,    defer fz.Close(),"['defer', 'fz', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+76,    // Pull,['// Pull'],"['comment', 'Pull']"
+77,"    data, err := ioutil.ReadAll(fz)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'fz', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+78,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+79,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+80,    },['}'],['operator']
+81,"    return norm.NFC.Bytes(data), nil // return normalized","['return', 'norm', '.', 'NFC', '.', 'Bytes', '(', 'data', '),', 'nil', '// return normalized']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'comment', 'return', 'normalized']"
+82,},['}'],['operator']
+83,func getTokens(pibn string) []string {,"['func', 'getTokens', '(', 'pibn', 'string', ')', '[]', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+84,    var data []byte,"['var', 'data', '[]', 'byte']","['keyword', 'identifier', 'operator', 'identifier']"
+85,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
+86,"    data, err = LoadZip(`/storedir/` + pibn + `/text.zip`)","['data', ',', 'err', '=', 'LoadZip', '(', 'storedir', '+', 'pibn', '+', 'text', '.', 'zip', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+87,    checkErr(err),"['checkErr', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+88,"    data, err = removeAccentsBytesDashes(data)","['data', ',', 'err', '=', 'removeAccentsBytesDashes', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+89,    checkErr(err),"['checkErr', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+90,    data = bytes.ToLower(data),"['data', '=', 'bytes', '.', 'ToLower', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+91,"    data = reg2.ReplaceAll(data, []byte(""$2"")) // remove contractions","['data', '=', 'reg2', '.', 'ReplaceAll', '(', 'data', ',', '[]', 'byte', '(', '""$2""', '))', '// remove contractions']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'comment', 'remove', 'contractions']"
+92,"    data = reg.ReplaceAllLiteral(data, nil)","['data', '=', 'reg', '.', 'ReplaceAllLiteral', '(', 'data', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+93,    tokens := strings.Fields(string(data)),"['tokens', ':=', 'strings', '.', 'Fields', '(', 'string', '(', 'data', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+94,    return tokens,"['return', 'tokens']","['keyword', 'identifier']"
+95,},['}'],['operator']
+96,func (t *Trainer) Start() {,"['func', '(', 't', '*', 'Trainer', ')', 'Start', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+97,"    data, err := ioutil.ReadFile(`list.txt`)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'list', '.', 'txt', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+98,    checkErr(err),"['checkErr', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+99,    pibns := bytes.Fields(data),"['pibns', ':=', 'bytes', '.', 'Fields', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+100,"    for i, pibn := range pibns {","['for', 'i', ',', 'pibn', ':=', 'range', 'pibns', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+101,        tokens := getTokens(string(pibn)),"['tokens', ':=', 'getTokens', '(', 'string', '(', 'pibn', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+102,        t.addTokens(tokens),"['t', '.', 'addTokens', '(', 'tokens', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+103,        if i%100 == 0 {,"['if', 'i', '100', '==', '0', '{']","['keyword', 'identifier', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+104,"            runtime.GC() // I added this just to try to stop the memory craziness, but it makes no difference","['runtime', '.', 'GC', '()', '// I added this just to try to stop the memory craziness, but it makes no difference']","['identifier', 'operator', 'identifier', 'operator', 'comment', 'I', 'added', 'this', 'just', 'to', 'try', 'to', 'stop', 'the', 'memory', 'craziness', ',', 'but', 'it', 'makes', 'no', 'difference']"
+105,        },['}'],['operator']
+106,    },['}'],['operator']
+107,},['}'],['operator']
+108,func (t *Trainer) addTokens(tokens []string) {,"['func', '(', 't', '*', 'Trainer', ')', 'addTokens', '(', 'tokens', '[]', 'string', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+109,"    for _, tok := range tokens {","['for', '_', ',', 'tok', ':=', 'range', 'tokens', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+110,"        if _, ok := dictionary[tok]; ok {","['if', '_', ',', 'ok', ':=', 'dictionary', '[', 'tok', '];', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+111,"            if indx, ok2 := t.Tokens.Find(tok); ok2 {","['if', 'indx', ',', 'ok2', ':=', 't', '.', 'Tokens', '.', 'Find', '(', 'tok', ');', 'ok2', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+112,                ar := t.Tokens.Value[indx],"['ar', ':=', 't', '.', 'Tokens', '.', 'Value', '[', 'indx', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+113,                ar[0]++,"['ar', '[', '0', ']++']","['identifier', 'operator', 'decimal_literal', 'operator']"
+114,                t.Tokens.Value[indx] = ar,"['t', '.', 'Tokens', '.', 'Value', '[', 'indx', ']', '=', 'ar']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+115,                t.TokensCount++,"['t', '.', 'TokensCount', '++']","['identifier', 'operator', 'identifier', 'operator']"
+116,            } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+117,"                t.Tokens.AddKeyAt(tok, indx)","['t', '.', 'Tokens', '.', 'AddKeyAt', '(', 'tok', ',', 'indx', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+118,"                t.Tokens.Value = append(t.Tokens.Value, [5]uint32{0, 0, 0, 0, 0})","['t', '.', 'Tokens', '.', 'Value', '=', 'append', '(', 't', '.', 'Tokens', '.', 'Value', ',', '[', '5', ']', 'uint32', '{', '0', ',', '0', ',', '0', ',', '0', ',', '0', '})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+119,"                copy(t.Tokens.Value[indx+1:], t.Tokens.Value[indx:])","['copy', '(', 't', '.', 'Tokens', '.', 'Value', '[', 'indx', '+', '1', ':],', 't', '.', 'Tokens', '.', 'Value', '[', 'indx', ':])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+120,"                t.Tokens.Value[indx] = [5]uint32{1, 0, 0, 0, 0}","['t', '.', 'Tokens', '.', 'Value', '[', 'indx', ']', '=', '[', '5', ']', 'uint32', '{', '1', ',', '0', ',', '0', ',', '0', ',', '0', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+121,                t.TokensCount++,"['t', '.', 'TokensCount', '++']","['identifier', 'operator', 'identifier', 'operator']"
+122,            },['}'],['operator']
+123,        },['}'],['operator']
+124,    },['}'],['operator']
+125,    return,['return'],['keyword']
+126,},['}'],['operator']
+127,func LoadDictionary() {,"['func', 'LoadDictionary', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+128,    dictionary = make(map[string]bool),"['dictionary', '=', 'make', '(', 'map', '[', 'string', ']', 'bool', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+129,"    data, err := ioutil.ReadFile(`dictionary`)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'dictionary', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+130,    checkErr(err),"['checkErr', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+131,    words := bytes.Fields(data),"['words', ':=', 'bytes', '.', 'Fields', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+132,"    for _, word := range words {","['for', '_', ',', 'word', ':=', 'range', 'words', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+133,        strword := string(word),"['strword', ':=', 'string', '(', 'word', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+134,        dictionary[strword] = false,"['dictionary', '[', 'strword', ']', '=', 'false']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+135,    },['}'],['operator']
+136,},['}'],['operator']
+137,var reg = regexp.MustCompile(`[^a-z0-9\s]`),"['var', 'reg', '=', 'regexp', '.', 'MustCompile', '(', '[^', 'a', '-', 'z0', '-', '9', 's', ']', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'identifier', 'operator', 'operator']"
+138,var reg2 = regexp.MustCompile(`\b(c|l|all|dall|dell|nell|sull|coll|pell|gl|agl|dagl|degl|negl|sugl|un|m|t|s|v|d|qu|n|j)'([a-z])`) //contractions,"['var', 'reg2', '=', 'regexp', '.', 'MustCompile', '(', 'b', '(', 'c', '|', 'l', '|', 'all', '|', 'dall', '|', 'dell', '|', 'nell', '|', 'sull', '|', 'coll', '|', 'pell', '|', 'gl', '|', 'agl', '|', 'dagl', '|', 'degl', '|', 'negl', '|', 'sugl', '|', 'un', '|', 'm', '|', 't', '|', 's', '|', 'v', '|', 'd', '|', 'qu', '|', 'n', '|', 'j', ')', '([', 'a', '-', 'z', '])', ')', '//contractions']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'comment', 'contractions']"
+139,var dictionary map[string]bool,"['var', 'dictionary', 'map', '[', 'string', ']', 'bool']","['keyword', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier']"
+140,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+141,    trainer := new(Trainer),"['trainer', ':=', 'new', '(', 'Trainer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+142,    LoadDictionary(),"['LoadDictionary', '()']","['identifier', 'operator']"
+143,    trainer.Start(),"['trainer', '.', 'Start', '()']","['identifier', 'operator', 'identifier', 'operator']"
+144,},['}'],['operator']

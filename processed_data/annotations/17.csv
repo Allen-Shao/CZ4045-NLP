@@ -1,0 +1,55 @@
+,text,token,annotation
+0,/*,['*'],['operator']
+1, * New Page,"['*', 'New', 'Page']","['operator', 'identifier', 'identifier']"
+2, *,['*'],['operator']
+3, * @param layout      (string),"['*', 'param', 'layout', '(', 'string', ')']","['operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+4, * @param showSidebar (bool),"['*', 'param', 'showSidebar', '(', 'bool', ')']","['operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+5, * @param pageData    (*PageData),"['*', 'param', 'pageData', '(*', 'PageData', ')']","['operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+6, *,['*'],['operator']
+7, * @return (*Page),"['*', 'return', '(*', 'Page', ')']","['operator', 'keyword', 'operator', 'identifier', 'operator']"
+8, */,['*'],['operator']
+9,"func NewPage(pageSetting *PageSetting, pageData *PageData) *Page {","['func', 'NewPage', '(', 'pageSetting', '*', 'PageSetting', ',', 'pageData', '*', 'PageData', ')', '*', 'Page', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+10,"    if pageSetting.Layout == """" {","['if', 'pageSetting', '.', 'Layout', '==', '""""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+11,        pageSetting.Layout = DEFAULT_LAYOUT,"['pageSetting', '.', 'Layout', '=', 'DEFAULT_LAYOUT']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+12,    },['}'],['operator']
+13,"    if pageSetting.Title == """" {","['if', 'pageSetting', '.', 'Title', '==', '""""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+14,        pageSetting.Title = config.Title,"['pageSetting', '.', 'Title', '=', 'config', '.', 'Title']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+15,    },['}'],['operator']
+16,"    if pageSetting.Description == """" {","['if', 'pageSetting', '.', 'Description', '==', '""""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+17,        pageSetting.Description = config.Description,"['pageSetting', '.', 'Description', '=', 'config', '.', 'Description']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+18,    },['}'],['operator']
+19,"    return &Page{ PageSetting: pageSetting, PageData: pageData }","['return', '&', 'Page', '{', 'PageSetting', ':', 'pageSetting', ',', 'PageData', ':', 'pageData', '}']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+20,},['}'],['operator']
+21,/*,['*'],['operator']
+22, * Render page,"['*', 'Render', 'page']","['operator', 'identifier', 'identifier']"
+23, *,['*'],['operator']
+24, * @param pageFilePath (string),"['*', 'param', 'pageFilePath', '(', 'string', ')']","['operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+25, * @param w            (http.ResponseWriter),"['*', 'param', 'w', '(', 'http', '.', 'ResponseWriter', ')']","['operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+26, *,['*'],['operator']
+27, * @return (error),"['*', 'return', '(', 'error', ')']","['operator', 'keyword', 'operator', 'identifier', 'operator']"
+28, */,['*'],['operator']
+29,"func (page *Page) Render(pageFilePath string, w http.ResponseWriter) (err error) {","['func', '(', 'page', '*', 'Page', ')', 'Render', '(', 'pageFilePath', 'string', ',', 'w', 'http', '.', 'ResponseWriter', ')', '(', 'err', 'error', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+30,"    columnFilePath  := page.PageSetting.Layout + "".html""","['columnFilePath', ':=', 'page', '.', 'PageSetting', '.', 'Layout', '+', '"".html""']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal']"
+31,"    mainFilePath    := ""main.html""","['mainFilePath', ':=', '""main.html""']","['identifier', 'operator', 'string_literal']"
+32,"    contentFilePath := pageFilePath + "".html""","['contentFilePath', ':=', 'pageFilePath', '+', '"".html""']","['identifier', 'operator', 'identifier', 'operator', 'string_literal']"
+33,"    sidebarFilePath := ""sidebar.html""","['sidebarFilePath', ':=', '""sidebar.html""']","['identifier', 'operator', 'string_literal']"
+34,    var tmpl *template.Template,"['var', 'tmpl', '*', 'template', '.', 'Template']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+35,    switch page.PageSetting.ShowSidebar {,"['switch', 'page', '.', 'PageSetting', '.', 'ShowSidebar', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+36,        case true:,"['case', 'true', ':']","['keyword', 'identifier', 'operator']"
+37,"            tmpl, err = template.ParseFiles(","['tmpl', ',', 'err', '=', 'template', '.', 'ParseFiles', '(']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+38,"                            LAYOUT_FOLDER + mainFilePath,","['LAYOUT_FOLDER', '+', 'mainFilePath', ',']","['identifier', 'operator', 'identifier', 'operator']"
+39,"                            LAYOUT_FOLDER + columnFilePath,","['LAYOUT_FOLDER', '+', 'columnFilePath', ',']","['identifier', 'operator', 'identifier', 'operator']"
+40,"                            LAYOUT_FOLDER + sidebarFilePath,","['LAYOUT_FOLDER', '+', 'sidebarFilePath', ',']","['identifier', 'operator', 'identifier', 'operator']"
+41,                            STATIC_FOLDER + contentFilePath),"['STATIC_FOLDER', '+', 'contentFilePath', ')']","['identifier', 'operator', 'identifier', 'operator']"
+42,        case false:,"['case', 'false', ':']","['keyword', 'identifier', 'operator']"
+43,"            tmpl, err = template.ParseFiles(","['tmpl', ',', 'err', '=', 'template', '.', 'ParseFiles', '(']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+44,"                            LAYOUT_FOLDER + mainFilePath,","['LAYOUT_FOLDER', '+', 'mainFilePath', ',']","['identifier', 'operator', 'identifier', 'operator']"
+45,"                            LAYOUT_FOLDER + columnFilePath,","['LAYOUT_FOLDER', '+', 'columnFilePath', ',']","['identifier', 'operator', 'identifier', 'operator']"
+46,                            STATIC_FOLDER + contentFilePath),"['STATIC_FOLDER', '+', 'contentFilePath', ')']","['identifier', 'operator', 'identifier', 'operator']"
+47,    },['}'],['operator']
+48,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+49,        return,['return'],['keyword']
+50,    },['}'],['operator']
+51,"    tmpl.Execute(w, page)","['tmpl', '.', 'Execute', '(', 'w', ',', 'page', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+52,    return,['return'],['keyword']
+53,},['}'],['operator']

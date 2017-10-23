@@ -1,0 +1,149 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,/*,['*'],['operator']
+2,"Fido fetches the list of public images from the Glance server, captures the IDs of images with 'status': 'active' and then queues the images for pre-fetching with the Glance CLI utility `glance-cache-manage`. Once the images are added to the queue, `glance-cache-prefetcher` is called to actively fetch the queued images into the local compute nodes' image cache.","['Fido', 'fetches', 'the', 'list', 'of', 'public', 'images', 'from', 'the', 'Glance', 'server', ',', 'captures', 'the', 'IDs', 'of', 'images', 'with', 'status', ':', 'active', 'and', 'then', 'queues', 'the', 'images', 'for', 'pre', '-', 'fetching', 'with', 'the', 'Glance', 'CLI', 'utility', 'glance', '-', 'cache', '-', 'manage', '.', 'Once', 'the', 'images', 'are', 'added', 'to', 'the', 'queue', ',', 'glance', '-', 'cache', '-', 'prefetcher', 'is', 'called', 'to', 'actively', 'fetch', 'the', 'queued', 'images', 'into', 'the', 'local', 'compute', 'nodes', 'image', 'cache', '.']","['identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'keyword', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+3,See http://docs.openstack.org/developer/glance/cache.html for further details on the Glance image cache.,"['See', 'http', ':', '//docs.openstack.org/developer/glance/cache.html for further details on the Glance image cache.']","['identifier', 'identifier', 'operator', 'comment', 'docs.openstack.org/developer/glance/cache.html', 'for', 'further', 'details', 'on', 'the', 'Glance', 'image', 'cache', '.']"
+4,*/,['*'],['operator']
+5,import (,"['import', '(']","['keyword', 'operator']"
+6,"    ""bytes""","['""bytes""']",['string_literal']
+7,"    ""encoding/json""","['""encoding/json""']",['string_literal']
+8,"    ""fmt""","['""fmt""']",['string_literal']
+9,"    ""io/ioutil""","['""io/ioutil""']",['string_literal']
+10,    /*,['*'],['operator']
+11,"        ""log""","['""log""']",['string_literal']
+12,"        ""log/syslog""","['""log/syslog""']",['string_literal']
+13,    */,['*'],['operator']
+14,"    ""net/http""","['""net/http""']",['string_literal']
+15,"    ""os""","['""os""']",['string_literal']
+16,"    ""os/exec""","['""os/exec""']",['string_literal']
+17,),[')'],['operator']
+18,func prefetchImages() error {,"['func', 'prefetchImages', '()', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+19,"    cmd := exec.Command(""glance-cache-prefetcher"")","['cmd', ':=', 'exec', '.', 'Command', '(', '""glance-cache-prefetcher""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+20,    err := cmd.Run(),"['err', ':=', 'cmd', '.', 'Run', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+21,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+22,"        return fmt.Errorf(""glance-cache-prefetcher failed to execute properly: %v"", err)","['return', 'fmt', '.', 'Errorf', '(', '""glance-cache-prefetcher failed to execute properly: %v""', ',', 'err', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+23,    },['}'],['operator']
+24,    return nil,"['return', 'nil']","['keyword', 'identifier']"
+25,},['}'],['operator']
+26,"func queueImages(hostname string, imageList []string) error {","['func', 'queueImages', '(', 'hostname', 'string', ',', 'imageList', '[]', 'string', ')', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+27,"    for _, image := range imageList {","['for', '_', ',', 'image', ':=', 'range', 'imageList', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+28,"        cmd := exec.Command(""glance-cache-manage"", ""--host="", hostname, ""queue-image"", image)","['cmd', ':=', 'exec', '.', 'Command', '(', '""glance-cache-manage"", ""--host="", hostname, ""queue-image""', ',', 'image', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+29,        err := cmd.Run(),"['err', ':=', 'cmd', '.', 'Run', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+30,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+31,"            return fmt.Errorf(""glance-cache-manage failed to execute properly: %v"", err)","['return', 'fmt', '.', 'Errorf', '(', '""glance-cache-manage failed to execute properly: %v""', ',', 'err', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+32,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+33,"            fmt.Printf(""Image %s queued"", image)","['fmt', '.', 'Printf', '(', '""Image %s queued""', ',', 'image', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+34,        },['}'],['operator']
+35,    },['}'],['operator']
+36,    return nil,"['return', 'nil']","['keyword', 'identifier']"
+37,},['}'],['operator']
+38,"func getBody(method string, url string, headers map[string]string, body []byte) ([]byte, error) {","['func', 'getBody', '(', 'method', 'string', ',', 'url', 'string', ',', 'headers', 'map', '[', 'string', ']', 'string', ',', 'body', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+39,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+40,"    req, err := http.NewRequest(method, url, bytes.NewReader(body))","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', 'method', ',', 'url', ',', 'bytes', '.', 'NewReader', '(', 'body', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+42,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+43,    },['}'],['operator']
+44,"    for key, value := range headers {","['for', 'key', ',', 'value', ':=', 'range', 'headers', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+45,"        req.Header.Add(key, value)","['req', '.', 'Header', '.', 'Add', '(', 'key', ',', 'value', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+46,    },['}'],['operator']
+47,"    res, err := client.Do(req)","['res', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+48,    defer res.Body.Close(),"['defer', 'res', '.', 'Body', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+49,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+50,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+51,    },['}'],['operator']
+52,    var bodyBytes []byte,"['var', 'bodyBytes', '[]', 'byte']","['keyword', 'identifier', 'operator', 'identifier']"
+53,    if res.StatusCode == 200 {,"['if', 'res', '.', 'StatusCode', '==', '200', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+54,"        bodyBytes, err = ioutil.ReadAll(res.Body)","['bodyBytes', ',', 'err', '=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+55,    } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
+56,"        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+57,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+58,"        return nil, fmt.Errorf(""The remote end did not return a HTTP 200 (OK) response."")","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""The remote end did not return a HTTP 200 (OK) response.""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+59,    },['}'],['operator']
+60,"    return bodyBytes, nil","['return', 'bodyBytes', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+61,},['}'],['operator']
+62,"func getImages(authToken string) ([]string, error) {","['func', 'getImages', '(', 'authToken', 'string', ')', '([]', 'string', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+63,    type GlanceDetailResponse struct {,"['type', 'GlanceDetailResponse', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+64,        Images []struct {,"['Images', '[]', 'struct', '{']","['identifier', 'operator', 'keyword', 'operator']"
+65,"            Name   string `json:""name""`","['Name', 'string', 'json', ':', '""name""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+66,"            Status string `json:""status""`","['Status', 'string', 'json', ':', '""status""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+67,"            ID     string `json:""id""`","['ID', 'string', 'json', ':', '""id""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+68,        },['}'],['operator']
+69,    },['}'],['operator']
+70,"    method := ""GET""","['method', ':=', '""GET""']","['identifier', 'operator', 'string_literal']"
+71,"    url := ""http://192.168.1.2:9292/v1.1/images/detail""","['url', ':=', '""http://192.168.1.2:9292/v1.1/images/detail""']","['identifier', 'operator', 'string_literal']"
+72,"    headers := map[string]string{""X-Auth-Token"": authToken}","['headers', ':=', 'map', '[', 'string', ']', 'string', '{', '""X-Auth-Token""', ':', 'authToken', '}']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+73,"    bodyBytes, err := getBody(method, url, headers, nil)","['bodyBytes', ',', 'err', ':=', 'getBody', '(', 'method', ',', 'url', ',', 'headers', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+74,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+75,"        return nil, fmt.Errorf(""unable to retrieve the response body from the Glance API server: %v"", err)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""unable to retrieve the response body from the Glance API server: %v""', ',', 'err', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+76,    },['}'],['operator']
+77,    var glance GlanceDetailResponse,"['var', 'glance', 'GlanceDetailResponse']","['keyword', 'identifier', 'identifier']"
+78,"    err = json.Unmarshal(bodyBytes, &glance)","['err', '=', 'json', '.', 'Unmarshal', '(', 'bodyBytes', ',', '&', 'glance', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+79,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+80,"        return nil, fmt.Errorf(""unable to parse the JSON response:"", err)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""unable to parse the JSON response:""', ',', 'err', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+81,    },['}'],['operator']
+82,"    imageList := make([]string, 10)","['imageList', ':=', 'make', '([]', 'string', ',', '10', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+83,"    for _, image := range glance.Images {","['for', '_', ',', 'image', ':=', 'range', 'glance', '.', 'Images', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
+84,"        if image.Status == ""active"" {","['if', 'image', '.', 'Status', '==', '""active""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+85,"            imageList = append(imageList, image.ID)","['imageList', '=', 'append', '(', 'imageList', ',', 'image', '.', 'ID', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+86,        },['}'],['operator']
+87,    },['}'],['operator']
+88,"    return imageList, nil","['return', 'imageList', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+89,},['}'],['operator']
+90,"func getToken() (string, error) {","['func', 'getToken', '()', '(', 'string', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+91,    type TokenResponse struct {,"['type', 'TokenResponse', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+92,        Auth []struct {,"['Auth', '[]', 'struct', '{']","['identifier', 'operator', 'keyword', 'operator']"
+93,            Token struct {,"['Token', 'struct', '{']","['identifier', 'keyword', 'operator']"
+94,"                Expires string `json:""expires""`","['Expires', 'string', 'json', ':', '""expires""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+95,"                ID      string `json:""id""`","['ID', 'string', 'json', ':', '""id""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+96,            },['}'],['operator']
+97,        },['}'],['operator']
+98,    },['}'],['operator']
+99,"    method := ""POST""","['method', ':=', '""POST""']","['identifier', 'operator', 'string_literal']"
+100,"    url := ""http://192.168.1.2:5000/v2.0/tokens""","['url', ':=', '""http://192.168.1.2:5000/v2.0/tokens""']","['identifier', 'operator', 'string_literal']"
+101,"    headers := map[string]string{""Content-type"": ""application/json""}","['headers', ':=', 'map', '[', 'string', ']', 'string', '{', '""Content-type"": ""application/json""', '}']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+102,"    creds := []byte(`{""auth"":{""passwordCredentials"":{""username"": ""glance"", ""password"":""""}, ""tenantId"":""""}}`)","['creds', ':=', '[]', 'byte', '(', '{', '""auth"":{""passwordCredentials"":{""username"": ""glance"", ""password"":""""}, ""tenantId"":""""', '}}', ')']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'operator', 'string_literal', 'operator', 'operator']"
+103,"    bodyBytes, err := getBody(method, url, headers, creds)","['bodyBytes', ',', 'err', ':=', 'getBody', '(', 'method', ',', 'url', ',', 'headers', ',', 'creds', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+104,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+105,"        return """", err","['return', '""""', ',', 'err']","['keyword', 'string_literal', 'operator', 'identifier']"
+106,    },['}'],['operator']
+107,    var keystone TokenResponse,"['var', 'keystone', 'TokenResponse']","['keyword', 'identifier', 'identifier']"
+108,"    err = json.Unmarshal(bodyBytes, &keystone)","['err', '=', 'json', '.', 'Unmarshal', '(', 'bodyBytes', ',', '&', 'keystone', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+110,"        return """", err","['return', '""""', ',', 'err']","['keyword', 'string_literal', 'operator', 'identifier']"
+111,    },['}'],['operator']
+112,    authToken := string((keystone.Auth[0].Token.ID)),"['authToken', ':=', 'string', '((', 'keystone', '.', 'Auth', '[', '0', '].', 'Token', '.', 'ID', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+113,"    return authToken, nil","['return', 'authToken', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+114,},['}'],['operator']
+115,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+116,    /*,['*'],['operator']
+117,"        slog, err := syslog.New(syslog.LOG_ERR, ""[fido]"")","['slog', ',', 'err', ':=', 'syslog', '.', 'New', '(', 'syslog', '.', 'LOG_ERR', ',', '""[fido]""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+118,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+119,"            log.Fatalf(""unable to connect to syslog: %v"", err)","['log', '.', 'Fatalf', '(', '""unable to connect to syslog: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+120,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+121,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+122,            defer slog.Close(),"['defer', 'slog', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+123,        },['}'],['operator']
+124,    */,['*'],['operator']
+125,"    hostname, err := os.Hostname()","['hostname', ',', 'err', ':=', 'os', '.', 'Hostname', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+126,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+127,"        // slog.Err(""Hostname not captured"")","['// slog.Err(""Hostname not captured"")']","['comment', 'slog.Err', '(', '``', 'Hostname', 'not', 'captured', ""''"", ')']"
+128,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+129,    },['}'],['operator']
+130,"    authToken, err := getToken()","['authToken', ',', 'err', ':=', 'getToken', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+131,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+132,"        // slog.Err(""The authentication token from the Glance API server was not retrieved"")","['// slog.Err(""The authentication token from the Glance API server was not retrieved"")']","['comment', 'slog.Err', '(', '``', 'The', 'authentication', 'token', 'from', 'the', 'Glance', 'API', 'server', 'was', 'not', 'retrieved', ""''"", ')']"
+133,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+134,    },['}'],['operator']
+135,"    imageList, err := getImages(authToken)","['imageList', ',', 'err', ':=', 'getImages', '(', 'authToken', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+136,"    err = queueImages(hostname, imageList)","['err', '=', 'queueImages', '(', 'hostname', ',', 'imageList', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+137,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+138,"        // slog.Err(""Could not queue the images for pre-fetching"")","['// slog.Err(""Could not queue the images for pre-fetching"")']","['comment', 'slog.Err', '(', '``', 'Could', 'not', 'queue', 'the', 'images', 'for', 'pre-fetching', ""''"", ')']"
+139,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+140,    },['}'],['operator']
+141,    err = prefetchImages(),"['err', '=', 'prefetchImages', '()']","['identifier', 'operator', 'identifier', 'operator']"
+142,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+143,"        // slog.Err(""Could not queue the images for pre-fetching"")","['// slog.Err(""Could not queue the images for pre-fetching"")']","['comment', 'slog.Err', '(', '``', 'Could', 'not', 'queue', 'the', 'images', 'for', 'pre-fetching', ""''"", ')']"
+144,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+145,    },['}'],['operator']
+146,    return,['return'],['keyword']
+147,},['}'],['operator']

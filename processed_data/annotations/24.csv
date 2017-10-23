@@ -1,0 +1,139 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""crypto""","['""crypto""']",['string_literal']
+3,"    ""crypto/rand""","['""crypto/rand""']",['string_literal']
+4,"    ""crypto/rsa""","['""crypto/rsa""']",['string_literal']
+5,"    ""crypto/sha256""","['""crypto/sha256""']",['string_literal']
+6,"    ""crypto/x509""","['""crypto/x509""']",['string_literal']
+7,"    ""encoding/base64""","['""encoding/base64""']",['string_literal']
+8,"    ""encoding/pem""","['""encoding/pem""']",['string_literal']
+9,"    ""errors""","['""errors""']",['string_literal']
+10,"    ""fmt""","['""fmt""']",['string_literal']
+11,"    ""io/ioutil""","['""io/ioutil""']",['string_literal']
+12,),[')'],['operator']
+13,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+14,"    signer, err := loadPrivateKey(""private.pem"");","['signer', ',', 'err', ':=', 'loadPrivateKey', '(', '""private.pem""', ');']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+16,"        fmt.Errorf(""signer is damaged: %v"", err)","['fmt', '.', 'Errorf', '(', '""signer is damaged: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+17,    },['}'],['operator']
+18,"    toSign := ""date: Thu, 05 Jan 2012 21:31:40 GMT"";","['toSign', ':=', '""date: Thu, 05 Jan 2012 21:31:40 GMT""', ';']","['identifier', 'operator', 'string_literal', 'operator']"
+19,"    signed, err := signer.Sign([]byte(toSign))","['signed', ',', 'err', ':=', 'signer', '.', 'Sign', '([]', 'byte', '(', 'toSign', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+20,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+21,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+22,    },['}'],['operator']
+23,    sig := base64.StdEncoding.EncodeToString(signed),"['sig', ':=', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'signed', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+24,"    fmt.Printf(""Encoded: %v\n"", sig)","['fmt', '.', 'Printf', '(', '""Encoded: %v\\n""', ',', 'sig', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+25,"    parser, perr := loadPublicKey(""public.pem"");","['parser', ',', 'perr', ':=', 'loadPublicKey', '(', '""public.pem""', ');']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+26,    if perr != nil {,"['if', 'perr', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+27,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+28,    },['}'],['operator']
+29,"    unsigned, err := parser.Unsign(signed);","['unsigned', ',', 'err', ':=', 'parser', '.', 'Unsign', '(', 'signed', ');']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+30,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+31,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+32,    },['}'],['operator']
+33,"    fmt.Printf(""Decrypted: %v\n"", base64.StdEncoding.EncodeToString(unsigned))    ","['fmt', '.', 'Printf', '(', '""Decrypted: %v\\n""', ',', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'unsigned', '))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+34,},['}'],['operator']
+35,// loadPrivateKey loads an parses a PEM encoded private key file.,['// loadPrivateKey loads an parses a PEM encoded private key file.'],"['comment', 'loadPrivateKey', 'loads', 'an', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', 'file', '.']"
+36,"func loadPublicKey(path string) (Unsigner, error) {","['func', 'loadPublicKey', '(', 'path', 'string', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+37,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+38,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+39,"                return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+40,        },['}'],['operator']
+41,        return parsePublicKey(data),"['return', 'parsePublicKey', '(', 'data', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+42,},['}'],['operator']
+43,// parsePublicKey parses a PEM encoded private key.,['// parsePublicKey parses a PEM encoded private key.'],"['comment', 'parsePublicKey', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', '.']"
+44,"func parsePublicKey(pemBytes []byte) (Unsigner, error) {","['func', 'parsePublicKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+45,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem', '.', 'Decode', '(', 'pemBytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+46,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+47,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""ssh: no key found""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+48,        },['}'],['operator']
+49,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['keyword', 'identifier', 'keyword', 'operator']"
+50,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+51,"        case ""PUBLIC KEY"":","['case', '""PUBLIC KEY""', ':']","['keyword', 'string_literal', 'operator']"
+52,"                rsa, err := x509.ParsePKIXPublicKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509', '.', 'ParsePKIXPublicKey', '(', 'block', '.', 'Bytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+53,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+54,"                        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+55,                },['}'],['operator']
+56,                rawkey = rsa,"['rawkey', '=', 'rsa']","['identifier', 'operator', 'identifier']"
+57,        default:,"['default', ':']","['keyword', 'operator']"
+58,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %q""', ',', 'block', '.', 'Type', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+59,        },['}'],['operator']
+60,        return newUnsignerFromKey(rawkey),"['return', 'newUnsignerFromKey', '(', 'rawkey', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+61,},['}'],['operator']
+62,// loadPrivateKey loads an parses a PEM encoded private key file.,['// loadPrivateKey loads an parses a PEM encoded private key file.'],"['comment', 'loadPrivateKey', 'loads', 'an', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', 'file', '.']"
+63,"func loadPrivateKey(path string) (Signer, error) {","['func', 'loadPrivateKey', '(', 'path', 'string', ')', '(', 'Signer', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+64,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+65,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+66,"                return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+67,        },['}'],['operator']
+68,        return parsePrivateKey(data),"['return', 'parsePrivateKey', '(', 'data', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+69,},['}'],['operator']
+70,// parsePublicKey parses a PEM encoded private key.,['// parsePublicKey parses a PEM encoded private key.'],"['comment', 'parsePublicKey', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', '.']"
+71,"func parsePrivateKey(pemBytes []byte) (Signer, error) {","['func', 'parsePrivateKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Signer', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+72,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem', '.', 'Decode', '(', 'pemBytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+73,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+74,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""ssh: no key found""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+75,        },['}'],['operator']
+76,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['keyword', 'identifier', 'keyword', 'operator']"
+77,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+78,"        case ""RSA PRIVATE KEY"":","['case', '""RSA PRIVATE KEY""', ':']","['keyword', 'string_literal', 'operator']"
+79,"                rsa, err := x509.ParsePKCS1PrivateKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509', '.', 'ParsePKCS1PrivateKey', '(', 'block', '.', 'Bytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+80,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+81,"                        return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+82,                },['}'],['operator']
+83,                rawkey = rsa,"['rawkey', '=', 'rsa']","['identifier', 'operator', 'identifier']"
+84,        default:,"['default', ':']","['keyword', 'operator']"
+85,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %q""', ',', 'block', '.', 'Type', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+86,        },['}'],['operator']
+87,        return newSignerFromKey(rawkey),"['return', 'newSignerFromKey', '(', 'rawkey', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+88,},['}'],['operator']
+89,// A Signer is can create signatures that verify against a public key.,['// A Signer is can create signatures that verify against a public key.'],"['comment', 'A', 'Signer', 'is', 'can', 'create', 'signatures', 'that', 'verify', 'against', 'a', 'public', 'key', '.']"
+90,type Signer interface {,"['type', 'Signer', 'interface', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+91,        // Sign returns raw signature for the given data. This method,['// Sign returns raw signature for the given data. This method'],"['comment', 'Sign', 'returns', 'raw', 'signature', 'for', 'the', 'given', 'data', '.', 'This', 'method']"
+92,        // will apply the hash specified for the keytype to the data.,['// will apply the hash specified for the keytype to the data.'],"['comment', 'will', 'apply', 'the', 'hash', 'specified', 'for', 'the', 'keytype', 'to', 'the', 'data', '.']"
+93,"        Sign(data []byte) ([]byte, error)","['Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+94,},['}'],['operator']
+95,// A Signer is can create signatures that verify against a public key.,['// A Signer is can create signatures that verify against a public key.'],"['comment', 'A', 'Signer', 'is', 'can', 'create', 'signatures', 'that', 'verify', 'against', 'a', 'public', 'key', '.']"
+96,type Unsigner interface {,"['type', 'Unsigner', 'interface', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+97,        // Sign returns raw signature for the given data. This method,['// Sign returns raw signature for the given data. This method'],"['comment', 'Sign', 'returns', 'raw', 'signature', 'for', 'the', 'given', 'data', '.', 'This', 'method']"
+98,        // will apply the hash specified for the keytype to the data.,['// will apply the hash specified for the keytype to the data.'],"['comment', 'will', 'apply', 'the', 'hash', 'specified', 'for', 'the', 'keytype', 'to', 'the', 'data', '.']"
+99,"        Unsign(data []byte) ([]byte, error)","['Unsign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+100,},['}'],['operator']
+101,"func newSignerFromKey(k interface{}) (Signer, error) {","['func', 'newSignerFromKey', '(', 'k', 'interface', '{})', '(', 'Signer', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+102,        var sshKey Signer,"['var', 'sshKey', 'Signer']","['keyword', 'identifier', 'identifier']"
+103,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'operator']"
+104,        case *rsa.PrivateKey:,"['case', '*', 'rsa', '.', 'PrivateKey', ':']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+105,                sshKey = &rsaPrivateKey{t},"['sshKey', '=', '&', 'rsaPrivateKey', '{', 't', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+106,        default: ,"['default', ':']","['keyword', 'operator']"
+107,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %T""', ',', 'k', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+108,        },['}'],['operator']
+109,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+110,},['}'],['operator']
+111,"func newUnsignerFromKey(k interface{}) (Unsigner, error) {","['func', 'newUnsignerFromKey', '(', 'k', 'interface', '{})', '(', 'Unsigner', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+112,        var sshKey Unsigner,"['var', 'sshKey', 'Unsigner']","['keyword', 'identifier', 'identifier']"
+113,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'operator']"
+114,        case *rsa.PublicKey:,"['case', '*', 'rsa', '.', 'PublicKey', ':']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+115,                sshKey = &rsaPublicKey{t},"['sshKey', '=', '&', 'rsaPublicKey', '{', 't', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+116,        default:,"['default', ':']","['keyword', 'operator']"
+117,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %T""', ',', 'k', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+118,        },['}'],['operator']
+119,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+120,},['}'],['operator']
+121,type rsaPublicKey struct {,"['type', 'rsaPublicKey', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+122,    *rsa.PublicKey,"['*', 'rsa', '.', 'PublicKey']","['operator', 'identifier', 'operator', 'identifier']"
+123,},['}'],['operator']
+124,type rsaPrivateKey struct {,"['type', 'rsaPrivateKey', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+125,        *rsa.PrivateKey,"['*', 'rsa', '.', 'PrivateKey']","['operator', 'identifier', 'operator', 'identifier']"
+126,},['}'],['operator']
+127,// Sign signs data with rsa-sha256,['// Sign signs data with rsa-sha256'],"['comment', 'Sign', 'signs', 'data', 'with', 'rsa-sha256']"
+128,"func (r *rsaPrivateKey) Sign(data []byte) ([]byte, error) {","['func', '(', 'r', '*', 'rsaPrivateKey', ')', 'Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+129,        h := sha256.New(),"['h', ':=', 'sha256', '.', 'New', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+130,        h.Write(data),"['h', '.', 'Write', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+131,        d := h.Sum(nil),"['d', ':=', 'h', '.', 'Sum', '(', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+132,"        return rsa.SignPKCS1v15(rand.Reader, r.PrivateKey, crypto.SHA256, d)","['return', 'rsa', '.', 'SignPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'r', '.', 'PrivateKey', ',', 'crypto', '.', 'SHA256', ',', 'd', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+133,},['}'],['operator']
+134,// Unsign encrypts data with rsa-sha256,['// Unsign encrypts data with rsa-sha256'],"['comment', 'Unsign', 'encrypts', 'data', 'with', 'rsa-sha256']"
+135,"func (r *rsaPublicKey) Unsign(message []byte) ([]byte, error) {  ","['func', '(', 'r', '*', 'rsaPublicKey', ')', 'Unsign', '(', 'message', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+136,"        return rsa.EncryptPKCS1v15(rand.Reader, r.PublicKey, message)        ","['return', 'rsa', '.', 'EncryptPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'r', '.', 'PublicKey', ',', 'message', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+137,},['}'],['operator']

@@ -1,0 +1,36 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""bytes""","['""bytes""']",['string_literal']
+3,"    ""encoding/json""","['""encoding/json""']",['string_literal']
+4,"    ""fmt""","['""fmt""']",['string_literal']
+5,"    ""log""","['""log""']",['string_literal']
+6,"    ""net/http""","['""net/http""']",['string_literal']
+7,),[')'],['operator']
+8,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+9,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+10,    // Why this stringData is lost and was not send with POST request?,['// Why this stringData is lost and was not send with POST request?'],"['comment', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'was', 'not', 'send', 'with', 'POST', 'request', '?']"
+11,"    stringData := `INSERT INTO V SET name = 'jack', boss = #11:19`","['stringData', ':=', 'INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal']"
+12,"    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql""', ',', 'bytes', '.', 'NewBufferString', '(', 'stringData', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+13,"    req.SetBasicAuth(""root"", ""1"")","['req', '.', 'SetBasicAuth', '(', '""root"", ""1""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+14,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+16,"        fmt.Printf(""Error : %s"", err)","['fmt', '.', 'Printf', '(', '""Error : %s""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+17,    },['}'],['operator']
+18,"    fmt.Println(""resp"")","['fmt', '.', 'Println', '(', '""resp""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+19,    fmt.Println(ToJson(resp)),"['fmt', '.', 'Println', '(', 'ToJson', '(', 'resp', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+20,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+21,"    _, err = b.ReadFrom(resp.Body)","['_', ',', 'err', '=', 'b', '.', 'ReadFrom', '(', 'resp', '.', 'Body', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+22,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+23,"        log.Fatal(""Error : %s"", err)","['log', '.', 'Fatal', '(', '""Error : %s""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+24,    },['}'],['operator']
+25,    fmt.Println(b.String()),"['fmt', '.', 'Println', '(', 'b', '.', 'String', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+26,},['}'],['operator']
+27,func ToJson(obj interface{}) string {,"['func', 'ToJson', '(', 'obj', 'interface', '{})', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator']"
+28,"    b, err := json.MarshalIndent(&obj, """", ""   "")","['b', ',', 'err', ':=', 'json', '.', 'MarshalIndent', '(&', 'obj', ',', '"""", ""   ""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+29,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+30,"        fmt.Printf(""Error : %s"", err)","['fmt', '.', 'Printf', '(', '""Error : %s""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+31,    },['}'],['operator']
+32,    strJson := string(b),"['strJson', ':=', 'string', '(', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+33,    return strJson,"['return', 'strJson']","['keyword', 'identifier']"
+34,},['}'],['operator']

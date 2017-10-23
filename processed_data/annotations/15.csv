@@ -1,0 +1,187 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""bufio""","['""bufio""']",['string_literal']
+3,"    ""bytes""","['""bytes""']",['string_literal']
+4,"    ""encoding/binary""","['""encoding/binary""']",['string_literal']
+5,"    ""fmt""","['""fmt""']",['string_literal']
+6,"    ""os""","['""os""']",['string_literal']
+7,"    ""runtime""","['""runtime""']",['string_literal']
+8,"    ""unicode/utf16""","['""unicode/utf16""']",['string_literal']
+9,"    ""unicode/utf8""","['""unicode/utf8""']",['string_literal']
+10,),[')'],['operator']
+11,"// UTF16BytesToString converts UTF-16 encoded bytes, in big or little endian byte order,","['// UTF16BytesToString converts UTF-16 encoded bytes, in big or little endian byte order,']","['comment', 'UTF16BytesToString', 'converts', 'UTF-16', 'encoded', 'bytes', ',', 'in', 'big', 'or', 'little', 'endian', 'byte', 'order', ',']"
+12,// to a UTF-8 encoded string.,['// to a UTF-8 encoded string.'],"['comment', 'to', 'a', 'UTF-8', 'encoded', 'string', '.']"
+13,"func UTF16BytesToString(b []byte, o binary.ByteOrder) string {","['func', 'UTF16BytesToString', '(', 'b', '[]', 'byte', ',', 'o', 'binary', '.', 'ByteOrder', ')', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+14,"    utf := make([]uint16, (len(b)+(2-1))/2)","['utf', ':=', 'make', '([]', 'uint16', ',', '(', 'len', '(', 'b', ')+(', '2', '-', '1', '))', '2', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+15,    for i := 0; i+(2-1) < len(b); i += 2 {,"['for', 'i', ':=', '0', ';', 'i', '+(', '2', '-', '1', ')', '<', 'len', '(', 'b', ');', 'i', '+=', '2', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+16,        utf[i/2] = o.Uint16(b[i:]),"['utf', '[', 'i', '2', ']', '=', 'o', '.', 'Uint16', '(', 'b', '[', 'i', ':])']","['identifier', 'operator', 'identifier', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+17,    },['}'],['operator']
+18,    if len(b)/2 < len(utf) {,"['if', 'len', '(', 'b', ')', '2', '<', 'len', '(', 'utf', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+19,        utf[len(utf)-1] = utf8.RuneError,"['utf', '[', 'len', '(', 'utf', ')-', '1', ']', '=', 'utf8', '.', 'RuneError']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier']"
+20,    },['}'],['operator']
+21,    return string(utf16.Decode(utf)),"['return', 'string', '(', 'utf16', '.', 'Decode', '(', 'utf', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+22,},['}'],['operator']
+23,// UTF-16 endian byte order,['// UTF-16 endian byte order'],"['comment', 'UTF-16', 'endian', 'byte', 'order']"
+24,const (,"['const', '(']","['keyword', 'operator']"
+25,    unknownEndian = iota,"['unknownEndian', '=', 'iota']","['identifier', 'operator', 'identifier']"
+26,    bigEndian,['bigEndian'],['identifier']
+27,    littleEndian,['littleEndian'],['identifier']
+28,),[')'],['operator']
+29,// dropCREndian drops a terminal \r from the endian data.,['// dropCREndian drops a terminal \\r from the endian data.'],"['comment', 'dropCREndian', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'endian', 'data', '.']"
+30,"func dropCREndian(data []byte, t1, t2 byte) []byte {","['func', 'dropCREndian', '(', 'data', '[]', 'byte', ',', 't1', ',', 't2', 'byte', ')', '[]', 'byte', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+31,    if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+32,        if data[len(data)-2] == t1 && data[len(data)-1] == t2 {,"['if', 'data', '[', 'len', '(', 'data', ')-', '2', ']', '==', 't1', '&&', 'data', '[', 'len', '(', 'data', ')-', '1', ']', '==', 't2', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator']"
+33,            return data[0 : len(data)-2],"['return', 'data', '[', '0', ':', 'len', '(', 'data', ')-', '2', ']']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+34,        },['}'],['operator']
+35,    },['}'],['operator']
+36,    return data,"['return', 'data']","['keyword', 'identifier']"
+37,},['}'],['operator']
+38,// dropCRBE drops a terminal \r from the big endian data.,['// dropCRBE drops a terminal \\r from the big endian data.'],"['comment', 'dropCRBE', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'big', 'endian', 'data', '.']"
+39,func dropCRBE(data []byte) []byte {,"['func', 'dropCRBE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+40,"    return dropCREndian(data, '\x00', '\r')","['return', 'dropCREndian', '(', 'data', ',', 'x00', ',', 'r', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,},['}'],['operator']
+42,// dropCRLE drops a terminal \r from the little endian data.,['// dropCRLE drops a terminal \\r from the little endian data.'],"['comment', 'dropCRLE', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'little', 'endian', 'data', '.']"
+43,func dropCRLE(data []byte) []byte {,"['func', 'dropCRLE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+44,"    return dropCREndian(data, '\r', '\x00')","['return', 'dropCREndian', '(', 'data', ',', 'r', ',', 'x00', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+45,},['}'],['operator']
+46,// dropCR drops a terminal \r from the data.,['// dropCR drops a terminal \\r from the data.'],"['comment', 'dropCR', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'data', '.']"
+47,"func dropCR(data []byte) ([]byte, int) {","['func', 'dropCR', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'int', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+48,    var endian = unknownEndian,"['var', 'endian', '=', 'unknownEndian']","['keyword', 'identifier', 'operator', 'identifier']"
+49,    switch ld := len(data); {,"['switch', 'ld', ':=', 'len', '(', 'data', ');', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+50,    case ld != len(dropCRLE(data)):,"['case', 'ld', '!=', 'len', '(', 'dropCRLE', '(', 'data', ')):']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,        endian = littleEndian,"['endian', '=', 'littleEndian']","['identifier', 'operator', 'identifier']"
+52,    case ld != len(dropCRBE(data)):,"['case', 'ld', '!=', 'len', '(', 'dropCRBE', '(', 'data', ')):']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+53,        endian = bigEndian,"['endian', '=', 'bigEndian']","['identifier', 'operator', 'identifier']"
+54,    },['}'],['operator']
+55,"    return data, endian","['return', 'data', ',', 'endian']","['keyword', 'identifier', 'operator', 'identifier']"
+56,},['}'],['operator']
+57,// SplitFunc is a split function for a Scanner that returns each line of,['// SplitFunc is a split function for a Scanner that returns each line of'],"['comment', 'SplitFunc', 'is', 'a', 'split', 'function', 'for', 'a', 'Scanner', 'that', 'returns', 'each', 'line', 'of']"
+58,"// text, stripped of any trailing end-of-line marker. The returned line may","['// text, stripped of any trailing end-of-line marker. The returned line may']","['comment', 'text', ',', 'stripped', 'of', 'any', 'trailing', 'end-of-line', 'marker', '.', 'The', 'returned', 'line', 'may']"
+59,// be empty. The end-of-line marker is one optional carriage return followed,['// be empty. The end-of-line marker is one optional carriage return followed'],"['comment', 'be', 'empty', '.', 'The', 'end-of-line', 'marker', 'is', 'one', 'optional', 'carriage', 'return', 'followed']"
+60,"// by one mandatory newline. In regular expression notation, it is `\r?\n`.","['// by one mandatory newline. In regular expression notation, it is `\\r?\\n`.']","['comment', 'by', 'one', 'mandatory', 'newline', '.', 'In', 'regular', 'expression', 'notation', ',', 'it', 'is', '`\\r', '?', '\\n`', '.']"
+61,// The last non-empty line of input will be returned even if it has no,['// The last non-empty line of input will be returned even if it has no'],"['comment', 'The', 'last', 'non-empty', 'line', 'of', 'input', 'will', 'be', 'returned', 'even', 'if', 'it', 'has', 'no']"
+62,// newline.,['// newline.'],"['comment', 'newline', '.']"
+63,"func ScanUTF16LinesFunc(byteOrder binary.ByteOrder) (bufio.SplitFunc, func() binary.ByteOrder) {","['func', 'ScanUTF16LinesFunc', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '(', 'bufio', '.', 'SplitFunc', ',', 'func', '()', 'binary', '.', 'ByteOrder', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+64,    // Function closure variables,['// Function closure variables'],"['comment', 'Function', 'closure', 'variables']"
+65,    var endian = unknownEndian,"['var', 'endian', '=', 'unknownEndian']","['keyword', 'identifier', 'operator', 'identifier']"
+66,    switch byteOrder {,"['switch', 'byteOrder', '{']","['identifier', 'identifier', 'operator']"
+67,    case binary.BigEndian:,"['case', 'binary', '.', 'BigEndian', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+68,        endian = bigEndian,"['endian', '=', 'bigEndian']","['identifier', 'operator', 'identifier']"
+69,    case binary.LittleEndian:,"['case', 'binary', '.', 'LittleEndian', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+70,        endian = littleEndian,"['endian', '=', 'littleEndian']","['identifier', 'operator', 'identifier']"
+71,    },['}'],['operator']
+72,    const bom = 0xFEFF,"['const', 'bom', '=', '0', 'xFEFF']","['keyword', 'identifier', 'operator', 'decimal_literal', 'identifier']"
+73,    var checkBOM bool = endian == unknownEndian,"['var', 'checkBOM', 'bool', '=', 'endian', '==', 'unknownEndian']","['keyword', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+74,    // Scanner split function,['// Scanner split function'],"['comment', 'Scanner', 'split', 'function']"
+75,"    splitFunc := func(data []byte, atEOF bool) (advance int, token []byte, err error) {","['splitFunc', ':=', 'func', '(', 'data', '[]', 'byte', ',', 'atEOF', 'bool', ')', '(', 'advance', 'int', ',', 'token', '[]', 'byte', ',', 'err', 'error', ')', '{']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+76,        if atEOF && len(data) == 0 {,"['if', 'atEOF', '&&', 'len', '(', 'data', ')', '==', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+77,"            return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier']"
+78,        },['}'],['operator']
+79,        if checkBOM {,"['if', 'checkBOM', '{']","['keyword', 'identifier', 'operator']"
+80,            checkBOM = false,"['checkBOM', '=', 'false']","['identifier', 'operator', 'identifier']"
+81,            if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+82,                switch uint16(bom) {,"['switch', 'uint16', '(', 'bom', ')', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+83,                case uint16(data[0])<<8 | uint16(data[1]):,"['case', 'uint16', '(', 'data', '[', '0', '])<<', '8', '|', 'uint16', '(', 'data', '[', '1', ']):']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+84,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['identifier', 'operator', 'identifier']"
+85,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier']"
+86,                case uint16(data[1])<<8 | uint16(data[0]):,"['case', 'uint16', '(', 'data', '[', '1', '])<<', '8', '|', 'uint16', '(', 'data', '[', '0', ']):']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+87,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['identifier', 'operator', 'identifier']"
+88,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier']"
+89,                },['}'],['operator']
+90,            },['}'],['operator']
+91,        },['}'],['operator']
+92,        // Scan for newline-terminated lines.,['// Scan for newline-terminated lines.'],"['comment', 'Scan', 'for', 'newline-terminated', 'lines', '.']"
+93,        i := 0,"['i', ':=', '0']","['identifier', 'operator', 'decimal_literal']"
+94,        for {,"['for', '{']","['keyword', 'operator']"
+95,"            j := bytes.IndexByte(data[i:], '\n')","['j', ':=', 'bytes', '.', 'IndexByte', '(', 'data', '[', 'i', ':],', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+96,            if j < 0 {,"['if', 'j', '<', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+97,                break,['break'],['keyword']
+98,            },['}'],['operator']
+99,            i += j,"['i', '+=', 'j']","['identifier', 'operator', 'identifier']"
+100,            switch e := i % 2; e {,"['switch', 'e', ':=', 'i', '2', ';', 'e', '{']","['identifier', 'identifier', 'operator', 'identifier', 'decimal_literal', 'operator', 'identifier', 'operator']"
+101,            case 1: // UTF-16BE,"['case', '1', ':', '// UTF-16BE']","['keyword', 'decimal_literal', 'operator', 'comment', 'UTF-16BE']"
+102,                if endian != littleEndian {,"['if', 'endian', '!=', 'littleEndian', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+103,                    if i > 1 {,"['if', 'i', '>', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+104,                        if data[i-1] == '\x00' {,"['if', 'data', '[', 'i', '-', '1', ']', '==', 'x00', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator']"
+105,                            endian = bigEndian,"['endian', '=', 'bigEndian']","['identifier', 'operator', 'identifier']"
+106,                            // We have a full newline-terminated line.,['// We have a full newline-terminated line.'],"['comment', 'We', 'have', 'a', 'full', 'newline-terminated', 'line', '.']"
+107,"                            return i + 1, dropCRBE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRBE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier']"
+108,                        },['}'],['operator']
+109,                    },['}'],['operator']
+110,                },['}'],['operator']
+111,            case 0: // UTF-16LE,"['case', '0', ':', '// UTF-16LE']","['keyword', 'decimal_literal', 'operator', 'comment', 'UTF-16LE']"
+112,                if endian != bigEndian {,"['if', 'endian', '!=', 'bigEndian', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+113,                    if i+1 < len(data) {,"['if', 'i', '+', '1', '<', 'len', '(', 'data', ')', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+114,                        i++,"['i', '++']","['identifier', 'operator']"
+115,                        if data[i] == '\x00' {,"['if', 'data', '[', 'i', ']', '==', 'x00', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+116,                            endian = littleEndian,"['endian', '=', 'littleEndian']","['identifier', 'operator', 'identifier']"
+117,                            // We have a full newline-terminated line.,['// We have a full newline-terminated line.'],"['comment', 'We', 'have', 'a', 'full', 'newline-terminated', 'line', '.']"
+118,"                            return i + 1, dropCRLE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRLE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier']"
+119,                        },['}'],['operator']
+120,                    },['}'],['operator']
+121,                },['}'],['operator']
+122,            },['}'],['operator']
+123,            i++,"['i', '++']","['identifier', 'operator']"
+124,        },['}'],['operator']
+125,"        // If we're at EOF, we have a final, non-terminated line. Return it.","[""// If we're at EOF, we have a final, non-terminated line. Return it.""]","['comment', 'If', 'we', ""'re"", 'at', 'EOF', ',', 'we', 'have', 'a', 'final', ',', 'non-terminated', 'line', '.', 'Return', 'it', '.']"
+126,        if atEOF {,"['if', 'atEOF', '{']","['keyword', 'identifier', 'operator']"
+127,            // drop CR.,['// drop CR.'],"['comment', 'drop', 'CR', '.']"
+128,            advance = len(data),"['advance', '=', 'len', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+129,            switch endian {,"['switch', 'endian', '{']","['identifier', 'identifier', 'operator']"
+130,            case bigEndian:,"['case', 'bigEndian', ':']","['keyword', 'identifier', 'operator']"
+131,                data = dropCRBE(data),"['data', '=', 'dropCRBE', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+132,            case littleEndian:,"['case', 'littleEndian', ':']","['keyword', 'identifier', 'operator']"
+133,                data = dropCRLE(data),"['data', '=', 'dropCRLE', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+134,            default:,"['default', ':']","['keyword', 'operator']"
+135,"                data, endian = dropCR(data)","['data', ',', 'endian', '=', 'dropCR', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+136,            },['}'],['operator']
+137,            if endian == unknownEndian {,"['if', 'endian', '==', 'unknownEndian', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+138,"                if runtime.GOOS == ""windows"" {","['if', 'runtime', '.', 'GOOS', '==', '""windows""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+139,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['identifier', 'operator', 'identifier']"
+140,                } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+141,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['identifier', 'operator', 'identifier']"
+142,                },['}'],['operator']
+143,            },['}'],['operator']
+144,"            return advance, data, nil","['return', 'advance', ',', 'data', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+145,        },['}'],['operator']
+146,        // Request more data.,['// Request more data.'],"['comment', 'Request', 'more', 'data', '.']"
+147,"        return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier']"
+148,    },['}'],['operator']
+149,    // Endian byte order function,['// Endian byte order function'],"['comment', 'Endian', 'byte', 'order', 'function']"
+150,    orderFunc := func() (byteOrder binary.ByteOrder) {,"['orderFunc', ':=', 'func', '()', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '{']","['identifier', 'operator', 'keyword', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+151,        switch endian {,"['switch', 'endian', '{']","['identifier', 'identifier', 'operator']"
+152,        case bigEndian:,"['case', 'bigEndian', ':']","['keyword', 'identifier', 'operator']"
+153,            byteOrder = binary.BigEndian,"['byteOrder', '=', 'binary', '.', 'BigEndian']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+154,        case littleEndian:,"['case', 'littleEndian', ':']","['keyword', 'identifier', 'operator']"
+155,            byteOrder = binary.LittleEndian,"['byteOrder', '=', 'binary', '.', 'LittleEndian']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+156,        },['}'],['operator']
+157,        return byteOrder,"['return', 'byteOrder']","['keyword', 'identifier']"
+158,    },['}'],['operator']
+159,"    return splitFunc, orderFunc","['return', 'splitFunc', ',', 'orderFunc']","['keyword', 'identifier', 'operator', 'identifier']"
+160,},['}'],['operator']
+161,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+162,"    file, err := os.Open(""utf16.le.txt"")","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', '""utf16.le.txt""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+163,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+164,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+165,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+166,    },['}'],['operator']
+167,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+168,    fmt.Println(file.Name()),"['fmt', '.', 'Println', '(', 'file', '.', 'Name', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+169,    rdr := bufio.NewReader(file),"['rdr', ':=', 'bufio', '.', 'NewReader', '(', 'file', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+170,    scanner := bufio.NewScanner(rdr),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'rdr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+171,"    var bo binary.ByteOrder // unknown, infer from data","['var', 'bo', 'binary', '.', 'ByteOrder', '// unknown, infer from data']","['keyword', 'identifier', 'identifier', 'operator', 'identifier', 'comment', 'unknown', ',', 'infer', 'from', 'data']"
+172,    // bo = binary.LittleEndian // windows,['// bo = binary.LittleEndian // windows'],"['comment', 'bo', '=', 'binary.LittleEndian', 'windows']"
+173,"    splitFunc, orderFunc := ScanUTF16LinesFunc(bo)","['splitFunc', ',', 'orderFunc', ':=', 'ScanUTF16LinesFunc', '(', 'bo', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+174,    scanner.Split(splitFunc),"['scanner', '.', 'Split', '(', 'splitFunc', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+175,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+176,        b := scanner.Bytes(),"['b', ':=', 'scanner', '.', 'Bytes', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+177,"        s := UTF16BytesToString(b, orderFunc())","['s', ':=', 'UTF16BytesToString', '(', 'b', ',', 'orderFunc', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+178,"        fmt.Println(len(s), s)","['fmt', '.', 'Println', '(', 'len', '(', 's', '),', 's', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+179,"        fmt.Println(len(b), b)","['fmt', '.', 'Println', '(', 'len', '(', 'b', '),', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+180,    },['}'],['operator']
+181,    fmt.Println(orderFunc()),"['fmt', '.', 'Println', '(', 'orderFunc', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+182,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+183,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+184,    },['}'],['operator']
+185,},['}'],['operator']

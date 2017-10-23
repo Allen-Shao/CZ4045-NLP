@@ -1,0 +1,66 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""fmt""","['""fmt""']",['string_literal']
+3,"    ""math/rand""","['""math/rand""']",['string_literal']
+4,"    ""time""","['""time""']",['string_literal']
+5,"    ""runtime""","['""runtime""']",['string_literal']
+6,),[')'],['operator']
+7,const (,"['const', '(']","['keyword', 'operator']"
+8,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['identifier', 'operator', 'decimal_literal']"
+9,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['identifier', 'operator', 'decimal_literal']"
+10,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0003']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal']"
+11,),[')'],['operator']
+12,/**,['**'],['operator']
+13, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier']"
+14, *,['*'],['operator']
+15, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['operator', 'identifier', 'decimal_literal', 'keyword', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'decimal_literal', 'identifier']"
+16, */,['*'],['operator']
+17,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+18,    if rand.Float64() <= DROP_RATE {,"['if', 'rand', '.', 'Float64', '()', '<=', 'DROP_RATE', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+19,        return 1,"['return', '1']","['keyword', 'decimal_literal']"
+20,    },['}'],['operator']
+21,    return 0,"['return', '0']","['keyword', 'decimal_literal']"
+22,},['}'],['operator']
+23,/**,['**'],['operator']
+24, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier']"
+25, */,['*'],['operator']
+26,func simulation(n int) []int {,"['func', 'simulation', '(', 'n', 'int', ')', '[]', 'int', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+27,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+28,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+29,        interactions[i] = interaction(),"['interactions', '[', 'i', ']', '=', 'interaction', '()']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+30,    },['}'],['operator']
+31,    return interactions,"['return', 'interactions']","['keyword', 'identifier']"
+32,},['}'],['operator']
+33,/**,['**'],['operator']
+34, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'keyword', 'identifier', 'identifier', 'identifier']"
+35, */,['*'],['operator']
+36,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'operator']"
+37,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+38,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+39,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+40,            simulations[i] += v,"['simulations', '[', 'i', ']', '+=', 'v']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+41,        },['}'],['operator']
+42,    },['}'],['operator']
+43,    c <- simulations,"['c', '<-', 'simulations']","['identifier', 'operator', 'identifier']"
+44,},['}'],['operator']
+45,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+46,    rand.Seed(time.Now().UnixNano()),"['rand', '.', 'Seed', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+47,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime', '.', 'NumCPU', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+48,    runtime.GOMAXPROCS(nCPU),"['runtime', '.', 'GOMAXPROCS', '(', 'nCPU', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+49,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt', '.', 'Println', '(', '""Number of CPUs: ""', ',', 'nCPU', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+50,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+52,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator']"
+53,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ',', 'c', ')']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+54,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+55,    },['}'],['operator']
+56,    // Concatentate the test results,['// Concatentate the test results'],"['comment', 'Concatentate', 'the', 'test', 'results']"
+57,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+58,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+59,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', 'i']","['identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier']"
+60,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', '(', 'i', '+', '1', ')']","['identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+61,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+62,    },['}'],['operator']
+63,"    fmt.Println(""Successful interactions: "", results)","['fmt', '.', 'Println', '(', '""Successful interactions: ""', ',', 'results', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+64,},['}'],['operator']

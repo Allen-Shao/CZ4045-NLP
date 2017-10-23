@@ -1,0 +1,101 @@
+,text,token,annotation
+0,package controllers,"['package', 'controllers']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""RESTMONGOMVC/models""","['""RESTMONGOMVC/models""']",['string_literal']
+3,"    ""encoding/json""","['""encoding/json""']",['string_literal']
+4,"    ""log""","['""log""']",['string_literal']
+5,"    ""net/http""","['""net/http""']",['string_literal']
+6,"    ""time""","['""time""']",['string_literal']
+7,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['string_literal']
+8,"    ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['string_literal']
+9,"    ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['string_literal']
+10,),[')'],['operator']
+11,var (,"['var', '(']","['keyword', 'operator']"
+12,    session    *mgo.Session,"['session', '*', 'mgo', '.', 'Session']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+13,    collection *mgo.Collection,"['collection', '*', 'mgo', '.', 'Collection']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+14,    err        error,"['err', 'error']","['identifier', 'identifier']"
+15,),[')'],['operator']
+16,type (,"['type', '(']","['keyword', 'operator']"
+17,    // UserController represents the controller for operating on the User resource,['// UserController represents the controller for operating on the User resource'],"['comment', 'UserController', 'represents', 'the', 'controller', 'for', 'operating', 'on', 'the', 'User', 'resource']"
+18,    NoteController struct {,"['NoteController', 'struct', '{']","['identifier', 'keyword', 'operator']"
+19,        session *mgo.Session,"['session', '*', 'mgo', '.', 'Session']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+20,    },['}'],['operator']
+21,),[')'],['operator']
+22,// NewUserController provides a reference to a UserController with provided mongo session,['// NewUserController provides a reference to a UserController with provided mongo session'],"['comment', 'NewUserController', 'provides', 'a', 'reference', 'to', 'a', 'UserController', 'with', 'provided', 'mongo', 'session']"
+23,func NewNoteController(s *mgo.Session) *NoteController {,"['func', 'NewNoteController', '(', 's', '*', 'mgo', '.', 'Session', ')', '*', 'NoteController', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+24,    return &NoteController{s},"['return', '&', 'NoteController', '{', 's', '}']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+25,},['}'],['operator']
+26,"func (uc NoteController) GetNotes(w http.ResponseWriter, r *http.Request) {","['func', '(', 'uc', 'NoteController', ')', 'GetNotes', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+27,    var notes []models.Note,"['var', 'notes', '[]', 'models', '.', 'Note']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+28,    iter := collection.Find(nil).Iter(),"['iter', ':=', 'collection', '.', 'Find', '(', 'nil', ').', 'Iter', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+29,    result := models.Note{},"['result', ':=', 'models', '.', 'Note', '{}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+30,    for iter.Next(&result) {,"['for', 'iter', '.', 'Next', '(&', 'result', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+31,"        notes = append(notes, result)","['notes', '=', 'append', '(', 'notes', ',', 'result', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+32,    },['}'],['operator']
+33,"    w.Header().Set(""Content-Type"", ""application/json"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""application/json""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+34,"    j, err := json.Marshal(models.NotesResource{Notes: notes})","['j', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'models', '.', 'NotesResource', '{', 'Notes', ':', 'notes', '})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+36,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+37,    },['}'],['operator']
+38,    w.Write(j),"['w', '.', 'Write', '(', 'j', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+39,},['}'],['operator']
+40,"func (uc NoteController) CreateNote(w http.ResponseWriter, r *http.Request) {","['func', '(', 'uc', 'NoteController', ')', 'CreateNote', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+41,    var noteResource models.NoteResource,"['var', 'noteResource', 'models', '.', 'NoteResource']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+42,    err := json.NewDecoder(r.Body).Decode(¬eResource),"['err', ':=', 'json', '.', 'NewDecoder', '(', 'r', '.', 'Body', ').', 'Decode', '(', 'eResource', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+43,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+44,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+45,    },['}'],['operator']
+46,    note := noteResource.Note,"['note', ':=', 'noteResource', '.', 'Note']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+47,    //get a new Id,['//get a new Id'],"['comment', 'get', 'a', 'new', 'Id']"
+48,    obj_id := bson.NewObjectId(),"['obj_id', ':=', 'bson', '.', 'NewObjectId', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+49,    note.Id = obj_id,"['note', '.', 'Id', '=', 'obj_id']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+50,    note.CreatedOn = time.Now(),"['note', '.', 'CreatedOn', '=', 'time', '.', 'Now', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,    //Insert into document collection,['//Insert into document collection'],"['comment', 'Insert', 'into', 'document', 'collection']"
+52,    err = collection.Insert(¬e),"['err', '=', 'collection', '.', 'Insert', '(', 'e', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+53,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+54,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+55,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+56,"        log.Printf(""Inserted New Record with Title :%s"", note.Title)","['log', '.', 'Printf', '(', '""Inserted New Record with Title :%s""', ',', 'note', '.', 'Title', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+57,    },['}'],['operator']
+58,"    j, err := json.Marshal(models.NoteResource{Note: note})","['j', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'models', '.', 'NoteResource', '{', 'Note', ':', 'note', '})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+59,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+60,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+61,    },['}'],['operator']
+62,"    w.Header().Set(""Content-Type"", ""application/json"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""application/json""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+63,    w.Write(j),"['w', '.', 'Write', '(', 'j', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+64,},['}'],['operator']
+65,"func (uc NoteController) UpdateNote(w http.ResponseWriter, r *http.Request) {","['func', '(', 'uc', 'NoteController', ')', 'UpdateNote', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+66,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
+67,    //get id from incoming url,['//get id from incoming url'],"['comment', 'get', 'id', 'from', 'incoming', 'url']"
+68,    vars := mux.Vars(r),"['var', 's', ':=', 'mux', '.', 'Vars', '(', 'r', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+69,"    id := bson.ObjectIdHex(vars[""id""])","['id', ':=', 'bson', '.', 'ObjectIdHex', '(', 'var', 's', '[', '""id""', '])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'string_literal', 'operator']"
+70,    //decode the incoming Note into json,['//decode the incoming Note into json'],"['comment', 'decode', 'the', 'incoming', 'Note', 'into', 'json']"
+71,    var noteResource models.NoteResource,"['var', 'noteResource', 'models', '.', 'NoteResource']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+72,    err = json.NewDecoder(r.Body).Decode(¬eResource),"['err', '=', 'json', '.', 'NewDecoder', '(', 'r', '.', 'Body', ').', 'Decode', '(', 'eResource', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+73,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+74,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+75,    },['}'],['operator']
+76,    //partial update on mongodb,['//partial update on mongodb'],"['comment', 'partial', 'update', 'on', 'mongodb']"
+77,"    err = collection.Update(bson.M{""_id"": id},","['err', '=', 'collection', '.', 'Update', '(', 'bson', '.', 'M', '{', '""_id""', ':', 'id', '},']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+78,"        bson.M{""$set"": bson.M{","['bson', '.', 'M', '{', '""$set""', ':', 'bson', '.', 'M', '{']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+79,"            ""title"":      noteResource.Note.Title,","['""title""', ':', 'noteResource', '.', 'Note', '.', 'Title', ',']","['string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+80,"            ""decription"": noteResource.Note.Description,","['""decription""', ':', 'noteResource', '.', 'Note', '.', 'Description', ',']","['string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+81,        }}),['}})'],['operator']
+82,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+83,"        log.Printf(""Updated Note : %s"", id, noteResource.Note.Title)","['log', '.', 'Printf', '(', '""Updated Note : %s""', ',', 'id', ',', 'noteResource', '.', 'Note', '.', 'Title', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+84,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+85,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+86,    },['}'],['operator']
+87,    w.WriteHeader(http.StatusNoContent),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusNoContent', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+88,},['}'],['operator']
+89,"func (uc NoteController) DeleteNote(w http.ResponseWriter, r *http.Request) {","['func', '(', 'uc', 'NoteController', ')', 'DeleteNote', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+90,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
+91,    vars := mux.Vars(r),"['var', 's', ':=', 'mux', '.', 'Vars', '(', 'r', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+92,"    id := vars[""id""]","['id', ':=', 'var', 's', '[', '""id""', ']']","['identifier', 'operator', 'keyword', 'identifier', 'operator', 'string_literal', 'operator']"
+93,    //Remove from database,['//Remove from database'],"['comment', 'Remove', 'from', 'database']"
+94,"    err = collection.Remove(bson.M{""_id"": bson.ObjectIdHex(id)})","['err', '=', 'collection', '.', 'Remove', '(', 'bson', '.', 'M', '{', '""_id""', ':', 'bson', '.', 'ObjectIdHex', '(', 'id', ')})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+95,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+96,"        log.Printf(""Could not find the Note %s to delete"", id)","['log', '.', 'Printf', '(', '""Could not find the Note %s to delete""', ',', 'id', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+97,    },['}'],['operator']
+98,    w.WriteHeader(http.StatusNoContent),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusNoContent', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+99,},['}'],['operator']

@@ -1,0 +1,161 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""bytes""","['""bytes""']",['string_literal']
+3,"    ""compress/zlib""","['""compress/zlib""']",['string_literal']
+4,"    ""encoding/json""","['""encoding/json""']",['string_literal']
+5,"    ""flag""","['""flag""']",['string_literal']
+6,"    ""fmt""","['""fmt""']",['string_literal']
+7,"    ""gotwcc/mylib""","['""gotwcc/mylib""']",['string_literal']
+8,"    ""io""","['""io""']",['string_literal']
+9,"    ""net/http""","['""net/http""']",['string_literal']
+10,"    ""os""","['""os""']",['string_literal']
+11,),[')'],['operator']
+12,type Block struct {,"['type', 'Block', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+13,    data []byte,"['data', '[]', 'byte']","['identifier', 'operator', 'identifier']"
+14,},['}'],['operator']
+15,type Row struct {,"['type', 'Row', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+16,"    offset, len uint32","['offset', ',', 'len', 'uint32']","['identifier', 'operator', 'identifier', 'identifier']"
+17,    block       *Block,"['block', '*', 'Block']","['identifier', 'operator', 'identifier']"
+18,},['}'],['operator']
+19,type Cache struct {,"['type', 'Cache', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+20,    blocks          []Block,"['blocks', '[]', 'Block']","['identifier', 'operator', 'identifier']"
+21,    indexes         map[string]*Row,"['indexes', 'map', '[', 'string', ']*', 'Row']","['identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier']"
+22,    enable_compress bool,"['enable_compress', 'bool']","['identifier', 'identifier']"
+23,    maxRowGroup     uint,"['maxRowGroup', 'uint']","['identifier', 'identifier']"
+24,},['}'],['operator']
+25,func (this *Cache) dump() {,"['func', '(', 'this', '*', 'Cache', ')', 'dump', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+26,"    for key, value := range this.indexes {","['for', 'key', ',', 'value', ':=', 'range', 'this', '.', 'indexes', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
+27,"        fmt.Printf(""[%s] = \""%s\""\n"", key, value.block)","['fmt', '.', 'Printf', '(', '""[%s] = \\""%s\\""\\n""', ',', 'key', ',', 'value', '.', 'block', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+28,    },['}'],['operator']
+29,},['}'],['operator']
+30,func (this *Cache) search(item_id string) string {,"['func', '(', 'this', '*', 'Cache', ')', 'search', '(', 'item_id', 'string', ')', 'string', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+31,    row := this.indexes[item_id],"['row', ':=', 'this', '.', 'indexes', '[', 'item_id', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+32,    if row == nil {,"['if', 'row', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+33,"        return ""(Not found)""","['return', '""(Not found)""']","['keyword', 'string_literal']"
+34,    },['}'],['operator']
+35,    block := this.uncompress(row.block.data),"['block', ':=', 'this', '.', 'uncompress', '(', 'row', '.', 'block', '.', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+36,    slice := block[row.offset : row.offset+row.len],"['slice', ':=', 'block', '[', 'row', '.', 'offset', ':', 'row', '.', 'offset', '+', 'row', '.', 'len', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+37,    return string(slice),"['return', 'string', '(', 'slice', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+38,},['}'],['operator']
+39,func (this *Cache) compress(data []byte) []byte {,"['func', '(', 'this', '*', 'Cache', ')', 'compress', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+40,    if !this.enable_compress {,"['if', '!', 'this', '.', 'enable_compress', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,        return data,"['return', 'data']","['keyword', 'identifier']"
+42,    },['}'],['operator']
+43,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+44,    w := zlib.NewWriter(&b),"['w', ':=', 'zlib', '.', 'NewWriter', '(&', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+45,    w.Write(data),"['w', '.', 'Write', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+46,    w.Close(),"['w', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
+47,    return b.Bytes(),"['return', 'b', '.', 'Bytes', '()']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+48,},['}'],['operator']
+49,func (this *Cache) uncompress(data []byte) []byte {,"['func', '(', 'this', '*', 'Cache', ')', 'uncompress', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+50,    if !this.enable_compress {,"['if', '!', 'this', '.', 'enable_compress', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,        return data,"['return', 'data']","['keyword', 'identifier']"
+52,    },['}'],['operator']
+53,    var res bytes.Buffer,"['var', 'res', 'bytes', '.', 'Buffer']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+54,    b := bytes.NewReader(data),"['b', ':=', 'bytes', '.', 'NewReader', '(', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+55,"    r, err := zlib.NewReader(b)","['r', ',', 'err', ':=', 'zlib', '.', 'NewReader', '(', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+56,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+57,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+58,    },['}'],['operator']
+59,"    io.Copy(&res, r)","['io', '.', 'Copy', '(&', 'res', ',', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+60,    r.Close(),"['r', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
+61,    return res.Bytes(),"['return', 'res', '.', 'Bytes', '()']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+62,},['}'],['operator']
+63,func (this *Cache) loadFile(s string) {,"['func', '(', 'this', '*', 'Cache', ')', 'loadFile', '(', 's', 'string', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+64,    type TempRowBuf struct {,"['type', 'TempRowBuf', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+65,        item_id     []byte,"['item_id', '[]', 'byte']","['identifier', 'operator', 'identifier']"
+66,"        offset, len uint32","['offset', ',', 'len', 'uint32']","['identifier', 'operator', 'identifier', 'identifier']"
+67,    },['}'],['operator']
+68,"    file, err := os.Open(s)","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 's', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+69,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+70,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+71,    },['}'],['operator']
+72,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+73,    scanner := mybufio.NewScanner(file),"['scanner', ':=', 'mybufio', '.', 'NewScanner', '(', 'file', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+74,    scanner.Split(mybufio.ScanLines),"['scanner', '.', 'Split', '(', 'mybufio', '.', 'ScanLines', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+75,    var tmp_buf bytes.Buffer,"['var', 'tmp_buf', 'bytes', '.', 'Buffer']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+76,    var buffer bytes.Buffer,"['var', 'buffer', 'bytes', '.', 'Buffer']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+77,    var tmp_list []TempRowBuf,"['var', 'tmp_list', '[]', 'TempRowBuf']","['keyword', 'identifier', 'operator', 'identifier']"
+78,    this.indexes = make(map[string]*Row),"['this', '.', 'indexes', '=', 'make', '(', 'map', '[', 'string', ']*', 'Row', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+79,    var offset uint32 = 0,"['var', 'offset', 'uint32', '=', '0']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal']"
+80,    nb := this.maxRowGroup,"['nb', ':=', 'this', '.', 'maxRowGroup']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+81,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+82,        nb--,"['nb', '--']","['identifier', 'operator']"
+83,        tmp_buf.Reset(),"['tmp_buf', '.', 'Reset', '()']","['identifier', 'operator', 'identifier', 'operator']"
+84,        tmp_buf.Write(scanner.Bytes()),"['tmp_buf', '.', 'Write', '(', 'scanner', '.', 'Bytes', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+85,        line := tmp_buf.Bytes(),"['line', ':=', 'tmp_buf', '.', 'Bytes', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+86,"        item_id, _ := tmp_buf.ReadBytes('\t')","['item_id', ',', '_', ':=', 'tmp_buf', '.', 'ReadBytes', '(', 't', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+87,        item_id = item_id[0 : len(item_id)-1],"['item_id', '=', 'item_id', '[', '0', ':', 'len', '(', 'item_id', ')-', '1', ']']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+88,        size := uint32(len(line)),"['size', ':=', 'uint32', '(', 'len', '(', 'line', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+89,        buffer.Write(line),"['buffer', '.', 'Write', '(', 'line', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+90,"        tmp_list = append(tmp_list, TempRowBuf{item_id, offset, size})","['tmp_list', '=', 'append', '(', 'tmp_list', ',', 'TempRowBuf', '{', 'item_id', ',', 'offset', ',', 'size', '})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+91,        offset += size,"['offset', '+=', 'size']","['identifier', 'operator', 'identifier']"
+92,        if nb <= 0 {,"['if', 'nb', '<=', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+93,            compressed := this.compress(buffer.Bytes()),"['compressed', ':=', 'this', '.', 'compress', '(', 'buffer', '.', 'Bytes', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+94,"            buff := make([]byte, len(compressed))","['buff', ':=', 'make', '([]', 'byte', ',', 'len', '(', 'compressed', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+95,"            copy(buff, compressed)","['copy', '(', 'buff', ',', 'compressed', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+96,            var block *Block = &Block{buff},"['var', 'block', '*', 'Block', '=', '&', 'Block', '{', 'buff', '}']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+97,"            for _, tmp := range tmp_list {","['for', '_', ',', 'tmp', ':=', 'range', 'tmp_list', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+98,"                this.indexes[string(tmp.item_id)] = &Row{tmp.offset, tmp.len, block}","['this', '.', 'indexes', '[', 'string', '(', 'tmp', '.', 'item_id', ')]', '=', '&', 'Row', '{', 'tmp', '.', 'offset', ',', 'tmp', '.', 'len', ',', 'block', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+99,            },['}'],['operator']
+100,            nb = this.maxRowGroup,"['nb', '=', 'this', '.', 'maxRowGroup']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+101,            offset = 0,"['offset', '=', '0']","['identifier', 'operator', 'decimal_literal']"
+102,            tmp_list = nil,"['tmp_list', '=', 'nil']","['identifier', 'operator', 'identifier']"
+103,            buffer.Reset(),"['buffer', '.', 'Reset', '()']","['identifier', 'operator', 'identifier', 'operator']"
+104,        },['}'],['operator']
+105,    },['}'],['operator']
+106,    if nb > 0 {,"['if', 'nb', '>', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+107,        compressed := this.compress(buffer.Bytes()),"['compressed', ':=', 'this', '.', 'compress', '(', 'buffer', '.', 'Bytes', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+108,"        buff := make([]byte, len(compressed))","['buff', ':=', 'make', '([]', 'byte', ',', 'len', '(', 'compressed', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+109,"        copy(buff, compressed)","['copy', '(', 'buff', ',', 'compressed', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+110,        var block *Block = &Block{buff},"['var', 'block', '*', 'Block', '=', '&', 'Block', '{', 'buff', '}']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+111,"        for _, tmp := range tmp_list {","['for', '_', ',', 'tmp', ':=', 'range', 'tmp_list', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+112,"            this.indexes[string(tmp.item_id)] = &Row{tmp.offset, tmp.len, block}","['this', '.', 'indexes', '[', 'string', '(', 'tmp', '.', 'item_id', ')]', '=', '&', 'Row', '{', 'tmp', '.', 'offset', ',', 'tmp', '.', 'len', ',', 'block', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+113,        },['}'],['operator']
+114,    },['}'],['operator']
+115,},['}'],['operator']
+116,"func wsCacheHandler(cache *Cache, writer http.ResponseWriter, request *http.Request) {","['func', 'wsCacheHandler', '(', 'cache', '*', 'Cache', ',', 'writer', 'http', '.', 'ResponseWriter', ',', 'request', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+117,    var value map[string]string = make(map[string]string),"['var', 'value', 'map', '[', 'string', ']', 'string', '=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['keyword', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+118,"    item_id := request.FormValue(""item_id"")","['item_id', ':=', 'request', '.', 'FormValue', '(', '""item_id""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+119,"    value[""item_id""] = item_id","['value', '[', '""item_id""', ']', '=', 'item_id']","['identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier']"
+120,"    value[""raw""] = cache.search(item_id)","['value', '[', '""raw""', ']', '=', 'cache', '.', 'search', '(', 'item_id', ')']","['identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+121,"    jsonResp, err := json.Marshal(value)","['jsonResp', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'value', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+122,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+123,"        fmt.Println(""error:"", err)","['fmt', '.', 'Println', '(', '""error:""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+124,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+125,"        fmt.Fprintf(writer, ""%s"", string(jsonResp))","['fmt', '.', 'Fprintf', '(', 'writer', ',', '""%s""', ',', 'string', '(', 'jsonResp', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+126,    },['}'],['operator']
+127,},['}'],['operator']
+128,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+129,"    filename := flag.String(""data"", ""default.txt"", ""The data filename"")","['filename', ':=', 'flag', '.', 'String', '(', '""data"", ""default.txt"", ""The data filename""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+130,"    no_http := flag.Bool(""no-http"", false, ""Do not start an http server"")","['no_http', ':=', 'flag', '.', 'Bool', '(', '""no-http"", false, ""Do not start an http server""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+131,"    dumpMap := flag.Bool(""dump"", false, ""If we should dump the map to stdout"")","['dumpMap', ':=', 'flag', '.', 'Bool', '(', '""dump"", false, ""If we should dump the map to stdout""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+132,"    noCompression := flag.Bool(""no-compress"", false, ""Disable compression"")","['noCompression', ':=', 'flag', '.', 'Bool', '(', '""no-compress"", false, ""Disable compression""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+133,"    maxRowGroup := flag.Uint(""max-row-group"", 100, ""How much line to group when doing compression"")","['maxRowGroup', ':=', 'flag', '.', 'Uint', '(', '""max-row-group"", 100, ""How much line to group when doing compression""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+134,    flag.Parse(),"['flag', '.', 'Parse', '()']","['identifier', 'operator', 'identifier', 'operator']"
+135,    var cache Cache,"['var', 'cache', 'Cache']","['keyword', 'identifier', 'identifier']"
+136,    cache.enable_compress = !*noCompression,"['cache', '.', 'enable_compress', '=', '!*', 'noCompression']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+137,    cache.maxRowGroup = *maxRowGroup,"['cache', '.', 'maxRowGroup', '=', '*', 'maxRowGroup']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+138,    cache.loadFile(*filename),"['cache', '.', 'loadFile', '(*', 'filename', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+139,    if *dumpMap {,"['if', '*', 'dumpMap', '{']","['keyword', 'operator', 'identifier', 'operator']"
+140,        cache.dump(),"['cache', '.', 'dump', '()']","['identifier', 'operator', 'identifier', 'operator']"
+141,"        fmt.Println(cache.search(""100001""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100001""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+142,"        fmt.Println(cache.search(""100002""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100002""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+143,"        fmt.Println(cache.search(""100003""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100003""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+144,"        fmt.Println(cache.search(""100004""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100004""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+145,"        fmt.Println(cache.search(""100005""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100005""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+146,"        fmt.Println(cache.search(""100006""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100006""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+147,"        fmt.Println(cache.search(""100007""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100007""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+148,"        fmt.Println(cache.search(""100008""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100008""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+149,"        fmt.Println(cache.search(""100009""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100009""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+150,"        fmt.Println(cache.search(""100010""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100010""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+151,    },['}'],['operator']
+152,    if !*no_http {,"['if', '!*', 'no_http', '{']","['keyword', 'operator', 'identifier', 'operator']"
+153,"        http.HandleFunc(""/"", func(writer http.ResponseWriter, request *http.Request) {","['http', '.', 'HandleFunc', '(', '""/""', ',', 'func', '(', 'writer', 'http', '.', 'ResponseWriter', ',', 'request', '*', 'http', '.', 'Request', ')', '{']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+154,"            wsCacheHandler(&cache, writer, request)","['wsCacheHandler', '(&', 'cache', ',', 'writer', ',', 'request', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+155,        }),['})'],['operator']
+156,"        fmt.Println(""Cache loaded, now listening on port 8585..."")","['fmt', '.', 'Println', '(', '""Cache loaded, now listening on port 8585...""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+157,"        http.ListenAndServe("":8585"", nil)","['http', '.', 'ListenAndServe', '(', '"":8585""', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+158,    },['}'],['operator']
+159,},['}'],['operator']

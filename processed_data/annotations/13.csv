@@ -1,0 +1,43 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"        ""fmt""","['""fmt""']",['string_literal']
+3,"        ""runtime""","['""runtime""']",['string_literal']
+4,"        ""unsafe""","['""unsafe""']",['string_literal']
+5,),[')'],['operator']
+6,func Alloc() uint64 {,"['func', 'Alloc', '()', 'uint64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+7,        var stats runtime.MemStats,"['var', 'stats', 'runtime', '.', 'MemStats']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+8,        runtime.GC(),"['runtime', '.', 'GC', '()']","['identifier', 'operator', 'identifier', 'operator']"
+9,        runtime.ReadMemStats(&stats),"['runtime', '.', 'ReadMemStats', '(&', 'stats', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+10,        return stats.Alloc - uint64(unsafe.Sizeof(hs[0]))*uint64(cap(hs)),"['return', 'stats', '.', 'Alloc', '-', 'uint64', '(', 'unsafe', '.', 'Sizeof', '(', 'hs', '[', '0', ']))*', 'uint64', '(', 'cap', '(', 'hs', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+11,},['}'],['operator']
+12,var hs = []*map[int16]byte{},"['var', 'hs', '=', '[]*', 'map', '[', 'int16', ']', 'byte', '{}']","['keyword', 'identifier', 'operator', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+13,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+14,        hs := []*map[int16]byte{},"['hs', ':=', '[]*', 'map', '[', 'int16', ']', 'byte', '{}']","['identifier', 'operator', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+15,        n := 1000,"['n', ':=', '1000']","['identifier', 'operator', 'decimal_literal']"
+16,        before := Alloc(),"['before', ':=', 'Alloc', '()']","['identifier', 'operator', 'identifier', 'operator']"
+17,        for i := 0; i < n; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'n', ';', 'i', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+18,                h := map[int16]byte{},"['h', ':=', 'map', '[', 'int16', ']', 'byte', '{}']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+19,"                hs = append(hs, &h)","['hs', '=', 'append', '(', 'hs', ',', '&', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+20,        },['}'],['operator']
+21,        after := Alloc(),"['after', ':=', 'Alloc', '()']","['identifier', 'operator', 'identifier', 'operator']"
+22,        emptyPerMap := float64(after-before) / float64(n),"['emptyPerMap', ':=', 'float64', '(', 'after', '-', 'before', ')', 'float64', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+23,"        fmt.Printf(""Bytes used for %d empty maps: %d, bytes/map %.1f\n"", n, after-before, emptyPerMap)","['fmt', '.', 'Printf', '(', '""Bytes used for %d empty maps: %d, bytes/map %.1f\\n""', ',', 'n', ',', 'after', '-', 'before', ',', 'emptyPerMap', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+24,        hs = nil,"['hs', '=', 'nil']","['identifier', 'operator', 'identifier']"
+25,        k := 1,"['k', ':=', '1']","['identifier', 'operator', 'decimal_literal']"
+26,        for p := 1; p < 16; p++ {,"['for', 'p', ':=', '1', ';', 'p', '<', '16', ';', 'p', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+27,                before = Alloc(),"['before', '=', 'Alloc', '()']","['identifier', 'operator', 'identifier', 'operator']"
+28,                for i := 0; i < n; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'n', ';', 'i', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+29,                        h := map[int16]byte{},"['h', ':=', 'map', '[', 'int16', ']', 'byte', '{}']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+30,                        for j := 0; j < k; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'k', ';', 'j', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+31,                                h[int16(j)] = byte(j),"['h', '[', 'int16', '(', 'j', ')]', '=', 'byte', '(', 'j', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+32,                        },['}'],['operator']
+33,"                        hs = append(hs, &h)","['hs', '=', 'append', '(', 'hs', ',', '&', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+34,                },['}'],['operator']
+35,                after = Alloc(),"['after', '=', 'Alloc', '()']","['identifier', 'operator', 'identifier', 'operator']"
+36,                fullPerMap := float64(after-before) / float64(n),"['fullPerMap', ':=', 'float64', '(', 'after', '-', 'before', ')', 'float64', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+37,"                fmt.Printf(""Bytes used for %d maps with %d entries: %d, bytes/map %.1f\n"", n, k, after-before, fullPerMap)","['fmt', '.', 'Printf', '(', '""Bytes used for %d maps with %d entries: %d, bytes/map %.1f\\n""', ',', 'n', ',', 'k', ',', 'after', '-', 'before', ',', 'fullPerMap', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+38,"                fmt.Printf(""Bytes per entry %.1f\n"", (fullPerMap-emptyPerMap)/float64(k))","['fmt', '.', 'Printf', '(', '""Bytes per entry %.1f\\n""', ',', '(', 'fullPerMap', '-', 'emptyPerMap', ')', 'float64', '(', 'k', '))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+39,                k *= 2,"['k', '*=', '2']","['identifier', 'operator', 'decimal_literal']"
+40,        },['}'],['operator']
+41,},['}'],['operator']

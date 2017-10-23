@@ -1,0 +1,63 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""sanguo/base/log""","['""sanguo/base/log""']",['string_literal']
+3,"    ""fmt""","['""fmt""']",['string_literal']
+4,"    ""runtime""","['""runtime""']",['string_literal']
+5,"    ""math/rand""","['""math/rand""']",['string_literal']
+6,"    ""time""","['""time""']",['string_literal']
+7,"    ""net""","['""net""']",['string_literal']
+8,"    ""os""","['""os""']",['string_literal']
+9,),[')'],['operator']
+10,type GameServer struct {,"['type', 'GameServer', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+11,    Host   string,"['Host', 'string']","['identifier', 'identifier']"
+12,},['}'],['operator']
+13,func (server *GameServer) Start() {,"['func', '(', 'server', '*', 'GameServer', ')', 'Start', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+14,    // load system data,['// load system data'],"['comment', 'load', 'system', 'data']"
+15,"    log.Debug(""/*************************SREVER START********************************/"")","['log', '.', 'Debug', '(', '""/*************************SREVER START********************************/""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+16,"    tcpAddr, err := net.ResolveTCPAddr(""tcp4"", server.Host)","['tcpAddr', ',', 'err', ':=', 'net', '.', 'ResolveTCPAddr', '(', '""tcp4""', ',', 'server', '.', 'Host', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+17,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+18,        log.Error(err.Error()),"['log', '.', 'Error', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+19,        os.Exit(-1),"['os', '.', 'Exit', '(-', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+20,    },['}'],['operator']
+21,    go func(){,"['go', 'func', '(){']","['keyword', 'keyword', 'operator']"
+22,        for{,"['for', '{']","['keyword', 'operator']"
+23,            select {,"['select', '{']","['keyword', 'operator']"
+24,            case <-time.After(30*time.Second):,"['case', '<-', 'time', '.', 'After', '(', '30', '*', 'time', '.', 'Second', '):']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+25,"                LookUp(""read memstats"")","['LookUp', '(', '""read memstats""', ')']","['identifier', 'operator', 'string_literal', 'operator']"
+26,            },['}'],['operator']
+27,        },['}'],['operator']
+28,    }(),['}()'],['operator']
+29,"    listener, err := net.ListenTCP(""tcp"", tcpAddr)","['listener', ',', 'err', ':=', 'net', '.', 'ListenTCP', '(', '""tcp""', ',', 'tcpAddr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+30,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+31,        log.Error(err.Error()),"['log', '.', 'Error', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+32,        os.Exit(-1),"['os', '.', 'Exit', '(-', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+33,    },['}'],['operator']
+34,"    log.Debug(""/*************************SERVER SUCC********************************/"")","['log', '.', 'Debug', '(', '""/*************************SERVER SUCC********************************/""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+35,    for {,"['for', '{']","['keyword', 'operator']"
+36,"        conn, err := listener.AcceptTCP()","['conn', ',', 'err', ':=', 'listener', '.', 'AcceptTCP', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+37,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+38,            continue,['continue'],['keyword']
+39,        },['}'],['operator']
+40,"        log.Debug(""Accept a new connection "", conn.RemoteAddr())","['log', '.', 'Debug', '(', '""Accept a new connection ""', ',', 'conn', '.', 'RemoteAddr', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,        go handleClient(conn),"['go', 'handleClient', '(', 'conn', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+42,    },['}'],['operator']
+43,},['}'],['operator']
+44,func handleClient(conn *net.TCPConn) {,"['func', 'handleClient', '(', 'conn', '*', 'net', '.', 'TCPConn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+45,    sess := NewSession(conn),"['sess', ':=', 'NewSession', '(', 'conn', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+46,    sess.Start(),"['sess', '.', 'Start', '()']","['identifier', 'operator', 'identifier', 'operator']"
+47,},['}'],['operator']
+48,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+49,    rand.Seed(time.Now().Unix()),"['rand', '.', 'Seed', '(', 'time', '.', 'Now', '().', 'Unix', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+50,    runtime.GOMAXPROCS(runtime.NumCPU()),"['runtime', '.', 'GOMAXPROCS', '(', 'runtime', '.', 'NumCPU', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,    log.SetLevel(0),"['log', '.', 'SetLevel', '(', '0', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+52,"    filew := log.NewFileWriter(""log"", true)","['filew', ':=', 'log', '.', 'NewFileWriter', '(', '""log""', ',', 'true', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+53,    err := filew.StartLogger(),"['err', ':=', 'filew', '.', 'StartLogger', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+54,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+55,"        fmt.Println(""Failed start log"",err)","['fmt', '.', 'Println', '(', '""Failed start log""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+56,        return,['return'],['keyword']
+57,    },['}'],['operator']
+58,    var server GameServer,"['var', 'server', 'GameServer']","['keyword', 'identifier', 'identifier']"
+59,"    server.Host = ""127.0.0.1:9999""","['server', '.', 'Host', '=', '""127.0.0.1:9999""']","['identifier', 'operator', 'identifier', 'operator', 'string_literal']"
+60,    server.Start(),"['server', '.', 'Start', '()']","['identifier', 'operator', 'identifier', 'operator']"
+61,},['}'],['operator']

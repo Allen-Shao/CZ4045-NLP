@@ -1,0 +1,154 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""fmt""","['""fmt""']",['string_literal']
+3,"    ""net/textproto""","['""net/textproto""']",['string_literal']
+4,"    ""regexp""","['""regexp""']",['string_literal']
+5,"    ""log""","['""log""']",['string_literal']
+6,"    ""strings""","['""strings""']",['string_literal']
+7,"    ""database/sql""","['""database/sql""']",['string_literal']
+8,    // SQLite3,['// SQLite3'],"['comment', 'SQLite3']"
+9,"    _ ""github.com/mattn/go-sqlite3""","['_', '""github.com/mattn/go-sqlite3""']","['identifier', 'string_literal']"
+10,),[')'],['operator']
+11,type PrivMsg struct {,"['type', 'PrivMsg', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+12,"    nick, channel, text string","['nick', ',', 'chan', 'nel', ',', 'text', 'string']","['identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'identifier']"
+13,},['}'],['operator']
+14,var (,"['var', '(']","['keyword', 'operator']"
+15,    conn *textproto.Conn,"['conn', '*', 'textproto', '.', 'Conn']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+16,    err  error,"['err', 'error']","['identifier', 'identifier']"
+17,"    ping    = regexp.MustCompile(""^PING :([a-zA-Z0-9\\.]+)$"")","['ping', '=', 'regexp', '.', 'MustCompile', '(', '""^PING :([a-zA-Z0-9\\\\.]+)$""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+18,"    motd    = regexp.MustCompile("":End of /MOTD command\\.$"")","['motd', '=', 'regexp', '.', 'MustCompile', '(', '"":End of /MOTD command\\\\.$""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+19,"    privmsg = regexp.MustCompile(""^:([a-zA-Z0-9`_\\-]+)![a-zA-Z0-9/\\\\\\.\\-]+@[a-zA-Z0-9/\\\\\\.\\-]+ PRIVMSG (#[a-zA-Z0-9]+) :(.*)$"")","['privmsg', '=', 'regexp', '.', 'MustCompile', '(', '""^:([a-zA-Z0-9`_\\\\-]+)![a-zA-Z0-9/\\\\\\\\\\\\.\\\\-]+@[a-zA-Z0-9/\\\\\\\\\\\\.\\\\-]+ PRIVMSG (#[a-zA-Z0-9]+) :(.*)$""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+20,),[')'],['operator']
+21,"func talk(channel, msg string) {","['func', 'talk', '(', 'chan', 'nel', ',', 'msg', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+22,"    conn.Cmd(""PRIVMSG "" + channel + "" :"" + msg)","['conn', '.', 'Cmd', '(', '""PRIVMSG "" + channel + "" :""', '+', 'msg', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+23,},['}'],['operator']
+24,func handlePing(auth string) {,"['func', 'handlePing', '(', 'auth', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+25,"    conn.Cmd(""PONG :"" + auth)","['conn', '.', 'Cmd', '(', '""PONG :""', '+', 'auth', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+26,"    fmt.Printf(""PONG :%s\n"", auth)","['fmt', '.', 'Printf', '(', '""PONG :%s\\n""', ',', 'auth', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+27,},['}'],['operator']
+28,type Player struct {,"['type', 'Player', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+29,    TeamName string,"['TeamName', 'string']","['identifier', 'identifier']"
+30,    PlayerName string,"['PlayerName', 'string']","['identifier', 'identifier']"
+31,},['}'],['operator']
+32,func getLineup() {,"['func', 'getLineup', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+33,    // Open Database,['// Open Database'],"['comment', 'Open', 'Database']"
+34,"    db, err := sql.Open(""sqlite3"", ""./database.db"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""./database.db""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+36,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+37,    },['}'],['operator']
+38,    // Prepare Query,['// Prepare Query'],"['comment', 'Prepare', 'Query']"
+39,"    statement, err := db.Prepare(""SELECT team, player FROM lineup ORDER BY team DESC;"")","['statement', ',', 'err', ':=', 'db', '.', 'Prepare', '(', '""SELECT team, player FROM lineup ORDER BY team DESC;""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+40,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+41,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+42,    },['}'],['operator']
+43,    // Execute Statement,['// Execute Statement'],"['comment', 'Execute', 'Statement']"
+44,"    rows, err := statement.Query()","['rows', ',', 'err', ':=', 'statement', '.', 'Query', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+45,    defer rows.Close(),"['defer', 'rows', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+46,// Output Code,['// Output Code'],"['comment', 'Output', 'Code']"
+47,    var Players []*Player,"['var', 'Players', '[]*', 'Player']","['keyword', 'identifier', 'operator', 'identifier']"
+48,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+49,        p := &Player{},"['p', ':=', '&', 'Player', '{}']","['identifier', 'operator', 'operator', 'identifier', 'operator']"
+50,"        if err := rows.Scan(p.TeamName, p.PlayerName); err != nil{","['if', 'err', ':=', 'rows', '.', 'Scan', '(', 'p', '.', 'TeamName', ',', 'p', '.', 'PlayerName', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,            log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+52,        },['}'],['operator']
+53,"        //Players = append(Players, p)","['//Players = append(Players, p)']","['comment', 'Players', '=', 'append', '(', 'Players', ',', 'p', ')']"
+54,"        return p.TeamName, p.PlayerName","['return', 'p', '.', 'TeamName', ',', 'p', '.', 'PlayerName']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+55,    },['}'],['operator']
+56,    // pass Players to next function/return it whatever,['// pass Players to next function/return it whatever'],"['comment', 'pass', 'Players', 'to', 'next', 'function/return', 'it', 'whatever']"
+57,    fmt.Println(Players),"['fmt', '.', 'Println', '(', 'Players', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+58,},['}'],['operator']
+59,func handlePrivmsg(pm *PrivMsg) {,"['func', 'handlePrivmsg', '(', 'pm', '*', 'PrivMsg', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+60,"    if strings.Contains(pm.text, ""!add t"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!add t""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+61,"        talk(pm.channel, pm.nick + "" added to Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" added to Terrorists""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+62,"        saveLineup(""T"", pm.nick)","['saveLineup', '(', '""T""', ',', 'pm', '.', 'nick', ')']","['identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+63,    },['}'],['operator']
+64,"    if strings.Contains(pm.text, ""!add ct"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!add ct""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+65,"        talk(pm.channel, pm.nick + "" added to Counter-Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" added to Counter-Terrorists""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+66,"        saveLineup(""CT"", pm.nick)","['saveLineup', '(', '""CT""', ',', 'pm', '.', 'nick', ')']","['identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+67,    },['}'],['operator']
+68,"    if strings.Contains(pm.text, ""!rem"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!rem""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+69,"        talk(pm.channel, pm.nick + "" has been removed from the current lineup"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" has been removed from the current lineup""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+70,    },['}'],['operator']
+71,"    if strings.Contains(pm.text, ""!votemap"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!votemap""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+72,"        talk(pm.channel, pm.nick + "" map vote code"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" map vote code""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+73,    },['}'],['operator']
+74,"    if strings.Contains(pm.text, ""!moveme"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!moveme""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+75,"        talk(pm.channel, pm.nick + "" has been moved to Counter-Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" has been moved to Counter-Terrorists""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+76,    },['}'],['operator']
+77,"    if strings.Contains(pm.text, ""!teams"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!teams""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+78,        getLineup(),"['getLineup', '()']","['identifier', 'operator']"
+79,        //fmt.Println(*tpList),['//fmt.Println(*tpList)'],"['comment', 'fmt.Println', '(', '*tpList', ')']"
+80,"        talk(pm.channel, pm.nick + "" will show the current teams"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" will show the current teams""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+81,    },['}'],['operator']
+82,"    if strings.Contains(pm.text, ""!add ct"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!add ct""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+83,"        talk(pm.channel, pm.nick + "" added to Counter-Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" added to Counter-Terrorists""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+84,    },['}'],['operator']
+85,"    if strings.Contains(pm.text, ""pug-bot"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""pug-bot""', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
+86,"        talk(pm.channel, ""Hello, "" + pm.nick + ""!"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', '""Hello, "" + pm.nick + ""!""', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'string_literal', 'operator']"
+87,    },['}'],['operator']
+88,},['}'],['operator']
+89,"func saveLineup(Team, Player string) {","['func', 'saveLineup', '(', 'Team', ',', 'Player', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+90,    // Open Database,['// Open Database'],"['comment', 'Open', 'Database']"
+91,"    db, err := sql.Open(""sqlite3"", ""./database.db"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""./database.db""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+92,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+93,        //log.Fatal(err),['//log.Fatal(err)'],"['comment', 'log.Fatal', '(', 'err', ')']"
+94,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+95,    },['}'],['operator']
+96,    // Get Current Lineup,['// Get Current Lineup'],"['comment', 'Get', 'Current', 'Lineup']"
+97,"    rows, err := db.Query(""SELECT team, player FROM lineup WHERE player = ?;"", Player)","['rows', ',', 'err', ':=', 'db', '.', 'Query', '(', '""SELECT team, player FROM lineup WHERE player = ?;""', ',', 'Player', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+98,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+99,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+100,    },['}'],['operator']
+101,    defer rows.Close(),"['defer', 'rows', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+102,    if Player == Player {,"['if', 'Player', '==', 'Player', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+103,"        fmt.Println(""You have already added yourself"")","['fmt', '.', 'Println', '(', '""You have already added yourself""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+104,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+105,        // Insert new Player,['// Insert new Player'],"['comment', 'Insert', 'new', 'Player']"
+106,        db.Exec(,"['db', '.', 'Exec', '(']","['identifier', 'operator', 'identifier', 'operator']"
+107,"            ""INSERT INTO lineup (team, player) VALUES (?, ?);"",","['""INSERT INTO lineup (team, player) VALUES (?, ?);""', ',']","['string_literal', 'operator']"
+108,"            Team,","['Team', ',']","['identifier', 'operator']"
+109,"            Player,","['Player', ',']","['identifier', 'operator']"
+110,        ),[')'],['operator']
+111,    },['}'],['operator']
+112,},['}'],['operator']
+113,func handleMotd() {,"['func', 'handleMotd', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+114,"    conn.Cmd(""JOIN #ircchannel"")","['conn', '.', 'Cmd', '(', '""JOIN #ircchannel""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+115,"    fmt.Println(""JOIN #ircchannel"")","['fmt', '.', 'Println', '(', '""JOIN #ircchannel""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+116,},['}'],['operator']
+117,func parseLine(line string) {,"['func', 'parseLine', '(', 'line', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+118,    // Channel activity,['// Channel activity'],"['comment', 'Channel', 'activity']"
+119,    if match := privmsg.FindStringSubmatch(line); match != nil {,"['if', 'match', ':=', 'privmsg', '.', 'FindStringSubmatch', '(', 'line', ');', 'match', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+120,        pm := new(PrivMsg),"['pm', ':=', 'new', '(', 'PrivMsg', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+121,"        pm.nick, pm.channel, pm.text = match[1], match[2], match[3]","['pm', '.', 'nick', ',', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'text', '=', 'match', '[', '1', '],', 'match', '[', '2', '],', 'match', '[', '3', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+122,        handlePrivmsg(pm),"['handlePrivmsg', '(', 'pm', ')']","['identifier', 'operator', 'identifier', 'operator']"
+123,        return,['return'],['keyword']
+124,    },['}'],['operator']
+125,    // Server PING,['// Server PING'],"['comment', 'Server', 'PING']"
+126,    if match := ping.FindStringSubmatch(line); match != nil {,"['if', 'match', ':=', 'ping', '.', 'FindStringSubmatch', '(', 'line', ');', 'match', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+127,        handlePing(match[1]),"['handlePing', '(', 'match', '[', '1', '])']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+128,        return,['return'],['keyword']
+129,    },['}'],['operator']
+130,    // End of MOTD (successful login to IRC server),['// End of MOTD (successful login to IRC server)'],"['comment', 'End', 'of', 'MOTD', '(', 'successful', 'login', 'to', 'IRC', 'server', ')']"
+131,"    if match := motd.FindString(line); match != """" {","['if', 'match', ':=', 'motd', '.', 'FindString', '(', 'line', ');', 'match', '!=', '""""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+132,        handleMotd(),"['handleMotd', '()']","['identifier', 'operator']"
+133,        return,['return'],['keyword']
+134,    },['}'],['operator']
+135,},['}'],['operator']
+136,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+137,"    conn, err = textproto.Dial(""tcp"", ""irc.server.org:6667"")","['conn', ',', 'err', '=', 'textproto', '.', 'Dial', '(', '""tcp"", ""irc.server.org:6667""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+138,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+139,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+140,        return,['return'],['keyword']
+141,    },['}'],['operator']
+142,"    conn.Cmd(""NICK pug-bot\n\rUSER pug-bot 8 * :pAsSwOrD"")","['conn', '.', 'Cmd', '(', '""NICK pug-bot\\n\\rUSER pug-bot 8 * :pAsSwOrD""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+143,    for {,"['for', '{']","['keyword', 'operator']"
+144,"        text, err := conn.ReadLine()","['text', ',', 'err', ':=', 'conn', '.', 'ReadLine', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+145,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+146,"            fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+147,            return,['return'],['keyword']
+148,        },['}'],['operator']
+149,        go parseLine(text),"['go', 'parseLine', '(', 'text', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+150,        fmt.Println(text),"['fmt', '.', 'Println', '(', 'text', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+151,    },['}'],['operator']
+152,},['}'],['operator']

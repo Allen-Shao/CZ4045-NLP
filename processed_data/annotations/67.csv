@@ -1,0 +1,44 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"        ""fmt""","['""fmt""']",['string_literal']
+3,"        ""net/http""","['""net/http""']",['string_literal']
+4,"        ""github.com/gorilla/context""","['""github.com/gorilla/context""']",['string_literal']
+5,),[')'],['operator']
+6,type appError struct {,"['type', 'appError', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+7,        Error   error,"['Error', 'error']","['identifier', 'identifier']"
+8,        Message string,"['Message', 'string']","['identifier', 'identifier']"
+9,        Code    int,"['Code', 'int']","['identifier', 'identifier']"
+10,},['}'],['operator']
+11,type key int,"['type', 'key', 'int']","['keyword', 'identifier', 'identifier']"
+12,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal']"
+13,"type appHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['keyword', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+14,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+15,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '// e is *appError, not os.Error.']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'e', 'is', '*appError', ',', 'not', 'os.Error', '.']"
+16,"                http.Error(w, e.Message, e.Code)","['http', '.', 'Error', '(', 'w', ',', 'e', '.', 'Message', ',', 'e', '.', 'Code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+17,        },['}'],['operator']
+18,},['}'],['operator']
+19,"type authHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['keyword', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+20,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+21,        // setup authentication here,['// setup authentication here'],"['comment', 'setup', 'authentication', 'here']"
+22,        uid := 1,"['uid', ':=', '1']","['identifier', 'operator', 'decimal_literal']"
+23,"        context.Set(r, userIdKey, uid)","['context', '.', 'Set', '(', 'r', ',', 'userIdKey', ',', 'uid', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+24,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '// e is *appError, not os.Error.']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'e', 'is', '*appError', ',', 'not', 'os.Error', '.']"
+25,"                http.Error(w, e.Message, e.Code)","['http', '.', 'Error', '(', 'w', ',', 'e', '.', 'Message', ',', 'e', '.', 'Code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+26,        },['}'],['operator']
+27,},['}'],['operator']
+28,"func viewRecord(w http.ResponseWriter, r *http.Request) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+29,"        if uid, ok := context.GetOk(r, userIdKey); !ok {","['if', 'uid', ',', 'ok', ':=', 'context', '.', 'GetOk', '(', 'r', ',', 'userIdKey', ');', '!', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+30,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt', '.', 'Fprintf', '(', 'w', ',', '""User are not logged in""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+31,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+32,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt', '.', 'Fprintf', '(', 'w', ',', '""User logged in with uid: %d""', ',', 'uid', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+33,        },['}'],['operator']
+34,        return nil,"['return', 'nil']","['keyword', 'identifier']"
+35,},['}'],['operator']
+36,func init() {,"['func', 'init', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+37,"        http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication","['http', '.', 'Handle', '(', '""/view""', ',', 'appHandler', '(', 'viewRecord', '))', ""// don't require authentication""]","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'do', ""n't"", 'require', 'authentication']"
+38,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication","['http', '.', 'Handle', '(', '""/viewAuth""', ',', 'authHandler', '(', 'viewRecord', '))', '// require authentication']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'require', 'authentication']"
+39,},['}'],['operator']
+40,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+41,"        http.ListenAndServe("":8080"", nil)","['http', '.', 'ListenAndServe', '(', '"":8080""', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+42,},['}'],['operator']

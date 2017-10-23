@@ -1,0 +1,73 @@
+,text,token,annotation
+0,func ValidateIDToken(auth_token string) (err error){    ,"['func', 'ValidateIDToken', '(', 'auth_token', 'string', ')', '(', 'err', 'error', '){']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator']"
+1,"    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")","['res', ',', 'err', ':=', 'http', '.', 'Get', '(', '""https://www.googleapis.com/oauth2/v2/certs""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+2,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+3,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+4,        return err,"['return', 'err']","['keyword', 'identifier']"
+5,    },['}'],['operator']
+6,"    certs, err := ioutil.ReadAll(res.Body)","['certs', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+7,    res.Body.Close(),"['res', '.', 'Body', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+8,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+9,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+10,        return err,"['return', 'err']","['keyword', 'identifier']"
+11,    },['}'],['operator']
+12,    //get modulus and exponent from the cert,['//get modulus and exponent from the cert'],"['comment', 'get', 'modulus', 'and', 'exponent', 'from', 'the', 'cert']"
+13,    var goCertificate interface{},"['var', 'go', 'Certificate', 'interface', '{}']","['keyword', 'keyword', 'identifier', 'keyword', 'operator']"
+14,"    err = json.Unmarshal(certs, &goCertificate)    ","['err', '=', 'json', '.', 'Unmarshal', '(', 'certs', ',', '&', 'go', 'Certificate', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'keyword', 'identifier', 'operator']"
+15,"    k := goCertificate.(map[string]interface{})[""keys""]","['k', ':=', 'go', 'Certificate', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""keys""', ']']","['identifier', 'operator', 'keyword', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'string_literal', 'operator']"
+16,    j := k.([]interface{}),"['j', ':=', 'k', '.([]', 'interface', '{})']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator']"
+17,    x := j[1],"['x', ':=', 'j', '[', '1', ']']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+18,"    h := x.(map[string]interface{})[""n""]","['h', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""n""', ']']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'string_literal', 'operator']"
+19,"    g := x.(map[string]interface{})[""e""]","['g', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""e""', ']']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'string_literal', 'operator']"
+20,    e64 := base64.StdEncoding,"['e64', ':=', 'base64', '.', 'StdEncoding']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+21,    //build the google pub key,['//build the google pub key'],"['comment', 'build', 'the', 'google', 'pub', 'key']"
+22,    nStr := h.(string),"['nStr', ':=', 'h', '.(', 'string', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+23,"    decN, err := base64.StdEncoding.DecodeString(nStr)","['decN', ',', 'err', ':=', 'base64', '.', 'StdEncoding', '.', 'DecodeString', '(', 'nStr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+24,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+25,        log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+26,        return,['return'],['keyword']
+27,    },['}'],['operator']
+28,    n := big.NewInt(0),"['n', ':=', 'big', '.', 'NewInt', '(', '0', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+29,    n.SetBytes(decN),"['n', '.', 'SetBytes', '(', 'decN', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+30,    eStr := g.(string),"['eStr', ':=', 'g', '.(', 'string', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+31,"    decE, err := base64.StdEncoding.DecodeString(eStr)","['decE', ',', 'err', ':=', 'base64', '.', 'StdEncoding', '.', 'DecodeString', '(', 'eStr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+33,        log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+34,        return,['return'],['keyword']
+35,    },['}'],['operator']
+36,    var eBytes []byte,"['var', 'eBytes', '[]', 'byte']","['keyword', 'identifier', 'operator', 'identifier']"
+37,    if len(decE) < 8 {,"['if', 'len', '(', 'decE', ')', '<', '8', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+38,"        eBytes = make([]byte, 8-len(decE), 8)","['eBytes', '=', 'make', '([]', 'byte', ',', '8', '-', 'len', '(', 'decE', '),', '8', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+39,"        eBytes = append(eBytes, decE...)","['eBytes', '=', 'append', '(', 'eBytes', ',', 'decE', '...)']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+40,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+41,        eBytes = decE,"['eBytes', '=', 'decE']","['identifier', 'operator', 'identifier']"
+42,    },['}'],['operator']
+43,    eReader := bytes.NewReader(eBytes),"['eReader', ':=', 'bytes', '.', 'NewReader', '(', 'eBytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+44,    var e uint64,"['var', 'e', 'uint64']","['keyword', 'identifier', 'identifier']"
+45,"    err = binary.Read(eReader, binary.BigEndian, &e)","['err', '=', 'binary', '.', 'Read', '(', 'eReader', ',', 'binary', '.', 'BigEndian', ',', '&', 'e', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+46,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+47,        log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+48,        return,['return'],['keyword']
+49,    },['}'],['operator']
+50,"    pKey := rsa.PublicKey{N: n, E: int(e)}","['pKey', ':=', 'rsa', '.', 'PublicKey', '{', 'N', ':', 'n', ',', 'E', ':', 'int', '(', 'e', ')}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,"    w := strings.SplitAfter(auth_token, ""."")    ","['w', ':=', 'strings', '.', 'SplitAfter', '(', 'auth_token', ',', '"".""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+52,"    for i, val := range w {","['for', 'i', ',', 'val', ':=', 'range', 'w', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+53,"        w[i] = strings.Trim(val, ""."")","['w', '[', 'i', ']', '=', 'strings', '.', 'Trim', '(', 'val', ',', '"".""', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+54,    },['}'],['operator']
+55,    y := w[0:2],"['y', ':=', 'w', '[', '0', ':', '2', ']']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+56,"    //Join just the first two parts, the header and the payload without the signature","['//Join just the first two parts, the header and the payload without the signature']","['comment', 'Join', 'just', 'the', 'first', 'two', 'parts', ',', 'the', 'header', 'and', 'the', 'payload', 'without', 'the', 'signature']"
+57,"    o := strings.Join(y, ""."")   ","['o', ':=', 'strings', '.', 'Join', '(', 'y', ',', '"".""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+58,"    headerOauth := DecodeB64(nil,[]byte(w[0]),e64)","['headerOauth', ':=', 'DecodeB64', '(', 'nil', ',[]', 'byte', '(', 'w', '[', '0', ']),', 'e64', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+59,"    inblockOauth := DecodeB64(nil,[]byte(w[1]),e64)","['inblockOauth', ':=', 'DecodeB64', '(', 'nil', ',[]', 'byte', '(', 'w', '[', '1', ']),', 'e64', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+60,"    toHash := string(headerOauth) + ""}."" + string(inblockOauth)","['toHash', ':=', 'string', '(', 'headerOauth', ')', '+', '""}.""', '+', 'string', '(', 'inblockOauth', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+61,"    digestOauth := DecodeB64(nil, []byte(w[2]),e64)","['digestOauth', ':=', 'DecodeB64', '(', 'nil', ',', '[]', 'byte', '(', 'w', '[', '2', ']),', 'e64', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+62,    hasherOauth := sha256.New(),"['hasherOauth', ':=', 'sha256', '.', 'New', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+63,    hasherOauth.Write([]byte(toHash)),"['hasherOauth', '.', 'Write', '([]', 'byte', '(', 'toHash', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+64,    // validation here fails,['// validation here fails'],"['comment', 'validation', 'here', 'fails']"
+65,"    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)","['err', '=', 'rsa', '.', 'VerifyPKCS1v15', '(&', 'pKey', ',', 'crypto', '.', 'SHA256', ',', 'hasherOauth', '.', 'Sum', '(', 'nil', '),', 'digestOauth', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+66,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+67,"        log.Printf(""Error verifying key %s"",err.Error())","['log', '.', 'Printf', '(', '""Error verifying key %s""', ',', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+68,        return err,"['return', 'err']","['keyword', 'identifier']"
+69,    },['}'],['operator']
+70,    return err,"['return', 'err']","['keyword', 'identifier']"
+71,},['}'],['operator']

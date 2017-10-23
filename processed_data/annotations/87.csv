@@ -1,0 +1,59 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""fmt""","['""fmt""']",['string_literal']
+3,"    ""reflect""","['""reflect""']",['string_literal']
+4,"    ""strings""","['""strings""']",['string_literal']
+5,),[')'],['operator']
+6,import (,"['import', '(']","['keyword', 'operator']"
+7,"    ""encoding/json""","['""encoding/json""']",['string_literal']
+8,"    ""encoding/xml""","['""encoding/xml""']",['string_literal']
+9,"    ""errors""","['""errors""']",['string_literal']
+10,),[')'],['operator']
+11,type Query struct {,"['type', 'Query', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+12,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', 'xml', ':', '""http://marklogic.com/appservices/search query"" json:""-""']","['identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
+13,    Field1  string,"['Field1', 'string']","['identifier', 'identifier']"
+14,    Field2  int64,"['Field2', 'int64']","['identifier', 'identifier']"
+15,},['}'],['operator']
+16,type TermQuery struct {,"['type', 'TermQuery', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+17,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', 'xml', ':', '""http://marklogic.com/appservices/search term-query"" json:""-""']","['identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
+18,    Field3  string,"['Field3', 'string']","['identifier', 'identifier']"
+19,    Field4  int64,"['Field4', 'int64']","['identifier', 'identifier']"
+20,},['}'],['operator']
+21,"func getXmlName(d interface{}, label string) (string, bool) {","['func', 'getXmlName', '(', 'd', 'interface', '{},', 'label', 'string', ')', '(', 'string', ',', 'bool', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+22,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'Kind', '()', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+23,    case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+24,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'FieldByName', '(', 'label', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+25,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings', '.', 'Split', '(', 'v', '.', 'Tag', '.', 'Get', '(', '""xml""), "" ""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+26,"        return parts[1], true","['return', 'parts', '[', '1', '],', 'true']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier']"
+27,    },['}'],['operator']
+28,"    return """", false","['return', '""""', ',', 'false']","['keyword', 'string_literal', 'operator', 'identifier']"
+29,},['}'],['operator']
+30,"func wrapJson(item interface{}) ([]byte, error) {","['func', 'wrapJson', '(', 'item', 'interface', '{})', '([]', 'byte', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+31,"    if n, ok := getXmlName(item, ""XMLName""); ok {","['if', 'n', ',', 'ok', ':=', 'getXmlName', '(', 'item', ',', '""XMLName""', ');', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+32,"        b, err := json.Marshal(map[string]interface{}{n: item})","['b', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'map', '[', 'string', ']', 'interface', '{}{', 'n', ':', 'item', '})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+33,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+34,"            return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+35,        },['}'],['operator']
+36,"        return b, nil","['return', 'b', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+37,    },['}'],['operator']
+38,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""You failed""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+39,},['}'],['operator']
+40,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+41,"    // create a Query and encode it as {""query"": {struct}}","['// create a Query and encode it as {""query"": {struct}}']","['comment', 'create', 'a', 'Query', 'and', 'encode', 'it', 'as', '{', '``', 'query', ""''"", ':', '{', 'struct', '}', '}']"
+42,"    q := Query{Field1: ""hello"", Field2: 42}","['q', ':=', 'Query', '{', 'Field1', ':', '""hello""', ',', 'Field2', ':', '42', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+43,"    wrappedQ, err := wrapJson(q)","['wrappedQ', ',', 'err', ':=', 'wrapJson', '(', 'q', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+44,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+45,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+46,        return,['return'],['keyword']
+47,    },['}'],['operator']
+48,    fmt.Println(string(wrappedQ)),"['fmt', '.', 'Println', '(', 'string', '(', 'wrappedQ', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+49,"    // create a TermQuery and encode it as {""term-query"": {struct}}","['// create a TermQuery and encode it as {""term-query"": {struct}}']","['comment', 'create', 'a', 'TermQuery', 'and', 'encode', 'it', 'as', '{', '``', 'term-query', ""''"", ':', '{', 'struct', '}', '}']"
+50,"    tq := TermQuery{Field3: ""world"", Field4: 99}","['tq', ':=', 'TermQuery', '{', 'Field3', ':', '""world""', ',', 'Field4', ':', '99', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+51,"    wrappedTQ, err := wrapJson(tq)","['wrappedTQ', ',', 'err', ':=', 'wrapJson', '(', 'tq', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+52,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+53,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+54,        return,['return'],['keyword']
+55,    },['}'],['operator']
+56,    fmt.Println(string(wrappedTQ)),"['fmt', '.', 'Println', '(', 'string', '(', 'wrappedTQ', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+57,},['}'],['operator']

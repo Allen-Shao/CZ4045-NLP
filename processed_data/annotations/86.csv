@@ -1,0 +1,88 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""fmt""","['""fmt""']",['string_literal']
+3,"    ""math/rand""","['""math/rand""']",['string_literal']
+4,),[')'],['operator']
+5,"func contains(s []int, e int) bool {","['func', 'contains', '(', 's', '[]', 'int', ',', 'e', 'int', ')', 'bool', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+6,"    for _, a := range s {","['for', '_', ',', 'a', ':=', 'range', 's', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+7,        if a == e {,"['if', 'a', '==', 'e', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+8,            return true,"['return', 'true']","['keyword', 'identifier']"
+9,        },['}'],['operator']
+10,    },['}'],['operator']
+11,    return false,"['return', 'false']","['keyword', 'identifier']"
+12,},['}'],['operator']
+13,"func Person(called_number chan int, claim_prize chan int, received chan bool, coupon []int, person_id int) {","['func', 'Person', '(', 'called_number', 'chan', 'int', ',', 'claim_prize', 'chan', 'int', ',', 'received', 'chan', 'bool', ',', 'coupon', '[]', 'int', ',', 'person_id', 'int', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+14,    numFound := 0,"['numFound', ':=', '0']","['identifier', 'operator', 'decimal_literal']"
+15,    for current_number := range called_number {,"['for', 'current_number', ':=', 'range', 'called_number', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+16,"        if contains(coupon, current_number) {","['if', 'contains', '(', 'coupon', ',', 'current_number', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+17,            numFound++,"['numFound', '++']","['identifier', 'operator']"
+18,        },['}'],['operator']
+19,        if numFound == len(coupon) {,"['if', 'numFound', '==', 'len', '(', 'coupon', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+20,            fmt.Println(person_id),"['fmt', '.', 'Println', '(', 'person_id', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+21,            claim_prize <- person_id,"['claim_prize', '<-', 'person_id']","['identifier', 'operator', 'identifier']"
+22,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+23,            received <- true,"['received', '<-', 'true']","['identifier', 'operator', 'identifier']"
+24,        },['}'],['operator']
+25,    },['}'],['operator']
+26,},['}'],['operator']
+27,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+28,    var (,"['var', '(']","['keyword', 'operator']"
+29,"        called_number1 = make(chan int, 1)","['called_number1', '=', 'make', '(', 'chan', 'int', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+30,"        called_number2 = make(chan int, 1)","['called_number2', '=', 'make', '(', 'chan', 'int', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+31,"        called_number3 = make(chan int, 1)","['called_number3', '=', 'make', '(', 'chan', 'int', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+32,"        claim_prize    = make(chan int, 1)","['claim_prize', '=', 'make', '(', 'chan', 'int', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+33,"        received       = make(chan bool, 1)","['received', '=', 'make', '(', 'chan', 'bool', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+34,    ),[')'],['operator']
+35,"    tokens := make([][]int, 3)","['tokens', ':=', 'make', '([][]', 'int', ',', '3', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+36,    for i := 0; i < 3; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '3', ';', 'i', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+37,"        tokens[i] = make([]int, 12)","['tokens', '[', 'i', ']', '=', 'make', '([]', 'int', ',', '12', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+38,        for j := 0; j < 12; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', '12', ';', 'j', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+39,            num := rand.Intn(100) + 1,"['num', ':=', 'rand', '.', 'Intn', '(', '100', ')', '+', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal']"
+40,"            found := contains(tokens[i], num)","['found', ':=', 'contains', '(', 'tokens', '[', 'i', '],', 'num', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,            for found {,"['for', 'found', '{']","['keyword', 'identifier', 'operator']"
+42,                num = rand.Intn(100) + 1,"['num', '=', 'rand', '.', 'Intn', '(', '100', ')', '+', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal']"
+43,"                found = contains(tokens[i], num)","['found', '=', 'contains', '(', 'tokens', '[', 'i', '],', 'num', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+44,            },['}'],['operator']
+45,            tokens[i][j] = num,"['tokens', '[', 'i', '][', 'j', ']', '=', 'num']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+46,        },['}'],['operator']
+47,    },['}'],['operator']
+48,"    go Person(called_number1, claim_prize, received, tokens[0], 0)","['go', 'Person', '(', 'called_number1', ',', 'claim_prize', ',', 'received', ',', 'tokens', '[', '0', '],', '0', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+49,"    go Person(called_number2, claim_prize, received, tokens[1], 1)","['go', 'Person', '(', 'called_number2', ',', 'claim_prize', ',', 'received', ',', 'tokens', '[', '1', '],', '1', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+50,"    go Person(called_number3, claim_prize, received, tokens[2], 2)","['go', 'Person', '(', 'called_number3', ',', 'claim_prize', ',', 'received', ',', 'tokens', '[', '2', '],', '2', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+51,"    claimants := make([]int, 0)","['claimants', ':=', 'make', '([]', 'int', ',', '0', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+52,    prev_called := make(map[int]bool),"['prev_called', ':=', 'make', '(', 'map', '[', 'int', ']', 'bool', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+53,    for i := 0; i < 100; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '100', ';', 'i', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+54,        if len(claimants) == 3 {,"['if', 'len', '(', 'claimants', ')', '==', '3', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+55,            break,['break'],['keyword']
+56,        },['}'],['operator']
+57,        num := rand.Intn(100) + 1,"['num', ':=', 'rand', '.', 'Intn', '(', '100', ')', '+', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal']"
+58,"        _, ok := prev_called[num]","['_', ',', 'ok', ':=', 'prev_called', '[', 'num', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+59,        for ok {,"['for', 'ok', '{']","['keyword', 'identifier', 'operator']"
+60,            num = rand.Intn(100) + 1,"['num', '=', 'rand', '.', 'Intn', '(', '100', ')', '+', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal']"
+61,"            _, ok = prev_called[num]","['_', ',', 'ok', '=', 'prev_called', '[', 'num', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+62,        },['}'],['operator']
+63,        prev_called[num] = true,"['prev_called', '[', 'num', ']', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
+64,"        if !contains(claimants, 0) {","['if', '!', 'contains', '(', 'claimants', ',', '0', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator']"
+65,            called_number1 <- num,"['called_number1', '<-', 'num']","['identifier', 'operator', 'identifier']"
+66,        },['}'],['operator']
+67,"        if !contains(claimants, 1) {","['if', '!', 'contains', '(', 'claimants', ',', '1', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator']"
+68,            called_number2 <- num,"['called_number2', '<-', 'num']","['identifier', 'operator', 'identifier']"
+69,        },['}'],['operator']
+70,"        if !contains(claimants, 2) {","['if', '!', 'contains', '(', 'claimants', ',', '2', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator']"
+71,            called_number3 <- num,"['called_number3', '<-', 'num']","['identifier', 'operator', 'identifier']"
+72,        },['}'],['operator']
+73,        for j := 0; j < 3; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', '3', ';', 'j', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+74,            select {,"['select', '{']","['keyword', 'operator']"
+75,            case _ = <-received:,"['case', '_', '=', '<-', 'received', ':']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+76,                continue,['continue'],['keyword']
+77,            case pid := <-claim_prize:,"['case', 'pid', ':=', '<-', 'claim_prize', ':']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+78,                if pid == 0 { close(called_number1) },"['if', 'pid', '==', '0', '{', 'close', '(', 'called_number1', ')', '}']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+79,                if pid == 1 { close(called_number2) },"['if', 'pid', '==', '1', '{', 'close', '(', 'called_number2', ')', '}']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+80,                if pid == 2 { close(called_number3) },"['if', 'pid', '==', '2', '{', 'close', '(', 'called_number3', ')', '}']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+81,"                claimants = append(claimants, pid)","['claimants', '=', 'append', '(', 'claimants', ',', 'pid', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+82,            },['}'],['operator']
+83,        },['}'],['operator']
+84,    },['}'],['operator']
+85,    fmt.Println(claimants),"['fmt', '.', 'Println', '(', 'claimants', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+86,},['}'],['operator']

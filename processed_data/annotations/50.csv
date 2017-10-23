@@ -1,0 +1,20 @@
+,text,token,annotation
+0,"func Listen(net, laddr string) (Listener, error) {","['func', 'Listen', '(', 'net', ',', 'laddr', 'string', ')', '(', 'Listener', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+1,"   la, err := resolveAddr(""listen"", net, laddr, noDeadline)","['la', ',', 'err', ':=', 'resolveAddr', '(', '""listen""', ',', 'net', ',', 'laddr', ',', 'noDeadline', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+2,   if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+3,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: nil, Err: err}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'nil', ',', 'Err', ':', 'err', '}']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+4,   },['}'],['operator']
+5,   var l Listener,"['var', 'l', 'Listener']","['keyword', 'identifier', 'identifier']"
+6,   switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la', '.', 'toAddr', '().(', 'type', ')', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'operator']"
+7,   case *TCPAddr:,"['case', '*', 'TCPAddr', ':']","['keyword', 'operator', 'identifier', 'operator']"
+8,"      l, err = ListenTCP(net, la)","['l', ',', 'err', '=', 'ListenTCP', '(', 'net', ',', 'la', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+9,   case *UnixAddr:,"['case', '*', 'UnixAddr', ':']","['keyword', 'operator', 'identifier', 'operator']"
+10,"      l, err = ListenUnix(net, la)","['l', ',', 'err', '=', 'ListenUnix', '(', 'net', ',', 'la', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+11,   default:,"['default', ':']","['keyword', 'operator']"
+12,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+13,   },['}'],['operator']
+14,   if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+15,"      return nil, err // l is non-nil interface containing nil pointer","['return', 'nil', ',', 'err', '// l is non-nil interface containing nil pointer']","['keyword', 'identifier', 'operator', 'identifier', 'comment', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']"
+16,   },['}'],['operator']
+17,"   return l, nil","['return', 'l', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+18,},['}'],['operator']

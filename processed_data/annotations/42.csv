@@ -1,0 +1,504 @@
+,text,token,annotation
+0,"// Direct port of R code from nmath/{phyper,dbinom,stirlerr}.c and {dpq,nmath}.h.","['// Direct port of R code from nmath/{phyper,dbinom,stirlerr}.c and {dpq,nmath}.h.']","['comment', 'Direct', 'port', 'of', 'R', 'code', 'from', 'nmath/', '{', 'phyper', ',', 'dbinom', ',', 'stirlerr', '}', '.c', 'and', '{', 'dpq', ',', 'nmath', '}', '.h', '.']"
+1,// Code licensed under GPL for that reason (c) Dan Kortschak.,['// Code licensed under GPL for that reason (c) Dan Kortschak.'],"['comment', 'Code', 'licensed', 'under', 'GPL', 'for', 'that', 'reason', '(', 'c', ')', 'Dan', 'Kortschak', '.']"
+2,package main,"['package', 'main']","['keyword', 'identifier']"
+3,import (,"['import', '(']","['keyword', 'operator']"
+4,"    ""errors""","['""errors""']",['string_literal']
+5,"    ""fmt""","['""fmt""']",['string_literal']
+6,"    ""math""","['""math""']",['string_literal']
+7,),[')'],['operator']
+8,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+9,    // Example values come from:,['// Example values come from:'],"['comment', 'Example', 'values', 'come', 'from', ':']"
+10,    // http://stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper,['// http://stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper'],"['comment', 'http', ':', 'stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper']"
+11,"    fmt.Println(Phyper(62, 1998, 5260-1998, 131, true, false))","['fmt', '.', 'Println', '(', 'Phyper', '(', '62', ',', '1998', ',', '5260', '-', '1998', ',', '131', ',', 'true', ',', 'false', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+12,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+13,"        fmt.Println(Phyper(x, 10, 7, 8, true, false))","['fmt', '.', 'Println', '(', 'Phyper', '(', 'x', ',', '10', ',', '7', ',', '8', ',', 'true', ',', 'false', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+14,    },['}'],['operator']
+15,    fmt.Println(),"['fmt', '.', 'Println', '()']","['identifier', 'operator', 'identifier', 'operator']"
+16,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+17,"        fmt.Println(Dhyper(x, 10, 7, 8, false))","['fmt', '.', 'Println', '(', 'Dhyper', '(', 'x', ',', '10', ',', '7', ',', '8', ',', 'false', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+18,    },['}'],['operator']
+19,    fmt.Println(),"['fmt', '.', 'Println', '()']","['identifier', 'operator', 'identifier', 'operator']"
+20,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+21,"        fmt.Println(Qhyper(x, 10, 7, 8, true, false))","['fmt', '.', 'Println', '(', 'Qhyper', '(', 'x', ',', '10', ',', '7', ',', '8', ',', 'true', ',', 'false', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+22,    },['}'],['operator']
+23,},['}'],['operator']
+24,"var ErrDomain = errors.New(""hyper: argument out of domain"")","['var', 'ErrDomain', '=', 'errors', '.', 'New', '(', '""hyper: argument out of domain""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+25,const (,"['const', '(']","['keyword', 'operator']"
+26,    epsilon = 2.2204460492503131e-16,"['epsilon', '=', '2', '.', '2204460492503131', 'e', '-', '16']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'identifier', 'operator', 'decimal_literal']"
+27,    min     = 2.2250738585072014e-308,"['min', '=', '2', '.', '2250738585072014', 'e', '-', '308']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'identifier', 'operator', 'decimal_literal']"
+28,),[')'],['operator']
+29,// Sample of n balls from r red and b black ones; x are red,['// Sample of n balls from r red and b black ones; x are red'],"['comment', 'Sample', 'of', 'n', 'balls', 'from', 'r', 'red', 'and', 'b', 'black', 'ones', ';', 'x', 'are', 'red']"
+30,"func Phyper(x, r, b, n float64, lowerTail, logP bool) (float64, error) {","['func', 'Phyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+31,    x = math.Floor(x + 1e-7),"['x', '=', 'math', '.', 'Floor', '(', 'x', '+', '1', 'e', '-', '7', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'identifier', 'operator', 'decimal_literal', 'operator']"
+32,    r = round(r),"['r', '=', 'round', '(', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+33,    b = round(b),"['b', '=', 'round', '(', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+34,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+35,    if r  r+b {,"['if', 'r', 'r', '+', 'b', '{']","['keyword', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+36,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+37,    },['}'],['operator']
+38,    if x*(r+b) > n*r {,"['if', 'x', '*(', 'r', '+', 'b', ')', '>', 'n', '*', 'r', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+39,"        b, r = r, b","['b', ',', 'r', '=', 'r', ',', 'b']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+40,        x = n - x - 1,"['x', '=', 'n', '-', 'x', '-', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
+41,        lowerTail = !lowerTail,"['lowerTail', '=', '!', 'lowerTail']","['identifier', 'operator', 'operator', 'identifier']"
+42,    },['}'],['operator']
+43,    if x < 0 {,"['if', 'x', '<', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+44,"        return dt0(lowerTail, logP), nil","['return', 'dt0', '(', 'lowerTail', ',', 'logP', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+45,    },['}'],['operator']
+46,    if x >= r || x >= n {,"['if', 'x', '>=', 'r', '||', 'x', '>=', 'n', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+47,"        return dt1(lowerTail, logP), nil","['return', 'dt1', '(', 'lowerTail', ',', 'logP', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+48,    },['}'],['operator']
+49,"    d, err := Dhyper(x, r, b, n, logP)","['d', ',', 'err', ':=', 'Dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'logP', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+51,"        return d, err","['return', 'd', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
+52,    },['}'],['operator']
+53,"    pd := pdhyper(x, r, b, n, logP)","['pd', ':=', 'pdhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'logP', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+54,    if logP {,"['if', 'logP', '{']","['keyword', 'identifier', 'operator']"
+55,"        return log(d+pd, lowerTail), nil","['return', 'log', '(', 'd', '+', 'pd', ',', 'lowerTail', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+56,    },['}'],['operator']
+57,    res := d * pd,"['res', ':=', 'd', '*', 'pd']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+58,    if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+59,"        return res, nil","['return', 'res', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+60,    },['}'],['operator']
+61,    // Use 0.5 - p + 0.5 to perhaps gain 1 bit of accuracy,['// Use 0.5 - p + 0.5 to perhaps gain 1 bit of accuracy'],"['comment', 'Use', '0.5', '-', 'p', '+', '0.5', 'to', 'perhaps', 'gain', '1', 'bit', 'of', 'accuracy']"
+62,    res = 0.5 - res,"['res', '=', '0', '.', '5', '-', 'res']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier']"
+63,"    return res + 0.5, nil","['return', 'res', '+', '0', '.', '5', ',', 'nil']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier']"
+64,},['}'],['operator']
+65,"func Dhyper(x, r, b, n float64, giveLog bool) (float64, error) {","['func', 'Dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'giveLog', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+66,    if negativeOrNotInteger(r) || negativeOrNotInteger(b) || negativeOrNotInteger(n) || n > r+b {,"['if', 'negativeOrNotInteger', '(', 'r', ')', '||', 'negativeOrNotInteger', '(', 'b', ')', '||', 'negativeOrNotInteger', '(', 'n', ')', '||', 'n', '>', 'r', '+', 'b', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+67,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+68,    },['}'],['operator']
+69,    if x < 0 {,"['if', 'x', '<', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+70,"        return 0, nil","['return', '0', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+71,    },['}'],['operator']
+72,    if x != math.Floor(x) {,"['if', 'x', '!=', 'math', '.', 'Floor', '(', 'x', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+73,"        return 0, fmt.Errorf(""non-integer x = %f"", x)","['return', '0', ',', 'fmt', '.', 'Errorf', '(', '""non-integer x = %f""', ',', 'x', ')']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+74,    },['}'],['operator']
+75,    x = round(x),"['x', '=', 'round', '(', 'x', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+76,    r = round(r),"['r', '=', 'round', '(', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+77,    b = round(b),"['b', '=', 'round', '(', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+78,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+79,    if n  b {,"['if', 'n', 'b', '{']","['keyword', 'identifier', 'identifier', 'operator']"
+80,"        return 0, nil","['return', '0', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+81,    },['}'],['operator']
+82,    if n == 0 {,"['if', 'n', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+83,        if x == 0 {,"['if', 'x', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+84,"            return 1, nil","['return', '1', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+85,        },['}'],['operator']
+86,"        return 0, nil","['return', '0', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+87,    },['}'],['operator']
+88,    p := n / (r + b),"['p', ':=', 'n', '(', 'r', '+', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+89,    q := (r + b - n) / (r + b),"['q', ':=', '(', 'r', '+', 'b', '-', 'n', ')', '(', 'r', '+', 'b', ')']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+90,"    p1, err := dbinom(x, r, p, q, giveLog)","['p1', ',', 'err', ':=', 'dbinom', '(', 'x', ',', 'r', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+92,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+93,    },['}'],['operator']
+94,"    p2, err := dbinom(n-x, b, p, q, giveLog)","['p2', ',', 'err', ':=', 'dbinom', '(', 'n', '-', 'x', ',', 'b', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+95,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+96,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+97,    },['}'],['operator']
+98,"    p3, err := dbinom(n, r+b, p, q, giveLog)","['p3', ',', 'err', ':=', 'dbinom', '(', 'n', ',', 'r', '+', 'b', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+99,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+100,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+101,    },['}'],['operator']
+102,    if giveLog {,"['if', 'giveLog', '{']","['keyword', 'identifier', 'operator']"
+103,"        return p1 + p2 - p3, nil","['return', 'p1', '+', 'p2', '-', 'p3', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+104,    },['}'],['operator']
+105,"    return p1 * p2 / p3, nil","['return', 'p1', '*', 'p2', 'p3', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier']"
+106,},['}'],['operator']
+107,"func Qhyper(p, NR, NB, n float64, lowerTail, logP bool) (float64, error) {","['func', 'Qhyper', '(', 'p', ',', 'NR', ',', 'NB', ',', 'n', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+108,    if notFinite(p) || notFinite(NR) || notFinite(NB) || notFinite(n) {,"['if', 'notFinite', '(', 'p', ')', '||', 'notFinite', '(', 'NR', ')', '||', 'notFinite', '(', 'NB', ')', '||', 'notFinite', '(', 'n', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+109,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+110,    },['}'],['operator']
+111,    NR = round(NR),"['NR', '=', 'round', '(', 'NR', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+112,    NB = round(NB),"['NB', '=', 'round', '(', 'NB', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+113,    N := NR + NB,"['N', ':=', 'NR', '+', 'NB']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+114,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+115,    if NR  N {,"['if', 'NR', 'N', '{']","['keyword', 'identifier', 'identifier', 'operator']"
+116,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+117,    },['}'],['operator']
+118,    /* Goal: Find xr (= #{red balls in sample}) such that,"['*', 'Goal', ':', 'Find', 'xr', '(=', '{', 'red', 'balls', 'in', 'sample', '})', 'such', 'that']","['operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'identifier']"
+119,"    * phyper(xr, NR,NB, n) >= p > phyper(xr - 1, NR,NB, n)","['*', 'phyper', '(', 'xr', ',', 'NR', ',', 'NB', ',', 'n', ')', '>=', 'p', '>', 'phyper', '(', 'xr', '-', '1', ',', 'NR', ',', 'NB', ',', 'n', ')']","['operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+120,     */,['*'],['operator']
+121,"    xstart := math.Max(0, n-NB)","['xstart', ':=', 'math', '.', 'Max', '(', '0', ',', 'n', '-', 'NB', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+122,"    xend := math.Min(n, NR)","['xend', ':=', 'math', '.', 'Min', '(', 'n', ',', 'NR', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+123,    if logP {,"['if', 'logP', '{']","['keyword', 'identifier', 'operator']"
+124,        if p > 0 {,"['if', 'p', '>', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+125,"            return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+126,        },['}'],['operator']
+127,        if p == 0 { /* upper bound*/,"['if', 'p', '==', '0', '{', '*', 'upper', 'bound', '*']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'identifier', 'operator']"
+128,            if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+129,"                return xend, nil","['return', 'xend', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+130,            },['}'],['operator']
+131,"            return xstart, nil","['return', 'xstart', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+132,        },['}'],['operator']
+133,"        if math.IsInf(p, -1) {","['if', 'math', '.', 'IsInf', '(', 'p', ',', '-', '1', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'operator']"
+134,            if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+135,"                return xstart, nil","['return', 'xstart', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+136,            },['}'],['operator']
+137,"            return xend, nil","['return', 'xend', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+138,        },['}'],['operator']
+139,    } else { /* !logP */,"['}', 'else', '{', '*', '!', 'logP', '*']","['operator', 'keyword', 'operator', 'operator', 'operator', 'identifier', 'operator']"
+140,        if p  1 {,"['if', 'p', '1', '{']","['keyword', 'identifier', 'decimal_literal', 'operator']"
+141,"            return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+142,        },['}'],['operator']
+143,        if p == 0 {,"['if', 'p', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+144,            if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+145,"                return xstart, nil","['return', 'xstart', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+146,            },['}'],['operator']
+147,"            return xend, nil","['return', 'xend', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+148,        },['}'],['operator']
+149,        if p == 1 {,"['if', 'p', '==', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+150,            if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+151,"                return xend, nil","['return', 'xend', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+152,            },['}'],['operator']
+153,"            return xstart, nil","['return', 'xstart', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+154,        },['}'],['operator']
+155,    },['}'],['operator']
+156,    xr := xstart,"['xr', ':=', 'xstart']","['identifier', 'operator', 'identifier']"
+157,    xb := n - xr /* always ( = #{black balls in sample} ) */,"['xb', ':=', 'n', '-', 'xr', '*', 'always', '(', '=', '{', 'black', 'balls', 'in', 'sample', '}', ')', '*']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'operator', 'operator']"
+158,    smallN := N < 1000 /* won't have underflow in product below */,"['smallN', ':=', 'N', '<', '1000', '*', 'won', 't', 'have', 'underflow', 'in', 'product', 'below', '*']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+159,"    /* if N is small, term := product.ratio( bin.coef );","['*', 'if', 'N', 'is', 'small', ',', 'term', ':=', 'product', '.', 'ratio', '(', 'bin', '.', 'coef', ');']","['operator', 'keyword', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+160,    otherwise work with its logarithm to protect against underflow */,"['otherwise', 'work', 'with', 'its', 'logarithm', 'to', 'protect', 'against', 'underflow', '*']","['identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+161,"    t1, err := lfastchoose(NR, xr)","['t1', ',', 'err', ':=', 'lfastchoose', '(', 'NR', ',', 'xr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+162,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+163,"        return 0, err","['return', '0', ',', 'err']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+164,    },['}'],['operator']
+165,"    t2, err := lfastchoose(NB, xb)","['t2', ',', 'err', ':=', 'lfastchoose', '(', 'NB', ',', 'xb', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+166,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+167,"        return 0, err","['return', '0', ',', 'err']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+168,    },['}'],['operator']
+169,"    t3, err := lfastchoose(N, n)","['t3', ',', 'err', ':=', 'lfastchoose', '(', 'N', ',', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+170,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+171,"        return 0, err","['return', '0', ',', 'err']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+172,    },['}'],['operator']
+173,    term := t1 + t2 - t3,"['term', ':=', 't1', '+', 't2', '-', 't3']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+174,    if smallN {,"['if', 'smallN', '{']","['keyword', 'identifier', 'operator']"
+175,        term = math.Exp(term),"['term', '=', 'math', '.', 'Exp', '(', 'term', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+176,    },['}'],['operator']
+177,    NR -= xr,"['NR', '-=', 'xr']","['identifier', 'operator', 'identifier']"
+178,    NB -= xb,"['NB', '-=', 'xb']","['identifier', 'operator', 'identifier']"
+179,    if !lowerTail || logP {,"['if', '!', 'lowerTail', '||', 'logP', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+180,"        p = qIv(p, lowerTail, logP)","['p', '=', 'qIv', '(', 'p', ',', 'lowerTail', ',', 'logP', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+181,    },['}'],['operator']
+182,"    p *= 1 - 1000*epsilon /* was 64, but failed on FreeBSD sometimes */","['p', '*=', '1', '-', '1000', '*', 'epsilon', '*', 'was', '64', ',', 'but', 'failed', 'on', 'FreeBSD', 'sometimes', '*']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'decimal_literal', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+183,    var sum float64,"['var', 'sum', 'float64']","['keyword', 'identifier', 'identifier']"
+184,    if smallN {,"['if', 'smallN', '{']","['keyword', 'identifier', 'operator']"
+185,        sum = term,"['sum', '=', 'term']","['identifier', 'operator', 'identifier']"
+186,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+187,        sum = math.Exp(term),"['sum', '=', 'math', '.', 'Exp', '(', 'term', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+188,    },['}'],['operator']
+189,    for sum < p && xr < xend {,"['for', 'sum', '<', 'p', '&&', 'xr', '<', 'xend', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+190,        xr++,"['xr', '++']","['identifier', 'operator']"
+191,        NB++,"['NB', '++']","['identifier', 'operator']"
+192,        if smallN {,"['if', 'smallN', '{']","['keyword', 'identifier', 'operator']"
+193,            term *= (NR / xr) * (xb / NB),"['term', '*=', '(', 'NR', 'xr', ')', '*', '(', 'xb', 'NB', ')']","['identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'identifier', 'operator']"
+194,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+195,            term += math.Log((NR / xr) * (xb / NB)),"['term', '+=', 'math', '.', 'Log', '((', 'NR', 'xr', ')', '*', '(', 'xb', 'NB', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'identifier', 'operator']"
+196,        },['}'],['operator']
+197,        if smallN {,"['if', 'smallN', '{']","['keyword', 'identifier', 'operator']"
+198,            sum += term,"['sum', '+=', 'term']","['identifier', 'operator', 'identifier']"
+199,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+200,            sum += math.Exp(term),"['sum', '+=', 'math', '.', 'Exp', '(', 'term', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+201,        },['}'],['operator']
+202,        xb--,"['xb', '--']","['identifier', 'operator']"
+203,        NR--,"['NR', '--']","['identifier', 'operator']"
+204,    },['}'],['operator']
+205,"    return xr, nil","['return', 'xr', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+206,},['}'],['operator']
+207,"func lfastchoose(n, k float64) (float64, error) {","['func', 'lfastchoose', '(', 'n', ',', 'k', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+208,"    lb, err := lbeta(n-k+1, k+1)","['lb', ',', 'err', ':=', 'lbeta', '(', 'n', '-', 'k', '+', '1', ',', 'k', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+209,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+210,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+211,    },['}'],['operator']
+212,"    return -math.Log(n+1) - lb, nil","['return', '-', 'math', '.', 'Log', '(', 'n', '+', '1', ')', '-', 'lb', ',', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier']"
+213,},['}'],['operator']
+214,"func lbeta(a, b float64) (float64, error) {","['func', 'lbeta', '(', 'a', ',', 'b', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+215,    p := a,"['p', ':=', 'a']","['identifier', 'operator', 'identifier']"
+216,    q := a,"['q', ':=', 'a']","['identifier', 'operator', 'identifier']"
+217,    if b < p {,"['if', 'b', '<', 'p', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+218,        p = b,"['p', '=', 'b']","['identifier', 'operator', 'identifier']"
+219,"    } /* := min(a,b) */","['}', '*', ':=', 'min', '(', 'a', ',', 'b', ')', '*']","['operator', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+220,    if b > q {,"['if', 'b', '>', 'q', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+221,        q = b,"['q', '=', 'b']","['identifier', 'operator', 'identifier']"
+222,"    } /* := max(a,b) */","['}', '*', ':=', 'max', '(', 'a', ',', 'b', ')', '*']","['operator', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+223,    /* both arguments must be >= 0 */,"['*', 'both', 'arguments', 'must', 'be', '>=', '0', '*']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'decimal_literal', 'operator']"
+224,    if p < 0 {,"['if', 'p', '<', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+225,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+226,    } else if p == 0 {,"['}', 'else', 'if', 'p', '==', '0', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+227,"        return math.Inf(1), nil","['return', 'math', '.', 'Inf', '(', '1', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier']"
+228,    } else if notFinite(q) { /* q == +Inf */,"['}', 'else', 'if', 'notFinite', '(', 'q', ')', '{', '*', 'q', '==', '+', 'Inf', '*']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+229,"        return math.Inf(1), nil","['return', 'math', '.', 'Inf', '(', '1', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier']"
+230,    },['}'],['operator']
+231,    if p >= 10 {,"['if', 'p', '>=', '10', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+232,        /* p and q are big. */,"['*', 'p', 'and', 'q', 'are', 'big', '.', '*']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'operator']"
+233,        corr := stirlerr(p) + stirlerr(q) - stirlerr(p+q),"['corr', ':=', 'stirlerr', '(', 'p', ')', '+', 'stirlerr', '(', 'q', ')', '-', 'stirlerr', '(', 'p', '+', 'q', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+234,"        return math.Log(q)*-0.5 + logSqrt2Pi + corr + (p-0.5)*math.Log(p/(p+q)) + q*math.Log1p(-p/(p+q)), nil","['return', 'math', '.', 'Log', '(', 'q', ')*-', '0', '.', '5', '+', 'logSqrt2Pi', '+', 'corr', '+', '(', 'p', '-', '0', '.', '5', ')*', 'math', '.', 'Log', '(', 'p', '(', 'p', '+', 'q', '))', '+', 'q', '*', 'math', '.', 'Log1p', '(-', 'p', '(', 'p', '+', 'q', ')),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+235,    } else if q >= 10 {,"['}', 'else', 'if', 'q', '>=', '10', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+236,"        /* p is small, but q is big. */","['*', 'p', 'is', 'small', ',', 'but', 'q', 'is', 'big', '.', '*']","['operator', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'operator']"
+237,        corr := stirlerr(q) - stirlerr(p+q),"['corr', ':=', 'stirlerr', '(', 'q', ')', '-', 'stirlerr', '(', 'p', '+', 'q', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+238,"        return math.Gamma(p) + corr + p - p*math.Log(p+q) + (q-0.5)*math.Log1p(-p/(p+q)), nil","['return', 'math', '.', 'Gamma', '(', 'p', ')', '+', 'corr', '+', 'p', '-', 'p', '*', 'math', '.', 'Log', '(', 'p', '+', 'q', ')', '+', '(', 'q', '-', '0', '.', '5', ')*', 'math', '.', 'Log1p', '(-', 'p', '(', 'p', '+', 'q', ')),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+239,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+240,        /* p and q are small: p <= q < 10. */,"['*', 'p', 'and', 'q', 'are', 'small', ':', 'p', '<=', 'q', '<', '10', '.', '*']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator']"
+241,        /* R change for very small args */,"['*', 'R', 'chan', 'ge', 'for', 'very', 'small', 'args', '*']","['operator', 'identifier', 'keyword', 'identifier', 'keyword', 'identifier', 'identifier', 'identifier', 'operator']"
+242,        if p < min {,"['if', 'p', '<', 'min', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+243,"            return lgamma(p) + (lgamma(q) - lgamma(p+q)), nil","['return', 'lgamma', '(', 'p', ')', '+', '(', 'lgamma', '(', 'q', ')', '-', 'lgamma', '(', 'p', '+', 'q', ')),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+244,        },['}'],['operator']
+245,    },['}'],['operator']
+246,"    return math.Log(math.Gamma(p) * (math.Gamma(q) / math.Gamma(p+q))), nil","['return', 'math', '.', 'Log', '(', 'math', '.', 'Gamma', '(', 'p', ')', '*', '(', 'math', '.', 'Gamma', '(', 'q', ')', 'math', '.', 'Gamma', '(', 'p', '+', 'q', '))),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+247,},['}'],['operator']
+248,func lgamma(p float64) float64 {,"['func', 'lgamma', '(', 'p', 'float64', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+249,"    r, _ := math.Lgamma(p)","['r', ',', '_', ':=', 'math', '.', 'Lgamma', '(', 'p', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+250,    return r,"['return', 'r']","['keyword', 'identifier']"
+251,},['}'],['operator']
+252,"func qIv(p float64, lowerTail, logP bool) float64 {","['func', 'qIv', '(', 'p', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+253,    if logP {,"['if', 'logP', '{']","['keyword', 'identifier', 'operator']"
+254,        if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+255,            return math.Exp(p),"['return', 'math', '.', 'Exp', '(', 'p', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+256,        },['}'],['operator']
+257,        return -math.Expm1(p),"['return', '-', 'math', '.', 'Expm1', '(', 'p', ')']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+258,    },['}'],['operator']
+259,    if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+260,        return p,"['return', 'p']","['keyword', 'identifier']"
+261,    },['}'],['operator']
+262,    p = 0.5 - p,"['p', '=', '0', '.', '5', '-', 'p']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier']"
+263,    return p + 0.5,"['return', 'p', '+', '0', '.', '5']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal']"
+264,},['}'],['operator']
+265,// Calculate,['// Calculate'],"['comment', 'Calculate']"
+266,//,['//'],['comment']
+267,"// phyper (x, r, b, n, TRUE, FALSE)","['// phyper (x, r, b, n, TRUE, FALSE)']","['comment', 'phyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'TRUE', ',', 'FALSE', ')']"
+268,// [log] ----------------------------------,['// [log] ----------------------------------'],"['comment', '[', 'log', ']', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--']"
+269,"// dhyper (x, r, b, n, FALSE)","['// dhyper (x, r, b, n, FALSE)']","['comment', 'dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'FALSE', ')']"
+270,//,['//'],['comment']
+271,// without actually calling phyper. This assumes that,['// without actually calling phyper. This assumes that'],"['comment', 'without', 'actually', 'calling', 'phyper', '.', 'This', 'assumes', 'that']"
+272,//,['//'],['comment']
+273,// x * (r + b) <= n * r,['// x * (r + b) <= n * r'],"['comment', 'x', '*', '(', 'r', '+', 'b', ')', '<', '=', 'n', '*', 'r']"
+274,"func pdhyper(x, r, b, n float64, logP bool) float64 {","['func', 'pdhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'logP', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+275,    sum := 0.,"['sum', ':=', '0', '.']","['identifier', 'operator', 'decimal_literal', 'operator']"
+276,    term := 1.,"['term', ':=', '1', '.']","['identifier', 'operator', 'decimal_literal', 'operator']"
+277,    for x > 0 && term >= epsilon*sum {,"['for', 'x', '>', '0', '&&', 'term', '>=', 'epsilon', '*', 'sum', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+278,        term *= x * (b - n + x) / (n + 1 - x) / (r + 1 - x),"['term', '*=', 'x', '*', '(', 'b', '-', 'n', '+', 'x', ')', '(', 'n', '+', '1', '-', 'x', ')', '(', 'r', '+', '1', '-', 'x', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+279,        sum += term,"['sum', '+=', 'term']","['identifier', 'operator', 'identifier']"
+280,        x--,"['x', '--']","['identifier', 'operator']"
+281,    },['}'],['operator']
+282,    if logP {,"['if', 'logP', '{']","['keyword', 'identifier', 'operator']"
+283,        return math.Log1p(sum),"['return', 'math', '.', 'Log1p', '(', 'sum', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+284,    },['}'],['operator']
+285,    return 1 + sum,"['return', '1', '+', 'sum']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+286,},['}'],['operator']
+287,var (,"['var', '(']","['keyword', 'operator']"
+288,    ln2   = math.Log(2),"['ln2', '=', 'math', '.', 'Log', '(', '2', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+289,    ln2Pi = math.Log(2 * math.Pi),"['ln2Pi', '=', 'math', '.', 'Log', '(', '2', '*', 'math', '.', 'Pi', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+290,),[')'],['operator']
+291,"func log(x float64, lowerTail bool) float64 {","['func', 'log', '(', 'x', 'float64', ',', 'lowerTail', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+292,    if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+293,        return math.Log(x),"['return', 'math', '.', 'Log', '(', 'x', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+294,    },['}'],['operator']
+295,    if x > -ln2 {,"['if', 'x', '>', '-', 'ln2', '{']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+296,        return math.Log(-math.Expm1(x)),"['return', 'math', '.', 'Log', '(-', 'math', '.', 'Expm1', '(', 'x', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+297,    },['}'],['operator']
+298,    return math.Log1p(-math.Exp(x)),"['return', 'math', '.', 'Log1p', '(-', 'math', '.', 'Exp', '(', 'x', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+299,},['}'],['operator']
+300,"func dbinom(x, n, p, q float64, giveLog bool) (float64, error) {","['func', 'dbinom', '(', 'x', ',', 'n', ',', 'p', ',', 'q', 'float64', ',', 'giveLog', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+301,    if p == 0 {,"['if', 'p', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+302,        if x == 0 {,"['if', 'x', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+303,"            return 1, nil","['return', '1', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+304,        },['}'],['operator']
+305,"        return 0, nil","['return', '0', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+306,    },['}'],['operator']
+307,    if q == 0 {,"['if', 'q', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+308,        if x == n {,"['if', 'x', '==', 'n', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+309,"            return 1, nil","['return', '1', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+310,        },['}'],['operator']
+311,"        return 0, nil","['return', '0', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+312,    },['}'],['operator']
+313,    if x == 0 {,"['if', 'x', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+314,        if n == 0 {,"['if', 'n', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+315,"            return 1, nil","['return', '1', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+316,        },['}'],['operator']
+317,        if p < 0.1 {,"['if', 'p', '<', '0', '.', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+318,"            t, err := bd0(n, n*q)","['t', ',', 'err', ':=', 'bd0', '(', 'n', ',', 'n', '*', 'q', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+319,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+320,"                return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+321,            },['}'],['operator']
+322,"            return exp(-t-n*p, giveLog), nil","['return', 'exp', '(-', 't', '-', 'n', '*', 'p', ',', 'giveLog', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+323,        },['}'],['operator']
+324,"        return exp(n*math.Log(q), giveLog), nil","['return', 'exp', '(', 'n', '*', 'math', '.', 'Log', '(', 'q', '),', 'giveLog', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+325,    },['}'],['operator']
+326,    if x == n {,"['if', 'x', '==', 'n', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+327,        if q < 0.1 {,"['if', 'q', '<', '0', '.', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+328,"            t, err := bd0(n, n*p)","['t', ',', 'err', ':=', 'bd0', '(', 'n', ',', 'n', '*', 'p', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+329,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+330,"                return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+331,            },['}'],['operator']
+332,"            return exp(-t-n*q, giveLog), nil","['return', 'exp', '(-', 't', '-', 'n', '*', 'q', ',', 'giveLog', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+333,        },['}'],['operator']
+334,"        return exp(n*math.Log(p), giveLog), nil","['return', 'exp', '(', 'n', '*', 'math', '.', 'Log', '(', 'p', '),', 'giveLog', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+335,    },['}'],['operator']
+336,    if x  n {,"['if', 'x', 'n', '{']","['keyword', 'identifier', 'identifier', 'operator']"
+337,"        return 0, nil","['return', '0', ',', 'nil']","['keyword', 'decimal_literal', 'operator', 'identifier']"
+338,    },['}'],['operator']
+339,    // n*p or n*q can underflow to zero if n and p or q are small. This,['// n*p or n*q can underflow to zero if n and p or q are small. This'],"['comment', 'n*p', 'or', 'n*q', 'can', 'underflow', 'to', 'zero', 'if', 'n', 'and', 'p', 'or', 'q', 'are', 'small', '.', 'This']"
+340,"    // used to occur in dbeta, and gives NaN as from R 2.3.0.","['// used to occur in dbeta, and gives NaN as from R 2.3.0.']","['comment', 'used', 'to', 'occur', 'in', 'dbeta', ',', 'and', 'gives', 'NaN', 'as', 'from', 'R', '2.3.0', '.']"
+341,"    t1, err := bd0(x, n*p)","['t1', ',', 'err', ':=', 'bd0', '(', 'x', ',', 'n', '*', 'p', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+342,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+343,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+344,    },['}'],['operator']
+345,"    t2, err := bd0(n-x, n*q)","['t2', ',', 'err', ':=', 'bd0', '(', 'n', '-', 'x', ',', 'n', '*', 'q', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+346,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+347,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+348,    },['}'],['operator']
+349,    lc := stirlerr(n) - stirlerr(x) - stirlerr(n-x) - t1 - t2,"['lc', ':=', 'stirlerr', '(', 'n', ')', '-', 'stirlerr', '(', 'x', ')', '-', 'stirlerr', '(', 'n', '-', 'x', ')', '-', 't1', '-', 't2']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier']"
+350,    // f = (M_2PI*x*(n-x))/n; could overflow or underflow,['// f = (M_2PI*x*(n-x))/n; could overflow or underflow'],"['comment', 'f', '=', '(', 'M_2PI*x*', '(', 'n-x', ')', ')', '/n', ';', 'could', 'overflow', 'or', 'underflow']"
+351,    // Upto R 2.7.1:,['// Upto R 2.7.1:'],"['comment', 'Upto', 'R', '2.7.1', ':']"
+352,    // lf = log(M_2PI) + log(x) + log(n-x) - log(n);,['// lf = log(M_2PI) + log(x) + log(n-x) - log(n);'],"['comment', 'lf', '=', 'log', '(', 'M_2PI', ')', '+', 'log', '(', 'x', ')', '+', 'log', '(', 'n-x', ')', '-', 'log', '(', 'n', ')', ';']"
+353,    // -- following is much better for x << n :,['// -- following is much better for x << n :'],"['comment', '--', 'following', 'is', 'much', 'better', 'for', 'x', '<', '<', 'n', ':']"
+354,    lf := ln2Pi + math.Log(x) + math.Log1p(-x/n),"['lf', ':=', 'ln2Pi', '+', 'math', '.', 'Log', '(', 'x', ')', '+', 'math', '.', 'Log1p', '(-', 'x', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator']"
+355,"    return exp(lc-0.5*lf, giveLog), nil","['return', 'exp', '(', 'lc', '-', '0', '.', '5', '*', 'lf', ',', 'giveLog', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+356,},['}'],['operator']
+357,func negativeOrNotInteger(x float64) bool {,"['func', 'negativeOrNotInteger', '(', 'x', 'float64', ')', 'bool', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+358,    return x < 0 || x != math.Floor(x),"['return', 'x', '<', '0', '||', 'x', '!=', 'math', '.', 'Floor', '(', 'x', ')']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+359,},['}'],['operator']
+360,func notFinite(x float64) bool {,"['func', 'notFinite', '(', 'x', 'float64', ')', 'bool', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+361,"    return math.IsNaN(x) || math.IsInf(x, 0)","['return', 'math', '.', 'IsNaN', '(', 'x', ')', '||', 'math', '.', 'IsInf', '(', 'x', ',', '0', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+362,},['}'],['operator']
+363,func round(x float64) float64 {,"['func', 'round', '(', 'x', 'float64', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+364,"    if _, frac := math.Modf(x); frac >= 0.5 {","['if', '_', ',', 'frac', ':=', 'math', '.', 'Modf', '(', 'x', ');', 'frac', '>=', '0', '.', '5', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+365,        return math.Ceil(x),"['return', 'math', '.', 'Ceil', '(', 'x', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+366,    },['}'],['operator']
+367,    return math.Floor(x),"['return', 'math', '.', 'Floor', '(', 'x', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+368,},['}'],['operator']
+369,"func exp(x float64, giveLog bool) float64 {","['func', 'exp', '(', 'x', 'float64', ',', 'giveLog', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+370,    if giveLog {,"['if', 'giveLog', '{']","['keyword', 'identifier', 'operator']"
+371,        return x,"['return', 'x']","['keyword', 'identifier']"
+372,    },['}'],['operator']
+373,    return math.Exp(x),"['return', 'math', '.', 'Exp', '(', 'x', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+374,},['}'],['operator']
+375,"func dt0(lowerTail, logP bool) float64 {","['func', 'dt0', '(', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+376,    if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+377,        return d0(logP),"['return', 'd0', '(', 'logP', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+378,    },['}'],['operator']
+379,    return d1(logP),"['return', 'd1', '(', 'logP', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+380,},['}'],['operator']
+381,"func dt1(lowerTail, logP bool) float64 {","['func', 'dt1', '(', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+382,    if lowerTail {,"['if', 'lowerTail', '{']","['keyword', 'identifier', 'operator']"
+383,        return d1(logP),"['return', 'd1', '(', 'logP', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+384,    },['}'],['operator']
+385,    return d0(logP),"['return', 'd0', '(', 'logP', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+386,},['}'],['operator']
+387,func d0(logP bool) float64 {,"['func', 'd0', '(', 'logP', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+388,    if logP {,"['if', 'logP', '{']","['keyword', 'identifier', 'operator']"
+389,        return math.Inf(-1),"['return', 'math', '.', 'Inf', '(-', '1', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+390,    },['}'],['operator']
+391,    return 0,"['return', '0']","['keyword', 'decimal_literal']"
+392,},['}'],['operator']
+393,func d1(logP bool) float64 {,"['func', 'd1', '(', 'logP', 'bool', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+394,    if logP {,"['if', 'logP', '{']","['keyword', 'identifier', 'operator']"
+395,        return 0,"['return', '0']","['keyword', 'decimal_literal']"
+396,    },['}'],['operator']
+397,    return 1,"['return', '1']","['keyword', 'decimal_literal']"
+398,},['}'],['operator']
+399,"// bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =","['// bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =']","['comment', 'bd0', '(', 'x', ',', 'M', ')', ':', '=', 'M', '*', 'D0', '(', 'x/M', ')', '=', 'M*', '[', 'x/M', '*', 'log', '(', 'x/M', ')', '+', '1', '-', '(', 'x/M', ')', ']', '=']"
+400,//       =  x * log(x/M) + M - x,['//       =  x * log(x/M) + M - x'],"['comment', '=', 'x', '*', 'log', '(', 'x/M', ')', '+', 'M', '-', 'x']"
+401,"// where M = E[X] = n*p (or = lambda), for   x, M > 0","['// where M = E[X] = n*p (or = lambda), for   x, M > 0']","['comment', 'where', 'M', '=', 'E', '[', 'X', ']', '=', 'n*p', '(', 'or', '=', 'lambda', ')', ',', 'for', 'x', ',', 'M', '>', '0']"
+402,//,['//'],['comment']
+403,// in a manner that should be stable (with small relative error),['// in a manner that should be stable (with small relative error)'],"['comment', 'in', 'a', 'manner', 'that', 'should', 'be', 'stable', '(', 'with', 'small', 'relative', 'error', ')']"
+404,"// for all x and M=np. In particular for x/np close to 1, direct","['// for all x and M=np. In particular for x/np close to 1, direct']","['comment', 'for', 'all', 'x', 'and', 'M=np', '.', 'In', 'particular', 'for', 'x/np', 'close', 'to', '1', ',', 'direct']"
+405,"// evaluation fails, and evaluation is based on the Taylor series","['// evaluation fails, and evaluation is based on the Taylor series']","['comment', 'evaluation', 'fails', ',', 'and', 'evaluation', 'is', 'based', 'on', 'the', 'Taylor', 'series']"
+406,// of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).,['// of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).'],"['comment', 'of', 'log', '(', '(', '1+v', ')', '/', '(', '1-v', ')', ')', 'with', 'v', '=', '(', 'x-M', ')', '/', '(', 'x+M', ')', '=', '(', 'x-np', ')', '/', '(', 'x+np', ')', '.']"
+407,//,['//'],['comment']
+408,"func bd0(x, np float64) (float64, error) {","['func', 'bd0', '(', 'x', ',', 'np', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+409,    if notFinite(x) || notFinite(np) || np == 0 {,"['if', 'notFinite', '(', 'x', ')', '||', 'notFinite', '(', 'np', ')', '||', 'np', '==', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+410,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+411,    },['}'],['operator']
+412,    if math.Abs(x-np) < 0.1*(x+np) {,"['if', 'math', '.', 'Abs', '(', 'x', '-', 'np', ')', '<', '0', '.', '1', '*(', 'x', '+', 'np', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+413,        v := (x - np) / (x + np) // might underflow to 0,"['v', ':=', '(', 'x', '-', 'np', ')', '(', 'x', '+', 'np', ')', '// might underflow to 0']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'might', 'underflow', 'to', '0']"
+414,        s := (x - np) * v        // s using v -- change by MM,"['s', ':=', '(', 'x', '-', 'np', ')', '*', 'v', '// s using v -- change by MM']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'comment', 's', 'using', 'v', '--', 'change', 'by', 'MM']"
+415,        if math.Abs(s) < min {,"['if', 'math', '.', 'Abs', '(', 's', ')', '<', 'min', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+416,"            return s, nil","['return', 's', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+417,        },['}'],['operator']
+418,        ej := 2 * x * v,"['ej', ':=', '2', '*', 'x', '*', 'v']","['identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier']"
+419,        v = v * v,"['v', '=', 'v', '*', 'v']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+420,        for j := 1; j < 1000; j++ {,"['for', 'j', ':=', '1', ';', 'j', '<', '1000', ';', 'j', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
+421,            // Taylor series; 1000: no infinite loop,['// Taylor series; 1000: no infinite loop'],"['comment', 'Taylor', 'series', ';', '1000', ':', 'no', 'infinite', 'loop']"
+422,"            // as |v| < .1,  v^2000 is ""zero""","['// as |v| < .1,  v^2000 is ""zero""']","['comment', 'as', '|v|', '<', '.1', ',', 'v^2000', 'is', '``', 'zero', ""''""]"
+423,            ej *= v // = v^(2j+1),"['ej', '*=', 'v', '// = v^(2j+1)']","['identifier', 'operator', 'identifier', 'comment', '=', 'v^', '(', '2j+1', ')']"
+424,            s1 := s + ej/float64((j<<1)+1),"['s1', ':=', 's', '+', 'ej', 'float64', '((', 'j', '<<', '1', ')+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+425,            if s1 == s { // last term was effectively 0,"['if', 's1', '==', 's', '{', '// last term was effectively 0']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'last', 'term', 'was', 'effectively', '0']"
+426,"                return s1, nil","['return', 's1', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+427,            },['}'],['operator']
+428,            s = s1,"['s', '=', 's1']","['identifier', 'operator', 'identifier']"
+429,        },['}'],['operator']
+430,    },['}'],['operator']
+431,    /* else:  | x - np |  is not too small */,"['*', 'else', ':', '|', 'x', '-', 'np', '|', 'is', 'not', 'too', 'small', '*']","['operator', 'keyword', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+432,"    return x*math.Log(x/np) + np - x, nil","['return', 'x', '*', 'math', '.', 'Log', '(', 'x', 'np', ')', '+', 'np', '-', 'x', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+433,},['}'],['operator']
+434,var (,"['var', '(']","['keyword', 'operator']"
+435,"    // error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.","['// error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.']","['comment', 'error', 'for', '0', ',', '0.5', ',', '1.0', ',', '1.5', ',', '...', ',', '14.5', ',', '15.0', '.']"
+436,    sfErrHalves = [31]float64{,"['sfErrHalves', '=', '[', '31', ']', 'float64', '{']","['identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
+437,"        0.0, // n=0 - wrong, place holder only","['0', '.', '0', ',', '// n=0 - wrong, place holder only']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', 'n=0', '-', 'wrong', ',', 'place', 'holder', 'only']"
+438,"        0.1534264097200273452913848,   // 0.5","['0', '.', '1534264097200273452913848', ',', '// 0.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '0.5']"
+439,"        0.0810614667953272582196702,   // 1.0","['0', '.', '0810614667953272582196702', ',', '// 1.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '1.0']"
+440,"        0.0548141210519176538961390,   // 1.5","['0', '.', '0548141210519176538961390', ',', '// 1.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '1.5']"
+441,"        0.0413406959554092940938221,   // 2.0","['0', '.', '0413406959554092940938221', ',', '// 2.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '2.0']"
+442,"        0.03316287351993628748511048,  // 2.5","['0', '.', '03316287351993628748511048', ',', '// 2.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '2.5']"
+443,"        0.02767792568499833914878929,  // 3.0","['0', '.', '02767792568499833914878929', ',', '// 3.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '3.0']"
+444,"        0.02374616365629749597132920,  // 3.5","['0', '.', '02374616365629749597132920', ',', '// 3.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '3.5']"
+445,"        0.02079067210376509311152277,  // 4.0","['0', '.', '02079067210376509311152277', ',', '// 4.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '4.0']"
+446,"        0.01848845053267318523077934,  // 4.5","['0', '.', '01848845053267318523077934', ',', '// 4.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '4.5']"
+447,"        0.01664469118982119216319487,  // 5.0","['0', '.', '01664469118982119216319487', ',', '// 5.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '5.0']"
+448,"        0.01513497322191737887351255,  // 5.5","['0', '.', '01513497322191737887351255', ',', '// 5.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '5.5']"
+449,"        0.01387612882307074799874573,  // 6.0","['0', '.', '01387612882307074799874573', ',', '// 6.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '6.0']"
+450,"        0.01281046524292022692424986,  // 6.5","['0', '.', '01281046524292022692424986', ',', '// 6.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '6.5']"
+451,"        0.01189670994589177009505572,  // 7.0","['0', '.', '01189670994589177009505572', ',', '// 7.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '7.0']"
+452,"        0.01110455975820691732662991,  // 7.5","['0', '.', '01110455975820691732662991', ',', '// 7.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '7.5']"
+453,"        0.010411265261972096497478567, // 8.0","['0', '.', '010411265261972096497478567', ',', '// 8.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '8.0']"
+454,"        0.009799416126158803298389475, // 8.5","['0', '.', '009799416126158803298389475', ',', '// 8.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '8.5']"
+455,"        0.009255462182712732917728637, // 9.0","['0', '.', '009255462182712732917728637', ',', '// 9.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '9.0']"
+456,"        0.008768700134139385462952823, // 9.5","['0', '.', '008768700134139385462952823', ',', '// 9.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '9.5']"
+457,"        0.008330563433362871256469318, // 10.0","['0', '.', '008330563433362871256469318', ',', '// 10.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '10.0']"
+458,"        0.007934114564314020547248100, // 10.5","['0', '.', '007934114564314020547248100', ',', '// 10.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '10.5']"
+459,"        0.007573675487951840794972024, // 11.0","['0', '.', '007573675487951840794972024', ',', '// 11.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '11.0']"
+460,"        0.007244554301320383179543912, // 11.5","['0', '.', '007244554301320383179543912', ',', '// 11.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '11.5']"
+461,"        0.006942840107209529865664152, // 12.0","['0', '.', '006942840107209529865664152', ',', '// 12.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '12.0']"
+462,"        0.006665247032707682442354394, // 12.5","['0', '.', '006665247032707682442354394', ',', '// 12.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '12.5']"
+463,"        0.006408994188004207068439631, // 13.0","['0', '.', '006408994188004207068439631', ',', '// 13.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '13.0']"
+464,"        0.006171712263039457647532867, // 13.5","['0', '.', '006171712263039457647532867', ',', '// 13.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '13.5']"
+465,"        0.005951370112758847735624416, // 14.0","['0', '.', '005951370112758847735624416', ',', '// 14.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '14.0']"
+466,"        0.005746216513010115682023589, // 14.5","['0', '.', '005746216513010115682023589', ',', '// 14.5']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '14.5']"
+467,"        0.005554733551962801371038690, // 15.0","['0', '.', '005554733551962801371038690', ',', '// 15.0']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', '15.0']"
+468,    },['}'],['operator']
+469,    logSqrt2Pi = math.Log(math.Sqrt(2 * math.Pi)),"['logSqrt2Pi', '=', 'math', '.', 'Log', '(', 'math', '.', 'Sqrt', '(', '2', '*', 'math', '.', 'Pi', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+470,),[')'],['operator']
+471,// stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n ),['// stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n )'],"['comment', 'stirlerr', '(', 'n', ')', '=', 'log', '(', 'n', '!', ')', '-', 'log', '(', 'sqrt', '(', '2*pi*n', ')', '*', '(', 'n/e', ')', '^n', ')']"
+472,//             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1],['//             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1]'],"['comment', '=', 'log', 'Gamma', '(', 'n+1', ')', '-', '1/2', '*', '[', 'log', '(', '2*pi', ')', '+', 'log', '(', 'n', ')', ']', '-', 'n*', '[', 'log', '(', 'n', ')', '-', '1', ']']"
+473,//             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2,['//             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2'],"['comment', '=', 'log', 'Gamma', '(', 'n+1', ')', '-', '(', 'n', '+', '1/2', ')', '*', 'log', '(', 'n', ')', '+', 'n', '-', 'log', '(', '2*pi', ')', '/2']"
+474,func stirlerr(n float64) float64 {,"['func', 'stirlerr', '(', 'n', 'float64', ')', 'float64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+475,    const (,"['const', '(']","['keyword', 'operator']"
+476,        S0 = 1. / 12.,"['S0', '=', '1', '.', '12', '.']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+477,        S1 = 1. / 360.,"['S1', '=', '1', '.', '360', '.']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+478,        S2 = 1. / 1260.,"['S2', '=', '1', '.', '1260', '.']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+479,        S3 = 1. / 1680.,"['S3', '=', '1', '.', '1680', '.']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+480,        S4 = 1. / 1188.,"['S4', '=', '1', '.', '1188', '.']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+481,    ),[')'],['operator']
+482,    var nn float64,"['var', 'nn', 'float64']","['keyword', 'identifier', 'identifier']"
+483,    if n <= 15.0 {,"['if', 'n', '<=', '15', '.', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
+484,        nn = n + n,"['nn', '=', 'n', '+', 'n']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+485,        if nn == math.Floor(nn) {,"['if', 'nn', '==', 'math', '.', 'Floor', '(', 'nn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+486,            return sfErrHalves[int(nn)],"['return', 'sfErrHalves', '[', 'int', '(', 'nn', ')]']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+487,        },['}'],['operator']
+488,"        lg, _ := math.Lgamma(n + 1)","['lg', ',', '_', ':=', 'math', '.', 'Lgamma', '(', 'n', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+489,        return lg - (n+0.5)*math.Log(n) + n - logSqrt2Pi,"['return', 'lg', '-', '(', 'n', '+', '0', '.', '5', ')*', 'math', '.', 'Log', '(', 'n', ')', '+', 'n', '-', 'logSqrt2Pi']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier']"
+490,    },['}'],['operator']
+491,    nn = n * n,"['nn', '=', 'n', '*', 'n']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+492,    switch {,"['switch', '{']","['identifier', 'operator']"
+493,    case n > 500:,"['case', 'n', '>', '500', ':']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+494,        return ((S0 - S1/nn) / n),"['return', '((', 'S0', '-', 'S1', 'nn', ')', 'n', ')']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+495,    case n > 80:,"['case', 'n', '>', '80', ':']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+496,        return ((S0 - (S1-S2/nn)/nn) / n),"['return', '((', 'S0', '-', '(', 'S1', '-', 'S2', 'nn', ')', 'nn', ')', 'n', ')']","['keyword', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+497,    case n > 35:,"['case', 'n', '>', '35', ':']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+498,        return ((S0 - (S1-(S2-S3/nn)/nn)/nn) / n),"['return', '((', 'S0', '-', '(', 'S1', '-(', 'S2', '-', 'S3', 'nn', ')', 'nn', ')', 'nn', ')', 'n', ')']","['keyword', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+499,    default: // 15 < n <= 35,"['default', ':', '// 15 < n <= 35']","['keyword', 'operator', 'comment', '15', '<', 'n', '<', '=', '35']"
+500,        return (S0 - (S1-(S2-(S3-S4/nn)/nn)/nn)/nn) / n,"['return', '(', 'S0', '-', '(', 'S1', '-(', 'S2', '-(', 'S3', '-', 'S4', 'nn', ')', 'nn', ')', 'nn', ')', 'nn', ')', 'n']","['keyword', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+501,    },['}'],['operator']
+502,},['}'],['operator']

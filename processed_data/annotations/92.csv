@@ -1,0 +1,25 @@
+,text,token,annotation
+0,package example,"['package', 'example']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""crypto""","['""crypto""']",['string_literal']
+3,"    ""crypto/rsa""","['""crypto/rsa""']",['string_literal']
+4,"    ""crypto/sha256""","['""crypto/sha256""']",['string_literal']
+5,"    ""crypto/x509""","['""crypto/x509""']",['string_literal']
+6,"    ""fmt""","['""fmt""']",['string_literal']
+7,),[')'],['operator']
+8,"func Verify(key []byte, sig []byte, msg []byte) error {","['func', 'Verify', '(', 'key', '[]', 'byte', ',', 'sig', '[]', 'byte', ',', 'msg', '[]', 'byte', ')', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+9,    digest := sha256.Sum256(msg),"['digest', ':=', 'sha256', '.', 'Sum256', '(', 'msg', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+10,"    pub, err := x509.ParsePKIXPublicKey(key)","['pub', ',', 'err', ':=', 'x509', '.', 'ParsePKIXPublicKey', '(', 'key', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+11,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+12,"        return fmt.Errorf(""Failed to parse key"")","['return', 'fmt', '.', 'Errorf', '(', '""Failed to parse key""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+13,    },['}'],['operator']
+14,"    rsaPub, ok := pub.(*rsa.PublicKey)","['rsaPub', ',', 'ok', ':=', 'pub', '.(*', 'rsa', '.', 'PublicKey', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+15,    if !ok {,"['if', '!', 'ok', '{']","['keyword', 'operator', 'identifier', 'operator']"
+16,"        return fmt.Errorf(""Invalid value returned from ParsePKIXPublicKey"")","['return', 'fmt', '.', 'Errorf', '(', '""Invalid value returned from ParsePKIXPublicKey""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+17,    },['}'],['operator']
+18,"    opts := rsa.PSSOptions{SaltLength: 16, Hash: crypto.SHA256}","['opts', ':=', 'rsa', '.', 'PSSOptions', '{', 'SaltLength', ':', '16', ',', 'Hash', ':', 'crypto', '.', 'SHA256', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+19,"    if err = rsa.VerifyPSS(rsaPub, crypto.SHA256, digest[:], sig, &opts); err != nil {","['if', 'err', '=', 'rsa', '.', 'VerifyPSS', '(', 'rsaPub', ',', 'crypto', '.', 'SHA256', ',', 'digest', '[:],', 'sig', ',', '&', 'opts', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+20,"        return fmt.Errorf(""Failed Verification"")","['return', 'fmt', '.', 'Errorf', '(', '""Failed Verification""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+21,    },['}'],['operator']
+22,    return nil,"['return', 'nil']","['keyword', 'identifier']"
+23,},['}'],['operator']

@@ -1,0 +1,26 @@
+,text,token,annotation
+0,func getLineup() {,"['func', 'getLineup', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+1,    // Open Database,['// Open Database'],"['comment', 'Open', 'Database']"
+2,"    db, err := sql.Open(""sqlite3"", ""./database.db"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""./database.db""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+3,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+4,            fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+5,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+6,    },['}'],['operator']
+7,    defer db.Close(),"['defer', 'db', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+8,    // Prepare Query,['// Prepare Query'],"['comment', 'Prepare', 'Query']"
+9,"    statement, err := db.Prepare(""SELECT team, player FROM lineup ORDER BY team DESC;"")","['statement', ',', 'err', ':=', 'db', '.', 'Prepare', '(', '""SELECT team, player FROM lineup ORDER BY team DESC;""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+10,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+11,            fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+12,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+13,    },['}'],['operator']
+14,    // Execute Statement,['// Execute Statement'],"['comment', 'Execute', 'Statement']"
+15,"    rows, err := statement.Query()","['rows', ',', 'err', ':=', 'statement', '.', 'Query', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+16,    defer rows.Close(),"['defer', 'rows', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+17,"    fmt.Println(""Lineup:"")","['fmt', '.', 'Println', '(', '""Lineup:""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+18,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+19,            var team string,"['var', 'team', 'string']","['keyword', 'identifier', 'identifier']"
+20,            var player string,"['var', 'player', 'string']","['keyword', 'identifier', 'identifier']"
+21,"            rows.Scan(&team, &player)","['rows', '.', 'Scan', '(&', 'team', ',', '&', 'player', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+22,"            fmt.Printf(""%v %v\n"", team, player)","['fmt', '.', 'Printf', '(', '""%v %v\\n""', ',', 'team', ',', 'player', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+23,    },['}'],['operator']
+24,},['}'],['operator']

@@ -1,0 +1,43 @@
+,text,token,annotation
+0,type ModelB struct {,"['type', 'ModelB', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+1,"    MessageID          string   `datastore:""msg_id,noindex""`","['MessageID', 'string', 'datastore', ':', '""msg_id,noindex""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+2,"    CategoryIDs        []string `datastore:""cat_ids,noindex""`","['CategoryIDs', '[]', 'string', 'datastore', ':', '""cat_ids,noindex""']","['identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
+3,"    ListIDs            []string `datastore:""list_ids,noindex""`","['ListIDs', '[]', 'string', 'datastore', ':', '""list_ids,noindex""']","['identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
+4,"    DefaultListIDIndex int      `datastore:""default_list_id_index,noindex""`","['DefaultListIDIndex', 'int', 'datastore', ':', '""default_list_id_index,noindex""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+5,},['}'],['operator']
+6,type ModelA struct {,"['type', 'ModelA', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+7,"    DateJoin          time.Time `datastore:""date_join,""`","['DateJoin', 'time', '.', 'Time', 'datastore', ':', '""date_join,""']","['identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
+8,"    Name              string    `datastore:""name,""`","['Name', 'string', 'datastore', ':', '""name,""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+9,"    OwnerSalutation   string    `datastore:""owner_salutation,noindex""`","['OwnerSalutation', 'string', 'datastore', ':', '""owner_salutation,noindex""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+10,"    OwnerEmailAddress string    `datastore:""owner_email_address,""`","['OwnerEmailAddress', 'string', 'datastore', ':', '""owner_email_address,""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+11,"    LogoURL           string    `datastore:""logo_url,noindex""`","['LogoURL', 'string', 'datastore', ':', '""logo_url,noindex""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
+12,"    Messages          []ModelB  `datastore:""-""`","['Messages', '[]', 'ModelB', 'datastore', ':', '""-""']","['identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
+13,},['}'],['operator']
+14,// Load is implemented for the PropertyLoaderSaver interface.,['// Load is implemented for the PropertyLoaderSaver interface.'],"['comment', 'Load', 'is', 'implemented', 'for', 'the', 'PropertyLoaderSaver', 'interface', '.']"
+15,func (s *ModelA) Load(c <-chan datastore.Property) (err error) {,"['func', '(', 's', '*', 'ModelA', ')', 'Load', '(', 'c', '<-', 'chan', 'datastore', '.', 'Property', ')', '(', 'err', 'error', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+16,"    f := make(chan datastore.Property, 32)","['f', ':=', 'make', '(', 'chan', 'datastore', '.', 'Property', ',', '32', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+17,"    errc := make(chan error, 1)","['errc', ':=', 'make', '(', 'chan', 'error', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+18,    defer func() {,"['defer', 'func', '()', '{']","['identifier', 'keyword', 'operator', 'operator']"
+19,        if err == nil {,"['if', 'err', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+20,            err = <-errc,"['err', '=', '<-', 'errc']","['identifier', 'operator', 'operator', 'identifier']"
+21,        },['}'],['operator']
+22,    }(),['}()'],['operator']
+23,    go func() {,"['go', 'func', '()', '{']","['keyword', 'keyword', 'operator', 'operator']"
+24,        defer close(f),"['defer', 'close', '(', 'f', ')']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+25,        for p := range c {,"['for', 'p', ':=', 'range', 'c', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+26,"            if p.Name == ""bm"" {","['if', 'p', '.', 'Name', '==', '""bm""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+27,                var b ModelB,"['var', 'b', 'ModelB']","['keyword', 'identifier', 'identifier']"
+28,"                err := loadLocalStructuredProperty(&b, []byte(p.Value.(string)))","['err', ':=', 'loadLocalStructuredProperty', '(&', 'b', ',', '[]', 'byte', '(', 'p', '.', 'Value', '.(', 'string', ')))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+29,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+30,                    errc <- err,"['errc', '<-', 'err']","['identifier', 'operator', 'identifier']"
+31,                    return,['return'],['keyword']
+32,                },['}'],['operator']
+33,"                s.Messages = append(s.Messages, b)","['s', '.', 'Messages', '=', 'append', '(', 's', '.', 'Messages', ',', 'b', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+34,            } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+35,                f <- p,"['f', '<-', 'p']","['identifier', 'operator', 'identifier']"
+36,            },['}'],['operator']
+37,        },['}'],['operator']
+38,        errc <- nil,"['errc', '<-', 'nil']","['identifier', 'operator', 'identifier']"
+39,    }(),['}()'],['operator']
+40,"    return datastore.LoadStruct(s, f)","['return', 'datastore', '.', 'LoadStruct', '(', 's', ',', 'f', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+41,},['}'],['operator']

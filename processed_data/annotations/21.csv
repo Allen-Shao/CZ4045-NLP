@@ -1,0 +1,15 @@
+,text,token,annotation
+0,"#include ""wrapper.h""","['include', '""wrapper.h""']","['identifier', 'string_literal']"
+1,#include ,['include'],['identifier']
+2,extern void HandleXPCEvent(xpc_object_t);,"['extern', 'void', 'HandleXPCEvent', '(', 'xpc_object_t', ');']","['identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
+3,xpc_connection_t connect( char* name) {,"['xpc_connection_t', 'connect', '(', 'char', '*', 'name', ')', '{']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+4,"    dispatch_queue_t queue = dispatch_queue_create(name,0);","['dispatch_queue_t', 'queue', '=', 'dispatch_queue_create', '(', 'name', ',', '0', ');']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+5,"    return xpc_connection_create(name,queue);","['return', 'xpc_connection_create', '(', 'name', ',', 'queue', ');']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+6,},['}'],['operator']
+7,void set_event_handler(xpc_connection_t connection) {,"['void', 'set_event_handler', '(', 'xpc_connection_t', 'connection', ')', '{']","['identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+8,"    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {","['xpc_connection_set_event_handler', '(', 'connection', ',', '^(', 'xpc_object_t', 'event', ')', '{']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+9,        xpc_retain(event);,"['xpc_retain', '(', 'event', ');']","['identifier', 'operator', 'identifier', 'operator']"
+10,        // Call Go function,['// Call Go function'],"['comment', 'Call', 'Go', 'function']"
+11,        HandleXPCEvent(event);,"['HandleXPCEvent', '(', 'event', ');']","['identifier', 'operator', 'identifier', 'operator']"
+12,    });,['});'],['operator']
+13,},['}'],['operator']

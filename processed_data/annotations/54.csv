@@ -1,0 +1,49 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""crypto""","['""crypto""']",['string_literal']
+3,"    ""crypto/rand""","['""crypto/rand""']",['string_literal']
+4,"    ""crypto/rsa""","['""crypto/rsa""']",['string_literal']
+5,"    ""crypto/sha1""","['""crypto/sha1""']",['string_literal']
+6,"    ""crypto/x509""","['""crypto/x509""']",['string_literal']
+7,"    ""encoding/base64""","['""encoding/base64""']",['string_literal']
+8,"    ""encoding/pem""","['""encoding/pem""']",['string_literal']
+9,"    ""fmt""","['""fmt""']",['string_literal']
+10,"    ""log""","['""log""']",['string_literal']
+11,),[')'],['operator']
+12,const (,"['const', '(']","['keyword', 'operator']"
+13,"    data = ""TEST DATA TO COMPUTE""","['data', '=', '""TEST DATA TO COMPUTE""']","['identifier', 'operator', 'string_literal']"
+14,    privKeyPEM = `-----BEGIN RSA PRIVATE KEY-----,"['privKeyPEM', '=', '-----', 'BEGIN', 'RSA', 'PRIVATE', 'KEY', '-----']","['identifier', 'operator', 'operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+15,MIIBOgIBAAJBAK3ADijXKw72+YbC5QKK2y7IosCp7rWOhTf8Ph07ZA0KjdbKtfL/,"['MIIBOgIBAAJBAK3ADijXKw72', '+', 'YbC5QKK2y7IosCp7rWOhTf8Ph07ZA0KjdbKtfL']","['identifier', 'operator', 'identifier']"
+16,7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD,"['7', 'dmNKjSP6EkC', 'DJUWfZJNLIlGOtDLLA', 'AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD']","['decimal_literal', 'identifier', 'identifier', 'identifier']"
+17,tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J,"['tobRZ1xjo93', 'dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe', 'yxYQf6B5J']","['identifier', 'identifier', 'identifier']"
+18,AQIhANbhfZ4QJC8dLXAqcsxOXuLgztzbKixUre0gnhiVSd1hAiEAzv+sHJ4PMjKs,"['AQIhANbhfZ4QJC8dLXAqcsxOXuLgztzbKixUre0gnhiVSd1hAiEAzv', '+', 'sHJ4PMjKs']","['identifier', 'operator', 'identifier']"
+19,Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb,"['Iuf6', 'nUI9XFgQQRd', '+', 'NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR', '//IgfljoCjb']","['identifier', 'identifier', 'operator', 'identifier', 'comment', 'IgfljoCjb']"
+20,snuHDN9iSEwBAiEAmAc1XCtGE+Mdg+GG+T3xn3pubDIN5oHcia0YmKIIzsMCIEy1,"['snuHDN9iSEwBAiEAmAc1XCtGE', '+', 'Mdg', '+', 'GG', '+', 'T3xn3pubDIN5oHcia0YmKIIzsMCIEy1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+21,fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z,"['fWM5cIJ9bAUExKB6MV8PF', '+', '9', 'EjDvXzbSk1', 'Ycta8z']","['identifier', 'operator', 'decimal_literal', 'identifier', 'identifier']"
+22,-----END RSA PRIVATE KEY-----`,"['-----', 'END', 'RSA', 'PRIVATE', 'KEY', '-----']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
+23,),[')'],['operator']
+24,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+25,    // Parse private key into rsa.PrivateKey,['// Parse private key into rsa.PrivateKey'],"['comment', 'Parse', 'private', 'key', 'into', 'rsa.PrivateKey']"
+26,"    PEMBlock, _ := pem.Decode([]byte(privKeyPEM))","['PEMBlock', ',', '_', ':=', 'pem', '.', 'Decode', '([]', 'byte', '(', 'privKeyPEM', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+27,    if PEMBlock == nil {,"['if', 'PEMBlock', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+28,"        log.Fatal(""Could not parse Private Key PEM"")","['log', '.', 'Fatal', '(', '""Could not parse Private Key PEM""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+29,    },['}'],['operator']
+30,"    if PEMBlock.Type != ""RSA PRIVATE KEY"" {","['if', 'PEMBlock', '.', 'Type', '!=', '""RSA PRIVATE KEY""', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+31,"        log.Fatal(""Found wrong key type"")","['log', '.', 'Fatal', '(', '""Found wrong key type""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+32,    },['}'],['operator']
+33,"    privkey, err := x509.ParsePKCS1PrivateKey(PEMBlock.Bytes)","['privkey', ',', 'err', ':=', 'x509', '.', 'ParsePKCS1PrivateKey', '(', 'PEMBlock', '.', 'Bytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+34,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+35,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+36,    },['}'],['operator']
+37,    // Compute the sha1,['// Compute the sha1'],"['comment', 'Compute', 'the', 'sha1']"
+38,    h := sha1.New(),"['h', ':=', 'sha1', '.', 'New', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+39,    h.Write([]byte(data)),"['h', '.', 'Write', '([]', 'byte', '(', 'data', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+40,    // Sign the data,['// Sign the data'],"['comment', 'Sign', 'the', 'data']"
+41,"    signature, err := rsa.SignPKCS1v15(rand.Reader, privkey, crypto.SHA1, h.Sum(nil))","['signature', ',', 'err', ':=', 'rsa', '.', 'SignPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'privkey', ',', 'crypto', '.', 'SHA1', ',', 'h', '.', 'Sum', '(', 'nil', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+42,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+43,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+44,    },['}'],['operator']
+45,    // Print the results,['// Print the results'],"['comment', 'Print', 'the', 'results']"
+46,    fmt.Print(base64.StdEncoding.EncodeToString(signature)),"['fmt', '.', 'Print', '(', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'signature', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+47,},['}'],['operator']

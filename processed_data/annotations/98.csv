@@ -1,0 +1,45 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""RESTMONGOMVC/controllers""","['""RESTMONGOMVC/controllers""']",['string_literal']
+3,"    ""log""","['""log""']",['string_literal']
+4,"    ""net/http""","['""net/http""']",['string_literal']
+5,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['string_literal']
+6,"    ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['string_literal']
+7,),[')'],['operator']
+8,var (,"['var', '(']","['keyword', 'operator']"
+9,    session    *mgo.Session,"['session', '*', 'mgo', '.', 'Session']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+10,    collection *mgo.Collection,"['collection', '*', 'mgo', '.', 'Collection']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+11,    err        error,"['err', 'error']","['identifier', 'identifier']"
+12,),[')'],['operator']
+13,func getSession() *mgo.Session {,"['func', 'getSession', '()', '*', 'mgo', '.', 'Session', '{']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+14,    // Connect to our local mongo,['// Connect to our local mongo'],"['comment', 'Connect', 'to', 'our', 'local', 'mongo']"
+15,"    s, err := mgo.Dial(""mongodb://localhost"")","['s', ',', 'err', ':=', 'mgo', '.', 'Dial', '(', '""mongodb://localhost""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+16,"    // Check if connection error, is mongo running?","['// Check if connection error, is mongo running?']","['comment', 'Check', 'if', 'connection', 'error', ',', 'is', 'mongo', 'running', '?']"
+17,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+18,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+19,    },['}'],['operator']
+20,    // Deliver session,['// Deliver session'],"['comment', 'Deliver', 'session']"
+21,    return s,"['return', 's']","['keyword', 'identifier']"
+22,},['}'],['operator']
+23,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+24,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
+25,    r := mux.NewRouter(),"['r', ':=', 'mux', '.', 'NewRouter', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+26,    uc := controllers.NewNoteController(getSession()),"['uc', ':=', 'controllers', '.', 'NewNoteController', '(', 'getSession', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+27,"    r.HandleFunc(""/api/notes"", uc.GetNotes).Methods(""GET"")","['r', '.', 'HandleFunc', '(', '""/api/notes"", uc.GetNotes).Methods(""GET""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+28,"    r.HandleFunc(""/api/notes"", uc.CreateNote).Methods(""POST"")","['r', '.', 'HandleFunc', '(', '""/api/notes"", uc.CreateNote).Methods(""POST""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+29,"    r.HandleFunc(""/api/notes/{id}"", uc.UpdateNote).Methods(""PUT"")","['r', '.', 'HandleFunc', '(', '""/api/notes/{id}"", uc.UpdateNote).Methods(""PUT""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+30,"    r.HandleFunc(""/api/notes/{id}"", uc.DeleteNote).Methods(""DELETE"")","['r', '.', 'HandleFunc', '(', '""/api/notes/{id}"", uc.DeleteNote).Methods(""DELETE""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+31,"    http.Handle(""/api/"", r)","['http', '.', 'Handle', '(', '""/api/""', ',', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+32,"    http.Handle(""/"", http.FileServer(http.Dir(""."")))","['http', '.', 'Handle', '(', '""/"", http.FileServer(http.Dir("".""', ')))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+33,"    log.Println(""Starting Mongodb Session"")","['log', '.', 'Println', '(', '""Starting Mongodb Session""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+34,"    session, err = mgo.Dial(""localhost"")","['session', ',', 'err', '=', 'mgo', '.', 'Dial', '(', '""localhost""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+36,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+37,    },['}'],['operator']
+38,    defer session.Close(),"['defer', 'session', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+39,"    session.SetMode(mgo.Monotonic, true)","['session', '.', 'SetMode', '(', 'mgo', '.', 'Monotonic', ',', 'true', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+40,"    collection = session.DB(""notesdb"").C(""notes"")","['collection', '=', 'session', '.', 'DB', '(', '""notesdb"").C(""notes""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+41,"    log.Println(""Listening on 8080"")","['log', '.', 'Println', '(', '""Listening on 8080""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+42,"    http.ListenAndServe("":8080"", nil)","['http', '.', 'ListenAndServe', '(', '"":8080""', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+43,},['}'],['operator']

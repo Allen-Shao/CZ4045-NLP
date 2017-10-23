@@ -1,0 +1,81 @@
+,text,token,annotation
+0,package main,"['package', 'main']","['keyword', 'identifier']"
+1,import (,"['import', '(']","['keyword', 'operator']"
+2,"    ""net""","['""net""']",['string_literal']
+3,"    ""os""","['""os""']",['string_literal']
+4,"    ""bufio""","['""bufio""']",['string_literal']
+5,"    ""fmt""","['""fmt""']",['string_literal']
+6,),[')'],['operator']
+7,type Connection struct {,"['type', 'Connection', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+8,    IsFaulted bool,"['IsFaulted', 'bool']","['identifier', 'identifier']"
+9,    Conn net.Conn,"['Conn', 'net', '.', 'Conn']","['identifier', 'identifier', 'operator', 'identifier']"
+10,},['}'],['operator']
+11,"func StartWritingToNetwork(connWrap * Connection, errChannel chan <- error, msgStack chan string) {","['func', 'StartWritingToNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', ',', 'msgStack', 'chan', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'operator']"
+12,    for {,"['for', '{']","['keyword', 'operator']"
+13,        msg := <- msgStack,"['msg', ':=', '<-', 'msgStack']","['identifier', 'operator', 'operator', 'identifier']"
+14,        if connWrap.IsFaulted {,"['if', 'connWrap', '.', 'IsFaulted', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+15,            //put it back for another connection,['//put it back for another connection'],"['comment', 'put', 'it', 'back', 'for', 'another', 'connection']"
+16,            msgStack <- msg,"['msgStack', '<-', 'msg']","['identifier', 'operator', 'identifier']"
+17,            return,['return'],['keyword']
+18,        },['}'],['operator']
+19,"        _, err := connWrap.Conn.Write([]byte(msg))","['_', ',', 'err', ':=', 'connWrap', '.', 'Conn', '.', 'Write', '([]', 'byte', '(', 'msg', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+20,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+21,"            fmt.Printf(""failed sending a message to network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed sending a message to network: %v\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+22,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+23,            msgStack <- msg,"['msgStack', '<-', 'msg']","['identifier', 'operator', 'identifier']"
+24,            errChannel <- err,"['errChannel', '<-', 'err']","['identifier', 'operator', 'identifier']"
+25,            return,['return'],['keyword']
+26,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+27,"            fmt.Printf(""msg sent: %s"", msg)","['fmt', '.', 'Printf', '(', '""msg sent: %s""', ',', 'msg', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+28,        },['}'],['operator']
+29,    },['}'],['operator']
+30,},['}'],['operator']
+31,"func StartReadingFromNetwork(connWrap * Connection, errChannel chan <- error){","['func', 'StartReadingFromNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', '){']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator']"
+32,    network := bufio.NewReader(connWrap.Conn),"['network', ':=', 'bufio', '.', 'NewReader', '(', 'connWrap', '.', 'Conn', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+33,    for (!connWrap.IsFaulted) {,"['for', '(!', 'connWrap', '.', 'IsFaulted', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+34,"        line, err := network.ReadString('\n')","['line', ',', 'err', ':=', 'network', '.', 'ReadString', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+35,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+36,"            fmt.Printf(""failed reading from network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed reading from network: %v\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+37,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+38,            errChannel <- err,"['errChannel', '<-', 'err']","['identifier', 'operator', 'identifier']"
+39,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+40,"            fmt.Printf(""%s"", line)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'line', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
+41,        },['}'],['operator']
+42,    },['}'],['operator']
+43,},['}'],['operator']
+44,"func AcceptConnections(listener net.Listener, console chan string) {","['func', 'AcceptConnections', '(', 'listener', 'net', '.', 'Listener', ',', 'console', 'chan', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'operator']"
+45,    errChannel := make(chan error),"['errChannel', ':=', 'make', '(', 'chan', 'error', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+46,    for {,"['for', '{']","['keyword', 'operator']"
+47,"        conn, err := listener.Accept()","['conn', ',', 'err', ':=', 'listener', '.', 'Accept', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+48,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+49,            panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+50,        },['}'],['operator']
+51,"        fmt.Printf(""client connected\n"")","['fmt', '.', 'Printf', '(', '""client connected\\n""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+52,"        connWrap := Connection{false, conn}","['connWrap', ':=', 'Connection', '{', 'false', ',', 'conn', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+53,"        go StartReadingFromNetwork(&connWrap, errChannel)","['go', 'StartReadingFromNetwork', '(&', 'connWrap', ',', 'errChannel', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+54,"        go StartWritingToNetwork(&connWrap, errChannel, console)","['go', 'StartWritingToNetwork', '(&', 'connWrap', ',', 'errChannel', ',', 'console', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+55,        //block until an error occurs,['//block until an error occurs'],"['comment', 'block', 'until', 'an', 'error', 'occurs']"
+56,        <- errChannel,"['<-', 'errChannel']","['operator', 'identifier']"
+57,    },['}'],['operator']
+58,},['}'],['operator']
+59,func ReadConsole(network chan <- string) {,"['func', 'ReadConsole', '(', 'network', 'chan', '<-', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'operator']"
+60,    console := bufio.NewReader(os.Stdin),"['console', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+61,    for {,"['for', '{']","['keyword', 'operator']"
+62,"        line, err := console.ReadString('\n')","['line', ',', 'err', ':=', 'console', '.', 'ReadString', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+63,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+64,            panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+65,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+66,            network <- line,"['network', '<-', 'line']","['identifier', 'operator', 'identifier']"
+67,        },['}'],['operator']
+68,    },['}'],['operator']
+69,},['}'],['operator']
+70,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
+71,"    listener, err := net.Listen(""tcp"", ""localhost:6666"")","['listener', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""localhost:6666""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+72,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+73,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
+74,    },['}'],['operator']
+75,"    println(""listening on "" + listener.Addr().String())","['println', '(', '""listening on ""', '+', 'listener', '.', 'Addr', '().', 'String', '())']","['identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+76,    consoleToNetwork := make(chan string),"['consoleToNetwork', ':=', 'make', '(', 'chan', 'string', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
+77,"    go AcceptConnections(listener, consoleToNetwork)","['go', 'AcceptConnections', '(', 'listener', ',', 'consoleToNetwork', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+78,    ReadConsole(consoleToNetwork),"['ReadConsole', '(', 'consoleToNetwork', ')']","['identifier', 'operator', 'identifier', 'operator']"
+79,},['}'],['operator']

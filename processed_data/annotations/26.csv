@@ -1,0 +1,110 @@
+,text,token,annotation
+0,import (    ,"['import', '(']","['keyword', 'operator']"
+1,"    ""errors""    ","['""errors""']",['string_literal']
+2,"    ""time""    ","['""time""']",['string_literal']
+3,"    ""appengine""    ","['""appengine""']",['string_literal']
+4,"    ""appengine/datastore""        ","['""appengine/datastore""']",['string_literal']
+5,"    pb ""appengine_internal/datastore""    ","['pb', '""appengine_internal/datastore""']","['identifier', 'string_literal']"
+6,"    proto ""code.google.com/p/goprotobuf/proto""    ","['proto', '""code.google.com/p/goprotobuf/proto""']","['identifier', 'string_literal']"
+7,)    ,[')'],['operator']
+8,"func loadLocalStructuredProperty(dst interface{}, raw_proto []byte) error {    ","['func', 'loadLocalStructuredProperty', '(', 'dst', 'interface', '{},', 'raw_proto', '[]', 'byte', ')', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+9,    var val pb.EntityProto    ,"['var', 'val', 'pb', '.', 'EntityProto']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
+10,"    err := proto.Unmarshal(raw_proto, &val)    ","['err', ':=', 'proto', '.', 'Unmarshal', '(', 'raw_proto', ',', '&', 'val', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+11,    if err != nil {    ,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+12,        return err    ,"['return', 'err']","['keyword', 'identifier']"
+13,    }    ,['}'],['operator']
+14,"    return loadEntity(dst, &val)    ","['return', 'loadEntity', '(', 'dst', ',', '&', 'val', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
+15,},['}'],['operator']
+16,//Copied from appengine/datastore since its not exported,['//Copied from appengine/datastore since its not exported'],"['comment', 'Copied', 'from', 'appengine/datastore', 'since', 'its', 'not', 'exported']"
+17,// loadEntity loads an EntityProto into PropertyLoadSaver or struct pointer.,['// loadEntity loads an EntityProto into PropertyLoadSaver or struct pointer.'],"['comment', 'loadEntity', 'loads', 'an', 'EntityProto', 'into', 'PropertyLoadSaver', 'or', 'struct', 'pointer', '.']"
+18,"func loadEntity(dst interface{}, src *pb.EntityProto) (err error) {","['func', 'loadEntity', '(', 'dst', 'interface', '{},', 'src', '*', 'pb', '.', 'EntityProto', ')', '(', 'err', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
+19,"c := make(chan datastore.Property, 32)","['c', ':=', 'make', '(', 'chan', 'datastore', '.', 'Property', ',', '32', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+20," errc := make(chan error, 1)","['errc', ':=', 'make', '(', 'chan', 'error', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
+21, defer func() {,"['defer', 'func', '()', '{']","['identifier', 'keyword', 'operator', 'operator']"
+22,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+23,            err = <-errc,"['err', '=', '<-', 'errc']","['identifier', 'operator', 'operator', 'identifier']"
+24,        },['}'],['operator']
+25,    }(),['}()'],['operator']
+26,"    go protoToProperties(c, errc, src)","['go', 'protoToProperties', '(', 'c', ',', 'errc', ',', 'src', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+27,"    if e, ok := dst.(datastore.PropertyLoadSaver); ok {","['if', 'e', ',', 'ok', ':=', 'dst', '.(', 'datastore', '.', 'PropertyLoadSaver', ');', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+28,        return e.Load(c),"['return', 'e', '.', 'Load', '(', 'c', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+29,    },['}'],['operator']
+30,"    return datastore.LoadStruct(dst, c)","['return', 'datastore', '.', 'LoadStruct', '(', 'dst', ',', 'c', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+31,},['}'],['operator']
+32,"func protoToProperties(dst chan<- datastore.Property, errc chan<- error, src *pb.EntityProto) {","['func', 'protoToProperties', '(', 'dst', 'chan', '<-', 'datastore', '.', 'Property', ',', 'errc', 'chan', '<-', 'error', ',', 'src', '*', 'pb', '.', 'EntityProto', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
+33,    defer close(dst),"['defer', 'close', '(', 'dst', ')']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
+34,"    props, rawProps := src.Property, src.RawProperty","['props', ',', 'rawProps', ':=', 'src', '.', 'Property', ',', 'src', '.', 'RawProperty']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+35,    for {,"['for', '{']","['keyword', 'operator']"
+36,        var (,"['var', '(']","['keyword', 'operator']"
+37,            x       *pb.Property,"['x', '*', 'pb', '.', 'Property']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+38,            noIndex bool,"['noIndex', 'bool']","['identifier', 'identifier']"
+39,        ),[')'],['operator']
+40,        if len(props) > 0 {,"['if', 'len', '(', 'props', ')', '>', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+41,"            x, props = props[0], props[1:]","['x', ',', 'props', '=', 'props', '[', '0', '],', 'props', '[', '1', ':]']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+42,        } else if len(rawProps) > 0 {,"['}', 'else', 'if', 'len', '(', 'rawProps', ')', '>', '0', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
+43,"            x, rawProps = rawProps[0], rawProps[1:]","['x', ',', 'rawProps', '=', 'rawProps', '[', '0', '],', 'rawProps', '[', '1', ':]']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
+44,            noIndex = true,"['noIndex', '=', 'true']","['identifier', 'operator', 'identifier']"
+45,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+46,            break,['break'],['keyword']
+47,        },['}'],['operator']
+48,        var value interface{},"['var', 'value', 'interface', '{}']","['keyword', 'identifier', 'keyword', 'operator']"
+49,        if x.Meaning != nil && *x.Meaning == pb.Property_INDEX_VALUE {,"['if', 'x', '.', 'Meaning', '!=', 'nil', '&&', '*', 'x', '.', 'Meaning', '==', 'pb', '.', 'Property_INDEX_VALUE', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+50,            value = indexValue{x.Value},"['value', '=', 'indexValue', '{', 'x', '.', 'Value', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+51,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+52,            var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
+53,"            value, err = propValue(x.Value, x.GetMeaning())","['value', ',', 'err', '=', 'propValue', '(', 'x', '.', 'Value', ',', 'x', '.', 'GetMeaning', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+54,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
+55,                errc <- err,"['errc', '<-', 'err']","['identifier', 'operator', 'identifier']"
+56,                return,['return'],['keyword']
+57,            },['}'],['operator']
+58,        },['}'],['operator']
+59,        dst <- datastore.Property{,"['dst', '<-', 'datastore', '.', 'Property', '{']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+60,"            Name:     x.GetName(),","['Name', ':', 'x', '.', 'GetName', '(),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+61,"            Value:    value,","['Value', ':', 'value', ',']","['identifier', 'operator', 'identifier', 'operator']"
+62,"            NoIndex:  noIndex,","['NoIndex', ':', 'noIndex', ',']","['identifier', 'operator', 'identifier', 'operator']"
+63,"            Multiple: x.GetMultiple(),","['Multiple', ':', 'x', '.', 'GetMultiple', '(),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+64,        },['}'],['operator']
+65,    },['}'],['operator']
+66,    errc <- nil,"['errc', '<-', 'nil']","['identifier', 'operator', 'identifier']"
+67,},['}'],['operator']
+68,func fromUnixMicro(t int64) time.Time {,"['func', 'fromUnixMicro', '(', 't', 'int64', ')', 'time', '.', 'Time', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+69,"    return time.Unix(t/1e6, (t%1e6)*1e3)","['return', 'time', '.', 'Unix', '(', 't', '1', 'e6', ',', '(', 't', '1', 'e6', ')*', '1', 'e3', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'decimal_literal', 'identifier', 'operator', 'operator', 'identifier', 'decimal_literal', 'identifier', 'operator', 'decimal_literal', 'identifier', 'operator']"
+70,},['}'],['operator']
+71,// propValue returns a Go value that combines the raw PropertyValue with a,['// propValue returns a Go value that combines the raw PropertyValue with a'],"['comment', 'propValue', 'returns', 'a', 'Go', 'value', 'that', 'combines', 'the', 'raw', 'PropertyValue', 'with', 'a']"
+72,"// meaning. For example, an Int64Value with GD_WHEN becomes a time.Time.","['// meaning. For example, an Int64Value with GD_WHEN becomes a time.Time.']","['comment', 'meaning', '.', 'For', 'example', ',', 'an', 'Int64Value', 'with', 'GD_WHEN', 'becomes', 'a', 'time.Time', '.']"
+73,"func propValue(v *pb.PropertyValue, m pb.Property_Meaning) (interface{}, error) {","['func', 'propValue', '(', 'v', '*', 'pb', '.', 'PropertyValue', ',', 'm', 'pb', '.', 'Property_Meaning', ')', '(', 'interface', '{},', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'operator']"
+74,    switch {,"['switch', '{']","['identifier', 'operator']"
+75,    case v.Int64Value != nil:,"['case', 'v', '.', 'Int64Value', '!=', 'nil', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+76,        if m == pb.Property_GD_WHEN {,"['if', 'm', '==', 'pb', '.', 'Property_GD_WHEN', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+77,"            return fromUnixMicro(*v.Int64Value), nil","['return', 'fromUnixMicro', '(*', 'v', '.', 'Int64Value', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+78,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+79,"            return *v.Int64Value, nil","['return', '*', 'v', '.', 'Int64Value', ',', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+80,        },['}'],['operator']
+81,    case v.BooleanValue != nil:,"['case', 'v', '.', 'BooleanValue', '!=', 'nil', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+82,"        return *v.BooleanValue, nil","['return', '*', 'v', '.', 'BooleanValue', ',', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+83,    case v.StringValue != nil:,"['case', 'v', '.', 'StringValue', '!=', 'nil', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+84,        if m == pb.Property_BLOB {,"['if', 'm', '==', 'pb', '.', 'Property_BLOB', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+85,"            return []byte(*v.StringValue), nil","['return', '[]', 'byte', '(*', 'v', '.', 'StringValue', '),', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+86,        } else if m == pb.Property_BLOBKEY {,"['}', 'else', 'if', 'm', '==', 'pb', '.', 'Property_BLOBKEY', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+87,"            return appengine.BlobKey(*v.StringValue), nil","['return', 'appengine', '.', 'BlobKey', '(*', 'v', '.', 'StringValue', '),', 'nil']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+88,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
+89,"            return *v.StringValue, nil","['return', '*', 'v', '.', 'StringValue', ',', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+90,        },['}'],['operator']
+91,    case v.DoubleValue != nil:,"['case', 'v', '.', 'DoubleValue', '!=', 'nil', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+92,"        return *v.DoubleValue, nil","['return', '*', 'v', '.', 'DoubleValue', ',', 'nil']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
+93,    case v.Referencevalue != nil:,"['case', 'v', '.', 'Referencevalue', '!=', 'nil', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
+94,"        return nil, errors.New(""Not Implemented!"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""Not Implemented!""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
+95,    },['}'],['operator']
+96,"    return nil, nil","['return', 'nil', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
+97,},['}'],['operator']
+98,// indexValue is a Property value that is created when entities are loaded from,['// indexValue is a Property value that is created when entities are loaded from'],"['comment', 'indexValue', 'is', 'a', 'Property', 'value', 'that', 'is', 'created', 'when', 'entities', 'are', 'loaded', 'from']"
+99,"// an index, such as from a projection query.","['// an index, such as from a projection query.']","['comment', 'an', 'index', ',', 'such', 'as', 'from', 'a', 'projection', 'query', '.']"
+100,//,['//'],['comment']
+101,// Such Property values do not contain all of the metadata required to be,['// Such Property values do not contain all of the metadata required to be'],"['comment', 'Such', 'Property', 'values', 'do', 'not', 'contain', 'all', 'of', 'the', 'metadata', 'required', 'to', 'be']"
+102,"// faithfully represented as a Go value, and are instead represented as an","['// faithfully represented as a Go value, and are instead represented as an']","['comment', 'faithfully', 'represented', 'as', 'a', 'Go', 'value', ',', 'and', 'are', 'instead', 'represented', 'as', 'an']"
+103,// opaque indexValue. Load the properties into a concrete struct type (e.g. by,['// opaque indexValue. Load the properties into a concrete struct type (e.g. by'],"['comment', 'opaque', 'indexValue', '.', 'Load', 'the', 'properties', 'into', 'a', 'concrete', 'struct', 'type', '(', 'e.g', '.', 'by']"
+104,// passing a struct pointer to Iterator.Next) to reconstruct actual Go values,['// passing a struct pointer to Iterator.Next) to reconstruct actual Go values'],"['comment', 'passing', 'a', 'struct', 'pointer', 'to', 'Iterator.Next', ')', 'to', 'reconstruct', 'actual', 'Go', 'values']"
+105,"// of type int, string, time.Time, etc.","['// of type int, string, time.Time, etc.']","['comment', 'of', 'type', 'int', ',', 'string', ',', 'time.Time', ',', 'etc', '.']"
+106,type indexValue struct {,"['type', 'indexValue', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
+107,    value *pb.PropertyValue,"['value', '*', 'pb', '.', 'PropertyValue']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
+108,},['}'],['operator']
