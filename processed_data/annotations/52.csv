@@ -1,33 +1,33 @@
 ,text,token,annotation
-0,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-1,"    inFile, err := os.Open(*srcFile)","['inFile', ',', 'err', ':=', 'os', '.', 'Open', '(*', 'srcFile', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-2,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-3,"        log.LogErrorf(""Error opening dump: %v"", err)","['log', '.', 'LogErrorf', '(', '""Error opening dump: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-4,        return,['return'],['keyword']
-5,    },['}'],['operator']
-6,    defer inFile.Close(),"['defer', 'inFile', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-7,    var wg sync.WaitGroup,"['var', 'wg', 'sync', '.', 'WaitGroup']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
-8,"    input := make(chan []byte, 51)","['input', ':=', 'make', '(', 'chan', '[]', 'byte', ',', '51', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-9,    go func() {,"['go', 'func', '()', '{']","['keyword', 'keyword', 'operator', 'operator']"
-10,        wg.Add(1),"['wg', '.', 'Add', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-11,        for line := range input {,"['for', 'line', ':=', 'range', 'input', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-12,"            log.Printf(""Bytes: %s"", line)","['log', '.', 'Printf', '(', '""Bytes: %s""', ',', 'line', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-13,            // process the line,['// process the line'],"['comment', 'process', 'the', 'line']"
-14,        },['}'],['operator']
-15,        wg.Done(),"['wg', '.', 'Done', '()']","['identifier', 'operator', 'identifier', 'operator']"
-16,    }(),['}()'],['operator']
-17,    scanner := bufio.NewScanner(inFile),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'inFile', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-18,    count := 0,"['count', ':=', '0']","['identifier', 'operator', 'decimal_literal']"
-19,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-20,        count++,"['count', '++']","['identifier', 'operator']"
-21,"        log.Printf(""Scanned: %d"", count)","['log', '.', 'Printf', '(', '""Scanned: %d""', ',', 'count', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-22,        if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-23,"            log.LogErrorf(""Error scanning: %v"", err)","['log', '.', 'LogErrorf', '(', '""Error scanning: %v""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-24,        },['}'],['operator']
-25,        newestBytes := scanner.Bytes(),"['newestBytes', ':=', 'scanner', '.', 'Bytes', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-26,"        log.Printf(""Bytes: %s"", newestBytes)","['log', '.', 'Printf', '(', '""Bytes: %s""', ',', 'newestBytes', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-27,        input <- newestBytes,"['input', '<-', 'newestBytes']","['identifier', 'operator', 'identifier']"
-28,    },['}'],['operator']
-29,    close(input),"['close', '(', 'input', ')']","['identifier', 'operator', 'identifier', 'operator']"
-30,    wg.Wait(),"['wg', '.', 'Wait', '()']","['identifier', 'operator', 'identifier', 'operator']"
-31,},['}'],['operator']
+0,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+1,"    inFile, err := os.Open(*srcFile)","['inFile', ',', 'err', ':=', 'os', '.', 'Open', '(*', 'srcFile', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+2,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+3,"        log.LogErrorf(""Error opening dump: %v"", err)","['log', '.', 'LogErrorf', '(', '""Error opening dump: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+4,        return,['return'],['KEYWORD']
+5,    },['}'],['OPERATOR']
+6,    defer inFile.Close(),"['defer', 'inFile', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+7,    var wg sync.WaitGroup,"['var', 'wg', 'sync', '.', 'WaitGroup']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+8,"    input := make(chan []byte, 51)","['input', ':=', 'make', '(', 'chan', '[]', 'byte', ',', '51', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+9,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+10,        wg.Add(1),"['wg', '.', 'Add', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+11,        for line := range input {,"['for', 'line', ':=', 'range', 'input', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+12,"            log.Printf(""Bytes: %s"", line)","['log', '.', 'Printf', '(', '""Bytes: %s""', ',', 'line', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,            // process the line,['// process the line'],"['COMMENT', 'NN', 'DT', 'NN']"
+14,        },['}'],['OPERATOR']
+15,        wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+16,    }(),['}()'],['OPERATOR']
+17,    scanner := bufio.NewScanner(inFile),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'inFile', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,    count := 0,"['count', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+19,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,        count++,"['count', '++']","['IDENTIFIER', 'OPERATOR']"
+21,"        log.Printf(""Scanned: %d"", count)","['log', '.', 'Printf', '(', '""Scanned: %d""', ',', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,        if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,"            log.LogErrorf(""Error scanning: %v"", err)","['log', '.', 'LogErrorf', '(', '""Error scanning: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,        },['}'],['OPERATOR']
+25,        newestBytes := scanner.Bytes(),"['newestBytes', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"        log.Printf(""Bytes: %s"", newestBytes)","['log', '.', 'Printf', '(', '""Bytes: %s""', ',', 'newestBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,        input <- newestBytes,"['input', '<-', 'newestBytes']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+28,    },['}'],['OPERATOR']
+29,    close(input),"['close', '(', 'input', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,    wg.Wait(),"['wg', '.', 'Wait', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,},['}'],['OPERATOR']

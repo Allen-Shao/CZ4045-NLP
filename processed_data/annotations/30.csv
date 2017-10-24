@@ -1,123 +1,123 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    f ""fmt""","['f', '""fmt""']","['identifier', 'string_literal']"
-3,"    ""github.com/go-gl/gl""","['""github.com/go-gl/gl""']",['string_literal']
-4,"    glfw ""github.com/go-gl/glfw3""","['glfw', '""github.com/go-gl/glfw3""']","['identifier', 'string_literal']"
-5,"    ""math""","['""math""']",['string_literal']
-6,"    ""time""","['""time""']",['string_literal']
-7,),[')'],['operator']
-8,var (,"['var', '(']","['keyword', 'operator']"
-9,    numRendered = 0,"['numRendered', '=', '0']","['identifier', 'operator', 'decimal_literal']"
-10,    lastDraw = time.Now(),"['lastDraw', '=', 'time', '.', 'Now', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-11,    fps = 60,"['fps', '=', '60']","['identifier', 'operator', 'decimal_literal']"
-12,    seconds = time.Now(),"['seconds', '=', 'time', '.', 'Now', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-13,    attr gl.AttribLocation,"['attr', 'gl', '.', 'AttribLocation']","['identifier', 'identifier', 'operator', 'identifier']"
-14,),[')'],['operator']
-15,func main(){,"['func', 'main', '(){']","['keyword', 'identifier', 'operator']"
-16,    if !glfw.Init(){,"['if', '!', 'glfw', '.', 'Init', '(){']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-17,"        f.Println(""Failed to init glfw"")","['f', '.', 'Println', '(', '""Failed to init glfw""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-18,"        panic(""Cannot initialize glfw library"")","['panic', '(', '""Cannot initialize glfw library""', ')']","['identifier', 'operator', 'string_literal', 'operator']"
-19,    },['}'],['operator']
-20,    defer glfw.Terminate(),"['defer', 'glfw', '.', 'Terminate', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-21,"    //glfw.WindowHint(glfw.DepthBits, 16)","['//glfw.WindowHint(glfw.DepthBits, 16)']","['comment', 'glfw.WindowHint', '(', 'glfw.DepthBits', ',', '16', ')']"
-22,"    window, err := glfw.CreateWindow(300, 300, ""Wander"", nil, nil)","['window', ',', 'err', ':=', 'glfw', '.', 'CreateWindow', '(', '300', ',', '300', ',', '""Wander""', ',', 'nil', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-23,    if err != nil{,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-24,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
-25,    },['}'],['operator']
-26,    window.SetFramebufferSizeCallback(reshape),"['window', '.', 'SetFramebufferSizeCallback', '(', 'reshape', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-27,    window.SetKeyCallback(key),"['window', '.', 'SetKeyCallback', '(', 'key', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-28,    window.MakeContextCurrent(),"['window', '.', 'MakeContextCurrent', '()']","['identifier', 'operator', 'identifier', 'operator']"
-29,    glfw.SwapInterval(1),"['glfw', '.', 'SwapInterval', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-30,"    width, height := window.GetFramebufferSize()","['width', ',', 'height', ':=', 'window', '.', 'GetFramebufferSize', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-31,"    reshape(window, width, height)","['reshape', '(', 'window', ',', 'width', ',', 'height', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-32,    if gl.Init() != 0 {,"['if', 'gl', '.', 'Init', '()', '!=', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-33,"        panic(""Failed to init GL"")","['panic', '(', '""Failed to init GL""', ')']","['identifier', 'operator', 'string_literal', 'operator']"
-34,    },['}'],['operator']
-35,    prog := setupProgram(),"['prog', ':=', 'setupProgram', '()']","['identifier', 'operator', 'identifier', 'operator']"
-36,    defer prog.Delete(),"['defer', 'prog', '.', 'Delete', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-37,    prog.Use(),"['prog', '.', 'Use', '()']","['identifier', 'operator', 'identifier', 'operator']"
-38,"    attr = prog.GetAttribLocation(""offset"")","['attr', '=', 'prog', '.', 'GetAttribLocation', '(', '""offset""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-39,    setup(),"['setup', '()']","['identifier', 'operator']"
-40,    for !window.ShouldClose() {,"['for', '!', 'window', '.', 'ShouldClose', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-41,        if shouldRender(){,"['if', 'shouldRender', '(){']","['keyword', 'identifier', 'operator']"
-42,            draw(),"['draw', '()']","['identifier', 'operator']"
-43,        },['}'],['operator']
-44,        animate(),"['animate', '()']","['identifier', 'operator']"
-45,        window.SwapBuffers(),"['window', '.', 'SwapBuffers', '()']","['identifier', 'operator', 'identifier', 'operator']"
-46,        glfw.PollEvents(),"['glfw', '.', 'PollEvents', '()']","['identifier', 'operator', 'identifier', 'operator']"
-47,    },['}'],['operator']
-48,},['}'],['operator']
-49,func setupProgram()(prog gl.Program){,"['func', 'setupProgram', '()(', 'prog', 'gl', '.', 'Program', '){']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-50,    vertexSource := `,"['vertexSource', ':=']","['identifier', 'operator']"
-51,        #version 430 core,"['version', '430', 'core']","['identifier', 'decimal_literal', 'identifier']"
-52,        layout (location = 0) in vec4 offset;,"['layout', '(', 'location', '=', '0', ')', 'in', 'vec4', 'offset', ';']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'identifier', 'identifier', 'operator']"
-53,        const vec4 vertecies[3] = vec4[3](,"['const', 'vec4', 'vertecies', '[', '3', ']', '=', 'vec4', '[', '3', '](']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-54,"            vec4(0.25, 0.5, 0.5, 1.0),","['vec4', '(', '0', '.', '25', ',', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', '),']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-55,"            vec4(-0.25, 0.5, 0.5, 1.0),","['vec4', '(-', '0', '.', '25', ',', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', '),']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-56,"            vec4(-0.25, -0.5, 0.5, 1.0)","['vec4', '(-', '0', '.', '25', ',', '-', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', ')']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-57,        );,[');'],['operator']
-58,        void main(){,"['void', 'main', '(){']","['identifier', 'identifier', 'operator']"
-59,            gl_Position = vertecies[gl_VertexID] + offset;,"['gl_Position', '=', 'vertecies', '[', 'gl_VertexID', ']', '+', 'offset', ';']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-60,        }`,['}'],['operator']
-61,    fragmentSource := `,"['fragmentSource', ':=']","['identifier', 'operator']"
-62,        #version 430 core,"['version', '430', 'core']","['identifier', 'decimal_literal', 'identifier']"
-63,        out vec4 color;,"['out', 'vec4', 'color', ';']","['identifier', 'identifier', 'identifier', 'operator']"
-64,        void main(){,"['void', 'main', '(){']","['identifier', 'identifier', 'operator']"
-65,"            color = vec4(1.0, 0.0, 0.0, 0.0); // red, blue, green, ??","['color', '=', 'vec4', '(', '1', '.', '0', ',', '0', '.', '0', ',', '0', '.', '0', ',', '0', '.', '0', ');', '// red, blue, green, ??']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'comment', 'red', ',', 'blue', ',', 'green', ',', '?', '?']"
-66,        }`,['}'],['operator']
-67,"    vert, frag := gl.CreateShader(gl.VERTEX_SHADER), gl.CreateShader(gl.FRAGMENT_SHADER)","['vert', ',', 'frag', ':=', 'gl', '.', 'CreateShader', '(', 'gl', '.', 'VERTEX_SHADER', '),', 'gl', '.', 'CreateShader', '(', 'gl', '.', 'FRAGMENT_SHADER', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-68,    defer vert.Delete(),"['defer', 'vert', '.', 'Delete', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-69,    defer frag.Delete(),"['defer', 'frag', '.', 'Delete', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-70,    vert.Source(vertexSource),"['vert', '.', 'Source', '(', 'vertexSource', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-71,    frag.Source(fragmentSource),"['frag', '.', 'Source', '(', 'fragmentSource', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-72,    vert.Compile(),"['vert', '.', 'Compile', '()']","['identifier', 'operator', 'identifier', 'operator']"
-73,    frag.Compile(),"['frag', '.', 'Compile', '()']","['identifier', 'operator', 'identifier', 'operator']"
-74,    prog = gl.CreateProgram(),"['prog', '=', 'gl', '.', 'CreateProgram', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-75,    prog.AttachShader(vert),"['prog', '.', 'AttachShader', '(', 'vert', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-76,    prog.AttachShader(frag),"['prog', '.', 'AttachShader', '(', 'frag', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-77,    prog.Link(),"['prog', '.', 'Link', '()']","['identifier', 'operator', 'identifier', 'operator']"
-78,    prog.Use(),"['prog', '.', 'Use', '()']","['identifier', 'operator', 'identifier', 'operator']"
-79,    f.Println(prog.GetInfoLog()),"['f', '.', 'Println', '(', 'prog', '.', 'GetInfoLog', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-80,    return,['return'],['keyword']
-81,},['}'],['operator']
-82,"func key(window *glfw.Window, k glfw.Key, s int, action glfw.Action, mods glfw.ModifierKey) {","['func', 'key', '(', 'window', '*', 'glfw', '.', 'Window', ',', 'k', 'glfw', '.', 'Key', ',', 's', 'int', ',', 'action', 'glfw', '.', 'Action', ',', 'mods', 'glfw', '.', 'ModifierKey', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-83,    if action != glfw.Press {,"['if', 'action', '!=', 'glfw', '.', 'Press', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-84,        return,['return'],['keyword']
-85,    },['}'],['operator']
-86,    switch glfw.Key(k){,"['switch', 'glfw', '.', 'Key', '(', 'k', '){']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-87,        case glfw.KeyEscape:,"['case', 'glfw', '.', 'KeyEscape', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-88,            window.SetShouldClose(true);,"['window', '.', 'SetShouldClose', '(', 'true', ');']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-89,        default:,"['default', ':']","['keyword', 'operator']"
-90,            return,['return'],['keyword']
-91,    },['}'],['operator']
-92,},['}'],['operator']
-93,"func reshape(window *glfw.Window, width, height int){","['func', 'reshape', '(', 'window', '*', 'glfw', '.', 'Window', ',', 'width', ',', 'height', 'int', '){']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator']"
-94,"    gl.Viewport(0, 0, width, height)","['gl', '.', 'Viewport', '(', '0', ',', '0', ',', 'width', ',', 'height', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-95,},['}'],['operator']
-96,func draw(){,"['func', 'draw', '(){']","['keyword', 'identifier', 'operator']"
-97,    gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),"['gl', '.', 'Clear', '(', 'gl', '.', 'COLOR_BUFFER_BIT', '|', 'gl', '.', 'DEPTH_BUFFER_BIT', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-98,"    gl.DrawArrays(gl.TRIANGLES, 0, 3)","['gl', '.', 'DrawArrays', '(', 'gl', '.', 'TRIANGLES', ',', '0', ',', '3', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-99,},['}'],['operator']
-100,func shouldRender() bool{,"['func', 'shouldRender', '()', 'bool', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-101,    if int(time.Since(lastDraw) * time.Second) >= 1000/fps{,"['if', 'int', '(', 'time', '.', 'Since', '(', 'lastDraw', ')', '*', 'time', '.', 'Second', ')', '>=', '1000', 'fps', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'identifier', 'operator']"
-102,"        //f.Println(""rendering for the "", numRendered, "" time"")","['//f.Println(""rendering for the "", numRendered, "" time"")']","['comment', 'f.Println', '(', '``', 'rendering', 'for', 'the', '``', ',', 'numRendered', ',', '``', 'time', ""''"", ')']"
-103,        numRendered++,"['numRendered', '++']","['identifier', 'operator']"
-104,        lastDraw = time.Now(),"['lastDraw', '=', 'time', '.', 'Now', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-105,        return true,"['return', 'true']","['keyword', 'identifier']"
-106,    },['}'],['operator']
-107,    return false;,"['return', 'false', ';']","['keyword', 'identifier', 'operator']"
-108,},['}'],['operator']
-109,func animate(){,"['func', 'animate', '(){']","['keyword', 'identifier', 'operator']"
-110,    now := float64(time.Since(seconds)),"['now', ':=', 'float64', '(', 'time', '.', 'Since', '(', 'seconds', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-111,    offset := [4]float32{,"['offset', ':=', '[', '4', ']', 'float32', '{']","['identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-112,"        float32(math.Sin(now)),","['float32', '(', 'math', '.', 'Sin', '(', 'now', ')),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-113,"        float32(math.Cos(now)),","['float32', '(', 'math', '.', 'Cos', '(', 'now', ')),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-114,"        0.0,0.0}","['0', '.', '0', ',', '0', '.', '0', '}']","['decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-115,    attr.Attrib4fv(&offset),"['attr', '.', 'Attrib4fv', '(&', 'offset', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-116,    red := gl.GLclampf(math.Sin(now) * 0.25 + 0.75),"['red', ':=', 'gl', '.', 'GLclampf', '(', 'math', '.', 'Sin', '(', 'now', ')', '*', '0', '.', '25', '+', '0', '.', '75', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-117,    blue := gl.GLclampf(math.Cos(now) * 0.25 + 0.75),"['blue', ':=', 'gl', '.', 'GLclampf', '(', 'math', '.', 'Cos', '(', 'now', ')', '*', '0', '.', '25', '+', '0', '.', '75', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-118,    green := gl.GLclampf(time.Since(seconds)),"['green', ':=', 'gl', '.', 'GLclampf', '(', 'time', '.', 'Since', '(', 'seconds', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-119,    _ = green;,"['_', '=', 'green', ';']","['identifier', 'operator', 'identifier', 'operator']"
-120,"    gl.ClearColor(red, blue, 0.2, 0.0)","['gl', '.', 'ClearColor', '(', 'red', ',', 'blue', ',', '0', '.', '2', ',', '0', '.', '0', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-121,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    f ""fmt""","['f', '""fmt""']","['IDENTIFIER', 'STRING_LITERAL']"
+3,"    ""github.com/go-gl/gl""","['""github.com/go-gl/gl""']",['STRING_LITERAL']
+4,"    glfw ""github.com/go-gl/glfw3""","['glfw', '""github.com/go-gl/glfw3""']","['IDENTIFIER', 'STRING_LITERAL']"
+5,"    ""math""","['""math""']",['STRING_LITERAL']
+6,"    ""time""","['""time""']",['STRING_LITERAL']
+7,),[')'],['OPERATOR']
+8,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+9,    numRendered = 0,"['numRendered', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+10,    lastDraw = time.Now(),"['lastDraw', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,    fps = 60,"['fps', '=', '60']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+12,    seconds = time.Now(),"['seconds', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,    attr gl.AttribLocation,"['attr', 'gl', '.', 'AttribLocation']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+14,),[')'],['OPERATOR']
+15,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+16,    if !glfw.Init(){,"['if', '!', 'glfw', '.', 'Init', '(){']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,"        f.Println(""Failed to init glfw"")","['f', '.', 'Println', '(', '""Failed to init glfw""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+18,"        panic(""Cannot initialize glfw library"")","['panic', '(', '""Cannot initialize glfw library""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+19,    },['}'],['OPERATOR']
+20,    defer glfw.Terminate(),"['defer', 'glfw', '.', 'Terminate', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,"    //glfw.WindowHint(glfw.DepthBits, 16)","['//glfw.WindowHint(glfw.DepthBits, 16)']","['COMMENT', 'NN', '(', 'NNS', ',', 'CD', ')']"
+22,"    window, err := glfw.CreateWindow(300, 300, ""Wander"", nil, nil)","['window', ',', 'err', ':=', 'glfw', '.', 'CreateWindow', '(', '300', ',', '300', ',', '""Wander""', ',', 'nil', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,    if err != nil{,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,    },['}'],['OPERATOR']
+26,    window.SetFramebufferSizeCallback(reshape),"['window', '.', 'SetFramebufferSizeCallback', '(', 'reshape', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,    window.SetKeyCallback(key),"['window', '.', 'SetKeyCallback', '(', 'key', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,    window.MakeContextCurrent(),"['window', '.', 'MakeContextCurrent', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,    glfw.SwapInterval(1),"['glfw', '.', 'SwapInterval', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+30,"    width, height := window.GetFramebufferSize()","['width', ',', 'height', ':=', 'window', '.', 'GetFramebufferSize', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,"    reshape(window, width, height)","['reshape', '(', 'window', ',', 'width', ',', 'height', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,    if gl.Init() != 0 {,"['if', 'gl', '.', 'Init', '()', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+33,"        panic(""Failed to init GL"")","['panic', '(', '""Failed to init GL""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+34,    },['}'],['OPERATOR']
+35,    prog := setupProgram(),"['prog', ':=', 'setupProgram', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,    defer prog.Delete(),"['defer', 'prog', '.', 'Delete', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    prog.Use(),"['prog', '.', 'Use', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"    attr = prog.GetAttribLocation(""offset"")","['attr', '=', 'prog', '.', 'GetAttribLocation', '(', '""offset""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+39,    setup(),"['setup', '()']","['IDENTIFIER', 'OPERATOR']"
+40,    for !window.ShouldClose() {,"['for', '!', 'window', '.', 'ShouldClose', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+41,        if shouldRender(){,"['if', 'shouldRender', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+42,            draw(),"['draw', '()']","['IDENTIFIER', 'OPERATOR']"
+43,        },['}'],['OPERATOR']
+44,        animate(),"['animate', '()']","['IDENTIFIER', 'OPERATOR']"
+45,        window.SwapBuffers(),"['window', '.', 'SwapBuffers', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,        glfw.PollEvents(),"['glfw', '.', 'PollEvents', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,    },['}'],['OPERATOR']
+48,},['}'],['OPERATOR']
+49,func setupProgram()(prog gl.Program){,"['func', 'setupProgram', '()(', 'prog', 'gl', '.', 'Program', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,    vertexSource := `,"['vertexSource', ':=']","['IDENTIFIER', 'OPERATOR']"
+51,        #version 430 core,"['version', '430', 'core']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+52,        layout (location = 0) in vec4 offset;,"['layout', '(', 'location', '=', '0', ')', 'in', 'vec4', 'offset', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+53,        const vec4 vertecies[3] = vec4[3](,"['const', 'vec4', 'vertecies', '[', '3', ']', '=', 'vec4', '[', '3', '](']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+54,"            vec4(0.25, 0.5, 0.5, 1.0),","['vec4', '(', '0', '.', '25', ',', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', '),']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+55,"            vec4(-0.25, 0.5, 0.5, 1.0),","['vec4', '(-', '0', '.', '25', ',', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', '),']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+56,"            vec4(-0.25, -0.5, 0.5, 1.0)","['vec4', '(-', '0', '.', '25', ',', '-', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', ')']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+57,        );,[');'],['OPERATOR']
+58,        void main(){,"['void', 'main', '(){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+59,            gl_Position = vertecies[gl_VertexID] + offset;,"['gl_Position', '=', 'vertecies', '[', 'gl_VertexID', ']', '+', 'offset', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,        }`,['}'],['OPERATOR']
+61,    fragmentSource := `,"['fragmentSource', ':=']","['IDENTIFIER', 'OPERATOR']"
+62,        #version 430 core,"['version', '430', 'core']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+63,        out vec4 color;,"['out', 'vec4', 'color', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+64,        void main(){,"['void', 'main', '(){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+65,"            color = vec4(1.0, 0.0, 0.0, 0.0); // red, blue, green, ??","['color', '=', 'vec4', '(', '1', '.', '0', ',', '0', '.', '0', ',', '0', '.', '0', ',', '0', '.', '0', ');', '// red, blue, green, ??']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ', ',', 'JJ', ',', 'JJ', ',', '.', '.']"
+66,        }`,['}'],['OPERATOR']
+67,"    vert, frag := gl.CreateShader(gl.VERTEX_SHADER), gl.CreateShader(gl.FRAGMENT_SHADER)","['vert', ',', 'frag', ':=', 'gl', '.', 'CreateShader', '(', 'gl', '.', 'VERTEX_SHADER', '),', 'gl', '.', 'CreateShader', '(', 'gl', '.', 'FRAGMENT_SHADER', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,    defer vert.Delete(),"['defer', 'vert', '.', 'Delete', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,    defer frag.Delete(),"['defer', 'frag', '.', 'Delete', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,    vert.Source(vertexSource),"['vert', '.', 'Source', '(', 'vertexSource', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,    frag.Source(fragmentSource),"['frag', '.', 'Source', '(', 'fragmentSource', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,    vert.Compile(),"['vert', '.', 'Compile', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,    frag.Compile(),"['frag', '.', 'Compile', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,    prog = gl.CreateProgram(),"['prog', '=', 'gl', '.', 'CreateProgram', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,    prog.AttachShader(vert),"['prog', '.', 'AttachShader', '(', 'vert', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    prog.AttachShader(frag),"['prog', '.', 'AttachShader', '(', 'frag', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,    prog.Link(),"['prog', '.', 'Link', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,    prog.Use(),"['prog', '.', 'Use', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    f.Println(prog.GetInfoLog()),"['f', '.', 'Println', '(', 'prog', '.', 'GetInfoLog', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    return,['return'],['KEYWORD']
+81,},['}'],['OPERATOR']
+82,"func key(window *glfw.Window, k glfw.Key, s int, action glfw.Action, mods glfw.ModifierKey) {","['func', 'key', '(', 'window', '*', 'glfw', '.', 'Window', ',', 'k', 'glfw', '.', 'Key', ',', 's', 'int', ',', 'action', 'glfw', '.', 'Action', ',', 'mods', 'glfw', '.', 'ModifierKey', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+83,    if action != glfw.Press {,"['if', 'action', '!=', 'glfw', '.', 'Press', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,        return,['return'],['KEYWORD']
+85,    },['}'],['OPERATOR']
+86,    switch glfw.Key(k){,"['switch', 'glfw', '.', 'Key', '(', 'k', '){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,        case glfw.KeyEscape:,"['case', 'glfw', '.', 'KeyEscape', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,            window.SetShouldClose(true);,"['window', '.', 'SetShouldClose', '(', 'true', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+90,            return,['return'],['KEYWORD']
+91,    },['}'],['OPERATOR']
+92,},['}'],['OPERATOR']
+93,"func reshape(window *glfw.Window, width, height int){","['func', 'reshape', '(', 'window', '*', 'glfw', '.', 'Window', ',', 'width', ',', 'height', 'int', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+94,"    gl.Viewport(0, 0, width, height)","['gl', '.', 'Viewport', '(', '0', ',', '0', ',', 'width', ',', 'height', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+95,},['}'],['OPERATOR']
+96,func draw(){,"['func', 'draw', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+97,    gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),"['gl', '.', 'Clear', '(', 'gl', '.', 'COLOR_BUFFER_BIT', '|', 'gl', '.', 'DEPTH_BUFFER_BIT', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+98,"    gl.DrawArrays(gl.TRIANGLES, 0, 3)","['gl', '.', 'DrawArrays', '(', 'gl', '.', 'TRIANGLES', ',', '0', ',', '3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+99,},['}'],['OPERATOR']
+100,func shouldRender() bool{,"['func', 'shouldRender', '()', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+101,    if int(time.Since(lastDraw) * time.Second) >= 1000/fps{,"['if', 'int', '(', 'time', '.', 'Since', '(', 'lastDraw', ')', '*', 'time', '.', 'Second', ')', '>=', '1000', 'fps', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+102,"        //f.Println(""rendering for the "", numRendered, "" time"")","['//f.Println(""rendering for the "", numRendered, "" time"")']","['COMMENT', 'NN', '(', '``', 'VBG', 'IN', 'DT', '``', ',', 'VBD', ',', '``', 'NN', ""''"", ')']"
+103,        numRendered++,"['numRendered', '++']","['IDENTIFIER', 'OPERATOR']"
+104,        lastDraw = time.Now(),"['lastDraw', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,        return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
+106,    },['}'],['OPERATOR']
+107,    return false;,"['return', 'false', ';']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+108,},['}'],['OPERATOR']
+109,func animate(){,"['func', 'animate', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+110,    now := float64(time.Since(seconds)),"['now', ':=', 'float64', '(', 'time', '.', 'Since', '(', 'seconds', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,    offset := [4]float32{,"['offset', ':=', '[', '4', ']', 'float32', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,"        float32(math.Sin(now)),","['float32', '(', 'math', '.', 'Sin', '(', 'now', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,"        float32(math.Cos(now)),","['float32', '(', 'math', '.', 'Cos', '(', 'now', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,"        0.0,0.0}","['0', '.', '0', ',', '0', '.', '0', '}']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+115,    attr.Attrib4fv(&offset),"['attr', '.', 'Attrib4fv', '(&', 'offset', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,    red := gl.GLclampf(math.Sin(now) * 0.25 + 0.75),"['red', ':=', 'gl', '.', 'GLclampf', '(', 'math', '.', 'Sin', '(', 'now', ')', '*', '0', '.', '25', '+', '0', '.', '75', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+117,    blue := gl.GLclampf(math.Cos(now) * 0.25 + 0.75),"['blue', ':=', 'gl', '.', 'GLclampf', '(', 'math', '.', 'Cos', '(', 'now', ')', '*', '0', '.', '25', '+', '0', '.', '75', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+118,    green := gl.GLclampf(time.Since(seconds)),"['green', ':=', 'gl', '.', 'GLclampf', '(', 'time', '.', 'Since', '(', 'seconds', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,    _ = green;,"['_', '=', 'green', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,"    gl.ClearColor(red, blue, 0.2, 0.0)","['gl', '.', 'ClearColor', '(', 'red', ',', 'blue', ',', '0', '.', '2', ',', '0', '.', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+121,},['}'],['OPERATOR']

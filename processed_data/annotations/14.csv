@@ -1,268 +1,268 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""bytes""","['""bytes""']",['string_literal']
-3,"    ""database/sql""","['""database/sql""']",['string_literal']
-4,"    ""flag""","['""flag""']",['string_literal']
-5,"    ""fmt""","['""fmt""']",['string_literal']
-6,"    _ ""github.com/Go-SQL-Driver/MySQL""","['_', '""github.com/Go-SQL-Driver/MySQL""']","['identifier', 'string_literal']"
-7,"    ""ijinshan.com/cfg""","['""ijinshan.com/cfg""']",['string_literal']
-8,"    ""log""","['""log""']",['string_literal']
-9,"    ""net""","['""net""']",['string_literal']
-10,"    ""net/http""","['""net/http""']",['string_literal']
-11,"    ""net/smtp""","['""net/smtp""']",['string_literal']
-12,"    ""os""","['""os""']",['string_literal']
-13,"    ""strconv""","['""strconv""']",['string_literal']
-14,"    ""strings""","['""strings""']",['string_literal']
-15,"    ""sync""","['""sync""']",['string_literal']
-16,"    ""time""","['""time""']",['string_literal']
-17,),[')'],['operator']
-18,var (,"['var', '(']","['keyword', 'operator']"
-19,    Log           *log.Logger,"['Log', '*', 'log', '.', 'Logger']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-20,    Conf          cfg.KVConfig,"['Conf', 'cfg', '.', 'KVConfig']","['identifier', 'identifier', 'operator', 'identifier']"
-21,    Debug         bool,"['Debug', 'bool']","['identifier', 'identifier']"
-22,    CpuCore       int,"['CpuCore', 'int']","['identifier', 'identifier']"
-23,    HttpTransport = &http.Transport{,"['HttpTransport', '=', '&', 'http', '.', 'Transport', '{']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-24,"        Dial: func(netw, addr string) (net.Conn, error) {","['Dial', ':', 'func', '(', 'netw', ',', 'addr', 'string', ')', '(', 'net', '.', 'Conn', ',', 'error', ')', '{']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-25,            deadline := time.Now().Add(30 * time.Second),"['deadline', ':=', 'time', '.', 'Now', '().', 'Add', '(', '30', '*', 'time', '.', 'Second', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-26,"            c, err := net.DialTimeout(netw, addr, 20*time.Second)","['c', ',', 'err', ':=', 'net', '.', 'DialTimeout', '(', 'netw', ',', 'addr', ',', '20', '*', 'time', '.', 'Second', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-27,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-28,"                return nil, err","['return', 'nil', ',', 'err']","['keyword', 'identifier', 'operator', 'identifier']"
-29,            },['}'],['operator']
-30,            c.SetDeadline(deadline),"['c', '.', 'SetDeadline', '(', 'deadline', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-31,"            return c, nil","['return', 'c', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
-32,"        },","['},']",['operator']
-33,"        DisableKeepAlives: true,","['DisableKeepAlives', ':', 'true', ',']","['identifier', 'operator', 'identifier', 'operator']"
-34,    },['}'],['operator']
-35,    HttpClient = &http.Client{,"['HttpClient', '=', '&', 'http', '.', 'Client', '{']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-36,"        Transport: HttpTransport,","['Transport', ':', 'HttpTransport', ',']","['identifier', 'operator', 'identifier', 'operator']"
-37,    },['}'],['operator']
-38,    WG            sync.WaitGroup,"['WG', 'sync', '.', 'WaitGroup']","['identifier', 'identifier', 'operator', 'identifier']"
-39,),[')'],['operator']
-40,const (,"['const', '(']","['keyword', 'operator']"
-41,    LogFileFlag   = os.O_WRONLY | os.O_CREATE | os.O_APPEND,"['LogFileFlag', '=', 'os', '.', 'O_WRONLY', '|', 'os', '.', 'O_CREATE', '|', 'os', '.', 'O_APPEND']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-42,    LogFileMode   = 0644,"['LogFileMode', '=', '0644']","['identifier', 'operator', 'decimal_literal']"
-43,    LogFlag       = log.LstdFlags | log.Lshortfile,"['LogFlag', '=', 'log', '.', 'LstdFlags', '|', 'log', '.', 'Lshortfile']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-44,"    GET_VIDEO_SQL = `SELECT B.Name, A.TSID, A.Chapter, A.ChapterNum, ","['GET_VIDEO_SQL', '=', 'SELECT', 'B', '.', 'Name', ',', 'A', '.', 'TSID', ',', 'A', '.', 'Chapter', ',', 'A', '.', 'ChapterNum', ',']","['identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-45,"    IFNULL(A.Website, ''), IFNULL(A.Descr, ''), ","['IFNULL', '(', 'A', '.', 'Website', ',', '),', 'IFNULL', '(', 'A', '.', 'Descr', ',', '),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-46,"    IFNULL(A.VideoId, ''), IFNULL(AndroidWebURL, ''), IFNULL(IOSWebURL, ''), ","['IFNULL', '(', 'A', '.', 'VideoId', ',', '),', 'IFNULL', '(', 'AndroidWebURL', ',', '),', 'IFNULL', '(', 'IOSWebURL', ',', '),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-47,"    IFNULL(AndroidURL, ''), IFNULL(AndroidURL2, ''), IFNULL(IOSURL, '')","['IFNULL', '(', 'AndroidURL', ',', '),', 'IFNULL', '(', 'AndroidURL2', ',', '),', 'IFNULL', '(', 'IOSURL', ',', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-48,    FROM Video A INNER JOIN TVS B ON A.TSID = B.ID LIMIT 200`,"['FROM', 'Video', 'A', 'INNER', 'JOIN', 'TVS', 'B', 'ON', 'A', '.', 'TSID', '=', 'B', '.', 'ID', 'LIMIT', '200']","['identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'decimal_literal']"
-49,    HtmlHead = `节目名,"['HtmlHead', '=']","['identifier', 'operator']"
-50,    tsid章节章节号描述,['tsid章节章节号描述'],['identifier']
-51,    videoid网站地址`,['videoid网站地址'],['identifier']
-52,"    HtmlTail = """"","['HtmlTail', '=', '""""']","['identifier', 'operator', 'string_literal']"
-53,),[')'],['operator']
-54,type videoInfo struct {,"['type', 'videoInfo', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-55,    name          string,"['name', 'string']","['identifier', 'identifier']"
-56,    tsid          uint,"['tsid', 'uint']","['identifier', 'identifier']"
-57,    chapter       string,"['chapter', 'string']","['identifier', 'identifier']"
-58,    chapterNum    uint,"['chapterNum', 'uint']","['identifier', 'identifier']"
-59,    descr         string,"['descr', 'string']","['identifier', 'identifier']"
-60,    videoId       string,"['videoId', 'string']","['identifier', 'identifier']"
-61,    website       string,"['website', 'string']","['identifier', 'identifier']"
-62,    androidWebUrl string,"['androidWebUrl', 'string']","['identifier', 'identifier']"
-63,    iosWebUrl     string,"['iosWebUrl', 'string']","['identifier', 'identifier']"
-64,    androidUrl    string,"['androidUrl', 'string']","['identifier', 'identifier']"
-65,    androidUrl2   string,"['androidUrl2', 'string']","['identifier', 'identifier']"
-66,    iosUrl        string,"['iosUrl', 'string']","['identifier', 'identifier']"
-67,},['}'],['operator']
-68,func init() {,"['func', 'init', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-69,    var (,"['var', '(']","['keyword', 'operator']"
-70,        confFile string,"['confFile', 'string']","['identifier', 'identifier']"
-71,        err      error,"['err', 'error']","['identifier', 'identifier']"
-72,    ),[')'],['operator']
-73,    // parse command argument:w,['// parse command argument:w'],"['comment', 'parse', 'command', 'argument', ':', 'w']"
-74,"    flag.StringVar(&confFile, ""c"", ""./vsmonitor.conf"", "" set config file path"")","['flag', '.', 'StringVar', '(&', 'confFile', ',', '""c"", ""./vsmonitor.conf"", "" set config file path""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-75,    flag.Parse(),"['flag', '.', 'Parse', '()']","['identifier', 'operator', 'identifier', 'operator']"
-76,    // read config,['// read config'],"['comment', 'read', 'config']"
-77,"    if Conf, err = cfg.Read(confFile); err != nil {","['if', 'Conf', ',', 'err', '=', 'cfg', '.', 'Read', '(', 'confFile', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-78,"        panic(fmt.Sprintf(""Read config file \""%s\"" failed (%s)"",","['panic', '(', 'fmt', '.', 'Sprintf', '(', '""Read config file \\""%s\\"" failed (%s)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-79,"            confFile, err.Error()))","['confFile', ',', 'err', '.', 'Error', '()))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-80,    },['}'],['operator']
-81,    // open log file,['// open log file'],"['comment', 'open', 'log', 'file']"
-82,"    file, err := os.OpenFile(Conf[""log.file""], LogFileFlag, LogFileMode)","['file', ',', 'err', ':=', 'os', '.', 'OpenFile', '(', 'Conf', '[', '""log.file""', '],', 'LogFileFlag', ',', 'LogFileMode', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-83,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-84,"        panic(fmt.Sprintf(""OpenFile \""%s\"" failed (%s)"", Conf[""log.file""],","['panic', '(', 'fmt', '.', 'Sprintf', '(', '""OpenFile \\""%s\\"" failed (%s)"", Conf[""log.file""', '],']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-85,            err.Error())),"['err', '.', 'Error', '()))']","['identifier', 'operator', 'identifier', 'operator']"
-86,    },['}'],['operator']
-87,    // init LOG,['// init LOG'],"['comment', 'init', 'LOG']"
-88,"    Log = log.New(file, """", LogFlag)","['Log', '=', 'log', '.', 'New', '(', 'file', ',', '""""', ',', 'LogFlag', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-89,    Debug = false,"['Debug', '=', 'false']","['identifier', 'operator', 'identifier']"
-90,"    i, err := strconv.ParseInt(Conf[""cpucore.num""], 10, 32)","['i', ',', 'err', ':=', 'strconv', '.', 'ParseInt', '(', 'Conf', '[', '""cpucore.num""', '],', '10', ',', '32', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-92,"        panic(fmt.Sprintf(""ParseInt \""%s\"" failed (%s)"", Conf[""cpucore.num""],","['panic', '(', 'fmt', '.', 'Sprintf', '(', '""ParseInt \\""%s\\"" failed (%s)"", Conf[""cpucore.num""', '],']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-93,            err.Error())),"['err', '.', 'Error', '()))']","['identifier', 'operator', 'identifier', 'operator']"
-94,    },['}'],['operator']
-95,    CpuCore = int(i),"['CpuCore', '=', 'int', '(', 'i', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-96,},['}'],['operator']
-97,func getHttpStatusCode(url string) int {,"['func', 'getHttpStatusCode', '(', 'url', 'string', ')', 'int', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-98,"    if url == """" {","['if', 'url', '==', '""""', '{']","['keyword', 'identifier', 'operator', 'string_literal', 'operator']"
-99,        return 200,"['return', '200']","['keyword', 'decimal_literal']"
-100,    },['}'],['operator']
-101,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""GET""', ',', 'url', ',', 'nil', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-102,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-103,        return 0,"['return', '0']","['keyword', 'decimal_literal']"
-104,    },['}'],['operator']
-105,"    req.Header.Add(""User-Agent"", ""Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17"")","['req', '.', 'Header', '.', 'Add', '(', '""User-Agent"", ""Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-106,"    req.Header.Add(""Connection"", ""close"")","['req', '.', 'Header', '.', 'Add', '(', '""Connection"", ""close""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-107,"    resp, err := HttpClient.Do(req)","['resp', ',', 'err', ':=', 'HttpClient', '.', 'Do', '(', 'req', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-108,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-109,        return 0,"['return', '0']","['keyword', 'decimal_literal']"
-110,    },['}'],['operator']
-111,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-112,    return resp.StatusCode,"['return', 'resp', '.', 'StatusCode']","['keyword', 'identifier', 'operator', 'identifier']"
-113,},['}'],['operator']
-114,"func sendMail(host, user, pwd, from, to, subject, body, mailType string) error {","['func', 'sendMail', '(', 'host', ',', 'user', ',', 'pwd', ',', 'from', ',', 'to', ',', 'subject', ',', 'body', ',', 'mailType', 'string', ')', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-115,"    auth := smtp.PlainAuth("""", user, pwd, strings.Split(host, "":"")[0])","['auth', ':=', 'smtp', '.', 'PlainAuth', '(', '"""", user, pwd, strings.Split(host, "":""', ')[', '0', '])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'decimal_literal', 'operator']"
-116,"    cntType := fmt.Sprintf(""Content-Type: text/%s;charset=UTF-8"", mailType)","['cntType', ':=', 'fmt', '.', 'Sprintf', '(', '""Content-Type: text/%s;charset=UTF-8""', ',', 'mailType', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-117,"    msg := fmt.Sprintf(""To: %s\r\nFrom: %s\r\nSubject: %s\r\n%s\r\n\r\n%s"",","['msg', ':=', 'fmt', '.', 'Sprintf', '(', '""To: %s\\r\\nFrom: %s\\r\\nSubject: %s\\r\\n%s\\r\\n\\r\\n%s""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-118,"        to, from, user, subject, cntType, body)","['to', ',', 'from', ',', 'user', ',', 'subject', ',', 'cntType', ',', 'body', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-119,"    return smtp.SendMail(host, auth, user, strings.Split(to, "",""), []byte(msg))","['return', 'smtp', '.', 'SendMail', '(', 'host', ',', 'auth', ',', 'user', ',', 'strings', '.', 'Split', '(', 'to', ',', '"",""', '),', '[]', 'byte', '(', 'msg', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-120,},['}'],['operator']
-121,"func getVideos(videoChan chan *videoInfo, htmlBuf *bytes.Buffer) error {","['func', 'getVideos', '(', 'videoChan', 'chan', '*', 'videoInfo', ',', 'htmlBuf', '*', 'bytes', '.', 'Buffer', ')', 'error', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-122,    defer HttpTransport.CloseIdleConnections(),"['defer', 'HttpTransport', '.', 'CloseIdleConnections', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-123,"    db, err := sql.Open(""mysql"", Conf[""weikan.mysql""])","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""mysql"", Conf[""weikan.mysql""', '])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-124,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-125,        return err,"['return', 'err']","['keyword', 'identifier']"
-126,    },['}'],['operator']
-127,"    rows, err := db.Query(GET_VIDEO_SQL)","['rows', ',', 'err', ':=', 'db', '.', 'Query', '(', 'GET_VIDEO_SQL', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-128,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-129,        db.Close(),"['db', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-130,        return err,"['return', 'err']","['keyword', 'identifier']"
-131,    },['}'],['operator']
-132,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-133,        video := &videoInfo{},"['video', ':=', '&', 'videoInfo', '{}']","['identifier', 'operator', 'operator', 'identifier', 'operator']"
-134,"        err = rows.Scan(&video.name, &video.tsid, &video.chapter,","['err', '=', 'rows', '.', 'Scan', '(&', 'video', '.', 'name', ',', '&', 'video', '.', 'tsid', ',', '&', 'video', '.', 'chapter', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-135,"            &video.chapterNum,","['&', 'video', '.', 'chapterNum', ',']","['operator', 'identifier', 'operator', 'identifier', 'operator']"
-136,"            &video.website, &video.descr, &video.videoId, &video.androidWebUrl,","['&', 'video', '.', 'website', ',', '&', 'video', '.', 'descr', ',', '&', 'video', '.', 'videoId', ',', '&', 'video', '.', 'androidWebUrl', ',']","['operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-137,"            &video.iosWebUrl, &video.androidUrl, &video.androidUrl2,","['&', 'video', '.', 'iosWebUrl', ',', '&', 'video', '.', 'androidUrl', ',', '&', 'video', '.', 'androidUrl2', ',']","['operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-138,            &video.iosUrl),"['&', 'video', '.', 'iosUrl', ')']","['operator', 'identifier', 'operator', 'identifier', 'operator']"
-139,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-140,            db.Close(),"['db', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-141,            return err,"['return', 'err']","['keyword', 'identifier']"
-142,        },['}'],['operator']
-143,        videoChan <- video,"['videoChan', '<-', 'video']","['identifier', 'operator', 'identifier']"
-144,        WG.Add(1),"['WG', '.', 'Add', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-145,    },['}'],['operator']
-146,    db.Close(),"['db', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-147,    // wait check url finish,['// wait check url finish'],"['comment', 'wait', 'check', 'url', 'finish']"
-148,    WG.Wait(),"['WG', '.', 'Wait', '()']","['identifier', 'operator', 'identifier', 'operator']"
-149,    // send mail,['// send mail'],"['comment', 'send', 'mail']"
-150,    for {,"['for', '{']","['keyword', 'operator']"
-151,        if htmlBuf.Len() == 0 {,"['if', 'htmlBuf', '.', 'Len', '()', '==', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-152,"            Log.Print(""no error found!!!!!!!!"")","['Log', '.', 'Print', '(', '""no error found!!!!!!!!""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-153,            break,['break'],['keyword']
-154,        },['}'],['operator']
-155,"        Log.Print(""found error !!!!!!!!"")","['Log', '.', 'Print', '(', '""found error !!!!!!!!""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-156,        /*,['*'],['operator']
-157,"        err := sendMail(""smtp.gmail.com:587"", ""xxxx"",","['err', ':=', 'sendMail', '(', '""smtp.gmail.com:587"", ""xxxx""', ',']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-158,"            ""xxx"", ""xxx "",","['""xxx"", ""xxx ""', ',']","['string_literal', 'operator']"
-159,"            Conf[""mail.to""], ""xxxxx"",","['Conf', '[', '""mail.to""], ""xxxxx""', ',']","['identifier', 'operator', 'string_literal', 'operator']"
-160,"            HtmlHead+htmlBuf.String()+HtmlTail, ""html"")","['HtmlHead', '+', 'htmlBuf', '.', 'String', '()+', 'HtmlTail', ',', '""html""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-161,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-162,"            Log.Printf(""sendMail failed (%s)"", err.Error())","['Log', '.', 'Printf', '(', '""sendMail failed (%s)""', ',', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-163,            time.Sleep(10 * time.Second),"['time', '.', 'Sleep', '(', '10', '*', 'time', '.', 'Second', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-164,            continue,['continue'],['keyword']
-165,        },['}'],['operator']
-166,        */,['*'],['operator']
-167,"        Log.Print(""send mail"")","['Log', '.', 'Print', '(', '""send mail""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-168,        break,['break'],['keyword']
-169,    },['}'],['operator']
-170,"    Log.Print(""reset buf"")","['Log', '.', 'Print', '(', '""reset buf""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-171,    htmlBuf.Reset(),"['htmlBuf', '.', 'Reset', '()']","['identifier', 'operator', 'identifier', 'operator']"
-172,    return nil,"['return', 'nil']","['keyword', 'identifier']"
-173,},['}'],['operator']
-174,"func checkUrl(videoChan chan *videoInfo, errChan chan string) {","['func', 'checkUrl', '(', 'videoChan', 'chan', '*', 'videoInfo', ',', 'errChan', 'chan', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'operator']"
-175,    defer func() {,"['defer', 'func', '()', '{']","['identifier', 'keyword', 'operator', 'operator']"
-176,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-177,"            Log.Print(""rouintes failed : "", err)","['Log', '.', 'Print', '(', '""rouintes failed : ""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-178,        },['}'],['operator']
-179,    }(),['}()'],['operator']
-180,    for {,"['for', '{']","['keyword', 'operator']"
-181,        video := <-videoChan,"['video', ':=', '<-', 'videoChan']","['identifier', 'operator', 'operator', 'identifier']"
-182,        ok := true,"['ok', ':=', 'true']","['identifier', 'operator', 'identifier']"
-183,"        errUrl := """"","['errUrl', ':=', '""""']","['identifier', 'operator', 'string_literal']"
-184,        if code := getHttpStatusCode(video.androidWebUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidWebUrl', ');', 'code', '>=', '400', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-185,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-186,"                video.androidWebUrl, code)","['video', '.', 'androidWebUrl', ',', 'code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-187,            ok = false,"['ok', '=', 'false']","['identifier', 'operator', 'identifier']"
-188,        },['}'],['operator']
-189,        if code := getHttpStatusCode(video.iosWebUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'iosWebUrl', ');', 'code', '>=', '400', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-190,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-191,"                video.iosWebUrl, code)","['video', '.', 'iosWebUrl', ',', 'code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-192,            ok = false,"['ok', '=', 'false']","['identifier', 'operator', 'identifier']"
-193,        },['}'],['operator']
-194,        if code := getHttpStatusCode(video.androidUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidUrl', ');', 'code', '>=', '400', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-195,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-196,"                video.androidUrl, code)","['video', '.', 'androidUrl', ',', 'code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-197,            ok = false,"['ok', '=', 'false']","['identifier', 'operator', 'identifier']"
-198,        },['}'],['operator']
-199,        if code := getHttpStatusCode(video.androidUrl2); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidUrl2', ');', 'code', '>=', '400', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-200,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-201,"                video.androidUrl2, code)","['video', '.', 'androidUrl2', ',', 'code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-202,            ok = false,"['ok', '=', 'false']","['identifier', 'operator', 'identifier']"
-203,        },['}'],['operator']
-204,        if code := getHttpStatusCode(video.iosUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'iosUrl', ');', 'code', '>=', '400', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-205,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-206,"                video.iosUrl, code)","['video', '.', 'iosUrl', ',', 'code', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-207,            ok = false,"['ok', '=', 'false']","['identifier', 'operator', 'identifier']"
-208,        },['}'],['operator']
-209,        if !ok {,"['if', '!', 'ok', '{']","['keyword', 'operator', 'identifier', 'operator']"
-210,            errChan %s%d%s,"['errChan', 's', 'd', 's']","['identifier', 'identifier', 'identifier', 'identifier']"
-211,"            %d%s%s%s%s`,","['d', 's', 's', 's', 's', ',']","['identifier', 'identifier', 'identifier', 'identifier', 'identifier', 'operator']"
-212,"                video.name, video.tsid, video.chapter, video.chapterNum,","['video', '.', 'name', ',', 'video', '.', 'tsid', ',', 'video', '.', 'chapter', ',', 'video', '.', 'chapterNum', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-213,"                video.descr, video.videoId,","['video', '.', 'descr', ',', 'video', '.', 'videoId', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-214,"                video.website, errUrl)","['video', '.', 'website', ',', 'errUrl', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-215,"            Log.Printf(""\""%s\"" (%s) —— \""%s\"" checkurl err"", video.name,","['Log', '.', 'Printf', '(', '""\\""%s\\"" (%s) —— \\""%s\\"" checkurl err""', ',', 'video', '.', 'name', ',']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-216,"                video.chapter, video.descr)","['video', '.', 'chapter', ',', 'video', '.', 'descr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-217,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-218,"            Log.Printf(""\""%s\"" (%s) —— \""%s\"" checkurl ok"", video.name,","['Log', '.', 'Printf', '(', '""\\""%s\\"" (%s) —— \\""%s\\"" checkurl ok""', ',', 'video', '.', 'name', ',']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-219,"                video.chapter, video.descr)","['video', '.', 'chapter', ',', 'video', '.', 'descr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-220,            WG.Done(),"['WG', '.', 'Done', '()']","['identifier', 'operator', 'identifier', 'operator']"
-221,        },['}'],['operator']
-222,    },['}'],['operator']
-223,},['}'],['operator']
-224,"func mergeErr(errChan chan string, htmlBuf *bytes.Buffer) {","['func', 'mergeErr', '(', 'errChan', 'chan', 'string', ',', 'htmlBuf', '*', 'bytes', '.', 'Buffer', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-225,    defer func() {,"['defer', 'func', '()', '{']","['identifier', 'keyword', 'operator', 'operator']"
-226,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-227,"            Log.Print(""rouintes failed : "", err)","['Log', '.', 'Print', '(', '""rouintes failed : ""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-228,        },['}'],['operator']
-229,    }(),['}()'],['operator']
-230,    for {,"['for', '{']","['keyword', 'operator']"
-231,        html := <-errChan,"['html', ':=', '<-', 'errChan']","['identifier', 'operator', 'operator', 'identifier']"
-232,"        _, err := htmlBuf.WriteString(html)","['_', ',', 'err', ':=', 'htmlBuf', '.', 'WriteString', '(', 'html', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-233,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-234,"            Log.Printf(""htmlBuf WriteString \""%s\"" failed (%s)"", html,","['Log', '.', 'Printf', '(', '""htmlBuf WriteString \\""%s\\"" failed (%s)""', ',', 'html', ',']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-235,                err.Error()),"['err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator']"
-236,            panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
-237,        },['}'],['operator']
-238,        WG.Done(),"['WG', '.', 'Done', '()']","['identifier', 'operator', 'identifier', 'operator']"
-239,    },['}'],['operator']
-240,},['}'],['operator']
-241,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-242,"    videoChan := make(chan *videoInfo, 100000)","['videoChan', ':=', 'make', '(', 'chan', '*', 'videoInfo', ',', '100000', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-243,"    errChan := make(chan string, 100000)","['errChan', ':=', 'make', '(', 'chan', 'string', ',', '100000', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-244,    htmlBuf := &bytes.Buffer{},"['htmlBuf', ':=', '&', 'bytes', '.', 'Buffer', '{}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-245,    defer func() {,"['defer', 'func', '()', '{']","['identifier', 'keyword', 'operator', 'operator']"
-246,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-247,"            Log.Print(""rouintes failed : "", err)","['Log', '.', 'Print', '(', '""rouintes failed : ""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-248,        },['}'],['operator']
-249,    }(),['}()'],['operator']
-250,    // check url,['// check url'],"['comment', 'check', 'url']"
-251,    for i := 0; i < CpuCore; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'CpuCore', ';', 'i', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-252,"        go checkUrl(videoChan, errChan)","['go', 'checkUrl', '(', 'videoChan', ',', 'errChan', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-253,    },['}'],['operator']
-254,    // merge error string then send mail,['// merge error string then send mail'],"['comment', 'merge', 'error', 'string', 'then', 'send', 'mail']"
-255,"    go mergeErr(errChan, htmlBuf)","['go', 'mergeErr', '(', 'errChan', ',', 'htmlBuf', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-256,    for {,"['for', '{']","['keyword', 'operator']"
-257,        // get Video and LiveSrc video source,['// get Video and LiveSrc video source'],"['comment', 'get', 'Video', 'and', 'LiveSrc', 'video', 'source']"
-258,"        if err := getVideos(videoChan, htmlBuf); err != nil {","['if', 'err', ':=', 'getVideos', '(', 'videoChan', ',', 'htmlBuf', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-259,"            Log.Printf(""getVideos failed (%s)"", err.Error())","['Log', '.', 'Printf', '(', '""getVideos failed (%s)""', ',', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-260,            time.Sleep(10 * time.Second),"['time', '.', 'Sleep', '(', '10', '*', 'time', '.', 'Second', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-261,            continue,['continue'],['keyword']
-262,        },['}'],['operator']
-263,        // time.Sleep(1 * time.Hour),['// time.Sleep(1 * time.Hour)'],"['comment', 'time.Sleep', '(', '1', '*', 'time.Hour', ')']"
-264,    },['}'],['operator']
-265,"    Log.Print(""exit..."")","['Log', '.', 'Print', '(', '""exit...""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-266,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+3,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
+4,"    ""flag""","['""flag""']",['STRING_LITERAL']
+5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"    _ ""github.com/Go-SQL-Driver/MySQL""","['_', '""github.com/Go-SQL-Driver/MySQL""']","['IDENTIFIER', 'STRING_LITERAL']"
+7,"    ""ijinshan.com/cfg""","['""ijinshan.com/cfg""']",['STRING_LITERAL']
+8,"    ""log""","['""log""']",['STRING_LITERAL']
+9,"    ""net""","['""net""']",['STRING_LITERAL']
+10,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+11,"    ""net/smtp""","['""net/smtp""']",['STRING_LITERAL']
+12,"    ""os""","['""os""']",['STRING_LITERAL']
+13,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+14,"    ""strings""","['""strings""']",['STRING_LITERAL']
+15,"    ""sync""","['""sync""']",['STRING_LITERAL']
+16,"    ""time""","['""time""']",['STRING_LITERAL']
+17,),[')'],['OPERATOR']
+18,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+19,    Log           *log.Logger,"['Log', '*', 'log', '.', 'Logger']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+20,    Conf          cfg.KVConfig,"['Conf', 'cfg', '.', 'KVConfig']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+21,    Debug         bool,"['Debug', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
+22,    CpuCore       int,"['CpuCore', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+23,    HttpTransport = &http.Transport{,"['HttpTransport', '=', '&', 'http', '.', 'Transport', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,"        Dial: func(netw, addr string) (net.Conn, error) {","['Dial', ':', 'func', '(', 'netw', ',', 'addr', 'string', ')', '(', 'net', '.', 'Conn', ',', 'error', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+25,            deadline := time.Now().Add(30 * time.Second),"['deadline', ':=', 'time', '.', 'Now', '().', 'Add', '(', '30', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"            c, err := net.DialTimeout(netw, addr, 20*time.Second)","['c', ',', 'err', ':=', 'net', '.', 'DialTimeout', '(', 'netw', ',', 'addr', ',', '20', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+29,            },['}'],['OPERATOR']
+30,            c.SetDeadline(deadline),"['c', '.', 'SetDeadline', '(', 'deadline', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,"            return c, nil","['return', 'c', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+32,"        },","['},']",['OPERATOR']
+33,"        DisableKeepAlives: true,","['DisableKeepAlives', ':', 'true', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,    },['}'],['OPERATOR']
+35,    HttpClient = &http.Client{,"['HttpClient', '=', '&', 'http', '.', 'Client', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,"        Transport: HttpTransport,","['Transport', ':', 'HttpTransport', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    },['}'],['OPERATOR']
+38,    WG            sync.WaitGroup,"['WG', 'sync', '.', 'WaitGroup']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+39,),[')'],['OPERATOR']
+40,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
+41,    LogFileFlag   = os.O_WRONLY | os.O_CREATE | os.O_APPEND,"['LogFileFlag', '=', 'os', '.', 'O_WRONLY', '|', 'os', '.', 'O_CREATE', '|', 'os', '.', 'O_APPEND']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+42,    LogFileMode   = 0644,"['LogFileMode', '=', '0644']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+43,    LogFlag       = log.LstdFlags | log.Lshortfile,"['LogFlag', '=', 'log', '.', 'LstdFlags', '|', 'log', '.', 'Lshortfile']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+44,"    GET_VIDEO_SQL = `SELECT B.Name, A.TSID, A.Chapter, A.ChapterNum, ","['GET_VIDEO_SQL', '=', 'SELECT', 'B', '.', 'Name', ',', 'A', '.', 'TSID', ',', 'A', '.', 'Chapter', ',', 'A', '.', 'ChapterNum', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,"    IFNULL(A.Website, ''), IFNULL(A.Descr, ''), ","['IFNULL', '(', 'A', '.', 'Website', ',', '),', 'IFNULL', '(', 'A', '.', 'Descr', ',', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+46,"    IFNULL(A.VideoId, ''), IFNULL(AndroidWebURL, ''), IFNULL(IOSWebURL, ''), ","['IFNULL', '(', 'A', '.', 'VideoId', ',', '),', 'IFNULL', '(', 'AndroidWebURL', ',', '),', 'IFNULL', '(', 'IOSWebURL', ',', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+47,"    IFNULL(AndroidURL, ''), IFNULL(AndroidURL2, ''), IFNULL(IOSURL, '')","['IFNULL', '(', 'AndroidURL', ',', '),', 'IFNULL', '(', 'AndroidURL2', ',', '),', 'IFNULL', '(', 'IOSURL', ',', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+48,    FROM Video A INNER JOIN TVS B ON A.TSID = B.ID LIMIT 200`,"['FROM', 'Video', 'A', 'INNER', 'JOIN', 'TVS', 'B', 'ON', 'A', '.', 'TSID', '=', 'B', '.', 'ID', 'LIMIT', '200']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+49,    HtmlHead = `节目名,"['HtmlHead', '=']","['IDENTIFIER', 'OPERATOR']"
+50,    tsid章节章节号描述,['tsid\xe7'],['IDENTIFIER']
+51,    videoid网站地址`,['videoid\xe7\xbd'],['IDENTIFIER']
+52,"    HtmlTail = """"","['HtmlTail', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+53,),[')'],['OPERATOR']
+54,type videoInfo struct {,"['type', 'videoInfo', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+55,    name          string,"['name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+56,    tsid          uint,"['tsid', 'uint']","['IDENTIFIER', 'IDENTIFIER']"
+57,    chapter       string,"['chapter', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+58,    chapterNum    uint,"['chapterNum', 'uint']","['IDENTIFIER', 'IDENTIFIER']"
+59,    descr         string,"['descr', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+60,    videoId       string,"['videoId', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+61,    website       string,"['website', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+62,    androidWebUrl string,"['androidWebUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+63,    iosWebUrl     string,"['iosWebUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+64,    androidUrl    string,"['androidUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+65,    androidUrl2   string,"['androidUrl2', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+66,    iosUrl        string,"['iosUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+67,},['}'],['OPERATOR']
+68,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+69,    var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+70,        confFile string,"['confFile', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+71,        err      error,"['err', 'error']","['IDENTIFIER', 'IDENTIFIER']"
+72,    ),[')'],['OPERATOR']
+73,    // parse command argument:w,['// parse command argument:w'],"['COMMENT', 'NN', 'NN', 'NN', ':', 'NN']"
+74,"    flag.StringVar(&confFile, ""c"", ""./vsmonitor.conf"", "" set config file path"")","['flag', '.', 'StringVar', '(&', 'confFile', ',', '""c"", ""./vsmonitor.conf"", "" set config file path""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+75,    flag.Parse(),"['flag', '.', 'Parse', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    // read config,['// read config'],"['COMMENT', 'NN', 'NN']"
+77,"    if Conf, err = cfg.Read(confFile); err != nil {","['if', 'Conf', ',', 'err', '=', 'cfg', '.', 'Read', '(', 'confFile', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,"        panic(fmt.Sprintf(""Read config file \""%s\"" failed (%s)"",","['panic', '(', 'fmt', '.', 'Sprintf', '(', '""Read config file \\""%s\\"" failed (%s)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+79,"            confFile, err.Error()))","['confFile', ',', 'err', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    },['}'],['OPERATOR']
+81,    // open log file,['// open log file'],"['COMMENT', 'JJ', 'NN', 'NN']"
+82,"    file, err := os.OpenFile(Conf[""log.file""], LogFileFlag, LogFileMode)","['file', ',', 'err', ':=', 'os', '.', 'OpenFile', '(', 'Conf', '[', '""log.file""', '],', 'LogFileFlag', ',', 'LogFileMode', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,"        panic(fmt.Sprintf(""OpenFile \""%s\"" failed (%s)"", Conf[""log.file""],","['panic', '(', 'fmt', '.', 'Sprintf', '(', '""OpenFile \\""%s\\"" failed (%s)"", Conf[""log.file""', '],']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+85,            err.Error())),"['err', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    },['}'],['OPERATOR']
+87,    // init LOG,['// init LOG'],"['COMMENT', 'NN', 'NNP']"
+88,"    Log = log.New(file, """", LogFlag)","['Log', '=', 'log', '.', 'New', '(', 'file', ',', '""""', ',', 'LogFlag', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,    Debug = false,"['Debug', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+90,"    i, err := strconv.ParseInt(Conf[""cpucore.num""], 10, 32)","['i', ',', 'err', ':=', 'strconv', '.', 'ParseInt', '(', 'Conf', '[', '""cpucore.num""', '],', '10', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,"        panic(fmt.Sprintf(""ParseInt \""%s\"" failed (%s)"", Conf[""cpucore.num""],","['panic', '(', 'fmt', '.', 'Sprintf', '(', '""ParseInt \\""%s\\"" failed (%s)"", Conf[""cpucore.num""', '],']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+93,            err.Error())),"['err', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,    },['}'],['OPERATOR']
+95,    CpuCore = int(i),"['CpuCore', '=', 'int', '(', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,},['}'],['OPERATOR']
+97,func getHttpStatusCode(url string) int {,"['func', 'getHttpStatusCode', '(', 'url', 'string', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+98,"    if url == """" {","['if', 'url', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+99,        return 200,"['return', '200']","['KEYWORD', 'DECIMAL_LITERAL']"
+100,    },['}'],['OPERATOR']
+101,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""GET""', ',', 'url', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,        return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
+104,    },['}'],['OPERATOR']
+105,"    req.Header.Add(""User-Agent"", ""Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17"")","['req', '.', 'Header', '.', 'Add', '(', '""User-Agent"", ""Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+106,"    req.Header.Add(""Connection"", ""close"")","['req', '.', 'Header', '.', 'Add', '(', '""Connection"", ""close""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+107,"    resp, err := HttpClient.Do(req)","['resp', ',', 'err', ':=', 'HttpClient', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,        return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
+110,    },['}'],['OPERATOR']
+111,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,    return resp.StatusCode,"['return', 'resp', '.', 'StatusCode']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+113,},['}'],['OPERATOR']
+114,"func sendMail(host, user, pwd, from, to, subject, body, mailType string) error {","['func', 'sendMail', '(', 'host', ',', 'user', ',', 'pwd', ',', 'from', ',', 'to', ',', 'subject', ',', 'body', ',', 'mailType', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+115,"    auth := smtp.PlainAuth("""", user, pwd, strings.Split(host, "":"")[0])","['auth', ':=', 'smtp', '.', 'PlainAuth', '(', '"""", user, pwd, strings.Split(host, "":""', ')[', '0', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+116,"    cntType := fmt.Sprintf(""Content-Type: text/%s;charset=UTF-8"", mailType)","['cntType', ':=', 'fmt', '.', 'Sprintf', '(', '""Content-Type: text/%s;charset=UTF-8""', ',', 'mailType', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,"    msg := fmt.Sprintf(""To: %s\r\nFrom: %s\r\nSubject: %s\r\n%s\r\n\r\n%s"",","['msg', ':=', 'fmt', '.', 'Sprintf', '(', '""To: %s\\r\\nFrom: %s\\r\\nSubject: %s\\r\\n%s\\r\\n\\r\\n%s""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+118,"        to, from, user, subject, cntType, body)","['to', ',', 'from', ',', 'user', ',', 'subject', ',', 'cntType', ',', 'body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,"    return smtp.SendMail(host, auth, user, strings.Split(to, "",""), []byte(msg))","['return', 'smtp', '.', 'SendMail', '(', 'host', ',', 'auth', ',', 'user', ',', 'strings', '.', 'Split', '(', 'to', ',', '"",""', '),', '[]', 'byte', '(', 'msg', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,},['}'],['OPERATOR']
+121,"func getVideos(videoChan chan *videoInfo, htmlBuf *bytes.Buffer) error {","['func', 'getVideos', '(', 'videoChan', 'chan', '*', 'videoInfo', ',', 'htmlBuf', '*', 'bytes', '.', 'Buffer', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,    defer HttpTransport.CloseIdleConnections(),"['defer', 'HttpTransport', '.', 'CloseIdleConnections', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+123,"    db, err := sql.Open(""mysql"", Conf[""weikan.mysql""])","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""mysql"", Conf[""weikan.mysql""', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+124,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+126,    },['}'],['OPERATOR']
+127,"    rows, err := db.Query(GET_VIDEO_SQL)","['rows', ',', 'err', ':=', 'db', '.', 'Query', '(', 'GET_VIDEO_SQL', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,        db.Close(),"['db', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+130,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+131,    },['}'],['OPERATOR']
+132,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+133,        video := &videoInfo{},"['video', ':=', '&', 'videoInfo', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+134,"        err = rows.Scan(&video.name, &video.tsid, &video.chapter,","['err', '=', 'rows', '.', 'Scan', '(&', 'video', '.', 'name', ',', '&', 'video', '.', 'tsid', ',', '&', 'video', '.', 'chapter', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,"            &video.chapterNum,","['&', 'video', '.', 'chapterNum', ',']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,"            &video.website, &video.descr, &video.videoId, &video.androidWebUrl,","['&', 'video', '.', 'website', ',', '&', 'video', '.', 'descr', ',', '&', 'video', '.', 'videoId', ',', '&', 'video', '.', 'androidWebUrl', ',']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,"            &video.iosWebUrl, &video.androidUrl, &video.androidUrl2,","['&', 'video', '.', 'iosWebUrl', ',', '&', 'video', '.', 'androidUrl', ',', '&', 'video', '.', 'androidUrl2', ',']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,            &video.iosUrl),"['&', 'video', '.', 'iosUrl', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,            db.Close(),"['db', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+141,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+142,        },['}'],['OPERATOR']
+143,        videoChan <- video,"['videoChan', '<-', 'video']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+144,        WG.Add(1),"['WG', '.', 'Add', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+145,    },['}'],['OPERATOR']
+146,    db.Close(),"['db', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+147,    // wait check url finish,['// wait check url finish'],"['COMMENT', 'NN', 'NN', 'JJ', 'NN']"
+148,    WG.Wait(),"['WG', '.', 'Wait', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,    // send mail,['// send mail'],"['COMMENT', 'JJ', 'NN']"
+150,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+151,        if htmlBuf.Len() == 0 {,"['if', 'htmlBuf', '.', 'Len', '()', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+152,"            Log.Print(""no error found!!!!!!!!"")","['Log', '.', 'Print', '(', '""no error found!!!!!!!!""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+153,            break,['break'],['KEYWORD']
+154,        },['}'],['OPERATOR']
+155,"        Log.Print(""found error !!!!!!!!"")","['Log', '.', 'Print', '(', '""found error !!!!!!!!""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+156,        /*,['*'],['OPERATOR']
+157,"        err := sendMail(""smtp.gmail.com:587"", ""xxxx"",","['err', ':=', 'sendMail', '(', '""smtp.gmail.com:587"", ""xxxx""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+158,"            ""xxx"", ""xxx "",","['""xxx"", ""xxx ""', ',']","['STRING_LITERAL', 'OPERATOR']"
+159,"            Conf[""mail.to""], ""xxxxx"",","['Conf', '[', '""mail.to""], ""xxxxx""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+160,"            HtmlHead+htmlBuf.String()+HtmlTail, ""html"")","['HtmlHead', '+', 'htmlBuf', '.', 'String', '()+', 'HtmlTail', ',', '""html""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+161,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+162,"            Log.Printf(""sendMail failed (%s)"", err.Error())","['Log', '.', 'Printf', '(', '""sendMail failed (%s)""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+163,            time.Sleep(10 * time.Second),"['time', '.', 'Sleep', '(', '10', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+164,            continue,['continue'],['KEYWORD']
+165,        },['}'],['OPERATOR']
+166,        */,['*'],['OPERATOR']
+167,"        Log.Print(""send mail"")","['Log', '.', 'Print', '(', '""send mail""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+168,        break,['break'],['KEYWORD']
+169,    },['}'],['OPERATOR']
+170,"    Log.Print(""reset buf"")","['Log', '.', 'Print', '(', '""reset buf""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+171,    htmlBuf.Reset(),"['htmlBuf', '.', 'Reset', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+172,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+173,},['}'],['OPERATOR']
+174,"func checkUrl(videoChan chan *videoInfo, errChan chan string) {","['func', 'checkUrl', '(', 'videoChan', 'chan', '*', 'videoInfo', ',', 'errChan', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+175,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+176,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+177,"            Log.Print(""rouintes failed : "", err)","['Log', '.', 'Print', '(', '""rouintes failed : ""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+178,        },['}'],['OPERATOR']
+179,    }(),['}()'],['OPERATOR']
+180,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+181,        video := <-videoChan,"['video', ':=', '<-', 'videoChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+182,        ok := true,"['ok', ':=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+183,"        errUrl := """"","['errUrl', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+184,        if code := getHttpStatusCode(video.androidWebUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidWebUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+185,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+186,"                video.androidWebUrl, code)","['video', '.', 'androidWebUrl', ',', 'code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+187,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+188,        },['}'],['OPERATOR']
+189,        if code := getHttpStatusCode(video.iosWebUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'iosWebUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+190,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+191,"                video.iosWebUrl, code)","['video', '.', 'iosWebUrl', ',', 'code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+192,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+193,        },['}'],['OPERATOR']
+194,        if code := getHttpStatusCode(video.androidUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+195,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+196,"                video.androidUrl, code)","['video', '.', 'androidUrl', ',', 'code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+197,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+198,        },['}'],['OPERATOR']
+199,        if code := getHttpStatusCode(video.androidUrl2); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidUrl2', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+200,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+201,"                video.androidUrl2, code)","['video', '.', 'androidUrl2', ',', 'code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+202,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+203,        },['}'],['OPERATOR']
+204,        if code := getHttpStatusCode(video.iosUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'iosUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+205,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt', '.', 'Sprintf', '(', '""%s (%d)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+206,"                video.iosUrl, code)","['video', '.', 'iosUrl', ',', 'code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+207,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+208,        },['}'],['OPERATOR']
+209,        if !ok {,"['if', '!', 'ok', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+210,            errChan %s%d%s,"['errChan', 's', 'd', 's']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+211,"            %d%s%s%s%s`,","['d', 's', 's', 's', 's', ',']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+212,"                video.name, video.tsid, video.chapter, video.chapterNum,","['video', '.', 'name', ',', 'video', '.', 'tsid', ',', 'video', '.', 'chapter', ',', 'video', '.', 'chapterNum', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+213,"                video.descr, video.videoId,","['video', '.', 'descr', ',', 'video', '.', 'videoId', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+214,"                video.website, errUrl)","['video', '.', 'website', ',', 'errUrl', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+215,"            Log.Printf(""\""%s\"" (%s) —— \""%s\"" checkurl err"", video.name,","['Log', '.', 'Printf', '(', '""\\""%s\\"" (%s) \xe2\x80\x94\xe2\x80\x94 \\""%s\\"" checkurl err""', ',', 'video', '.', 'name', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+216,"                video.chapter, video.descr)","['video', '.', 'chapter', ',', 'video', '.', 'descr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+217,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+218,"            Log.Printf(""\""%s\"" (%s) —— \""%s\"" checkurl ok"", video.name,","['Log', '.', 'Printf', '(', '""\\""%s\\"" (%s) \xe2\x80\x94\xe2\x80\x94 \\""%s\\"" checkurl ok""', ',', 'video', '.', 'name', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+219,"                video.chapter, video.descr)","['video', '.', 'chapter', ',', 'video', '.', 'descr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+220,            WG.Done(),"['WG', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+221,        },['}'],['OPERATOR']
+222,    },['}'],['OPERATOR']
+223,},['}'],['OPERATOR']
+224,"func mergeErr(errChan chan string, htmlBuf *bytes.Buffer) {","['func', 'mergeErr', '(', 'errChan', 'chan', 'string', ',', 'htmlBuf', '*', 'bytes', '.', 'Buffer', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+225,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+226,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+227,"            Log.Print(""rouintes failed : "", err)","['Log', '.', 'Print', '(', '""rouintes failed : ""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+228,        },['}'],['OPERATOR']
+229,    }(),['}()'],['OPERATOR']
+230,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+231,        html := <-errChan,"['html', ':=', '<-', 'errChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+232,"        _, err := htmlBuf.WriteString(html)","['_', ',', 'err', ':=', 'htmlBuf', '.', 'WriteString', '(', 'html', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+233,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+234,"            Log.Printf(""htmlBuf WriteString \""%s\"" failed (%s)"", html,","['Log', '.', 'Printf', '(', '""htmlBuf WriteString \\""%s\\"" failed (%s)""', ',', 'html', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+235,                err.Error()),"['err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+236,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+237,        },['}'],['OPERATOR']
+238,        WG.Done(),"['WG', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+239,    },['}'],['OPERATOR']
+240,},['}'],['OPERATOR']
+241,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+242,"    videoChan := make(chan *videoInfo, 100000)","['videoChan', ':=', 'make', '(', 'chan', '*', 'videoInfo', ',', '100000', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+243,"    errChan := make(chan string, 100000)","['errChan', ':=', 'make', '(', 'chan', 'string', ',', '100000', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+244,    htmlBuf := &bytes.Buffer{},"['htmlBuf', ':=', '&', 'bytes', '.', 'Buffer', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+245,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+246,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+247,"            Log.Print(""rouintes failed : "", err)","['Log', '.', 'Print', '(', '""rouintes failed : ""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+248,        },['}'],['OPERATOR']
+249,    }(),['}()'],['OPERATOR']
+250,    // check url,['// check url'],"['COMMENT', 'NN', 'NN']"
+251,    for i := 0; i < CpuCore; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'CpuCore', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+252,"        go checkUrl(videoChan, errChan)","['go', 'checkUrl', '(', 'videoChan', ',', 'errChan', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+253,    },['}'],['OPERATOR']
+254,    // merge error string then send mail,['// merge error string then send mail'],"['COMMENT', 'NN', 'NN', 'VBG', 'RB', 'VB', 'NN']"
+255,"    go mergeErr(errChan, htmlBuf)","['go', 'mergeErr', '(', 'errChan', ',', 'htmlBuf', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+256,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+257,        // get Video and LiveSrc video source,['// get Video and LiveSrc video source'],"['COMMENT', 'VB', 'NNP', 'CC', 'NNP', 'NNP', 'NN']"
+258,"        if err := getVideos(videoChan, htmlBuf); err != nil {","['if', 'err', ':=', 'getVideos', '(', 'videoChan', ',', 'htmlBuf', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+259,"            Log.Printf(""getVideos failed (%s)"", err.Error())","['Log', '.', 'Printf', '(', '""getVideos failed (%s)""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+260,            time.Sleep(10 * time.Second),"['time', '.', 'Sleep', '(', '10', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+261,            continue,['continue'],['KEYWORD']
+262,        },['}'],['OPERATOR']
+263,        // time.Sleep(1 * time.Hour),['// time.Sleep(1 * time.Hour)'],"['COMMENT', 'NN', '(', 'CD', 'NNP', 'NN', ')']"
+264,    },['}'],['OPERATOR']
+265,"    Log.Print(""exit..."")","['Log', '.', 'Print', '(', '""exit...""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+266,},['}'],['OPERATOR']

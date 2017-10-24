@@ -1,93 +1,93 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""github.com/gin-gonic/gin""","['""github.com/gin-gonic/gin""']",['string_literal']
-3,"    ""database/sql""","['""database/sql""']",['string_literal']
-4,"    ""github.com/coopernurse/gorp""","['""github.com/coopernurse/gorp""']",['string_literal']
-5,"    _ ""github.com/mattn/go-sqlite3""","['_', '""github.com/mattn/go-sqlite3""']","['identifier', 'string_literal']"
-6,"    ""log""","['""log""']",['string_literal']
-7,"    ""time""","['""time""']",['string_literal']
-8,"    ""strconv""","['""strconv""']",['string_literal']
-9,"    ""github.com/go-errors/errors""","['""github.com/go-errors/errors""']",['string_literal']
-10,),[')'],['operator']
-11,type Article struct {,"['type', 'Article', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-12,"    Id int64 `db:""article_id""`","['Id', 'int64', 'db', ':', '""article_id""']","['identifier', 'identifier', 'identifier', 'operator', 'string_literal']"
-13,    Created int64,"['Created', 'int64']","['identifier', 'identifier']"
-14,    Title string,"['Title', 'string']","['identifier', 'identifier']"
-15,    Content string,"['Content', 'string']","['identifier', 'identifier']"
-16,},['}'],['operator']
-17,var dbmap = initDb(),"['var', 'dbmap', '=', 'initDb', '()']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-18,func initDb() gorp.DbMap {,"['func', 'initDb', '()', 'go', 'rp', '.', 'DbMap', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
-19,"    db, err := sql.Open(""sqlite3"", ""db.sqlite3"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""db.sqlite3""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-20,"    checkErr(err, ""sql.Open faild"")","['checkErr', '(', 'err', ',', '""sql.Open faild""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-21,"    dbmap := gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}","['dbmap', ':=', 'go', 'rp', '.', 'DbMap', '{', 'Db', ':', 'db', ',', 'Dialect', ':', 'go', 'rp', '.', 'SqliteDialect', '{}}']","['identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
-22,"    dbmap.AddTableWithName(Article{}, ""articles"").SetKeys(true, ""Id"")","['dbmap', '.', 'AddTableWithName', '(', 'Article', '{},', '""articles"").SetKeys(true, ""Id""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-23,    err = dbmap.CreateTablesIfNotExists(),"['err', '=', 'dbmap', '.', 'CreateTablesIfNotExists', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-24,"    checkErr(err, ""Create tables failed"")","['checkErr', '(', 'err', ',', '""Create tables failed""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-25,    return dbmap,"['return', 'dbmap']","['keyword', 'identifier']"
-26,},['}'],['operator']
-27,"func checkErr(err error, msg string) {","['func', 'checkErr', '(', 'err', 'error', ',', 'msg', 'string', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
-28,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-29,"        log.Fatalln(msg, err.(*errors.Error).ErrorStack())","['log', '.', 'Fatalln', '(', 'msg', ',', 'err', '.(*', 'errors', '.', 'Error', ').', 'ErrorStack', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-30,    },['}'],['operator']
-31,},['}'],['operator']
-32,func index (c *gin.Context) {,"['func', 'index', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-33,"    content := gin.H{""Hello"": ""World""}","['content', ':=', 'gin', '.', 'H', '{', '""Hello"": ""World""', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-34,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-35,},['}'],['operator']
-36,func ArticlesList(c *gin.Context) {,"['func', 'ArticlesList', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-37,    var articles []Article,"['var', 'articles', '[]', 'Article']","['keyword', 'identifier', 'operator', 'identifier']"
-38,"    _, err := dbmap.Select(&articles, ""select * from articles order by article_id"")","['_', ',', 'err', ':=', 'dbmap', '.', 'Select', '(&', 'articles', ',', '""select * from articles order by article_id""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-39,"    checkErr(err, ""Select failed"")","['checkErr', '(', 'err', ',', '""Select failed""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-40,    content := gin.H{},"['content', ':=', 'gin', '.', 'H', '{}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-41,"    for k, v := range articles {","['for', 'k', ',', 'v', ':=', 'range', 'articles', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-42,        content[strconv.Itoa(k)] =v,"['content', '[', 'strconv', '.', 'Itoa', '(', 'k', ')]', '=', 'v']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
-43,    },['}'],['operator']
-44,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-45,},['}'],['operator']
-46,func ArticlesDetail(c *gin.Context) {,"['func', 'ArticlesDetail', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-47,"    article_id := c.Params.ByName(""id"")","['article_id', ':=', 'c', '.', 'Params', '.', 'ByName', '(', '""id""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-48,"    a_id, _ := strconv.Atoi(article_id)","['a_id', ',', '_', ':=', 'strconv', '.', 'Atoi', '(', 'article_id', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-49,    article := getArticle(a_id),"['article', ':=', 'getArticle', '(', 'a_id', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-50,"    content := gin.H{""title"": article.Title, ""content"": article.Content}","['content', ':=', 'gin', '.', 'H', '{', '""title"": article.Title, ""content""', ':', 'article', '.', 'Content', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-51,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-52,},['}'],['operator']
-53,func ArticlePost(c *gin.Context) {,"['func', 'ArticlePost', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-54,    var json Article,"['var', 'json', 'Article']","['keyword', 'identifier', 'identifier']"
-55,    c.Bind(&json),"['c', '.', 'Bind', '(&', 'json', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-56,"    article := createArticle(json.Title, json.Content)","['article', ':=', 'createArticle', '(', 'json', '.', 'Title', ',', 'json', '.', 'Content', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-57,    if article.Title == json.Title {,"['if', 'article', '.', 'Title', '==', 'json', '.', 'Title', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-58,        content := gin.H{,"['content', ':=', 'gin', '.', 'H', '{']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-59,"            ""result"": ""Success"",","['""result"": ""Success""', ',']","['string_literal', 'operator']"
-60,"            ""title"": article.Title,","['""title""', ':', 'article', '.', 'Title', ',']","['string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-61,"            ""content"": article.Content,","['""content""', ':', 'article', '.', 'Content', ',']","['string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-62,        },['}'],['operator']
-63,"        c.JSON(201, content)","['c', '.', 'JSON', '(', '201', ',', 'content', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-64,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-65,"        c.JSON(500, gin.H{""result"": ""An error occured""})","['c', '.', 'JSON', '(', '500', ',', 'gin', '.', 'H', '{', '""result"": ""An error occured""', '})']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-66,    },['}'],['operator']
-67,},['}'],['operator']
-68,"func createArticle(title, body string) Article {","['func', 'createArticle', '(', 'title', ',', 'body', 'string', ')', 'Article', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-69,    article := Article{,"['article', ':=', 'Article', '{']","['identifier', 'operator', 'identifier', 'operator']"
-70,"        Created: time.Now().UnixNano(),","['Created', ':', 'time', '.', 'Now', '().', 'UnixNano', '(),']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-71,"        Title: title,","['Title', ':', 'title', ',']","['identifier', 'operator', 'identifier', 'operator']"
-72,"        Content: body,","['Content', ':', 'body', ',']","['identifier', 'operator', 'identifier', 'operator']"
-73,    },['}'],['operator']
-74,    err := dbmap.Insert(&article),"['err', ':=', 'dbmap', '.', 'Insert', '(&', 'article', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-75,"    checkErr(err, ""Insert failed"")","['checkErr', '(', 'err', ',', '""Insert failed""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-76,    return article,"['return', 'article']","['keyword', 'identifier']"
-77,},['}'],['operator']
-78,func getArticle(article_id int) Article {,"['func', 'getArticle', '(', 'article_id', 'int', ')', 'Article', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-79,    article := Article{},"['article', ':=', 'Article', '{}']","['identifier', 'operator', 'identifier', 'operator']"
-80,"    err := dbmap.SelectOne(&article, ""select * from articles where article_id=?"", article_id)","['err', ':=', 'dbmap', '.', 'SelectOne', '(&', 'article', ',', '""select * from articles where article_id=?""', ',', 'article_id', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-81,"    checkErr(err, ""selectOne failed"")","['checkErr', '(', 'err', ',', '""selectOne failed""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-82,    return article,"['return', 'article']","['keyword', 'identifier']"
-83,},['}'],['operator']
-84,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-85,    app := gin.Default(),"['app', ':=', 'gin', '.', 'Default', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-86,"    app.GET(""/"", index)","['app', '.', 'GET', '(', '""/""', ',', 'index', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-87,"    app.GET(""/articles"", ArticlesList)","['app', '.', 'GET', '(', '""/articles""', ',', 'ArticlesList', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-88,"    app.POST(""/articles"", ArticlePost)","['app', '.', 'POST', '(', '""/articles""', ',', 'ArticlePost', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-89,"    app.GET(""/articles/:article_id"", ArticlesDetail)","['app', '.', 'GET', '(', '""/articles/:article_id""', ',', 'ArticlesDetail', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-90,"    app.Run("":8000"")","['app', '.', 'Run', '(', '"":8000""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-91,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""github.com/gin-gonic/gin""","['""github.com/gin-gonic/gin""']",['STRING_LITERAL']
+3,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
+4,"    ""github.com/coopernurse/gorp""","['""github.com/coopernurse/gorp""']",['STRING_LITERAL']
+5,"    _ ""github.com/mattn/go-sqlite3""","['_', '""github.com/mattn/go-sqlite3""']","['IDENTIFIER', 'STRING_LITERAL']"
+6,"    ""log""","['""log""']",['STRING_LITERAL']
+7,"    ""time""","['""time""']",['STRING_LITERAL']
+8,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+9,"    ""github.com/go-errors/errors""","['""github.com/go-errors/errors""']",['STRING_LITERAL']
+10,),[')'],['OPERATOR']
+11,type Article struct {,"['type', 'Article', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+12,"    Id int64 `db:""article_id""`","['Id', 'int64', 'db', ':', '""article_id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+13,    Created int64,"['Created', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
+14,    Title string,"['Title', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+15,    Content string,"['Content', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+16,},['}'],['OPERATOR']
+17,var dbmap = initDb(),"['var', 'dbmap', '=', 'initDb', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,func initDb() gorp.DbMap {,"['func', 'initDb', '()', 'go', 'rp', '.', 'DbMap', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,"    db, err := sql.Open(""sqlite3"", ""db.sqlite3"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""db.sqlite3""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,"    checkErr(err, ""sql.Open faild"")","['checkErr', '(', 'err', ',', '""sql.Open faild""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+21,"    dbmap := gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}","['dbmap', ':=', 'go', 'rp', '.', 'DbMap', '{', 'Db', ':', 'db', ',', 'Dialect', ':', 'go', 'rp', '.', 'SqliteDialect', '{}}']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,"    dbmap.AddTableWithName(Article{}, ""articles"").SetKeys(true, ""Id"")","['dbmap', '.', 'AddTableWithName', '(', 'Article', '{},', '""articles"").SetKeys(true, ""Id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+23,    err = dbmap.CreateTablesIfNotExists(),"['err', '=', 'dbmap', '.', 'CreateTablesIfNotExists', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,"    checkErr(err, ""Create tables failed"")","['checkErr', '(', 'err', ',', '""Create tables failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+25,    return dbmap,"['return', 'dbmap']","['KEYWORD', 'IDENTIFIER']"
+26,},['}'],['OPERATOR']
+27,"func checkErr(err error, msg string) {","['func', 'checkErr', '(', 'err', 'error', ',', 'msg', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+28,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,"        log.Fatalln(msg, err.(*errors.Error).ErrorStack())","['log', '.', 'Fatalln', '(', 'msg', ',', 'err', '.(*', 'errors', '.', 'Error', ').', 'ErrorStack', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,    },['}'],['OPERATOR']
+31,},['}'],['OPERATOR']
+32,func index (c *gin.Context) {,"['func', 'index', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+33,"    content := gin.H{""Hello"": ""World""}","['content', ':=', 'gin', '.', 'H', '{', '""Hello"": ""World""', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+34,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,},['}'],['OPERATOR']
+36,func ArticlesList(c *gin.Context) {,"['func', 'ArticlesList', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+37,    var articles []Article,"['var', 'articles', '[]', 'Article']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+38,"    _, err := dbmap.Select(&articles, ""select * from articles order by article_id"")","['_', ',', 'err', ':=', 'dbmap', '.', 'Select', '(&', 'articles', ',', '""select * from articles order by article_id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+39,"    checkErr(err, ""Select failed"")","['checkErr', '(', 'err', ',', '""Select failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+40,    content := gin.H{},"['content', ':=', 'gin', '.', 'H', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,"    for k, v := range articles {","['for', 'k', ',', 'v', ':=', 'range', 'articles', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+42,        content[strconv.Itoa(k)] =v,"['content', '[', 'strconv', '.', 'Itoa', '(', 'k', ')]', '=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+43,    },['}'],['OPERATOR']
+44,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,},['}'],['OPERATOR']
+46,func ArticlesDetail(c *gin.Context) {,"['func', 'ArticlesDetail', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+47,"    article_id := c.Params.ByName(""id"")","['article_id', ':=', 'c', '.', 'Params', '.', 'ByName', '(', '""id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+48,"    a_id, _ := strconv.Atoi(article_id)","['a_id', ',', '_', ':=', 'strconv', '.', 'Atoi', '(', 'article_id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,    article := getArticle(a_id),"['article', ':=', 'getArticle', '(', 'a_id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,"    content := gin.H{""title"": article.Title, ""content"": article.Content}","['content', ':=', 'gin', '.', 'H', '{', '""title"": article.Title, ""content""', ':', 'article', '.', 'Content', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,},['}'],['OPERATOR']
+53,func ArticlePost(c *gin.Context) {,"['func', 'ArticlePost', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+54,    var json Article,"['var', 'json', 'Article']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+55,    c.Bind(&json),"['c', '.', 'Bind', '(&', 'json', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,"    article := createArticle(json.Title, json.Content)","['article', ':=', 'createArticle', '(', 'json', '.', 'Title', ',', 'json', '.', 'Content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,    if article.Title == json.Title {,"['if', 'article', '.', 'Title', '==', 'json', '.', 'Title', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,        content := gin.H{,"['content', ':=', 'gin', '.', 'H', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,"            ""result"": ""Success"",","['""result"": ""Success""', ',']","['STRING_LITERAL', 'OPERATOR']"
+60,"            ""title"": article.Title,","['""title""', ':', 'article', '.', 'Title', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"            ""content"": article.Content,","['""content""', ':', 'article', '.', 'Content', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,        },['}'],['OPERATOR']
+63,"        c.JSON(201, content)","['c', '.', 'JSON', '(', '201', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+65,"        c.JSON(500, gin.H{""result"": ""An error occured""})","['c', '.', 'JSON', '(', '500', ',', 'gin', '.', 'H', '{', '""result"": ""An error occured""', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+66,    },['}'],['OPERATOR']
+67,},['}'],['OPERATOR']
+68,"func createArticle(title, body string) Article {","['func', 'createArticle', '(', 'title', ',', 'body', 'string', ')', 'Article', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,    article := Article{,"['article', ':=', 'Article', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,"        Created: time.Now().UnixNano(),","['Created', ':', 'time', '.', 'Now', '().', 'UnixNano', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,"        Title: title,","['Title', ':', 'title', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,"        Content: body,","['Content', ':', 'body', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,    },['}'],['OPERATOR']
+74,    err := dbmap.Insert(&article),"['err', ':=', 'dbmap', '.', 'Insert', '(&', 'article', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,"    checkErr(err, ""Insert failed"")","['checkErr', '(', 'err', ',', '""Insert failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+76,    return article,"['return', 'article']","['KEYWORD', 'IDENTIFIER']"
+77,},['}'],['OPERATOR']
+78,func getArticle(article_id int) Article {,"['func', 'getArticle', '(', 'article_id', 'int', ')', 'Article', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    article := Article{},"['article', ':=', 'Article', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,"    err := dbmap.SelectOne(&article, ""select * from articles where article_id=?"", article_id)","['err', ':=', 'dbmap', '.', 'SelectOne', '(&', 'article', ',', '""select * from articles where article_id=?""', ',', 'article_id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,"    checkErr(err, ""selectOne failed"")","['checkErr', '(', 'err', ',', '""selectOne failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+82,    return article,"['return', 'article']","['KEYWORD', 'IDENTIFIER']"
+83,},['}'],['OPERATOR']
+84,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+85,    app := gin.Default(),"['app', ':=', 'gin', '.', 'Default', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,"    app.GET(""/"", index)","['app', '.', 'GET', '(', '""/""', ',', 'index', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,"    app.GET(""/articles"", ArticlesList)","['app', '.', 'GET', '(', '""/articles""', ',', 'ArticlesList', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,"    app.POST(""/articles"", ArticlePost)","['app', '.', 'POST', '(', '""/articles""', ',', 'ArticlePost', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,"    app.GET(""/articles/:article_id"", ArticlesDetail)","['app', '.', 'GET', '(', '""/articles/:article_id""', ',', 'ArticlesDetail', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,"    app.Run("":8000"")","['app', '.', 'Run', '(', '"":8000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+91,},['}'],['OPERATOR']

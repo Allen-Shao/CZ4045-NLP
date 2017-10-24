@@ -1,122 +1,122 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""io""","['""io""']",['string_literal']
-3,"    ""encoding/binary""","['""encoding/binary""']",['string_literal']
-4,"    ""encoding/json""","['""encoding/json""']",['string_literal']
-5,"    ""github.com/felixge/tcpkeepalive""","['""github.com/felixge/tcpkeepalive""']",['string_literal']
-6,"    ""net""","['""net""']",['string_literal']
-7,"    ""sanguo/base/log""","['""sanguo/base/log""']",['string_literal']
-8,"    ""strings""","['""strings""']",['string_literal']
-9,"    ""sync""","['""sync""']",['string_literal']
-10,"    ""time""","['""time""']",['string_literal']
-11,),[')'],['operator']
-12,type Session struct {,"['type', 'Session', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-13,    conn *net.TCPConn //the tcp connection from client,"['conn', '*', 'net', '.', 'TCPConn', '//the tcp connection from client']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'comment', 'the', 'tcp', 'connection', 'from', 'client']"
-14,    recvChan      chan *bufferedManager.Token //data from client,"['recvChan', 'chan', '*', 'bufferedManager', '.', 'Token', '//data from client']","['identifier', 'keyword', 'operator', 'identifier', 'operator', 'identifier', 'comment', 'data', 'from', 'client']"
-15,    closeNotiChan chan bool   //,"['closeNotiChan', 'chan', 'bool', '//']","['identifier', 'keyword', 'identifier', 'comment']"
-16,    ok   bool,"['ok', 'bool']","['identifier', 'identifier']"
-17,    lock sync.Mutex,"['lock', 'sync', '.', 'Mutex']","['identifier', 'identifier', 'operator', 'identifier']"
-18,},['}'],['operator']
-19,func NewSession(connection *net.TCPConn) (sess *Session) {,"['func', 'NewSession', '(', 'connection', '*', 'net', '.', 'TCPConn', ')', '(', 'sess', '*', 'Session', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-20,    var client Session,"['var', 'client', 'Session']","['keyword', 'identifier', 'identifier']"
-21,    client.conn = connection,"['client', '.', 'conn', '=', 'connection']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-22,"    client.recvChan = make(chan []byte, 1024)","['client', '.', 'recvChan', '=', 'make', '(', 'chan', '[]', 'byte', ',', '1024', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-23,    client.closeNotiChan = make(chan bool),"['client', '.', 'closeNotiChan', '=', 'make', '(', 'chan', 'bool', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-24,    client.ok = true,"['client', '.', 'ok', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-25,"    log.Debug(""New Connection"", &client)","['log', '.', 'Debug', '(', '""New Connection""', ',', '&', 'client', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator']"
-26,"    kaConn, err := tcpkeepalive.EnableKeepAlive(connection)","['kaConn', ',', 'err', ':=', 'tcpkeepalive', '.', 'EnableKeepAlive', '(', 'connection', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-27,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-28,"        log.Debug(""EnableKeepAlive err "", err)","['log', '.', 'Debug', '(', '""EnableKeepAlive err ""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-29,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-30,        kaConn.SetKeepAliveIdle(120 * time.Second),"['kaConn', '.', 'SetKeepAliveIdle', '(', '120', '*', 'time', '.', 'Second', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-31,        kaConn.SetKeepAliveCount(4),"['kaConn', '.', 'SetKeepAliveCount', '(', '4', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-32,        kaConn.SetKeepAliveInterval(5 * time.Second),"['kaConn', '.', 'SetKeepAliveInterval', '(', '5', '*', 'time', '.', 'Second', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-33,    },['}'],['operator']
-34,    return &client,"['return', '&', 'client']","['keyword', 'operator', 'identifier']"
-35,},['}'],['operator']
-36,func (sess *Session) Close() {,"['func', '(', 'sess', '*', 'Session', ')', 'Close', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-37,    sess.lock.Lock(),"['sess', '.', 'lock', '.', 'Lock', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-38,    if sess.ok {,"['if', 'sess', '.', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-39,        sess.ok = false,"['sess', '.', 'ok', '=', 'false']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-40,        close(sess.closeNotiChan),"['close', '(', 'sess', '.', 'closeNotiChan', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-41,        sess.conn.Close(),"['sess', '.', 'conn', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-42,"        log.Trace(""Sess Close Succ"", sess, sess.uid)","['log', '.', 'Trace', '(', '""Sess Close Succ""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-43,    },['}'],['operator']
-44,    sess.lock.Unlock(),"['sess', '.', 'lock', '.', 'Unlock', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-45,},['}'],['operator']
-46,func (sess *Session) handleRecv() {,"['func', '(', 'sess', '*', 'Session', ')', 'handleRecv', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-47,    defer func(){,"['defer', 'func', '(){']","['identifier', 'keyword', 'operator']"
-48,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-49,"            log.Critical(""Panic"", err)","['log', '.', 'Critical', '(', '""Panic""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-50,        },['}'],['operator']
-51,"        log.Trace(""Session Recv Exit"", sess, sess.uid)","['log', '.', 'Trace', '(', '""Session Recv Exit""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-52,        sess.Close(),"['sess', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-53,    }(),['}()'],['operator']
-54,    ch := sess.recvChan,"['ch', ':=', 'sess', '.', 'recvChan']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-55,"    header := make([]byte, 2)","['header', ':=', 'make', '([]', 'byte', ',', '2', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-56,    for {,"['for', '{']","['keyword', 'operator']"
-57,        /**block until recieve len(header)**/,"['**', 'block', 'until', 'recieve', 'len', '(', 'header', ')**']","['operator', 'identifier', 'identifier', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-58,"        n, err := io.ReadFull(sess.conn, header)","['n', ',', 'err', ':=', 'io', '.', 'ReadFull', '(', 'sess', '.', 'conn', ',', 'header', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-59,        if n == 0 && err == io.EOF {,"['if', 'n', '==', '0', '&&', 'err', '==', 'io', '.', 'EOF', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-60,            //Opposite socket is closed,['//Opposite socket is closed'],"['comment', 'Opposite', 'socket', 'is', 'closed']"
-61,"            log.Warn(""Socket Read EOF And Close"", sess)","['log', '.', 'Warn', '(', '""Socket Read EOF And Close""', ',', 'sess', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-62,            break,['break'],['keyword']
-63,        } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
-64,            //Sth wrong with this socket,['//Sth wrong with this socket'],"['comment', 'Sth', 'wrong', 'with', 'this', 'socket']"
-65,"            log.Warn(""Socket Wrong:"", err)","['log', '.', 'Warn', '(', '""Socket Wrong:""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-66,            break,['break'],['keyword']
-67,        },['}'],['operator']
-68,        size := binary.LittleEndian.Uint16(header) + 4,"['size', ':=', 'binary', '.', 'LittleEndian', '.', 'Uint16', '(', 'header', ')', '+', '4']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal']"
-69,"        data := make([]byte, size)","['data', ':=', 'make', '([]', 'byte', ',', 'size', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-70,"        n, err = io.ReadFull(sess.conn, t.Data)","['n', ',', 'err', '=', 'io', '.', 'ReadFull', '(', 'sess', '.', 'conn', ',', 't', '.', 'Data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-71,        if n == 0 && err == io.EOF {,"['if', 'n', '==', '0', '&&', 'err', '==', 'io', '.', 'EOF', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-72,"            log.Warn(""Socket Read EOF And Close"", sess)","['log', '.', 'Warn', '(', '""Socket Read EOF And Close""', ',', 'sess', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-73,            break,['break'],['keyword']
-74,        } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'identifier', 'operator']"
-75,"            log.Warn(""Socket Wrong:"", err)","['log', '.', 'Warn', '(', '""Socket Wrong:""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-76,            break,['break'],['keyword']
-77,        },['}'],['operator']
-78,        ch <- data //send data to Client to process,"['ch', '<-', 'data', '//send data to Client to process']","['identifier', 'operator', 'identifier', 'comment', 'send', 'data', 'to', 'Client', 'to', 'process']"
-79,    },['}'],['operator']
-80,},['}'],['operator']
-81,func (sess *Session) handleDispatch() {,"['func', '(', 'sess', '*', 'Session', ')', 'handleDispatch', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-82,    defer func(){,"['defer', 'func', '(){']","['identifier', 'keyword', 'operator']"
-83,"        log.Trace(""Session Dispatch Exit"",  sess, sess.uid)","['log', '.', 'Trace', '(', '""Session Dispatch Exit""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-84,        sess.Close(),"['sess', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-85,    }(),['}()'],['operator']
-86,    for {,"['for', '{']","['keyword', 'operator']"
-87,        select {,"['select', '{']","['keyword', 'operator']"
-88,"        case msg, _ := <-sess.recvChan:","['case', 'msg', ',', '_', ':=', '<-', 'sess', '.', 'recvChan', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-89,"            log.Debug(""msg"", msg)","['log', '.', 'Debug', '(', '""msg""', ',', 'msg', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-90,"            sess.SendDirectly(""helloworldhellowor"", 1)","['sess', '.', 'SendDirectly', '(', '""helloworldhellowor""', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'decimal_literal', 'operator']"
-91,        case <-sess.closeNotiChan:,"['case', '<-', 'sess', '.', 'closeNotiChan', ':']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-92,                return,['return'],['keyword']
-93,        },['}'],['operator']
-94,    },['}'],['operator']
-95,},['}'],['operator']
-96,func (sess *Session) Start() {,"['func', '(', 'sess', '*', 'Session', ')', 'Start', '()', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-97,    defer func() {,"['defer', 'func', '()', '{']","['identifier', 'keyword', 'operator', 'operator']"
-98,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-99,"            log.Critical(""Panic"", err)","['log', '.', 'Critical', '(', '""Panic""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-100,        },['}'],['operator']
-101,    }(),['}()'],['operator']
-102,    go sess.handleRecv(),"['go', 'sess', '.', 'handleRecv', '()']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-103,    sess.handleDispatch(),"['sess', '.', 'handleDispatch', '()']","['identifier', 'operator', 'identifier', 'operator']"
-104,    close(sess.recvChan),"['close', '(', 'sess', '.', 'recvChan', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-105,"    log.Warn(""Session Start Exit"", sess, sess.uid)","['log', '.', 'Warn', '(', '""Session Start Exit""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-106,},['}'],['operator']
-107,"func (sess *Session) SendDirectly(back interface{}, op int) bool {","['func', '(', 'sess', '*', 'Session', ')', 'SendDirectly', '(', 'back', 'interface', '{},', 'op', 'int', ')', 'bool', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-108,"    back_json, err := json.Marshal(back)","['back_json', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'back', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-110,"        log.Error(""Can't encode json message "", err, back)","['log', '.', 'Error', '(', '""Can\'t encode json message ""', ',', 'err', ',', 'back', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-111,        return false,"['return', 'false']","['keyword', 'identifier']"
-112,    },['}'],['operator']
-113,"    log.Debug(sess.uid, ""OUT cmd:"", op, string(back_json))","['log', '.', 'Debug', '(', 'sess', '.', 'uid', ',', '""OUT cmd:""', ',', 'op', ',', 'string', '(', 'back_json', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-114,"    _, err = sess.conn.Write(back_json)","['_', ',', 'err', '=', 'sess', '.', 'conn', '.', 'Write', '(', 'back_json', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-115,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-116,"        log.Error(""send fail"", err)","['log', '.', 'Error', '(', '""send fail""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-117,        return false,"['return', 'false']","['keyword', 'identifier']"
-118,    },['}'],['operator']
-119,    return true,"['return', 'true']","['keyword', 'identifier']"
-120,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""io""","['""io""']",['STRING_LITERAL']
+3,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
+4,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+5,"    ""github.com/felixge/tcpkeepalive""","['""github.com/felixge/tcpkeepalive""']",['STRING_LITERAL']
+6,"    ""net""","['""net""']",['STRING_LITERAL']
+7,"    ""sanguo/base/log""","['""sanguo/base/log""']",['STRING_LITERAL']
+8,"    ""strings""","['""strings""']",['STRING_LITERAL']
+9,"    ""sync""","['""sync""']",['STRING_LITERAL']
+10,"    ""time""","['""time""']",['STRING_LITERAL']
+11,),[')'],['OPERATOR']
+12,type Session struct {,"['type', 'Session', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+13,    conn *net.TCPConn //the tcp connection from client,"['conn', '*', 'net', '.', 'TCPConn', '//the tcp connection from client']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'DT', 'JJ', 'NN', 'IN', 'NN']"
+14,    recvChan      chan *bufferedManager.Token //data from client,"['recvChan', 'chan', '*', 'bufferedManager', '.', 'Token', '//data from client']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NNS', 'IN', 'NN']"
+15,    closeNotiChan chan bool   //,"['closeNotiChan', 'chan', 'bool', '//']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'COMMENT']"
+16,    ok   bool,"['ok', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
+17,    lock sync.Mutex,"['lock', 'sync', '.', 'Mutex']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+18,},['}'],['OPERATOR']
+19,func NewSession(connection *net.TCPConn) (sess *Session) {,"['func', 'NewSession', '(', 'connection', '*', 'net', '.', 'TCPConn', ')', '(', 'sess', '*', 'Session', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,    var client Session,"['var', 'client', 'Session']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+21,    client.conn = connection,"['client', '.', 'conn', '=', 'connection']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+22,"    client.recvChan = make(chan []byte, 1024)","['client', '.', 'recvChan', '=', 'make', '(', 'chan', '[]', 'byte', ',', '1024', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+23,    client.closeNotiChan = make(chan bool),"['client', '.', 'closeNotiChan', '=', 'make', '(', 'chan', 'bool', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+24,    client.ok = true,"['client', '.', 'ok', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+25,"    log.Debug(""New Connection"", &client)","['log', '.', 'Debug', '(', '""New Connection""', ',', '&', 'client', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"    kaConn, err := tcpkeepalive.EnableKeepAlive(connection)","['kaConn', ',', 'err', ':=', 'tcpkeepalive', '.', 'EnableKeepAlive', '(', 'connection', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"        log.Debug(""EnableKeepAlive err "", err)","['log', '.', 'Debug', '(', '""EnableKeepAlive err ""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+30,        kaConn.SetKeepAliveIdle(120 * time.Second),"['kaConn', '.', 'SetKeepAliveIdle', '(', '120', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,        kaConn.SetKeepAliveCount(4),"['kaConn', '.', 'SetKeepAliveCount', '(', '4', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+32,        kaConn.SetKeepAliveInterval(5 * time.Second),"['kaConn', '.', 'SetKeepAliveInterval', '(', '5', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,    },['}'],['OPERATOR']
+34,    return &client,"['return', '&', 'client']","['KEYWORD', 'OPERATOR', 'IDENTIFIER']"
+35,},['}'],['OPERATOR']
+36,func (sess *Session) Close() {,"['func', '(', 'sess', '*', 'Session', ')', 'Close', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+37,    sess.lock.Lock(),"['sess', '.', 'lock', '.', 'Lock', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,    if sess.ok {,"['if', 'sess', '.', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,        sess.ok = false,"['sess', '.', 'ok', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+40,        close(sess.closeNotiChan),"['close', '(', 'sess', '.', 'closeNotiChan', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,        sess.conn.Close(),"['sess', '.', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,"        log.Trace(""Sess Close Succ"", sess, sess.uid)","['log', '.', 'Trace', '(', '""Sess Close Succ""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,    },['}'],['OPERATOR']
+44,    sess.lock.Unlock(),"['sess', '.', 'lock', '.', 'Unlock', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,},['}'],['OPERATOR']
+46,func (sess *Session) handleRecv() {,"['func', '(', 'sess', '*', 'Session', ')', 'handleRecv', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+47,    defer func(){,"['defer', 'func', '(){']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+48,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,"            log.Critical(""Panic"", err)","['log', '.', 'Critical', '(', '""Panic""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,        },['}'],['OPERATOR']
+51,"        log.Trace(""Session Recv Exit"", sess, sess.uid)","['log', '.', 'Trace', '(', '""Session Recv Exit""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,        sess.Close(),"['sess', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,    }(),['}()'],['OPERATOR']
+54,    ch := sess.recvChan,"['ch', ':=', 'sess', '.', 'recvChan']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+55,"    header := make([]byte, 2)","['header', ':=', 'make', '([]', 'byte', ',', '2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+56,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+57,        /**block until recieve len(header)**/,"['**', 'block', 'until', 'recieve', 'len', '(', 'header', ')**']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,"        n, err := io.ReadFull(sess.conn, header)","['n', ',', 'err', ':=', 'io', '.', 'ReadFull', '(', 'sess', '.', 'conn', ',', 'header', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,        if n == 0 && err == io.EOF {,"['if', 'n', '==', '0', '&&', 'err', '==', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,            //Opposite socket is closed,['//Opposite socket is closed'],"['COMMENT', 'NNP', 'NN', 'VBZ', 'VBN']"
+61,"            log.Warn(""Socket Read EOF And Close"", sess)","['log', '.', 'Warn', '(', '""Socket Read EOF And Close""', ',', 'sess', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,            break,['break'],['KEYWORD']
+63,        } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,            //Sth wrong with this socket,['//Sth wrong with this socket'],"['COMMENT', 'NNP', 'JJ', 'IN', 'DT', 'NN']"
+65,"            log.Warn(""Socket Wrong:"", err)","['log', '.', 'Warn', '(', '""Socket Wrong:""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,            break,['break'],['KEYWORD']
+67,        },['}'],['OPERATOR']
+68,        size := binary.LittleEndian.Uint16(header) + 4,"['size', ':=', 'binary', '.', 'LittleEndian', '.', 'Uint16', '(', 'header', ')', '+', '4']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
+69,"        data := make([]byte, size)","['data', ':=', 'make', '([]', 'byte', ',', 'size', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,"        n, err = io.ReadFull(sess.conn, t.Data)","['n', ',', 'err', '=', 'io', '.', 'ReadFull', '(', 'sess', '.', 'conn', ',', 't', '.', 'Data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,        if n == 0 && err == io.EOF {,"['if', 'n', '==', '0', '&&', 'err', '==', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,"            log.Warn(""Socket Read EOF And Close"", sess)","['log', '.', 'Warn', '(', '""Socket Read EOF And Close""', ',', 'sess', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,            break,['break'],['KEYWORD']
+74,        } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,"            log.Warn(""Socket Wrong:"", err)","['log', '.', 'Warn', '(', '""Socket Wrong:""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,            break,['break'],['KEYWORD']
+77,        },['}'],['OPERATOR']
+78,        ch <- data //send data to Client to process,"['ch', '<-', 'data', '//send data to Client to process']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'VB', 'NNS', 'TO', 'NNP', 'TO', 'VB']"
+79,    },['}'],['OPERATOR']
+80,},['}'],['OPERATOR']
+81,func (sess *Session) handleDispatch() {,"['func', '(', 'sess', '*', 'Session', ')', 'handleDispatch', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+82,    defer func(){,"['defer', 'func', '(){']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+83,"        log.Trace(""Session Dispatch Exit"",  sess, sess.uid)","['log', '.', 'Trace', '(', '""Session Dispatch Exit""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,        sess.Close(),"['sess', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,    }(),['}()'],['OPERATOR']
+86,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+87,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
+88,"        case msg, _ := <-sess.recvChan:","['case', 'msg', ',', '_', ':=', '<-', 'sess', '.', 'recvChan', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,"            log.Debug(""msg"", msg)","['log', '.', 'Debug', '(', '""msg""', ',', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,"            sess.SendDirectly(""helloworldhellowor"", 1)","['sess', '.', 'SendDirectly', '(', '""helloworldhellowor""', ',', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+91,        case <-sess.closeNotiChan:,"['case', '<-', 'sess', '.', 'closeNotiChan', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,                return,['return'],['KEYWORD']
+93,        },['}'],['OPERATOR']
+94,    },['}'],['OPERATOR']
+95,},['}'],['OPERATOR']
+96,func (sess *Session) Start() {,"['func', '(', 'sess', '*', 'Session', ')', 'Start', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+97,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+98,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,"            log.Critical(""Panic"", err)","['log', '.', 'Critical', '(', '""Panic""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,        },['}'],['OPERATOR']
+101,    }(),['}()'],['OPERATOR']
+102,    go sess.handleRecv(),"['go', 'sess', '.', 'handleRecv', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,    sess.handleDispatch(),"['sess', '.', 'handleDispatch', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,    close(sess.recvChan),"['close', '(', 'sess', '.', 'recvChan', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,"    log.Warn(""Session Start Exit"", sess, sess.uid)","['log', '.', 'Warn', '(', '""Session Start Exit""', ',', 'sess', ',', 'sess', '.', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,},['}'],['OPERATOR']
+107,"func (sess *Session) SendDirectly(back interface{}, op int) bool {","['func', '(', 'sess', '*', 'Session', ')', 'SendDirectly', '(', 'back', 'interface', '{},', 'op', 'int', ')', 'bool', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,"    back_json, err := json.Marshal(back)","['back_json', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'back', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,"        log.Error(""Can't encode json message "", err, back)","['log', '.', 'Error', '(', '""Can\'t encode json message ""', ',', 'err', ',', 'back', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,        return false,"['return', 'false']","['KEYWORD', 'IDENTIFIER']"
+112,    },['}'],['OPERATOR']
+113,"    log.Debug(sess.uid, ""OUT cmd:"", op, string(back_json))","['log', '.', 'Debug', '(', 'sess', '.', 'uid', ',', '""OUT cmd:""', ',', 'op', ',', 'string', '(', 'back_json', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,"    _, err = sess.conn.Write(back_json)","['_', ',', 'err', '=', 'sess', '.', 'conn', '.', 'Write', '(', 'back_json', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+115,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,"        log.Error(""send fail"", err)","['log', '.', 'Error', '(', '""send fail""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,        return false,"['return', 'false']","['KEYWORD', 'IDENTIFIER']"
+118,    },['}'],['OPERATOR']
+119,    return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
+120,},['}'],['OPERATOR']

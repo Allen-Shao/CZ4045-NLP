@@ -1,40 +1,40 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""encoding/base64""","['""encoding/base64""']",['string_literal']
-3,"    ""net/http""","['""net/http""']",['string_literal']
-4,"    ""strings""","['""strings""']",['string_literal']
-5,"    ""github.com/zenazn/goji/web""","['""github.com/zenazn/goji/web""']",['string_literal']
-6,),[')'],['operator']
-7,// PlainText sets the content-type of responses to text/plain.,['// PlainText sets the content-type of responses to text/plain.'],"['comment', 'PlainText', 'sets', 'the', 'content-type', 'of', 'responses', 'to', 'text/plain', '.']"
-8,func PlainText(h http.Handler) http.Handler {,"['func', 'PlainText', '(', 'h', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-9,"    fn := func(w http.ResponseWriter, r *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-10,"        w.Header().Set(""Content-Type"", ""text/plain"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""text/plain""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-11,"        h.ServeHTTP(w, r)","['h', '.', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-12,    },['}'],['operator']
-13,    return http.HandlerFunc(fn),"['return', 'http', '.', 'HandlerFunc', '(', 'fn', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-14,},['}'],['operator']
-15,// Nobody will ever guess this!,['// Nobody will ever guess this!'],"['comment', 'Nobody', 'will', 'ever', 'guess', 'this', '!']"
-16,"const Password = ""admin:admin""","['const', 'Password', '=', '""admin:admin""']","['keyword', 'identifier', 'operator', 'string_literal']"
-17,// SuperSecure is HTTP Basic Auth middleware for super-secret admin page. Shhhh!,['// SuperSecure is HTTP Basic Auth middleware for super-secret admin page. Shhhh!'],"['comment', 'SuperSecure', 'is', 'HTTP', 'Basic', 'Auth', 'middleware', 'for', 'super-secret', 'admin', 'page', '.', 'Shhhh', '!']"
-18,"func SuperSecure(c *web.C, h http.Handler) http.Handler {","['func', 'SuperSecure', '(', 'c', '*', 'web', '.', 'C', ',', 'h', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-19,"    fn := func(w http.ResponseWriter, r *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['identifier', 'operator', 'keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-20,"        auth := r.Header.Get(""Authorization"")","['auth', ':=', 'r', '.', 'Header', '.', 'Get', '(', '""Authorization""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-21,"        if !strings.HasPrefix(auth, ""Basic "") {","['if', '!', 'strings', '.', 'HasPrefix', '(', 'auth', ',', '""Basic ""', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator']"
-22,            pleaseAuth(w),"['pleaseAuth', '(', 'w', ')']","['identifier', 'operator', 'identifier', 'operator']"
-23,            return,['return'],['keyword']
-24,        },['}'],['operator']
-25,"        password, err := base64.StdEncoding.DecodeString(auth[6:])","['password', ',', 'err', ':=', 'base64', '.', 'StdEncoding', '.', 'DecodeString', '(', 'auth', '[', '6', ':])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-26,        if err != nil || string(password) != Password {,"['if', 'err', '!=', 'nil', '||', 'string', '(', 'password', ')', '!=', 'Password', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-27,            pleaseAuth(w),"['pleaseAuth', '(', 'w', ')']","['identifier', 'operator', 'identifier', 'operator']"
-28,            return,['return'],['keyword']
-29,        },['}'],['operator']
-30,"        h.ServeHTTP(w, r)","['h', '.', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-31,    },['}'],['operator']
-32,    return http.HandlerFunc(fn),"['return', 'http', '.', 'HandlerFunc', '(', 'fn', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-33,},['}'],['operator']
-34,func pleaseAuth(w http.ResponseWriter) {,"['func', 'pleaseAuth', '(', 'w', 'http', '.', 'ResponseWriter', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-35,"    w.Header().Set(""WWW-Authenticate"", `Basic realm=""Gritter""`)","['w', '.', 'Header', '().', 'Set', '(', '""WWW-Authenticate"", `Basic realm=""Gritter""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-36,    w.WriteHeader(http.StatusUnauthorized),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusUnauthorized', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-37,"    w.Write([]byte(""Go away!\n""))","['w', '.', 'Write', '([]', 'byte', '(', '""Go away!\\n""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-38,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
+3,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+4,"    ""strings""","['""strings""']",['STRING_LITERAL']
+5,"    ""github.com/zenazn/goji/web""","['""github.com/zenazn/goji/web""']",['STRING_LITERAL']
+6,),[')'],['OPERATOR']
+7,// PlainText sets the content-type of responses to text/plain.,['// PlainText sets the content-type of responses to text/plain.'],"['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', '.']"
+8,func PlainText(h http.Handler) http.Handler {,"['func', 'PlainText', '(', 'h', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+9,"    fn := func(w http.ResponseWriter, r *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+10,"        w.Header().Set(""Content-Type"", ""text/plain"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""text/plain""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+11,"        h.ServeHTTP(w, r)","['h', '.', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,    },['}'],['OPERATOR']
+13,    return http.HandlerFunc(fn),"['return', 'http', '.', 'HandlerFunc', '(', 'fn', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,},['}'],['OPERATOR']
+15,// Nobody will ever guess this!,['// Nobody will ever guess this!'],"['COMMENT', 'NN', 'MD', 'RB', 'VB', 'DT', '.']"
+16,"const Password = ""admin:admin""","['const', 'Password', '=', '""admin:admin""']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+17,// SuperSecure is HTTP Basic Auth middleware for super-secret admin page. Shhhh!,['// SuperSecure is HTTP Basic Auth middleware for super-secret admin page. Shhhh!'],"['COMMENT', 'NN', 'VBZ', 'NNP', 'NNP', 'NNP', 'NN', 'IN', 'JJ', 'JJ', 'NN', '.', 'NN', '.']"
+18,"func SuperSecure(c *web.C, h http.Handler) http.Handler {","['func', 'SuperSecure', '(', 'c', '*', 'web', '.', 'C', ',', 'h', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,"    fn := func(w http.ResponseWriter, r *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,"        auth := r.Header.Get(""Authorization"")","['auth', ':=', 'r', '.', 'Header', '.', 'Get', '(', '""Authorization""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+21,"        if !strings.HasPrefix(auth, ""Basic "") {","['if', '!', 'strings', '.', 'HasPrefix', '(', 'auth', ',', '""Basic ""', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+22,            pleaseAuth(w),"['pleaseAuth', '(', 'w', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,            return,['return'],['KEYWORD']
+24,        },['}'],['OPERATOR']
+25,"        password, err := base64.StdEncoding.DecodeString(auth[6:])","['password', ',', 'err', ':=', 'base64', '.', 'StdEncoding', '.', 'DecodeString', '(', 'auth', '[', '6', ':])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+26,        if err != nil || string(password) != Password {,"['if', 'err', '!=', 'nil', '||', 'string', '(', 'password', ')', '!=', 'Password', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,            pleaseAuth(w),"['pleaseAuth', '(', 'w', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,            return,['return'],['KEYWORD']
+29,        },['}'],['OPERATOR']
+30,"        h.ServeHTTP(w, r)","['h', '.', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,    },['}'],['OPERATOR']
+32,    return http.HandlerFunc(fn),"['return', 'http', '.', 'HandlerFunc', '(', 'fn', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,},['}'],['OPERATOR']
+34,func pleaseAuth(w http.ResponseWriter) {,"['func', 'pleaseAuth', '(', 'w', 'http', '.', 'ResponseWriter', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+35,"    w.Header().Set(""WWW-Authenticate"", `Basic realm=""Gritter""`)","['w', '.', 'Header', '().', 'Set', '(', '""WWW-Authenticate"", `Basic realm=""Gritter""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+36,    w.WriteHeader(http.StatusUnauthorized),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusUnauthorized', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,"    w.Write([]byte(""Go away!\n""))","['w', '.', 'Write', '([]', 'byte', '(', '""Go away!\\n""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+38,},['}'],['OPERATOR']

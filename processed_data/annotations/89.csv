@@ -1,109 +1,109 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"        ""bufio""","['""bufio""']",['string_literal']
-3,"        ""fmt""","['""fmt""']",['string_literal']
-4,"        ""os""","['""os""']",['string_literal']
-5,"        ""strconv""","['""strconv""']",['string_literal']
-6,"        ""strings""","['""strings""']",['string_literal']
-7,),[')'],['operator']
-8,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-9,        // Set up input and output.,['// Set up input and output.'],"['comment', 'Set', 'up', 'input', 'and', 'output', '.']"
-10,        reader := bufio.NewReader(os.Stdin),"['reader', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-11,        writer := bufio.NewWriter(os.Stdout),"['writer', ':=', 'bufio', '.', 'NewWriter', '(', 'os', '.', 'Stdout', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-12,        defer writer.Flush(),"['defer', 'writer', '.', 'Flush', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-13,        // Get the number of vertices and number of cliques from the first line.,['// Get the number of vertices and number of cliques from the first line.'],"['comment', 'Get', 'the', 'number', 'of', 'vertices', 'and', 'number', 'of', 'cliques', 'from', 'the', 'first', 'line', '.']"
-14,"        line, err := reader.ReadString('\n')","['line', ',', 'err', ':=', 'reader', '.', 'ReadString', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-15,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-16,"                fmt.Fprintf(os.Stderr, ""Error reading first line: %s\n"", err)","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Error reading first line: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-17,                return,['return'],['keyword']
-18,        },['}'],['operator']
-19,"        var numVertices, numCliques int","['var', 'numVertices', ',', 'numCliques', 'int']","['keyword', 'identifier', 'operator', 'identifier', 'identifier']"
-20,"        numScanned, err := fmt.Sscanf(line, ""%d %d"", &numVertices, &numCliques)","['numScanned', ',', 'err', ':=', 'fmt', '.', 'Sscanf', '(', 'line', ',', '""%d %d""', ',', '&', 'numVertices', ',', '&', 'numCliques', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-21,        if numScanned != 2 || err != nil {,"['if', 'numScanned', '!=', '2', '||', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-22,"                fmt.Fprintf(os.Stderr, ""Error parsing input parameters: %s\n"", err)   ","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Error parsing input parameters: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-23,                return,['return'],['keyword']
-24,        },['}'],['operator']
-25,        // Initialize the edge counts and vertex counts.,['// Initialize the edge counts and vertex counts.'],"['comment', 'Initialize', 'the', 'edge', 'counts', 'and', 'vertex', 'counts', '.']"
-26,"        edgeCounts := make([][]int, numVertices+1)","['edgeCounts', ':=', 'make', '([][]', 'int', ',', 'numVertices', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-27,        for u := 1; u <= numVertices; u++ {,"['for', 'u', ':=', '1', ';', 'u', '<=', 'numVertices', ';', 'u', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-28,"                edgeCounts[u] = make([]int, numVertices+1)","['edgeCounts', '[', 'u', ']', '=', 'make', '([]', 'int', ',', 'numVertices', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-29,        },['}'],['operator']
-30,"        vertexCounts := make([]int, numVertices+1)","['vertexCounts', ':=', 'make', '([]', 'int', ',', 'numVertices', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-31,        // Read each clique and update the edge counts.,['// Read each clique and update the edge counts.'],"['comment', 'Read', 'each', 'clique', 'and', 'update', 'the', 'edge', 'counts', '.']"
-32,        for c := 0; c < numCliques; c++ {,"['for', 'c', ':=', '0', ';', 'c', '<', 'numCliques', ';', 'c', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-33,"                line, err = reader.ReadString('\n')","['line', ',', 'err', '=', 'reader', '.', 'ReadString', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-34,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-35,"                        fmt.Fprintf(os.Stderr, ""Error reading clique: %s\n"", err)","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Error reading clique: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-36,                        return,['return'],['keyword']
-37,                },['}'],['operator']
-38,"                tokens := strings.Split(strings.TrimSpace(line), "" "")","['tokens', ':=', 'strings', '.', 'Split', '(', 'strings', '.', 'TrimSpace', '(', 'line', '),', '"" ""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-39,"                clique := make([]int, len(tokens))","['clique', ':=', 'make', '([]', 'int', ',', 'len', '(', 'tokens', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-40,"                for i, token := range tokens {","['for', 'i', ',', 'token', ':=', 'range', 'tokens', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-41,"                        u, err := strconv.Atoi(token)","['u', ',', 'err', ':=', 'strconv', '.', 'Atoi', '(', 'token', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-42,                        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-43,"                                fmt.Fprintf(os.Stderr, ""Atoi error: %s\n"", err)","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Atoi error: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-44,                                return,['return'],['keyword']
-45,                        },['}'],['operator']
-46,                        vertexCounts[u]++,"['vertexCounts', '[', 'u', ']++']","['identifier', 'operator', 'identifier', 'operator']"
-47,                        clique[i] = u,"['clique', '[', 'i', ']', '=', 'u']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier']"
-48,                        for j := 0; j < i; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'i', ';', 'j', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-49,                                v := clique[j],"['v', ':=', 'clique', '[', 'j', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-50,                                edgeCounts[u][v]++,"['edgeCounts', '[', 'u', '][', 'v', ']++']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-51,                                edgeCounts[v][u]++,"['edgeCounts', '[', 'v', '][', 'u', ']++']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-52,                        },['}'],['operator']
-53,                },['}'],['operator']
-54,        },['}'],['operator']
-55,        // Compute the number of edges between each pair of vertices.,['// Compute the number of edges between each pair of vertices.'],"['comment', 'Compute', 'the', 'number', 'of', 'edges', 'between', 'each', 'pair', 'of', 'vertices', '.']"
-56,"        count2edges := make([][][]int, numCliques+1)","['count2edges', ':=', 'make', '([][][]', 'int', ',', 'numCliques', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-57,        for u := 1; u < numVertices; u++ {,"['for', 'u', ':=', '1', ';', 'u', '<', 'numVertices', ';', 'u', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-58,                for v := u + 1; v <= numVertices; v++ {,"['for', 'v', ':=', 'u', '+', '1', ';', 'v', '<=', 'numVertices', ';', 'v', '++', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-59,                        count := edgeCounts[u][v],"['count', ':=', 'edgeCounts', '[', 'u', '][', 'v', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-60,"                        count2edges[count] = append(count2edges[count],","['count2edges', '[', 'count', ']', '=', 'append', '(', 'count2edges', '[', 'count', '],']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-61,"                                []int{u, v})","['[]', 'int', '{', 'u', ',', 'v', '})']","['operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-62,                },['}'],['operator']
-63,        },['}'],['operator']
-64,"        writer.WriteString(""Number of edges between pairs of vertices:\n"")","['writer', '.', 'WriteString', '(', '""Number of edges between pairs of vertices:\\n""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-65,        for count := numCliques; count >= 1; count-- {,"['for', 'count', ':=', 'numCliques', ';', 'count', '>=', '1', ';', 'count', '--', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
-66,                edges := count2edges[count],"['edges', ':=', 'count2edges', '[', 'count', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-67,                if len(edges) == 0 {,"['if', 'len', '(', 'edges', ')', '==', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-68,                        continue,['continue'],['keyword']
-69,                },['}'],['operator']
-70,"                label := ""edge""","['label', ':=', '""edge""']","['identifier', 'operator', 'string_literal']"
-71,                if count > 1 {,"['if', 'count', '>', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-72,"                        label += ""s:""","['label', '+=', '""s:""']","['identifier', 'operator', 'string_literal']"
-73,                } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-74,"                        label += "": ""","['label', '+=', '"": ""']","['identifier', 'operator', 'string_literal']"
-75,                },['}'],['operator']
-76,"                writer.WriteString(fmt.Sprintf(""%5d %s"", count, label))","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '""%5d %s""', ',', 'count', ',', 'label', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-77,"                for _, edge := range edges {","['for', '_', ',', 'edge', ':=', 'range', 'edges', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-78,"                        writer.WriteString(fmt.Sprintf("" (%d, %d)"",","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '"" (%d, %d)""', ',']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-79,"                                edge[0], edge[1]))","['edge', '[', '0', '],', 'edge', '[', '1', ']))']","['identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-80,                },['}'],['operator']
-81,"                writer.WriteString(""\n"")","['writer', '.', 'WriteString', '(', '""\\n""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-82,        },['}'],['operator']
-83,        // Group vertices according to the number of clique memberships.,['// Group vertices according to the number of clique memberships.'],"['comment', 'Group', 'vertices', 'according', 'to', 'the', 'number', 'of', 'clique', 'memberships', '.']"
-84,"        count2vertices := make([][]int, numCliques+1)","['count2vertices', ':=', 'make', '([][]', 'int', ',', 'numCliques', '+', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-85,        for u := 1; u <= numVertices; u++ {,"['for', 'u', ':=', '1', ';', 'u', '<=', 'numVertices', ';', 'u', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-86,                count := vertexCounts[u],"['count', ':=', 'vertexCounts', '[', 'u', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-87,"                count2vertices[count] = append(count2vertices[count], u)","['count2vertices', '[', 'count', ']', '=', 'append', '(', 'count2vertices', '[', 'count', '],', 'u', ')']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-88,        },['}'],['operator']
-89,"        writer.WriteString(""\nNumber of cliques in which a vertex appears:\n"")","['writer', '.', 'WriteString', '(', '""\\nNumber of cliques in which a vertex appears:\\n""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-90,        for count := numCliques; count >= 1; count-- {,"['for', 'count', ':=', 'numCliques', ';', 'count', '>=', '1', ';', 'count', '--', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator']"
-91,                vertices := count2vertices[count],"['vertices', ':=', 'count2vertices', '[', 'count', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-92,                if len(vertices) == 0 {,"['if', 'len', '(', 'vertices', ')', '==', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-93,                        continue,['continue'],['keyword']
-94,                },['}'],['operator']
-95,"                label := ""clique""","['label', ':=', '""clique""']","['identifier', 'operator', 'string_literal']"
-96,                if count > 1 {,"['if', 'count', '>', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-97,"                        label += ""s:""","['label', '+=', '""s:""']","['identifier', 'operator', 'string_literal']"
-98,                } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-99,"                        label += "": ""","['label', '+=', '"": ""']","['identifier', 'operator', 'string_literal']"
-100,                },['}'],['operator']
-101,"                writer.WriteString(fmt.Sprintf(""%5d %s"", count, label))","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '""%5d %s""', ',', 'count', ',', 'label', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-102,"                for _, u := range vertices {","['for', '_', ',', 'u', ':=', 'range', 'vertices', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-103,"                        writer.WriteString(fmt.Sprintf("" %d"", u))","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '"" %d""', ',', 'u', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-104,                },['}'],['operator']
-105,"                writer.WriteString(""\n"")","['writer', '.', 'WriteString', '(', '""\\n""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-106,        },['}'],['operator']
-107,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"        ""bufio""","['""bufio""']",['STRING_LITERAL']
+3,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
+4,"        ""os""","['""os""']",['STRING_LITERAL']
+5,"        ""strconv""","['""strconv""']",['STRING_LITERAL']
+6,"        ""strings""","['""strings""']",['STRING_LITERAL']
+7,),[')'],['OPERATOR']
+8,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+9,        // Set up input and output.,['// Set up input and output.'],"['COMMENT', 'NNP', 'RP', 'NN', 'CC', 'NN', '.']"
+10,        reader := bufio.NewReader(os.Stdin),"['reader', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,        writer := bufio.NewWriter(os.Stdout),"['writer', ':=', 'bufio', '.', 'NewWriter', '(', 'os', '.', 'Stdout', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,        defer writer.Flush(),"['defer', 'writer', '.', 'Flush', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,        // Get the number of vertices and number of cliques from the first line.,['// Get the number of vertices and number of cliques from the first line.'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS', 'CC', 'NN', 'IN', 'NNS', 'IN', 'DT', 'JJ', 'NN', '.']"
+14,"        line, err := reader.ReadString('\n')","['line', ',', 'err', ':=', 'reader', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+16,"                fmt.Fprintf(os.Stderr, ""Error reading first line: %s\n"", err)","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Error reading first line: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,                return,['return'],['KEYWORD']
+18,        },['}'],['OPERATOR']
+19,"        var numVertices, numCliques int","['var', 'numVertices', ',', 'numCliques', 'int']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+20,"        numScanned, err := fmt.Sscanf(line, ""%d %d"", &numVertices, &numCliques)","['numScanned', ',', 'err', ':=', 'fmt', '.', 'Sscanf', '(', 'line', ',', '""%d %d""', ',', '&', 'numVertices', ',', '&', 'numCliques', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,        if numScanned != 2 || err != nil {,"['if', 'numScanned', '!=', '2', '||', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,"                fmt.Fprintf(os.Stderr, ""Error parsing input parameters: %s\n"", err)   ","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Error parsing input parameters: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,                return,['return'],['KEYWORD']
+24,        },['}'],['OPERATOR']
+25,        // Initialize the edge counts and vertex counts.,['// Initialize the edge counts and vertex counts.'],"['COMMENT', 'VB', 'DT', 'NN', 'NNS', 'CC', 'NN', 'NNS', '.']"
+26,"        edgeCounts := make([][]int, numVertices+1)","['edgeCounts', ':=', 'make', '([][]', 'int', ',', 'numVertices', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+27,        for u := 1; u <= numVertices; u++ {,"['for', 'u', ':=', '1', ';', 'u', '<=', 'numVertices', ';', 'u', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+28,"                edgeCounts[u] = make([]int, numVertices+1)","['edgeCounts', '[', 'u', ']', '=', 'make', '([]', 'int', ',', 'numVertices', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+29,        },['}'],['OPERATOR']
+30,"        vertexCounts := make([]int, numVertices+1)","['vertexCounts', ':=', 'make', '([]', 'int', ',', 'numVertices', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+31,        // Read each clique and update the edge counts.,['// Read each clique and update the edge counts.'],"['COMMENT', 'NNP', 'DT', 'NN', 'CC', 'VB', 'DT', 'NN', 'NNS', '.']"
+32,        for c := 0; c < numCliques; c++ {,"['for', 'c', ':=', '0', ';', 'c', '<', 'numCliques', ';', 'c', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+33,"                line, err = reader.ReadString('\n')","['line', ',', 'err', '=', 'reader', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,"                        fmt.Fprintf(os.Stderr, ""Error reading clique: %s\n"", err)","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Error reading clique: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,                        return,['return'],['KEYWORD']
+37,                },['}'],['OPERATOR']
+38,"                tokens := strings.Split(strings.TrimSpace(line), "" "")","['tokens', ':=', 'strings', '.', 'Split', '(', 'strings', '.', 'TrimSpace', '(', 'line', '),', '"" ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+39,"                clique := make([]int, len(tokens))","['clique', ':=', 'make', '([]', 'int', ',', 'len', '(', 'tokens', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,"                for i, token := range tokens {","['for', 'i', ',', 'token', ':=', 'range', 'tokens', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+41,"                        u, err := strconv.Atoi(token)","['u', ',', 'err', ':=', 'strconv', '.', 'Atoi', '(', 'token', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,                        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,"                                fmt.Fprintf(os.Stderr, ""Atoi error: %s\n"", err)","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""Atoi error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,                                return,['return'],['KEYWORD']
+45,                        },['}'],['OPERATOR']
+46,                        vertexCounts[u]++,"['vertexCounts', '[', 'u', ']++']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,                        clique[i] = u,"['clique', '[', 'i', ']', '=', 'u']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+48,                        for j := 0; j < i; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'i', ';', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+49,                                v := clique[j],"['v', ':=', 'clique', '[', 'j', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,                                edgeCounts[u][v]++,"['edgeCounts', '[', 'u', '][', 'v', ']++']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,                                edgeCounts[v][u]++,"['edgeCounts', '[', 'v', '][', 'u', ']++']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,                        },['}'],['OPERATOR']
+53,                },['}'],['OPERATOR']
+54,        },['}'],['OPERATOR']
+55,        // Compute the number of edges between each pair of vertices.,['// Compute the number of edges between each pair of vertices.'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS', 'IN', 'DT', 'NN', 'IN', 'NNS', '.']"
+56,"        count2edges := make([][][]int, numCliques+1)","['count2edges', ':=', 'make', '([][][]', 'int', ',', 'numCliques', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+57,        for u := 1; u < numVertices; u++ {,"['for', 'u', ':=', '1', ';', 'u', '<', 'numVertices', ';', 'u', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+58,                for v := u + 1; v <= numVertices; v++ {,"['for', 'v', ':=', 'u', '+', '1', ';', 'v', '<=', 'numVertices', ';', 'v', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+59,                        count := edgeCounts[u][v],"['count', ':=', 'edgeCounts', '[', 'u', '][', 'v', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,"                        count2edges[count] = append(count2edges[count],","['count2edges', '[', 'count', ']', '=', 'append', '(', 'count2edges', '[', 'count', '],']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"                                []int{u, v})","['[]', 'int', '{', 'u', ',', 'v', '})']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,                },['}'],['OPERATOR']
+63,        },['}'],['OPERATOR']
+64,"        writer.WriteString(""Number of edges between pairs of vertices:\n"")","['writer', '.', 'WriteString', '(', '""Number of edges between pairs of vertices:\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+65,        for count := numCliques; count >= 1; count-- {,"['for', 'count', ':=', 'numCliques', ';', 'count', '>=', '1', ';', 'count', '--', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+66,                edges := count2edges[count],"['edges', ':=', 'count2edges', '[', 'count', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,                if len(edges) == 0 {,"['if', 'len', '(', 'edges', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+68,                        continue,['continue'],['KEYWORD']
+69,                },['}'],['OPERATOR']
+70,"                label := ""edge""","['label', ':=', '""edge""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+71,                if count > 1 {,"['if', 'count', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+72,"                        label += ""s:""","['label', '+=', '""s:""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+73,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+74,"                        label += "": ""","['label', '+=', '"": ""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+75,                },['}'],['OPERATOR']
+76,"                writer.WriteString(fmt.Sprintf(""%5d %s"", count, label))","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '""%5d %s""', ',', 'count', ',', 'label', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,"                for _, edge := range edges {","['for', '_', ',', 'edge', ':=', 'range', 'edges', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+78,"                        writer.WriteString(fmt.Sprintf("" (%d, %d)"",","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '"" (%d, %d)""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+79,"                                edge[0], edge[1]))","['edge', '[', '0', '],', 'edge', '[', '1', ']))']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+80,                },['}'],['OPERATOR']
+81,"                writer.WriteString(""\n"")","['writer', '.', 'WriteString', '(', '""\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+82,        },['}'],['OPERATOR']
+83,        // Group vertices according to the number of clique memberships.,['// Group vertices according to the number of clique memberships.'],"['COMMENT', 'NNP', 'VBZ', 'VBG', 'TO', 'DT', 'NN', 'IN', 'JJ', 'NNS', '.']"
+84,"        count2vertices := make([][]int, numCliques+1)","['count2vertices', ':=', 'make', '([][]', 'int', ',', 'numCliques', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+85,        for u := 1; u <= numVertices; u++ {,"['for', 'u', ':=', '1', ';', 'u', '<=', 'numVertices', ';', 'u', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+86,                count := vertexCounts[u],"['count', ':=', 'vertexCounts', '[', 'u', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,"                count2vertices[count] = append(count2vertices[count], u)","['count2vertices', '[', 'count', ']', '=', 'append', '(', 'count2vertices', '[', 'count', '],', 'u', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,        },['}'],['OPERATOR']
+89,"        writer.WriteString(""\nNumber of cliques in which a vertex appears:\n"")","['writer', '.', 'WriteString', '(', '""\\nNumber of cliques in which a vertex appears:\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+90,        for count := numCliques; count >= 1; count-- {,"['for', 'count', ':=', 'numCliques', ';', 'count', '>=', '1', ';', 'count', '--', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+91,                vertices := count2vertices[count],"['vertices', ':=', 'count2vertices', '[', 'count', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,                if len(vertices) == 0 {,"['if', 'len', '(', 'vertices', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+93,                        continue,['continue'],['KEYWORD']
+94,                },['}'],['OPERATOR']
+95,"                label := ""clique""","['label', ':=', '""clique""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+96,                if count > 1 {,"['if', 'count', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+97,"                        label += ""s:""","['label', '+=', '""s:""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+98,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+99,"                        label += "": ""","['label', '+=', '"": ""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+100,                },['}'],['OPERATOR']
+101,"                writer.WriteString(fmt.Sprintf(""%5d %s"", count, label))","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '""%5d %s""', ',', 'count', ',', 'label', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,"                for _, u := range vertices {","['for', '_', ',', 'u', ':=', 'range', 'vertices', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+103,"                        writer.WriteString(fmt.Sprintf("" %d"", u))","['writer', '.', 'WriteString', '(', 'fmt', '.', 'Sprintf', '(', '"" %d""', ',', 'u', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,                },['}'],['OPERATOR']
+105,"                writer.WriteString(""\n"")","['writer', '.', 'WriteString', '(', '""\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+106,        },['}'],['OPERATOR']
+107,},['}'],['OPERATOR']

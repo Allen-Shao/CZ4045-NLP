@@ -1,221 +1,221 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""bufio""","['""bufio""']",['string_literal']
-3,"    ""bytes""","['""bytes""']",['string_literal']
-4,"    ""errors""","['""errors""']",['string_literal']
-5,"    ""fmt""","['""fmt""']",['string_literal']
-6,"    ""os""","['""os""']",['string_literal']
-7,"    ""runtime""","['""runtime""']",['string_literal']
-8,"    ""sort""","['""sort""']",['string_literal']
-9,"    ""strconv""","['""strconv""']",['string_literal']
-10,),[')'],['operator']
-11,type Edge struct {,"['type', 'Edge', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-12,"    U, V uint32","['U', ',', 'V', 'uint32']","['identifier', 'operator', 'identifier', 'identifier']"
-13,},['}'],['operator']
-14,func (e Edge) String() string {,"['func', '(', 'e', 'Edge', ')', 'String', '()', 'string', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-15,"    return fmt.Sprintf(""%d,%d"", e.U, e.V)","['return', 'fmt', '.', 'Sprintf', '(', '""%d,%d""', ',', 'e', '.', 'U', ',', 'e', '.', 'V', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-16,},['}'],['operator']
-17,type ByKey []Edge,"['type', 'ByKey', '[]', 'Edge']","['keyword', 'identifier', 'operator', 'identifier']"
-18,func (a ByKey) Len() int      { return len(a) },"['func', '(', 'a', 'ByKey', ')', 'Len', '()', 'int', '{', 'return', 'len', '(', 'a', ')', '}']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-19,"func (a ByKey) Swap(i, j int) { a[i], a[j] = a[j], a[i] }","['func', '(', 'a', 'ByKey', ')', 'Swap', '(', 'i', ',', 'j', 'int', ')', '{', 'a', '[', 'i', '],', 'a', '[', 'j', ']', '=', 'a', '[', 'j', '],', 'a', '[', 'i', ']', '}']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-20,"func (a ByKey) Less(i, j int) bool {","['func', '(', 'a', 'ByKey', ')', 'Less', '(', 'i', ',', 'j', 'int', ')', 'bool', '{']","['keyword', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-21,    if a[i].U < a[j].U {,"['if', 'a', '[', 'i', '].', 'U', '<', 'a', '[', 'j', '].', 'U', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-22,        return true,"['return', 'true']","['keyword', 'identifier']"
-23,    },['}'],['operator']
-24,    if a[i].U == a[j].U && a[i].V < a[j].V {,"['if', 'a', '[', 'i', '].', 'U', '==', 'a', '[', 'j', '].', 'U', '&&', 'a', '[', 'i', '].', 'V', '<', 'a', '[', 'j', '].', 'V', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-25,        return true,"['return', 'true']","['keyword', 'identifier']"
-26,    },['}'],['operator']
-27,    return false,"['return', 'false']","['keyword', 'identifier']"
-28,},['}'],['operator']
-29,func countEdges(scanner *bufio.Scanner) int {,"['func', 'countEdges', '(', 'scanner', '*', 'bufio', '.', 'Scanner', ')', 'int', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-30,"    var nNodes, nEdges int","['var', 'nNodes', ',', 'nEdges', 'int']","['keyword', 'identifier', 'operator', 'identifier', 'identifier']"
-31,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-32,        line := scanner.Bytes(),"['line', ':=', 'scanner', '.', 'Bytes', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-33,        if !(len(line) > 0 && line[0] == '#') {,"['if', '!(', 'len', '(', 'line', ')', '>', '0', '&&', 'line', '[', '0', ']', '==', ')', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'operator', 'operator']"
-34,            nEdges++,"['nEdges', '++']","['identifier', 'operator']"
-35,            continue,['continue'],['keyword']
-36,        },['}'],['operator']
-37,"        n, err := fmt.Sscanf(string(line), ""# Nodes: %d Edges: %d"", &nNodes, &nEdges)","['n', ',', 'err', ':=', 'fmt', '.', 'Sscanf', '(', 'string', '(', 'line', '),', '""# Nodes: %d Edges: %d""', ',', '&', 'nNodes', ',', '&', 'nEdges', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-38,        if err != nil || n != 2 {,"['if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-39,"            n, err = fmt.Sscanf(string(line), ""# %d,%d"", &nNodes, &nEdges)","['n', ',', 'err', '=', 'fmt', '.', 'Sscanf', '(', 'string', '(', 'line', '),', '""# %d,%d""', ',', '&', 'nNodes', ',', '&', 'nEdges', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-40,            if err != nil || n != 2 {,"['if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-41,                continue,['continue'],['keyword']
-42,            },['}'],['operator']
-43,        },['}'],['operator']
-44,        fmt.Println(string(line)),"['fmt', '.', 'Println', '(', 'string', '(', 'line', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-45,        break,['break'],['keyword']
-46,    },['}'],['operator']
-47,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-48,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-49,    },['}'],['operator']
-50,    fmt.Println(nEdges),"['fmt', '.', 'Println', '(', 'nEdges', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-51,    return nEdges,"['return', 'nEdges']","['keyword', 'identifier']"
-52,},['}'],['operator']
-53,func loadEdges(filename string) []Edge {,"['func', 'loadEdges', '(', 'filename', 'string', ')', '[]', 'Edge', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-54,"    file, err := os.Open(filename)","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'filename', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-55,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-56,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-57,    },['}'],['operator']
-58,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-59,    scanner := bufio.NewScanner(file),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'file', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-60,    nEdges := countEdges(scanner),"['nEdges', ':=', 'countEdges', '(', 'scanner', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-61,"    edges := make([]Edge, 0, nEdges)","['edges', ':=', 'make', '([]', 'Edge', ',', '0', ',', 'nEdges', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-62,"    offset, err := file.Seek(0, os.SEEK_SET)","['offset', ',', 'err', ':=', 'file', '.', 'Seek', '(', '0', ',', 'os', '.', 'SEEK_SET', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-63,    if err != nil || offset != 0 {,"['if', 'err', '!=', 'nil', '||', 'offset', '!=', '0', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-64,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-65,    },['}'],['operator']
-66,    var sep byte = '\t',"['var', 'sep', 'byte', '=', 't']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
-67,    scanner = bufio.NewScanner(file),"['scanner', '=', 'bufio', '.', 'NewScanner', '(', 'file', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-68,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-69,        line := scanner.Bytes(),"['line', ':=', 'scanner', '.', 'Bytes', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-70,        if len(line) > 0 && line[0] == '#' {,"['if', 'len', '(', 'line', ')', '>', '0', '&&', 'line', '[', '0', ']', '==', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'operator']"
-71,            continue,['continue'],['keyword']
-72,        },['}'],['operator']
-73,"        i := bytes.IndexByte(line, sep)","['i', ':=', 'bytes', '.', 'IndexByte', '(', 'line', ',', 'sep', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-74,        if i = len(line) {,"['if', 'i', '=', 'len', '(', 'line', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-75,"            sep = ','","['sep', '=', ',']","['identifier', 'operator', 'operator']"
-76,"            i = bytes.IndexByte(line, sep)","['i', '=', 'bytes', '.', 'IndexByte', '(', 'line', ',', 'sep', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-77,            if i = len(line) {,"['if', 'i', '=', 'len', '(', 'line', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-78,"                err := errors.New(""Invalid line format: "" + string(line))","['err', ':=', 'errors', '.', 'New', '(', '""Invalid line format: ""', '+', 'string', '(', 'line', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-79,                panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-80,            },['}'],['operator']
-81,        },['}'],['operator']
-82,"        u, err := ParseUint(line[:i], 10, 32)","['u', ',', 'err', ':=', 'ParseUint', '(', 'line', '[:', 'i', '],', '10', ',', '32', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-83,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-84,            panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-85,        },['}'],['operator']
-86,"        v, err := ParseUint(line[i+1:], 10, 32)","['v', ',', 'err', ':=', 'ParseUint', '(', 'line', '[', 'i', '+', '1', ':],', '10', ',', '32', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator']"
-87,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-88,            panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-89,        },['}'],['operator']
-90,        if u > v {,"['if', 'u', '>', 'v', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-91,"            u, v = v, u","['u', ',', 'v', '=', 'v', ',', 'u']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-92,        },['}'],['operator']
-93,"        edges = append(edges, Edge{uint32(u), uint32(v)})","['edges', '=', 'append', '(', 'edges', ',', 'Edge', '{', 'uint32', '(', 'u', '),', 'uint32', '(', 'v', ')})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-94,    },['}'],['operator']
-95,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-96,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-97,    },['}'],['operator']
-98,    if len(edges) <= 1 {,"['if', 'len', '(', 'edges', ')', '<=', '1', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-99,        return edges,"['return', 'edges']","['keyword', 'identifier']"
-100,    },['}'],['operator']
-101,    sort.Sort(ByKey(edges)),"['sort', '.', 'Sort', '(', 'ByKey', '(', 'edges', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-102,    j := 0,"['j', ':=', '0']","['identifier', 'operator', 'decimal_literal']"
-103,    i := j + 1,"['i', ':=', 'j', '+', '1']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
-104,"    for ; i < len(edges); i, j = i+1, j+1 {","['for', ';', 'i', '<', 'len', '(', 'edges', ');', 'i', ',', 'j', '=', 'i', '+', '1', ',', 'j', '+', '1', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-105,        if edges[i] == edges[j] {,"['if', 'edges', '[', 'i', ']', '==', 'edges', '[', 'j', ']', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-106,            break,['break'],['keyword']
-107,        },['}'],['operator']
-108,    },['}'],['operator']
-109,    for ; i < len(edges); i++ {,"['for', ';', 'i', '<', 'len', '(', 'edges', ');', 'i', '++', '{']","['keyword', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-110,        if edges[i] != edges[j] {,"['if', 'edges', '[', 'i', ']', '!=', 'edges', '[', 'j', ']', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-111,            j++,"['j', '++']","['identifier', 'operator']"
-112,            edges[j] = edges[i],"['edges', '[', 'j', ']', '=', 'edges', '[', 'i', ']']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-113,        },['}'],['operator']
-114,    },['}'],['operator']
-115,    edges = edges[:j+1],"['edges', '=', 'edges', '[:', 'j', '+', '1', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-116,    return edges,"['return', 'edges']","['keyword', 'identifier']"
-117,},['}'],['operator']
-118,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-119,    if len(os.Args) <= 1 {,"['if', 'len', '(', 'os', '.', 'Args', ')', '<=', '1', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-120,"        err := errors.New(""Missing file name"")","['err', ':=', 'errors', '.', 'New', '(', '""Missing file name""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-121,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-122,    },['}'],['operator']
-123,    filename := os.Args[1],"['filename', ':=', 'os', '.', 'Args', '[', '1', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-124,    fmt.Println(filename),"['fmt', '.', 'Println', '(', 'filename', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-125,    edges := loadEdges(filename),"['edges', ':=', 'loadEdges', '(', 'filename', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-126,    var ms runtime.MemStats,"['var', 'ms', 'runtime', '.', 'MemStats']","['keyword', 'identifier', 'identifier', 'operator', 'identifier']"
-127,    runtime.ReadMemStats(&ms),"['runtime', '.', 'ReadMemStats', '(&', 'ms', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-128,"    fmt.Println(ms.Alloc, ms.TotalAlloc, ms.Sys, ms.Mallocs, ms.Frees)","['fmt', '.', 'Println', '(', 'ms', '.', 'Alloc', ',', 'ms', '.', 'TotalAlloc', ',', 'ms', '.', 'Sys', ',', 'ms', '.', 'Mallocs', ',', 'ms', '.', 'Frees', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-129,"    fmt.Println(len(edges), cap(edges))","['fmt', '.', 'Println', '(', 'len', '(', 'edges', '),', 'cap', '(', 'edges', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-130,"    for i, e := range edges {","['for', 'i', ',', 'e', ':=', 'range', 'edges', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-131,        fmt.Println(e),"['fmt', '.', 'Println', '(', 'e', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-132,        if i >= 10 {,"['if', 'i', '>=', '10', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-133,            break,['break'],['keyword']
-134,        },['}'],['operator']
-135,    },['}'],['operator']
-136,},['}'],['operator']
-137,// bytconv from strconv,['// bytconv from strconv'],"['comment', 'bytconv', 'from', 'strconv']"
-138,// Return the first number n such that n*base >= 1<<64.,['// Return the first number n such that n*base >= 1<<64.'],"['comment', 'Return', 'the', 'first', 'number', 'n', 'such', 'that', 'n*base', '>', '=', '1', '<', '<', '64', '.']"
-139,func cutoff64(base int) uint64 {,"['func', 'cutoff64', '(', 'base', 'int', ')', 'uint64', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-140,    if base < 2 {,"['if', 'base', '<', '2', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-141,        return 0,"['return', '0']","['keyword', 'decimal_literal']"
-142,    },['}'],['operator']
-143,    return (1<<64-1)/uint64(base) + 1,"['return', '(', '1', '<<', '64', '-', '1', ')', 'uint64', '(', 'base', ')', '+', '1']","['keyword', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal']"
-144,},['}'],['operator']
-145,// ParseUint is like ParseInt but for unsigned numbers.,['// ParseUint is like ParseInt but for unsigned numbers.'],"['comment', 'ParseUint', 'is', 'like', 'ParseInt', 'but', 'for', 'unsigned', 'numbers', '.']"
-146,"func ParseUint(s []byte, base int, bitSize int) (n uint64, err error) {","['func', 'ParseUint', '(', 's', '[]', 'byte', ',', 'base', 'int', ',', 'bitSize', 'int', ')', '(', 'n', 'uint64', ',', 'err', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
-147,"    var cutoff, maxVal uint64","['var', 'cutoff', ',', 'maxVal', 'uint64']","['keyword', 'identifier', 'operator', 'identifier', 'identifier']"
-148,    if bitSize == 0 {,"['if', 'bitSize', '==', '0', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-149,        bitSize = int(strconv.IntSize),"['bitSize', '=', 'int', '(', 'strconv', '.', 'IntSize', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-150,    },['}'],['operator']
-151,    s0 := s,"['s0', ':=', 's']","['identifier', 'operator', 'identifier']"
-152,    switch {,"['switch', '{']","['identifier', 'operator']"
-153,    case len(s) < 1:,"['case', 'len', '(', 's', ')', '<', '1', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-154,        err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-155,        goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-156,    case 2 <= base && base <= 36:,"['case', '2', '<=', 'base', '&&', 'base', '<=', '36', ':']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-157,        // valid base; nothing to do,['// valid base; nothing to do'],"['comment', 'valid', 'base', ';', 'nothing', 'to', 'do']"
-158,    case base == 0:,"['case', 'base', '==', '0', ':']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-159,"        // Look for octal, hex prefix.","['// Look for octal, hex prefix.']","['comment', 'Look', 'for', 'octal', ',', 'hex', 'prefix', '.']"
-160,        switch {,"['switch', '{']","['identifier', 'operator']"
-161,        case s[0] == '0' && len(s) > 1 && (s[1] == 'x' || s[1] == 'X'):,"['case', 's', '[', '0', ']', '==', '0', '&&', 'len', '(', 's', ')', '>', '1', '&&', '(', 's', '[', '1', ']', '==', 'x', '||', 's', '[', '1', ']', '==', 'X', '):']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'identifier', 'operator']"
-162,            base = 16,"['base', '=', '16']","['identifier', 'operator', 'decimal_literal']"
-163,            s = s[2:],"['s', '=', 's', '[', '2', ':]']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-164,            if len(s) < 1 {,"['if', 'len', '(', 's', ')', '<', '1', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-165,                err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-166,                goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-167,            },['}'],['operator']
-168,        case s[0] == '0':,"['case', 's', '[', '0', ']', '==', '0', ':']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'decimal_literal', 'operator']"
-169,            base = 8,"['base', '=', '8']","['identifier', 'operator', 'decimal_literal']"
-170,        default:,"['default', ':']","['keyword', 'operator']"
-171,            base = 10,"['base', '=', '10']","['identifier', 'operator', 'decimal_literal']"
-172,        },['}'],['operator']
-173,    default:,"['default', ':']","['keyword', 'operator']"
-174,"        err = errors.New(""invalid base "" + strconv.Itoa(base))","['err', '=', 'errors', '.', 'New', '(', '""invalid base ""', '+', 'strconv', '.', 'Itoa', '(', 'base', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-175,        goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-176,    },['}'],['operator']
-177,    n = 0,"['n', '=', '0']","['identifier', 'operator', 'decimal_literal']"
-178,    cutoff = cutoff64(base),"['cutoff', '=', 'cutoff64', '(', 'base', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-179,    maxVal = 1<<uint(bitSize) - 1,"['maxVal', '=', '1', '<<', 'uint', '(', 'bitSize', ')', '-', '1']","['identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal']"
-180,    for i := 0; i < len(s); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', 'i', '++', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-181,        var v byte,"['var', 'v', 'byte']","['keyword', 'identifier', 'identifier']"
-182,        d := s[i],"['d', ':=', 's', '[', 'i', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-183,        switch {,"['switch', '{']","['identifier', 'operator']"
-184,        case '0' <= d && d <= '9':,"['case', '0', '<=', 'd', '&&', 'd', '<=', '9', ':']","['keyword', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-185,            v = d - '0',"['v', '=', 'd', '-', '0']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
-186,        case 'a' <= d && d <= 'z':,"['case', 'a', '<=', 'd', '&&', 'd', '<=', 'z', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-187,            v = d - 'a' + 10,"['v', '=', 'd', '-', 'a', '+', '10']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
-188,        case 'A' <= d && d <= 'Z':,"['case', 'A', '<=', 'd', '&&', 'd', '<=', 'Z', ':']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-189,            v = d - 'A' + 10,"['v', '=', 'd', '-', 'A', '+', '10']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
-190,        default:,"['default', ':']","['keyword', 'operator']"
-191,            n = 0,"['n', '=', '0']","['identifier', 'operator', 'decimal_literal']"
-192,            err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-193,            goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-194,        },['}'],['operator']
-195,        if int(v) >= base {,"['if', 'int', '(', 'v', ')', '>=', 'base', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-196,            n = 0,"['n', '=', '0']","['identifier', 'operator', 'decimal_literal']"
-197,            err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-198,            goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-199,        },['}'],['operator']
-200,        if n >= cutoff {,"['if', 'n', '>=', 'cutoff', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-201,            // n*base overflows,['// n*base overflows'],"['comment', 'n*base', 'overflows']"
-202,            n = 1<<64 - 1,"['n', '=', '1', '<<', '64', '-', '1']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal']"
-203,            err = strconv.ErrRange,"['err', '=', 'strconv', '.', 'ErrRange']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-204,            goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-205,        },['}'],['operator']
-206,        n *= uint64(base),"['n', '*=', 'uint64', '(', 'base', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-207,        n1 := n + uint64(v),"['n1', ':=', 'n', '+', 'uint64', '(', 'v', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-208,        if n1  maxVal {,"['if', 'n1', 'maxVal', '{']","['keyword', 'identifier', 'identifier', 'operator']"
-209,            // n+v overflows,['// n+v overflows'],"['comment', 'n+v', 'overflows']"
-210,            n = 1<<64 - 1,"['n', '=', '1', '<<', '64', '-', '1']","['identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal']"
-211,            err = strconv.ErrRange,"['err', '=', 'strconv', '.', 'ErrRange']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-212,            goto Error,"['go', 'to', 'Error']","['keyword', 'identifier', 'identifier']"
-213,        },['}'],['operator']
-214,        n = n1,"['n', '=', 'n1']","['identifier', 'operator', 'identifier']"
-215,    },['}'],['operator']
-216,"    return n, nil","['return', 'n', ',', 'nil']","['keyword', 'identifier', 'operator', 'identifier']"
-217,Error:,"['Error', ':']","['identifier', 'operator']"
-218,"    return n, &strconv.NumError{""ParseUint"", string(s0), err}","['return', 'n', ',', '&', 'strconv', '.', 'NumError', '{', '""ParseUint""', ',', 'string', '(', 's0', '),', 'err', '}']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-219,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
+3,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+4,"    ""errors""","['""errors""']",['STRING_LITERAL']
+5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"    ""os""","['""os""']",['STRING_LITERAL']
+7,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
+8,"    ""sort""","['""sort""']",['STRING_LITERAL']
+9,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+10,),[')'],['OPERATOR']
+11,type Edge struct {,"['type', 'Edge', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+12,"    U, V uint32","['U', ',', 'V', 'uint32']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+13,},['}'],['OPERATOR']
+14,func (e Edge) String() string {,"['func', '(', 'e', 'Edge', ')', 'String', '()', 'string', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,"    return fmt.Sprintf(""%d,%d"", e.U, e.V)","['return', 'fmt', '.', 'Sprintf', '(', '""%d,%d""', ',', 'e', '.', 'U', ',', 'e', '.', 'V', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+16,},['}'],['OPERATOR']
+17,type ByKey []Edge,"['type', 'ByKey', '[]', 'Edge']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+18,func (a ByKey) Len() int      { return len(a) },"['func', '(', 'a', 'ByKey', ')', 'Len', '()', 'int', '{', 'return', 'len', '(', 'a', ')', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+19,"func (a ByKey) Swap(i, j int) { a[i], a[j] = a[j], a[i] }","['func', '(', 'a', 'ByKey', ')', 'Swap', '(', 'i', ',', 'j', 'int', ')', '{', 'a', '[', 'i', '],', 'a', '[', 'j', ']', '=', 'a', '[', 'j', '],', 'a', '[', 'i', ']', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,"func (a ByKey) Less(i, j int) bool {","['func', '(', 'a', 'ByKey', ')', 'Less', '(', 'i', ',', 'j', 'int', ')', 'bool', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,    if a[i].U < a[j].U {,"['if', 'a', '[', 'i', '].', 'U', '<', 'a', '[', 'j', '].', 'U', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,        return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
+23,    },['}'],['OPERATOR']
+24,    if a[i].U == a[j].U && a[i].V < a[j].V {,"['if', 'a', '[', 'i', '].', 'U', '==', 'a', '[', 'j', '].', 'U', '&&', 'a', '[', 'i', '].', 'V', '<', 'a', '[', 'j', '].', 'V', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,        return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
+26,    },['}'],['OPERATOR']
+27,    return false,"['return', 'false']","['KEYWORD', 'IDENTIFIER']"
+28,},['}'],['OPERATOR']
+29,func countEdges(scanner *bufio.Scanner) int {,"['func', 'countEdges', '(', 'scanner', '*', 'bufio', '.', 'Scanner', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"    var nNodes, nEdges int","['var', 'nNodes', ',', 'nEdges', 'int']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+31,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+32,        line := scanner.Bytes(),"['line', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,        if !(len(line) > 0 && line[0] == '#') {,"['if', '!(', 'len', '(', 'line', ')', '>', '0', '&&', 'line', '[', '0', ']', '==', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'OPERATOR']"
+34,            nEdges++,"['nEdges', '++']","['IDENTIFIER', 'OPERATOR']"
+35,            continue,['continue'],['KEYWORD']
+36,        },['}'],['OPERATOR']
+37,"        n, err := fmt.Sscanf(string(line), ""# Nodes: %d Edges: %d"", &nNodes, &nEdges)","['n', ',', 'err', ':=', 'fmt', '.', 'Sscanf', '(', 'string', '(', 'line', '),', '""# Nodes: %d Edges: %d""', ',', '&', 'nNodes', ',', '&', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,        if err != nil || n != 2 {,"['if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+39,"            n, err = fmt.Sscanf(string(line), ""# %d,%d"", &nNodes, &nEdges)","['n', ',', 'err', '=', 'fmt', '.', 'Sscanf', '(', 'string', '(', 'line', '),', '""# %d,%d""', ',', '&', 'nNodes', ',', '&', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,            if err != nil || n != 2 {,"['if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+41,                continue,['continue'],['KEYWORD']
+42,            },['}'],['OPERATOR']
+43,        },['}'],['OPERATOR']
+44,        fmt.Println(string(line)),"['fmt', '.', 'Println', '(', 'string', '(', 'line', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,        break,['break'],['KEYWORD']
+46,    },['}'],['OPERATOR']
+47,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,    },['}'],['OPERATOR']
+50,    fmt.Println(nEdges),"['fmt', '.', 'Println', '(', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,    return nEdges,"['return', 'nEdges']","['KEYWORD', 'IDENTIFIER']"
+52,},['}'],['OPERATOR']
+53,func loadEdges(filename string) []Edge {,"['func', 'loadEdges', '(', 'filename', 'string', ')', '[]', 'Edge', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,"    file, err := os.Open(filename)","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+55,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,    },['}'],['OPERATOR']
+58,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,    scanner := bufio.NewScanner(file),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,    nEdges := countEdges(scanner),"['nEdges', ':=', 'countEdges', '(', 'scanner', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"    edges := make([]Edge, 0, nEdges)","['edges', ':=', 'make', '([]', 'Edge', ',', '0', ',', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,"    offset, err := file.Seek(0, os.SEEK_SET)","['offset', ',', 'err', ':=', 'file', '.', 'Seek', '(', '0', ',', 'os', '.', 'SEEK_SET', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,    if err != nil || offset != 0 {,"['if', 'err', '!=', 'nil', '||', 'offset', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+64,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,    },['}'],['OPERATOR']
+66,    var sep byte = '\t',"['var', 'sep', 'byte', '=', 't']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+67,    scanner = bufio.NewScanner(file),"['scanner', '=', 'bufio', '.', 'NewScanner', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+69,        line := scanner.Bytes(),"['line', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,        if len(line) > 0 && line[0] == '#' {,"['if', 'len', '(', 'line', ')', '>', '0', '&&', 'line', '[', '0', ']', '==', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'OPERATOR']"
+71,            continue,['continue'],['KEYWORD']
+72,        },['}'],['OPERATOR']
+73,"        i := bytes.IndexByte(line, sep)","['i', ':=', 'bytes', '.', 'IndexByte', '(', 'line', ',', 'sep', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,        if i = len(line) {,"['if', 'i', '=', 'len', '(', 'line', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+75,"            sep = ','","['sep', '=', ',']","['IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+76,"            i = bytes.IndexByte(line, sep)","['i', '=', 'bytes', '.', 'IndexByte', '(', 'line', ',', 'sep', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,            if i = len(line) {,"['if', 'i', '=', 'len', '(', 'line', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+78,"                err := errors.New(""Invalid line format: "" + string(line))","['err', ':=', 'errors', '.', 'New', '(', '""Invalid line format: ""', '+', 'string', '(', 'line', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,                panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,            },['}'],['OPERATOR']
+81,        },['}'],['OPERATOR']
+82,"        u, err := ParseUint(line[:i], 10, 32)","['u', ',', 'err', ':=', 'ParseUint', '(', 'line', '[:', 'i', '],', '10', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+83,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,            panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,        },['}'],['OPERATOR']
+86,"        v, err := ParseUint(line[i+1:], 10, 32)","['v', ',', 'err', ':=', 'ParseUint', '(', 'line', '[', 'i', '+', '1', ':],', '10', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+87,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,            panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,        },['}'],['OPERATOR']
+90,        if u > v {,"['if', 'u', '>', 'v', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,"            u, v = v, u","['u', ',', 'v', '=', 'v', ',', 'u']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+92,        },['}'],['OPERATOR']
+93,"        edges = append(edges, Edge{uint32(u), uint32(v)})","['edges', '=', 'append', '(', 'edges', ',', 'Edge', '{', 'uint32', '(', 'u', '),', 'uint32', '(', 'v', ')})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,    },['}'],['OPERATOR']
+95,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+97,    },['}'],['OPERATOR']
+98,    if len(edges) <= 1 {,"['if', 'len', '(', 'edges', ')', '<=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+99,        return edges,"['return', 'edges']","['KEYWORD', 'IDENTIFIER']"
+100,    },['}'],['OPERATOR']
+101,    sort.Sort(ByKey(edges)),"['sort', '.', 'Sort', '(', 'ByKey', '(', 'edges', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,    j := 0,"['j', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+103,    i := j + 1,"['i', ':=', 'j', '+', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+104,"    for ; i < len(edges); i, j = i+1, j+1 {","['for', ';', 'i', '<', 'len', '(', 'edges', ');', 'i', ',', 'j', '=', 'i', '+', '1', ',', 'j', '+', '1', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+105,        if edges[i] == edges[j] {,"['if', 'edges', '[', 'i', ']', '==', 'edges', '[', 'j', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+106,            break,['break'],['KEYWORD']
+107,        },['}'],['OPERATOR']
+108,    },['}'],['OPERATOR']
+109,    for ; i < len(edges); i++ {,"['for', ';', 'i', '<', 'len', '(', 'edges', ');', 'i', '++', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+110,        if edges[i] != edges[j] {,"['if', 'edges', '[', 'i', ']', '!=', 'edges', '[', 'j', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+111,            j++,"['j', '++']","['IDENTIFIER', 'OPERATOR']"
+112,            edges[j] = edges[i],"['edges', '[', 'j', ']', '=', 'edges', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,        },['}'],['OPERATOR']
+114,    },['}'],['OPERATOR']
+115,    edges = edges[:j+1],"['edges', '=', 'edges', '[:', 'j', '+', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+116,    return edges,"['return', 'edges']","['KEYWORD', 'IDENTIFIER']"
+117,},['}'],['OPERATOR']
+118,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+119,    if len(os.Args) <= 1 {,"['if', 'len', '(', 'os', '.', 'Args', ')', '<=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+120,"        err := errors.New(""Missing file name"")","['err', ':=', 'errors', '.', 'New', '(', '""Missing file name""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+121,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,    },['}'],['OPERATOR']
+123,    filename := os.Args[1],"['filename', ':=', 'os', '.', 'Args', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+124,    fmt.Println(filename),"['fmt', '.', 'Println', '(', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,    edges := loadEdges(filename),"['edges', ':=', 'loadEdges', '(', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,    var ms runtime.MemStats,"['var', 'ms', 'runtime', '.', 'MemStats']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+127,    runtime.ReadMemStats(&ms),"['runtime', '.', 'ReadMemStats', '(&', 'ms', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,"    fmt.Println(ms.Alloc, ms.TotalAlloc, ms.Sys, ms.Mallocs, ms.Frees)","['fmt', '.', 'Println', '(', 'ms', '.', 'Alloc', ',', 'ms', '.', 'TotalAlloc', ',', 'ms', '.', 'Sys', ',', 'ms', '.', 'Mallocs', ',', 'ms', '.', 'Frees', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,"    fmt.Println(len(edges), cap(edges))","['fmt', '.', 'Println', '(', 'len', '(', 'edges', '),', 'cap', '(', 'edges', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+130,"    for i, e := range edges {","['for', 'i', ',', 'e', ':=', 'range', 'edges', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+131,        fmt.Println(e),"['fmt', '.', 'Println', '(', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,        if i >= 10 {,"['if', 'i', '>=', '10', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+133,            break,['break'],['KEYWORD']
+134,        },['}'],['OPERATOR']
+135,    },['}'],['OPERATOR']
+136,},['}'],['OPERATOR']
+137,// bytconv from strconv,['// bytconv from strconv'],"['COMMENT', 'NN', 'IN', 'NN']"
+138,// Return the first number n such that n*base >= 1<<64.,['// Return the first number n such that n*base >= 1<<64.'],"['COMMENT', 'VB', 'DT', 'JJ', 'NN', 'NNS', 'JJ', 'IN', 'JJ', 'NNP', 'NNP', 'CD', 'NNP', 'VBD', 'CD', '.']"
+139,func cutoff64(base int) uint64 {,"['func', 'cutoff64', '(', 'base', 'int', ')', 'uint64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,    if base < 2 {,"['if', 'base', '<', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+141,        return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
+142,    },['}'],['OPERATOR']
+143,    return (1<<64-1)/uint64(base) + 1,"['return', '(', '1', '<<', '64', '-', '1', ')', 'uint64', '(', 'base', ')', '+', '1']","['KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
+144,},['}'],['OPERATOR']
+145,// ParseUint is like ParseInt but for unsigned numbers.,['// ParseUint is like ParseInt but for unsigned numbers.'],"['COMMENT', 'NN', 'VBZ', 'IN', 'NNP', 'CC', 'IN', 'JJ', 'NNS', '.']"
+146,"func ParseUint(s []byte, base int, bitSize int) (n uint64, err error) {","['func', 'ParseUint', '(', 's', '[]', 'byte', ',', 'base', 'int', ',', 'bitSize', 'int', ')', '(', 'n', 'uint64', ',', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+147,"    var cutoff, maxVal uint64","['var', 'cutoff', ',', 'maxVal', 'uint64']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+148,    if bitSize == 0 {,"['if', 'bitSize', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+149,        bitSize = int(strconv.IntSize),"['bitSize', '=', 'int', '(', 'strconv', '.', 'IntSize', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,    },['}'],['OPERATOR']
+151,    s0 := s,"['s0', ':=', 's']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+152,    switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
+153,    case len(s) < 1:,"['case', 'len', '(', 's', ')', '<', '1', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+154,        err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+155,        goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+156,    case 2 <= base && base <= 36:,"['case', '2', '<=', 'base', '&&', 'base', '<=', '36', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+157,        // valid base; nothing to do,['// valid base; nothing to do'],"['COMMENT', 'JJ', 'NN', ':', 'NN', 'TO', 'VB']"
+158,    case base == 0:,"['case', 'base', '==', '0', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+159,"        // Look for octal, hex prefix.","['// Look for octal, hex prefix.']","['COMMENT', 'NN', 'IN', 'JJ', ',', 'JJ', 'NN', '.']"
+160,        switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
+161,        case s[0] == '0' && len(s) > 1 && (s[1] == 'x' || s[1] == 'X'):,"['case', 's', '[', '0', ']', '==', '0', '&&', 'len', '(', 's', ')', '>', '1', '&&', '(', 's', '[', '1', ']', '==', 'x', '||', 's', '[', '1', ']', '==', 'X', '):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+162,            base = 16,"['base', '=', '16']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+163,            s = s[2:],"['s', '=', 's', '[', '2', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+164,            if len(s) < 1 {,"['if', 'len', '(', 's', ')', '<', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+165,                err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+166,                goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+167,            },['}'],['OPERATOR']
+168,        case s[0] == '0':,"['case', 's', '[', '0', ']', '==', '0', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+169,            base = 8,"['base', '=', '8']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+170,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+171,            base = 10,"['base', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+172,        },['}'],['OPERATOR']
+173,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+174,"        err = errors.New(""invalid base "" + strconv.Itoa(base))","['err', '=', 'errors', '.', 'New', '(', '""invalid base ""', '+', 'strconv', '.', 'Itoa', '(', 'base', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+175,        goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+176,    },['}'],['OPERATOR']
+177,    n = 0,"['n', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+178,    cutoff = cutoff64(base),"['cutoff', '=', 'cutoff64', '(', 'base', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,    maxVal = 1<<uint(bitSize) - 1,"['maxVal', '=', '1', '<<', 'uint', '(', 'bitSize', ')', '-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
+180,    for i := 0; i < len(s); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+181,        var v byte,"['var', 'v', 'byte']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+182,        d := s[i],"['d', ':=', 's', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,        switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
+184,        case '0' <= d && d <= '9':,"['case', '0', '<=', 'd', '&&', 'd', '<=', '9', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+185,            v = d - '0',"['v', '=', 'd', '-', '0']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+186,        case 'a' <= d && d <= 'z':,"['case', 'a', '<=', 'd', '&&', 'd', '<=', 'z', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+187,            v = d - 'a' + 10,"['v', '=', 'd', '-', 'a', '+', '10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+188,        case 'A' <= d && d <= 'Z':,"['case', 'A', '<=', 'd', '&&', 'd', '<=', 'Z', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+189,            v = d - 'A' + 10,"['v', '=', 'd', '-', 'A', '+', '10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+190,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+191,            n = 0,"['n', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+192,            err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+193,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+194,        },['}'],['OPERATOR']
+195,        if int(v) >= base {,"['if', 'int', '(', 'v', ')', '>=', 'base', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+196,            n = 0,"['n', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+197,            err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+198,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+199,        },['}'],['OPERATOR']
+200,        if n >= cutoff {,"['if', 'n', '>=', 'cutoff', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+201,            // n*base overflows,['// n*base overflows'],"['COMMENT', 'NN', 'NNS']"
+202,            n = 1<<64 - 1,"['n', '=', '1', '<<', '64', '-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+203,            err = strconv.ErrRange,"['err', '=', 'strconv', '.', 'ErrRange']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+204,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+205,        },['}'],['OPERATOR']
+206,        n *= uint64(base),"['n', '*=', 'uint64', '(', 'base', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+207,        n1 := n + uint64(v),"['n1', ':=', 'n', '+', 'uint64', '(', 'v', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+208,        if n1  maxVal {,"['if', 'n1', 'maxVal', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+209,            // n+v overflows,['// n+v overflows'],"['COMMENT', 'NN', 'NNS']"
+210,            n = 1<<64 - 1,"['n', '=', '1', '<<', '64', '-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+211,            err = strconv.ErrRange,"['err', '=', 'strconv', '.', 'ErrRange']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+212,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+213,        },['}'],['OPERATOR']
+214,        n = n1,"['n', '=', 'n1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+215,    },['}'],['OPERATOR']
+216,"    return n, nil","['return', 'n', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+217,Error:,"['Error', ':']","['IDENTIFIER', 'OPERATOR']"
+218,"    return n, &strconv.NumError{""ParseUint"", string(s0), err}","['return', 'n', ',', '&', 'strconv', '.', 'NumError', '{', '""ParseUint""', ',', 'string', '(', 's0', '),', 'err', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+219,},['}'],['OPERATOR']

@@ -1,74 +1,74 @@
 ,text,token,annotation
-0,type HobbyDB struct {,"['type', 'HobbyDB', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-1,"    Key *datastore.Key `datastore:""-""`","['Key', '*', 'datastore', '.', 'Key', 'datastore', ':', '""-""']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
-2,    Title string,"['Title', 'string']","['identifier', 'identifier']"
-3,    Description []byte,"['Description', '[]', 'byte']","['identifier', 'operator', 'identifier']"
-4,    CreatedDate time.Time,"['CreatedDate', 'time', '.', 'Time']","['identifier', 'identifier', 'operator', 'identifier']"
-5,    UpdatedDate time.Time,"['UpdatedDate', 'time', '.', 'Time']","['identifier', 'identifier', 'operator', 'identifier']"
-6,},['}'],['operator']
-7,type HobbyData struct {,"['type', 'HobbyData', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-8,"    Key *datastore.Key `datastore:""-""`","['Key', '*', 'datastore', '.', 'Key', 'datastore', ':', '""-""']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'string_literal']"
-9,    Title string,"['Title', 'string']","['identifier', 'identifier']"
-10,    Description string,"['Description', 'string']","['identifier', 'identifier']"
-11,    CreatedDate time.Time,"['CreatedDate', 'time', '.', 'Time']","['identifier', 'identifier', 'operator', 'identifier']"
-12,    UpdatedDate time.Time,"['UpdatedDate', 'time', '.', 'Time']","['identifier', 'identifier', 'operator', 'identifier']"
-13,},['}'],['operator']
-14,"func getHobbyData(dbQuery *datastore.Query, MDOutput bool, c appengine.Context) (hobbyData []HobbyData , err error) {","['func', 'getHobbyData', '(', 'dbQuery', '*', 'datastore', '.', 'Query', ',', 'MDOutput', 'bool', ',', 'c', 'appengine', '.', 'Context', ')', '(', 'hobbyData', '[]', 'HobbyData', ',', 'err', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator']"
-15,    var h []*HobbyDB,"['var', 'h', '[]*', 'HobbyDB']","['keyword', 'identifier', 'operator', 'identifier']"
-16,"    k, err := dbQuery.GetAll(c, &h)","['k', ',', 'err', ':=', 'dbQuery', '.', 'GetAll', '(', 'c', ',', '&', 'h', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-17,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-18,        return,['return'],['keyword']
-19,    },['}'],['operator']
-20,"    hobbyData = make([]HobbyData, len(h))","['hobbyData', '=', 'make', '([]', 'HobbyData', ',', 'len', '(', 'h', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-21,    for i := range h {,"['for', 'i', ':=', 'range', 'h', '{']","['keyword', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-22,        hobbyData[i].Key = k[i],"['hobbyData', '[', 'i', '].', 'Key', '=', 'k', '[', 'i', ']']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-23,        hobbyData[i].Title = h[i].Title,"['hobbyData', '[', 'i', '].', 'Title', '=', 'h', '[', 'i', '].', 'Title']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-24,        if MDOutput {,"['if', 'MDOutput', '{']","['keyword', 'identifier', 'operator']"
-25,            hobbyData[i].Description = string(blackfriday.MarkdownCommon(h[i].Description)),"['hobbyData', '[', 'i', '].', 'Description', '=', 'string', '(', 'blackfriday', '.', 'MarkdownCommon', '(', 'h', '[', 'i', '].', 'Description', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-26,        } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-27,            hobbyData[i].Description = string(h[i].Description),"['hobbyData', '[', 'i', '].', 'Description', '=', 'string', '(', 'h', '[', 'i', '].', 'Description', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-28,        },['}'],['operator']
-29,        hobbyData[i].CreatedDate = h[i].CreatedDate,"['hobbyData', '[', 'i', '].', 'CreatedDate', '=', 'h', '[', 'i', '].', 'CreatedDate']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-30,        hobbyData[i].UpdatedDate = h[i].UpdatedDate,"['hobbyData', '[', 'i', '].', 'UpdatedDate', '=', 'h', '[', 'i', '].', 'UpdatedDate']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-31,    },['}'],['operator']
-32,    return,['return'],['keyword']
-33,},['}'],['operator']
-34,"func hobbyList(w http.ResponseWriter, r *http.Request) {","['func', 'hobbyList', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-35,    c := appengine.NewContext(r),"['c', ':=', 'appengine', '.', 'NewContext', '(', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-36,    // Get hobby data,['// Get hobby data'],"['comment', 'Get', 'hobby', 'data']"
-37,    // Get page id,['// Get page id'],"['comment', 'Get', 'page', 'id']"
-38,"    pageId, _ := strconv.Atoi(getUrlQuery(r.URL, ""pid""))","['pageId', ',', '_', ':=', 'strconv', '.', 'Atoi', '(', 'getUrlQuery', '(', 'r', '.', 'URL', ',', '""pid""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-39,    pageSize  := 10,"['pageSize', ':=', '10']","['identifier', 'operator', 'decimal_literal']"
-40,    // Get offset and page numbers,['// Get offset and page numbers'],"['comment', 'Get', 'offset', 'and', 'page', 'numbers']"
-41,"    offset, pageNums := getOffset(""Hobby"", pageId, pageSize, c)","['offset', ',', 'pageNums', ':=', 'getOffset', '(', '""Hobby""', ',', 'pageId', ',', 'pageSize', ',', 'c', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-42,    // New PageSetting,['// New PageSetting'],"['comment', 'New', 'PageSetting']"
-43,    pageSetting := new(PageSetting),"['pageSetting', ':=', 'new', '(', 'PageSetting', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-44,    // Setting PageSetting,['// Setting PageSetting'],"['comment', 'Setting', 'PageSetting']"
-45,"    pageSetting.Title  = ""Hobby Manager - "" + config.Title","['pageSetting', '.', 'Title', '=', '""Hobby Manager - ""', '+', 'config', '.', 'Title']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier']"
-46,"    pageSetting.Layout = ""column1""","['pageSetting', '.', 'Layout', '=', '""column1""']","['identifier', 'operator', 'identifier', 'operator', 'string_literal']"
-47,    // showNext and showPrev button,['// showNext and showPrev button'],"['comment', 'showNext', 'and', 'showPrev', 'button']"
-48,    if pageId  pageNums {,"['if', 'pageId', 'pageNums', '{']","['keyword', 'identifier', 'identifier', 'operator']"
-49,        pageId = 1,"['pageId', '=', '1']","['identifier', 'operator', 'decimal_literal']"
-50,    },['}'],['operator']
-51,    if pageId < pageNums {,"['if', 'pageId', '<', 'pageNums', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-52,        pageSetting.ShowPrev = true,"['pageSetting', '.', 'ShowPrev', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-53,    },['}'],['operator']
-54,    if pageId != 1 {,"['if', 'pageId', '!=', '1', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator']"
-55,        pageSetting.ShowNext = true,"['pageSetting', '.', 'ShowNext', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-56,    },['}'],['operator']
-57,    pageSetting.PrevPageID = pageId + 1,"['pageSetting', '.', 'PrevPageID', '=', 'pageId', '+', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
-58,    pageSetting.NextPageID = pageId - 1,"['pageSetting', '.', 'NextPageID', '=', 'pageId', '-', '1']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal']"
-59,    // Get hobby data,['// Get hobby data'],"['comment', 'Get', 'hobby', 'data']"
-60,"    dbQuery := datastore.NewQuery(""Hobby"").Order(""-UpdatedDate"").Offset(offset).Limit(pageSize)","['dbQuery', ':=', 'datastore', '.', 'NewQuery', '(', '""Hobby"").Order(""-UpdatedDate""', ').', 'Offset', '(', 'offset', ').', 'Limit', '(', 'pageSize', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-61,"    hobbyData, err := getHobbyData(dbQuery, false, c)","['hobbyData', ',', 'err', ':=', 'getHobbyData', '(', 'dbQuery', ',', 'false', ',', 'c', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-62,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-63,"        serveError(c, w, err)","['serveError', '(', 'c', ',', 'w', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-64,        return,['return'],['keyword']
-65,    },['}'],['operator']
-66,    // New PageData,['// New PageData'],"['comment', 'New', 'PageData']"
-67,    pageData := &PageData{ Hobby: hobbyData },"['pageData', ':=', '&', 'PageData', '{', 'Hobby', ':', 'hobbyData', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-68,    // New Page,['// New Page'],"['comment', 'New', 'Page']"
-69,"    page := NewPage(pageSetting, pageData)","['page', ':=', 'NewPage', '(', 'pageSetting', ',', 'pageData', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-70,    // Render page,['// Render page'],"['comment', 'Render', 'page']"
-71,"    page.Render(""hobby/admin"", w)","['page', '.', 'Render', '(', '""hobby/admin""', ',', 'w', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-72,},['}'],['operator']
+0,type HobbyDB struct {,"['type', 'HobbyDB', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+1,"    Key *datastore.Key `datastore:""-""`","['Key', '*', 'datastore', '.', 'Key', 'datastore', ':', '""-""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+2,    Title string,"['Title', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+3,    Description []byte,"['Description', '[]', 'byte']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+4,    CreatedDate time.Time,"['CreatedDate', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+5,    UpdatedDate time.Time,"['UpdatedDate', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+6,},['}'],['OPERATOR']
+7,type HobbyData struct {,"['type', 'HobbyData', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+8,"    Key *datastore.Key `datastore:""-""`","['Key', '*', 'datastore', '.', 'Key', 'datastore', ':', '""-""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+9,    Title string,"['Title', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+10,    Description string,"['Description', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+11,    CreatedDate time.Time,"['CreatedDate', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+12,    UpdatedDate time.Time,"['UpdatedDate', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+13,},['}'],['OPERATOR']
+14,"func getHobbyData(dbQuery *datastore.Query, MDOutput bool, c appengine.Context) (hobbyData []HobbyData , err error) {","['func', 'getHobbyData', '(', 'dbQuery', '*', 'datastore', '.', 'Query', ',', 'MDOutput', 'bool', ',', 'c', 'appengine', '.', 'Context', ')', '(', 'hobbyData', '[]', 'HobbyData', ',', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+15,    var h []*HobbyDB,"['var', 'h', '[]*', 'HobbyDB']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+16,"    k, err := dbQuery.GetAll(c, &h)","['k', ',', 'err', ':=', 'dbQuery', '.', 'GetAll', '(', 'c', ',', '&', 'h', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,        return,['return'],['KEYWORD']
+19,    },['}'],['OPERATOR']
+20,"    hobbyData = make([]HobbyData, len(h))","['hobbyData', '=', 'make', '([]', 'HobbyData', ',', 'len', '(', 'h', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,    for i := range h {,"['for', 'i', ':=', 'range', 'h', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+22,        hobbyData[i].Key = k[i],"['hobbyData', '[', 'i', '].', 'Key', '=', 'k', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,        hobbyData[i].Title = h[i].Title,"['hobbyData', '[', 'i', '].', 'Title', '=', 'h', '[', 'i', '].', 'Title']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+24,        if MDOutput {,"['if', 'MDOutput', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+25,            hobbyData[i].Description = string(blackfriday.MarkdownCommon(h[i].Description)),"['hobbyData', '[', 'i', '].', 'Description', '=', 'string', '(', 'blackfriday', '.', 'MarkdownCommon', '(', 'h', '[', 'i', '].', 'Description', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+27,            hobbyData[i].Description = string(h[i].Description),"['hobbyData', '[', 'i', '].', 'Description', '=', 'string', '(', 'h', '[', 'i', '].', 'Description', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,        },['}'],['OPERATOR']
+29,        hobbyData[i].CreatedDate = h[i].CreatedDate,"['hobbyData', '[', 'i', '].', 'CreatedDate', '=', 'h', '[', 'i', '].', 'CreatedDate']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+30,        hobbyData[i].UpdatedDate = h[i].UpdatedDate,"['hobbyData', '[', 'i', '].', 'UpdatedDate', '=', 'h', '[', 'i', '].', 'UpdatedDate']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+31,    },['}'],['OPERATOR']
+32,    return,['return'],['KEYWORD']
+33,},['}'],['OPERATOR']
+34,"func hobbyList(w http.ResponseWriter, r *http.Request) {","['func', 'hobbyList', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+35,    c := appengine.NewContext(r),"['c', ':=', 'appengine', '.', 'NewContext', '(', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,    // Get hobby data,['// Get hobby data'],"['COMMENT', 'NNP', 'NN', 'NNS']"
+37,    // Get page id,['// Get page id'],"['COMMENT', 'NNP', 'NN', 'NN']"
+38,"    pageId, _ := strconv.Atoi(getUrlQuery(r.URL, ""pid""))","['pageId', ',', '_', ':=', 'strconv', '.', 'Atoi', '(', 'getUrlQuery', '(', 'r', '.', 'URL', ',', '""pid""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+39,    pageSize  := 10,"['pageSize', ':=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+40,    // Get offset and page numbers,['// Get offset and page numbers'],"['COMMENT', 'NNP', 'VBN', 'CC', 'JJ', 'NNS']"
+41,"    offset, pageNums := getOffset(""Hobby"", pageId, pageSize, c)","['offset', ',', 'pageNums', ':=', 'getOffset', '(', '""Hobby""', ',', 'pageId', ',', 'pageSize', ',', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,    // New PageSetting,['// New PageSetting'],"['COMMENT', 'NNP', 'VBG']"
+43,    pageSetting := new(PageSetting),"['pageSetting', ':=', 'new', '(', 'PageSetting', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,    // Setting PageSetting,['// Setting PageSetting'],"['COMMENT', 'VBG', 'VBG']"
+45,"    pageSetting.Title  = ""Hobby Manager - "" + config.Title","['pageSetting', '.', 'Title', '=', '""Hobby Manager - ""', '+', 'config', '.', 'Title']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+46,"    pageSetting.Layout = ""column1""","['pageSetting', '.', 'Layout', '=', '""column1""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+47,    // showNext and showPrev button,['// showNext and showPrev button'],"['COMMENT', 'NN', 'CC', 'JJ', 'NN']"
+48,    if pageId  pageNums {,"['if', 'pageId', 'pageNums', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+49,        pageId = 1,"['pageId', '=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+50,    },['}'],['OPERATOR']
+51,    if pageId < pageNums {,"['if', 'pageId', '<', 'pageNums', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,        pageSetting.ShowPrev = true,"['pageSetting', '.', 'ShowPrev', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+53,    },['}'],['OPERATOR']
+54,    if pageId != 1 {,"['if', 'pageId', '!=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+55,        pageSetting.ShowNext = true,"['pageSetting', '.', 'ShowNext', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+56,    },['}'],['OPERATOR']
+57,    pageSetting.PrevPageID = pageId + 1,"['pageSetting', '.', 'PrevPageID', '=', 'pageId', '+', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+58,    pageSetting.NextPageID = pageId - 1,"['pageSetting', '.', 'NextPageID', '=', 'pageId', '-', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+59,    // Get hobby data,['// Get hobby data'],"['COMMENT', 'NNP', 'NN', 'NNS']"
+60,"    dbQuery := datastore.NewQuery(""Hobby"").Order(""-UpdatedDate"").Offset(offset).Limit(pageSize)","['dbQuery', ':=', 'datastore', '.', 'NewQuery', '(', '""Hobby"").Order(""-UpdatedDate""', ').', 'Offset', '(', 'offset', ').', 'Limit', '(', 'pageSize', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"    hobbyData, err := getHobbyData(dbQuery, false, c)","['hobbyData', ',', 'err', ':=', 'getHobbyData', '(', 'dbQuery', ',', 'false', ',', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,"        serveError(c, w, err)","['serveError', '(', 'c', ',', 'w', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,        return,['return'],['KEYWORD']
+65,    },['}'],['OPERATOR']
+66,    // New PageData,['// New PageData'],"['COMMENT', 'NNP', 'NNP']"
+67,    pageData := &PageData{ Hobby: hobbyData },"['pageData', ':=', '&', 'PageData', '{', 'Hobby', ':', 'hobbyData', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,    // New Page,['// New Page'],"['COMMENT', 'NNP', 'NN']"
+69,"    page := NewPage(pageSetting, pageData)","['page', ':=', 'NewPage', '(', 'pageSetting', ',', 'pageData', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,    // Render page,['// Render page'],"['COMMENT', 'NNP', 'NN']"
+71,"    page.Render(""hobby/admin"", w)","['page', '.', 'Render', '(', '""hobby/admin""', ',', 'w', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,},['}'],['OPERATOR']

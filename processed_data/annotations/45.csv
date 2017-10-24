@@ -1,40 +1,40 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""fmt""","['""fmt""']",['string_literal']
-3,"    ""io""","['""io""']",['string_literal']
-4,"    ""net/http""","['""net/http""']",['string_literal']
-5,"    ""regexp""","['""regexp""']",['string_literal']
-6,"    ""strconv""","['""strconv""']",['string_literal']
-7,"    ""github.com/zenazn/goji""","['""github.com/zenazn/goji""']",['string_literal']
-8,"    ""github.com/zenazn/goji/param""","['""github.com/zenazn/goji/param""']",['string_literal']
-9,"    ""github.com/zenazn/goji/web""","['""github.com/zenazn/goji/web""']",['string_literal']
-10,),[')'],['operator']
-11,// Note: the code below cuts a lot of corners to make the example app simple.,['// Note: the code below cuts a lot of corners to make the example app simple.'],"['comment', 'Note', ':', 'the', 'code', 'below', 'cuts', 'a', 'lot', 'of', 'corners', 'to', 'make', 'the', 'example', 'app', 'simple', '.']"
-12,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-13,    // Add routes to the global handler,['// Add routes to the global handler'],"['comment', 'Add', 'routes', 'to', 'the', 'global', 'handler']"
-14,"    goji.Get(""/"", Root)","['go', 'ji', '.', 'Get', '(', '""/""', ',', 'Root', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-15,    // Fully backwards compatible with net/http's Handlers,"[""// Fully backwards compatible with net/http's Handlers""]","['comment', 'Fully', 'backwards', 'compatible', 'with', 'net/http', ""'s"", 'Handlers']"
-16,"    goji.Get(""/greets"", http.RedirectHandler(""/"", 301))","['go', 'ji', '.', 'Get', '(', '""/greets"", http.RedirectHandler(""/""', ',', '301', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'decimal_literal', 'operator']"
-17,    // Use your favorite HTTP verbs,['// Use your favorite HTTP verbs'],"['comment', 'Use', 'your', 'favorite', 'HTTP', 'verbs']"
-18,"    goji.Post(""/greets"", NewGreet)","['go', 'ji', '.', 'Post', '(', '""/greets""', ',', 'NewGreet', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-19,    // Use Sinatra-style patterns in your URLs,['// Use Sinatra-style patterns in your URLs'],"['comment', 'Use', 'Sinatra-style', 'patterns', 'in', 'your', 'URLs']"
-20,"    goji.Get(""/users/:name"", GetUser)","['go', 'ji', '.', 'Get', '(', '""/users/:name""', ',', 'GetUser', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-21,    // Goji also supports regular expressions with named capture groups.,['// Goji also supports regular expressions with named capture groups.'],"['comment', 'Goji', 'also', 'supports', 'regular', 'expressions', 'with', 'named', 'capture', 'groups', '.']"
-22,"    goji.Get(regexp.MustCompile(`^/greets/(?P\d+)$`), GetGreet)","['go', 'ji', '.', 'Get', '(', 'regexp', '.', 'MustCompile', '(', '^', 'greets', '(', 'P', 'd', '+)$', '),', 'GetGreet', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-23,    // Middleware can be used to inject behavior into your app. The,['// Middleware can be used to inject behavior into your app. The'],"['comment', 'Middleware', 'can', 'be', 'used', 'to', 'inject', 'behavior', 'into', 'your', 'app', '.', 'The']"
-24,"    // middleware for this application are defined in middleware.go, but you","['// middleware for this application are defined in middleware.go, but you']","['comment', 'middleware', 'for', 'this', 'application', 'are', 'defined', 'in', 'middleware.go', ',', 'but', 'you']"
-25,    // can put them wherever you like.,['// can put them wherever you like.'],"['comment', 'can', 'put', 'them', 'wherever', 'you', 'like', '.']"
-26,    goji.Use(PlainText),"['go', 'ji', '.', 'Use', '(', 'PlainText', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-27,    admin := web.New(),"['admin', ':=', 'web', '.', 'New', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-28,"    goji.Handle(""/admin/*"", admin)","['go', 'ji', '.', 'Handle', '(', '""/admin/*""', ',', 'admin', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-29,    admin.Use(SuperSecure),"['admin', '.', 'Use', '(', 'SuperSecure', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-30,"    // Goji's routing, like Sinatra's, is exact: no effort is made to","[""// Goji's routing, like Sinatra's, is exact: no effort is made to""]","['comment', 'Goji', ""'s"", 'routing', ',', 'like', 'Sinatra', ""'s"", ',', 'is', 'exact', ':', 'no', 'effort', 'is', 'made', 'to']"
-31,    // normalize trailing slashes.,['// normalize trailing slashes.'],"['comment', 'normalize', 'trailing', 'slashes', '.']"
-32,"    goji.Get(""/admin"", http.RedirectHandler(""/admin/"", 301))","['go', 'ji', '.', 'Get', '(', '""/admin"", http.RedirectHandler(""/admin/""', ',', '301', '))']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'decimal_literal', 'operator']"
-33,"    admin.Get(""/admin/"", AdminRoot)","['admin', '.', 'Get', '(', '""/admin/""', ',', 'AdminRoot', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-34,"    admin.Get(""/admin/finances"", AdminFinances)","['admin', '.', 'Get', '(', '""/admin/finances""', ',', 'AdminFinances', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-35,    // Use a custom 404 handler,['// Use a custom 404 handler'],"['comment', 'Use', 'a', 'custom', '404', 'handler']"
-36,    goji.NotFound(NotFound),"['go', 'ji', '.', 'NotFound', '(', 'NotFound', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-37,    goji.Serve(),"['go', 'ji', '.', 'Serve', '()']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-38,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+3,"    ""io""","['""io""']",['STRING_LITERAL']
+4,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+5,"    ""regexp""","['""regexp""']",['STRING_LITERAL']
+6,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+7,"    ""github.com/zenazn/goji""","['""github.com/zenazn/goji""']",['STRING_LITERAL']
+8,"    ""github.com/zenazn/goji/param""","['""github.com/zenazn/goji/param""']",['STRING_LITERAL']
+9,"    ""github.com/zenazn/goji/web""","['""github.com/zenazn/goji/web""']",['STRING_LITERAL']
+10,),[')'],['OPERATOR']
+11,// Note: the code below cuts a lot of corners to make the example app simple.,['// Note: the code below cuts a lot of corners to make the example app simple.'],"['COMMENT', 'NN', ':', 'DT', 'NN', 'IN', 'NNS', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'DT', 'NN', 'RB', 'JJ', '.']"
+12,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+13,    // Add routes to the global handler,['// Add routes to the global handler'],"['COMMENT', 'NNP', 'VBZ', 'TO', 'DT', 'JJ', 'NN']"
+14,"    goji.Get(""/"", Root)","['go', 'ji', '.', 'Get', '(', '""/""', ',', 'Root', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,    // Fully backwards compatible with net/http's Handlers,"[""// Fully backwards compatible with net/http's Handlers""]","['COMMENT', 'RB', 'NNS', 'JJ', 'IN', 'NN', 'POS', 'NNS']"
+16,"    goji.Get(""/greets"", http.RedirectHandler(""/"", 301))","['go', 'ji', '.', 'Get', '(', '""/greets"", http.RedirectHandler(""/""', ',', '301', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+17,    // Use your favorite HTTP verbs,['// Use your favorite HTTP verbs'],"['COMMENT', 'VB', 'PRP$', 'JJ', 'NNP', 'NN']"
+18,"    goji.Post(""/greets"", NewGreet)","['go', 'ji', '.', 'Post', '(', '""/greets""', ',', 'NewGreet', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,    // Use Sinatra-style patterns in your URLs,['// Use Sinatra-style patterns in your URLs'],"['COMMENT', 'NNP', 'JJ', 'NNS', 'IN', 'PRP$', 'NN']"
+20,"    goji.Get(""/users/:name"", GetUser)","['go', 'ji', '.', 'Get', '(', '""/users/:name""', ',', 'GetUser', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,    // Goji also supports regular expressions with named capture groups.,['// Goji also supports regular expressions with named capture groups.'],"['COMMENT', 'NNP', 'RB', 'VBZ', 'JJ', 'NNS', 'IN', 'VBN', 'NN', 'NNS', '.']"
+22,"    goji.Get(regexp.MustCompile(`^/greets/(?P\d+)$`), GetGreet)","['go', 'ji', '.', 'Get', '(', 'regexp', '.', 'MustCompile', '(', '^', 'greets', '(', 'P', 'd', '+)$', '),', 'GetGreet', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,    // Middleware can be used to inject behavior into your app. The,['// Middleware can be used to inject behavior into your app. The'],"['COMMENT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'JJ', 'IN', 'PRP$', 'NN', '.', 'DT']"
+24,"    // middleware for this application are defined in middleware.go, but you","['// middleware for this application are defined in middleware.go, but you']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'VBP', 'VBN', 'IN', 'NN', ',', 'CC', 'PRP']"
+25,    // can put them wherever you like.,['// can put them wherever you like.'],"['COMMENT', 'MD', 'VB', 'PRP', 'WDT', 'PRP', 'VBP', '.']"
+26,    goji.Use(PlainText),"['go', 'ji', '.', 'Use', '(', 'PlainText', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,    admin := web.New(),"['admin', ':=', 'web', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"    goji.Handle(""/admin/*"", admin)","['go', 'ji', '.', 'Handle', '(', '""/admin/*""', ',', 'admin', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,    admin.Use(SuperSecure),"['admin', '.', 'Use', '(', 'SuperSecure', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"    // Goji's routing, like Sinatra's, is exact: no effort is made to","[""// Goji's routing, like Sinatra's, is exact: no effort is made to""]","['COMMENT', 'NNP', 'POS', 'NN', ',', 'IN', 'NNP', 'POS', ',', 'VBZ', 'JJ', ':', 'DT', 'NN', 'VBZ', 'VBN', 'TO']"
+31,    // normalize trailing slashes.,['// normalize trailing slashes.'],"['COMMENT', 'RB', 'VBG', 'NNS', '.']"
+32,"    goji.Get(""/admin"", http.RedirectHandler(""/admin/"", 301))","['go', 'ji', '.', 'Get', '(', '""/admin"", http.RedirectHandler(""/admin/""', ',', '301', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+33,"    admin.Get(""/admin/"", AdminRoot)","['admin', '.', 'Get', '(', '""/admin/""', ',', 'AdminRoot', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,"    admin.Get(""/admin/finances"", AdminFinances)","['admin', '.', 'Get', '(', '""/admin/finances""', ',', 'AdminFinances', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,    // Use a custom 404 handler,['// Use a custom 404 handler'],"['COMMENT', 'VB', 'DT', 'NN', 'CD', 'NN']"
+36,    goji.NotFound(NotFound),"['go', 'ji', '.', 'NotFound', '(', 'NotFound', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    goji.Serve(),"['go', 'ji', '.', 'Serve', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,},['}'],['OPERATOR']

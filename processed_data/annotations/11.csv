@@ -1,45 +1,45 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""net""","['""net""']",['string_literal']
-3,"    ""os""","['""os""']",['string_literal']
-4,"    ""io""","['""io""']",['string_literal']
-5,"    //""bufio""","['//""bufio""']","['comment', '``', 'bufio', ""''""]"
-6,"    //""fmt""","['//""fmt""']","['comment', '``', 'fmt', ""''""]"
-7,),[')'],['operator']
-8,"func cp(dst io.Writer, src io.Reader, errc chan<- error) {","['func', 'cp', '(', 'dst', 'io', '.', 'Writer', ',', 'src', 'io', '.', 'Reader', ',', 'errc', 'chan', '<-', 'error', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'keyword', 'operator', 'identifier', 'operator', 'operator']"
-9,    // -reads from src and writes to dst,['// -reads from src and writes to dst'],"['comment', '-reads', 'from', 'src', 'and', 'writes', 'to', 'dst']"
-10,    // -blocks until EOF,['// -blocks until EOF'],"['comment', '-blocks', 'until', 'EOF']"
-11,    // -EOF is not an error,['// -EOF is not an error'],"['comment', '-EOF', 'is', 'not', 'an', 'error']"
-12,"    _, err :=  io.Copy(dst, src)","['_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'dst', ',', 'src', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-13,    // push err to the channel when io.Copy returns,['// push err to the channel when io.Copy returns'],"['comment', 'push', 'err', 'to', 'the', 'channel', 'when', 'io.Copy', 'returns']"
-14,    errc <- err,"['errc', '<-', 'err']","['identifier', 'operator', 'identifier']"
-15,},['}'],['operator']
-16,func StartCommunication(conn net.Conn) {,"['func', 'StartCommunication', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-17,    //create a channel for errors,['//create a channel for errors'],"['comment', 'create', 'a', 'channel', 'for', 'errors']"
-18,    errc := make(chan error),"['errc', ':=', 'make', '(', 'chan', 'error', ')']","['identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-19,    //read connection and print to console,['//read connection and print to console'],"['comment', 'read', 'connection', 'and', 'print', 'to', 'console']"
-20,"    go cp(os.Stdout, conn, errc)","['go', 'cp', '(', 'os', '.', 'Stdout', ',', 'conn', ',', 'errc', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-21,    //read user input and write to connection,['//read user input and write to connection'],"['comment', 'read', 'user', 'input', 'and', 'write', 'to', 'connection']"
-22,"    go cp(conn, os.Stdin, errc)","['go', 'cp', '(', 'conn', ',', 'os', '.', 'Stdin', ',', 'errc', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-23,    //wait until nil or an error arrives,['//wait until nil or an error arrives'],"['comment', 'wait', 'until', 'nil', 'or', 'an', 'error', 'arrives']"
-24,    err := <- errc,"['err', ':=', '<-', 'errc']","['identifier', 'operator', 'operator', 'identifier']"
-25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-26,"        println(""cp error: "", err.Error())","['println', '(', '""cp error: ""', ',', 'err', '.', 'Error', '())']","['identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-27,    },['}'],['operator']
-28,},['}'],['operator']
-29,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-30,"    servAddr := ""localhost:6666""","['servAddr', ':=', '""localhost:6666""']","['identifier', 'operator', 'string_literal']"
-31,"    tcpAddr, err := net.ResolveTCPAddr(""tcp"", servAddr)","['tcpAddr', ',', 'err', ':=', 'net', '.', 'ResolveTCPAddr', '(', '""tcp""', ',', 'servAddr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-33,"        println(""ResolveTCPAddr failed:"", err.Error())","['println', '(', '""ResolveTCPAddr failed:""', ',', 'err', '.', 'Error', '())']","['identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-34,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-35,    },['}'],['operator']
-36,"    conn, err := net.DialTCP(""tcp"", nil, tcpAddr)","['conn', ',', 'err', ':=', 'net', '.', 'DialTCP', '(', '""tcp""', ',', 'nil', ',', 'tcpAddr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-38,"        println(""net.DialTCP failed:"", err.Error())","['println', '(', '""net.DialTCP failed:""', ',', 'err', '.', 'Error', '())']","['identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-39,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-40,    },['}'],['operator']
-41,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-42,    StartCommunication(conn),"['StartCommunication', '(', 'conn', ')']","['identifier', 'operator', 'identifier', 'operator']"
-43,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""net""","['""net""']",['STRING_LITERAL']
+3,"    ""os""","['""os""']",['STRING_LITERAL']
+4,"    ""io""","['""io""']",['STRING_LITERAL']
+5,"    //""bufio""","['//""bufio""']","['COMMENT', '``', 'NN', ""''""]"
+6,"    //""fmt""","['//""fmt""']","['COMMENT', '``', 'NN', ""''""]"
+7,),[')'],['OPERATOR']
+8,"func cp(dst io.Writer, src io.Reader, errc chan<- error) {","['func', 'cp', '(', 'dst', 'io', '.', 'Writer', ',', 'src', 'io', '.', 'Reader', ',', 'errc', 'chan', '<-', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+9,    // -reads from src and writes to dst,['// -reads from src and writes to dst'],"['COMMENT', 'NNS', 'IN', 'NN', 'CC', 'VBZ', 'TO', 'VB']"
+10,    // -blocks until EOF,['// -blocks until EOF'],"['COMMENT', 'NNS', 'IN', 'NNP']"
+11,    // -EOF is not an error,['// -EOF is not an error'],"['COMMENT', 'NN', 'VBZ', 'RB', 'DT', 'NN']"
+12,"    _, err :=  io.Copy(dst, src)","['_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'dst', ',', 'src', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,    // push err to the channel when io.Copy returns,['// push err to the channel when io.Copy returns'],"['COMMENT', 'NN', 'NN', 'TO', 'DT', 'NN', 'WRB', 'NN', 'NNS']"
+14,    errc <- err,"['errc', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+15,},['}'],['OPERATOR']
+16,func StartCommunication(conn net.Conn) {,"['func', 'StartCommunication', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+17,    //create a channel for errors,['//create a channel for errors'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS']"
+18,    errc := make(chan error),"['errc', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+19,    //read connection and print to console,['//read connection and print to console'],"['COMMENT', 'JJ', 'NN', 'CC', 'NN', 'TO', 'VB']"
+20,"    go cp(os.Stdout, conn, errc)","['go', 'cp', '(', 'os', '.', 'Stdout', ',', 'conn', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,    //read user input and write to connection,['//read user input and write to connection'],"['COMMENT', 'VB', 'NN', 'NN', 'CC', 'NN', 'TO', 'NN']"
+22,"    go cp(conn, os.Stdin, errc)","['go', 'cp', '(', 'conn', ',', 'os', '.', 'Stdin', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,    //wait until nil or an error arrives,['//wait until nil or an error arrives'],"['COMMENT', 'NN', 'IN', 'FW', 'CC', 'DT', 'NN', 'VBZ']"
+24,    err := <- errc,"['err', ':=', '<-', 'errc']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"        println(""cp error: "", err.Error())","['println', '(', '""cp error: ""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,    },['}'],['OPERATOR']
+28,},['}'],['OPERATOR']
+29,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+30,"    servAddr := ""localhost:6666""","['servAddr', ':=', '""localhost:6666""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+31,"    tcpAddr, err := net.ResolveTCPAddr(""tcp"", servAddr)","['tcpAddr', ',', 'err', ':=', 'net', '.', 'ResolveTCPAddr', '(', '""tcp""', ',', 'servAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,"        println(""ResolveTCPAddr failed:"", err.Error())","['println', '(', '""ResolveTCPAddr failed:""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+35,    },['}'],['OPERATOR']
+36,"    conn, err := net.DialTCP(""tcp"", nil, tcpAddr)","['conn', ',', 'err', ':=', 'net', '.', 'DialTCP', '(', '""tcp""', ',', 'nil', ',', 'tcpAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"        println(""net.DialTCP failed:"", err.Error())","['println', '(', '""net.DialTCP failed:""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+40,    },['}'],['OPERATOR']
+41,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,    StartCommunication(conn),"['StartCommunication', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,},['}'],['OPERATOR']

@@ -1,100 +1,100 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""crypto/rsa""","['""crypto/rsa""']",['string_literal']
-3,"    ""crypto/tls""","['""crypto/tls""']",['string_literal']
-4,"    ""encoding/hex""","['""encoding/hex""']",['string_literal']
-5,"    ""fmt""","['""fmt""']",['string_literal']
-6,"    ""log""","['""log""']",['string_literal']
-7,"    ""math/big""","['""math/big""']",['string_literal']
-8,"    ""net""","['""net""']",['string_literal']
-9,"    ""net/smtp""","['""net/smtp""']",['string_literal']
-10,),[')'],['operator']
-11,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-12,    var (,"['var', '(']","['keyword', 'operator']"
-13,"        host     = ""smtp.myexchange.com""","['host', '=', '""smtp.myexchange.com""']","['identifier', 'operator', 'string_literal']"
-14,        port     = 587,"['port', '=', '587']","['identifier', 'operator', 'decimal_literal']"
-15,"        from     = ""sender@example.org""","['from', '=', '""sender@example.org""']","['identifier', 'operator', 'string_literal']"
-16,"        password = ""password""","['password', '=', '""password""']","['identifier', 'operator', 'string_literal']"
-17,"        to       = []string{""recipient@example.org""}","['to', '=', '[]', 'string', '{', '""recipient@example.org""', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-18,"        msg      = []byte(""This is my message"")","['msg', '=', '[]', 'byte', '(', '""This is my message""', ')']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-19,"        auth     = smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")","['auth', '=', 'smtp', '.', 'PlainAuth', '(', '"""", from, password, ""smtp.myexchange.com""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-20,    ),[')'],['operator']
-21,    conf := new(tls.Config),"['conf', ':=', 'new', '(', 'tls', '.', 'Config', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-22,"    conf.Certificates = make([]tls.Certificate, 1)","['conf', '.', 'Certificates', '=', 'make', '([]', 'tls', '.', 'Certificate', ',', '1', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-23,    conf.Certificates[0].Certificate = [][]byte{testRSACertificate},"['conf', '.', 'Certificates', '[', '0', '].', 'Certificate', '=', '[][]', 'byte', '{', 'testRSACertificate', '}']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-24,    conf.Certificates[0].PrivateKey = testRSAPrivateKey,"['conf', '.', 'Certificates', '[', '0', '].', 'PrivateKey', '=', 'testRSAPrivateKey']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier']"
-25,    conf.CipherSuites = []uint16{tls.TLS_RSA_WITH_RC4_128_SHA},"['conf', '.', 'CipherSuites', '=', '[]', 'uint16', '{', 'tls', '.', 'TLS_RSA_WITH_RC4_128_SHA', '}']","['identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-26,    conf.InsecureSkipVerify = true,"['conf', '.', 'InsecureSkipVerify', '=', 'true']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-27,    conf.MinVersion = tls.VersionSSL30,"['conf', '.', 'MinVersion', '=', 'tls', '.', 'VersionSSL30']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-28,    conf.MaxVersion = tls.VersionTLS10,"['conf', '.', 'MaxVersion', '=', 'tls', '.', 'VersionTLS10']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-29,"    serverAddr := fmt.Sprintf(""%s:%d"", host, port)","['serverAddr', ':=', 'fmt', '.', 'Sprintf', '(', '""%s:%d""', ',', 'host', ',', 'port', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-30,"    conn, err := net.Dial(""tcp"", serverAddr)","['conn', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp""', ',', 'serverAddr', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-31,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-32,"        log.Printf(""Error Dialing %s\n"", err)","['log', '.', 'Printf', '(', '""Error Dialing %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-33,        return,['return'],['keyword']
-34,    },['}'],['operator']
-35,"    client, err := smtp.NewClient(conn, host)","['client', ',', 'err', ':=', 'smtp', '.', 'NewClient', '(', 'conn', ',', 'host', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-36,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-37,"        log.Printf(""Error SMTP connection: %s\n"", err)","['log', '.', 'Printf', '(', '""Error SMTP connection: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-38,        return,['return'],['keyword']
-39,    },['}'],['operator']
-40,    if err = client.StartTLS(conf); err != nil {,"['if', 'err', '=', 'client', '.', 'StartTLS', '(', 'conf', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-41,"        log.Printf(""Error performing StartTLS: %s\n"", err)","['log', '.', 'Printf', '(', '""Error performing StartTLS: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-42,        return,['return'],['keyword']
-43,    },['}'],['operator']
-44,"    if ok, _ := client.Extension(""AUTH""); ok {","['if', 'ok', ',', '_', ':=', 'client', '.', 'Extension', '(', '""AUTH""', ');', 'ok', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-45,        if err := client.Auth(auth); err != nil {,"['if', 'err', ':=', 'client', '.', 'Auth', '(', 'auth', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-46,"            log.Printf(""Error during AUTH %s\n"", err)","['log', '.', 'Printf', '(', '""Error during AUTH %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-47,            return,['return'],['keyword']
-48,        },['}'],['operator']
-49,    },['}'],['operator']
-50,    if err := client.Mail(from); err != nil {,"['if', 'err', ':=', 'client', '.', 'Mail', '(', 'from', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-51,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-52,        return,['return'],['keyword']
-53,    },['}'],['operator']
-54,"    for _, addr := range to {","['for', '_', ',', 'addr', ':=', 'range', 'to', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-55,        if err := client.Rcpt(addr); err != nil {,"['if', 'err', ':=', 'client', '.', 'Rcpt', '(', 'addr', ');', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-56,"            log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-57,            return,['return'],['keyword']
-58,        },['}'],['operator']
-59,    },['}'],['operator']
-60,"    w, err := client.Data()","['w', ',', 'err', ':=', 'client', '.', 'Data', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-61,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-62,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-63,        return,['return'],['keyword']
-64,    },['}'],['operator']
-65,"    _, err = w.Write(msg)","['_', ',', 'err', '=', 'w', '.', 'Write', '(', 'msg', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-66,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-67,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-68,        return,['return'],['keyword']
-69,    },['}'],['operator']
-70,    err = w.Close(),"['err', '=', 'w', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-71,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-72,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-73,        return,['return'],['keyword']
-74,    },['}'],['operator']
-75,    client.Quit(),"['client', '.', 'Quit', '()']","['identifier', 'operator', 'identifier', 'operator']"
-76,},['}'],['operator']
-77,// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go,['// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go'],"['comment', 'Code', 'below', 'from', 'http', ':', 'golang.org/src/pkg/crypto/tls/handshake_server_test.go']"
-78,func bigFromString(s string) *big.Int {,"['func', 'bigFromString', '(', 's', 'string', ')', '*', 'big', '.', 'Int', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-79,    ret := new(big.Int),"['ret', ':=', 'new', '(', 'big', '.', 'Int', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-80,"    ret.SetString(s, 10)","['ret', '.', 'SetString', '(', 's', ',', '10', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-81,    return ret,"['return', 'ret']","['keyword', 'identifier']"
-82,},['}'],['operator']
-83,func fromHex(s string) []byte {,"['func', 'fromHex', '(', 's', 'string', ')', '[]', 'byte', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-84,"    b, _ := hex.DecodeString(s)","['b', ',', '_', ':=', 'hex', '.', 'DecodeString', '(', 's', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-85,    return b,"['return', 'b']","['keyword', 'identifier']"
-86,},['}'],['operator']
-87,"var testRSACertificate = fromHex(""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9"")","['var', 'testRSACertificate', '=', 'fromHex', '(', '""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9""', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-88,var testRSAPrivateKey = &rsa.PrivateKey{,"['var', 'testRSAPrivateKey', '=', '&', 'rsa', '.', 'PrivateKey', '{']","['keyword', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-89,    PublicKey: rsa.PublicKey{,"['PublicKey', ':', 'rsa', '.', 'PublicKey', '{']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-90,"        N: bigFromString(""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""),","['N', ':', 'bigFromString', '(', '""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-91,"        E: 65537,","['E', ':', '65537', ',']","['identifier', 'operator', 'decimal_literal', 'operator']"
-92,"    },","['},']",['operator']
-93,"    D: bigFromString(""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""),","['D', ':', 'bigFromString', '(', '""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""', '),']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-94,    Primes: []*big.Int{,"['Primes', ':', '[]*', 'big', '.', 'Int', '{']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-95,"        bigFromString(""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""),","['bigFromString', '(', '""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""', '),']","['identifier', 'operator', 'string_literal', 'operator']"
-96,"        bigFromString(""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""),","['bigFromString', '(', '""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""', '),']","['identifier', 'operator', 'string_literal', 'operator']"
-97,"    },","['},']",['operator']
-98,},['}'],['operator']
+0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
+3,"    ""crypto/tls""","['""crypto/tls""']",['STRING_LITERAL']
+4,"    ""encoding/hex""","['""encoding/hex""']",['STRING_LITERAL']
+5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"    ""log""","['""log""']",['STRING_LITERAL']
+7,"    ""math/big""","['""math/big""']",['STRING_LITERAL']
+8,"    ""net""","['""net""']",['STRING_LITERAL']
+9,"    ""net/smtp""","['""net/smtp""']",['STRING_LITERAL']
+10,),[')'],['OPERATOR']
+11,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+12,    var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+13,"        host     = ""smtp.myexchange.com""","['host', '=', '""smtp.myexchange.com""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+14,        port     = 587,"['port', '=', '587']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+15,"        from     = ""sender@example.org""","['from', '=', '""sender@example.org""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+16,"        password = ""password""","['password', '=', '""password""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+17,"        to       = []string{""recipient@example.org""}","['to', '=', '[]', 'string', '{', '""recipient@example.org""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+18,"        msg      = []byte(""This is my message"")","['msg', '=', '[]', 'byte', '(', '""This is my message""', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+19,"        auth     = smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")","['auth', '=', 'smtp', '.', 'PlainAuth', '(', '"""", from, password, ""smtp.myexchange.com""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,    ),[')'],['OPERATOR']
+21,    conf := new(tls.Config),"['conf', ':=', 'new', '(', 'tls', '.', 'Config', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,"    conf.Certificates = make([]tls.Certificate, 1)","['conf', '.', 'Certificates', '=', 'make', '([]', 'tls', '.', 'Certificate', ',', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+23,    conf.Certificates[0].Certificate = [][]byte{testRSACertificate},"['conf', '.', 'Certificates', '[', '0', '].', 'Certificate', '=', '[][]', 'byte', '{', 'testRSACertificate', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,    conf.Certificates[0].PrivateKey = testRSAPrivateKey,"['conf', '.', 'Certificates', '[', '0', '].', 'PrivateKey', '=', 'testRSAPrivateKey']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+25,    conf.CipherSuites = []uint16{tls.TLS_RSA_WITH_RC4_128_SHA},"['conf', '.', 'CipherSuites', '=', '[]', 'uint16', '{', 'tls', '.', 'TLS_RSA_WITH_RC4_128_SHA', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,    conf.InsecureSkipVerify = true,"['conf', '.', 'InsecureSkipVerify', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+27,    conf.MinVersion = tls.VersionSSL30,"['conf', '.', 'MinVersion', '=', 'tls', '.', 'VersionSSL30']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+28,    conf.MaxVersion = tls.VersionTLS10,"['conf', '.', 'MaxVersion', '=', 'tls', '.', 'VersionTLS10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+29,"    serverAddr := fmt.Sprintf(""%s:%d"", host, port)","['serverAddr', ':=', 'fmt', '.', 'Sprintf', '(', '""%s:%d""', ',', 'host', ',', 'port', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"    conn, err := net.Dial(""tcp"", serverAddr)","['conn', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp""', ',', 'serverAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,"        log.Printf(""Error Dialing %s\n"", err)","['log', '.', 'Printf', '(', '""Error Dialing %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,        return,['return'],['KEYWORD']
+34,    },['}'],['OPERATOR']
+35,"    client, err := smtp.NewClient(conn, host)","['client', ',', 'err', ':=', 'smtp', '.', 'NewClient', '(', 'conn', ',', 'host', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,"        log.Printf(""Error SMTP connection: %s\n"", err)","['log', '.', 'Printf', '(', '""Error SMTP connection: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,        return,['return'],['KEYWORD']
+39,    },['}'],['OPERATOR']
+40,    if err = client.StartTLS(conf); err != nil {,"['if', 'err', '=', 'client', '.', 'StartTLS', '(', 'conf', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,"        log.Printf(""Error performing StartTLS: %s\n"", err)","['log', '.', 'Printf', '(', '""Error performing StartTLS: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,        return,['return'],['KEYWORD']
+43,    },['}'],['OPERATOR']
+44,"    if ok, _ := client.Extension(""AUTH""); ok {","['if', 'ok', ',', '_', ':=', 'client', '.', 'Extension', '(', '""AUTH""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,        if err := client.Auth(auth); err != nil {,"['if', 'err', ':=', 'client', '.', 'Auth', '(', 'auth', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,"            log.Printf(""Error during AUTH %s\n"", err)","['log', '.', 'Printf', '(', '""Error during AUTH %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,            return,['return'],['KEYWORD']
+48,        },['}'],['OPERATOR']
+49,    },['}'],['OPERATOR']
+50,    if err := client.Mail(from); err != nil {,"['if', 'err', ':=', 'client', '.', 'Mail', '(', 'from', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,        return,['return'],['KEYWORD']
+53,    },['}'],['OPERATOR']
+54,"    for _, addr := range to {","['for', '_', ',', 'addr', ':=', 'range', 'to', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+55,        if err := client.Rcpt(addr); err != nil {,"['if', 'err', ':=', 'client', '.', 'Rcpt', '(', 'addr', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,"            log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,            return,['return'],['KEYWORD']
+58,        },['}'],['OPERATOR']
+59,    },['}'],['OPERATOR']
+60,"    w, err := client.Data()","['w', ',', 'err', ':=', 'client', '.', 'Data', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,        return,['return'],['KEYWORD']
+64,    },['}'],['OPERATOR']
+65,"    _, err = w.Write(msg)","['_', ',', 'err', '=', 'w', '.', 'Write', '(', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,        return,['return'],['KEYWORD']
+69,    },['}'],['OPERATOR']
+70,    err = w.Close(),"['err', '=', 'w', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,        return,['return'],['KEYWORD']
+74,    },['}'],['OPERATOR']
+75,    client.Quit(),"['client', '.', 'Quit', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,},['}'],['OPERATOR']
+77,// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go,['// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go'],"['COMMENT', 'NNP', 'IN', 'IN', 'NN', ':', 'NN']"
+78,func bigFromString(s string) *big.Int {,"['func', 'bigFromString', '(', 's', 'string', ')', '*', 'big', '.', 'Int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    ret := new(big.Int),"['ret', ':=', 'new', '(', 'big', '.', 'Int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,"    ret.SetString(s, 10)","['ret', '.', 'SetString', '(', 's', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+81,    return ret,"['return', 'ret']","['KEYWORD', 'IDENTIFIER']"
+82,},['}'],['OPERATOR']
+83,func fromHex(s string) []byte {,"['func', 'fromHex', '(', 's', 'string', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,"    b, _ := hex.DecodeString(s)","['b', ',', '_', ':=', 'hex', '.', 'DecodeString', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
+86,},['}'],['OPERATOR']
+87,"var testRSACertificate = fromHex(""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9"")","['var', 'testRSACertificate', '=', 'fromHex', '(', '""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+88,var testRSAPrivateKey = &rsa.PrivateKey{,"['var', 'testRSAPrivateKey', '=', '&', 'rsa', '.', 'PrivateKey', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,    PublicKey: rsa.PublicKey{,"['PublicKey', ':', 'rsa', '.', 'PublicKey', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,"        N: bigFromString(""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""),","['N', ':', 'bigFromString', '(', '""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+91,"        E: 65537,","['E', ':', '65537', ',']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+92,"    },","['},']",['OPERATOR']
+93,"    D: bigFromString(""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""),","['D', ':', 'bigFromString', '(', '""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+94,    Primes: []*big.Int{,"['Primes', ':', '[]*', 'big', '.', 'Int', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+95,"        bigFromString(""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""),","['bigFromString', '(', '""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""', '),']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+96,"        bigFromString(""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""),","['bigFromString', '(', '""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""', '),']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+97,"    },","['},']",['OPERATOR']
+98,},['}'],['OPERATOR']

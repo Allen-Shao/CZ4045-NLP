@@ -1,158 +1,158 @@
 ,text,token,annotation
-0,package console,"['package', 'console']","['keyword', 'identifier']"
-1,import (,"['import', '(']","['keyword', 'operator']"
-2,"    ""appengine""","['""appengine""']",['string_literal']
-3,"    ""appengine/user""","['""appengine/user""']",['string_literal']
-4,"    ""database/sql""","['""database/sql""']",['string_literal']
-5,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['identifier', 'string_literal']"
-6,"    ""html/template""","['""html/template""']",['string_literal']
-7,"    ""io/ioutil""","['""io/ioutil""']",['string_literal']
-8,"    ""net/http""","['""net/http""']",['string_literal']
-9,"    ""strconv""","['""strconv""']",['string_literal']
-10,"    ""time""","['""time""']",['string_literal']
-11,),[')'],['operator']
-12,//for deployment,['//for deployment'],"['comment', 'for', 'deployment']"
-13,"var dbConnectString string = ""****************************""","['var', 'dbConnectString', 'string', '=', '""****************************""']","['keyword', 'identifier', 'identifier', 'operator', 'string_literal']"
-14,//for local testing,['//for local testing'],"['comment', 'for', 'local', 'testing']"
-15,"//var dbConnectString string = ""root@/party""","['//var dbConnectString string = ""root@/party""']","['comment', 'var', 'dbConnectString', 'string', '=', '``', 'root', '@', '/party', ""''""]"
-16,func init() {,"['func', 'init', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-17,"    http.HandleFunc(""/console"", consoleHandler)","['http', '.', 'HandleFunc', '(', '""/console""', ',', 'consoleHandler', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-18,},['}'],['operator']
-19,"func consoleHandler(w http.ResponseWriter, r *http.Request) {","['func', 'consoleHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-20,"    redirectIfNeeded(w, r)","['redirectIfNeeded', '(', 'w', ',', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-21,    c := appengine.NewContext(r),"['c', ':=', 'appengine', '.', 'NewContext', '(', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-22,    u := user.Current(c),"['u', ':=', 'user', '.', 'Current', '(', 'c', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-23,"    logoutUrl, e := user.LogoutURL(c, ""/redirect"")","['logoutUrl', ',', 'e', ':=', 'user', '.', 'LogoutURL', '(', 'c', ',', '""/redirect""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-24,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-25,        panic(e),"['panic', '(', 'e', ')']","['identifier', 'operator', 'identifier', 'operator']"
-26,    },['}'],['operator']
-27,    email := u.Email,"['email', ':=', 'u', '.', 'Email']","['identifier', 'operator', 'identifier', 'operator', 'identifier']"
-28,"    data := WebpageData{LogoutUrl: logoutUrl, UserName: email, NewPartyUrl: ""/console/newparty""}","['data', ':=', 'WebpageData', '{', 'LogoutUrl', ':', 'logoutUrl', ',', 'UserName', ':', 'email', ',', 'NewPartyUrl', ':', '""/console/newparty""', '}']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-29,"    template := template.Must(template.New(""template"").Parse(generateUnsignedHtml(u)))","['template', ':=', 'template', '.', 'Must', '(', 'template', '.', 'New', '(', '""template""', ').', 'Parse', '(', 'generateUnsignedHtml', '(', 'u', ')))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-30,"    err := template.Execute(w, data)","['err', ':=', 'template', '.', 'Execute', '(', 'w', ',', 'data', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-31,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-32,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-33,    },['}'],['operator']
-34,},['}'],['operator']
-35,func generateUnsignedHtml(u *user.User) string {,"['func', 'generateUnsignedHtml', '(', 'u', '*', 'user', '.', 'User', ')', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-36,"    firstPart := fileValue(""./console/page/firstPart.html"")","['firstPart', ':=', 'fileValue', '(', '""./console/page/firstPart.html""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-37,    table := generateTable(u),"['table', ':=', 'generateTable', '(', 'u', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-38,"    secondPart := fileValue(""./console/page/secondPart.html"")","['secondPart', ':=', 'fileValue', '(', '""./console/page/secondPart.html""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-39,    html := firstPart + table + secondPart,"['html', ':=', 'firstPart', '+', 'table', '+', 'secondPart']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier']"
-40,    return html,"['return', 'html']","['keyword', 'identifier']"
-41,},['}'],['operator']
-42,func generateTable(u *user.User) string {,"['func', 'generateTable', '(', 'u', '*', 'user', '.', 'User', ')', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-43,"    con, e := sql.Open(""mysql"", dbConnectString)","['con', ',', 'e', ':=', 'sql', '.', 'Open', '(', '""mysql""', ',', 'dbConnectString', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-44,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-45,        panic(e),"['panic', '(', 'e', ')']","['identifier', 'operator', 'identifier', 'operator']"
-46,    },['}'],['operator']
-47,    defer con.Close(),"['defer', 'con', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-48,    var parties []Party,"['var', 'parties', '[]', 'Party']","['keyword', 'identifier', 'operator', 'identifier']"
-49,"    partyRows, err := con.Query(""select id, name, datetime, host, location from parties where author='"" + u.Email + ""';"")","['partyRows', ',', 'err', ':=', 'con', '.', 'Query', '(', '""select id, name, datetime, host, location from parties where author=\'"" + u.Email + ""\';""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-51,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
-52,    },['}'],['operator']
-53,    var id int,"['var', 'id', 'int']","['keyword', 'identifier', 'identifier']"
-54,    var name string,"['var', 'name', 'string']","['keyword', 'identifier', 'identifier']"
-55,    var datetime string,"['var', 'datetime', 'string']","['keyword', 'identifier', 'identifier']"
-56,    var host string,"['var', 'host', 'string']","['keyword', 'identifier', 'identifier']"
-57,    var location string,"['var', 'location', 'string']","['keyword', 'identifier', 'identifier']"
-58,    for partyRows.Next() {,"['for', 'partyRows', '.', 'Next', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-59,"        partyRows.Scan(&id, &name, &datetime, &host, &location)","['partyRows', '.', 'Scan', '(&', 'id', ',', '&', 'name', ',', '&', 'datetime', ',', '&', 'host', ',', '&', 'location', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-60,"        parties = append(parties, Party{Id: id, Name: name, DatetimeString: datetime, Host: host, Location: location})","['parties', '=', 'append', '(', 'parties', ',', 'Party', '{', 'Id', ':', 'id', ',', 'Name', ':', 'name', ',', 'DatetimeString', ':', 'datetime', ',', 'Host', ':', 'host', ',', 'Location', ':', 'location', '})']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-61,    },['}'],['operator']
-62,"    html := """"","['html', ':=', '""""']","['identifier', 'operator', 'string_literal']"
-63,"    for i, party := range parties {","['for', 'i', ',', 'party', ':=', 'range', 'parties', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'keyword', 'identifier', 'operator']"
-64,"        actionsHtml := ""Edit Delete""","['actionsHtml', ':=', '""Edit Delete""']","['identifier', 'operator', 'string_literal']"
-65,"        html += """" + makeTd(strconv.Itoa(i+1)) + makeTd(party.Name) + makeTd(party.DatetimeString) + makeTd(party.Host) + makeTd(party.Location) + makeTd(actionsHtml) + """"","['html', '+=', '"""" + makeTd(strconv.Itoa(i+1)) + makeTd(party.Name) + makeTd(party.DatetimeString) + makeTd(party.Host) + makeTd(party.Location) + makeTd(actionsHtml) + """"']","['identifier', 'operator', 'string_literal']"
-66,    },['}'],['operator']
-67,"    html += """"","['html', '+=', '""""']","['identifier', 'operator', 'string_literal']"
-68,    return html,"['return', 'html']","['keyword', 'identifier']"
-69,},['}'],['operator']
-70,func makeTd(content string) string {,"['func', 'makeTd', '(', 'content', 'string', ')', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-71,"    return """" + content + """"","['return', '"""" + content + """"']","['keyword', 'string_literal']"
-72,},['}'],['operator']
-73,"func redirectIfNeeded(w http.ResponseWriter, r *http.Request) {","['func', 'redirectIfNeeded', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-74,"    expire := time.Date(2000, 1, 1, 1, 1, 1, 0, time.UTC)","['expire', ':=', 'time', '.', 'Date', '(', '2000', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '0', ',', 'time', '.', 'UTC', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-75,"    cookie := &http.Cookie{Name: ""ACSID"", Value: """", Expires: expire, HttpOnly: true}","['cookie', ':=', '&', 'http', '.', 'Cookie', '{', 'Name', ':', '""ACSID"", Value: """"', ',', 'Expires', ':', 'expire', ',', 'HttpOnly', ':', 'true', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-76,"    http.SetCookie(w, cookie)","['http', '.', 'SetCookie', '(', 'w', ',', 'cookie', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-77,"    cookie2 := &http.Cookie{Name: ""SACSID"", Value: """", Expires: expire, HttpOnly: true}","['cookie2', ':=', '&', 'http', '.', 'Cookie', '{', 'Name', ':', '""SACSID"", Value: """"', ',', 'Expires', ':', 'expire', ',', 'HttpOnly', ':', 'true', '}']","['identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-78,"    http.SetCookie(w, cookie2)","['http', '.', 'SetCookie', '(', 'w', ',', 'cookie2', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-79,    c := appengine.NewContext(r),"['c', ':=', 'appengine', '.', 'NewContext', '(', 'r', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-80,    u := user.Current(c),"['u', ':=', 'user', '.', 'Current', '(', 'c', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-81,    if u == nil {,"['if', 'u', '==', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-82,"        url, err := user.LoginURL(c, r.URL.String())","['url', ',', 'err', ':=', 'user', '.', 'LoginURL', '(', 'c', ',', 'r', '.', 'URL', '.', 'String', '())']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-83,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-84,"            http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-85,            return,['return'],['keyword']
-86,        },['}'],['operator']
-87,"        w.Header().Set(""Location"", url)","['w', '.', 'Header', '().', 'Set', '(', '""Location""', ',', 'url', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-88,        w.WriteHeader(http.StatusFound),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusFound', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-89,        return,['return'],['keyword']
-90,    },['}'],['operator']
-91,"    con, e := sql.Open(""mysql"", dbConnectString)","['con', ',', 'e', ':=', 'sql', '.', 'Open', '(', '""mysql""', ',', 'dbConnectString', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-92,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-93,        panic(e),"['panic', '(', 'e', ')']","['identifier', 'operator', 'identifier', 'operator']"
-94,    },['}'],['operator']
-95,    defer con.Close(),"['defer', 'con', '.', 'Close', '()']","['identifier', 'identifier', 'operator', 'identifier', 'operator']"
-96,    //check whether user is admin,['//check whether user is admin'],"['comment', 'check', 'whether', 'user', 'is', 'admin']"
-97,"    admRows, error := con.Query(""select email from admin_users;"")","['admRows', ',', 'error', ':=', 'con', '.', 'Query', '(', '""select email from admin_users;""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-98,    if error != nil {,"['if', 'error', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-99,        panic(error),"['panic', '(', 'error', ')']","['identifier', 'operator', 'identifier', 'operator']"
-100,    },['}'],['operator']
-101,    var email string,"['var', 'email', 'string']","['keyword', 'identifier', 'identifier']"
-102,    isAdmin := false,"['isAdmin', ':=', 'false']","['identifier', 'operator', 'identifier']"
-103,    for admRows.Next() {,"['for', 'admRows', '.', 'Next', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-104,        admRows.Scan(&email),"['admRows', '.', 'Scan', '(&', 'email', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-105,        if email == u.Email {,"['if', 'email', '==', 'u', '.', 'Email', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-106,            isAdmin = true,"['isAdmin', '=', 'true']","['identifier', 'operator', 'identifier']"
-107,        },['}'],['operator']
-108,    },['}'],['operator']
-109,    //check if he is validated user,['//check if he is validated user'],"['comment', 'check', 'if', 'he', 'is', 'validated', 'user']"
-110,"    validRows, error2 := con.Query(""select email from party_validated_users;"")","['validRows', ',', 'error2', ':=', 'con', '.', 'Query', '(', '""select email from party_validated_users;""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-111,    if error2 != nil {,"['if', 'error2', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-112,        panic(error2),"['panic', '(', 'error2', ')']","['identifier', 'operator', 'identifier', 'operator']"
-113,    },['}'],['operator']
-114,"    email = """"","['email', '=', '""""']","['identifier', 'operator', 'string_literal']"
-115,    isValidated := false,"['isValidated', ':=', 'false']","['identifier', 'operator', 'identifier']"
-116,    for validRows.Next() {,"['for', 'validRows', '.', 'Next', '()', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-117,        validRows.Scan(&email),"['validRows', '.', 'Scan', '(&', 'email', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-118,        if email == u.Email {,"['if', 'email', '==', 'u', '.', 'Email', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-119,            isValidated = true,"['isValidated', '=', 'true']","['identifier', 'operator', 'identifier']"
-120,        },['}'],['operator']
-121,    },['}'],['operator']
-122,    var url string,"['var', 'url', 'string']","['keyword', 'identifier', 'identifier']"
-123,    if user.IsAdmin(c) || isAdmin {,"['if', 'user', '.', 'IsAdmin', '(', 'c', ')', '||', 'isAdmin', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator']"
-124,        //user is declared as admin in db or is admin of gae app,['//user is declared as admin in db or is admin of gae app'],"['comment', 'user', 'is', 'declared', 'as', 'admin', 'in', 'db', 'or', 'is', 'admin', 'of', 'gae', 'app']"
-125,        //we are allready here,['//we are allready here'],"['comment', 'we', 'are', 'allready', 'here']"
-126,"        url = ""/console""","['url', '=', '""/console""']","['identifier', 'operator', 'string_literal']"
-127,    } else if isValidated {,"['}', 'else', 'if', 'isValidated', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator']"
-128,        //user is validated,['//user is validated'],"['comment', 'user', 'is', 'validated']"
-129,        //we are allready here,['//we are allready here'],"['comment', 'we', 'are', 'allready', 'here']"
-130,"        url = ""/console""","['url', '=', '""/console""']","['identifier', 'operator', 'string_literal']"
-131,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-132,        //user is not validated yet,['//user is not validated yet'],"['comment', 'user', 'is', 'not', 'validated', 'yet']"
-133,"        url = ""/redirect""","['url', '=', '""/redirect""']","['identifier', 'operator', 'string_literal']"
-134,"        w.Header().Set(""Location"", url)","['w', '.', 'Header', '().', 'Set', '(', '""Location""', ',', 'url', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-135,        w.WriteHeader(http.StatusFound),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusFound', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-136,    },['}'],['operator']
-137,},['}'],['operator']
-138,func fileValue(path string) string {,"['func', 'fileValue', '(', 'path', 'string', ')', 'string', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator']"
-139,"    content, err := ioutil.ReadFile(path)","['content', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-140,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-141,        panic(err),"['panic', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator']"
-142,    },['}'],['operator']
-143,    return string(content),"['return', 'string', '(', 'content', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-144,},['}'],['operator']
-145,type WebpageData struct {,"['type', 'WebpageData', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-146,    LogoutUrl   string,"['LogoutUrl', 'string']","['identifier', 'identifier']"
-147,    UserName    string,"['UserName', 'string']","['identifier', 'identifier']"
-148,    NewPartyUrl string,"['NewPartyUrl', 'string']","['identifier', 'identifier']"
-149,},['}'],['operator']
-150,type Party struct {,"['type', 'Party', 'struct', '{']","['keyword', 'identifier', 'keyword', 'operator']"
-151,    Id             int,"['Id', 'int']","['identifier', 'identifier']"
-152,    Name           string,"['Name', 'string']","['identifier', 'identifier']"
-153,    DatetimeString string,"['DatetimeString', 'string']","['identifier', 'identifier']"
-154,    Host           string,"['Host', 'string']","['identifier', 'identifier']"
-155,    Location       string,"['Location', 'string']","['identifier', 'identifier']"
-156,},['}'],['operator']
+0,package console,"['package', 'console']","['KEYWORD', 'IDENTIFIER']"
+1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,"    ""appengine""","['""appengine""']",['STRING_LITERAL']
+3,"    ""appengine/user""","['""appengine/user""']",['STRING_LITERAL']
+4,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
+5,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
+6,"    ""html/template""","['""html/template""']",['STRING_LITERAL']
+7,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+8,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+9,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+10,"    ""time""","['""time""']",['STRING_LITERAL']
+11,),[')'],['OPERATOR']
+12,//for deployment,['//for deployment'],"['COMMENT', 'IN', 'NN']"
+13,"var dbConnectString string = ""****************************""","['var', 'dbConnectString', 'string', '=', '""****************************""']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+14,//for local testing,['//for local testing'],"['COMMENT', 'IN', 'JJ', 'NN']"
+15,"//var dbConnectString string = ""root@/party""","['//var dbConnectString string = ""root@/party""']","['COMMENT', 'NN', 'VBG', 'VBG', 'JJ', '``', 'NN', 'JJ', 'NN', ""''""]"
+16,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+17,"    http.HandleFunc(""/console"", consoleHandler)","['http', '.', 'HandleFunc', '(', '""/console""', ',', 'consoleHandler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,},['}'],['OPERATOR']
+19,"func consoleHandler(w http.ResponseWriter, r *http.Request) {","['func', 'consoleHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,"    redirectIfNeeded(w, r)","['redirectIfNeeded', '(', 'w', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,    c := appengine.NewContext(r),"['c', ':=', 'appengine', '.', 'NewContext', '(', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,    u := user.Current(c),"['u', ':=', 'user', '.', 'Current', '(', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,"    logoutUrl, e := user.LogoutURL(c, ""/redirect"")","['logoutUrl', ',', 'e', ':=', 'user', '.', 'LogoutURL', '(', 'c', ',', '""/redirect""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+24,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,        panic(e),"['panic', '(', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,    },['}'],['OPERATOR']
+27,    email := u.Email,"['email', ':=', 'u', '.', 'Email']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+28,"    data := WebpageData{LogoutUrl: logoutUrl, UserName: email, NewPartyUrl: ""/console/newparty""}","['data', ':=', 'WebpageData', '{', 'LogoutUrl', ':', 'logoutUrl', ',', 'UserName', ':', 'email', ',', 'NewPartyUrl', ':', '""/console/newparty""', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+29,"    template := template.Must(template.New(""template"").Parse(generateUnsignedHtml(u)))","['template', ':=', 'template', '.', 'Must', '(', 'template', '.', 'New', '(', '""template""', ').', 'Parse', '(', 'generateUnsignedHtml', '(', 'u', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"    err := template.Execute(w, data)","['err', ':=', 'template', '.', 'Execute', '(', 'w', ',', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,    },['}'],['OPERATOR']
+34,},['}'],['OPERATOR']
+35,func generateUnsignedHtml(u *user.User) string {,"['func', 'generateUnsignedHtml', '(', 'u', '*', 'user', '.', 'User', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,"    firstPart := fileValue(""./console/page/firstPart.html"")","['firstPart', ':=', 'fileValue', '(', '""./console/page/firstPart.html""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+37,    table := generateTable(u),"['table', ':=', 'generateTable', '(', 'u', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"    secondPart := fileValue(""./console/page/secondPart.html"")","['secondPart', ':=', 'fileValue', '(', '""./console/page/secondPart.html""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+39,    html := firstPart + table + secondPart,"['html', ':=', 'firstPart', '+', 'table', '+', 'secondPart']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+40,    return html,"['return', 'html']","['KEYWORD', 'IDENTIFIER']"
+41,},['}'],['OPERATOR']
+42,func generateTable(u *user.User) string {,"['func', 'generateTable', '(', 'u', '*', 'user', '.', 'User', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,"    con, e := sql.Open(""mysql"", dbConnectString)","['con', ',', 'e', ':=', 'sql', '.', 'Open', '(', '""mysql""', ',', 'dbConnectString', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,        panic(e),"['panic', '(', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,    },['}'],['OPERATOR']
+47,    defer con.Close(),"['defer', 'con', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,    var parties []Party,"['var', 'parties', '[]', 'Party']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+49,"    partyRows, err := con.Query(""select id, name, datetime, host, location from parties where author='"" + u.Email + ""';"")","['partyRows', ',', 'err', ':=', 'con', '.', 'Query', '(', '""select id, name, datetime, host, location from parties where author=\'"" + u.Email + ""\';""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,    },['}'],['OPERATOR']
+53,    var id int,"['var', 'id', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+54,    var name string,"['var', 'name', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+55,    var datetime string,"['var', 'datetime', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+56,    var host string,"['var', 'host', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+57,    var location string,"['var', 'location', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+58,    for partyRows.Next() {,"['for', 'partyRows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+59,"        partyRows.Scan(&id, &name, &datetime, &host, &location)","['partyRows', '.', 'Scan', '(&', 'id', ',', '&', 'name', ',', '&', 'datetime', ',', '&', 'host', ',', '&', 'location', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,"        parties = append(parties, Party{Id: id, Name: name, DatetimeString: datetime, Host: host, Location: location})","['parties', '=', 'append', '(', 'parties', ',', 'Party', '{', 'Id', ':', 'id', ',', 'Name', ':', 'name', ',', 'DatetimeString', ':', 'datetime', ',', 'Host', ':', 'host', ',', 'Location', ':', 'location', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,    },['}'],['OPERATOR']
+62,"    html := """"","['html', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+63,"    for i, party := range parties {","['for', 'i', ',', 'party', ':=', 'range', 'parties', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+64,"        actionsHtml := ""Edit Delete""","['actionsHtml', ':=', '""Edit Delete""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+65,"        html += """" + makeTd(strconv.Itoa(i+1)) + makeTd(party.Name) + makeTd(party.DatetimeString) + makeTd(party.Host) + makeTd(party.Location) + makeTd(actionsHtml) + """"","['html', '+=', '"""" + makeTd(strconv.Itoa(i+1)) + makeTd(party.Name) + makeTd(party.DatetimeString) + makeTd(party.Host) + makeTd(party.Location) + makeTd(actionsHtml) + """"']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+66,    },['}'],['OPERATOR']
+67,"    html += """"","['html', '+=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+68,    return html,"['return', 'html']","['KEYWORD', 'IDENTIFIER']"
+69,},['}'],['OPERATOR']
+70,func makeTd(content string) string {,"['func', 'makeTd', '(', 'content', 'string', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,"    return """" + content + """"","['return', '"""" + content + """"']","['KEYWORD', 'STRING_LITERAL']"
+72,},['}'],['OPERATOR']
+73,"func redirectIfNeeded(w http.ResponseWriter, r *http.Request) {","['func', 'redirectIfNeeded', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+74,"    expire := time.Date(2000, 1, 1, 1, 1, 1, 0, time.UTC)","['expire', ':=', 'time', '.', 'Date', '(', '2000', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '0', ',', 'time', '.', 'UTC', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,"    cookie := &http.Cookie{Name: ""ACSID"", Value: """", Expires: expire, HttpOnly: true}","['cookie', ':=', '&', 'http', '.', 'Cookie', '{', 'Name', ':', '""ACSID"", Value: """"', ',', 'Expires', ':', 'expire', ',', 'HttpOnly', ':', 'true', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,"    http.SetCookie(w, cookie)","['http', '.', 'SetCookie', '(', 'w', ',', 'cookie', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,"    cookie2 := &http.Cookie{Name: ""SACSID"", Value: """", Expires: expire, HttpOnly: true}","['cookie2', ':=', '&', 'http', '.', 'Cookie', '{', 'Name', ':', '""SACSID"", Value: """"', ',', 'Expires', ':', 'expire', ',', 'HttpOnly', ':', 'true', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,"    http.SetCookie(w, cookie2)","['http', '.', 'SetCookie', '(', 'w', ',', 'cookie2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    c := appengine.NewContext(r),"['c', ':=', 'appengine', '.', 'NewContext', '(', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    u := user.Current(c),"['u', ':=', 'user', '.', 'Current', '(', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,    if u == nil {,"['if', 'u', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,"        url, err := user.LoginURL(c, r.URL.String())","['url', ',', 'err', ':=', 'user', '.', 'LoginURL', '(', 'c', ',', 'r', '.', 'URL', '.', 'String', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,"            http.Error(w, err.Error(), http.StatusInternalServerError)","['http', '.', 'Error', '(', 'w', ',', 'err', '.', 'Error', '(),', 'http', '.', 'StatusInternalServerError', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,            return,['return'],['KEYWORD']
+86,        },['}'],['OPERATOR']
+87,"        w.Header().Set(""Location"", url)","['w', '.', 'Header', '().', 'Set', '(', '""Location""', ',', 'url', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,        w.WriteHeader(http.StatusFound),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusFound', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,        return,['return'],['KEYWORD']
+90,    },['}'],['OPERATOR']
+91,"    con, e := sql.Open(""mysql"", dbConnectString)","['con', ',', 'e', ':=', 'sql', '.', 'Open', '(', '""mysql""', ',', 'dbConnectString', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,        panic(e),"['panic', '(', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,    },['}'],['OPERATOR']
+95,    defer con.Close(),"['defer', 'con', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,    //check whether user is admin,['//check whether user is admin'],"['COMMENT', 'NN', 'IN', 'NN', 'VBZ', 'JJ']"
+97,"    admRows, error := con.Query(""select email from admin_users;"")","['admRows', ',', 'error', ':=', 'con', '.', 'Query', '(', '""select email from admin_users;""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+98,    if error != nil {,"['if', 'error', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,        panic(error),"['panic', '(', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,    },['}'],['OPERATOR']
+101,    var email string,"['var', 'email', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+102,    isAdmin := false,"['isAdmin', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+103,    for admRows.Next() {,"['for', 'admRows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+104,        admRows.Scan(&email),"['admRows', '.', 'Scan', '(&', 'email', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,        if email == u.Email {,"['if', 'email', '==', 'u', '.', 'Email', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,            isAdmin = true,"['isAdmin', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+107,        },['}'],['OPERATOR']
+108,    },['}'],['OPERATOR']
+109,    //check if he is validated user,['//check if he is validated user'],"['COMMENT', 'NN', 'IN', 'PRP', 'VBZ', 'VBN', 'NN']"
+110,"    validRows, error2 := con.Query(""select email from party_validated_users;"")","['validRows', ',', 'error2', ':=', 'con', '.', 'Query', '(', '""select email from party_validated_users;""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+111,    if error2 != nil {,"['if', 'error2', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,        panic(error2),"['panic', '(', 'error2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,    },['}'],['OPERATOR']
+114,"    email = """"","['email', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+115,    isValidated := false,"['isValidated', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+116,    for validRows.Next() {,"['for', 'validRows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+117,        validRows.Scan(&email),"['validRows', '.', 'Scan', '(&', 'email', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,        if email == u.Email {,"['if', 'email', '==', 'u', '.', 'Email', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,            isValidated = true,"['isValidated', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+120,        },['}'],['OPERATOR']
+121,    },['}'],['OPERATOR']
+122,    var url string,"['var', 'url', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+123,    if user.IsAdmin(c) || isAdmin {,"['if', 'user', '.', 'IsAdmin', '(', 'c', ')', '||', 'isAdmin', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,        //user is declared as admin in db or is admin of gae app,['//user is declared as admin in db or is admin of gae app'],"['COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN', 'IN', 'NN', 'CC', 'VBZ', 'CD', 'IN', 'NN', 'NN']"
+125,        //we are allready here,['//we are allready here'],"['COMMENT', 'PRP', 'VBP', 'RB', 'RB']"
+126,"        url = ""/console""","['url', '=', '""/console""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+127,    } else if isValidated {,"['}', 'else', 'if', 'isValidated', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+128,        //user is validated,['//user is validated'],"['COMMENT', 'NN', 'VBZ', 'VBN']"
+129,        //we are allready here,['//we are allready here'],"['COMMENT', 'PRP', 'VBP', 'RB', 'RB']"
+130,"        url = ""/console""","['url', '=', '""/console""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+131,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+132,        //user is not validated yet,['//user is not validated yet'],"['COMMENT', 'NN', 'VBZ', 'RB', 'VBN', 'RB']"
+133,"        url = ""/redirect""","['url', '=', '""/redirect""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+134,"        w.Header().Set(""Location"", url)","['w', '.', 'Header', '().', 'Set', '(', '""Location""', ',', 'url', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,        w.WriteHeader(http.StatusFound),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusFound', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,    },['}'],['OPERATOR']
+137,},['}'],['OPERATOR']
+138,func fileValue(path string) string {,"['func', 'fileValue', '(', 'path', 'string', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,"    content, err := ioutil.ReadFile(path)","['content', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+141,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,    },['}'],['OPERATOR']
+143,    return string(content),"['return', 'string', '(', 'content', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,},['}'],['OPERATOR']
+145,type WebpageData struct {,"['type', 'WebpageData', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+146,    LogoutUrl   string,"['LogoutUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+147,    UserName    string,"['UserName', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+148,    NewPartyUrl string,"['NewPartyUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+149,},['}'],['OPERATOR']
+150,type Party struct {,"['type', 'Party', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+151,    Id             int,"['Id', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+152,    Name           string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+153,    DatetimeString string,"['DatetimeString', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+154,    Host           string,"['Host', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+155,    Location       string,"['Location', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+156,},['}'],['OPERATOR']

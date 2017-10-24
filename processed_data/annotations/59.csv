@@ -1,183 +1,183 @@
 ,text,token,annotation
-0,// CLIENT ///,['// CLIENT ///'],"['comment', 'CLIENT', '/']"
-1,    package main,"['package', 'main']","['keyword', 'identifier']"
-2,import (,"['import', '(']","['keyword', 'operator']"
-3,"    ""bufio""","['""bufio""']",['string_literal']
-4,"    ""bytes""","['""bytes""']",['string_literal']
-5,"    ""fmt""","['""fmt""']",['string_literal']
-6,"    ""io""","['""io""']",['string_literal']
-7,"    ""log""","['""log""']",['string_literal']
-8,"    ""net""","['""net""']",['string_literal']
-9,"    ""os""","['""os""']",['string_literal']
-10,"    ""strings""","['""strings""']",['string_literal']
-11,),[')'],['operator']
-12,const BUFFER_SIZE = 1024,"['const', 'BUFFER_SIZE', '=', '1024']","['keyword', 'identifier', 'operator', 'decimal_literal']"
-13,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-14,    //get port and ip address to dial,['//get port and ip address to dial'],"['comment', 'get', 'port', 'and', 'ip', 'address', 'to', 'dial']"
-15,    if len(os.Args) != 3 {,"['if', 'len', '(', 'os', '.', 'Args', ')', '!=', '3', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'decimal_literal', 'operator']"
-16,"        fmt.Println(""useage example: tcpClient 127.0.0.1 7005"")","['fmt', '.', 'Println', '(', '""useage example: tcpClient 127.0.0.1 7005""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-17,        return,['return'],['keyword']
-18,    },['}'],['operator']
-19,    var ip string = os.Args[1],"['var', 'ip', 'string', '=', 'os', '.', 'Args', '[', '1', ']']","['keyword', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-20,    var port string = os.Args[2],"['var', 'port', 'string', '=', 'os', '.', 'Args', '[', '2', ']']","['keyword', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-21,"    connection, err := net.Dial(""tcp"", ip+"":""+port)","['connection', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp"", ip+"":""', '+', 'port', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-22,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-23,"        fmt.Println(""There was an error making a connection"")","['fmt', '.', 'Println', '(', '""There was an error making a connection""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-24,    },['}'],['operator']
-25,    //read from,['//read from'],"['comment', 'read', 'from']"
-26,    reader := bufio.NewReader(os.Stdin),"['reader', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-27,"    fmt.Print(""Please enter 'get ' or 'send ' to transfer files to the server\n\n"")","['fmt', '.', 'Print', '(', '""Please enter \'get \' or \'send \' to transfer files to the server\\n\\n""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-28,"    inputFromUser, _ := reader.ReadString('\n')","['inputFromUser', ',', '_', ':=', 'reader', '.', 'ReadString', '(', 'n', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-29,"    arrayOfCommands := strings.Split(inputFromUser, "" "")","['arrayOfCommands', ':=', 'strings', '.', 'Split', '(', 'inputFromUser', ',', '"" ""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-30,"    if arrayOfCommands[0] == ""get"" {","['if', 'arrayOfCommands', '[', '0', ']', '==', '""get""', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'string_literal', 'operator']"
-31,"        getFileFromServer(arrayOfCommands[1], connection)","['getFileFromServer', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-32,"    } else if arrayOfCommands[0] == ""send"" {","['}', 'else', 'if', 'arrayOfCommands', '[', '0', ']', '==', '""send""', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'string_literal', 'operator']"
-33,"        sendFileToServer(arrayOfCommands[1], connection)","['sendFileToServer', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-34,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-35,"        fmt.Println(""Bad Command"")","['fmt', '.', 'Println', '(', '""Bad Command""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-36,    },['}'],['operator']
-37,},['}'],['operator']
-38,"func sendFileToServer(fileName string, connection net.Conn) {","['func', 'sendFileToServer', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-39,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal']"
-40,"    fmt.Println(""send to client"")","['fmt', '.', 'Println', '(', '""send to client""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-41,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-42,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
-43,    //file to read,['//file to read'],"['comment', 'file', 'to', 'read']"
-44,"    file, err := os.Open(strings.TrimSpace(fileName)) // For read access.","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))', '// For read access.']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'For', 'read', 'access', '.']"
-45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-46,"        connection.Write([]byte(""-1""))","['connection', '.', 'Write', '([]', 'byte', '(', '""-1""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-47,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-48,    },['}'],['operator']
-49,"    connection.Write([]byte(""send "" + fileName))","['connection', '.', 'Write', '([]', 'byte', '(', '""send ""', '+', 'fileName', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-50,    //read file until there is an error,['//read file until there is an error'],"['comment', 'read', 'file', 'until', 'there', 'is', 'an', 'error']"
-51,    for err == nil || err != io.EOF {,"['for', 'err', '==', 'nil', '||', 'err', '!=', 'io', '.', 'EOF', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-52,"        _, err = file.ReadAt(fileBuffer, currentByte)","['_', ',', 'err', '=', 'file', '.', 'ReadAt', '(', 'fileBuffer', ',', 'currentByte', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-53,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['identifier', 'operator', 'identifier']"
-54,        fmt.Println(fileBuffer),"['fmt', '.', 'Println', '(', 'fileBuffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-55,        connection.Write(fileBuffer),"['connection', '.', 'Write', '(', 'fileBuffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-56,    },['}'],['operator']
-57,    file.Close(),"['file', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-58,    connection.Close(),"['connection', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-59,},['}'],['operator']
-60,"func getFileFromServer(fileName string, connection net.Conn) {","['func', 'getFileFromServer', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-61,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal']"
-62,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-63,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
-64,"    file, err := os.Create(strings.TrimSpace(fileName))","['file', ',', 'err', ':=', 'os', '.', 'Create', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-65,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-66,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-67,    },['}'],['operator']
-68,"    connection.Write([]byte(""get "" + fileName))","['connection', '.', 'Write', '([]', 'byte', '(', '""get ""', '+', 'fileName', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-69,    for {,"['for', '{']","['keyword', 'operator']"
-70,        connection.Read(fileBuffer),"['connection', '.', 'Read', '(', 'fileBuffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-71,"        cleanedFileBuffer := bytes.Trim(fileBuffer, ""\x00"")","['cleanedFileBuffer', ':=', 'bytes', '.', 'Trim', '(', 'fileBuffer', ',', '""\\x00""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-72,"        _, err = file.WriteAt(cleanedFileBuffer, currentByte)","['_', ',', 'err', '=', 'file', '.', 'WriteAt', '(', 'cleanedFileBuffer', ',', 'currentByte', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-73,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['identifier', 'operator', 'identifier']"
-74,        if err == io.EOF {,"['if', 'err', '==', 'io', '.', 'EOF', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-75,            break,['break'],['keyword']
-76,        },['}'],['operator']
-77,    },['}'],['operator']
-78,    file.Close(),"['file', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-79,    return,['return'],['keyword']
-80,},['}'],['operator']
-81,// END CLIENT //,['// END CLIENT //'],"['comment', 'END', 'CLIENT']"
-82,// SERVER //,['// SERVER //'],"['comment', 'SERVER']"
-83,    package main,"['package', 'main']","['keyword', 'identifier']"
-84,import (,"['import', '(']","['keyword', 'operator']"
-85,"    ""bytes""","['""bytes""']",['string_literal']
-86,"    ""fmt""","['""fmt""']",['string_literal']
-87,"    ""io""","['""io""']",['string_literal']
-88,"    ""log""","['""log""']",['string_literal']
-89,"    ""net""","['""net""']",['string_literal']
-90,"    ""os""","['""os""']",['string_literal']
-91,"    ""strings""","['""strings""']",['string_literal']
-92,),[')'],['operator']
-93,const BUFFER_SIZE = 1024,"['const', 'BUFFER_SIZE', '=', '1024']","['keyword', 'identifier', 'operator', 'decimal_literal']"
-94,"const PORT = ""7005""","['const', 'PORT', '=', '""7005""']","['keyword', 'identifier', 'operator', 'string_literal']"
-95,func main() {,"['func', 'main', '()', '{']","['keyword', 'identifier', 'operator', 'operator']"
-96,"    fmt.Println(""start listening"")","['fmt', '.', 'Println', '(', '""start listening""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-97,"    server, error := net.Listen(""tcp"", ""localhost:""+PORT)","['server', ',', 'error', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""localhost:""', '+', 'PORT', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-98,    if error != nil {,"['if', 'error', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-99,"        fmt.Println(""There was an error starting the server"" + error.Error())","['fmt', '.', 'Println', '(', '""There was an error starting the server""', '+', 'error', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-100,        return,['return'],['keyword']
-101,    },['}'],['operator']
-102,    //infinate loop,['//infinate loop'],"['comment', 'infinate', 'loop']"
-103,    for {,"['for', '{']","['keyword', 'operator']"
-104,"        connection, error := server.Accept()","['connection', ',', 'error', ':=', 'server', '.', 'Accept', '()']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-105,        if error != nil {,"['if', 'error', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-106,"            fmt.Println(""There was am error with the connection"" + error.Error())","['fmt', '.', 'Println', '(', '""There was am error with the connection""', '+', 'error', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-107,            return,['return'],['keyword']
-108,        },['}'],['operator']
-109,"        fmt.Println(""connected"")","['fmt', '.', 'Println', '(', '""connected""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-110,"        //handle the connection, on it's own thread, per connection","[""//handle the connection, on it's own thread, per connection""]","['comment', 'handle', 'the', 'connection', ',', 'on', 'it', ""'s"", 'own', 'thread', ',', 'per', 'connection']"
-111,        go connectionHandler(connection),"['go', 'connectionHandler', '(', 'connection', ')']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-112,    },['}'],['operator']
-113,},['}'],['operator']
-114,func connectionHandler(connection net.Conn) {,"['func', 'connectionHandler', '(', 'connection', 'net', '.', 'Conn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-115,"    buffer := make([]byte, BUFFER_SIZE)","['buffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-116,"    _, error := connection.Read(buffer)","['_', ',', 'error', ':=', 'connection', '.', 'Read', '(', 'buffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-117,    if error != nil {,"['if', 'error', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-118,"        fmt.Println(""There is an error reading from connection"", error.Error())","['fmt', '.', 'Println', '(', '""There is an error reading from connection""', ',', 'error', '.', 'Error', '())']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-119,        return,['return'],['keyword']
-120,    },['}'],['operator']
-121,"    fmt.Println(""command recieved: "" + string(buffer))","['fmt', '.', 'Println', '(', '""command recieved: ""', '+', 'string', '(', 'buffer', '))']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-122,    //loop until disconntect,['//loop until disconntect'],"['comment', 'loop', 'until', 'disconntect']"
-123,"    cleanedBuffer := bytes.Trim(buffer, ""\x00"")","['cleanedBuffer', ':=', 'bytes', '.', 'Trim', '(', 'buffer', ',', '""\\x00""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-124,    cleanedInputCommandString := strings.TrimSpace(string(cleanedBuffer)),"['cleanedInputCommandString', ':=', 'strings', '.', 'TrimSpace', '(', 'string', '(', 'cleanedBuffer', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-125,"    arrayOfCommands := strings.Split(cleanedInputCommandString, "" "")","['arrayOfCommands', ':=', 'strings', '.', 'Split', '(', 'cleanedInputCommandString', ',', '"" ""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-126,    fmt.Println(arrayOfCommands[0]),"['fmt', '.', 'Println', '(', 'arrayOfCommands', '[', '0', '])']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator']"
-127,"    if arrayOfCommands[0] == ""get"" {","['if', 'arrayOfCommands', '[', '0', ']', '==', '""get""', '{']","['keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'string_literal', 'operator']"
-128,"        sendFileToClient(arrayOfCommands[1], connection)","['sendFileToClient', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-129,"    } else if arrayOfCommands[0] == ""send"" {","['}', 'else', 'if', 'arrayOfCommands', '[', '0', ']', '==', '""send""', '{']","['operator', 'keyword', 'keyword', 'identifier', 'operator', 'decimal_literal', 'operator', 'operator', 'string_literal', 'operator']"
-130,"        fmt.Println(""getting a file"")","['fmt', '.', 'Println', '(', '""getting a file""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-131,"        getFileFromClient(arrayOfCommands[1], connection)","['getFileFromClient', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['identifier', 'operator', 'identifier', 'operator', 'decimal_literal', 'operator', 'identifier', 'operator']"
-132,    } else {,"['}', 'else', '{']","['operator', 'keyword', 'operator']"
-133,"        _, error = connection.Write([]byte(""bad command""))","['_', ',', 'error', '=', 'connection', '.', 'Write', '([]', 'byte', '(', '""bad command""', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-134,    },['}'],['operator']
-135,},['}'],['operator']
-136,"func sendFileToClient(fileName string, connection net.Conn) {","['func', 'sendFileToClient', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-137,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal']"
-138,"    fmt.Println(""send to client"")","['fmt', '.', 'Println', '(', '""send to client""', ')']","['identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-139,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-140,    //file to read,['//file to read'],"['comment', 'file', 'to', 'read']"
-141,"    file, err := os.Open(strings.TrimSpace(fileName)) // For read access.","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))', '// For read access.']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'comment', 'For', 'read', 'access', '.']"
-142,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-143,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-144,    },['}'],['operator']
-145,    var err2 error,"['var', 'err2', 'error']","['keyword', 'identifier', 'identifier']"
-146,    //read file until there is an error,['//read file until there is an error'],"['comment', 'read', 'file', 'until', 'there', 'is', 'an', 'error']"
-147,    for {,"['for', '{']","['keyword', 'operator']"
-148,"        _, err2 = file.ReadAt(fileBuffer, currentByte)","['_', ',', 'err2', '=', 'file', '.', 'ReadAt', '(', 'fileBuffer', ',', 'currentByte', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-149,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['identifier', 'operator', 'identifier']"
-150,        fmt.Println(fileBuffer),"['fmt', '.', 'Println', '(', 'fileBuffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-151,        connection.Write(fileBuffer),"['connection', '.', 'Write', '(', 'fileBuffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-152,        if err2 == io.EOF {,"['if', 'err2', '==', 'io', '.', 'EOF', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-153,            break,['break'],['keyword']
-154,        },['}'],['operator']
-155,    },['}'],['operator']
-156,    file.Close(),"['file', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-157,    return,['return'],['keyword']
-158,},['}'],['operator']
-159,"func getFileFromClient(fileName string, connection net.Conn) {","['func', 'getFileFromClient', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['keyword', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-160,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['keyword', 'identifier', 'identifier', 'operator', 'decimal_literal']"
-161,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-162,    var err error,"['var', 'err', 'error']","['keyword', 'identifier', 'identifier']"
-163,"    file, err := os.Create(strings.TrimSpace(fileName))","['file', ',', 'err', ':=', 'os', '.', 'Create', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-164,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator']"
-165,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-166,    },['}'],['operator']
-167,"    connection.Write([]byte(""get "" + fileName))","['connection', '.', 'Write', '([]', 'byte', '(', '""get ""', '+', 'fileName', '))']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator', 'identifier', 'operator']"
-168,    for err == nil || err != io.EOF {,"['for', 'err', '==', 'nil', '||', 'err', '!=', 'io', '.', 'EOF', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-169,        connection.Read(fileBuffer),"['connection', '.', 'Read', '(', 'fileBuffer', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-170,"        cleanedFileBuffer := bytes.Trim(fileBuffer, ""\x00"")","['cleanedFileBuffer', ':=', 'bytes', '.', 'Trim', '(', 'fileBuffer', ',', '""\\x00""', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'string_literal', 'operator']"
-171,"        _, err = file.WriteAt(cleanedFileBuffer, currentByte)","['_', ',', 'err', '=', 'file', '.', 'WriteAt', '(', 'cleanedFileBuffer', ',', 'currentByte', ')']","['identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator']"
-172,        if len(string(fileBuffer)) != len(string(cleanedFileBuffer)) {,"['if', 'len', '(', 'string', '(', 'fileBuffer', '))', '!=', 'len', '(', 'string', '(', 'cleanedFileBuffer', '))', '{']","['keyword', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'identifier', 'operator', 'operator']"
-173,            break,['break'],['keyword']
-174,        },['}'],['operator']
-175,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['identifier', 'operator', 'identifier']"
-176,    },['}'],['operator']
-177,    connection.Close(),"['connection', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-178,    file.Close(),"['file', '.', 'Close', '()']","['identifier', 'operator', 'identifier', 'operator']"
-179,    return,['return'],['keyword']
-180,},['}'],['operator']
-181,// END SERVER //,['// END SERVER //'],"['comment', 'END', 'SERVER']"
+0,// CLIENT ///,['// CLIENT ///'],"['COMMENT', 'NNP', 'NN']"
+1,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
+4,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"    ""io""","['""io""']",['STRING_LITERAL']
+7,"    ""log""","['""log""']",['STRING_LITERAL']
+8,"    ""net""","['""net""']",['STRING_LITERAL']
+9,"    ""os""","['""os""']",['STRING_LITERAL']
+10,"    ""strings""","['""strings""']",['STRING_LITERAL']
+11,),[')'],['OPERATOR']
+12,const BUFFER_SIZE = 1024,"['const', 'BUFFER_SIZE', '=', '1024']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+13,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+14,    //get port and ip address to dial,['//get port and ip address to dial'],"['COMMENT', 'VB', 'NN', 'CC', 'NN', 'NN', 'TO', 'VB']"
+15,    if len(os.Args) != 3 {,"['if', 'len', '(', 'os', '.', 'Args', ')', '!=', '3', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+16,"        fmt.Println(""useage example: tcpClient 127.0.0.1 7005"")","['fmt', '.', 'Println', '(', '""useage example: tcpClient 127.0.0.1 7005""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,        return,['return'],['KEYWORD']
+18,    },['}'],['OPERATOR']
+19,    var ip string = os.Args[1],"['var', 'ip', 'string', '=', 'os', '.', 'Args', '[', '1', ']']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+20,    var port string = os.Args[2],"['var', 'port', 'string', '=', 'os', '.', 'Args', '[', '2', ']']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+21,"    connection, err := net.Dial(""tcp"", ip+"":""+port)","['connection', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp"", ip+"":""', '+', 'port', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,"        fmt.Println(""There was an error making a connection"")","['fmt', '.', 'Println', '(', '""There was an error making a connection""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+24,    },['}'],['OPERATOR']
+25,    //read from,['//read from'],"['COMMENT', 'NN', 'IN']"
+26,    reader := bufio.NewReader(os.Stdin),"['reader', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,"    fmt.Print(""Please enter 'get ' or 'send ' to transfer files to the server\n\n"")","['fmt', '.', 'Print', '(', '""Please enter \'get \' or \'send \' to transfer files to the server\\n\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+28,"    inputFromUser, _ := reader.ReadString('\n')","['inputFromUser', ',', '_', ':=', 'reader', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,"    arrayOfCommands := strings.Split(inputFromUser, "" "")","['arrayOfCommands', ':=', 'strings', '.', 'Split', '(', 'inputFromUser', ',', '"" ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+30,"    if arrayOfCommands[0] == ""get"" {","['if', 'arrayOfCommands', '[', '0', ']', '==', '""get""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+31,"        getFileFromServer(arrayOfCommands[1], connection)","['getFileFromServer', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,"    } else if arrayOfCommands[0] == ""send"" {","['}', 'else', 'if', 'arrayOfCommands', '[', '0', ']', '==', '""send""', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+33,"        sendFileToServer(arrayOfCommands[1], connection)","['sendFileToServer', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+35,"        fmt.Println(""Bad Command"")","['fmt', '.', 'Println', '(', '""Bad Command""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+36,    },['}'],['OPERATOR']
+37,},['}'],['OPERATOR']
+38,"func sendFileToServer(fileName string, connection net.Conn) {","['func', 'sendFileToServer', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+39,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+40,"    fmt.Println(""send to client"")","['fmt', '.', 'Println', '(', '""send to client""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+41,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+43,    //file to read,['//file to read'],"['COMMENT', 'NN', 'TO', 'VB']"
+44,"    file, err := os.Open(strings.TrimSpace(fileName)) // For read access.","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))', '// For read access.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'IN', 'JJ', 'NN', '.']"
+45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,"        connection.Write([]byte(""-1""))","['connection', '.', 'Write', '([]', 'byte', '(', '""-1""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+47,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,    },['}'],['OPERATOR']
+49,"    connection.Write([]byte(""send "" + fileName))","['connection', '.', 'Write', '([]', 'byte', '(', '""send ""', '+', 'fileName', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,    //read file until there is an error,['//read file until there is an error'],"['COMMENT', 'NN', 'NN', 'IN', 'EX', 'VBZ', 'DT', 'NN']"
+51,    for err == nil || err != io.EOF {,"['for', 'err', '==', 'nil', '||', 'err', '!=', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,"        _, err = file.ReadAt(fileBuffer, currentByte)","['_', ',', 'err', '=', 'file', '.', 'ReadAt', '(', 'fileBuffer', ',', 'currentByte', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+54,        fmt.Println(fileBuffer),"['fmt', '.', 'Println', '(', 'fileBuffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+55,        connection.Write(fileBuffer),"['connection', '.', 'Write', '(', 'fileBuffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,    },['}'],['OPERATOR']
+57,    file.Close(),"['file', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,    connection.Close(),"['connection', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,},['}'],['OPERATOR']
+60,"func getFileFromServer(fileName string, connection net.Conn) {","['func', 'getFileFromServer', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+61,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+62,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+64,"    file, err := os.Create(strings.TrimSpace(fileName))","['file', ',', 'err', ':=', 'os', '.', 'Create', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,    },['}'],['OPERATOR']
+68,"    connection.Write([]byte(""get "" + fileName))","['connection', '.', 'Write', '([]', 'byte', '(', '""get ""', '+', 'fileName', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+70,        connection.Read(fileBuffer),"['connection', '.', 'Read', '(', 'fileBuffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,"        cleanedFileBuffer := bytes.Trim(fileBuffer, ""\x00"")","['cleanedFileBuffer', ':=', 'bytes', '.', 'Trim', '(', 'fileBuffer', ',', '""\\x00""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+72,"        _, err = file.WriteAt(cleanedFileBuffer, currentByte)","['_', ',', 'err', '=', 'file', '.', 'WriteAt', '(', 'cleanedFileBuffer', ',', 'currentByte', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+74,        if err == io.EOF {,"['if', 'err', '==', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,            break,['break'],['KEYWORD']
+76,        },['}'],['OPERATOR']
+77,    },['}'],['OPERATOR']
+78,    file.Close(),"['file', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    return,['return'],['KEYWORD']
+80,},['}'],['OPERATOR']
+81,// END CLIENT //,['// END CLIENT //'],"['COMMENT', 'NN', 'NN']"
+82,// SERVER //,['// SERVER //'],"['COMMENT', 'NN']"
+83,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+84,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+85,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+86,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+87,"    ""io""","['""io""']",['STRING_LITERAL']
+88,"    ""log""","['""log""']",['STRING_LITERAL']
+89,"    ""net""","['""net""']",['STRING_LITERAL']
+90,"    ""os""","['""os""']",['STRING_LITERAL']
+91,"    ""strings""","['""strings""']",['STRING_LITERAL']
+92,),[')'],['OPERATOR']
+93,const BUFFER_SIZE = 1024,"['const', 'BUFFER_SIZE', '=', '1024']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+94,"const PORT = ""7005""","['const', 'PORT', '=', '""7005""']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+95,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+96,"    fmt.Println(""start listening"")","['fmt', '.', 'Println', '(', '""start listening""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+97,"    server, error := net.Listen(""tcp"", ""localhost:""+PORT)","['server', ',', 'error', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""localhost:""', '+', 'PORT', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+98,    if error != nil {,"['if', 'error', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,"        fmt.Println(""There was an error starting the server"" + error.Error())","['fmt', '.', 'Println', '(', '""There was an error starting the server""', '+', 'error', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,        return,['return'],['KEYWORD']
+101,    },['}'],['OPERATOR']
+102,    //infinate loop,['//infinate loop'],"['COMMENT', 'NN', 'NN']"
+103,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+104,"        connection, error := server.Accept()","['connection', ',', 'error', ':=', 'server', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,        if error != nil {,"['if', 'error', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,"            fmt.Println(""There was am error with the connection"" + error.Error())","['fmt', '.', 'Println', '(', '""There was am error with the connection""', '+', 'error', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,            return,['return'],['KEYWORD']
+108,        },['}'],['OPERATOR']
+109,"        fmt.Println(""connected"")","['fmt', '.', 'Println', '(', '""connected""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+110,"        //handle the connection, on it's own thread, per connection","[""//handle the connection, on it's own thread, per connection""]","['COMMENT', 'VB', 'DT', 'NN', ',', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', ',', 'IN', 'NN']"
+111,        go connectionHandler(connection),"['go', 'connectionHandler', '(', 'connection', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,    },['}'],['OPERATOR']
+113,},['}'],['OPERATOR']
+114,func connectionHandler(connection net.Conn) {,"['func', 'connectionHandler', '(', 'connection', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+115,"    buffer := make([]byte, BUFFER_SIZE)","['buffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,"    _, error := connection.Read(buffer)","['_', ',', 'error', ':=', 'connection', '.', 'Read', '(', 'buffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,    if error != nil {,"['if', 'error', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,"        fmt.Println(""There is an error reading from connection"", error.Error())","['fmt', '.', 'Println', '(', '""There is an error reading from connection""', ',', 'error', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,        return,['return'],['KEYWORD']
+120,    },['}'],['OPERATOR']
+121,"    fmt.Println(""command recieved: "" + string(buffer))","['fmt', '.', 'Println', '(', '""command recieved: ""', '+', 'string', '(', 'buffer', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,    //loop until disconntect,['//loop until disconntect'],"['COMMENT', 'NN', 'IN', 'NN']"
+123,"    cleanedBuffer := bytes.Trim(buffer, ""\x00"")","['cleanedBuffer', ':=', 'bytes', '.', 'Trim', '(', 'buffer', ',', '""\\x00""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+124,    cleanedInputCommandString := strings.TrimSpace(string(cleanedBuffer)),"['cleanedInputCommandString', ':=', 'strings', '.', 'TrimSpace', '(', 'string', '(', 'cleanedBuffer', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,"    arrayOfCommands := strings.Split(cleanedInputCommandString, "" "")","['arrayOfCommands', ':=', 'strings', '.', 'Split', '(', 'cleanedInputCommandString', ',', '"" ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+126,    fmt.Println(arrayOfCommands[0]),"['fmt', '.', 'Println', '(', 'arrayOfCommands', '[', '0', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+127,"    if arrayOfCommands[0] == ""get"" {","['if', 'arrayOfCommands', '[', '0', ']', '==', '""get""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+128,"        sendFileToClient(arrayOfCommands[1], connection)","['sendFileToClient', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,"    } else if arrayOfCommands[0] == ""send"" {","['}', 'else', 'if', 'arrayOfCommands', '[', '0', ']', '==', '""send""', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+130,"        fmt.Println(""getting a file"")","['fmt', '.', 'Println', '(', '""getting a file""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+131,"        getFileFromClient(arrayOfCommands[1], connection)","['getFileFromClient', '(', 'arrayOfCommands', '[', '1', '],', 'connection', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+133,"        _, error = connection.Write([]byte(""bad command""))","['_', ',', 'error', '=', 'connection', '.', 'Write', '([]', 'byte', '(', '""bad command""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+134,    },['}'],['OPERATOR']
+135,},['}'],['OPERATOR']
+136,"func sendFileToClient(fileName string, connection net.Conn) {","['func', 'sendFileToClient', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+137,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+138,"    fmt.Println(""send to client"")","['fmt', '.', 'Println', '(', '""send to client""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+139,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,    //file to read,['//file to read'],"['COMMENT', 'NN', 'TO', 'VB']"
+141,"    file, err := os.Open(strings.TrimSpace(fileName)) // For read access.","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))', '// For read access.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'IN', 'JJ', 'NN', '.']"
+142,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+143,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,    },['}'],['OPERATOR']
+145,    var err2 error,"['var', 'err2', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+146,    //read file until there is an error,['//read file until there is an error'],"['COMMENT', 'NN', 'NN', 'IN', 'EX', 'VBZ', 'DT', 'NN']"
+147,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+148,"        _, err2 = file.ReadAt(fileBuffer, currentByte)","['_', ',', 'err2', '=', 'file', '.', 'ReadAt', '(', 'fileBuffer', ',', 'currentByte', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+150,        fmt.Println(fileBuffer),"['fmt', '.', 'Println', '(', 'fileBuffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+151,        connection.Write(fileBuffer),"['connection', '.', 'Write', '(', 'fileBuffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,        if err2 == io.EOF {,"['if', 'err2', '==', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,            break,['break'],['KEYWORD']
+154,        },['}'],['OPERATOR']
+155,    },['}'],['OPERATOR']
+156,    file.Close(),"['file', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+157,    return,['return'],['KEYWORD']
+158,},['}'],['OPERATOR']
+159,"func getFileFromClient(fileName string, connection net.Conn) {","['func', 'getFileFromClient', '(', 'fileName', 'string', ',', 'connection', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+160,    var currentByte int64 = 0,"['var', 'currentByte', 'int64', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+161,"    fileBuffer := make([]byte, BUFFER_SIZE)","['fileBuffer', ':=', 'make', '([]', 'byte', ',', 'BUFFER_SIZE', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+162,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+163,"    file, err := os.Create(strings.TrimSpace(fileName))","['file', ',', 'err', ':=', 'os', '.', 'Create', '(', 'strings', '.', 'TrimSpace', '(', 'fileName', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+164,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+165,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,    },['}'],['OPERATOR']
+167,"    connection.Write([]byte(""get "" + fileName))","['connection', '.', 'Write', '([]', 'byte', '(', '""get ""', '+', 'fileName', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+168,    for err == nil || err != io.EOF {,"['for', 'err', '==', 'nil', '||', 'err', '!=', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+169,        connection.Read(fileBuffer),"['connection', '.', 'Read', '(', 'fileBuffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,"        cleanedFileBuffer := bytes.Trim(fileBuffer, ""\x00"")","['cleanedFileBuffer', ':=', 'bytes', '.', 'Trim', '(', 'fileBuffer', ',', '""\\x00""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+171,"        _, err = file.WriteAt(cleanedFileBuffer, currentByte)","['_', ',', 'err', '=', 'file', '.', 'WriteAt', '(', 'cleanedFileBuffer', ',', 'currentByte', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+172,        if len(string(fileBuffer)) != len(string(cleanedFileBuffer)) {,"['if', 'len', '(', 'string', '(', 'fileBuffer', '))', '!=', 'len', '(', 'string', '(', 'cleanedFileBuffer', '))', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+173,            break,['break'],['KEYWORD']
+174,        },['}'],['OPERATOR']
+175,        currentByte += BUFFER_SIZE,"['currentByte', '+=', 'BUFFER_SIZE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+176,    },['}'],['OPERATOR']
+177,    connection.Close(),"['connection', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+178,    file.Close(),"['file', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,    return,['return'],['KEYWORD']
+180,},['}'],['OPERATOR']
+181,// END SERVER //,['// END SERVER //'],"['COMMENT', 'NN', 'NN']"
