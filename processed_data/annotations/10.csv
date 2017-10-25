@@ -59,14 +59,14 @@ Here's a program which uses the Unicode rules to convert UTF16 text file lines t
 12,"// UTF16BytesToString converts UTF-16 encoded bytes, in big or little endian byte order,","['//', 'UTF16BytesToString', 'converts', 'UTF-16', 'encoded', 'bytes,', 'in', 'big', 'or', 'little', 'endian', 'byte', 'order,']","['COMMENT', 'VBG', 'NNS', 'NNP', 'VBD', 'NN', 'IN', 'JJ', 'CC', 'JJ', 'JJ', 'NN', 'NN']"
 13,// to a UTF-8 encoded string.,"['//', 'to', 'a', 'UTF-8', 'encoded', 'string.']","['COMMENT', 'TO', 'DT', 'NNP', 'VBD', 'NN']"
 14,"func UTF16BytesToString(b []byte, o binary.ByteOrder) string {","['func', 'UTF16BytesToString', '(', 'b', '[]', 'byte', ',', 'o', 'binary', '.', 'ByteOrder', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,"    utf := make([]uint16, (len(b)+(2-1))/2)","['utf', ':=', 'make', '([]', 'uint16', ',', '(len(b)+(2-1))/2)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DIRECTORY']"
-16,    for i := 0; i+(2-1) < len(b); i += 2 {,"['for', 'i', ':=', '0', ';', 'i', '+(', '2', '-', '1', ')', '<', 'len', '(', 'b', ');', 'i', '+=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-17,        utf[i/2] = o.Uint16(b[i:]),"['utf[i/2]', '=', 'o.Uint16(b[i:])']","['DIRECTORY', 'OPERATOR', 'FUNCTION_CALL']"
+15,"    utf := make([]uint16, (len(b)+(2-1))/2)","['utf', ':=', 'make', '([]', 'uint16', ',', '(', 'len', '(', 'b', ')+(', '2', '-', '1', '))', '2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+16,    for i := 0; i+(2-1) < len(b); i += 2 {,"['for', 'i', ':=', '0', ';', 'i', '+(', '2', '-', '1', ')', '<', 'len', '(', 'b', ');', 'i', '+=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+17,        utf[i/2] = o.Uint16(b[i:]),"['utf', '[', 'i', '2', ']', '=', 'o', '.', 'Uint16', '(', 'b', '[', 'i', ':])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 18,    },['}'],['OPERATOR']
-19,    if len(b)/2 < len(utf) {,"['if', 'len(b)/2', '<', 'len', '(', 'utf', ')', '{']","['KEYWORD', 'DIRECTORY', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+19,    if len(b)/2 < len(utf) {,"['if', 'len', '(', 'b', ')', '2', '<', 'len', '(', 'utf', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 20,        utf[len(utf)-1] = utf8.RuneError,"['utf', '[', 'len', '(', 'utf', ')-', '1', ']', '=', 'utf8', '.', 'RuneError']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 21,    },['}'],['OPERATOR']
-22,    return string(utf16.Decode(utf)),"['return', 'string', '(', 'utf16.Decode(utf))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+22,    return string(utf16.Decode(utf)),"['return', 'string', '(', 'utf16', '.', 'Decode', '(', 'utf', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 23,},['}'],['OPERATOR']
 24,// UTF-16 endian byte order,"['//', 'UTF-16', 'endian', 'byte', 'order']","['COMMENT', 'JJ', 'JJ', 'NN', 'NN']"
 25,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
@@ -78,18 +78,18 @@ Here's a program which uses the Unicode rules to convert UTF16 text file lines t
 31,"func dropCREndian(data []byte, t1, t2 byte) []byte {","['func', 'dropCREndian', '(', 'data', '[]', 'byte', ',', 't1', ',', 't2', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 32,    if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 33,        if data[len(data)-2] == t1 && data[len(data)-1] == t2 {,"['if', 'data', '[', 'len', '(', 'data', ')-', '2', ']', '==', 't1', '&&', 'data', '[', 'len', '(', 'data', ')-', '1', ']', '==', 't2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,            return data[0 : len(data)-2],"['return', 'data', '[', '0', ':', 'len', '(', 'data', ')-', '2', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+34,            return data[0 : len(data)-2],"['return', 'data', '[', '0', ':', 'len', '(', 'data', ')-', '2', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 35,        },['}'],['OPERATOR']
 36,    },['}'],['OPERATOR']
 37,    return data,"['return', 'data']","['KEYWORD', 'IDENTIFIER']"
 38,},['}'],['OPERATOR']
 39,// dropCRBE drops a terminal \r from the big endian data.,"['//', 'dropCRBE', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'big', 'endian', 'data.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', 'NN']"
 40,func dropCRBE(data []byte) []byte {,"['func', 'dropCRBE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,"    return dropCREndian(data, '\x00', '\r')","['return', 'dropCREndian', '(', 'data', ',', ""'\\x00'"", ',', ""'\\r'"", ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+41,"    return dropCREndian(data, '\x00', '\r')","['return', 'dropCREndian', '(', 'data', ',', 'x00', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 42,},['}'],['OPERATOR']
 43,// dropCRLE drops a terminal \r from the little endian data.,"['//', 'dropCRLE', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'little', 'endian', 'data.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', 'NN']"
 44,func dropCRLE(data []byte) []byte {,"['func', 'dropCRLE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,"    return dropCREndian(data, '\r', '\x00')","['return', 'dropCREndian', '(', 'data', ',', ""'\\r'"", ',', ""'\\x00'"", ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+45,"    return dropCREndian(data, '\r', '\x00')","['return', 'dropCREndian', '(', 'data', ',', 'r', ',', 'x00', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 46,},['}'],['OPERATOR']
 47,// dropCR drops a terminal \r from the data.,"['//', 'dropCR', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'data.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN']"
 48,"func dropCR(data []byte) ([]byte, int) {","['func', 'dropCR', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
@@ -117,53 +117,53 @@ Here's a program which uses the Unicode rules to convert UTF16 text file lines t
 70,    case binary.LittleEndian:,"['case', 'binary', '.', 'LittleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 71,        endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 72,    },['}'],['OPERATOR']
-73,    const bom = 0xFEFF,"['const', 'bom', '=', '0xFEFF']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL']"
+73,    const bom = 0xFEFF,"['const', 'bom', '=', '0', 'xFEFF']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
 74,    var checkBOM bool = endian == unknownEndian,"['var', 'checkBOM', 'bool', '=', 'endian', '==', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 75,    // Scanner split function,"['//', 'Scanner', 'split', 'function']","['COMMENT', 'NNP', 'NN', 'NN']"
 76,"    splitFunc := func(data []byte, atEOF bool) (advance int, token []byte, err error) {","['splitFunc', ':=', 'func', '(', 'data', '[]', 'byte', ',', 'atEOF', 'bool', ')', '(', 'advance', 'int', ',', 'token', '[]', 'byte', ',', 'err', 'error', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-77,        if atEOF && len(data) == 0 {,"['if', 'atEOF', '&&', 'len', '(', 'data', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-78,"            return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+77,        if atEOF && len(data) == 0 {,"['if', 'atEOF', '&&', 'len', '(', 'data', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+78,"            return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 79,        },['}'],['OPERATOR']
 80,        if checkBOM {,"['if', 'checkBOM', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 81,            checkBOM = false,"['checkBOM', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 82,            if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 83,                switch uint16(bom) {,"['switch', 'uint16', '(', 'bom', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-84,                case uint16(data[0])<<8 | uint16(data[1]):,"['case', 'uint16', '(', 'data', '[', '0', '])<<', '8', '|', 'uint16', '(', 'data', '[', '1', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+84,                case uint16(data[0])<<8 | uint16(data[1]):,"['case', 'uint16', '(', 'data', '[', '0', '])<<', '8', '|', 'uint16', '(', 'data', '[', '1', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 85,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 86,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-87,                case uint16(data[1])<<8 | uint16(data[0]):,"['case', 'uint16', '(', 'data', '[', '1', '])<<', '8', '|', 'uint16', '(', 'data', '[', '0', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+87,                case uint16(data[1])<<8 | uint16(data[0]):,"['case', 'uint16', '(', 'data', '[', '1', '])<<', '8', '|', 'uint16', '(', 'data', '[', '0', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 88,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 89,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 90,                },['}'],['OPERATOR']
 91,            },['}'],['OPERATOR']
 92,        },['}'],['OPERATOR']
 93,        // Scan for newline-terminated lines.,"['//', 'Scan', 'for', 'newline-terminated', 'lines.']","['COMMENT', 'JJ', 'IN', 'JJ', 'NN']"
-94,        i := 0,"['i', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
+94,        i := 0,"['i', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
 95,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-96,"            j := bytes.IndexByte(data[i:], '\n')","['j', ':=', ""bytes.IndexByte(data[i:], '\\n')""]","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-97,            if j < 0 {,"['if', 'j', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+96,"            j := bytes.IndexByte(data[i:], '\n')","['j', ':=', 'bytes', '.', 'IndexByte', '(', 'data', '[', 'i', ':],', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+97,            if j < 0 {,"['if', 'j', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 98,                break,['break'],['KEYWORD']
 99,            },['}'],['OPERATOR']
 100,            i += j,"['i', '+=', 'j']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 101,            switch e := i % 2; e {,"['switch', 'e', ':=', 'i', '2', ';', 'e', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,            case 1: // UTF-16BE,"['case', '1', ':', '//', 'UTF-16BE']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
+102,            case 1: // UTF-16BE,"['//', 'UTF-16BE']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
 103,                if endian != littleEndian {,"['if', 'endian', '!=', 'littleEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 104,                    if i > 1 {,"['if', 'i', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-105,                        if data[i-1] == '\x00' {,"['if', 'data', '[', 'i', '-', '1', ']', '==', ""'\\x00'"", '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+105,                        if data[i-1] == '\x00' {,"['if', 'data', '[', 'i', '-', '1', ']', '==', 'x00', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 106,                            endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 107,                            // We have a full newline-terminated line.,"['//', 'We', 'have', 'a', 'full', 'newline-terminated', 'line.']","['COMMENT', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN']"
-108,"                            return i + 1, dropCRBE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRBE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+108,"                            return i + 1, dropCRBE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRBE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
 109,                        },['}'],['OPERATOR']
 110,                    },['}'],['OPERATOR']
 111,                },['}'],['OPERATOR']
-112,            case 0: // UTF-16LE,"['case', '0', ':', '//', 'UTF-16LE']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
+112,            case 0: // UTF-16LE,"['//', 'UTF-16LE']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
 113,                if endian != bigEndian {,"['if', 'endian', '!=', 'bigEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 114,                    if i+1 < len(data) {,"['if', 'i', '+', '1', '<', 'len', '(', 'data', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 115,                        i++,"['i', '++']","['IDENTIFIER', 'OPERATOR']"
-116,                        if data[i] == '\x00' {,"['if', 'data', '[', 'i', ']', '==', ""'\\x00'"", '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+116,                        if data[i] == '\x00' {,"['if', 'data', '[', 'i', ']', '==', 'x00', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 117,                            endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 118,                            // We have a full newline-terminated line.,"['//', 'We', 'have', 'a', 'full', 'newline-terminated', 'line.']","['COMMENT', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN']"
-119,"                            return i + 1, dropCRLE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRLE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+119,"                            return i + 1, dropCRLE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRLE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
 120,                        },['}'],['OPERATOR']
 121,                    },['}'],['OPERATOR']
 122,                },['}'],['OPERATOR']
@@ -192,7 +192,7 @@ Here's a program which uses the Unicode rules to convert UTF16 text file lines t
 145,"            return advance, data, nil","['return', 'advance', ',', 'data', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 146,        },['}'],['OPERATOR']
 147,        // Request more data.,"['//', 'Request', 'more', 'data.']","['COMMENT', 'NNP', 'JJR', 'NN']"
-148,"        return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+148,"        return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 149,    },['}'],['OPERATOR']
 150,    // Endian byte order function,"['//', 'Endian', 'byte', 'order', 'function']","['COMMENT', 'JJ', 'NN', 'NN', 'NN']"
 151,    orderFunc := func() (byteOrder binary.ByteOrder) {,"['orderFunc', ':=', 'func', '()', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
@@ -207,28 +207,28 @@ Here's a program which uses the Unicode rules to convert UTF16 text file lines t
 160,"    return splitFunc, orderFunc","['return', 'splitFunc', ',', 'orderFunc']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 161,},['}'],['OPERATOR']
 162,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-163,"    file, err := os.Open(""utf16.le.txt"")","['file', ',', 'err', ':=', 'os.Open(""utf16.le.txt"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+163,"    file, err := os.Open(""utf16.le.txt"")","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', '""utf16.le.txt""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 164,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-165,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-166,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
+165,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 167,    },['}'],['OPERATOR']
-168,    defer file.Close(),"['defer', 'file.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-169,    fmt.Println(file.Name()),['fmt.Println(file.Name())'],['FUNCTION_CALL']
-170,    rdr := bufio.NewReader(file),"['rdr', ':=', 'bufio.NewReader(file)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-171,    scanner := bufio.NewScanner(rdr),"['scanner', ':=', 'bufio.NewScanner(rdr)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-172,"    var bo binary.ByteOrder // unknown, infer from data","['var', 'bo', 'binary', '.', 'ByteOrder', '//', 'unknown,', 'infer', 'from', 'data']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'JJ', 'NN', 'IN', 'NNS']"
+168,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+169,    fmt.Println(file.Name()),"['fmt', '.', 'Println', '(', 'file', '.', 'Name', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,    rdr := bufio.NewReader(file),"['rdr', ':=', 'bufio', '.', 'NewReader', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+171,    scanner := bufio.NewScanner(rdr),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'rdr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+172,"    var bo binary.ByteOrder // unknown, infer from data","['//', 'unknown,', 'infer', 'from', 'data']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'JJ', 'NN', 'IN', 'NNS']"
 173,    // bo = binary.LittleEndian // windows,"['//', 'bo', '=', 'binary.LittleEndian', 'windows']","['COMMENT', 'NN', 'NN', 'JJ', 'NNS']"
 174,"    splitFunc, orderFunc := ScanUTF16LinesFunc(bo)","['splitFunc', ',', 'orderFunc', ':=', 'ScanUTF16LinesFunc', '(', 'bo', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-175,    scanner.Split(splitFunc),['scanner.Split(splitFunc)'],['FUNCTION_CALL']
-176,    for scanner.Scan() {,"['for', 'scanner.Scan()', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR']"
-177,        b := scanner.Bytes(),"['b', ':=', 'scanner.Bytes()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+175,    scanner.Split(splitFunc),"['scanner', '.', 'Split', '(', 'splitFunc', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+176,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+177,        b := scanner.Bytes(),"['b', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 178,"        s := UTF16BytesToString(b, orderFunc())","['s', ':=', 'UTF16BytesToString', '(', 'b', ',', 'orderFunc', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-179,"        fmt.Println(len(s), s)","['fmt.Println(len(s), s)']",['FUNCTION_CALL']
-180,"        fmt.Println(len(b), b)","['fmt.Println(len(b), b)']",['FUNCTION_CALL']
+179,"        fmt.Println(len(s), s)","['fmt', '.', 'Println', '(', 'len', '(', 's', '),', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+180,"        fmt.Println(len(b), b)","['fmt', '.', 'Println', '(', 'len', '(', 'b', '),', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 181,    },['}'],['OPERATOR']
-182,    fmt.Println(orderFunc()),['fmt.Println(orderFunc())'],['FUNCTION_CALL']
-183,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner.Err()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-184,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+182,    fmt.Println(orderFunc()),"['fmt', '.', 'Println', '(', 'orderFunc', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+184,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 185,    },['}'],['OPERATOR']
 186,},['}'],['OPERATOR']
 187,"
@@ -238,17 +238,17 @@ Output:
 ",['Output:'],['NN']
 188,utf16.le.txt,"['utf16', '.', 'le', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 189,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-190,22 [34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 0 22 78 76 117 34 0],"['22', '[', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '0', '22', '78', '76', '117', '34', '0', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR']"
-191,0 ,['0'],['OCTAL_LITERAL']
-192,0 [],"['0', '[]']","['OCTAL_LITERAL', 'OPERATOR']"
+190,22 [34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 0 22 78 76 117 34 0],"['22', '[', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '0', '22', '78', '76', '117', '34', '0', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
+191,0 ,['0'],['DECIMAL_LITERAL']
+192,0 [],"['0', '[]']","['DECIMAL_LITERAL', 'OPERATOR']"
 193,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-194,22 [34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 0 22 78 76 117 34 0],"['22', '[', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '0', '22', '78', '76', '117', '34', '0', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR']"
+194,22 [34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 0 22 78 76 117 34 0],"['22', '[', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '0', '22', '78', '76', '117', '34', '0', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
 195,LittleEndian,['LittleEndian'],['IDENTIFIER']
 196,utf16.be.txt,"['utf16', '.', 'be', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 197,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-198,22 [0 34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 78 22 117 76 0 34],"['22', '[', '0', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '78', '22', '117', '76', '0', '34', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
-199,0 ,['0'],['OCTAL_LITERAL']
-200,0 [],"['0', '[]']","['OCTAL_LITERAL', 'OPERATOR']"
+198,22 [0 34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 78 22 117 76 0 34],"['22', '[', '0', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '78', '22', '117', '76', '0', '34', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
+199,0 ,['0'],['DECIMAL_LITERAL']
+200,0 [],"['0', '[]']","['DECIMAL_LITERAL', 'OPERATOR']"
 201,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-202,22 [0 34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 78 22 117 76 0 34],"['22', '[', '0', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '78', '22', '117', '76', '0', '34', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
+202,22 [0 34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 78 22 117 76 0 34],"['22', '[', '0', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '78', '22', '117', '76', '0', '34', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
 203,BigEndian,['BigEndian'],['IDENTIFIER']

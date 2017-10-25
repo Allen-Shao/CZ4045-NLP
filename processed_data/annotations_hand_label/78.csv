@@ -12,18 +12,18 @@ First, there is the ""listening"" part. We can set that up like this:
 6,"    ""time""","['""time""']",['STRING_LITERAL']
 7,),[')'],['OPERATOR']
 8,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-9,"    ln, err := net.Listen(""tcp"", "":9000"")","['ln', ',', 'err', ':=', 'net.Listen(""tcp"", "":9000"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+9,"    ln, err := net.Listen(""tcp"", "":9000"")","['ln', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", "":9000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 10,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 11,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 12,    },['}'],['OPERATOR']
-13,    defer ln.Close(),"['defer', 'ln.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+13,    defer ln.Close(),"['defer', 'ln', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 14,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-15,"        conn, err := ln.Accept()","['conn', ',', 'err', ':=', 'ln.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+15,"        conn, err := ln.Accept()","['conn', ',', 'err', ':=', 'ln', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 16,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 17,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 18,        },['}'],['OPERATOR']
-19,"        io.WriteString(conn, fmt.Sprint(""Hello World\n"", time.Now(), ""\n""))","['io.WriteString(conn, fmt.Sprint(""Hello World\\n"", time.Now(), ""\\n""))']",['FUNCTION_CALL']
-20,        conn.Close(),['conn.Close()'],['FUNCTION_CALL']
+19,"        io.WriteString(conn, fmt.Sprint(""Hello World\n"", time.Now(), ""\n""))","['io', '.', 'WriteString', '(', 'conn', ',', 'fmt', '.', 'Sprint', '(', '""Hello World\\n"", time.Now(), ""\\n""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,        conn.Close(),"['conn', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 21,    },['}'],['OPERATOR']
 22,},['}'],['OPERATOR']
 23,"
@@ -48,13 +48,13 @@ Here is the code for dialing into a TCP server as a client:
 28,"    ""net""","['""net""']",['STRING_LITERAL']
 29,),[')'],['OPERATOR']
 30,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-31,"    conn, err := net.Dial(""tcp"", ""localhost:9000"")","['conn', ',', 'err', ':=', 'net.Dial(""tcp"", ""localhost:9000"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+31,"    conn, err := net.Dial(""tcp"", ""localhost:9000"")","['conn', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp"", ""localhost:9000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 33,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 34,    },['}'],['OPERATOR']
-35,    defer conn.Close(),"['defer', 'conn.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-36,"    bs, _ := ioutil.ReadAll(conn)","['bs', ',', '_', ':=', 'ioutil.ReadAll(conn)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-37,    fmt.Println(string(bs)),['fmt.Println(string(bs))'],['FUNCTION_CALL']
+35,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,"    bs, _ := ioutil.ReadAll(conn)","['bs', ',', '_', ':=', 'ioutil', '.', 'ReadAll', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    fmt.Println(string(bs)),"['fmt', '.', 'Println', '(', 'string', '(', 'bs', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 38,},['}'],['OPERATOR']
 39,"
 
@@ -71,20 +71,20 @@ This will illustrate accepting many connections.
 43,"    ""net""","['""net""']",['STRING_LITERAL']
 44,),[')'],['OPERATOR']
 45,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-46,"    ln, err := net.Listen(""tcp"", "":9000"")","['ln', ',', 'err', ':=', 'net.Listen(""tcp"", "":9000"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+46,"    ln, err := net.Listen(""tcp"", "":9000"")","['ln', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", "":9000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 47,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 48,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 49,    },['}'],['OPERATOR']
-50,    defer ln.Close(),"['defer', 'ln.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+50,    defer ln.Close(),"['defer', 'ln', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 51,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-52,"        conn, err := ln.Accept()","['conn', ',', 'err', ':=', 'ln.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+52,"        conn, err := ln.Accept()","['conn', ',', 'err', ':=', 'ln', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 53,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 54,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 55,        },['}'],['OPERATOR']
 56,        // handles unlimited connections,"['//', 'handles', 'unlimited', 'connections']","['COMMENT', 'NNS', 'JJ', 'NNS']"
 57,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-58,"            io.Copy(conn, conn)","['io.Copy(conn, conn)']",['FUNCTION_CALL']
-59,            conn.Close(),['conn.Close()'],['FUNCTION_CALL']
+58,"            io.Copy(conn, conn)","['io', '.', 'Copy', '(', 'conn', ',', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,            conn.Close(),"['conn', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 60,        }(),['}()'],['OPERATOR']
 61,    },['}'],['OPERATOR']
 62,},['}'],['OPERATOR']
@@ -112,11 +112,11 @@ Now for one more example - an in-memory database like Redis:
 72,),[')'],['OPERATOR']
 73,var data = make(map[string]string),"['var', 'data', '=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 74,func handle(conn net.Conn) {,"['func', 'handle', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-75,    defer conn.Close(),"['defer', 'conn.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-76,    scanner := bufio.NewScanner(conn),"['scanner', ':=', 'bufio.NewScanner(conn)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-77,    for scanner.Scan() {,"['for', 'scanner.Scan()', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR']"
-78,        ln := scanner.Text(),"['ln', ':=', 'scanner.Text()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-79,        fs := strings.Fields(ln),"['fs', ':=', 'strings.Fields(ln)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+75,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    scanner := bufio.NewScanner(conn),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+78,        ln := scanner.Text(),"['ln', ':=', 'scanner', '.', 'Text', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,        fs := strings.Fields(ln),"['fs', ':=', 'strings', '.', 'Fields', '(', 'ln', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 80,        if len(fs) < 2 {,"['if', 'len', '(', 'fs', ')', '<', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 81,"            io.WriteString(conn, ""This is an in-memory database \n"" +","['io', '.', 'WriteString', '(', 'conn', ',', '""This is an in-memory database \\n""', '+']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 82,"            ""Use SET, GET, DEL like this: \n"" +","['""Use SET, GET, DEL like this: \\n""', '+']","['STRING_LITERAL', 'OPERATOR']"
@@ -128,14 +128,14 @@ Now for one more example - an in-memory database like Redis:
 88,"            ""GET fav \n\n\n"")","['""GET fav \\n\\n\\n""', ')']","['STRING_LITERAL', 'OPERATOR']"
 89,            continue,['continue'],['KEYWORD']
 90,        },['}'],['OPERATOR']
-91,        switch fs[0] {,"['switch', 'fs', '[', '0', ']', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+91,        switch fs[0] {,"['switch', 'fs', '[', '0', ']', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
 92,"        case ""GET"":","['case', '""GET""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
 93,            key := fs[1],"['key', ':=', 'fs', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 94,            value := data[key],"['value', ':=', 'data', '[', 'key', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,"            fmt.Fprintf(conn, ""%s\n"", value)","['fmt.Fprintf(conn, ""%s\\n"", value)']",['FUNCTION_CALL']
+95,"            fmt.Fprintf(conn, ""%s\n"", value)","['fmt', '.', 'Fprintf', '(', 'conn', ',', '""%s\\n""', ',', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 96,"        case ""SET"":","['case', '""SET""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
 97,            if len(fs) != 3 {,"['if', 'len', '(', 'fs', ')', '!=', '3', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-98,"                io.WriteString(conn, ""EXPECTED VALUE\n"")","['io.WriteString(conn, ""EXPECTED VALUE\\n"")']",['FUNCTION_CALL']
+98,"                io.WriteString(conn, ""EXPECTED VALUE\n"")","['io', '.', 'WriteString', '(', 'conn', ',', '""EXPECTED VALUE\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 99,                continue,['continue'],['KEYWORD']
 100,            },['}'],['OPERATOR']
 101,            key := fs[1],"['key', ':=', 'fs', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
@@ -145,20 +145,20 @@ Now for one more example - an in-memory database like Redis:
 105,            key := fs[1],"['key', ':=', 'fs', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 106,"            delete(data, key)","['delete', '(', 'data', ',', 'key', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 107,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-108,"            io.WriteString(conn, ""INVALID COMMAND ""+fs[0]+""\n"")","['io.WriteString(conn, ""INVALID COMMAND ""+fs[0]+""\\n"")']",['FUNCTION_CALL']
+108,"            io.WriteString(conn, ""INVALID COMMAND ""+fs[0]+""\n"")","['io', '.', 'WriteString', '(', 'conn', ',', '""INVALID COMMAND ""+fs[0]+""\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 109,        },['}'],['OPERATOR']
 110,    },['}'],['OPERATOR']
 111,},['}'],['OPERATOR']
 112,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-113,"    li, err := net.Listen(""tcp"", "":9000"")","['li', ',', 'err', ':=', 'net.Listen(""tcp"", "":9000"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+113,"    li, err := net.Listen(""tcp"", "":9000"")","['li', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", "":9000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 114,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,        log.Fatalln(err),['log.Fatalln(err)'],['FUNCTION_CALL']
+115,        log.Fatalln(err),"['log', '.', 'Fatalln', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 116,    },['}'],['OPERATOR']
-117,    defer li.Close(),"['defer', 'li.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+117,    defer li.Close(),"['defer', 'li', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 118,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-119,"        conn, err := li.Accept()","['conn', ',', 'err', ':=', 'li.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+119,"        conn, err := li.Accept()","['conn', ',', 'err', ':=', 'li', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 120,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,            log.Fatalln(err),['log.Fatalln(err)'],['FUNCTION_CALL']
+121,            log.Fatalln(err),"['log', '.', 'Fatalln', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 122,        },['}'],['OPERATOR']
 123,        handle(conn),"['handle', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 124,    },['}'],['OPERATOR']
@@ -188,8 +188,8 @@ And adding in concurrency:
 144,"            cmd.Result <- ""Expected at least 2 arguments""","['cmd', '.', 'Result', '<-', '""Expected at least 2 arguments""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 145,            continue,['continue'],['KEYWORD']
 146,        },['}'],['OPERATOR']
-147,"        fmt.Println(""GOT COMMAND"", cmd)","['fmt.Println(""GOT COMMAND"", cmd)']",['FUNCTION_CALL']
-148,        switch cmd.Fields[0] {,"['switch', 'cmd', '.', 'Fields', '[', '0', ']', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+147,"        fmt.Println(""GOT COMMAND"", cmd)","['fmt', '.', 'Println', '(', '""GOT COMMAND""', ',', 'cmd', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+148,        switch cmd.Fields[0] {,"['switch', 'cmd', '.', 'Fields', '[', '0', ']', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
 149,        // GET ,"['//', 'GET']","['COMMENT', 'VB']"
 150,"        case ""GET"":","['case', '""GET""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
 151,            key := cmd.Fields[1],"['key', ':=', 'cmd', '.', 'Fields', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
@@ -211,36 +211,36 @@ And adding in concurrency:
 167,"            delete(data, key)","['delete', '(', 'data', ',', 'key', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 168,"            cmd.Result <- """"","['cmd', '.', 'Result', '<-', '""""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 169,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-170,"            cmd.Result <- ""INVALID COMMAND "" + cmd.Fields[0] + ""\n""","['cmd', '.', 'Result', '<-', '""INVALID COMMAND ""', '+', 'cmd', '.', 'Fields', '[', '0', ']', '+', '""\\n""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL']"
+170,"            cmd.Result <- ""INVALID COMMAND "" + cmd.Fields[0] + ""\n""","['cmd', '.', 'Result', '<-', '""INVALID COMMAND "" + cmd.Fields[0] + ""\\n""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 171,        },['}'],['OPERATOR']
 172,    },['}'],['OPERATOR']
 173,},['}'],['OPERATOR']
 174,"func handle(commands chan Command, conn net.Conn) {","['func', 'handle', '(', 'commands', 'chan', 'Command', ',', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-175,    defer conn.Close(),"['defer', 'conn.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-176,    scanner := bufio.NewScanner(conn),"['scanner', ':=', 'bufio.NewScanner(conn)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-177,    for scanner.Scan() {,"['for', 'scanner.Scan()', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR']"
-178,        ln := scanner.Text(),"['ln', ':=', 'scanner.Text()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-179,        fs := strings.Fields(ln),"['fs', ':=', 'strings.Fields(ln)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+175,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+176,    scanner := bufio.NewScanner(conn),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+177,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+178,        ln := scanner.Text(),"['ln', ':=', 'scanner', '.', 'Text', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,        fs := strings.Fields(ln),"['fs', ':=', 'strings', '.', 'Fields', '(', 'ln', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 180,        result := make(chan string),"['result', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 181,        commands <- Command{,"['commands', '<-', 'Command', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 182,"            Fields: fs,","['Fields', ':', 'fs', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 183,"            Result: result,","['Result', ':', 'result', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 184,        },['}'],['OPERATOR']
-185,"        io.WriteString(conn, <-result+""\n"")","['io.WriteString(conn, <-result+""\\n"")']",['FUNCTION_CALL']
+185,"        io.WriteString(conn, <-result+""\n"")","['io', '.', 'WriteString', '(', 'conn', ',', '<-', 'result', '+', '""\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 186,    },['}'],['OPERATOR']
 187,},['}'],['OPERATOR']
 188,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-189,"    li, err := net.Listen(""tcp"", "":9000"")","['li', ',', 'err', ':=', 'net.Listen(""tcp"", "":9000"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+189,"    li, err := net.Listen(""tcp"", "":9000"")","['li', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", "":9000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 190,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-191,        log.Fatalln(err),['log.Fatalln(err)'],['FUNCTION_CALL']
+191,        log.Fatalln(err),"['log', '.', 'Fatalln', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 192,    },['}'],['OPERATOR']
-193,    defer li.Close(),"['defer', 'li.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+193,    defer li.Close(),"['defer', 'li', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 194,    commands := make(chan Command),"['commands', ':=', 'make', '(', 'chan', 'Command', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 195,    go redisServer(commands),"['go', 'redisServer', '(', 'commands', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 196,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-197,"        conn, err := li.Accept()","['conn', ',', 'err', ':=', 'li.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+197,"        conn, err := li.Accept()","['conn', ',', 'err', ':=', 'li', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 198,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-199,            log.Fatalln(err),['log.Fatalln(err)'],['FUNCTION_CALL']
+199,            log.Fatalln(err),"['log', '.', 'Fatalln', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 200,        },['}'],['OPERATOR']
 201,"        go handle(commands, conn)","['go', 'handle', '(', 'commands', ',', 'conn', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 202,    },['}'],['OPERATOR']

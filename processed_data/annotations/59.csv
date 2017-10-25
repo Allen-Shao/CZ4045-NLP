@@ -6,123 +6,128 @@
 I need to do the same using golang code. 
 
 But my Go code loses string ","['I', 'can', 'do', 'a', 'POST', 'request', 'with', 'string', 'data,', 'using', 'POSTMAN', 'chrome', 'extension.', 'I', 'need', 'to', 'do', 'the', 'same', 'using', 'golang', 'code.', 'But', 'my', 'Go', 'code', 'loses', 'string']","['PRP', 'MD', 'VB', 'DT', 'NNP', 'NN', 'IN', 'NN', 'NN', 'VBG', 'NNP', 'NN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'VBG', 'NN', 'NN', 'CC', 'PRP$', 'NNP', 'NN', 'VBZ', 'VBG']"
-1,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', ""'jack'"", ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+1,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
 2," and posts empty data to the server. 
 
-","['and', 'posts', 'empty', 'data', 'to', 'the', 'server.']","['CC', 'NNS', 'VBP', 'NNS', 'TO', 'DT', 'NN']"
-3,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-4,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-5,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-6,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-7,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-8,"    ""log""","['""log""']",['STRING_LITERAL']
-9,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-10,),[')'],['OPERATOR']
-11,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-12,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-13,    // Why this stringData is lost and was not send with POST request?,"['//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'was', 'not', 'send', 'with', 'POST', 'request?']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBD', 'RB', 'JJ', 'IN', 'NNP', 'NN']"
-14,"    stringData := `INSERT INTO V SET name = 'jack', boss = #11:19`","['stringData', ':=', 'INSERT', 'INTO', 'V', 'SET', 'name', '=', ""'jack'"", ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-15,"    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))","['req', ',', 'err', ':=', 'http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-16,"    req.SetBasicAuth(""root"", ""1"")","['req.SetBasicAuth(""root"", ""1"")']",['FUNCTION_CALL']
-17,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client.Do(req)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-18,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-19,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-20,    },['}'],['OPERATOR']
-21,"    fmt.Println(""resp"")","['fmt.Println(""resp"")']",['FUNCTION_CALL']
-22,    fmt.Println(ToJson(resp)),['fmt.Println(ToJson(resp))'],['FUNCTION_CALL']
-23,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-24,"    _, err = b.ReadFrom(resp.Body)","['_', ',', 'err', '=', 'b.ReadFrom(resp.Body)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,"        log.Fatal(""Error : %s"", err)","['log.Fatal(""Error : %s"", err)']",['FUNCTION_CALL']
-27,    },['}'],['OPERATOR']
-28,    fmt.Println(b.String()),['fmt.Println(b.String())'],['FUNCTION_CALL']
-29,},['}'],['OPERATOR']
-30,func ToJson(obj interface{}) string {,"['func', 'ToJson', '(', 'obj', 'interface', '{})', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,"    b, err := json.MarshalIndent(&obj, """", ""   "")","['b', ',', 'err', ':=', 'json.MarshalIndent(&obj, """", ""   "")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-34,    },['}'],['OPERATOR']
-35,    strJson := string(b),"['strJson', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,    return strJson,"['return', 'strJson']","['KEYWORD', 'IDENTIFIER']"
-37,},['}'],['OPERATOR']
-38,"
+package main
+
+import (
+    ""bytes""
+    ""encoding/json""
+    ""fmt""
+    ""log""
+    ""net/http""
+)
+
+func main() {
+    client := &http.Client{}
+    // Why this stringData is lost and was not send with POST request?
+    stringData := `","['and', 'posts', 'empty', 'data', 'to', 'the', 'server.', 'package', 'main', 'import', '(', '""bytes""', '""encoding/json""', '""fmt""', '""log""', '""net/http""', ')', 'func', 'main()', '{', 'client', ':=', '&http.Client{}', '//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'was', 'not', 'send', 'with', 'POST', 'request?', 'stringData', ':=', '`']","['CC', 'NNS', 'VBP', 'NNS', 'TO', 'DT', 'JJ', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'JJ', '(', 'NN', 'NNP', 'NNP', 'NNP', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBD', 'RB', 'JJ', 'IN', 'NNP', 'NN', 'NN', 'NNP', '``']"
+3,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+4,"`
+    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))
+    req.SetBasicAuth(""root"", ""1"")
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    fmt.Println(""resp"")
+    fmt.Println(ToJson(resp))
+
+    var b bytes.Buffer
+    _, err = b.ReadFrom(resp.Body)
+    if err != nil {
+        log.Fatal(""Error : %s"", err)
+    }
+    fmt.Println(b.String())
+}
+
+func ToJson(obj interface{}) string {
+    b, err := json.MarshalIndent(&obj, """", ""   "")
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    strJson := string(b)
+
+    return strJson
+}
+
 
 It gives output:
 
-","['It', 'gives', 'output:']","['PRP', 'VBZ', 'JJ']"
-39,resp,['resp'],['IDENTIFIER']
-40,{,['{'],['OPERATOR']
-41,"   ""Status"": ""500 Internal Server Error"",","['""Status""', ':', '""500 Internal Server Error""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-42,"   ""StatusCode"": 500,","['""StatusCode""', ':', '500', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-43,"   ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-44,"   ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-45,"   ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-46,"   ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-47,"      ""Cache-Control"": [","['""Cache-Control""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-48,"         ""no-cache, no-store, max-age=0, must-revalidate""","['""no-cache, no-store, max-age=0, must-revalidate""']",['STRING_LITERAL']
-49,"      ],","['],']",['OPERATOR']
-50,"      ""Connection"": [","['""Connection""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-51,"         ""Keep-Alive""","['""Keep-Alive""']",['STRING_LITERAL']
-52,"      ],","['],']",['OPERATOR']
-53,"      ""Content-Length"": [","['""Content-Length""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-54,"         ""55""","['""55""']",['STRING_LITERAL']
-55,"      ],","['],']",['OPERATOR']
-56,"      ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-57,"         ""text/plain; charset=utf-8""","['""text/plain; charset=utf-8""']",['STRING_LITERAL']
-58,"      ],","['],']",['OPERATOR']
-59,"      ""Date"": [","['""Date""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-60,"         ""Mon Jun 08 10:47:46 MSK 2015""","['""Mon Jun 08 10:47:46 MSK 2015""']",['STRING_LITERAL']
-61,"      ],","['],']",['OPERATOR']
-62,"      ""Pragma"": [","['""Pragma""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-63,"         ""no-cache""","['""no-cache""']",['STRING_LITERAL']
-64,"      ],","['],']",['OPERATOR']
-65,"      ""Server"": [","['""Server""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-66,"         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""","['""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""']",['STRING_LITERAL']
-67,      ],[']'],['OPERATOR']
-68,"   },","['},']",['OPERATOR']
-69,"   ""Body"": {},","['""Body""', ':', '{},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-70,"   ""ContentLength"": 55,","['""ContentLength""', ':', '55', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-71,"   ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-72,"   ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"   ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,"   ""Request"": {","['""Request""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-75,"      ""Method"": ""POST"",","['""Method""', ':', '""POST""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-76,"      ""URL"": {","['""URL""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-77,"         ""Scheme"": ""http"",","['""Scheme""', ':', '""http""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-78,"         ""Opaque"": """",","['""Opaque""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-79,"         ""User"": null,","['""User""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,"         ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-81,"         ""Path"": ""/command/GratefulDeadConcerts/sql"",","['""Path""', ':', '""/command/GratefulDeadConcerts/sql""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-82,"         ""RawQuery"": """",","['""RawQuery""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-83,"         ""Fragment"": """"","['""Fragment""', ':', '""""']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL']"
-84,"      },","['},']",['OPERATOR']
-85,"      ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-86,"      ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-87,"      ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-88,"      ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-89,"         ""Authorization"": [","['""Authorization""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-90,"            ""Basic cm9vdDox""","['""Basic cm9vdDox""']",['STRING_LITERAL']
-91,         ],[']'],['OPERATOR']
-92,"      },","['},']",['OPERATOR']
-93,"      ""Body"": {","['""Body""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-94,"         ""Reader"": {}","['""Reader""', ':', '{}']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-95,"      },","['},']",['OPERATOR']
-96,"      ""ContentLength"": 46,","['""ContentLength""', ':', '46', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-97,"      ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-98,"      ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,"      ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-100,"      ""Form"": null,","['""Form""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-101,"      ""PostForm"": null,","['""PostForm""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,"      ""MultipartForm"": null,","['""MultipartForm""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,"      ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-104,"      ""RemoteAddr"": """",","['""RemoteAddr""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-105,"      ""RequestURI"": """",","['""RequestURI""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-106,"      ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-107,"   },","['},']",['OPERATOR']
-108,"   ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-109,},['}'],['OPERATOR']
-110,java.lang.IllegalArgumentException: text cannot be null,"['java', '.', 'lang', '.', 'IllegalArgumentException', ':', 'text', 'cannot', 'be', 'null']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-111,"
+resp
+{
+   ""Status"": ""500 Internal Server Error"",
+   ""StatusCode"": 500,
+   ""Proto"": ""HTTP/1.1"",
+   ""ProtoMajor"": 1,
+   ""ProtoMinor"": 1,
+   ""Header"": {
+      ""Cache-Control"": [
+         ""no-cache, no-store, max-age=0, must-revalidate""
+      ],
+      ""Connection"": [
+         ""Keep-Alive""
+      ],
+      ""Content-Length"": [
+         ""55""
+      ],
+      ""Content-Type"": [
+         ""text/plain; charset=utf-8""
+      ],
+      ""Date"": [
+         ""Mon Jun 08 10:47:46 MSK 2015""
+      ],
+      ""Pragma"": [
+         ""no-cache""
+      ],
+      ""Server"": [
+         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""
+      ]
+   },
+   ""Body"": {},
+   ""ContentLength"": 55,
+   ""TransferEncoding"": null,
+   ""Close"": false,
+   ""Trailer"": null,
+   ""Request"": {
+      ""Method"": ""POST"",
+      ""URL"": {
+         ""Scheme"": ""http"",
+         ""Opaque"": """",
+         ""User"": null,
+         ""Host"": ""localhost:2480"",
+         ""Path"": ""/command/GratefulDeadConcerts/sql"",
+         ""RawQuery"": """",
+         ""Fragment"": """"
+      },
+      ""Proto"": ""HTTP/1.1"",
+      ""ProtoMajor"": 1,
+      ""ProtoMinor"": 1,
+      ""Header"": {
+         ""Authorization"": [
+            ""Basic cm9vdDox""
+         ]
+      },
+      ""Body"": {
+         ""Reader"": {}
+      },
+      ""ContentLength"": 46,
+      ""TransferEncoding"": null,
+      ""Close"": false,
+      ""Host"": ""localhost:2480"",
+      ""Form"": null,
+      ""PostForm"": null,
+      ""MultipartForm"": null,
+      ""Trailer"": null,
+      ""RemoteAddr"": """",
+      ""RequestURI"": """",
+      ""TLS"": null
+   },
+   ""TLS"": null
+}
+java.lang.IllegalArgumentException: text cannot be null
+
 
 How to make this POST request work successfully, using GoLang, as I can do with POSTMAN chrome extension?
 
@@ -130,25 +135,26 @@ Update
 
 I made the same POST request successfully, using curl.
 
-","['How', 'to', 'make', 'this', 'POST', 'request', 'work', 'successfully,', 'using', 'GoLang,', 'as', 'I', 'can', 'do', 'with', 'POSTMAN', 'chrome', 'extension?', 'Update', 'I', 'made', 'the', 'same', 'POST', 'request', 'successfully,', 'using', 'curl.']","['WRB', 'TO', 'VB', 'DT', 'NNP', 'NN', 'NN', 'NN', 'VBG', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'IN', 'NNP', 'VBP', 'JJ', 'NNP', 'PRP', 'VBD', 'DT', 'JJ', 'NNP', 'NN', 'NN', 'VBG', 'NN']"
-112,"curl -X POST -u root:1 -H ""Content-Type: application/json"" --data-urlencode ""INSERT INTO V SET name = 'jack', boss = #11:19""  http://localhost:2480/command/GratefulDeadConcerts/sql ","['curl', '-', 'X', 'POST', '-', 'u', 'root', ':', '1', '-', 'H', '""Content-Type: application/json""', '--', 'data', '-', 'urlencode', '""INSERT INTO V SET name = \'jack\', boss = #11:19""', 'http://localhost:2480/command/GratefulDeadConcerts/sql']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'DIRECTORY']"
-113,"
+curl -X POST -u root:1 -H ""Content-Type: application/json"" --data-urlencode ""","['`', 'req,', 'err', ':=', 'http.NewRequest(""POST"",', '""http://localhost:2480/command/GratefulDeadConcerts/sql"",', 'bytes.NewBufferString(stringData))', 'req.SetBasicAuth(""root"",', '""1"")', 'resp,', 'err', ':=', 'client.Do(req)', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(""resp"")', 'fmt.Println(ToJson(resp))', 'var', 'b', 'bytes.Buffer', '_,', 'err', '=', 'b.ReadFrom(resp.Body)', 'if', 'err', '!=', 'nil', '{', 'log.Fatal(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(b.String())', '}', 'func', 'ToJson(obj', 'interface{})', 'string', '{', 'b,', 'err', ':=', 'json.MarshalIndent(&obj,', '"""",', '""', '"")', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'strJson', ':=', 'string(b)', 'return', 'strJson', '}', 'It', 'gives', 'output:', 'resp', '{', '""Status"":', '""500', 'Internal', 'Server', 'Error"",', '""StatusCode"":', '500,', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Cache-Control"":', '[', '""no-cache,', 'no-store,', 'max-age=0,', 'must-revalidate""', '],', '""Connection"":', '[', '""Keep-Alive""', '],', '""Content-Length"":', '[', '""55""', '],', '""Content-Type"":', '[', '""text/plain;', 'charset=utf-8""', '],', '""Date"":', '[', '""Mon', 'Jun', '08', '10:47:46', 'MSK', '2015""', '],', '""Pragma"":', '[', '""no-cache""', '],', '""Server"":', '[', '""OrientDB', 'Server', 'v.2.0.10', '(build', 'UNKNOWN@r;', '2015-05-25', '16:48:43+0000)""', ']', '},', '""Body"":', '{},', '""ContentLength"":', '55,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Trailer"":', 'null,', '""Request"":', '{', '""Method"":', '""POST"",', '""URL"":', '{', '""Scheme"":', '""http"",', '""Opaque"":', '"""",', '""User"":', 'null,', '""Host"":', '""localhost:2480"",', '""Path"":', '""/command/GratefulDeadConcerts/sql"",', '""RawQuery"":', '"""",', '""Fragment"":', '""""', '},', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Authorization"":', '[', '""Basic', 'cm9vdDox""', ']', '},', '""Body"":', '{', '""Reader"":', '{}', '},', '""ContentLength"":', '46,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Host"":', '""localhost:2480"",', '""Form"":', 'null,', '""PostForm"":', 'null,', '""MultipartForm"":', 'null,', '""Trailer"":', 'null,', '""RemoteAddr"":', '"""",', '""RequestURI"":', '"""",', '""TLS"":', 'null', '},', '""TLS"":', 'null', '}', 'java.lang.IllegalArgumentException:', 'text', 'cannot', 'be', 'null', 'How', 'to', 'make', 'this', 'POST', 'request', 'work', 'successfully,', 'using', 'GoLang,', 'as', 'I', 'can', 'do', 'with', 'POSTMAN', 'chrome', 'extension?', 'Update', 'I', 'made', 'the', 'same', 'POST', 'request', 'successfully,', 'using', 'curl.', 'curl', '-X', 'POST', '-u', 'root:1', '-H', '""Content-Type:', 'application/json""', '--data-urlencode', '""']","['``', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', ')', 'NN', 'NNP', 'NN', 'VBG', '(', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'JJ', 'NN', 'NN', ')', 'PRP', 'VBZ', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CD', 'CD', 'NNP', 'CD', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'FW', 'NNP', 'NNP', 'JJ', 'CD', 'JJ', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'RB', 'NNP', '(', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'NN', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'JJ', 'NNP', 'NN', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'VB', 'JJ', 'NNP', 'TO', 'VB', 'DT', 'NNP', 'NN', 'NN', 'NN', 'VBG', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'IN', 'NNP', 'VBP', 'JJ', 'NNP', 'PRP', 'VBD', 'DT', 'JJ', 'NNP', 'NN', 'NN', 'VBG', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NN', 'NN']"
+5,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+6,"""  http://localhost:2480/command/GratefulDeadConcerts/sql 
+
 
 It outputs:
 
-","['It', 'outputs:']","['PRP', 'RP']"
-114,"{""result"":[{""@type"":""d"",""@rid"":""#9:822"",""@version"":1,""@class"":""V"",""name"":null}]}","['{', '""result""', ':[{', '""@type""', ':', '""d""', ',', '""@rid""', ':', '""#9:822""', ',', '""@version""', ':', '1', ',', '""@class""', ':', '""V""', ',', '""name""', ':', 'null', '}]}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,"
+{""result"":[{""@type"":""d"",""@rid"":""#9:822"",""@version"":1,""@class"":""V"",""name"":null}]}
+
 
 Update 2
 
 Of course, I should not use --data-urlencode for curl command. 
 The valid curl command is 
 
-","['Update', '2', 'Of', 'course,', 'I', 'should', 'not', 'use', '--data-urlencode', 'for', 'curl', 'command.', 'The', 'valid', 'curl', 'command', 'is']","['NNP', 'CD', 'IN', 'NN', 'PRP', 'MD', 'RB', 'VB', 'NN', 'IN', 'NN', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'VBZ']"
-116,"curl -X POST -u root:1 -H ""Content-Type: application/json"" -d ""INSERT INTO V SET name = 'jack', boss = #11:19""  http://localhost:2480/command/GratefulDeadConcerts/sql","['curl', '-', 'X', 'POST', '-', 'u', 'root', ':', '1', '-', 'H', '""Content-Type: application/json""', '-', 'd', '""INSERT INTO V SET name = \'jack\', boss = #11:19""', 'http://localhost:2480/command/GratefulDeadConcerts/sql']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'DIRECTORY']"
-117,"{""result"":[{""@type"":""d"",""@rid"":""#9:848"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}","['{', '""result""', ':[{', '""@type""', ':', '""d""', ',', '""@rid""', ':', '""#9:848""', ',', '""@version""', ':', '1', ',', '""@class""', ':', '""V""', ',', '""name""', ':', '""jack""', ',', '""boss""', ':', '""#11:19""', ',', '""@fieldTypes""', ':', '""boss=x""', '}]}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-118,"
+curl -X POST -u root:1 -H ""Content-Type: application/json"" -d ""","['""', 'http://localhost:2480/command/GratefulDeadConcerts/sql', 'It', 'outputs:', '{""result"":[{""@type"":""d"",""@rid"":""#9:822"",""@version"":1,""@class"":""V"",""name"":null}]}', 'Update', '2', 'Of', 'course,', 'I', 'should', 'not', 'use', '--data-urlencode', 'for', 'curl', 'command.', 'The', 'valid', 'curl', 'command', 'is', 'curl', '-X', 'POST', '-u', 'root:1', '-H', '""Content-Type:', 'application/json""', '-d', '""']","['NN', 'NN', 'PRP', 'VBZ', 'JJ', 'NNP', 'CD', 'IN', 'NN', 'PRP', 'MD', 'RB', 'VB', 'NN', 'IN', 'NN', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'VBZ', 'JJ', 'RB', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NNP', 'NN']"
+7,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+8,"""  http://localhost:2480/command/GratefulDeadConcerts/sql
+{""result"":[{""@type"":""d"",""@rid"":""#9:848"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}
+
 
 I still have no clue how to make the similar GoLang POST request.
 
@@ -156,137 +162,143 @@ Update 3
 
 url.QueryEscape did not help me.
 
-","['I', 'still', 'have', 'no', 'clue', 'how', 'to', 'make', 'the', 'similar', 'GoLang', 'POST', 'request.', 'Update', '3', 'url.QueryEscape', 'did', 'not', 'help', 'me.']","['PRP', 'RB', 'VBP', 'DT', 'NN', 'WRB', 'TO', 'VB', 'DT', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'CD', 'NN', 'VBD', 'RB', 'VB', 'VB']"
-119,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-120,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-121,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-122,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-123,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-124,"    ""log""","['""log""']",['STRING_LITERAL']
-125,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-126,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-127,),[')'],['OPERATOR']
-128,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-129,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-130,    // Why this stringData is lost and do not pass thgouht POST request?,"['//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'do', 'not', 'pass', 'thgouht', 'POST', 'request?']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBP', 'RB', 'VB', 'NN', 'NNP', 'NN']"
-131,"    stringData := `INSERT INTO V SET name = 'jack', boss = #11:19`","['stringData', ':=', 'INSERT', 'INTO', 'V', 'SET', 'name', '=', ""'jack'"", ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-132,    stringData = url.QueryEscape(stringData),"['stringData', '=', 'url.QueryEscape(stringData)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-133,"    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))","['req', ',', 'err', ':=', 'http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-134,"    req.SetBasicAuth(""root"", ""1"")","['req.SetBasicAuth(""root"", ""1"")']",['FUNCTION_CALL']
-135,"    req.Header.Set(""Content-Type"", ""Content-Type: text/plain"")","['req', '.', 'Header.Set(""Content-Type"", ""Content-Type: text/plain"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-136,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client.Do(req)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-137,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-138,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-139,    },['}'],['OPERATOR']
-140,"    fmt.Println(""resp"")","['fmt.Println(""resp"")']",['FUNCTION_CALL']
-141,    fmt.Println(ToJson(resp)),['fmt.Println(ToJson(resp))'],['FUNCTION_CALL']
-142,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-143,"    _, err = b.ReadFrom(resp.Body)","['_', ',', 'err', '=', 'b.ReadFrom(resp.Body)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-144,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-145,"        log.Fatal(""Error : %s"", err)","['log.Fatal(""Error : %s"", err)']",['FUNCTION_CALL']
-146,    },['}'],['OPERATOR']
-147,    fmt.Println(b.String()),['fmt.Println(b.String())'],['FUNCTION_CALL']
-148,},['}'],['OPERATOR']
-149,func ToJson(obj interface{}) string {,"['func', 'ToJson', '(', 'obj', 'interface', '{})', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-150,"    b, err := json.MarshalIndent(&obj, """", ""   "")","['b', ',', 'err', ':=', 'json.MarshalIndent(&obj, """", ""   "")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-151,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-152,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-153,    },['}'],['OPERATOR']
-154,    strJson := string(b),"['strJson', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-155,    return strJson,"['return', 'strJson']","['KEYWORD', 'IDENTIFIER']"
-156,},['}'],['OPERATOR']
-157,"
+package main
+
+import (
+    ""bytes""
+    ""encoding/json""
+    ""fmt""
+    ""log""
+    ""net/http""
+    ""net/url""
+)
+
+func main() {
+    client := &http.Client{}
+    // Why this stringData is lost and do not pass thgouht POST request?
+    stringData := `","['""', 'http://localhost:2480/command/GratefulDeadConcerts/sql', '{""result"":[{""@type"":""d"",""@rid"":""#9:848"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}', 'I', 'still', 'have', 'no', 'clue', 'how', 'to', 'make', 'the', 'similar', 'GoLang', 'POST', 'request.', 'Update', '3', 'url.QueryEscape', 'did', 'not', 'help', 'me.', 'package', 'main', 'import', '(', '""bytes""', '""encoding/json""', '""fmt""', '""log""', '""net/http""', '""net/url""', ')', 'func', 'main()', '{', 'client', ':=', '&http.Client{}', '//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'do', 'not', 'pass', 'thgouht', 'POST', 'request?', 'stringData', ':=', '`']","['JJ', 'NN', 'NN', 'PRP', 'RB', 'VBP', 'DT', 'NN', 'WRB', 'TO', 'VB', 'DT', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'CD', 'NN', 'VBD', 'RB', 'VB', 'VB', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'JJ', '(', 'NN', 'NNP', 'NNP', 'NNP', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBP', 'RB', 'VB', 'NN', 'NNP', 'NN', 'NN', 'NNP', '``']"
+9,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+10,"`
+    stringData = url.QueryEscape(stringData)
+    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))
+    req.SetBasicAuth(""root"", ""1"")
+    req.Header.Set(""Content-Type"", ""Content-Type: text/plain"")
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    fmt.Println(""resp"")
+    fmt.Println(ToJson(resp))
+
+    var b bytes.Buffer
+    _, err = b.ReadFrom(resp.Body)
+    if err != nil {
+        log.Fatal(""Error : %s"", err)
+    }
+    fmt.Println(b.String())
+}
+
+func ToJson(obj interface{}) string {
+    b, err := json.MarshalIndent(&obj, """", ""   "")
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    strJson := string(b)
+
+    return strJson
+}
+
 
 The result is the same:
 
-","['The', 'result', 'is', 'the', 'same:']","['DT', 'NN', 'VBZ', 'DT', 'NN']"
-158,resp,['resp'],['IDENTIFIER']
-159,{,['{'],['OPERATOR']
-160,"   ""Status"": ""500 Internal Server Error"",","['""Status""', ':', '""500 Internal Server Error""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-161,"   ""StatusCode"": 500,","['""StatusCode""', ':', '500', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-162,"   ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-163,"   ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-164,"   ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-165,"   ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-166,"      ""Cache-Control"": [","['""Cache-Control""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-167,"         ""no-cache, no-store, max-age=0, must-revalidate""","['""no-cache, no-store, max-age=0, must-revalidate""']",['STRING_LITERAL']
-168,"      ],","['],']",['OPERATOR']
-169,"      ""Connection"": [","['""Connection""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-170,"         ""Keep-Alive""","['""Keep-Alive""']",['STRING_LITERAL']
-171,"      ],","['],']",['OPERATOR']
-172,"      ""Content-Length"": [","['""Content-Length""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-173,"         ""55""","['""55""']",['STRING_LITERAL']
-174,"      ],","['],']",['OPERATOR']
-175,"      ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-176,"         ""text/plain; charset=utf-8""","['""text/plain; charset=utf-8""']",['STRING_LITERAL']
-177,"      ],","['],']",['OPERATOR']
-178,"      ""Date"": [","['""Date""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-179,"         ""Mon Jun 08 19:39:12 MSK 2015""","['""Mon Jun 08 19:39:12 MSK 2015""']",['STRING_LITERAL']
-180,"      ],","['],']",['OPERATOR']
-181,"      ""Pragma"": [","['""Pragma""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-182,"         ""no-cache""","['""no-cache""']",['STRING_LITERAL']
-183,"      ],","['],']",['OPERATOR']
-184,"      ""Server"": [","['""Server""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-185,"         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""","['""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""']",['STRING_LITERAL']
-186,      ],[']'],['OPERATOR']
-187,"   },","['},']",['OPERATOR']
-188,"   ""Body"": {},","['""Body""', ':', '{},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-189,"   ""ContentLength"": 55,","['""ContentLength""', ':', '55', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-190,"   ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-191,"   ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-192,"   ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-193,"   ""Request"": {","['""Request""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-194,"      ""Method"": ""POST"",","['""Method""', ':', '""POST""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-195,"      ""URL"": {","['""URL""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-196,"         ""Scheme"": ""http"",","['""Scheme""', ':', '""http""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-197,"         ""Opaque"": """",","['""Opaque""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-198,"         ""User"": null,","['""User""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-199,"         ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-200,"         ""Path"": ""/command/GratefulDeadConcerts/sql"",","['""Path""', ':', '""/command/GratefulDeadConcerts/sql""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-201,"         ""RawQuery"": """",","['""RawQuery""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-202,"         ""Fragment"": """"","['""Fragment""', ':', '""""']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL']"
-203,"      },","['},']",['OPERATOR']
-204,"      ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-205,"      ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-206,"      ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-207,"      ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-208,"         ""Authorization"": [","['""Authorization""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-209,"            ""Basic cm9vdDox""","['""Basic cm9vdDox""']",['STRING_LITERAL']
-210,"         ],","['],']",['OPERATOR']
-211,"         ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-212,"            ""Content-Type: text/plain""","['""Content-Type: text/plain""']",['STRING_LITERAL']
-213,         ],[']'],['OPERATOR']
-214,"      },","['},']",['OPERATOR']
-215,"      ""Body"": {","['""Body""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-216,"         ""Reader"": {}","['""Reader""', ':', '{}']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-217,"      },","['},']",['OPERATOR']
-218,"      ""ContentLength"": 60,","['""ContentLength""', ':', '60', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-219,"      ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-220,"      ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,"      ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-222,"      ""Form"": null,","['""Form""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-223,"      ""PostForm"": null,","['""PostForm""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-224,"      ""MultipartForm"": null,","['""MultipartForm""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-225,"      ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-226,"      ""RemoteAddr"": """",","['""RemoteAddr""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-227,"      ""RequestURI"": """",","['""RequestURI""', ':', '""""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-228,"      ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-229,"   },","['},']",['OPERATOR']
-230,"   ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-231,},['}'],['OPERATOR']
-232,java.lang.IllegalArgumentException: text cannot be null,"['java', '.', 'lang', '.', 'IllegalArgumentException', ':', 'text', 'cannot', 'be', 'null']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-233,"
+resp
+{
+   ""Status"": ""500 Internal Server Error"",
+   ""StatusCode"": 500,
+   ""Proto"": ""HTTP/1.1"",
+   ""ProtoMajor"": 1,
+   ""ProtoMinor"": 1,
+   ""Header"": {
+      ""Cache-Control"": [
+         ""no-cache, no-store, max-age=0, must-revalidate""
+      ],
+      ""Connection"": [
+         ""Keep-Alive""
+      ],
+      ""Content-Length"": [
+         ""55""
+      ],
+      ""Content-Type"": [
+         ""text/plain; charset=utf-8""
+      ],
+      ""Date"": [
+         ""Mon Jun 08 19:39:12 MSK 2015""
+      ],
+      ""Pragma"": [
+         ""no-cache""
+      ],
+      ""Server"": [
+         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""
+      ]
+   },
+   ""Body"": {},
+   ""ContentLength"": 55,
+   ""TransferEncoding"": null,
+   ""Close"": false,
+   ""Trailer"": null,
+   ""Request"": {
+      ""Method"": ""POST"",
+      ""URL"": {
+         ""Scheme"": ""http"",
+         ""Opaque"": """",
+         ""User"": null,
+         ""Host"": ""localhost:2480"",
+         ""Path"": ""/command/GratefulDeadConcerts/sql"",
+         ""RawQuery"": """",
+         ""Fragment"": """"
+      },
+      ""Proto"": ""HTTP/1.1"",
+      ""ProtoMajor"": 1,
+      ""ProtoMinor"": 1,
+      ""Header"": {
+         ""Authorization"": [
+            ""Basic cm9vdDox""
+         ],
+         ""Content-Type"": [
+            ""Content-Type: text/plain""
+         ]
+      },
+      ""Body"": {
+         ""Reader"": {}
+      },
+      ""ContentLength"": 60,
+      ""TransferEncoding"": null,
+      ""Close"": false,
+      ""Host"": ""localhost:2480"",
+      ""Form"": null,
+      ""PostForm"": null,
+      ""MultipartForm"": null,
+      ""Trailer"": null,
+      ""RemoteAddr"": """",
+      ""RequestURI"": """",
+      ""TLS"": null
+   },
+   ""TLS"": null
+}
+java.lang.IllegalArgumentException: text cannot be null
+
 
 Also, I changed content-type to text/plain in curl command. 
 
-","['Also,', 'I', 'changed', 'content-type', 'to', 'text/plain', 'in', 'curl', 'command.']","['NNP', 'PRP', 'VBD', 'NN', 'TO', 'VB', 'IN', 'NN', 'NN']"
-234,"curl -X POST -u root:1 -H ""Content-Type: text/plain"" -d ""INSERT INTO V SET name = 'jack', boss = #11:19""  http://localhost:2480/command/GratefulDeadConcerts/sql","['curl', '-', 'X', 'POST', '-', 'u', 'root', ':', '1', '-', 'H', '""Content-Type: text/plain""', '-', 'd', '""INSERT INTO V SET name = \'jack\', boss = #11:19""', 'http://localhost:2480/command/GratefulDeadConcerts/sql']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'DIRECTORY']"
-235,"{""result"":[{""@type"":""d"",""@rid"":""#9:858"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}","['{', '""result""', ':[{', '""@type""', ':', '""d""', ',', '""@rid""', ':', '""#9:858""', ',', '""@version""', ':', '1', ',', '""@class""', ':', '""V""', ',', '""name""', ':', '""jack""', ',', '""boss""', ':', '""#11:19""', ',', '""@fieldTypes""', ':', '""boss=x""', '}]}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-236,"
+curl -X POST -u root:1 -H ""Content-Type: text/plain"" -d ""","['`', 'stringData', '=', 'url.QueryEscape(stringData)', 'req,', 'err', ':=', 'http.NewRequest(""POST"",', '""http://localhost:2480/command/GratefulDeadConcerts/sql"",', 'bytes.NewBufferString(stringData))', 'req.SetBasicAuth(""root"",', '""1"")', 'req.Header.Set(""Content-Type"",', '""Content-Type:', 'text/plain"")', 'resp,', 'err', ':=', 'client.Do(req)', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(""resp"")', 'fmt.Println(ToJson(resp))', 'var', 'b', 'bytes.Buffer', '_,', 'err', '=', 'b.ReadFrom(resp.Body)', 'if', 'err', '!=', 'nil', '{', 'log.Fatal(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(b.String())', '}', 'func', 'ToJson(obj', 'interface{})', 'string', '{', 'b,', 'err', ':=', 'json.MarshalIndent(&obj,', '"""",', '""', '"")', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'strJson', ':=', 'string(b)', 'return', 'strJson', '}', 'The', 'result', 'is', 'the', 'same:', 'resp', '{', '""Status"":', '""500', 'Internal', 'Server', 'Error"",', '""StatusCode"":', '500,', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Cache-Control"":', '[', '""no-cache,', 'no-store,', 'max-age=0,', 'must-revalidate""', '],', '""Connection"":', '[', '""Keep-Alive""', '],', '""Content-Length"":', '[', '""55""', '],', '""Content-Type"":', '[', '""text/plain;', 'charset=utf-8""', '],', '""Date"":', '[', '""Mon', 'Jun', '08', '19:39:12', 'MSK', '2015""', '],', '""Pragma"":', '[', '""no-cache""', '],', '""Server"":', '[', '""OrientDB', 'Server', 'v.2.0.10', '(build', 'UNKNOWN@r;', '2015-05-25', '16:48:43+0000)""', ']', '},', '""Body"":', '{},', '""ContentLength"":', '55,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Trailer"":', 'null,', '""Request"":', '{', '""Method"":', '""POST"",', '""URL"":', '{', '""Scheme"":', '""http"",', '""Opaque"":', '"""",', '""User"":', 'null,', '""Host"":', '""localhost:2480"",', '""Path"":', '""/command/GratefulDeadConcerts/sql"",', '""RawQuery"":', '"""",', '""Fragment"":', '""""', '},', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Authorization"":', '[', '""Basic', 'cm9vdDox""', '],', '""Content-Type"":', '[', '""Content-Type:', 'text/plain""', ']', '},', '""Body"":', '{', '""Reader"":', '{}', '},', '""ContentLength"":', '60,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Host"":', '""localhost:2480"",', '""Form"":', 'null,', '""PostForm"":', 'null,', '""MultipartForm"":', 'null,', '""Trailer"":', 'null,', '""RemoteAddr"":', '"""",', '""RequestURI"":', '"""",', '""TLS"":', 'null', '},', '""TLS"":', 'null', '}', 'java.lang.IllegalArgumentException:', 'text', 'cannot', 'be', 'null', 'Also,', 'I', 'changed', 'content-type', 'to', 'text/plain', 'in', 'curl', 'command.', 'curl', '-X', 'POST', '-u', 'root:1', '-H', '""Content-Type:', 'text/plain""', '-d', '""']","['``', 'NNS', 'NN', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'JJ', 'JJ', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', ')', 'NN', 'NNP', 'NN', 'VBG', '(', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'JJ', 'NN', 'NN', ')', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CD', 'CD', 'NNP', 'CD', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'FW', 'NNP', 'NNP', 'JJ', 'CD', 'JJ', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'RB', 'NNP', '(', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'NN', 'JJ', 'NN', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'JJ', 'NNP', 'NN', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'VB', 'JJ', 'NNP', 'PRP', 'VBD', 'NN', 'TO', 'VB', 'IN', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NNP', 'NN']"
+11,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+12,"""  http://localhost:2480/command/GratefulDeadConcerts/sql
+{""result"":[{""@type"":""d"",""@rid"":""#9:858"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}
+
 
 The result is the same, it's ok with curl, but not ok with golang POST. 
 
 Update 4
 
 What am I trying to do? I am implementing OrientDB REST-interface for executing queries from a GO application.
-","['The', 'result', 'is', 'the', 'same,', ""it's"", 'ok', 'with', 'curl,', 'but', 'not', 'ok', 'with', 'golang', 'POST.', 'Update', '4', 'What', 'am', 'I', 'trying', 'to', 'do?', 'I', 'am', 'implementing', 'OrientDB', 'REST-interface', 'for', 'executing', 'queries', 'from', 'a', 'GO', 'application.']","['DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNS', 'CC', 'RB', 'JJ', 'IN', 'JJ', 'NNP', 'NNP', 'CD', 'WP', 'VBP', 'PRP', 'VBG', 'TO', 'VB', 'PRP', 'VBP', 'VBG', 'NNP', 'NNP', 'IN', 'VBG', 'NNS', 'IN', 'DT', 'NNP', 'NN']"
+","['""', 'http://localhost:2480/command/GratefulDeadConcerts/sql', '{""result"":[{""@type"":""d"",""@rid"":""#9:858"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}', 'The', 'result', 'is', 'the', 'same,', ""it's"", 'ok', 'with', 'curl,', 'but', 'not', 'ok', 'with', 'golang', 'POST.', 'Update', '4', 'What', 'am', 'I', 'trying', 'to', 'do?', 'I', 'am', 'implementing', 'OrientDB', 'REST-interface', 'for', 'executing', 'queries', 'from', 'a', 'GO', 'application.']","['JJ', 'NN', 'VBD', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNS', 'CC', 'RB', 'JJ', 'IN', 'JJ', 'NNP', 'NNP', 'CD', 'WP', 'VBP', 'PRP', 'VBG', 'TO', 'VB', 'PRP', 'VBP', 'VBG', 'NNP', 'NNP', 'IN', 'VBG', 'NNS', 'IN', 'DT', 'NNP', 'NN']"
