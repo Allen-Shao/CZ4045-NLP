@@ -54,12 +54,12 @@ walk : commit baac4d4
 33,"    t.items = make([]Task, 3)","['t', '.', 'items', '=', 'make', '([]', 'Task', ',', '3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 34,    var tasks []Task,"['var', 'tasks', '[]', 'Task']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 35,"    tasks = read("""")","['tasks', '=', 'read', '(', '""""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-36,    for i := 0; i < len(tasks); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 'tasks', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+36,    for i := 0; i < len(tasks); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 'tasks', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 37,        var task Task,"['var', 'task', 'Task']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 38,        task = tasks[i],"['task', '=', 'tasks', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 39,        t.items[i] = task,"['t', '.', 'items', '[', 'i', ']', '=', 'task']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
 40,    },['}'],['OPERATOR']
-41,    t.PublishRowsReset(),"['t', '.', 'PublishRowsReset', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,    t.PublishRowsReset(),['t.PublishRowsReset()'],['FUNCTION_CALL']
 42,    return t,"['return', 't']","['KEYWORD', 'IDENTIFIER']"
 43,},['}'],['OPERATOR']
 44,func (m *TaskModel) RowCount() int {,"['func', '(', 'm', '*', 'TaskModel', ')', 'RowCount', '()', 'int', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -71,7 +71,7 @@ walk : commit baac4d4
 50,"func (m *TaskModel) Value(row, col int) interface{} {","['func', '(', 'm', '*', 'TaskModel', ')', 'Value', '(', 'row', ',', 'col', 'int', ')', 'interface', '{}', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
 51,    item := m.items[row],"['item', ':=', 'm', '.', 'items', '[', 'row', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 52,    switch col {,"['switch', 'col', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-53,        case 0:,"['case', '0', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
+53,        case 0:,"['case', '0', ':']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR']"
 54,            return item.TaskId,"['return', 'item', '.', 'TaskId']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 55,        case 1:,"['case', '1', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
 56,            return item.TaskNo,"['return', 'item', '.', 'TaskNo']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
@@ -94,8 +94,8 @@ walk : commit baac4d4
 73,},['}'],['OPERATOR']
 74,"func (m *TaskModel) Sort(col int, order walk.SortOrder) error {","['func', '(', 'm', '*', 'TaskModel', ')', 'Sort', '(', 'col', 'int', ',', 'order', 'walk', '.', 'SortOrder', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 75,"    m.sortColumn, m.sortOrder = col, order","['m', '.', 'sortColumn', ',', 'm', '.', 'sortOrder', '=', 'col', ',', 'order']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-76,    sort.Sort(m),"['sort', '.', 'Sort', '(', 'm', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-77,"    return m.SorterBase.Sort(col, order)","['return', 'm', '.', 'SorterBase', '.', 'Sort', '(', 'col', ',', 'order', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    sort.Sort(m),['sort.Sort(m)'],['FUNCTION_CALL']
+77,"    return m.SorterBase.Sort(col, order)","['return', 'm', '.', 'SorterBase.Sort(col, order)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 78,},['}'],['OPERATOR']
 79,"func (m *TaskModel) Less(i, j int) bool {","['func', '(', 'm', '*', 'TaskModel', ')', 'Less', '(', 'i', ',', 'j', 'int', ')', 'bool', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 80,"    a, b := m.items[i], m.items[j]","['a', ',', 'b', ':=', 'm', '.', 'items', '[', 'i', '],', 'm', '.', 'items', '[', 'j', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -106,7 +106,7 @@ walk : commit baac4d4
 85,        return !ls,"['return', '!', 'ls']","['KEYWORD', 'OPERATOR', 'IDENTIFIER']"
 86,    },['}'],['OPERATOR']
 87,    switch m.sortColumn {,"['switch', 'm', '.', 'sortColumn', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,        case 0:,"['case', '0', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
+88,        case 0:,"['case', '0', ':']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR']"
 89,            return c(a.TaskId < b.TaskId),"['return', 'c', '(', 'a', '.', 'TaskId', '<', 'b', '.', 'TaskId', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 90,        case 1:,"['case', '1', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
 91,            return c(a.TaskNo < b.TaskNo),"['return', 'c', '(', 'a', '.', 'TaskNo', '<', 'b', '.', 'TaskNo', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -131,51 +131,51 @@ walk : commit baac4d4
 110,"    m.items[i], m.items[j] = m.items[j], m.items[i]","['m', '.', 'items', '[', 'i', '],', 'm', '.', 'items', '[', 'j', ']', '=', 'm', '.', 'items', '[', 'j', '],', 'm', '.', 'items', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 111,},['}'],['OPERATOR']
 112,func read(filePath string) []Task{,"['func', 'read', '(', 'filePath', 'string', ')', '[]', 'Task', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,"    file, err := os.Open(""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task.json"")","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', '""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task.json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+113,"    file, err := os.Open(""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task.json"")","['file', ',', 'err', ':=', 'os.Open(""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task.json"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 114,"    //file, err := os.Open(filePath)","['//', 'file,', 'err', ':=', 'os.Open(filePath)']","['COMMENT', 'NN', 'NN', 'NNP', 'NN']"
 115,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 117,    },['}'],['OPERATOR']
-118,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,    defer file.Close(),"['defer', 'file.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
 119,    var tasks []Task,"['var', 'tasks', '[]', 'Task']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-120,    decoder := json.NewDecoder(file),"['decoder', ':=', 'json', '.', 'NewDecoder', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,    decoder := json.NewDecoder(file),"['decoder', ':=', 'json.NewDecoder(file)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 121,    //json.NewDecoder(file),"['//', 'json.NewDecoder(file)']","['COMMENT', 'NN']"
 122,    //fmt.Print(tasks),"['//', 'fmt.Print(tasks)']","['COMMENT', 'NN']"
 123,    //err = decoder.Decode(&tasks),"['//', 'err', '=', 'decoder.Decode(&tasks)']","['COMMENT', 'NN', 'CD', 'NN']"
-124,    decoder.Decode(&tasks),"['decoder', '.', 'Decode', '(&', 'tasks', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,    decoder.Decode(&tasks),['decoder.Decode(&tasks)'],['FUNCTION_CALL']
 125,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-126,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 127,    },['}'],['OPERATOR']
 128,    //fmt.Print(tasks),"['//', 'fmt.Print(tasks)']","['COMMENT', 'NN']"
 129,    return tasks;,"['return', 'tasks', ';']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 130,},['}'],['OPERATOR']
 131,"func write(filePath string, mw *MyMainWindow) {","['func', 'write', '(', 'filePath', 'string', ',', 'mw', '*', 'MyMainWindow', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 132,    var children *walk.WidgetList,"['var', 'children', '*', 'walk', '.', 'WidgetList']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-133,    children = mw.MainWindow.Children(),"['children', '=', 'mw', '.', 'MainWindow', '.', 'Children', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,    children = mw.MainWindow.Children(),"['children', '=', 'mw', '.', 'MainWindow.Children()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 134,    var child walk.Widget,"['var', 'child', 'walk', '.', 'Widget']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-135,    child = children.At(0),"['child', '=', 'children', '.', 'At', '(', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-136,    to := reflect.TypeOf(child),"['to', ':=', 'reflect', '.', 'TypeOf', '(', 'child', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,    fv := reflect.ValueOf(child).Convert(to).Interface(),"['fv', ':=', 'reflect', '.', 'ValueOf', '(', 'child', ').', 'Convert', '(', 'to', ').', 'Interface', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,    child = children.At(0),"['child', '=', 'children.At(0)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+136,    to := reflect.TypeOf(child),"['to', ':=', 'reflect.TypeOf(child)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+137,    fv := reflect.ValueOf(child).Convert(to).Interface(),"['fv', ':=', 'reflect.ValueOf(child).Convert(to).Interface()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 138,    //tableview := fv.Type().In(0),"['//', 'tableview', ':=', 'fv.Type().In(0)']","['COMMENT', 'NN', 'CD', 'NN']"
 139,    //var tableview TableView,"['//', 'var', 'tableview', 'TableView']","['COMMENT', 'NN', 'NN', 'NNP']"
 140,    //tableview := child.Cursor(),"['//', 'tableview', ':=', 'child.Cursor()']","['COMMENT', 'NN', 'CD', 'NN']"
 141,    //fmt.Print(child),"['//', 'fmt.Print(child)']","['COMMENT', 'NN']"
 142,    //fmt.Println(tableview),"['//', 'fmt.Println(tableview)']","['COMMENT', 'NN']"
-143,    fmt.Println(to),"['fmt', '.', 'Println', '(', 'to', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-144,    fmt.Println(fv),"['fmt', '.', 'Println', '(', 'fv', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+143,    fmt.Println(to),['fmt.Println(to)'],['FUNCTION_CALL']
+144,    fmt.Println(fv),['fmt.Println(fv)'],['FUNCTION_CALL']
 145,    //r := fv.InterfaceData(),"['//', 'r', ':=', 'fv.InterfaceData()']","['COMMENT', 'NN', 'CD', 'NN']"
 146,    //fmt.Println(r),"['//', 'fmt.Println(r)']","['COMMENT', 'NN']"
 147,    //fmt.Println(reflect.ValueOf(child).Convert(fv)),"['//', 'fmt.Println(reflect.ValueOf(child).Convert(fv))']","['COMMENT', 'NN']"
-148,"    file, err := os.Create(""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task2.json"")","['file', ',', 'err', ':=', 'os', '.', 'Create', '(', '""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task2.json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+148,"    file, err := os.Create(""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task2.json"")","['file', ',', 'err', ':=', 'os.Create(""C:/Dev/xampp/htdocs/workspace/SampleGoProject/src/main/task2.json"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 149,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-150,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 151,    },['}'],['OPERATOR']
-152,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,    defer file.Close(),"['defer', 'file.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
 153,    //var tasks []Task,"['//', 'var', 'tasks', '[]Task']","['COMMENT', 'NN', 'NNS', 'VBP']"
-154,    encoder := json.NewEncoder(file),"['encoder', ':=', 'json', '.', 'NewEncoder', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-155,    err = encoder.Encode(fv),"['err', '=', 'encoder', '.', 'Encode', '(', 'fv', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+154,    encoder := json.NewEncoder(file),"['encoder', ':=', 'json.NewEncoder(file)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+155,    err = encoder.Encode(fv),"['err', '=', 'encoder.Encode(fv)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 156,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-157,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+157,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 158,    },['}'],['OPERATOR']
 159,},['}'],['OPERATOR']
 160,type MyMainWindow struct {,"['type', 'MyMainWindow', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
@@ -207,7 +207,7 @@ walk : commit baac4d4
 186,                    Action{,"['Action', '{']","['IDENTIFIER', 'OPERATOR']"
 187,"                        Text: ""&Exit"",","['Text', ':', '""&Exit""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 188,                        OnTriggered: func() {,"['OnTriggered', ':', 'func', '()', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-189,                            mw.Close()  ,"['mw', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+189,                            mw.Close()  ,['mw.Close()'],['FUNCTION_CALL']
 190,"                        },","['},']",['OPERATOR']
 191,"                    },","['},']",['OPERATOR']
 192,"                },","['},']",['OPERATOR']
@@ -235,11 +235,11 @@ walk : commit baac4d4
 214,        //fmt.Print(err),"['//', 'fmt.Print(err)']","['COMMENT', 'NN']"
 215,        //log.Fatal(err),"['//', 'log.Fatal(err)']","['COMMENT', 'NN']"
 216,    },['}'],['OPERATOR']
-217,    mw.Run(),"['mw', '.', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+217,    mw.Run(),['mw.Run()'],['FUNCTION_CALL']
 218,},['}'],['OPERATOR']
 219,func (mw *MyMainWindow) openAction_Triggered() {,"['func', '(', 'mw', '*', 'MyMainWindow', ')', 'openAction_Triggered', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-220,    if err := mw.openFile(); err != nil {,"['if', 'err', ':=', 'mw', '.', 'openFile', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,        log.Print(err),"['log', '.', 'Print', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+220,    if err := mw.openFile(); err != nil {,"['if', 'err', ':=', 'mw.openFile()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+221,        log.Print(err),['log.Print(err)'],['FUNCTION_CALL']
 222,    },['}'],['OPERATOR']
 223,},['}'],['OPERATOR']
 224,func (mw *MyMainWindow) openFile() error {,"['func', '(', 'mw', '*', 'MyMainWindow', ')', 'openFile', '()', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -247,7 +247,7 @@ walk : commit baac4d4
 226,    dlg.FilePath = mw.prevFilePath,"['dlg', '.', 'FilePath', '=', 'mw', '.', 'prevFilePath']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 227,"    dlg.Filter = ""JSON Files|*.json""","['dlg', '.', 'Filter', '=', '""JSON Files|*.json""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 228,"    dlg.Title = ""Select a json file""","['dlg', '.', 'Title', '=', '""Select a json file""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-229,"    if ok, err := dlg.ShowOpen(mw); err != nil {","['if', 'ok', ',', 'err', ':=', 'dlg', '.', 'ShowOpen', '(', 'mw', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+229,"    if ok, err := dlg.ShowOpen(mw); err != nil {","['if', 'ok', ',', 'err', ':=', 'dlg.ShowOpen(mw)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 230,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
 231,    } else if !ok {,"['}', 'else', 'if', '!', 'ok', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 232,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
@@ -257,8 +257,8 @@ walk : commit baac4d4
 236,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
 237,},['}'],['OPERATOR']
 238,func (mw *MyMainWindow) saveAction_Triggered() {,"['func', '(', 'mw', '*', 'MyMainWindow', ')', 'saveAction_Triggered', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-239,    if err := mw.saveFile(); err != nil {,"['if', 'err', ':=', 'mw', '.', 'saveFile', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-240,        log.Print(err),"['log', '.', 'Print', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+239,    if err := mw.saveFile(); err != nil {,"['if', 'err', ':=', 'mw.saveFile()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+240,        log.Print(err),['log.Print(err)'],['FUNCTION_CALL']
 241,    },['}'],['OPERATOR']
 242,},['}'],['OPERATOR']
 243,func (mw *MyMainWindow) saveFile() error {,"['func', '(', 'mw', '*', 'MyMainWindow', ')', 'saveFile', '()', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -266,7 +266,7 @@ walk : commit baac4d4
 245,    dlg.FilePath = mw.prevFilePath,"['dlg', '.', 'FilePath', '=', 'mw', '.', 'prevFilePath']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 246,"    dlg.Filter = ""JSON Files|*.json""","['dlg', '.', 'Filter', '=', '""JSON Files|*.json""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 247,"    dlg.Title = ""Input a json file name""","['dlg', '.', 'Title', '=', '""Input a json file name""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-248,"    if ok, err := dlg.ShowSave(mw); err != nil {","['if', 'ok', ',', 'err', ':=', 'dlg', '.', 'ShowSave', '(', 'mw', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+248,"    if ok, err := dlg.ShowSave(mw); err != nil {","['if', 'ok', ',', 'err', ':=', 'dlg.ShowSave(mw)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 249,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
 250,    } else if !ok {,"['}', 'else', 'if', '!', 'ok', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 251,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"

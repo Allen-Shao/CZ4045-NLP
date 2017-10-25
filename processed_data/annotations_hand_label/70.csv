@@ -40,33 +40,33 @@ Here is the complete source. There's some bogus stuff in there (the count loop, 
 22,    count := theCounter,"['count', ':=', 'theCounter']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 23,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
 24,        // Dial the server,"['//', 'Dial', 'the', 'server']","['COMMENT', 'NNP', 'DT', 'NN']"
-25,"        fmt.Printf(""LISTENER %d: connecting to socket\n"", count)","['fmt', '.', 'Printf', '(', '""LISTENER %d: connecting to socket\\n""', ',', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,"        conn, err = net.Dial(""tcp"", ""192.168.1.113:49152"")","['conn', ',', 'err', '=', 'net', '.', 'Dial', '(', '""tcp"", ""192.168.1.113:49152""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+25,"        fmt.Printf(""LISTENER %d: connecting to socket\n"", count)","['fmt.Printf(""LISTENER %d: connecting to socket\\n"", count)']",['FUNCTION_CALL']
+26,"        conn, err = net.Dial(""tcp"", ""192.168.1.113:49152"")","['conn', ',', 'err', '=', 'net.Dial(""tcp"", ""192.168.1.113:49152"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 27,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,"            fmt.Printf(""LISTENER %d: not connected, retrying in 3 seconds\n"", count)","['fmt', '.', 'Printf', '(', '""LISTENER %d: not connected, retrying in 3 seconds\\n""', ',', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,            time.Sleep(3 * time.Second),"['time', '.', 'Sleep', '(', '3', '*', 'time', '.', 'Second', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"            fmt.Printf(""LISTENER %d: not connected, retrying in 3 seconds\n"", count)","['fmt.Printf(""LISTENER %d: not connected, retrying in 3 seconds\\n"", count)']",['FUNCTION_CALL']
+29,            time.Sleep(3 * time.Second),['time.Sleep(3 * time.Second)'],['FUNCTION_CALL']
 30,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-31,"            fmt.Printf(""LISTENER %d: connected\n"", count)","['fmt', '.', 'Printf', '(', '""LISTENER %d: connected\\n""', ',', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,"            fmt.Printf(""LISTENER %d: connected\n"", count)","['fmt.Printf(""LISTENER %d: connected\\n"", count)']",['FUNCTION_CALL']
 32,            break,['break'],['KEYWORD']
 33,        },['}'],['OPERATOR']
 34,    },['}'],['OPERATOR']
-35,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,    defer conn.Close(),"['defer', 'conn.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
 36,    // Loop writing to socket,"['//', 'Loop', 'writing', 'to', 'socket']","['COMMENT', 'NNP', 'VBG', 'TO', 'VB']"
 37,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
 38,        // Set deadline,"['//', 'Set', 'deadline']","['COMMENT', 'NNP', 'NN']"
 39,        // conn.SetDeadline(time.Now().Add(2 * time.Second)),"['//', 'conn.SetDeadline(time.Now().Add(2', '*', 'time.Second))']","['COMMENT', 'NN', 'CD', 'NN']"
 40,        // Print some info,"['//', 'Print', 'some', 'info']","['COMMENT', 'NNP', 'DT', 'NN']"
-41,"        fmt.Printf(""LISTENER %d: writing from %v to %v\n"", count, conn.LocalAddr(), conn.RemoteAddr())","['fmt', '.', 'Printf', '(', '""LISTENER %d: writing from %v to %v\\n""', ',', 'count', ',', 'conn', '.', 'LocalAddr', '(),', 'conn', '.', 'RemoteAddr', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,"        fmt.Printf(""LISTENER %d: writing from %v to %v\n"", count, conn.LocalAddr(), conn.RemoteAddr())","['fmt.Printf(""LISTENER %d: writing from %v to %v\\n"", count, conn.LocalAddr(), conn.RemoteAddr())']",['FUNCTION_CALL']
 42,        // Prepare message to write to socket,"['//', 'Prepare', 'message', 'to', 'write', 'to', 'socket']","['COMMENT', 'NNP', 'NN', 'TO', 'VB', 'TO', 'VB']"
 43,        message.X = int32(count),"['message', '.', 'X', '=', 'int32', '(', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,"        theString := fmt.Sprintf(""%d"", count)","['theString', ':=', 'fmt', '.', 'Sprintf', '(', '""%d""', ',', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,"        theString := fmt.Sprintf(""%d"", count)","['theString', ':=', 'fmt.Sprintf(""%d"", count)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 45,"        copy(message.RestOfMessage[:], theString)","['copy', '(', 'message', '.', 'RestOfMessage', '[:],', 'theString', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 46,        // binary write directly to socket,"['//', 'binary', 'write', 'directly', 'to', 'socket']","['COMMENT', 'JJ', 'RB', 'RB', 'TO', 'VB']"
-47,"        fmt.Printf(""LISTENER %d: binary.Write this: %d, %s\n"", count, message.X, message.RestOfMessage)","['fmt', '.', 'Printf', '(', '""LISTENER %d: binary.Write this: %d, %s\\n""', ',', 'count', ',', 'message', '.', 'X', ',', 'message', '.', 'RestOfMessage', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,        f.Sync(),"['f', '.', 'Sync', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,"        err = binary.Write(conn, binary.LittleEndian, message)","['err', '=', 'binary', '.', 'Write', '(', 'conn', ',', 'binary', '.', 'LittleEndian', ',', 'message', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,        f.Sync(),"['f', '.', 'Sync', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,"        fmt.Printf(""LISTENER %d: written\n"", count)","['fmt', '.', 'Printf', '(', '""LISTENER %d: written\\n""', ',', 'count', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,"        fmt.Printf(""LISTENER %d: binary.Write this: %d, %s\n"", count, message.X, message.RestOfMessage)","['fmt.Printf(""LISTENER %d: binary.Write this: %d, %s\\n"", count, message.X, message.RestOfMessage)']",['FUNCTION_CALL']
+48,        f.Sync(),['f.Sync()'],['FUNCTION_CALL']
+49,"        err = binary.Write(conn, binary.LittleEndian, message)","['err', '=', 'binary.Write(conn, binary.LittleEndian, message)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+50,        f.Sync(),['f.Sync()'],['FUNCTION_CALL']
+51,"        fmt.Printf(""LISTENER %d: written\n"", count)","['fmt.Printf(""LISTENER %d: written\\n"", count)']",['FUNCTION_CALL']
 52,        // time.Sleep(50 * time.Millisecond),"['//', 'time.Sleep(50', '*', 'time.Millisecond)']","['COMMENT', 'NN', 'CD', 'NN']"
 53,"        checkError(err, ""LISTENER"")","['checkError', '(', 'err', ',', '""LISTENER""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 54,        count = count + 1,"['count', '=', 'count', '+', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
@@ -80,21 +80,21 @@ Here is the complete source. There's some bogus stuff in there (the count loop, 
 62,    var theCount int,"['var', 'theCount', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 63,"    var avgspeed, speed float64","['var', 'avgspeed', ',', 'speed', 'float64']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
 64,    var speedlist [10]float64,"['var', 'speedlist', '[', '10', ']', 'float64']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-65,    curspeed := 0,"['curspeed', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+65,    curspeed := 0,"['curspeed', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
 66,    const listenerActive = true,"['const', 'listenerActive', '=', 'true']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 67,    const mainActive = false,"['const', 'mainActive', '=', 'false']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-68,"    f, err := os.Create(""theFile.out"")","['f', ',', 'err', ':=', 'os', '.', 'Create', '(', '""theFile.out""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-69,    trace.Start(f),"['trace', '.', 'Start', '(', 'f', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,    t0 := time.Now(),"['t0', ':=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,    t1 := time.Now(),"['t1', ':=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-72,    transferSize := unsafe.Sizeof(myMessage),"['transferSize', ':=', 'unsafe', '.', 'Sizeof', '(', 'myMessage', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"    fmt.Printf(""MAIN: timestamp %s ; size of transfers is %d\n"", t0.String(), transferSize)","['fmt', '.', 'Printf', '(', '""MAIN: timestamp %s ; size of transfers is %d\\n""', ',', 't0', '.', 'String', '(),', 'transferSize', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,"    f, err := os.Create(""theFile.out"")","['f', ',', 'err', ':=', 'os.Create(""theFile.out"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+69,    trace.Start(f),['trace.Start(f)'],['FUNCTION_CALL']
+70,    t0 := time.Now(),"['t0', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+71,    t1 := time.Now(),"['t1', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+72,    transferSize := unsafe.Sizeof(myMessage),"['transferSize', ':=', 'unsafe.Sizeof(myMessage)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+73,"    fmt.Printf(""MAIN: timestamp %s ; size of transfers is %d\n"", t0.String(), transferSize)","['fmt.Printf(""MAIN: timestamp %s ; size of transfers is %d\\n"", t0.String(), transferSize)']",['FUNCTION_CALL']
 74,    if mainActive {,"['if', 'mainActive', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-75,"        fmt.Println(""MAIN: listen"")","['fmt', '.', 'Println', '(', '""MAIN: listen""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-76,"        ln, err = net.Listen(""tcp"", "":49152"")","['ln', ',', 'err', '=', 'net', '.', 'Listen', '(', '""tcp"", "":49152""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-77,"        fmt.Println(""MAIN: defer"")","['fmt', '.', 'Println', '(', '""MAIN: defer""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-78,        defer ln.Close(),"['defer', 'ln', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,"        fmt.Println(""MAIN: checkError"")","['fmt', '.', 'Println', '(', '""MAIN: checkError""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+75,"        fmt.Println(""MAIN: listen"")","['fmt.Println(""MAIN: listen"")']",['FUNCTION_CALL']
+76,"        ln, err = net.Listen(""tcp"", "":49152"")","['ln', ',', 'err', '=', 'net.Listen(""tcp"", "":49152"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+77,"        fmt.Println(""MAIN: defer"")","['fmt.Println(""MAIN: defer"")']",['FUNCTION_CALL']
+78,        defer ln.Close(),"['defer', 'ln.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+79,"        fmt.Println(""MAIN: checkError"")","['fmt.Println(""MAIN: checkError"")']",['FUNCTION_CALL']
 80,"        checkError(err, ""MAIN"")","['checkError', '(', 'err', ',', '""MAIN""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 81,    },['}'],['OPERATOR']
 82,    // launch listener,"['//', 'launch', 'listener']","['COMMENT', 'NN', 'NN']"
@@ -103,51 +103,51 @@ Here is the complete source. There's some bogus stuff in there (the count loop, 
 85,    },['}'],['OPERATOR']
 86,    for theCount = 1; ; theCount++ {,"['for', 'theCount', '=', '1', ';', ';', 'theCount', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 87,        if mainActive {,"['if', 'mainActive', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-88,"            fmt.Println(""MAIN: accept"")","['fmt', '.', 'Println', '(', '""MAIN: accept""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-89,"            conn, err = ln.Accept()","['conn', ',', 'err', '=', 'ln', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,"            fmt.Println(""MAIN: accept"")","['fmt.Println(""MAIN: accept"")']",['FUNCTION_CALL']
+89,"            conn, err = ln.Accept()","['conn', ',', 'err', '=', 'ln.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 90,"            checkError(err, ""MAIN"")","['checkError', '(', 'err', ',', '""MAIN""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 91,            exit := false,"['exit', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 92,            for !exit {,"['for', '!', 'exit', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 93,                // Set deadline,"['//', 'Set', 'deadline']","['COMMENT', 'NNP', 'NN']"
 94,                // conn.SetDeadline(time.Now().Add(2 * time.Second)),"['//', 'conn.SetDeadline(time.Now().Add(2', '*', 'time.Second))']","['COMMENT', 'NN', 'CD', 'NN']"
 95,                // Print some info,"['//', 'Print', 'some', 'info']","['COMMENT', 'NNP', 'DT', 'NN']"
-96,"                fmt.Printf(""MAIN: reading on %v from %v\n"", conn.LocalAddr(), conn.RemoteAddr())","['fmt', '.', 'Printf', '(', '""MAIN: reading on %v from %v\\n""', ',', 'conn', '.', 'LocalAddr', '(),', 'conn', '.', 'RemoteAddr', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,"                fmt.Printf(""MAIN: reading on %v from %v\n"", conn.LocalAddr(), conn.RemoteAddr())","['fmt.Printf(""MAIN: reading on %v from %v\\n"", conn.LocalAddr(), conn.RemoteAddr())']",['FUNCTION_CALL']
 97,                // move time,"['//', 'move', 'time']","['COMMENT', 'NN', 'NN']"
 98,                t0 = t1,"['t0', '=', 't1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 99,                // read from socket,"['//', 'read', 'from', 'socket']","['COMMENT', 'NN', 'IN', 'NN']"
-100,"                fmt.Println(""MAIN: reader"")","['fmt', '.', 'Println', '(', '""MAIN: reader""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-101,                f.Sync(),"['f', '.', 'Sync', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,"                err = binary.Read(conn, binary.LittleEndian, &myMessage)","['err', '=', 'binary', '.', 'Read', '(', 'conn', ',', 'binary', '.', 'LittleEndian', ',', '&', 'myMessage', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,                f.Sync(),"['f', '.', 'Sync', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,"                fmt.Println(""MAIN: reader"")","['fmt.Println(""MAIN: reader"")']",['FUNCTION_CALL']
+101,                f.Sync(),['f.Sync()'],['FUNCTION_CALL']
+102,"                err = binary.Read(conn, binary.LittleEndian, &myMessage)","['err', '=', 'binary.Read(conn, binary.LittleEndian, &myMessage)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+103,                f.Sync(),['f.Sync()'],['FUNCTION_CALL']
 104,                if err == io.EOF {,"['if', 'err', '==', 'io', '.', 'EOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,"                    fmt.Println(""EOF!"")","['fmt', '.', 'Println', '(', '""EOF!""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+105,"                    fmt.Println(""EOF!"")","['fmt.Println(""EOF!"")']",['FUNCTION_CALL']
 106,                    exit = true,"['exit', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-107,                    conn.Close(),"['conn', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,                    conn.Close(),['conn.Close()'],['FUNCTION_CALL']
 108,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
 109,"                    checkError(err, ""MAIN"")","['checkError', '(', 'err', ',', '""MAIN""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 110,                },['}'],['OPERATOR']
 111,                // clear screen,"['//', 'clear', 'screen']","['COMMENT', 'JJ', 'NN']"
-112,"                c := exec.Command(""clear"")","['c', ':=', 'exec', '.', 'Command', '(', '""clear""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+112,"                c := exec.Command(""clear"")","['c', ':=', 'exec.Command(""clear"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 113,                c.Stdout = os.Stdout,"['c', '.', 'Stdout', '=', 'os', '.', 'Stdout']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-114,                c.Run(),"['c', '.', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,                c.Run(),['c.Run()'],['FUNCTION_CALL']
 115,                // print received data,"['//', 'print', 'received', 'data']","['COMMENT', 'NN', 'VBD', 'NNS']"
-116,"                fmt.Printf(""MAIN: socket message received: %d, %s\n"", myMessage.X, myMessage.RestOfMessage)","['fmt', '.', 'Printf', '(', '""MAIN: socket message received: %d, %s\\n""', ',', 'myMessage', '.', 'X', ',', 'myMessage', '.', 'RestOfMessage', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,"                fmt.Printf(""MAIN: socket message received: %d, %s\n"", myMessage.X, myMessage.RestOfMessage)","['fmt.Printf(""MAIN: socket message received: %d, %s\\n"", myMessage.X, myMessage.RestOfMessage)']",['FUNCTION_CALL']
 117,                // calculate speed & average,"['//', 'calculate', 'speed', '&', 'average']","['COMMENT', 'NN', 'NN', 'CC', 'NN']"
-118,                t1 = time.Now(),"['t1', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-119,                tdif := t1.Sub(t0),"['tdif', ':=', 't1', '.', 'Sub', '(', 't0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,                speed = float64(transferSize) / tdif.Seconds() / 1000000.0 * 8.0,"['speed', '=', 'float64', '(', 'transferSize', ')', 'tdif', '.', 'Seconds', '()', '1000000', '.', '0', '*', '8', '.', '0']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+118,                t1 = time.Now(),"['t1', '=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+119,                tdif := t1.Sub(t0),"['tdif', ':=', 't1.Sub(t0)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+120,                speed = float64(transferSize) / tdif.Seconds() / 1000000.0 * 8.0,"['speed', '=', 'float64', '(', 'transferSize', ')', 'tdif.Seconds()', '1000000', '.', '0', '*', '8', '.', '0']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL']"
 121,                speedlist[curspeed] = speed,"['speedlist', '[', 'curspeed', ']', '=', 'speed']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
 122,                curspeed = curspeed + 1,"['curspeed', '=', 'curspeed', '+', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
 123,                if curspeed == 10 {,"['if', 'curspeed', '==', '10', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-124,                    curspeed = 0,"['curspeed', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+124,                    curspeed = 0,"['curspeed', '=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
 125,                },['}'],['OPERATOR']
-126,                totalspeed := 0.0,"['totalspeed', ':=', '0', '.', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-127,                for i := 0; i < 10; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '10', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+126,                totalspeed := 0.0,"['totalspeed', ':=', '0', '.', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL']"
+127,                for i := 0; i < 10; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '10', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 128,                    totalspeed += speedlist[i],"['totalspeed', '+=', 'speedlist', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 129,                },['}'],['OPERATOR']
 130,                avgspeed = totalspeed / 10,"['avgspeed', '=', 'totalspeed', '10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL']"
 131,                // print speed,"['//', 'print', 'speed']","['COMMENT', 'NN', 'NN']"
-132,"                fmt.Printf(""MAIN: avg mbit/s %9.2f ; actual mbit/s: %9.2f\n"", avgspeed, speed)","['fmt', '.', 'Printf', '(', '""MAIN: avg mbit/s %9.2f ; actual mbit/s: %9.2f\\n""', ',', 'avgspeed', ',', 'speed', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,"                fmt.Printf(""MAIN: avg mbit/s %9.2f ; actual mbit/s: %9.2f\n"", avgspeed, speed)","['fmt.Printf(""MAIN: avg mbit/s %9.2f ; actual mbit/s: %9.2f\\n"", avgspeed, speed)']",['FUNCTION_CALL']
 133,                // time.Sleep(1 * time.Second),"['//', 'time.Sleep(1', '*', 'time.Second)']","['COMMENT', 'NN', 'CD', 'NN']"
 134,            },['}'],['OPERATOR']
 135,        },['}'],['OPERATOR']
@@ -155,9 +155,9 @@ Here is the complete source. There's some bogus stuff in there (the count loop, 
 137,},['}'],['OPERATOR']
 138,"func checkError(err error, name string) {","['func', 'checkError', '(', 'err', 'error', ',', 'name', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 139,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-140,"        fmt.Fprintf(os.Stderr, ""%s: Fatal error: %s\n"", name, err.Error())","['fmt', '.', 'Fprintf', '(', 'os', '.', 'Stderr', ',', '""%s: Fatal error: %s\\n""', ',', 'name', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,"        fmt.Fprintf(os.Stderr, ""%s: Fatal error: %s\n"", name, err.Error())","['fmt.Fprintf(os.Stderr, ""%s: Fatal error: %s\\n"", name, err.Error())']",['FUNCTION_CALL']
 141,"        //      panic(fmt.Sprintf(""%v"", err.Error()))","['//', 'panic(fmt.Sprintf(""%v"",', 'err.Error()))']","['COMMENT', 'NN', 'NN']"
-142,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+142,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
 143,    },['}'],['OPERATOR']
 144,},['}'],['OPERATOR']
 145,"
@@ -166,36 +166,36 @@ Here's the stacktrace of the client when it's blocked writing:
 
 ","[""Here's"", 'the', 'stacktrace', 'of', 'the', 'client', 'when', ""it's"", 'blocked', 'writing:']","['NNP', 'DT', 'NN', 'IN', 'DT', 'NN', 'WRB', 'NN', 'VBD', 'NN']"
 146,goroutine 1 [running]:,"['go', 'routine', '1', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-147,"runtime.throw(0x1927b8, 0x5)","['runtime', '.', 'throw', '(', '0', 'x1927b8', ',', '0', 'x5', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-148,    /usr/local/go/src/runtime/panic.go:527 +0x90 fp=0xc82004bd78 sp=0xc82004bd60,"['usr', 'local', 'go', 'src', 'runtime', 'panic', '.', 'go', ':', '527', '+', '0', 'x90', 'fp', '=', '0', 'xc82004bd78', 'sp', '=', '0', 'xc82004bd60']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-149,runtime.sigpanic(),"['runtime', '.', 'sigpanic', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-150,    /usr/local/go/src/runtime/sigpanic_unix.go:27 +0x2ba fp=0xc82004bdc8 sp=0xc82004bd78,"['usr', 'local', 'go', 'src', 'runtime', 'sigpanic_unix', '.', 'go', ':', '27', '+', '0', 'x2ba', 'fp', '=', '0', 'xc82004bdc8', 'sp', '=', '0', 'xc82004bd78']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-151,main.main(),"['main', '.', 'main', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-152,    /Users/ple/dev/go/src/Peter-test/main.go:108 +0x33c fp=0xc82004bf50 sp=0xc82004bdc8,"['Users', 'ple', 'dev', 'go', 'src', 'Peter', '-', 'test', 'main', '.', 'go', ':', '108', '+', '0', 'x33c', 'fp', '=', '0', 'xc82004bf50', 'sp', '=', '0', 'xc82004bdc8']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-153,runtime.main(),"['runtime', '.', 'main', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-154,    /usr/local/go/src/runtime/proc.go:111 +0x2b0 fp=0xc82004bfa0 sp=0xc82004bf50,"['usr', 'local', 'go', 'src', 'runtime', 'proc', '.', 'go', ':', '111', '+', '0', 'x2b0', 'fp', '=', '0', 'xc82004bfa0', 'sp', '=', '0', 'xc82004bf50']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-155,runtime.goexit(),"['runtime', '.', 'go', 'exit', '()']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-156,    /usr/local/go/src/runtime/asm_amd64.s:1696 +0x1 fp=0xc82004bfa8 sp=0xc82004bfa0,"['usr', 'local', 'go', 'src', 'runtime', 'asm_amd64', '.', 's', ':', '1696', '+', '0', 'x1', 'fp', '=', '0', 'xc82004bfa8', 'sp', '=', '0', 'xc82004bfa0']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+147,"runtime.throw(0x1927b8, 0x5)","['runtime.throw(0x1927b8, 0x5)']",['FUNCTION_CALL']
+148,    /usr/local/go/src/runtime/panic.go:527 +0x90 fp=0xc82004bd78 sp=0xc82004bd60,"['/usr/local/go/src/runtime/panic.go:527', '+', '0x9', '0', 'fp', '=', '0xc82', '0', '04', 'bd78', 'sp', '=', '0xc82', '0', '04', 'bd60']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+149,runtime.sigpanic(),['runtime.sigpanic()'],['FUNCTION_CALL']
+150,    /usr/local/go/src/runtime/sigpanic_unix.go:27 +0x2ba fp=0xc82004bdc8 sp=0xc82004bd78,"['/usr/local/go/src/runtime/sigpanic_unix.go:27', '+', '0x2ba', 'fp', '=', '0xc82', '0', '04', 'bdc8', 'sp', '=', '0xc82', '0', '04', 'bd78']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+151,main.main(),['main.main()'],['FUNCTION_CALL']
+152,    /Users/ple/dev/go/src/Peter-test/main.go:108 +0x33c fp=0xc82004bf50 sp=0xc82004bdc8,"['/Users/ple/dev/go/src/Peter-test/main.go:108', '+', '0x33c', 'fp', '=', '0xc82', '0', '04', 'bf50', 'sp', '=', '0xc82', '0', '04', 'bdc8']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+153,runtime.main(),['runtime.main()'],['FUNCTION_CALL']
+154,    /usr/local/go/src/runtime/proc.go:111 +0x2b0 fp=0xc82004bfa0 sp=0xc82004bf50,"['/usr/local/go/src/runtime/proc.go:111', '+', '0x2b', '0', 'fp', '=', '0xc82', '0', '04', 'bfa0', 'sp', '=', '0xc82', '0', '04', 'bf50']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+155,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
+156,    /usr/local/go/src/runtime/asm_amd64.s:1696 +0x1 fp=0xc82004bfa8 sp=0xc82004bfa0,"['/usr/local/go/src/runtime/asm_amd64.s:1696', '+', '0x1', 'fp', '=', '0xc82', '0', '04', 'bfa8', 'sp', '=', '0xc82', '0', '04', 'bfa0']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
 157,"goroutine 17 [syscall, locked to thread]:","['go', 'routine', '17', '[', 'syscall', ',', 'locked', 'to', 'thread', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-158,runtime.goexit(),"['runtime', '.', 'go', 'exit', '()']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-159,    /usr/local/go/src/runtime/asm_amd64.s:1696 +0x1,"['usr', 'local', 'go', 'src', 'runtime', 'asm_amd64', '.', 's', ':', '1696', '+', '0', 'x1']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+158,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
+159,    /usr/local/go/src/runtime/asm_amd64.s:1696 +0x1,"['/usr/local/go/src/runtime/asm_amd64.s:1696', '+', '0x1']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
 160,goroutine 5 [trace reader (blocked)]:,"['go', 'routine', '5', '[', 'trace', 'reader', '(', 'blocked', ')]:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-161,"runtime.ReadTrace(0x0, 0x0, 0x0)","['runtime', '.', 'ReadTrace', '(', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-162,    /usr/local/go/src/runtime/trace.go:339 +0x207,"['usr', 'local', 'go', 'src', 'runtime', 'trace', '.', 'go', ':', '339', '+', '0', 'x207']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-163,"runtime/trace.Start.func1(0x5a42e0, 0xc82002a020)","['runtime', 'trace', '.', 'Start', '.', 'func', '1', '(', '0', 'x5a42e0', ',', '0', 'xc82002a020', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-164,    /usr/local/go/src/runtime/trace/trace.go:28 +0x18,"['usr', 'local', 'go', 'src', 'runtime', 'trace', 'trace', '.', 'go', ':', '28', '+', '0', 'x18']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-165,created by runtime/trace.Start,"['created', 'by', 'runtime', 'trace', '.', 'Start']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-166,    /usr/local/go/src/runtime/trace/trace.go:34 +0x78,"['usr', 'local', 'go', 'src', 'runtime', 'trace', 'trace', '.', 'go', ':', '34', '+', '0', 'x78']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+161,"runtime.ReadTrace(0x0, 0x0, 0x0)","['runtime.ReadTrace(0x0, 0x0, 0x0)']",['FUNCTION_CALL']
+162,    /usr/local/go/src/runtime/trace.go:339 +0x207,"['/usr/local/go/src/runtime/trace.go:339', '+', '0x2', '07']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
+163,"runtime/trace.Start.func1(0x5a42e0, 0xc82002a020)","['runtime/trace.Start.func1(0x5a42e0,', '0xc82', '0', '02', 'a020', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+164,    /usr/local/go/src/runtime/trace/trace.go:28 +0x18,"['/usr/local/go/src/runtime/trace/trace.go:28', '+', '0x18']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
+165,created by runtime/trace.Start,"['created', 'by', 'runtime/trace.Start']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
+166,    /usr/local/go/src/runtime/trace/trace.go:34 +0x78,"['/usr/local/go/src/runtime/trace/trace.go:34', '+', '0x78']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
 167,goroutine 6 [runnable]:,"['go', 'routine', '6', '[', 'runnable', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-168,"reflect.Value.Index(0x1234c0, 0xc8204ac004, 0x51, 0x75, 0x12ac00, 0xc8204ac078, 0x48)","['reflect', '.', 'Value', '.', 'Index', '(', '0', 'x1234c0', ',', '0', 'xc8204ac004', ',', '0', 'x51', ',', '0', 'x75', ',', '0', 'x12ac00', ',', '0', 'xc8204ac078', ',', '0', 'x48', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-169,    /usr/local/go/src/reflect/value.go:823,"['usr', 'local', 'go', 'src', 'reflect', 'value', '.', 'go', ':', '823']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL']"
-170,"encoding/binary.(*encoder).value(0xc8200475a0, 0x1234c0, 0xc8204ac004, 0x51)","['encoding', 'binary', '.(*', 'encoder', ').', 'value', '(', '0', 'xc8200475a0', ',', '0', 'x1234c0', ',', '0', 'xc8204ac004', ',', '0', 'x51', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-171,    /usr/local/go/src/encoding/binary/binary.go:509 +0x808,"['usr', 'local', 'go', 'src', 'encoding', 'binary', 'binary', '.', 'go', ':', '509', '+', '0', 'x808']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-172,"encoding/binary.(*encoder).value(0xc8200475a0, 0x162ba0, 0xc8204ac000, 0x59)","['encoding', 'binary', '.(*', 'encoder', ').', 'value', '(', '0', 'xc8200475a0', ',', '0', 'x162ba0', ',', '0', 'xc8204ac000', ',', '0', 'x59', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-173,    /usr/local/go/src/encoding/binary/binary.go:518 +0xb4f,"['usr', 'local', 'go', 'src', 'encoding', 'binary', 'binary', '.', 'go', ':', '518', '+', '0', 'xb4f']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-174,"encoding/binary.Write(0x621138, 0xc8200a2000, 0x621160, 0x289ef0, 0x162ba0, 0xc8204ac000, 0x0, 0x0)","['encoding', 'binary', '.', 'Write', '(', '0', 'x621138', ',', '0', 'xc8200a2000', ',', '0', 'x621160', ',', '0', 'x289ef0', ',', '0', 'x162ba0', ',', '0', 'xc8204ac000', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-175,    /usr/local/go/src/encoding/binary/binary.go:316 +0x1792,"['usr', 'local', 'go', 'src', 'encoding', 'binary', 'binary', '.', 'go', ':', '316', '+', '0', 'x1792']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-176,"main.listener(0x0, 0x1, 0xc82002a020)","['main', '.', 'listener', '(', '0', 'x0', ',', '0', 'x1', ',', '0', 'xc82002a020', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-177,    /Users/ple/dev/go/src/Peter-test/main.go:59 +0xac8,"['Users', 'ple', 'dev', 'go', 'src', 'Peter', '-', 'test', 'main', '.', 'go', ':', '59', '+', '0', 'xac8']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+168,"reflect.Value.Index(0x1234c0, 0xc8204ac004, 0x51, 0x75, 0x12ac00, 0xc8204ac078, 0x48)","['reflect', '.', 'Value.Index(0x1234c0, 0xc8204ac004, 0x51, 0x75, 0x12ac00, 0xc8204ac078, 0x48)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+169,    /usr/local/go/src/reflect/value.go:823,['/usr/local/go/src/reflect/value.go:823'],['DIRECTORY']
+170,"encoding/binary.(*encoder).value(0xc8200475a0, 0x1234c0, 0xc8204ac004, 0x51)","['encoding/binary.(*encoder).value(0xc8200475a0,', '0x1234c', '0', ',', '0xc82', '04', 'ac004', ',', '0x51', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OPERATOR']"
+171,    /usr/local/go/src/encoding/binary/binary.go:509 +0x808,"['/usr/local/go/src/encoding/binary/binary.go:509', '+', '0x8', '0', '8']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL']"
+172,"encoding/binary.(*encoder).value(0xc8200475a0, 0x162ba0, 0xc8204ac000, 0x59)","['encoding/binary.(*encoder).value(0xc8200475a0,', '0x162ba', '0', ',', '0xc82', '04', 'ac000', ',', '0x59', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OPERATOR']"
+173,    /usr/local/go/src/encoding/binary/binary.go:518 +0xb4f,"['/usr/local/go/src/encoding/binary/binary.go:518', '+', '0xb4f']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
+174,"encoding/binary.Write(0x621138, 0xc8200a2000, 0x621160, 0x289ef0, 0x162ba0, 0xc8204ac000, 0x0, 0x0)","['encoding/binary.Write(0x621138,', '0xc82', '0', '0', 'a2000', ',', '0x62116', '0', ',', '0x289ef', '0', ',', '0x162ba', '0', ',', '0xc82', '04', 'ac000', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+175,    /usr/local/go/src/encoding/binary/binary.go:316 +0x1792,"['/usr/local/go/src/encoding/binary/binary.go:316', '+', '0x1792']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
+176,"main.listener(0x0, 0x1, 0xc82002a020)","['main.listener(0x0, 0x1, 0xc82002a020)']",['FUNCTION_CALL']
+177,    /Users/ple/dev/go/src/Peter-test/main.go:59 +0xac8,"['/Users/ple/dev/go/src/Peter-test/main.go:59', '+', '0xac8']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
 178,created by main.main,"['created', 'by', 'main', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-179,    /Users/ple/dev/go/src/Peter-test/main.go:105 +0x332,"['Users', 'ple', 'dev', 'go', 'src', 'Peter', '-', 'test', 'main', '.', 'go', ':', '105', '+', '0', 'x332']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+179,    /Users/ple/dev/go/src/Peter-test/main.go:105 +0x332,"['/Users/ple/dev/go/src/Peter-test/main.go:105', '+', '0x332']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"

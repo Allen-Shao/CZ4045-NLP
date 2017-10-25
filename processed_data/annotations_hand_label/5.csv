@@ -21,18 +21,18 @@ Below is the regular code without the go routines:
 7,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
 8,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
 9,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-10,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0003']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+10,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
 11,),[')'],['OPERATOR']
 12,/**,['**'],['OPERATOR']
 13, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
 14, *,['*'],['OPERATOR']
-15, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+15, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
 16, */,['*'],['OPERATOR']
 17,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-18,    if rand.Float64() <= DROP_RATE {,"['if', 'rand', '.', 'Float64', '()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,    if rand.Float64() <= DROP_RATE {,"['if', 'rand.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 19,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
 20,    },['}'],['OPERATOR']
-21,    return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
+21,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
 22,},['}'],['OPERATOR']
 23,/**,['**'],['OPERATOR']
 24, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
@@ -50,7 +50,7 @@ Below is the regular code without the go routines:
 36,func test(n int) []int {,"['func', 'test', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 37,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 38,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-39,        successes := 0,"['successes', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+39,        successes := 0,"['successes', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
 40,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 41,            successes += v,"['successes', '+=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 42,        },['}'],['OPERATOR']
@@ -59,8 +59,8 @@ Below is the regular code without the go routines:
 45,    return simulations,"['return', 'simulations']","['KEYWORD', 'IDENTIFIER']"
 46,},['}'],['OPERATOR']
 47,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-48,    rand.Seed(time.Now().UnixNano()),"['rand', '.', 'Seed', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,"    fmt.Println(""Successful interactions: "", test(NUMBER_OF_SIMULATIONS))","['fmt', '.', 'Println', '(', '""Successful interactions: ""', ',', 'test', '(', 'NUMBER_OF_SIMULATIONS', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
+49,"    fmt.Println(""Successful interactions: "", test(NUMBER_OF_SIMULATIONS))","['fmt.Println(""Successful interactions: "", test(NUMBER_OF_SIMULATIONS))']",['FUNCTION_CALL']
 50,},['}'],['OPERATOR']
 51,"
 
@@ -77,18 +77,18 @@ And, here is the concurrent code with the goroutines:
 59,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
 60,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
 61,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-62,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0003']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+62,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
 63,),[')'],['OPERATOR']
 64,/**,['**'],['OPERATOR']
 65, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
 66, *,['*'],['OPERATOR']
-67, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+67, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
 68, */,['*'],['OPERATOR']
 69,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,    if rand.Float64() <= DROP_RATE {,"['if', 'rand', '.', 'Float64', '()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,    if rand.Float64() <= DROP_RATE {,"['if', 'rand.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 71,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
 72,    },['}'],['OPERATOR']
-73,    return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
+73,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
 74,},['}'],['OPERATOR']
 75,/**,['**'],['OPERATOR']
 76, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
@@ -113,24 +113,24 @@ And, here is the concurrent code with the goroutines:
 95,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 96,},['}'],['OPERATOR']
 97,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-98,    rand.Seed(time.Now().UnixNano()),"['rand', '.', 'Seed', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime', '.', 'NumCPU', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-100,    runtime.GOMAXPROCS(nCPU),"['runtime', '.', 'GOMAXPROCS', '(', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-101,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt', '.', 'Println', '(', '""Number of CPUs: ""', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+98,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
+99,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime.NumCPU()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+100,    runtime.GOMAXPROCS(nCPU),['runtime.GOMAXPROCS(nCPU)'],['FUNCTION_CALL']
+101,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt.Println(""Number of CPUs: "", nCPU)']",['FUNCTION_CALL']
 102,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 103,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 104,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ',', 'c', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test(NUMBER_OF_SIMULATIONS/nCPU,', 'c', ')']","['KEYWORD', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR']"
 106,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
 107,    },['}'],['OPERATOR']
 108,    // Concatentate the test results,"['//', 'Concatentate', 'the', 'test', 'results']","['COMMENT', 'VB', 'DT', 'NN', 'NNS']"
 109,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 110,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-111,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-112,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+111,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'IDENTIFIER']"
+112,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 113,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 114,    },['}'],['OPERATOR']
-115,"    fmt.Println(""Successful interactions: "", results)","['fmt', '.', 'Println', '(', '""Successful interactions: ""', ',', 'results', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+115,"    fmt.Println(""Successful interactions: "", results)","['fmt.Println(""Successful interactions: "", results)']",['FUNCTION_CALL']
 116,},['}'],['OPERATOR']
 117,"
 
@@ -149,18 +149,18 @@ I've added a new version of the concurrent code below that creates a new Rand in
 125,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
 126,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
 127,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-128,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0003']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+128,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
 129,),[')'],['OPERATOR']
 130,/**,['**'],['OPERATOR']
 131, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
 132, *,['*'],['OPERATOR']
-133, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+133, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
 134, */,['*'],['OPERATOR']
 135,func interaction(generator *rand.Rand) int {,"['func', 'interaction', '(', 'generator', '*', 'rand', '.', 'Rand', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,    if generator.Float64() <= DROP_RATE {,"['if', 'generator', '.', 'Float64', '()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,    if generator.Float64() <= DROP_RATE {,"['if', 'generator.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 137,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
 138,    },['}'],['OPERATOR']
-139,    return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
+139,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
 140,},['}'],['OPERATOR']
 141,/**,['**'],['OPERATOR']
 142, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
@@ -176,8 +176,8 @@ I've added a new version of the concurrent code below that creates a new Rand in
 152, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
 153, */,['*'],['OPERATOR']
 154,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-155,    source := rand.NewSource(time.Now().UnixNano()),"['source', ':=', 'rand', '.', 'NewSource', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-156,    generator := rand.New(source),"['generator', ':=', 'rand', '.', 'New', '(', 'source', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+155,    source := rand.NewSource(time.Now().UnixNano()),"['source', ':=', 'rand.NewSource(time.Now().UnixNano())']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+156,    generator := rand.New(source),"['generator', ':=', 'rand.New(source)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 157,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 158,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 159,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS, generator) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ',', 'generator', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
@@ -187,24 +187,24 @@ I've added a new version of the concurrent code below that creates a new Rand in
 163,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 164,},['}'],['OPERATOR']
 165,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-166,    rand.Seed(time.Now().UnixNano()),"['rand', '.', 'Seed', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-167,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime', '.', 'NumCPU', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-168,    runtime.GOMAXPROCS(nCPU),"['runtime', '.', 'GOMAXPROCS', '(', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-169,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt', '.', 'Println', '(', '""Number of CPUs: ""', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
+167,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime.NumCPU()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+168,    runtime.GOMAXPROCS(nCPU),['runtime.GOMAXPROCS(nCPU)'],['FUNCTION_CALL']
+169,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt.Println(""Number of CPUs: "", nCPU)']",['FUNCTION_CALL']
 170,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 171,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
 172,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-173,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ',', 'c', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+173,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test(NUMBER_OF_SIMULATIONS/nCPU,', 'c', ')']","['KEYWORD', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR']"
 174,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
 175,    },['}'],['OPERATOR']
 176,    // Concatentate the test results,"['//', 'Concatentate', 'the', 'test', 'results']","['COMMENT', 'VB', 'DT', 'NN', 'NNS']"
 177,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 178,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-179,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-180,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+179,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'IDENTIFIER']"
+180,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 181,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 182,    },['}'],['OPERATOR']
-183,"    fmt.Println(""Successful interactions: "", results)","['fmt', '.', 'Println', '(', '""Successful interactions: ""', ',', 'results', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,"    fmt.Println(""Successful interactions: "", results)","['fmt.Println(""Successful interactions: "", results)']",['FUNCTION_CALL']
 184,},['}'],['OPERATOR']
 185,"
 

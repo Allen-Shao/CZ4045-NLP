@@ -18,59 +18,59 @@ http://play.golang.org/p/qO6tDZjtXA
 10,"    ""errors""","['""errors""']",['STRING_LITERAL']
 11,),[')'],['OPERATOR']
 12,type Query struct {,"['type', 'Query', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-13,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', 'xml', ':', '""http://marklogic.com/appservices/search query"" json:""-""']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+13,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR']"
 14,    Field1  string,"['Field1', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 15,    Field2  int64,"['Field2', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
 16,},['}'],['OPERATOR']
 17,type TermQuery struct {,"['type', 'TermQuery', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-18,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', 'xml', ':', '""http://marklogic.com/appservices/search term-query"" json:""-""']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+18,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'term', '-', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR']"
 19,    Field3  string,"['Field3', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 20,    Field4  int64,"['Field4', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
 21,},['}'],['OPERATOR']
 22,"func getXmlName(d interface{}, label string) (string, bool) {","['func', 'getXmlName', '(', 'd', 'interface', '{},', 'label', 'string', ')', '(', 'string', ',', 'bool', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-23,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'Kind', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+23,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect.TypeOf(d).Kind()', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'OPERATOR']"
 24,    case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'FieldByName', '(', 'label', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings', '.', 'Split', '(', 'v', '.', 'Tag', '.', 'Get', '(', '""xml""), "" ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+25,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect.TypeOf(d).FieldByName(label)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+26,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings.Split(v.Tag.Get(""xml""), "" "")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 27,"        return parts[1], true","['return', 'parts', '[', '1', '],', 'true']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
 28,    },['}'],['OPERATOR']
 29,"    return """", false","['return', '""""', ',', 'false']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
 30,},['}'],['OPERATOR']
 31,"func wrapJson(item interface{}) ([]byte, error) {","['func', 'wrapJson', '(', 'item', 'interface', '{})', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 32,"    if n, ok := getXmlName(item, ""XMLName""); ok {","['if', 'n', ',', 'ok', ':=', 'getXmlName', '(', 'item', ',', '""XMLName""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,"        b, err := json.Marshal(map[string]interface{}{n: item})","['b', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'map', '[', 'string', ']', 'interface', '{}{', 'n', ':', 'item', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,"        b, err := json.Marshal(map[string]interface{}{n: item})","['b', ',', 'err', ':=', 'json.Marshal(map[string]interface{}{n: item})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 34,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 35,"            return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 36,        },['}'],['OPERATOR']
 37,"        return b, nil","['return', 'b', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 38,    },['}'],['OPERATOR']
-39,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""You failed""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+39,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors.New(""You failed"")']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 40,},['}'],['OPERATOR']
 41,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 42,"    // create a Query and encode it as {""query"": {struct}}","['//', 'create', 'a', 'Query', 'and', 'encode', 'it', 'as', '{""query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'NNP', 'NN']"
 43,"    q := Query{Field1: ""hello"", Field2: 42}","['q', ':=', 'Query', '{', 'Field1', ':', '""hello""', ',', 'Field2', ':', '42', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 44,"    wrappedQ, err := wrapJson(q)","['wrappedQ', ',', 'err', ':=', 'wrapJson', '(', 'q', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 47,        return,['return'],['KEYWORD']
 48,    },['}'],['OPERATOR']
-49,    fmt.Println(string(wrappedQ)),"['fmt', '.', 'Println', '(', 'string', '(', 'wrappedQ', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,    fmt.Println(string(wrappedQ)),['fmt.Println(string(wrappedQ))'],['FUNCTION_CALL']
 50,"    // create a TermQuery and encode it as {""term-query"": {struct}}","['//', 'create', 'a', 'TermQuery', 'and', 'encode', 'it', 'as', '{""term-query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'JJ', 'NN']"
 51,"    tq := TermQuery{Field3: ""world"", Field4: 99}","['tq', ':=', 'TermQuery', '{', 'Field3', ':', '""world""', ',', 'Field4', ':', '99', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 52,"    wrappedTQ, err := wrapJson(tq)","['wrappedTQ', ',', 'err', ':=', 'wrapJson', '(', 'tq', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 53,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 55,        return,['return'],['KEYWORD']
 56,    },['}'],['OPERATOR']
-57,    fmt.Println(string(wrappedTQ)),"['fmt', '.', 'Println', '(', 'string', '(', 'wrappedTQ', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,    fmt.Println(string(wrappedTQ)),['fmt.Println(string(wrappedTQ))'],['FUNCTION_CALL']
 58,},['}'],['OPERATOR']
 59,"
 
 OUTPUT
 
 ",['OUTPUT'],['NN']
-60,"{""query"":{""Field1"":""hello"",""Field2"":42}}","['{', '""query"":{""Field1"":""hello"",""Field2""', ':', '42', '}}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-61,"{""term-query"":{""Field3"":""world"",""Field4"":99}}","['{', '""term-query"":{""Field3"":""world"",""Field4""', ':', '99', '}}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+60,"{""query"":{""Field1"":""hello"",""Field2"":42}}","['{', '""query""', ':{', '""Field1""', ':', '""hello""', ',', '""Field2""', ':', '42', '}}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+61,"{""term-query"":{""Field3"":""world"",""Field4"":99}}","['{', '""term-query""', ':{', '""Field3""', ':', '""world""', ',', '""Field4""', ':', '99', '}}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 62,"
 
 EDIT
@@ -92,46 +92,46 @@ http://play.golang.org/p/8MloLP3X4H
 73,"    ""errors""","['""errors""']",['STRING_LITERAL']
 74,),[')'],['OPERATOR']
 75,type Query struct {,"['type', 'Query', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-76,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', 'xml', ':', '""http://marklogic.com/appservices/search query"" json:""-""']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+76,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR']"
 77,    Field1  string,"['Field1', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 78,    Field2  int64,"['Field2', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
-79,"    Queries []interface{} `xml:"",any"" json:""queries""`","['Queries', '[]', 'interface', '{}', 'xml', ':', '"",any"" json:""queries""']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+79,"    Queries []interface{} `xml:"",any"" json:""queries""`","['Queries', '[]', 'interface', '{}', 'xml', ':', '"",any""', 'json', ':', '""queries""']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 80,},['}'],['OPERATOR']
 81,type TermQuery struct {,"['type', 'TermQuery', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-82,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', 'xml', ':', '""http://marklogic.com/appservices/search term-query"" json:""-""']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+82,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'term', '-', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'OPERATOR']"
 83,    Field3  string,"['Field3', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 84,    Field4  int64,"['Field4', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
 85,},['}'],['OPERATOR']
 86,"func getXmlName(d interface{}, label string) (string, bool) {","['func', 'getXmlName', '(', 'd', 'interface', '{},', 'label', 'string', ')', '(', 'string', ',', 'bool', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-87,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'Kind', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+87,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect.TypeOf(d).Kind()', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'OPERATOR']"
 88,    case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-89,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'FieldByName', '(', 'label', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings', '.', 'Split', '(', 'v', '.', 'Tag', '.', 'Get', '(', '""xml""), "" ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+89,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect.TypeOf(d).FieldByName(label)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+90,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings.Split(v.Tag.Get(""xml""), "" "")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 91,"        return parts[1], true","['return', 'parts', '[', '1', '],', 'true']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
 92,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-93,        fmt.Println(reflect.TypeOf(d).Kind()),"['fmt', '.', 'Println', '(', 'reflect', '.', 'TypeOf', '(', 'd', ').', 'Kind', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,        fmt.Println(reflect.TypeOf(d).Kind()),['fmt.Println(reflect.TypeOf(d).Kind())'],['FUNCTION_CALL']
 94,    },['}'],['OPERATOR']
 95,"    return """", false","['return', '""""', ',', 'false']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
 96,},['}'],['OPERATOR']
 97,"func wrapJson(item interface{}) (map[string]interface{}, error) {","['func', 'wrapJson', '(', 'item', 'interface', '{})', '(', 'map', '[', 'string', ']', 'interface', '{},', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 98,"    if n, ok := getXmlName(item, ""XMLName""); ok {","['if', 'n', ',', 'ok', ':=', 'getXmlName', '(', 'item', ',', '""XMLName""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,"        if k := reflect.ValueOf(item).FieldByName(""Queries""); k.IsValid() {","['if', 'k', ':=', 'reflect', '.', 'ValueOf', '(', 'item', ').', 'FieldByName', '(', '""Queries""', ');', 'k', '.', 'IsValid', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-100,            for i := 0; i < k.Len(); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'k', '.', 'Len', '();', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-101,"                b, err1 := wrapJson(k.Index(i).Interface())","['b', ',', 'err1', ':=', 'wrapJson', '(', 'k', '.', 'Index', '(', 'i', ').', 'Interface', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,"        if k := reflect.ValueOf(item).FieldByName(""Queries""); k.IsValid() {","['if', 'k', ':=', 'reflect.ValueOf(item).FieldByName(""Queries""); k.IsValid()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
+100,            for i := 0; i < k.Len(); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'k.Len()', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+101,"                b, err1 := wrapJson(k.Index(i).Interface())","['b', ',', 'err1', ':=', 'wrapJson', '(', 'k.Index(i).Interface())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 102,                if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 103,                    continue,['continue'],['KEYWORD']
 104,                },['}'],['OPERATOR']
-105,                k.Index(i).Set(reflect.ValueOf(b)),"['k', '.', 'Index', '(', 'i', ').', 'Set', '(', 'reflect', '.', 'ValueOf', '(', 'b', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,                k.Index(i).Set(reflect.ValueOf(b)),['k.Index(i).Set(reflect.ValueOf(b))'],['FUNCTION_CALL']
 106,            },['}'],['OPERATOR']
 107,        },['}'],['OPERATOR']
 108,"        return map[string]interface{}{n: item}, nil","['return', 'map', '[', 'string', ']', 'interface', '{}{', 'n', ':', 'item', '},', 'nil']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 109,    },['}'],['OPERATOR']
-110,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""You failed""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+110,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors.New(""You failed"")']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 111,},['}'],['OPERATOR']
 112,func asJson(i interface{}) []byte {,"['func', 'asJson', '(', 'i', 'interface', '{})', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,"    b, err := json.Marshal(i)","['b', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,"    b, err := json.Marshal(i)","['b', ',', 'err', ':=', 'json.Marshal(i)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 114,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,"        return []byte(`{""error"": ""too bad""}`)","['return', '[]', 'byte', '(', '{', '""error"": ""too bad""', '}', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+115,"        return []byte(`{""error"": ""too bad""}`)","['return', '[]', 'byte', '(', '{', '""error""', ':', '""too bad""', '}', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
 116,    },['}'],['OPERATOR']
 117,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
 118,},['}'],['OPERATOR']
@@ -140,10 +140,10 @@ http://play.golang.org/p/8MloLP3X4H
 121,"    tq := TermQuery{Field3: ""world"", Field4: 99}","['tq', ':=', 'TermQuery', '{', 'Field3', ':', '""world""', ',', 'Field4', ':', '99', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 122,"    wrappedTQ, err := wrapJson(tq)","['wrappedTQ', ',', 'err', ':=', 'wrapJson', '(', 'tq', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 123,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-124,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 125,        return,['return'],['KEYWORD']
 126,    },['}'],['OPERATOR']
-127,    fmt.Println(string(asJson(wrappedTQ))),"['fmt', '.', 'Println', '(', 'string', '(', 'asJson', '(', 'wrappedTQ', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+127,    fmt.Println(string(asJson(wrappedTQ))),['fmt.Println(string(asJson(wrappedTQ)))'],['FUNCTION_CALL']
 128,"    // create a Query and encode it as {""query"": {struct}}","['//', 'create', 'a', 'Query', 'and', 'encode', 'it', 'as', '{""query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'NNP', 'NN']"
 129,    q := Query{,"['q', ':=', 'Query', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 130,"        Field1: ""hello"", ","['Field1', ':', '""hello""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
@@ -165,10 +165,10 @@ http://play.golang.org/p/8MloLP3X4H
 146,    },['}'],['OPERATOR']
 147,"    wrappedQ, err := wrapJson(q)","['wrappedQ', ',', 'err', ':=', 'wrapJson', '(', 'q', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 148,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-149,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 150,        return,['return'],['KEYWORD']
 151,    },['}'],['OPERATOR']
-152,    fmt.Println(string(asJson(wrappedQ))),"['fmt', '.', 'Println', '(', 'string', '(', 'asJson', '(', 'wrappedQ', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,    fmt.Println(string(asJson(wrappedQ))),['fmt.Println(string(asJson(wrappedQ)))'],['FUNCTION_CALL']
 153,},['}'],['OPERATOR']
 154,"
 
@@ -177,29 +177,29 @@ PRETTY-PRINTED OUTOUT
 ","['PRETTY-PRINTED', 'OUTOUT']","['NN', 'NNP']"
 155,{,['{'],['OPERATOR']
 156,"    ""query"": {","['""query""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-157,"        ""Field1"": ""hello"",","['""Field1"": ""hello""', ',']","['STRING_LITERAL', 'OPERATOR']"
+157,"        ""Field1"": ""hello"",","['""Field1""', ':', '""hello""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 158,"        ""Field2"": 42,","['""Field2""', ':', '42', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 159,"        ""queries"": [","['""queries""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
 160,            {,['{'],['OPERATOR']
 161,"                ""term-query"": {","['""term-query""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-162,"                    ""Field3"": ""world"",","['""Field3"": ""world""', ',']","['STRING_LITERAL', 'OPERATOR']"
+162,"                    ""Field3"": ""world"",","['""Field3""', ':', '""world""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 163,"                    ""Field4"": 99","['""Field4""', ':', '99']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
 164,                },['}'],['OPERATOR']
 165,"            },","['},']",['OPERATOR']
 166,            {,['{'],['OPERATOR']
 167,"                ""term-query"": {","['""term-query""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-168,"                    ""Field3"": ""yay, it works!"",","['""Field3"": ""yay, it works!""', ',']","['STRING_LITERAL', 'OPERATOR']"
+168,"                    ""Field3"": ""yay, it works!"",","['""Field3""', ':', '""yay, it works!""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 169,"                    ""Field4"": 666","['""Field4""', ':', '666']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
 170,                },['}'],['OPERATOR']
 171,"            },","['},']",['OPERATOR']
 172,            {,['{'],['OPERATOR']
 173,"                ""query"": {","['""query""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-174,"                    ""Field1"": ""Hi"",","['""Field1"": ""Hi""', ',']","['STRING_LITERAL', 'OPERATOR']"
+174,"                    ""Field1"": ""Hi"",","['""Field1""', ':', '""Hi""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 175,"                    ""Field2"": 21,","['""Field2""', ':', '21', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
 176,"                    ""queries"": [","['""queries""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
 177,                        {,['{'],['OPERATOR']
 178,"                            ""term-query"": {","['""term-query""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-179,"                                ""Field3"": ""omg"",","['""Field3"": ""omg""', ',']","['STRING_LITERAL', 'OPERATOR']"
+179,"                                ""Field3"": ""omg"",","['""Field3""', ':', '""omg""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 180,"                                ""Field4"": 1","['""Field4""', ':', '1']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
 181,                            },['}'],['OPERATOR']
 182,                        },['}'],['OPERATOR']

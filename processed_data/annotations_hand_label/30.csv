@@ -12,13 +12,13 @@ net.Listen()
 Usage Example #1:
 
 ","[""Let's"", 'examine', 'your', 'question.', '1.', 'net.Listen()', 'vs.', 'net.ListenUDP()', 'vs.', 'net.ListenPacket()', 'net.Listen()', 'Listen', 'announces', 'on', 'the', 'local', 'network', 'address', 'laddr.', 'The', 'network', 'net', 'must', 'be', 'a', 'stream-oriented', 'network:', '""tcp"",', '""tcp4"",', '""tcp6"",', '""unix""', 'or', '""unixpacket"".', 'See', 'Dial', 'for', 'the', 'syntax', 'of', 'laddr.', 'Usage', 'Example', '#1:']","['NNP', 'VB', 'PRP$', 'NN', 'CD', 'NN', 'FW', 'FW', 'FW', 'FW', 'FW', 'NNP', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBD', 'DT', 'NN', 'NN', 'MD', 'VB', 'DT', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'IN', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'NNP']"
-1,"tcpSock, err := net.Listen(""tcp"", ""0.0.0.0:8080"")","['tcpSock', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""0.0.0.0:8080""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+1,"tcpSock, err := net.Listen(""tcp"", ""0.0.0.0:8080"")","['tcpSock', ',', 'err', ':=', 'net.Listen(""tcp"", ""0.0.0.0:8080"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 2,"
 
 Usage Example #2
 
 ","['Usage', 'Example', '#2']","['JJ', 'NNP', 'NN']"
-3,"unixSock, err := net.Listen(""unix"", ""/var/app/server.sock"")","['unixSock', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""unix"", ""/var/app/server.sock""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+3,"unixSock, err := net.Listen(""unix"", ""/var/app/server.sock"")","['unixSock', ',', 'err', ':=', 'net.Listen(""unix"", ""/var/app/server.sock"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 4,"
 
 We can see in the source that net.Listen() works as a switch statement that calls either net.ListenTCP or net.ListenUnix or the default error:
@@ -30,16 +30,16 @@ We can see in the source that net.Listen() works as a switch statement that call
 8,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: nil, Err: err}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'nil', ',', 'Err', ':', 'err', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 9,   },['}'],['OPERATOR']
 10,   var l Listener,"['var', 'l', 'Listener']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-11,   switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la', '.', 'toAddr', '().(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+11,   switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la.toAddr().(type)', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
 12,   case *TCPAddr:,"['case', '*', 'TCPAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 13,"      l, err = ListenTCP(net, la)","['l', ',', 'err', '=', 'ListenTCP', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 14,   case *UnixAddr:,"['case', '*', 'UnixAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 15,"      l, err = ListenUnix(net, la)","['l', ',', 'err', '=', 'ListenUnix', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 16,   default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-17,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'la', ',', 'Err', ':', '&', 'AddrError', '{', 'Err', ':', '""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 18,   },['}'],['OPERATOR']
 19,   if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,"      return nil, err // l is non-nil interface containing nil pointer","['//', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'VBG', 'JJ', 'NN']"
+20,"      return nil, err // l is non-nil interface containing nil pointer","['return', 'nil', ',', 'err', '//', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'VBG', 'JJ', 'NN']"
 21,   },['}'],['OPERATOR']
 22,"   return l, nil","['return', 'l', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 23,},['}'],['OPERATOR']
@@ -58,7 +58,7 @@ net.ListenPacket()
 Usage Example #1:
 
 ","['Additional', 'info', 'at', 'net.Listen()', 'Docs', 'So', 'then,', 'we', 'can', 'eliminate', 'net.ListenUDP', 'from', 'the', 'initial', 'comparison;', 'and', 'look', 'at', 'net.ListenPacket().', 'net.ListenPacket()', 'ListenPacket', 'announces', 'on', 'the', 'local', 'network', 'address', 'laddr.', 'The', 'network', 'net', 'must', 'be', 'a', 'packet-oriented', 'network:', '""udp"",', '""udp4"",', '""udp6"",', '""ip"",', '""ip4"",', '""ip6""', 'or', '""unixgram"".', 'See', 'Dial', 'for', 'the', 'syntax', 'of', 'laddr.', 'Usage', 'Example', '#1:']","['JJ', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'CC', 'NN', 'IN', 'JJ', 'JJ', 'NNP', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBD', 'DT', 'NN', 'NN', 'MD', 'VB', 'DT', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'IN', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'NNP']"
-25,"pListener, err := net.ListenPacket(""ip4"", ""0.0.0.0:9090"")","['pListener', ',', 'err', ':=', 'net', '.', 'ListenPacket', '(', '""ip4"", ""0.0.0.0:9090""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+25,"pListener, err := net.ListenPacket(""ip4"", ""0.0.0.0:9090"")","['pListener', ',', 'err', ':=', 'net.ListenPacket(""ip4"", ""0.0.0.0:9090"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 26,"
 
 And, if we look under the hood, we can see that it operates in much the same way as net.Listen():
@@ -70,7 +70,7 @@ And, if we look under the hood, we can see that it operates in much the same way
 30,"        return nil, &OpError{Op: ""listen"", Net: net, Addr: nil, Err: err}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'nil', ',', 'Err', ':', 'err', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 31,    },['}'],['OPERATOR']
 32,    var l PacketConn,"['var', 'l', 'PacketConn']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-33,    switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la', '.', 'toAddr', '().(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+33,    switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la.toAddr().(type)', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
 34,    case *UDPAddr:,"['case', '*', 'UDPAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 35,"        l, err = ListenUDP(net, la)","['l', ',', 'err', '=', 'ListenUDP', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 36,    case *IPAddr:,"['case', '*', 'IPAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -78,10 +78,10 @@ And, if we look under the hood, we can see that it operates in much the same way
 38,    case *UnixAddr:,"['case', '*', 'UnixAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 39,"        l, err = ListenUnixgram(net, la)","['l', ',', 'err', '=', 'ListenUnixgram', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 40,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-41,"        return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,"        return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'la', ',', 'Err', ':', '&', 'AddrError', '{', 'Err', ':', '""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 42,    },['}'],['OPERATOR']
 43,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,"        return nil, err // l is non-nil interface containing nil pointer","['//', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'VBG', 'JJ', 'NN']"
+44,"        return nil, err // l is non-nil interface containing nil pointer","['return', 'nil', ',', 'err', '//', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'VBG', 'JJ', 'NN']"
 45,    },['}'],['OPERATOR']
 46,"    return l, nil","['return', 'l', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 47,},['}'],['OPERATOR']
