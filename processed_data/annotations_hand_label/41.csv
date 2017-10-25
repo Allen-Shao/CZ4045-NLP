@@ -1,0 +1,181 @@
+,text,token,annotation
+0,"It turned out that I had to restart the listener not only to close the connection. I've modified the broker function to reset the destNet listener if it can't write (i.e. writes 0 bytes) to src. I'm still not sure if this is the right way to do it (i.e. closing the listener seems bad in a multi-connections scenario as I guess I reset all the client connections dialing on that address) but so far this is the best I could do to fix it.
+
+","['It', 'turned', 'out', 'that', 'I', 'had', 'to', 'restart', 'the', 'listener', 'not', 'only', 'to', 'close', 'the', 'connection.', ""I've"", 'modified', 'the', 'broker', 'function', 'to', 'reset', 'the', 'destNet', 'listener', 'if', 'it', ""can't"", 'write', '(i.e.', 'writes', '0', 'bytes)', 'to', 'src.', ""I'm"", 'still', 'not', 'sure', 'if', 'this', 'is', 'the', 'right', 'way', 'to', 'do', 'it', '(i.e.', 'closing', 'the', 'listener', 'seems', 'bad', 'in', 'a', 'multi-connections', 'scenario', 'as', 'I', 'guess', 'I', 'reset', 'all', 'the', 'client', 'connections', 'dialing', 'on', 'that', 'address)', 'but', 'so', 'far', 'this', 'is', 'the', 'best', 'I', 'could', 'do', 'to', 'fix', 'it.']","['PRP', 'VBD', 'RP', 'IN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'RB', 'RB', 'TO', 'VB', 'DT', 'NN', 'NNP', 'VBD', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', 'VBZ', 'CD', 'NN', 'TO', 'VB', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'TO', 'VB', 'PRP', 'VB', 'VBG', 'DT', 'NN', 'VBZ', 'JJ', 'IN', 'DT', 'NNS', 'NN', 'IN', 'PRP', 'VBP', 'PRP', 'VBP', 'PDT', 'DT', 'NN', 'NNS', 'VBG', 'IN', 'DT', 'NN', 'CC', 'RB', 'RB', 'DT', 'VBZ', 'DT', 'JJS', 'PRP', 'MD', 'VB', 'TO', 'VB', 'NN']"
+1, if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+2,        lrNewCh <- 1,"['lrNewCh', '<-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+3,    },['}'],['OPERATOR']
+4,"
+
+Here is all the code. All the credit goes to @JimB
+
+// Make a bridge between dstNet which is
+// usually behind NAT and srcNet which is usually a client
+// which wants to route the traffic though the NAT machine.
+package main
+
+import (
+    log ""github.com/golang/glog""
+    ""io""
+    ""net""
+)
+
+// listen on the dstNet so that we can
+// create a connection with the NAT client
+var dstNet *net.TCPAddr = &net.TCPAddr{IP: net.ParseIP(""0.0.0.0""), Port: 9000}
+
+// listen on srcNet so that we can get traffic
+// to forward to dstNet
+var srcNet *net.TCPAddr = &net.TCPAddr{IP: net.ParseIP(""0.0.0.0""), Port: 9001}
+
+var errCh = make(chan error, 1)
+
+// make a channel to send the reverse connections
+var lrCh = make(chan *net.TCPConn, 1)
+var lrNewCh = make(chan int, 1)
+
+func listenDst() {
+    // Listen on the dstNet
+    lr, err := net.ListenTCP(""tcp"", dstNet)
+    if err != nil {
+        log.Error(err)
+        errCh <- err
+        return
+    }
+    // accept the connection
+    for {
+        lrConn, err := lr.AcceptTCP()
+        if err != nil {
+                log.Error(err)
+                //errCh <- err
+                //return
+        }
+        status := <-lrNewCh
+            log.Errorf(""status request is %v"", status)
+            if status == 1{
+                log.Errorf(""we close and restart the listener and the connection"")
+                if err =  lrConn.Close(); err !=nil{
+                    log.Error(err)
+                }
+                if err =  lr.Close(); err !=nil{
+                    log.Error(err)
+                }
+                    lr, err = net.ListenTCP(""tcp"", dstNet)
+                    if err != nil {
+                        log.Error(err)
+                        errCh <- err
+                        return
+                    }
+                lrConn, err = lr.AcceptTCP()
+                if err !=nil{
+                    log.Error(err)
+                    errCh <- err
+                }
+            }else{
+                log.Errorf(""new connection on its way"")
+                lrCh <- lrConn
+            }
+    //  default:
+            // log.Errorf(""accepting new connections"")
+
+
+    }
+
+}
+
+func main() {
+
+    go func() {
+        for err := range errCh {
+            if err != nil {
+                panic(err)
+            }
+        }
+    }()
+    // listen for the nat server
+    go listenDst()
+
+    // listen for clients to connect
+    l, err := net.ListenTCP(""tcp"", srcNet)
+    if err != nil {
+        log.Error(err)
+        panic(err)
+    }
+    // accept the connection
+    for {
+        conn, err := l.AcceptTCP()
+        if err != nil {
+            log.Error(err)
+            panic(err)
+        }
+        // serve the connection
+        go func(conn *net.TCPConn) {
+            defer conn.Close()
+            lrNewCh <- 0
+            dst := <-lrCh
+            defer dst.Close()
+            proxy(dst, conn)
+        }(conn)
+
+    }
+}
+
+func proxy(srvConn, cliConn *net.TCPConn) {
+    // channels to wait on the close event for each connection
+    serverClosed := make(chan struct{}, 1)
+    clientClosed := make(chan struct{}, 1)
+
+    go broker(srvConn, cliConn, clientClosed)
+    go broker(cliConn, srvConn, serverClosed)
+
+    // wait for one half of the proxy to exit, then trigger a shutdown of the
+    // other half by calling CloseRead(). This will break the read loop in the
+    // broker and allow us to fully close the connection cleanly without a
+    // ""use of closed network connection"" error.
+    var waitFor chan struct{}
+    select {
+    case <-clientClosed:
+        // the client closed first and any more packets from the server aren't
+        // useful, so we can optionally SetLinger(0) here to recycle the port
+        // faster.
+        srvConn.SetLinger(0)
+        srvConn.CloseRead()
+        waitFor = serverClosed
+    case <-serverClosed:
+        cliConn.CloseRead()
+        waitFor = clientClosed
+    }
+
+    // Wait for the other connection to close.
+    // This ""waitFor"" pattern isn't required, but gives us a way to track the
+    // connection and ensure all copies terminate correctly; we can trigger
+    // stats on entry and deferred exit of this function.
+    <-waitFor
+}
+
+// This does the actual data transfer.
+// The broker only closes the Read side.
+func broker(dst, src net.Conn, srcClosed chan struct{}) {
+    // We can handle errors in a finer-grained manner by inlining io.Copy (it's
+    // simple, and we drop the ReaderFrom or WriterTo checks for
+    // net.Conn->net.Conn transfers, which aren't needed). This would also let
+    // us adjust buffersize.
+    n, err := io.Copy(dst, src)
+    log.Errorf("" %v bytes copied"", n)
+    if err != nil {
+        log.Errorf(""Copy error: %s"", err)
+        // errCh <- err
+    }
+    if err := src.Close(); err != nil {
+        log.Errorf(""Close error: %s"", err)
+        errCh <- err
+    }
+   ","['Here', 'is', 'all', 'the', 'code.', 'All', 'the', 'credit', 'goes', 'to', '@JimB', '//', 'Make', 'a', 'bridge', 'between', 'dstNet', 'which', 'is', '//', 'usually', 'behind', 'NAT', 'and', 'srcNet', 'which', 'is', 'usually', 'a', 'client', '//', 'which', 'wants', 'to', 'route', 'the', 'traffic', 'though', 'the', 'NAT', 'machine.', 'package', 'main', 'import', '(', 'log', '""github.com/golang/glog""', '""io""', '""net""', ')', '//', 'listen', 'on', 'the', 'dstNet', 'so', 'that', 'we', 'can', '//', 'create', 'a', 'connection', 'with', 'the', 'NAT', 'client', 'var', 'dstNet', '*net.TCPAddr', '=', '&net.TCPAddr{IP:', 'net.ParseIP(""0.0.0.0""),', 'Port:', '9000}', '//', 'listen', 'on', 'srcNet', 'so', 'that', 'we', 'can', 'get', 'traffic', '//', 'to', 'forward', 'to', 'dstNet', 'var', 'srcNet', '*net.TCPAddr', '=', '&net.TCPAddr{IP:', 'net.ParseIP(""0.0.0.0""),', 'Port:', '9001}', 'var', 'errCh', '=', 'make(chan', 'error,', '1)', '//', 'make', 'a', 'channel', 'to', 'send', 'the', 'reverse', 'connections', 'var', 'lrCh', '=', 'make(chan', '*net.TCPConn,', '1)', 'var', 'lrNewCh', '=', 'make(chan', 'int,', '1)', 'func', 'listenDst()', '{', '//', 'Listen', 'on', 'the', 'dstNet', 'lr,', 'err', ':=', 'net.ListenTCP(""tcp"",', 'dstNet)', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'errCh', '<-', 'err', 'return', '}', '//', 'accept', 'the', 'connection', 'for', '{', 'lrConn,', 'err', ':=', 'lr.AcceptTCP()', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', '//errCh', '<-', 'err', '//return', '}', 'status', ':=', '<-lrNewCh', 'log.Errorf(""status', 'request', 'is', '%v"",', 'status)', 'if', 'status', '==', '1{', 'log.Errorf(""we', 'close', 'and', 'restart', 'the', 'listener', 'and', 'the', 'connection"")', 'if', 'err', '=', 'lrConn.Close();', 'err', '!=nil{', 'log.Error(err)', '}', 'if', 'err', '=', 'lr.Close();', 'err', '!=nil{', 'log.Error(err)', '}', 'lr,', 'err', '=', 'net.ListenTCP(""tcp"",', 'dstNet)', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'errCh', '<-', 'err', 'return', '}', 'lrConn,', 'err', '=', 'lr.AcceptTCP()', 'if', 'err', '!=nil{', 'log.Error(err)', 'errCh', '<-', 'err', '}', '}else{', 'log.Errorf(""new', 'connection', 'on', 'its', 'way"")', 'lrCh', '<-', 'lrConn', '}', '//', 'default:', '//', 'log.Errorf(""accepting', 'new', 'connections"")', '}', '}', 'func', 'main()', '{', 'go', 'func()', '{', 'for', 'err', ':=', 'range', 'errCh', '{', 'if', 'err', '!=', 'nil', '{', 'panic(err)', '}', '}', '}()', '//', 'listen', 'for', 'the', 'nat', 'server', 'go', 'listenDst()', '//', 'listen', 'for', 'clients', 'to', 'connect', 'l,', 'err', ':=', 'net.ListenTCP(""tcp"",', 'srcNet)', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'panic(err)', '}', '//', 'accept', 'the', 'connection', 'for', '{', 'conn,', 'err', ':=', 'l.AcceptTCP()', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'panic(err)', '}', '//', 'serve', 'the', 'connection', 'go', 'func(conn', '*net.TCPConn)', '{', 'defer', 'conn.Close()', 'lrNewCh', '<-', '0', 'dst', ':=', '<-lrCh', 'defer', 'dst.Close()', 'proxy(dst,', 'conn)', '}(conn)', '}', '}', 'func', 'proxy(srvConn,', 'cliConn', '*net.TCPConn)', '{', '//', 'channels', 'to', 'wait', 'on', 'the', 'close', 'event', 'for', 'each', 'connection', 'serverClosed', ':=', 'make(chan', 'struct{},', '1)', 'clientClosed', ':=', 'make(chan', 'struct{},', '1)', 'go', 'broker(srvConn,', 'cliConn,', 'clientClosed)', 'go', 'broker(cliConn,', 'srvConn,', 'serverClosed)', '//', 'wait', 'for', 'one', 'half', 'of', 'the', 'proxy', 'to', 'exit,', 'then', 'trigger', 'a', 'shutdown', 'of', 'the', '//', 'other', 'half', 'by', 'calling', 'CloseRead().', 'This', 'will', 'break', 'the', 'read', 'loop', 'in', 'the', '//', 'broker', 'and', 'allow', 'us', 'to', 'fully', 'close', 'the', 'connection', 'cleanly', 'without', 'a', '//', '""use', 'of', 'closed', 'network', 'connection""', 'error.', 'var', 'waitFor', 'chan', 'struct{}', 'select', '{', 'case', '<-clientClosed:', '//', 'the', 'client', 'closed', 'first', 'and', 'any', 'more', 'packets', 'from', 'the', 'server', ""aren't"", '//', 'useful,', 'so', 'we', 'can', 'optionally', 'SetLinger(0)', 'here', 'to', 'recycle', 'the', 'port', '//', 'faster.', 'srvConn.SetLinger(0)', 'srvConn.CloseRead()', 'waitFor', '=', 'serverClosed', 'case', '<-serverClosed:', 'cliConn.CloseRead()', 'waitFor', '=', 'clientClosed', '}', '//', 'Wait', 'for', 'the', 'other', 'connection', 'to', 'close.', '//', 'This', '""waitFor""', 'pattern', ""isn't"", 'required,', 'but', 'gives', 'us', 'a', 'way', 'to', 'track', 'the', '//', 'connection', 'and', 'ensure', 'all', 'copies', 'terminate', 'correctly;', 'we', 'can', 'trigger', '//', 'stats', 'on', 'entry', 'and', 'deferred', 'exit', 'of', 'this', 'function.', '<-waitFor', '}', '//', 'This', 'does', 'the', 'actual', 'data', 'transfer.', '//', 'The', 'broker', 'only', 'closes', 'the', 'Read', 'side.', 'func', 'broker(dst,', 'src', 'net.Conn,', 'srcClosed', 'chan', 'struct{})', '{', '//', 'We', 'can', 'handle', 'errors', 'in', 'a', 'finer-grained', 'manner', 'by', 'inlining', 'io.Copy', ""(it's"", '//', 'simple,', 'and', 'we', 'drop', 'the', 'ReaderFrom', 'or', 'WriterTo', 'checks', 'for', '//', 'net.Conn->net.Conn', 'transfers,', 'which', ""aren't"", 'needed).', 'This', 'would', 'also', 'let', '//', 'us', 'adjust', 'buffersize.', 'n,', 'err', ':=', 'io.Copy(dst,', 'src)', 'log.Errorf(""', '%v', 'bytes', 'copied"",', 'n)', 'if', 'err', '!=', 'nil', '{', 'log.Errorf(""Copy', 'error:', '%s"",', 'err)', '//', 'errCh', '<-', 'err', '}', 'if', 'err', ':=', 'src.Close();', 'err', '!=', 'nil', '{', 'log.Errorf(""Close', 'error:', '%s"",', 'err)', 'errCh', '<-', 'err', '}']","['RB', 'VBZ', 'PDT', 'DT', 'NN', 'PDT', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'NNP', 'NNP', 'DT', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'NNP', 'RB', 'IN', 'NNP', 'CC', 'NN', 'WDT', 'VBZ', 'RB', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'RB', 'IN', 'PRP', 'MD', 'VB', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'VBD', 'NNP', 'CD', 'NNP', 'NN', 'IN', 'NN', 'RB', 'IN', 'PRP', 'MD', 'VB', 'NN', 'NN', 'TO', 'VB', 'TO', 'VB', 'JJ', 'NN', 'NN', 'NNP', 'NNP', 'VBD', 'NNP', 'CD', 'NN', 'NN', 'NNP', 'NN', 'VBD', 'CD', 'NNS', 'VBP', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'NNS', 'VBP', 'JJ', 'NNP', 'NN', 'VBD', 'CD', 'NN', 'NN', 'NNP', 'NN', 'NN', 'CD', 'NN', 'NN', '(', 'JJ', 'NNP', 'IN', 'DT', 'NN', 'NN', 'NN', 'NNP', 'RB', 'VBZ', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'VB', 'JJ', 'JJ', 'NN', ')', 'NNP', 'IN', 'DT', 'NN', 'IN', '(', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'JJ', 'JJ', 'NN', 'NN', ')', 'NN', 'JJ', 'JJ', 'NN', 'NN', 'VBZ', 'JJ', 'NN', 'IN', 'NN', 'VBP', 'CD', 'NNS', 'RB', 'CC', 'VB', 'DT', 'NN', 'CC', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', ')', 'VBZ', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'VB', 'JJ', 'JJ', 'NN', ')', 'JJR', 'JJ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'VBD', 'JJ', 'NN', ')', 'NNP', 'JJ', 'NN', 'IN', 'PRP$', 'JJ', 'JJ', 'JJ', 'NN', ')', 'NNP', 'JJ', 'NNP', 'VBG', 'JJ', 'NN', ')', ')', 'JJ', 'NN', '(', 'VB', 'RB', '(', 'IN', 'NN', 'NNP', 'NN', 'RB', '(', 'IN', 'VBN', 'NNP', 'RB', '(', 'NN', ')', ')', 'JJ', 'NNP', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBP', 'JJ', 'NNP', 'NN', 'IN', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NNP', 'RB', 'VBP', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NNP', 'IN', 'DT', 'NN', 'IN', '(', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NNP', 'VBP', 'DT', 'NN', 'VBP', 'RB', 'RB', '(', 'VB', 'JJ', 'JJ', 'JJ', 'CD', 'NN', 'JJ', 'JJ', 'NN', 'NN', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'JJ', 'NN', 'NNP', '(', 'JJ', 'NNS', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'VBD', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'NN', 'NN', 'VBD', 'CD', 'NNS', 'JJ', 'NN', 'NN', 'VBP', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'IN', 'CD', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'RB', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'JJ', 'NN', 'IN', 'VBG', 'NNP', 'DT', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'RB', 'VB', 'DT', 'NN', 'RB', 'IN', 'DT', 'NN', 'NN', 'IN', 'JJ', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', '(', 'NN', 'JJ', 'NNP', 'DT', 'NN', 'VBD', 'RB', 'CC', 'DT', 'JJR', 'NNS', 'IN', 'DT', 'NN', 'NN', 'NNP', 'RB', 'IN', 'PRP', 'MD', 'RB', 'VB', 'RB', 'TO', 'VB', 'DT', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NN', 'VBD', 'NN', 'JJ', 'NN', 'NN', 'NN', 'VBD', ')', 'NNP', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'TO', 'VB', 'VB', 'DT', 'JJ', 'NN', 'NN', 'NN', 'CC', 'VBZ', 'PRP', 'DT', 'NN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'CC', 'VB', 'DT', 'NNS', 'VBP', 'NN', 'PRP', 'MD', 'VB', 'JJ', 'NNS', 'IN', 'NN', 'CC', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', ')', 'FW', 'DT', 'VBZ', 'DT', 'JJ', 'NNS', 'NN', 'IN', 'DT', 'NN', 'RB', 'VBZ', 'DT', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NN', 'VBD', 'JJ', 'NN', '(', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'IN', 'VBG', 'NN', 'NNP', 'NNP', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'NNP', 'CC', 'NNP', 'NNS', 'IN', 'JJ', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'DT', 'MD', 'RB', 'VB', 'NNP', 'PRP', 'VBP', 'JJ', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'VBP', 'JJ', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NNP', 'VBZ', 'JJ', 'JJ', 'JJ', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'NNP', 'VBZ', 'JJ', 'JJ', 'NN', ')']"
+5, if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+6,        lrNewCh <- 1,"['lrNewCh', '<-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+7,    },['}'],['OPERATOR']
+8,"    srcClosed <- struct{}{}
+
+}
+
+","['srcClosed', '<-', 'struct{}{}', '}']","['VBN', 'JJ', 'NN', ')']"

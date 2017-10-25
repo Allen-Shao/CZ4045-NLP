@@ -1,0 +1,139 @@
+,text,token,annotation
+0,"Session Variables are not maintained across request while using gorilla sessions web toolkit.
+When  I start the server and type localhost:8100/ page is directed to login.html since session values do not exist.After I login I set the session variable in the store and the page is redirected to home.html. But when I open a new tab and type localhost:8100/ the page should be directed to home.html using already stored session variables, but the page is instead redirected to login.html.
+Following is the code.
+
+","['Session', 'Variables', 'are', 'not', 'maintained', 'across', 'request', 'while', 'using', 'gorilla', 'sessions', 'web', 'toolkit.', 'When', 'I', 'start', 'the', 'server', 'and', 'type', 'localhost:8100/', 'page', 'is', 'directed', 'to', 'login.html', 'since', 'session', 'values', 'do', 'not', 'exist.After', 'I', 'login', 'I', 'set', 'the', 'session', 'variable', 'in', 'the', 'store', 'and', 'the', 'page', 'is', 'redirected', 'to', 'home.html.', 'But', 'when', 'I', 'open', 'a', 'new', 'tab', 'and', 'type', 'localhost:8100/', 'the', 'page', 'should', 'be', 'directed', 'to', 'home.html', 'using', 'already', 'stored', 'session', 'variables,', 'but', 'the', 'page', 'is', 'instead', 'redirected', 'to', 'login.html.', 'Following', 'is', 'the', 'code.']","['NN', 'NNS', 'VBP', 'RB', 'VBN', 'IN', 'NN', 'IN', 'VBG', 'JJ', 'NNS', 'VBP', 'IN', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'CC', 'NN', 'NN', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'IN', 'NN', 'NNS', 'VBP', 'RB', 'VB', 'PRP', 'VBP', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'CC', 'WRB', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'CC', 'NN', 'VBP', 'DT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'VBG', 'RB', 'VBN', 'NN', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'RB', 'VBN', 'TO', 'VB', 'NNP', 'VBZ', 'DT', 'NN']"
+1,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""crypto/md5""","['""crypto/md5""']",['STRING_LITERAL']
+4,"    ""encoding/hex""","['""encoding/hex""']",['STRING_LITERAL']
+5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"    ""github.com/gocql/gocql""","['""github.com/gocql/gocql""']",['STRING_LITERAL']
+7,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
+8,"    ""github.com/gorilla/sessions""","['""github.com/gorilla/sessions""']",['STRING_LITERAL']
+9,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+10,"    ""time""","['""time""']",['STRING_LITERAL']
+11,),[')'],['OPERATOR']
+12,"var store = sessions.NewCookieStore([]byte(""something-very-secret""))","['var', 'store', '=', 'sessions', '.', 'NewCookieStore', '([]', 'byte', '(', '""something-very-secret""', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+13,var router = mux.NewRouter(),"['var', 'router', '=', 'mux', '.', 'NewRouter', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+15,    store.Options = &sessions.Options{,"['store', '.', 'Options', '=', '&', 'sessions', '.', 'Options', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+16,"        Domain:   ""localhost"",","['Domain', ':', '""localhost""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,"        Path:     ""/"",","['Path', ':', '""/""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+18,"        MaxAge:   3600 * 1, // 1 hour","['//', '1', 'hour']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD', 'NN']"
+19,"        HttpOnly: true,","['HttpOnly', ':', 'true', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,    },['}'],['OPERATOR']
+21,},['}'],['OPERATOR']
+22,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+23,    //session handling,"['//', 'session', 'handling']","['COMMENT', 'NN', 'VBG']"
+24,"    router.HandleFunc(""/"", SessionHandler)","['router', '.', 'HandleFunc', '(', '""/""', ',', 'SessionHandler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,"    router.HandleFunc(""/signIn"", SignInHandler)","['router', '.', 'HandleFunc', '(', '""/signIn""', ',', 'SignInHandler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"    router.HandleFunc(""/signUp"", SignUpHandler)","['router', '.', 'HandleFunc', '(', '""/signUp""', ',', 'SignUpHandler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,"    router.HandleFunc(""/logOut"", LogOutHandler)","['router', '.', 'HandleFunc', '(', '""/logOut""', ',', 'LogOutHandler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"    http.Handle(""/"", router)","['http', '.', 'Handle', '(', '""/""', ',', 'router', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,"    http.ListenAndServe("":8100"", nil)","['http', '.', 'ListenAndServe', '(', '"":8100""', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,},['}'],['OPERATOR']
+31,//handler for signIn,"['//', 'handler', 'for', 'signIn']","['COMMENT', 'NN', 'IN', 'NN']"
+32,"func SignInHandler(res http.ResponseWriter, req *http.Request) {","['func', 'SignInHandler', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+33,"    email := req.FormValue(""email"")","['email', ':=', 'req', '.', 'FormValue', '(', '""email""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+34,"    password := req.FormValue(""password"")","['password', ':=', 'req', '.', 'FormValue', '(', '""password""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+35,    //Generate hash of password,"['//', 'Generate', 'hash', 'of', 'password']","['COMMENT', 'NNP', 'NN', 'IN', 'NN']"
+36,    hasher := md5.New(),"['hasher', ':=', 'md5', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    hasher.Write([]byte(password)),"['hasher', '.', 'Write', '([]', 'byte', '(', 'password', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,    encrypted_password := hex.EncodeToString(hasher.Sum(nil)),"['encrypted_password', ':=', 'hex', '.', 'EncodeToString', '(', 'hasher', '.', 'Sum', '(', 'nil', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,    //cassandra connection,"['//', 'cassandra', 'connection']","['COMMENT', 'NN', 'NN']"
+40,"    cluster := gocql.NewCluster(""localhost"")","['cluster', ':=', 'go', 'cql', '.', 'NewCluster', '(', '""localhost""', ')']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+41,"    cluster.Keyspace = ""gbuy""","['cluster', '.', 'Keyspace', '=', '""gbuy""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+42,    cluster.DefaultPort = 9042,"['cluster', '.', 'DefaultPort', '=', '9042']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+43,    cluster.Consistency = gocql.Quorum,"['cluster', '.', 'Consistency', '=', 'go', 'cql', '.', 'Quorum']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+44,"    session, _ := cluster.CreateSession()","['session', ',', '_', ':=', 'cluster', '.', 'CreateSession', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,    defer session.Close(),"['defer', 'session', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,    //select query,"['//', 'select', 'query']","['COMMENT', 'JJ', 'NN']"
+47,    var firstname string,"['var', 'firstname', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+48,"    stmt := ""SELECT firstname FROM USER WHERE email= '"" + email + ""' and password ='"" + encrypted_password + ""';""","['stmt', ':=', '""SELECT firstname FROM USER WHERE email= \'"" + email + ""\' and password =\'"" + encrypted_password + ""\';""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+49,    err := session.Query(stmt).Scan(&firstname),"['err', ':=', 'session', '.', 'Query', '(', 'stmt', ').', 'Scan', '(&', 'firstname', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,"        fmt.Fprintf(res, ""failed"")","['fmt', '.', 'Fprintf', '(', 'res', ',', '""failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+52,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+53,"        if firstname == """" {","['if', 'firstname', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+54,"            fmt.Fprintf(res, ""failed"")","['fmt', '.', 'Fprintf', '(', 'res', ',', '""failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+55,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+56,"            fmt.Fprintf(res, firstname)","['fmt', '.', 'Fprintf', '(', 'res', ',', 'firstname', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,        },['}'],['OPERATOR']
+58,    },['}'],['OPERATOR']
+59,    //store in session variable,"['//', 'store', 'in', 'session', 'variable']","['COMMENT', 'NN', 'IN', 'NN', 'NN']"
+60,"    sessionNew, _ := store.Get(req, ""loginSession"")","['sessionNew', ',', '_', ':=', 'store', '.', 'Get', '(', 'req', ',', '""loginSession""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+61,    // Set some session values.,"['//', 'Set', 'some', 'session', 'values.']","['COMMENT', 'NNP', 'DT', 'NN', 'NN']"
+62,"    sessionNew.Values[""email""] = email","['sessionNew', '.', 'Values', '[', '""email""', ']', '=', 'email']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+63,"    sessionNew.Values[""name""] = firstname","['sessionNew', '.', 'Values', '[', '""name""', ']', '=', 'firstname']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+64,    // Save it.,"['//', 'Save', 'it.']","['COMMENT', 'NNP', 'NN']"
+65,"    sessionNew.Save(req, res)","['sessionNew', '.', 'Save', '(', 'req', ',', 'res', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,"    //store.Save(req,res,sessionNew)","['//', 'store.Save(req,res,sessionNew)']","['COMMENT', 'NN']"
+67,"    fmt.Println(""Session after logging:"")","['fmt', '.', 'Println', '(', '""Session after logging:""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+68,    fmt.Println(sessionNew),"['fmt', '.', 'Println', '(', 'sessionNew', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,},['}'],['OPERATOR']
+70,//handler for signUp,"['//', 'handler', 'for', 'signUp']","['COMMENT', 'NN', 'IN', 'NN']"
+71,"func SignUpHandler(res http.ResponseWriter, req *http.Request) {","['func', 'SignUpHandler', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+72,"    fName := req.FormValue(""fName"")","['fName', ':=', 'req', '.', 'FormValue', '(', '""fName""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+73,"    lName := req.FormValue(""lName"")","['lName', ':=', 'req', '.', 'FormValue', '(', '""lName""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+74,"    email := req.FormValue(""email"")","['email', ':=', 'req', '.', 'FormValue', '(', '""email""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+75,"    password := req.FormValue(""passwd"")","['password', ':=', 'req', '.', 'FormValue', '(', '""passwd""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+76,"    birthdate := req.FormValue(""date"")","['birthdate', ':=', 'req', '.', 'FormValue', '(', '""date""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+77,"    city := req.FormValue(""city"")","['city', ':=', 'req', '.', 'FormValue', '(', '""city""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+78,"    gender := req.FormValue(""gender"")","['gender', ':=', 'req', '.', 'FormValue', '(', '""gender""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+79,    //Get current timestamp and format it.,"['//', 'Get', 'current', 'timestamp', 'and', 'format', 'it.']","['COMMENT', 'NNP', 'JJ', 'NN', 'CC', 'NN', 'NN']"
+80,"    sysdate := time.Now().Format(""2006-01-02 15:04:05-0700"")","['sysdate', ':=', 'time', '.', 'Now', '().', 'Format', '(', '""2006-01-02 15:04:05-0700""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+81,    //Generate hash of password,"['//', 'Generate', 'hash', 'of', 'password']","['COMMENT', 'NNP', 'NN', 'IN', 'NN']"
+82,    hasher := md5.New(),"['hasher', ':=', 'md5', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,    hasher.Write([]byte(password)),"['hasher', '.', 'Write', '([]', 'byte', '(', 'password', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,    encrypted_password := hex.EncodeToString(hasher.Sum(nil)),"['encrypted_password', ':=', 'hex', '.', 'EncodeToString', '(', 'hasher', '.', 'Sum', '(', 'nil', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,    //cassandra connection,"['//', 'cassandra', 'connection']","['COMMENT', 'NN', 'NN']"
+86,"    cluster := gocql.NewCluster(""localhost"")","['cluster', ':=', 'go', 'cql', '.', 'NewCluster', '(', '""localhost""', ')']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+87,"    cluster.Keyspace = ""gbuy""","['cluster', '.', 'Keyspace', '=', '""gbuy""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+88,    cluster.DefaultPort = 9042,"['cluster', '.', 'DefaultPort', '=', '9042']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+89,    cluster.Consistency = gocql.Quorum,"['cluster', '.', 'Consistency', '=', 'go', 'cql', '.', 'Quorum']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+90,"    session, _ := cluster.CreateSession()","['session', ',', '_', ':=', 'cluster', '.', 'CreateSession', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,    defer session.Close(),"['defer', 'session', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,    //Insert the data into the Table,"['//', 'Insert', 'the', 'data', 'into', 'the', 'Table']","['COMMENT', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN']"
+93,"    stmt := ""INSERT INTO USER (email,firstname,lastname,birthdate,city,gender,password,creation_date) VALUES ('"" + email + ""','"" + fName + ""','"" + lName + ""','"" + birthdate + ""','"" + city + ""','"" + gender + ""','"" + encrypted_password + ""','"" + sysdate + ""');""","['stmt', ':=', '""INSERT INTO USER (email,firstname,lastname,birthdate,city,gender,password,creation_date) VALUES (\'"" + email + ""\',\'"" + fName + ""\',\'"" + lName + ""\',\'"" + birthdate + ""\',\'"" + city + ""\',\'"" + gender + ""\',\'"" + encrypted_password + ""\',\'"" + sysdate + ""\');""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+94,    fmt.Println(stmt),"['fmt', '.', 'Println', '(', 'stmt', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+95,    err := session.Query(stmt).Exec(),"['err', ':=', 'session', '.', 'Query', '(', 'stmt', ').', 'Exec', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+97,"        fmt.Fprintf(res, ""failed"")","['fmt', '.', 'Fprintf', '(', 'res', ',', '""failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+98,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+99,"        fmt.Fprintf(res, fName)","['fmt', '.', 'Fprintf', '(', 'res', ',', 'fName', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,    },['}'],['OPERATOR']
+101,},['}'],['OPERATOR']
+102,//handler for logOut,"['//', 'handler', 'for', 'logOut']","['COMMENT', 'NN', 'IN', 'NN']"
+103,"func LogOutHandler(res http.ResponseWriter, req *http.Request) {","['func', 'LogOutHandler', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+104,"    sessionOld, err := store.Get(req, ""loginSession"")","['sessionOld', ',', 'err', ':=', 'store', '.', 'Get', '(', 'req', ',', '""loginSession""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+105,"    fmt.Println(""Session in logout"")","['fmt', '.', 'Println', '(', '""Session in logout""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+106,    fmt.Println(sessionOld),"['fmt', '.', 'Println', '(', 'sessionOld', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,"    if err = sessionOld.Save(req, res); err != nil {","['if', 'err', '=', 'sessionOld', '.', 'Save', '(', 'req', ',', 'res', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,"        fmt.Println(""Error saving session: %v"", err)","['fmt', '.', 'Println', '(', '""Error saving session: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,    },['}'],['OPERATOR']
+110,},['}'],['OPERATOR']
+111,//handler for Session,"['//', 'handler', 'for', 'Session']","['COMMENT', 'NN', 'IN', 'NN']"
+112,"func SessionHandler(res http.ResponseWriter, req *http.Request) {","['func', 'SessionHandler', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+113,"    router.PathPrefix(""/"").Handler(http.FileServer(http.Dir(""../static/"")))","['router', '.', 'PathPrefix', '(', '""/"").Handler(http.FileServer(http.Dir(""../static/""', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+114,"    session, _ := store.Get(req, ""loginSession"")","['session', ',', '_', ':=', 'store', '.', 'Get', '(', 'req', ',', '""loginSession""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+115,"    fmt.Println(""Session in SessionHandler"")","['fmt', '.', 'Println', '(', '""Session in SessionHandler""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+116,    fmt.Println(session),"['fmt', '.', 'Println', '(', 'session', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,"    if val, ok := session.Values[""email""].(string); ok {","['if', 'val', ',', 'ok', ':=', 'session', '.', 'Values', '[', '""email""', '].(', 'string', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,        // if val is a string,"['//', 'if', 'val', 'is', 'a', 'string']","['COMMENT', 'IN', 'NN', 'VBZ', 'DT', 'NN']"
+119,        switch val {,"['switch', 'val', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+120,"        case """": {","['case', '""""', ':', '{']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+121,"            http.Redirect(res, req, ""html/login.html"", http.StatusFound) }","['http', '.', 'Redirect', '(', 'res', ',', 'req', ',', '""html/login.html""', ',', 'http', '.', 'StatusFound', ')', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+122,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+123,"            http.Redirect(res, req, ""html/home.html"", http.StatusFound)","['http', '.', 'Redirect', '(', 'res', ',', 'req', ',', '""html/home.html""', ',', 'http', '.', 'StatusFound', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,        },['}'],['OPERATOR']
+125,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+126,        // if val is not a string type,"['//', 'if', 'val', 'is', 'not', 'a', 'string', 'type']","['COMMENT', 'IN', 'NN', 'VBZ', 'RB', 'DT', 'NN', 'NN']"
+127,"        http.Redirect(res, req, ""html/login.html"", http.StatusFound)","['http', '.', 'Redirect', '(', 'res', ',', 'req', ',', '""html/login.html""', ',', 'http', '.', 'StatusFound', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,    },['}'],['OPERATOR']
+129,},['}'],['OPERATOR']
+130,"
+
+Can somebody tell me what I am doing wrong. Thanks in advance.
+","['Can', 'somebody', 'tell', 'me', 'what', 'I', 'am', 'doing', 'wrong.', 'Thanks', 'in', 'advance.']","['MD', 'NN', 'VB', 'PRP', 'WP', 'PRP', 'VBP', 'VBG', 'JJ', 'NNS', 'IN', 'NN']"

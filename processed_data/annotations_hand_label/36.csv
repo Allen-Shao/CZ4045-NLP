@@ -1,0 +1,160 @@
+,text,token,annotation
+0,"Following is my go program to extract GET parameters. (URL: /mysql?hostname=example.com)
+
+","['Following', 'is', 'my', 'go', 'program', 'to', 'extract', 'GET', 'parameters.', '(URL:', '/mysql?hostname=example.com)']","['VBG', 'VBZ', 'PRP$', 'JJ', 'NN', 'TO', 'VB', 'NNP', 'JJ', 'NNP', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
+4,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
+5,"        //""encoding/json""","['//', '""encoding/json""']","['COMMENT', 'NN']"
+6,"        //""html""","['//', '""html""']","['COMMENT', 'NN']"
+7,"        ""github.com/kr/pretty""","['""github.com/kr/pretty""']",['STRING_LITERAL']
+8,);,[');'],['OPERATOR']
+9,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+10,"        http.HandleFunc(""/"", foo)","['http', '.', 'HandleFunc', '(', '""/""', ',', 'foo', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,"        http.ListenAndServe("":80"", nil)","['http', '.', 'ListenAndServe', '(', '"":80""', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,},['}'],['OPERATOR']
+13,"func foo(w http.ResponseWriter, r * http.Request){","['func', 'foo', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,"        w.Header().Set(""Server"",""A Go WebServer"")","['w', '.', 'Header', '().', 'Set', '(', '""Server"",""A Go WebServer""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+15,"        w.Header().Set(""Content-Type"", ""text/html"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""text/html""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,"        hostname := r.URL.Query()[""hostname""]","['hostname', ':=', 'r', '.', 'URL', '.', 'Query', '()[', '""hostname""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,        //w.Write([]byte(hostname[0])),"['//', 'w.Write([]byte(hostname[0]))']","['COMMENT', 'NN']"
+18,"        fmt.Printf(""%# v"", pretty.Formatter(hostname[0]))","['fmt', '.', 'Printf', '(', '""%# v""', ',', 'pretty', '.', 'Formatter', '(', 'hostname', '[', '0', ']))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+19,        w.Write([]byte(hostname)),"['w', '.', 'Write', '([]', 'byte', '(', 'hostname', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,},['}'],['OPERATOR']
+21,"
+
+Error shown on console.
+
+""example.com""2014/09/01 02:57:22 http: panic serving 172.17.92.14:49411: runtime error: index out of range
+/usr/lib/go/src/pkg/net/http/server.go:576 (0x42dc41)
+    _func_003: buf.Write(debug.Stack())
+/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443 (0x40f8b5)
+/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128 (0x410381)
+/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85 (0x410228)
+/root/go/src/api/main.go:34 (0x400d77)
+    foo: fmt.Printf(""%# v"", pretty.Formatter(hostname[0]))
+/usr/lib/go/src/pkg/net/http/server.go:690 (0x421bed)
+    HandlerFunc.ServeHTTP: f(w, r)
+/usr/lib/go/src/pkg/net/http/server.go:926 (0x422a6f)
+    (*ServeMux).ServeHTTP: mux.handler(r).ServeHTTP(w, r)
+/usr/lib/go/src/pkg/net/http/server.go:656 (0x421a00)
+    (*conn).serve: handler.ServeHTTP(w, w.req)
+/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271 (0x40d9bb)
+2014/09/01 02:57:22 http: panic serving 172.17.92.14:49412: runtime error: index out of range
+/usr/lib/go/src/pkg/net/http/server.go:576 (0x42dc41)
+    _func_003: buf.Write(debug.Stack())
+/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443 (0x40f8b5)
+/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128 (0x410381)
+/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85 (0x410228)
+/root/go/src/api/main.go:34 (0x400d77)
+    foo: fmt.Printf(""%# v"", pretty.Formatter(hostname[0]))
+/usr/lib/go/src/pkg/net/http/server.go:690 (0x421bed)
+    HandlerFunc.ServeHTTP: f(w, r)
+/usr/lib/go/src/pkg/net/http/server.go:926 (0x422a6f)
+    (*ServeMux).ServeHTTP: mux.handler(r).ServeHTTP(w, r)
+/usr/lib/go/src/pkg/net/http/server.go:656 (0x421a00)
+    (*conn).serve: handler.ServeHTTP(w, w.req)
+/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271 (0x40d9bb)
+2014/09/01 02:57:22 http: panic serving 172.17.92.14:49413: runtime error: index out of range
+/usr/lib/go/src/pkg/net/http/server.go:576 (0x42dc41)
+    _func_003: buf.Write(debug.Stack())
+/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443 (0x40f8b5)
+/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128 (0x410381)
+/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85 (0x410228)
+/root/go/src/api/main.go:34 (0x400d77)
+    foo: fmt.Printf(""%# v"", pretty.Formatter(hostname[0]))
+/usr/lib/go/src/pkg/net/http/server.go:690 (0x421bed)
+    HandlerFunc.ServeHTTP: f(w, r)
+/usr/lib/go/src/pkg/net/http/server.go:926 (0x422a6f)
+    (*ServeMux).ServeHTTP: mux.handler(r).ServeHTTP(w, r)
+/usr/lib/go/src/pkg/net/http/server.go:656 (0x421a00)
+    (*conn).serve: handler.ServeHTTP(w, w.req)
+/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271 (0x40d9bb)
+
+
+I am having trouble with determining the data type of hostname variable. I should get it as a string.
+
+When I try to write to http response writer
+
+","['Error', 'shown', 'on', 'console.', '""example.com""2014/09/01', '02:57:22', 'http:', 'panic', 'serving', '172.17.92.14:49411:', 'runtime', 'error:', 'index', 'out', 'of', 'range', '/usr/lib/go/src/pkg/net/http/server.go:576', '(0x42dc41)', '_func_003:', 'buf.Write(debug.Stack())', '/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443', '(0x40f8b5)', '/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128', '(0x410381)', '/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85', '(0x410228)', '/root/go/src/api/main.go:34', '(0x400d77)', 'foo:', 'fmt.Printf(""%#', 'v"",', 'pretty.Formatter(hostname[0]))', '/usr/lib/go/src/pkg/net/http/server.go:690', '(0x421bed)', 'HandlerFunc.ServeHTTP:', 'f(w,', 'r)', '/usr/lib/go/src/pkg/net/http/server.go:926', '(0x422a6f)', '(*ServeMux).ServeHTTP:', 'mux.handler(r).ServeHTTP(w,', 'r)', '/usr/lib/go/src/pkg/net/http/server.go:656', '(0x421a00)', '(*conn).serve:', 'handler.ServeHTTP(w,', 'w.req)', '/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271', '(0x40d9bb)', '2014/09/01', '02:57:22', 'http:', 'panic', 'serving', '172.17.92.14:49412:', 'runtime', 'error:', 'index', 'out', 'of', 'range', '/usr/lib/go/src/pkg/net/http/server.go:576', '(0x42dc41)', '_func_003:', 'buf.Write(debug.Stack())', '/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443', '(0x40f8b5)', '/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128', '(0x410381)', '/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85', '(0x410228)', '/root/go/src/api/main.go:34', '(0x400d77)', 'foo:', 'fmt.Printf(""%#', 'v"",', 'pretty.Formatter(hostname[0]))', '/usr/lib/go/src/pkg/net/http/server.go:690', '(0x421bed)', 'HandlerFunc.ServeHTTP:', 'f(w,', 'r)', '/usr/lib/go/src/pkg/net/http/server.go:926', '(0x422a6f)', '(*ServeMux).ServeHTTP:', 'mux.handler(r).ServeHTTP(w,', 'r)', '/usr/lib/go/src/pkg/net/http/server.go:656', '(0x421a00)', '(*conn).serve:', 'handler.ServeHTTP(w,', 'w.req)', '/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271', '(0x40d9bb)', '2014/09/01', '02:57:22', 'http:', 'panic', 'serving', '172.17.92.14:49413:', 'runtime', 'error:', 'index', 'out', 'of', 'range', '/usr/lib/go/src/pkg/net/http/server.go:576', '(0x42dc41)', '_func_003:', 'buf.Write(debug.Stack())', '/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443', '(0x40f8b5)', '/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128', '(0x410381)', '/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85', '(0x410228)', '/root/go/src/api/main.go:34', '(0x400d77)', 'foo:', 'fmt.Printf(""%#', 'v"",', 'pretty.Formatter(hostname[0]))', '/usr/lib/go/src/pkg/net/http/server.go:690', '(0x421bed)', 'HandlerFunc.ServeHTTP:', 'f(w,', 'r)', '/usr/lib/go/src/pkg/net/http/server.go:926', '(0x422a6f)', '(*ServeMux).ServeHTTP:', 'mux.handler(r).ServeHTTP(w,', 'r)', '/usr/lib/go/src/pkg/net/http/server.go:656', '(0x421a00)', '(*conn).serve:', 'handler.ServeHTTP(w,', 'w.req)', '/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271', '(0x40d9bb)', 'I', 'am', 'having', 'trouble', 'with', 'determining', 'the', 'data', 'type', 'of', 'hostname', 'variable.', 'I', 'should', 'get', 'it', 'as', 'a', 'string.', 'When', 'I', 'try', 'to', 'write', 'to', 'http', 'response', 'writer']","['NNP', 'VBN', 'IN', 'NN', '$', 'CD', 'NN', 'NN', 'VBG', 'CD', 'JJ', 'NN', 'NN', 'IN', 'IN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'VBD', 'CD', 'CD', 'NN', 'NN', 'VBG', 'CD', 'JJ', 'NN', 'NN', 'IN', 'IN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'VBD', 'CD', 'CD', 'NN', 'NN', 'VBG', 'CD', 'JJ', 'NN', 'NN', 'IN', 'IN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'PRP', 'VBP', 'VBG', 'NN', 'IN', 'VBG', 'DT', 'NN', 'NN', 'IN', 'NN', 'NN', 'PRP', 'MD', 'VB', 'PRP', 'IN', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'TO', 'VB', 'TO', 'VB', 'NN', 'NN']"
+22,w.Write([]byte(hostname)),"['w', '.', 'Write', '([]', 'byte', '(', 'hostname', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,"
+
+following build error is shown
+
+","['following', 'build', 'error', 'is', 'shown']","['VBG', 'NN', 'NN', 'VBZ', 'VBN']"
+24,go/src/api/main.go:38: cannot convert hostname (type []string) to type []byte,"['go', 'src', 'api', 'main', '.', 'go', ':', '38', ':', 'cannot', 'convert', 'hostname', '(', 'type', '[]', 'string', ')', 'to', 'type', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER']"
+25,"
+
+If I treat it as a string array build is successful but there is run time error
+
+","['If', 'I', 'treat', 'it', 'as', 'a', 'string', 'array', 'build', 'is', 'successful', 'but', 'there', 'is', 'run', 'time', 'error']","['IN', 'PRP', 'VBP', 'PRP', 'IN', 'DT', 'NN', 'NN', 'NN', 'VBZ', 'JJ', 'CC', 'EX', 'VBZ', 'JJ', 'NN', 'NN']"
+26,        newhost := hostname[0];,"['newhost', ':=', 'hostname', '[', '0', '];']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+27,        w.Write([]byte(newhost)),"['w', '.', 'Write', '([]', 'byte', '(', 'newhost', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"
+
+Error:
+
+",['Error:'],['NN']
+29,    2014/09/01 04:42:40 http: panic serving 172.17.92.14:50404: runtime error: index out of range,"['2014', '09', '01', '04', ':', '42', ':', '40', 'http', ':', 'panic', 'serving', '172', '.', '17', '.', '92', '.', '14', ':', '50404', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
+30,/usr/lib/go/src/pkg/net/http/server.go:576 (0x42db27),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '576', '(', '0', 'x42db27', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+31,    _func_003: buf.Write(debug.Stack()),"['_func_003', ':', 'buf', '.', 'Write', '(', 'debug', '.', 'Stack', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443 (0x40f79b),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '1443', '(', '0', 'x40f79b', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+33,/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128 (0x410267),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'runtime', '.', 'c', ':', '128', '(', '0', 'x410267', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+34,/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85 (0x41010e),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'runtime', '.', 'c', ':', '85', '(', '0', 'x41010e', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+35,/root/go/src/api/main.go:38 (0x400d63),"['root', 'go', 'src', 'api', 'main', '.', 'go', ':', '38', '(', '0', 'x400d63', ')']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+36,    foo: newhost := hostname[0];,"['foo', ':', 'newhost', ':=', 'hostname', '[', '0', '];']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+37,/usr/lib/go/src/pkg/net/http/server.go:690 (0x421ad3),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '690', '(', '0', 'x421ad3', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+38,"    HandlerFunc.ServeHTTP: f(w, r)","['HandlerFunc', '.', 'ServeHTTP', ':', 'f', '(', 'w', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,/usr/lib/go/src/pkg/net/http/server.go:926 (0x422955),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '926', '(', '0', 'x422955', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+40,"    (*ServeMux).ServeHTTP: mux.handler(r).ServeHTTP(w, r)","['(*', 'ServeMux', ').', 'ServeHTTP', ':', 'mux', '.', 'handler', '(', 'r', ').', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,/usr/lib/go/src/pkg/net/http/server.go:656 (0x4218e6),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '656', '(', '0', 'x4218e6', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+42,"    (*conn).serve: handler.ServeHTTP(w, w.req)","['(*', 'conn', ').', 'serve', ':', 'handler', '.', 'ServeHTTP', '(', 'w', ',', 'w', '.', 'req', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271 (0x40d8a1),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '271', '(', '0', 'x40d8a1', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+44,2014/09/01 04:42:40 http: panic serving 172.17.92.14:50405: runtime error: index out of range,"['2014', '09', '01', '04', ':', '42', ':', '40', 'http', ':', 'panic', 'serving', '172', '.', '17', '.', '92', '.', '14', ':', '50405', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
+45,/usr/lib/go/src/pkg/net/http/server.go:576 (0x42db27),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '576', '(', '0', 'x42db27', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+46,    _func_003: buf.Write(debug.Stack()),"['_func_003', ':', 'buf', '.', 'Write', '(', 'debug', '.', 'Stack', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443 (0x40f79b),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '1443', '(', '0', 'x40f79b', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+48,/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128 (0x410267),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'runtime', '.', 'c', ':', '128', '(', '0', 'x410267', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+49,/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85 (0x41010e),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'runtime', '.', 'c', ':', '85', '(', '0', 'x41010e', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+50,/root/go/src/api/main.go:38 (0x400d63),"['root', 'go', 'src', 'api', 'main', '.', 'go', ':', '38', '(', '0', 'x400d63', ')']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+51,    foo: newhost := hostname[0];,"['foo', ':', 'newhost', ':=', 'hostname', '[', '0', '];']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+52,/usr/lib/go/src/pkg/net/http/server.go:690 (0x421ad3),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '690', '(', '0', 'x421ad3', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+53,"    HandlerFunc.ServeHTTP: f(w, r)","['HandlerFunc', '.', 'ServeHTTP', ':', 'f', '(', 'w', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,/usr/lib/go/src/pkg/net/http/server.go:926 (0x422955),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '926', '(', '0', 'x422955', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+55,"    (*ServeMux).ServeHTTP: mux.handler(r).ServeHTTP(w, r)","['(*', 'ServeMux', ').', 'ServeHTTP', ':', 'mux', '.', 'handler', '(', 'r', ').', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,/usr/lib/go/src/pkg/net/http/server.go:656 (0x4218e6),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '656', '(', '0', 'x4218e6', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+57,"    (*conn).serve: handler.ServeHTTP(w, w.req)","['(*', 'conn', ').', 'serve', ':', 'handler', '.', 'ServeHTTP', '(', 'w', ',', 'w', '.', 'req', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271 (0x40d8a1),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '271', '(', '0', 'x40d8a1', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+59,2014/09/01 04:42:40 http: panic serving 172.17.92.14:50406: runtime error: index out of range,"['2014', '09', '01', '04', ':', '42', ':', '40', 'http', ':', 'panic', 'serving', '172', '.', '17', '.', '92', '.', '14', ':', '50406', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
+60,/usr/lib/go/src/pkg/net/http/server.go:576 (0x42db27),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '576', '(', '0', 'x42db27', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+61,    _func_003: buf.Write(debug.Stack()),"['_func_003', ':', 'buf', '.', 'Write', '(', 'debug', '.', 'Stack', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,/home/michael/DPKG/golang/src/pkg/runtime/proc.c:1443 (0x40f79b),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '1443', '(', '0', 'x40f79b', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+63,/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:128 (0x410267),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'runtime', '.', 'c', ':', '128', '(', '0', 'x410267', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+64,/home/michael/DPKG/golang/src/pkg/runtime/runtime.c:85 (0x41010e),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'runtime', '.', 'c', ':', '85', '(', '0', 'x41010e', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+65,/root/go/src/api/main.go:38 (0x400d63),"['root', 'go', 'src', 'api', 'main', '.', 'go', ':', '38', '(', '0', 'x400d63', ')']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+66,    foo: newhost := hostname[0];,"['foo', ':', 'newhost', ':=', 'hostname', '[', '0', '];']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+67,/usr/lib/go/src/pkg/net/http/server.go:690 (0x421ad3),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '690', '(', '0', 'x421ad3', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+68,"    HandlerFunc.ServeHTTP: f(w, r)","['HandlerFunc', '.', 'ServeHTTP', ':', 'f', '(', 'w', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,/usr/lib/go/src/pkg/net/http/server.go:926 (0x422955),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '926', '(', '0', 'x422955', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+70,"    (*ServeMux).ServeHTTP: mux.handler(r).ServeHTTP(w, r)","['(*', 'ServeMux', ').', 'ServeHTTP', ':', 'mux', '.', 'handler', '(', 'r', ').', 'ServeHTTP', '(', 'w', ',', 'r', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,/usr/lib/go/src/pkg/net/http/server.go:656 (0x4218e6),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '656', '(', '0', 'x4218e6', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+72,"    (*conn).serve: handler.ServeHTTP(w, w.req)","['(*', 'conn', ').', 'serve', ':', 'handler', '.', 'ServeHTTP', '(', 'w', ',', 'w', '.', 'req', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,/home/michael/DPKG/golang/src/pkg/runtime/proc.c:271 (0x40d8a1),"['home', 'michael', 'DPKG', 'go', 'lang', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '271', '(', '0', 'x40d8a1', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+74,"
+
+I also checked length of newhost as @VonC suggested and it gave expected results.
+
+","['I', 'also', 'checked', 'length', 'of', 'newhost', 'as', '@VonC', 'suggested', 'and', 'it', 'gave', 'expected', 'results.']","['PRP', 'RB', 'VBD', 'NN', 'IN', 'NN', 'IN', 'NN', 'VBD', 'CC', 'PRP', 'VBD', 'VBN', 'NN']"
+75,"        fmt.Print(""\n"")","['fmt', '.', 'Print', '(', '""\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+76,        fmt.Println((len(newhost))),"['fmt', '.', 'Println', '((', 'len', '(', 'newhost', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,"
+
+Output on console
+
+","['Output', 'on', 'console']","['NN', 'IN', 'NN']"
+78,"""example.com""","['""example.com""']",['STRING_LITERAL']
+79,11,['11'],['DECIMAL_LITERAL']
+80,2014/09/01 05:05:15 http: panic serving 172.17.92.14:50779: runtime error: index out of range,"['2014', '09', '01', '05', ':', '05', ':', '15', 'http', ':', 'panic', 'serving', '172', '.', '17', '.', '92', '.', '14', ':', '50779', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
+81,/usr/lib/go/src/pkg/net/http/server.go:576 (0x42dd33),"['usr', 'lib', 'go', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '576', '(', '0', 'x42dd33', ')']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"

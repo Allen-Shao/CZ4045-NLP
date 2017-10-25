@@ -1,0 +1,130 @@
+,text,token,annotation
+0,"I'm playing around with XPC, GCD and go but I hit a quick wall when my code was failing to compile with the following error messages (which I don't understand):
+
+","[""I'm"", 'playing', 'around', 'with', 'XPC,', 'GCD', 'and', 'go', 'but', 'I', 'hit', 'a', 'quick', 'wall', 'when', 'my', 'code', 'was', 'failing', 'to', 'compile', 'with', 'the', 'following', 'error', 'messages', '(which', 'I', ""don't"", 'understand):']","['NNP', 'VBG', 'RB', 'IN', 'NNP', 'NNP', 'CC', 'VB', 'CC', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'WRB', 'PRP$', 'NN', 'VBD', 'VBG', 'TO', 'VB', 'IN', 'DT', 'VBG', 'NN', 'NNS', 'VBP', 'PRP', 'VBP', 'JJ']"
+1,main(__DATA/__const): unexpected reloc for dynamic symbol _NSConcreteGlobalBlock,"['main', '(', '__DATA', '__const', '):', 'unexpected', 'reloc', 'for', 'dynamic', 'symbol', '_NSConcreteGlobalBlock']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+2,"
+main(__DATA/__const): unhandled relocation for _NSConcreteGlobalBlock (type 28 rtype 120)
+
+I am compiling using go build the code that follows:
+
+main.go
+
+package main
+
+/*
+#include 
+#include ""wrapper.h""
+*/
+import ""C""
+
+import (
+    ""fmt""
+)
+
+//export HandleXPCEvent
+func HandleXPCEvent(event C.xpc_object_t) {
+    fmt.Println(""Event was handled"")
+}
+
+func main() {
+    name := C.CString(""com.example.xpc"")
+    queue := C.dispatch_queue_create(name, nil)
+    conn := C.xpc_connection_create(name, queue)
+    C.set_event_handler(conn)
+
+    //C.xpc_connection_resume(conn)
+}
+
+
+wrapper.h
+
+#ifndef _WRAPPER_H_
+#define _WRAPPER_H_
+
+#include 
+#include 
+#include 
+
+xpc_connection_t connect( char* name);
+void set_event_handler(xpc_connection_t connection);
+
+#endif
+
+
+wrapper.c
+
+#include ""wrapper.h""
+#include 
+
+extern void HandleXPCEvent(xpc_object_t);
+
+xpc_connection_t connect( char* name) {
+    dispatch_queue_t queue = dispatch_queue_create(name,0);
+    return xpc_connection_create(name,queue);
+}
+
+void set_event_handler(xpc_connection_t connection) {
+    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+        xpc_retain(event);
+        // Call Go function
+        HandleXPCEvent(event);
+    });
+}
+
+
+I'm I doing something wrong? Is this some kind of go bug or how can this be fixed?
+
+
+
+Update:
+
+I ran go build -x -work on my project and I got the following output:
+
+➣ go build -x -work
+WORK=/var/folders/fb/bgfqk8wx5x16w7yh2cg50vrw0000gn/T/go-build524335717
+mkdir -p $WORK/github.com/gabrielayuso/go-xpc/_obj/
+mkdir -p $WORK/github.com/gabrielayuso/go-xpc/_obj/exe/
+cd /Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc
+/usr/local/go/pkg/tool/darwin_amd64/cgo -objdir $WORK/github.com/gabrielayuso/go-xpc/_obj/ -- -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ main.go
+/usr/local/go/pkg/tool/darwin_amd64/6c -F -V -w -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -I /usr/local/go/pkg/darwin_amd64 -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6 -D GOOS_darwin -D GOARCH_amd64 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -print-libgcc-file-name
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o -c $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o -c $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o -c $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o -c ./wrapper.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o $WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o
+/usr/local/go/pkg/tool/darwin_amd64/cgo -objdir $WORK/github.com/gabrielayuso/go-xpc/_obj/ -dynimport $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o -dynout $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c
+/usr/local/go/pkg/tool/darwin_amd64/6c -F -V -w -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -I /usr/local/go/pkg/darwin_amd64 -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6 -D GOOS_darwin -D GOARCH_amd64 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o $WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o -Wl,-r -nostdlib /usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/x86_64/libgcc.a
+/usr/local/go/pkg/tool/darwin_amd64/6g -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6 -p github.com/gabrielayuso/go-xpc -D _/Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc -I $WORK $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_gotypes.go $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo1.go
+/usr/local/go/pkg/tool/darwin_amd64/pack grcP $WORK $WORK/github.com/gabrielayuso/go-xpc.a $WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6 $WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o
+cd .
+/usr/local/go/pkg/tool/darwin_amd64/6l -o $WORK/github.com/gabrielayuso/go-xpc/_obj/exe/a.out -L $WORK $WORK/github.com/gabrielayuso/go-xpc.a
+# github.com/gabrielayuso/go-xpc
+","['main(__DATA/__const):', 'unhandled', 'relocation', 'for', '_NSConcreteGlobalBlock', '(type', '28', 'rtype', '120)', 'I', 'am', 'compiling', 'using', 'go', 'build', 'the', 'code', 'that', 'follows:', 'main.go', 'package', 'main', '/*', '#include', '#include', '""wrapper.h""', '*/', 'import', '""C""', 'import', '(', '""fmt""', ')', '//export', 'HandleXPCEvent', 'func', 'HandleXPCEvent(event', 'C.xpc_object_t)', '{', 'fmt.Println(""Event', 'was', 'handled"")', '}', 'func', 'main()', '{', 'name', ':=', 'C.CString(""com.example.xpc"")', 'queue', ':=', 'C.dispatch_queue_create(name,', 'nil)', 'conn', ':=', 'C.xpc_connection_create(name,', 'queue)', 'C.set_event_handler(conn)', '//C.xpc_connection_resume(conn)', '}', 'wrapper.h', '#ifndef', '_WRAPPER_H_', '#define', '_WRAPPER_H_', '#include', '#include', '#include', 'xpc_connection_t', 'connect(', 'char*', 'name);', 'void', 'set_event_handler(xpc_connection_t', 'connection);', '#endif', 'wrapper.c', '#include', '""wrapper.h""', '#include', 'extern', 'void', 'HandleXPCEvent(xpc_object_t);', 'xpc_connection_t', 'connect(', 'char*', 'name)', '{', 'dispatch_queue_t', 'queue', '=', 'dispatch_queue_create(name,0);', 'return', 'xpc_connection_create(name,queue);', '}', 'void', 'set_event_handler(xpc_connection_t', 'connection)', '{', 'xpc_connection_set_event_handler(connection,', '^(xpc_object_t', 'event)', '{', 'xpc_retain(event);', '//', 'Call', 'Go', 'function', 'HandleXPCEvent(event);', '});', '}', ""I'm"", 'I', 'doing', 'something', 'wrong?', 'Is', 'this', 'some', 'kind', 'of', 'go', 'bug', 'or', 'how', 'can', 'this', 'be', 'fixed?', 'Update:', 'I', 'ran', 'go', 'build', '-x', '-work', 'on', 'my', 'project', 'and', 'I', 'got', 'the', 'following', 'output:', '➣', 'go', 'build', '-x', '-work', 'WORK=/var/folders/fb/bgfqk8wx5x16w7yh2cg50vrw0000gn/T/go-build524335717', 'mkdir', '-p', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', 'mkdir', '-p', '$WORK/github.com/gabrielayuso/go-xpc/_obj/exe/', 'cd', '/Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc', '/usr/local/go/pkg/tool/darwin_amd64/cgo', '-objdir', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '--', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', 'main.go', '/usr/local/go/pkg/tool/darwin_amd64/6c', '-F', '-V', '-w', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-I', '/usr/local/go/pkg/darwin_amd64', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6', '-D', 'GOOS_darwin', '-D', 'GOARCH_amd64', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-print-libgcc-file-name', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o', '-c', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o', '-c', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o', '-c', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o', '-c', './wrapper.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o', '/usr/local/go/pkg/tool/darwin_amd64/cgo', '-objdir', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-dynimport', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o', '-dynout', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c', '/usr/local/go/pkg/tool/darwin_amd64/6c', '-F', '-V', '-w', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-I', '/usr/local/go/pkg/darwin_amd64', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6', '-D', 'GOOS_darwin', '-D', 'GOARCH_amd64', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o', '-Wl,-r', '-nostdlib', '/usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/x86_64/libgcc.a', '/usr/local/go/pkg/tool/darwin_amd64/6g', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6', '-p', 'github.com/gabrielayuso/go-xpc', '-D', '_/Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc', '-I', '$WORK', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_gotypes.go', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo1.go', '/usr/local/go/pkg/tool/darwin_amd64/pack', 'grcP', '$WORK', '$WORK/github.com/gabrielayuso/go-xpc.a', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o', 'cd', '.', '/usr/local/go/pkg/tool/darwin_amd64/6l', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/exe/a.out', '-L', '$WORK', '$WORK/github.com/gabrielayuso/go-xpc.a', '#', 'github.com/gabrielayuso/go-xpc']","['NN', 'JJ', 'NN', 'IN', 'NNP', 'NNP', 'CD', 'NN', 'CD', 'PRP', 'VBP', 'VBG', 'VBG', 'VB', 'VB', 'DT', 'NN', 'IN', 'NN', 'NN', 'NN', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NN', '(', 'NNP', ')', 'NN', 'NNP', 'NN', 'NNP', 'NNP', '(', 'NN', 'VBD', 'JJ', ')', 'JJ', 'JJ', '(', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', ')', 'VBP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'JJ', 'NN', 'NNP', 'NNP', 'NN', 'NN', 'RB', '(', 'JJ', 'NN', 'NNP', 'VBZ', 'VB', 'JJ', ')', 'JJ', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', ')', 'NNP', 'PRP', 'VBG', 'NN', 'NN', 'VBZ', 'DT', 'DT', 'NN', 'IN', 'NN', 'NN', 'CC', 'WRB', 'MD', 'DT', 'VB', 'JJ', 'NNP', 'PRP', 'VBD', 'VB', 'JJ', 'NNP', 'NN', 'IN', 'PRP$', 'NN', 'CC', 'PRP', 'VBD', 'DT', 'JJ', 'NN', 'NNP', 'VBP', 'JJ', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NNP', 'JJ', 'NN', 'JJ', 'NNP', 'NNP', 'NNP', ':', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'JJ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'JJ', 'NN', 'NN', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', '.', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'JJ', '#', 'NN']"
+3,main(__DATA/__const): unexpected reloc for dynamic symbol _NSConcreteGlobalBlock,"['main', '(', '__DATA', '__const', '):', 'unexpected', 'reloc', 'for', 'dynamic', 'symbol', '_NSConcreteGlobalBlock']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+4,"
+main(__DATA/__const): unhandled relocation for _NSConcreteGlobalBlock (type 28 rtype 120)
+
+
+Content of $WORK dir as generated by go build -x -work: go-xpc_work.zip
+
+I'm not very familiar with compiling and linking therefore I can't make much sense of this output. I just noticed that _cgo_import.c a file generated by cgo (with options -dynimport and -dynout) has #pragma cgo_import_dynamic _NSConcreteGlobalBlock _NSConcreteGlobalBlock """" in the first line which is related to the error message the linker gave.
+
+Hope this information can help to find out what the problem is and how to solve it.
+","['main(__DATA/__const):', 'unhandled', 'relocation', 'for', '_NSConcreteGlobalBlock', '(type', '28', 'rtype', '120)', 'Content', 'of', '$WORK', 'dir', 'as', 'generated', 'by', 'go', 'build', '-x', '-work:', 'go-xpc_work.zip', ""I'm"", 'not', 'very', 'familiar', 'with', 'compiling', 'and', 'linking', 'therefore', 'I', ""can't"", 'make', 'much', 'sense', 'of', 'this', 'output.', 'I', 'just', 'noticed', 'that', '_cgo_import.c', 'a', 'file', 'generated', 'by', 'cgo', '(with', 'options', '-dynimport', 'and', '-dynout)', 'has', '#pragma', 'cgo_import_dynamic', '_NSConcreteGlobalBlock', '_NSConcreteGlobalBlock', '""""', 'in', 'the', 'first', 'line', 'which', 'is', 'related', 'to', 'the', 'error', 'message', 'the', 'linker', 'gave.', 'Hope', 'this', 'information', 'can', 'help', 'to', 'find', 'out', 'what', 'the', 'problem', 'is', 'and', 'how', 'to', 'solve', 'it.']","['NN', 'JJ', 'NN', 'IN', 'NNP', 'NNP', 'CD', 'NN', 'CD', 'NNP', 'IN', 'NNP', 'NN', 'IN', 'VBN', 'IN', 'VBP', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'VBG', 'CC', 'VBG', 'RB', 'PRP', 'VBP', 'VB', 'JJ', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBD', 'IN', 'VBZ', 'DT', 'NN', 'VBN', 'IN', 'NN', 'NN', 'NNS', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'JJ', 'NN', 'NNP', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'VBN', 'TO', 'DT', 'NN', 'NN', 'DT', 'NN', 'VBZ', 'NNP', 'DT', 'NN', 'MD', 'VB', 'TO', 'VB', 'RP', 'WP', 'DT', 'NN', 'VBZ', 'CC', 'WRB', 'TO', 'VB', 'NN']"
+5,"
+",[],[]
+6,main(__DATA/__const): unhandled relocation for _NSConcreteGlobalBlock (type 28 rtype 120),"['main', '(', '__DATA', '__const', '):', 'unhandled', 'relocation', 'for', '_NSConcreteGlobalBlock', '(', 'type', '28', 'rtype', '120', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR']"
+7,"
+
+
+Content of $WORK dir as generated by go build -x -work: go-xpc_work.zip
+
+I'm not very familiar with compiling and linking therefore I can't make much sense of this output. I just noticed that _cgo_import.c a file generated by cgo (with options -dynimport and -dynout) has ","['Content', 'of', '$WORK', 'dir', 'as', 'generated', 'by', 'go', 'build', '-x', '-work:', 'go-xpc_work.zip', ""I'm"", 'not', 'very', 'familiar', 'with', 'compiling', 'and', 'linking', 'therefore', 'I', ""can't"", 'make', 'much', 'sense', 'of', 'this', 'output.', 'I', 'just', 'noticed', 'that', '_cgo_import.c', 'a', 'file', 'generated', 'by', 'cgo', '(with', 'options', '-dynimport', 'and', '-dynout)', 'has']","['NN', 'IN', 'JJ', 'NN', 'IN', 'VBN', 'IN', 'VBP', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'VBG', 'CC', 'VBG', 'RB', 'PRP', 'VBP', 'VB', 'JJ', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBD', 'IN', 'VBZ', 'DT', 'NN', 'VBN', 'IN', 'NN', 'NN', 'NNS', 'NN', 'CC', 'NN', 'VBZ']"
+8,"#pragma cgo_import_dynamic _NSConcreteGlobalBlock _NSConcreteGlobalBlock """"","['pragma', 'cgo_import_dynamic', '_NSConcreteGlobalBlock', '_NSConcreteGlobalBlock', '""""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+9," in the first line which is related to the error message the linker gave.
+
+Hope this information can help to find out what the problem is and how to solve it.
+","['in', 'the', 'first', 'line', 'which', 'is', 'related', 'to', 'the', 'error', 'message', 'the', 'linker', 'gave.', 'Hope', 'this', 'information', 'can', 'help', 'to', 'find', 'out', 'what', 'the', 'problem', 'is', 'and', 'how', 'to', 'solve', 'it.']","['IN', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'VBN', 'TO', 'DT', 'NN', 'NN', 'DT', 'NN', 'VBZ', 'NNP', 'DT', 'NN', 'MD', 'VB', 'TO', 'VB', 'RP', 'WP', 'DT', 'NN', 'VBZ', 'CC', 'WRB', 'TO', 'VB', 'NN']"

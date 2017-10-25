@@ -1,0 +1,304 @@
+,text,token,annotation
+0,"I can do a POST request with string data, using POSTMAN chrome extension.
+
+
+
+I need to do the same using golang code. 
+
+But my Go code loses string ","['I', 'can', 'do', 'a', 'POST', 'request', 'with', 'string', 'data,', 'using', 'POSTMAN', 'chrome', 'extension.', 'I', 'need', 'to', 'do', 'the', 'same', 'using', 'golang', 'code.', 'But', 'my', 'Go', 'code', 'loses', 'string']","['PRP', 'MD', 'VB', 'DT', 'NNP', 'NN', 'IN', 'NN', 'NN', 'VBG', 'NNP', 'NN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'VBG', 'NN', 'NN', 'CC', 'PRP$', 'NNP', 'NN', 'VBZ', 'VBG']"
+1,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+2," and posts empty data to the server. 
+
+package main
+
+import (
+    ""bytes""
+    ""encoding/json""
+    ""fmt""
+    ""log""
+    ""net/http""
+)
+
+func main() {
+    client := &http.Client{}
+    // Why this stringData is lost and was not send with POST request?
+    stringData := `","['and', 'posts', 'empty', 'data', 'to', 'the', 'server.', 'package', 'main', 'import', '(', '""bytes""', '""encoding/json""', '""fmt""', '""log""', '""net/http""', ')', 'func', 'main()', '{', 'client', ':=', '&http.Client{}', '//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'was', 'not', 'send', 'with', 'POST', 'request?', 'stringData', ':=', '`']","['CC', 'NNS', 'VBP', 'NNS', 'TO', 'DT', 'JJ', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'JJ', '(', 'NN', 'NNP', 'NNP', 'NNP', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBD', 'RB', 'JJ', 'IN', 'NNP', 'NN', 'NN', 'NNP', '``']"
+3,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+4,"`
+    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))
+    req.SetBasicAuth(""root"", ""1"")
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    fmt.Println(""resp"")
+    fmt.Println(ToJson(resp))
+
+    var b bytes.Buffer
+    _, err = b.ReadFrom(resp.Body)
+    if err != nil {
+        log.Fatal(""Error : %s"", err)
+    }
+    fmt.Println(b.String())
+}
+
+func ToJson(obj interface{}) string {
+    b, err := json.MarshalIndent(&obj, """", ""   "")
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    strJson := string(b)
+
+    return strJson
+}
+
+
+It gives output:
+
+resp
+{
+   ""Status"": ""500 Internal Server Error"",
+   ""StatusCode"": 500,
+   ""Proto"": ""HTTP/1.1"",
+   ""ProtoMajor"": 1,
+   ""ProtoMinor"": 1,
+   ""Header"": {
+      ""Cache-Control"": [
+         ""no-cache, no-store, max-age=0, must-revalidate""
+      ],
+      ""Connection"": [
+         ""Keep-Alive""
+      ],
+      ""Content-Length"": [
+         ""55""
+      ],
+      ""Content-Type"": [
+         ""text/plain; charset=utf-8""
+      ],
+      ""Date"": [
+         ""Mon Jun 08 10:47:46 MSK 2015""
+      ],
+      ""Pragma"": [
+         ""no-cache""
+      ],
+      ""Server"": [
+         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""
+      ]
+   },
+   ""Body"": {},
+   ""ContentLength"": 55,
+   ""TransferEncoding"": null,
+   ""Close"": false,
+   ""Trailer"": null,
+   ""Request"": {
+      ""Method"": ""POST"",
+      ""URL"": {
+         ""Scheme"": ""http"",
+         ""Opaque"": """",
+         ""User"": null,
+         ""Host"": ""localhost:2480"",
+         ""Path"": ""/command/GratefulDeadConcerts/sql"",
+         ""RawQuery"": """",
+         ""Fragment"": """"
+      },
+      ""Proto"": ""HTTP/1.1"",
+      ""ProtoMajor"": 1,
+      ""ProtoMinor"": 1,
+      ""Header"": {
+         ""Authorization"": [
+            ""Basic cm9vdDox""
+         ]
+      },
+      ""Body"": {
+         ""Reader"": {}
+      },
+      ""ContentLength"": 46,
+      ""TransferEncoding"": null,
+      ""Close"": false,
+      ""Host"": ""localhost:2480"",
+      ""Form"": null,
+      ""PostForm"": null,
+      ""MultipartForm"": null,
+      ""Trailer"": null,
+      ""RemoteAddr"": """",
+      ""RequestURI"": """",
+      ""TLS"": null
+   },
+   ""TLS"": null
+}
+java.lang.IllegalArgumentException: text cannot be null
+
+
+How to make this POST request work successfully, using GoLang, as I can do with POSTMAN chrome extension?
+
+Update
+
+I made the same POST request successfully, using curl.
+
+curl -X POST -u root:1 -H ""Content-Type: application/json"" --data-urlencode ""","['`', 'req,', 'err', ':=', 'http.NewRequest(""POST"",', '""http://localhost:2480/command/GratefulDeadConcerts/sql"",', 'bytes.NewBufferString(stringData))', 'req.SetBasicAuth(""root"",', '""1"")', 'resp,', 'err', ':=', 'client.Do(req)', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(""resp"")', 'fmt.Println(ToJson(resp))', 'var', 'b', 'bytes.Buffer', '_,', 'err', '=', 'b.ReadFrom(resp.Body)', 'if', 'err', '!=', 'nil', '{', 'log.Fatal(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(b.String())', '}', 'func', 'ToJson(obj', 'interface{})', 'string', '{', 'b,', 'err', ':=', 'json.MarshalIndent(&obj,', '"""",', '""', '"")', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'strJson', ':=', 'string(b)', 'return', 'strJson', '}', 'It', 'gives', 'output:', 'resp', '{', '""Status"":', '""500', 'Internal', 'Server', 'Error"",', '""StatusCode"":', '500,', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Cache-Control"":', '[', '""no-cache,', 'no-store,', 'max-age=0,', 'must-revalidate""', '],', '""Connection"":', '[', '""Keep-Alive""', '],', '""Content-Length"":', '[', '""55""', '],', '""Content-Type"":', '[', '""text/plain;', 'charset=utf-8""', '],', '""Date"":', '[', '""Mon', 'Jun', '08', '10:47:46', 'MSK', '2015""', '],', '""Pragma"":', '[', '""no-cache""', '],', '""Server"":', '[', '""OrientDB', 'Server', 'v.2.0.10', '(build', 'UNKNOWN@r;', '2015-05-25', '16:48:43+0000)""', ']', '},', '""Body"":', '{},', '""ContentLength"":', '55,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Trailer"":', 'null,', '""Request"":', '{', '""Method"":', '""POST"",', '""URL"":', '{', '""Scheme"":', '""http"",', '""Opaque"":', '"""",', '""User"":', 'null,', '""Host"":', '""localhost:2480"",', '""Path"":', '""/command/GratefulDeadConcerts/sql"",', '""RawQuery"":', '"""",', '""Fragment"":', '""""', '},', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Authorization"":', '[', '""Basic', 'cm9vdDox""', ']', '},', '""Body"":', '{', '""Reader"":', '{}', '},', '""ContentLength"":', '46,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Host"":', '""localhost:2480"",', '""Form"":', 'null,', '""PostForm"":', 'null,', '""MultipartForm"":', 'null,', '""Trailer"":', 'null,', '""RemoteAddr"":', '"""",', '""RequestURI"":', '"""",', '""TLS"":', 'null', '},', '""TLS"":', 'null', '}', 'java.lang.IllegalArgumentException:', 'text', 'cannot', 'be', 'null', 'How', 'to', 'make', 'this', 'POST', 'request', 'work', 'successfully,', 'using', 'GoLang,', 'as', 'I', 'can', 'do', 'with', 'POSTMAN', 'chrome', 'extension?', 'Update', 'I', 'made', 'the', 'same', 'POST', 'request', 'successfully,', 'using', 'curl.', 'curl', '-X', 'POST', '-u', 'root:1', '-H', '""Content-Type:', 'application/json""', '--data-urlencode', '""']","['``', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', ')', 'NN', 'NNP', 'NN', 'VBG', '(', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'JJ', 'NN', 'NN', ')', 'PRP', 'VBZ', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CD', 'CD', 'NNP', 'CD', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'FW', 'NNP', 'NNP', 'JJ', 'CD', 'JJ', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'RB', 'NNP', '(', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'NN', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'JJ', 'NNP', 'NN', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'VB', 'JJ', 'NNP', 'TO', 'VB', 'DT', 'NNP', 'NN', 'NN', 'NN', 'VBG', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'IN', 'NNP', 'VBP', 'JJ', 'NNP', 'PRP', 'VBD', 'DT', 'JJ', 'NNP', 'NN', 'NN', 'VBG', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NN', 'NN']"
+5,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+6,"""  http://localhost:2480/command/GratefulDeadConcerts/sql 
+
+
+It outputs:
+
+{""result"":[{""@type"":""d"",""@rid"":""#9:822"",""@version"":1,""@class"":""V"",""name"":null}]}
+
+
+Update 2
+
+Of course, I should not use --data-urlencode for curl command. 
+The valid curl command is 
+
+curl -X POST -u root:1 -H ""Content-Type: application/json"" -d ""","['""', 'http://localhost:2480/command/GratefulDeadConcerts/sql', 'It', 'outputs:', '{""result"":[{""@type"":""d"",""@rid"":""#9:822"",""@version"":1,""@class"":""V"",""name"":null}]}', 'Update', '2', 'Of', 'course,', 'I', 'should', 'not', 'use', '--data-urlencode', 'for', 'curl', 'command.', 'The', 'valid', 'curl', 'command', 'is', 'curl', '-X', 'POST', '-u', 'root:1', '-H', '""Content-Type:', 'application/json""', '-d', '""']","['NN', 'NN', 'PRP', 'VBZ', 'JJ', 'NNP', 'CD', 'IN', 'NN', 'PRP', 'MD', 'RB', 'VB', 'NN', 'IN', 'NN', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'VBZ', 'JJ', 'RB', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NNP', 'NN']"
+7,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+8,"""  http://localhost:2480/command/GratefulDeadConcerts/sql
+{""result"":[{""@type"":""d"",""@rid"":""#9:848"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}
+
+
+I still have no clue how to make the similar GoLang POST request.
+
+Update 3
+
+url.QueryEscape did not help me.
+
+package main
+
+import (
+    ""bytes""
+    ""encoding/json""
+    ""fmt""
+    ""log""
+    ""net/http""
+    ""net/url""
+)
+
+func main() {
+    client := &http.Client{}
+    // Why this stringData is lost and do not pass thgouht POST request?
+    stringData := `","['""', 'http://localhost:2480/command/GratefulDeadConcerts/sql', '{""result"":[{""@type"":""d"",""@rid"":""#9:848"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}', 'I', 'still', 'have', 'no', 'clue', 'how', 'to', 'make', 'the', 'similar', 'GoLang', 'POST', 'request.', 'Update', '3', 'url.QueryEscape', 'did', 'not', 'help', 'me.', 'package', 'main', 'import', '(', '""bytes""', '""encoding/json""', '""fmt""', '""log""', '""net/http""', '""net/url""', ')', 'func', 'main()', '{', 'client', ':=', '&http.Client{}', '//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'do', 'not', 'pass', 'thgouht', 'POST', 'request?', 'stringData', ':=', '`']","['JJ', 'NN', 'NN', 'PRP', 'RB', 'VBP', 'DT', 'NN', 'WRB', 'TO', 'VB', 'DT', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'CD', 'NN', 'VBD', 'RB', 'VB', 'VB', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'JJ', '(', 'NN', 'NNP', 'NNP', 'NNP', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBP', 'RB', 'VB', 'NN', 'NNP', 'NN', 'NN', 'NNP', '``']"
+9,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+10,"`
+    stringData = url.QueryEscape(stringData)
+    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))
+    req.SetBasicAuth(""root"", ""1"")
+    req.Header.Set(""Content-Type"", ""Content-Type: text/plain"")
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    fmt.Println(""resp"")
+    fmt.Println(ToJson(resp))
+
+    var b bytes.Buffer
+    _, err = b.ReadFrom(resp.Body)
+    if err != nil {
+        log.Fatal(""Error : %s"", err)
+    }
+    fmt.Println(b.String())
+}
+
+func ToJson(obj interface{}) string {
+    b, err := json.MarshalIndent(&obj, """", ""   "")
+    if err != nil {
+        fmt.Printf(""Error : %s"", err)
+    }
+    strJson := string(b)
+
+    return strJson
+}
+
+
+The result is the same:
+
+resp
+{
+   ""Status"": ""500 Internal Server Error"",
+   ""StatusCode"": 500,
+   ""Proto"": ""HTTP/1.1"",
+   ""ProtoMajor"": 1,
+   ""ProtoMinor"": 1,
+   ""Header"": {
+      ""Cache-Control"": [
+         ""no-cache, no-store, max-age=0, must-revalidate""
+      ],
+      ""Connection"": [
+         ""Keep-Alive""
+      ],
+      ""Content-Length"": [
+         ""55""
+      ],
+      ""Content-Type"": [
+         ""text/plain; charset=utf-8""
+      ],
+      ""Date"": [
+         ""Mon Jun 08 19:39:12 MSK 2015""
+      ],
+      ""Pragma"": [
+         ""no-cache""
+      ],
+      ""Server"": [
+         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""
+      ]
+   },
+   ""Body"": {},
+   ""ContentLength"": 55,
+   ""TransferEncoding"": null,
+   ""Close"": false,
+   ""Trailer"": null,
+   ""Request"": {
+      ""Method"": ""POST"",
+      ""URL"": {
+         ""Scheme"": ""http"",
+         ""Opaque"": """",
+         ""User"": null,
+         ""Host"": ""localhost:2480"",
+         ""Path"": ""/command/GratefulDeadConcerts/sql"",
+         ""RawQuery"": """",
+         ""Fragment"": """"
+      },
+      ""Proto"": ""HTTP/1.1"",
+      ""ProtoMajor"": 1,
+      ""ProtoMinor"": 1,
+      ""Header"": {
+         ""Authorization"": [
+            ""Basic cm9vdDox""
+         ],
+         ""Content-Type"": [
+            ""Content-Type: text/plain""
+         ]
+      },
+      ""Body"": {
+         ""Reader"": {}
+      },
+      ""ContentLength"": 60,
+      ""TransferEncoding"": null,
+      ""Close"": false,
+      ""Host"": ""localhost:2480"",
+      ""Form"": null,
+      ""PostForm"": null,
+      ""MultipartForm"": null,
+      ""Trailer"": null,
+      ""RemoteAddr"": """",
+      ""RequestURI"": """",
+      ""TLS"": null
+   },
+   ""TLS"": null
+}
+java.lang.IllegalArgumentException: text cannot be null
+
+
+Also, I changed content-type to text/plain in curl command. 
+
+curl -X POST -u root:1 -H ""Content-Type: text/plain"" -d ""","['`', 'stringData', '=', 'url.QueryEscape(stringData)', 'req,', 'err', ':=', 'http.NewRequest(""POST"",', '""http://localhost:2480/command/GratefulDeadConcerts/sql"",', 'bytes.NewBufferString(stringData))', 'req.SetBasicAuth(""root"",', '""1"")', 'req.Header.Set(""Content-Type"",', '""Content-Type:', 'text/plain"")', 'resp,', 'err', ':=', 'client.Do(req)', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(""resp"")', 'fmt.Println(ToJson(resp))', 'var', 'b', 'bytes.Buffer', '_,', 'err', '=', 'b.ReadFrom(resp.Body)', 'if', 'err', '!=', 'nil', '{', 'log.Fatal(""Error', ':', '%s"",', 'err)', '}', 'fmt.Println(b.String())', '}', 'func', 'ToJson(obj', 'interface{})', 'string', '{', 'b,', 'err', ':=', 'json.MarshalIndent(&obj,', '"""",', '""', '"")', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', ':', '%s"",', 'err)', '}', 'strJson', ':=', 'string(b)', 'return', 'strJson', '}', 'The', 'result', 'is', 'the', 'same:', 'resp', '{', '""Status"":', '""500', 'Internal', 'Server', 'Error"",', '""StatusCode"":', '500,', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Cache-Control"":', '[', '""no-cache,', 'no-store,', 'max-age=0,', 'must-revalidate""', '],', '""Connection"":', '[', '""Keep-Alive""', '],', '""Content-Length"":', '[', '""55""', '],', '""Content-Type"":', '[', '""text/plain;', 'charset=utf-8""', '],', '""Date"":', '[', '""Mon', 'Jun', '08', '19:39:12', 'MSK', '2015""', '],', '""Pragma"":', '[', '""no-cache""', '],', '""Server"":', '[', '""OrientDB', 'Server', 'v.2.0.10', '(build', 'UNKNOWN@r;', '2015-05-25', '16:48:43+0000)""', ']', '},', '""Body"":', '{},', '""ContentLength"":', '55,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Trailer"":', 'null,', '""Request"":', '{', '""Method"":', '""POST"",', '""URL"":', '{', '""Scheme"":', '""http"",', '""Opaque"":', '"""",', '""User"":', 'null,', '""Host"":', '""localhost:2480"",', '""Path"":', '""/command/GratefulDeadConcerts/sql"",', '""RawQuery"":', '"""",', '""Fragment"":', '""""', '},', '""Proto"":', '""HTTP/1.1"",', '""ProtoMajor"":', '1,', '""ProtoMinor"":', '1,', '""Header"":', '{', '""Authorization"":', '[', '""Basic', 'cm9vdDox""', '],', '""Content-Type"":', '[', '""Content-Type:', 'text/plain""', ']', '},', '""Body"":', '{', '""Reader"":', '{}', '},', '""ContentLength"":', '60,', '""TransferEncoding"":', 'null,', '""Close"":', 'false,', '""Host"":', '""localhost:2480"",', '""Form"":', 'null,', '""PostForm"":', 'null,', '""MultipartForm"":', 'null,', '""Trailer"":', 'null,', '""RemoteAddr"":', '"""",', '""RequestURI"":', '"""",', '""TLS"":', 'null', '},', '""TLS"":', 'null', '}', 'java.lang.IllegalArgumentException:', 'text', 'cannot', 'be', 'null', 'Also,', 'I', 'changed', 'content-type', 'to', 'text/plain', 'in', 'curl', 'command.', 'curl', '-X', 'POST', '-u', 'root:1', '-H', '""Content-Type:', 'text/plain""', '-d', '""']","['``', 'NNS', 'NN', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'JJ', 'JJ', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', ')', 'NN', 'NNP', 'NN', 'VBG', '(', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ':', 'NN', 'NN', ')', 'NN', 'JJ', 'JJ', 'NN', 'NN', ')', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CD', 'CD', 'NNP', 'CD', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'FW', 'NNP', 'NNP', 'JJ', 'CD', 'JJ', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'RB', 'NNP', '(', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'CD', 'JJ', '(', 'JJ', 'NN', 'JJ', 'NN', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', '(', 'NNP', 'NNP', 'NNP', 'VBD', 'CD', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'JJ', 'NNP', 'NN', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'VB', 'JJ', 'NNP', 'PRP', 'VBD', 'NN', 'TO', 'VB', 'IN', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NNP', 'NN']"
+11,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+12,"""  http://localhost:2480/command/GratefulDeadConcerts/sql
+{""result"":[{""@type"":""d"",""@rid"":""#9:858"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}
+
+
+The result is the same, it's ok with curl, but not ok with golang POST. 
+
+Update 4
+
+What am I trying to do? I am implementing OrientDB REST-interface for executing queries from a GO application.
+","['""', 'http://localhost:2480/command/GratefulDeadConcerts/sql', '{""result"":[{""@type"":""d"",""@rid"":""#9:858"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}', 'The', 'result', 'is', 'the', 'same,', ""it's"", 'ok', 'with', 'curl,', 'but', 'not', 'ok', 'with', 'golang', 'POST.', 'Update', '4', 'What', 'am', 'I', 'trying', 'to', 'do?', 'I', 'am', 'implementing', 'OrientDB', 'REST-interface', 'for', 'executing', 'queries', 'from', 'a', 'GO', 'application.']","['JJ', 'NN', 'VBD', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNS', 'CC', 'RB', 'JJ', 'IN', 'JJ', 'NNP', 'NNP', 'CD', 'WP', 'VBP', 'PRP', 'VBG', 'TO', 'VB', 'PRP', 'VBP', 'VBG', 'NNP', 'NNP', 'IN', 'VBG', 'NNS', 'IN', 'DT', 'NNP', 'NN']"

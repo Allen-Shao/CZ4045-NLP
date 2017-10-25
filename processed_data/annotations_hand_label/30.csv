@@ -1,0 +1,221 @@
+,text,token,annotation
+0,"Let's examine your question. 
+
+1. net.Listen() vs. net.ListenUDP() vs. net.ListenPacket()
+
+net.Listen()
+
+
+  Listen announces on the local network address laddr. The network net must be a stream-oriented network: ""tcp"", ""tcp4"", ""tcp6"", ""unix"" or ""unixpacket"". See Dial for the syntax of laddr. 
+
+
+Usage Example #1:
+
+","[""Let's"", 'examine', 'your', 'question.', '1.', 'net.Listen()', 'vs.', 'net.ListenUDP()', 'vs.', 'net.ListenPacket()', 'net.Listen()', 'Listen', 'announces', 'on', 'the', 'local', 'network', 'address', 'laddr.', 'The', 'network', 'net', 'must', 'be', 'a', 'stream-oriented', 'network:', '""tcp"",', '""tcp4"",', '""tcp6"",', '""unix""', 'or', '""unixpacket"".', 'See', 'Dial', 'for', 'the', 'syntax', 'of', 'laddr.', 'Usage', 'Example', '#1:']","['NNP', 'VB', 'PRP$', 'NN', 'CD', 'NN', 'FW', 'FW', 'FW', 'FW', 'FW', 'NNP', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBD', 'DT', 'NN', 'NN', 'MD', 'VB', 'DT', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'IN', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'NNP']"
+1,"tcpSock, err := net.Listen(""tcp"", ""0.0.0.0:8080"")","['tcpSock', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""0.0.0.0:8080""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+2,"
+
+Usage Example #2
+
+","['Usage', 'Example', '#2']","['JJ', 'NNP', 'NN']"
+3,"unixSock, err := net.Listen(""unix"", ""/var/app/server.sock"")","['unixSock', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""unix"", ""/var/app/server.sock""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+4,"
+
+We can see in the source that net.Listen() works as a switch statement that calls either net.ListenTCP or net.ListenUnix or the default error:
+
+","['We', 'can', 'see', 'in', 'the', 'source', 'that', 'net.Listen()', 'works', 'as', 'a', 'switch', 'statement', 'that', 'calls', 'either', 'net.ListenTCP', 'or', 'net.ListenUnix', 'or', 'the', 'default', 'error:']","['PRP', 'MD', 'VB', 'IN', 'DT', 'NN', 'WDT', 'RB', 'VBZ', 'IN', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'CC', 'NN', 'CC', 'DT', 'NN', 'NN']"
+5,"func Listen(net, laddr string) (Listener, error) {","['func', 'Listen', '(', 'net', ',', 'laddr', 'string', ')', '(', 'Listener', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+6,"   la, err := resolveAddr(""listen"", net, laddr, noDeadline)","['la', ',', 'err', ':=', 'resolveAddr', '(', '""listen""', ',', 'net', ',', 'laddr', ',', 'noDeadline', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+7,   if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+8,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: nil, Err: err}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'nil', ',', 'Err', ':', 'err', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+9,   },['}'],['OPERATOR']
+10,   var l Listener,"['var', 'l', 'Listener']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+11,   switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la', '.', 'toAddr', '().(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+12,   case *TCPAddr:,"['case', '*', 'TCPAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,"      l, err = ListenTCP(net, la)","['l', ',', 'err', '=', 'ListenTCP', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,   case *UnixAddr:,"['case', '*', 'UnixAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,"      l, err = ListenUnix(net, la)","['l', ',', 'err', '=', 'ListenUnix', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+16,   default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+17,"      return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,   },['}'],['OPERATOR']
+19,   if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,"      return nil, err // l is non-nil interface containing nil pointer","['//', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'VBG', 'JJ', 'NN']"
+21,   },['}'],['OPERATOR']
+22,"   return l, nil","['return', 'l', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+23,},['}'],['OPERATOR']
+24,"
+
+Additional info at net.Listen() Docs
+
+So then, we can eliminate net.ListenUDP from the initial comparison; and look at net.ListenPacket().
+
+net.ListenPacket()
+
+
+  ListenPacket announces on the local network address laddr. The network net must be a packet-oriented network: ""udp"", ""udp4"", ""udp6"", ""ip"", ""ip4"", ""ip6"" or ""unixgram"". See Dial for the syntax of laddr. 
+
+
+Usage Example #1:
+
+","['Additional', 'info', 'at', 'net.Listen()', 'Docs', 'So', 'then,', 'we', 'can', 'eliminate', 'net.ListenUDP', 'from', 'the', 'initial', 'comparison;', 'and', 'look', 'at', 'net.ListenPacket().', 'net.ListenPacket()', 'ListenPacket', 'announces', 'on', 'the', 'local', 'network', 'address', 'laddr.', 'The', 'network', 'net', 'must', 'be', 'a', 'packet-oriented', 'network:', '""udp"",', '""udp4"",', '""udp6"",', '""ip"",', '""ip4"",', '""ip6""', 'or', '""unixgram"".', 'See', 'Dial', 'for', 'the', 'syntax', 'of', 'laddr.', 'Usage', 'Example', '#1:']","['JJ', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'CC', 'NN', 'IN', 'JJ', 'JJ', 'NNP', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBD', 'DT', 'NN', 'NN', 'MD', 'VB', 'DT', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'IN', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'NNP']"
+25,"pListener, err := net.ListenPacket(""ip4"", ""0.0.0.0:9090"")","['pListener', ',', 'err', ':=', 'net', '.', 'ListenPacket', '(', '""ip4"", ""0.0.0.0:9090""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+26,"
+
+And, if we look under the hood, we can see that it operates in much the same way as net.Listen():
+
+","['And,', 'if', 'we', 'look', 'under', 'the', 'hood,', 'we', 'can', 'see', 'that', 'it', 'operates', 'in', 'much', 'the', 'same', 'way', 'as', 'net.Listen():']","['RB', 'IN', 'PRP', 'VBP', 'IN', 'DT', 'NN', 'PRP', 'MD', 'VB', 'IN', 'PRP', 'VBZ', 'IN', 'JJ', 'DT', 'JJ', 'NN', 'IN', 'NN']"
+27,"func ListenPacket(net, laddr string) (PacketConn, error) {","['func', 'ListenPacket', '(', 'net', ',', 'laddr', 'string', ')', '(', 'PacketConn', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+28,"    la, err := resolveAddr(""listen"", net, laddr, noDeadline)","['la', ',', 'err', ':=', 'resolveAddr', '(', '""listen""', ',', 'net', ',', 'laddr', ',', 'noDeadline', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"        return nil, &OpError{Op: ""listen"", Net: net, Addr: nil, Err: err}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen""', ',', 'Net', ':', 'net', ',', 'Addr', ':', 'nil', ',', 'Err', ':', 'err', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,    },['}'],['OPERATOR']
+32,    var l PacketConn,"['var', 'l', 'PacketConn']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+33,    switch la := la.toAddr().(type) {,"['switch', 'la', ':=', 'la', '.', 'toAddr', '().(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+34,    case *UDPAddr:,"['case', '*', 'UDPAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,"        l, err = ListenUDP(net, la)","['l', ',', 'err', '=', 'ListenUDP', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,    case *IPAddr:,"['case', '*', 'IPAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,"        l, err = ListenIP(net, la)","['l', ',', 'err', '=', 'ListenIP', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,    case *UnixAddr:,"['case', '*', 'UnixAddr', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,"        l, err = ListenUnixgram(net, la)","['l', ',', 'err', '=', 'ListenUnixgram', '(', 'net', ',', 'la', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+41,"        return nil, &OpError{Op: ""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type"", Addr: laddr}}","['return', 'nil', ',', '&', 'OpError', '{', 'Op', ':', '""listen"", Net: net, Addr: la, Err: &AddrError{Err: ""unexpected address type""', ',', 'Addr', ':', 'laddr', '}}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,    },['}'],['OPERATOR']
+43,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,"        return nil, err // l is non-nil interface containing nil pointer","['//', 'l', 'is', 'non-nil', 'interface', 'containing', 'nil', 'pointer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'VBG', 'JJ', 'NN']"
+45,    },['}'],['OPERATOR']
+46,"    return l, nil","['return', 'l', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+47,},['}'],['OPERATOR']
+48,"
+
+2. net.Read() vs. net.ReadFrom() vs net.ReadFromUDP()
+
+As you might expect, these functions are used to read from the various net connections. 
+
+net.Read()
+
+If you look at the net package - you can see that all of the Read() functions come from types that implement the Conn interface.
+
+
+IPConn.Read
+TCPConn.Read
+UDPConn.Read
+UnixConn.Read
+
+
+The Conn interface is defined as:
+
+
+  ... a generic stream-oriented network connection.
+
+
+In order to implement net.Conn you need to have the following methods:
+
+","['2.', 'net.Read()', 'vs.', 'net.ReadFrom()', 'vs', 'net.ReadFromUDP()', 'As', 'you', 'might', 'expect,', 'these', 'functions', 'are', 'used', 'to', 'read', 'from', 'the', 'various', 'net', 'connections.', 'net.Read()', 'If', 'you', 'look', 'at', 'the', 'net', 'package', '-', 'you', 'can', 'see', 'that', 'all', 'of', 'the', 'Read()', 'functions', 'come', 'from', 'types', 'that', 'implement', 'the', 'Conn', 'interface.', 'IPConn.Read', 'TCPConn.Read', 'UDPConn.Read', 'UnixConn.Read', 'The', 'Conn', 'interface', 'is', 'defined', 'as:', '...', 'a', 'generic', 'stream-oriented', 'network', 'connection.', 'In', 'order', 'to', 'implement', 'net.Conn', 'you', 'need', 'to', 'have', 'the', 'following', 'methods:']","['CD', 'JJ', 'FW', 'FW', 'FW', 'CC', 'IN', 'PRP', 'MD', 'VB', 'DT', 'NNS', 'VBP', 'VBN', 'TO', 'VB', 'IN', 'DT', 'JJ', 'JJ', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'IN', 'DT', 'JJ', 'NN', ':', 'PRP', 'MD', 'VB', 'IN', 'DT', 'IN', 'DT', 'NNP', 'NNS', 'VBP', 'IN', 'NNS', 'WDT', 'VBP', 'DT', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'DT', 'NNP', 'NN', 'VBZ', 'VBN', 'NNS', ':', 'DT', 'JJ', 'JJ', 'NN', 'NN', 'IN', 'NN', 'TO', 'VB', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NN']"
+49,type Conn interface {,"['type', 'Conn', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+50,    // Read reads data from the connection.,"['//', 'Read', 'reads', 'data', 'from', 'the', 'connection.']","['COMMENT', 'JJ', 'NNS', 'NNS', 'IN', 'DT', 'NN']"
+51,    // Read can be made to time out and return a Error with Timeout() == true,"['//', 'Read', 'can', 'be', 'made', 'to', 'time', 'out', 'and', 'return', 'a', 'Error', 'with', 'Timeout()', '==', 'true']","['COMMENT', 'VBN', 'MD', 'VB', 'VBN', 'TO', 'NN', 'RP', 'CC', 'VB', 'DT', 'NN', 'IN', 'NNP', 'NNP', 'JJ']"
+52,    // after a fixed time limit; see SetDeadline and SetReadDeadline.,"['//', 'after', 'a', 'fixed', 'time', 'limit;', 'see', 'SetDeadline', 'and', 'SetReadDeadline.']","['COMMENT', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBP', 'NNP', 'CC', 'NNP']"
+53,"    Read(b []byte) (n int, err error)","['Read', '(', 'b', '[]', 'byte', ')', '(', 'n', 'int', ',', 'err', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+54,    // Write writes data to the connection.,"['//', 'Write', 'writes', 'data', 'to', 'the', 'connection.']","['COMMENT', 'NNP', 'VBZ', 'NNS', 'TO', 'DT', 'NN']"
+55,    // Write can be made to time out and return a Error with Timeout() == true,"['//', 'Write', 'can', 'be', 'made', 'to', 'time', 'out', 'and', 'return', 'a', 'Error', 'with', 'Timeout()', '==', 'true']","['COMMENT', 'NNP', 'MD', 'VB', 'VBN', 'TO', 'NN', 'RP', 'CC', 'VB', 'DT', 'NN', 'IN', 'NNP', 'NNP', 'JJ']"
+56,    // after a fixed time limit; see SetDeadline and SetWriteDeadline.,"['//', 'after', 'a', 'fixed', 'time', 'limit;', 'see', 'SetDeadline', 'and', 'SetWriteDeadline.']","['COMMENT', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBP', 'NNP', 'CC', 'NNP']"
+57,"    Write(b []byte) (n int, err error)","['Write', '(', 'b', '[]', 'byte', ')', '(', 'n', 'int', ',', 'err', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+58,    // Close closes the connection.,"['//', 'Close', 'closes', 'the', 'connection.']","['COMMENT', 'JJ', 'VBZ', 'DT', 'NN']"
+59,    // Any blocked Read or Write operations will be unblocked and return errors.,"['//', 'Any', 'blocked', 'Read', 'or', 'Write', 'operations', 'will', 'be', 'unblocked', 'and', 'return', 'errors.']","['COMMENT', 'DT', 'JJ', 'NNP', 'CC', 'NNP', 'NNS', 'MD', 'VB', 'JJ', 'CC', 'NN', 'NN']"
+60,    Close() error,"['Close', '()', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+61,    // LocalAddr returns the local network address.,"['//', 'LocalAddr', 'returns', 'the', 'local', 'network', 'address.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN']"
+62,    LocalAddr() Addr,"['LocalAddr', '()', 'Addr']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+63,    // RemoteAddr returns the remote network address.,"['//', 'RemoteAddr', 'returns', 'the', 'remote', 'network', 'address.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN']"
+64,    RemoteAddr() Addr,"['RemoteAddr', '()', 'Addr']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+65,    // SetDeadline sets the read and write deadlines associated,"['//', 'SetDeadline', 'sets', 'the', 'read', 'and', 'write', 'deadlines', 'associated']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'CC', 'JJ', 'NNS', 'VBN']"
+66,    // with the connection. It is equivalent to calling both,"['//', 'with', 'the', 'connection.', 'It', 'is', 'equivalent', 'to', 'calling', 'both']","['COMMENT', 'IN', 'DT', 'NN', 'PRP', 'VBZ', 'JJ', 'TO', 'VBG', 'DT']"
+67,    // SetReadDeadline and SetWriteDeadline.,"['//', 'SetReadDeadline', 'and', 'SetWriteDeadline.']","['COMMENT', 'NNP', 'CC', 'NNP']"
+68,    //,['//'],['COMMENT']
+69,    // A deadline is an absolute time after which I/O operations,"['//', 'A', 'deadline', 'is', 'an', 'absolute', 'time', 'after', 'which', 'I/O', 'operations']","['COMMENT', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'WDT', 'NNP', 'NNS']"
+70,    // fail with a timeout (see type Error) instead of,"['//', 'fail', 'with', 'a', 'timeout', '(see', 'type', 'Error)', 'instead', 'of']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'NN', 'NNP', 'RB', 'IN']"
+71,"    // blocking. The deadline applies to all future I/O, not just","['//', 'blocking.', 'The', 'deadline', 'applies', 'to', 'all', 'future', 'I/O,', 'not', 'just']","['COMMENT', 'IN', 'DT', 'NN', 'NNS', 'TO', 'DT', 'NN', 'NNP', 'RB', 'RB']"
+72,    // the immediately following call to Read or Write.,"['//', 'the', 'immediately', 'following', 'call', 'to', 'Read', 'or', 'Write.']","['COMMENT', 'DT', 'RB', 'VBG', 'NN', 'TO', 'VB', 'CC', 'VB']"
+73,    //,['//'],['COMMENT']
+74,    // An idle timeout can be implemented by repeatedly extending,"['//', 'An', 'idle', 'timeout', 'can', 'be', 'implemented', 'by', 'repeatedly', 'extending']","['COMMENT', 'DT', 'JJ', 'NN', 'MD', 'VB', 'VBN', 'IN', 'RB', 'VBG']"
+75,    // the deadline after successful Read or Write calls.,"['//', 'the', 'deadline', 'after', 'successful', 'Read', 'or', 'Write', 'calls.']","['COMMENT', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'CC', 'NNP', 'NN']"
+76,    //,['//'],['COMMENT']
+77,    // A zero value for t means I/O operations will not time out.,"['//', 'A', 'zero', 'value', 'for', 't', 'means', 'I/O', 'operations', 'will', 'not', 'time', 'out.']","['COMMENT', 'DT', 'CD', 'NN', 'IN', 'NN', 'NNS', 'NNP', 'NNS', 'MD', 'RB', 'NN', 'NN']"
+78,    SetDeadline(t time.Time) error,"['SetDeadline', '(', 't', 'time', '.', 'Time', ')', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+79,    // SetReadDeadline sets the deadline for future Read calls.,"['//', 'SetReadDeadline', 'sets', 'the', 'deadline', 'for', 'future', 'Read', 'calls.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NN']"
+80,    // A zero value for t means Read will not time out.,"['//', 'A', 'zero', 'value', 'for', 't', 'means', 'Read', 'will', 'not', 'time', 'out.']","['COMMENT', 'DT', 'CD', 'NN', 'IN', 'NN', 'NNS', 'VBP', 'MD', 'RB', 'NN', 'NN']"
+81,    SetReadDeadline(t time.Time) error,"['SetReadDeadline', '(', 't', 'time', '.', 'Time', ')', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+82,    // SetWriteDeadline sets the deadline for future Write calls.,"['//', 'SetWriteDeadline', 'sets', 'the', 'deadline', 'for', 'future', 'Write', 'calls.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NN']"
+83,"    // Even if write times out, it may return n > 0, indicating that","['//', 'Even', 'if', 'write', 'times', 'out,', 'it', 'may', 'return', 'n', '>', '0,', 'indicating', 'that']","['COMMENT', 'RB', 'IN', 'JJ', 'NNS', 'VBP', 'PRP', 'MD', 'VB', 'JJ', '$', 'CD', 'NN', 'WDT']"
+84,    // some of the data was successfully written.,"['//', 'some', 'of', 'the', 'data', 'was', 'successfully', 'written.']","['COMMENT', 'DT', 'IN', 'DT', 'NN', 'VBD', 'RB', 'JJ']"
+85,    // A zero value for t means Write will not time out.,"['//', 'A', 'zero', 'value', 'for', 't', 'means', 'Write', 'will', 'not', 'time', 'out.']","['COMMENT', 'DT', 'CD', 'NN', 'IN', 'NN', 'VBZ', 'NNP', 'MD', 'RB', 'NN', 'NN']"
+86,    SetWriteDeadline(t time.Time) error,"['SetWriteDeadline', '(', 't', 'time', '.', 'Time', ')', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+87,},['}'],['OPERATOR']
+88,"
+
+Source code
+
+So, that should make it clear that there is actually no net.Read(); but, rather, Read() functions that operate on types which implement the net.Conn interface.
+
+net.ReadFrom()
+
+Just as with net.Read(), all of the implementations come from implementing an interface. In this case, that interface is net.PacketConn
+
+
+IPConn.ReadFrom
+UDPConn.ReadFrom
+UnixConn.ReadFrom
+
+
+
+  PacketConn is a generic packet-oriented network connection.
+
+
+","['Source', 'code', 'So,', 'that', 'should', 'make', 'it', 'clear', 'that', 'there', 'is', 'actually', 'no', 'net.Read();', 'but,', 'rather,', 'Read()', 'functions', 'that', 'operate', 'on', 'types', 'which', 'implement', 'the', 'net.Conn', 'interface.', 'net.ReadFrom()', 'Just', 'as', 'with', 'net.Read(),', 'all', 'of', 'the', 'implementations', 'come', 'from', 'implementing', 'an', 'interface.', 'In', 'this', 'case,', 'that', 'interface', 'is', 'net.PacketConn', 'IPConn.ReadFrom', 'UDPConn.ReadFrom', 'UnixConn.ReadFrom', 'PacketConn', 'is', 'a', 'generic', 'packet-oriented', 'network', 'connection.']","['NN', 'NN', 'NNP', 'WDT', 'MD', 'VB', 'PRP', 'JJ', 'IN', 'EX', 'VBZ', 'RB', 'DT', 'JJ', 'NN', 'NN', 'NNP', 'NNS', 'WDT', 'VBP', 'IN', 'NNS', 'WDT', 'VBP', 'DT', 'JJ', 'NN', 'RB', 'NNP', 'IN', 'IN', 'JJ', 'DT', 'IN', 'DT', 'NNS', 'VBP', 'IN', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'NN', 'VBZ', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'VBZ', 'DT', 'JJ', 'JJ', 'NN', 'NN']"
+89,type PacketConn interface {,"['type', 'PacketConn', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+90,"    // ReadFrom reads a packet from the connection,","['//', 'ReadFrom', 'reads', 'a', 'packet', 'from', 'the', 'connection,']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN']"
+91,    // copying the payload into b.  It returns the number of,"['//', 'copying', 'the', 'payload', 'into', 'b.', 'It', 'returns', 'the', 'number', 'of']","['COMMENT', 'VBG', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBZ', 'DT', 'NN', 'IN']"
+92,    // bytes copied into b and the return address that,"['//', 'bytes', 'copied', 'into', 'b', 'and', 'the', 'return', 'address', 'that']","['COMMENT', 'NNS', 'VBD', 'IN', 'NN', 'CC', 'DT', 'NN', 'NN', 'IN']"
+93,    // was on the packet.,"['//', 'was', 'on', 'the', 'packet.']","['COMMENT', 'VBD', 'IN', 'DT', 'NN']"
+94,    // ReadFrom can be made to time out and return,"['//', 'ReadFrom', 'can', 'be', 'made', 'to', 'time', 'out', 'and', 'return']","['COMMENT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'NN', 'RP', 'CC', 'VB']"
+95,    // an error with Timeout() == true after a fixed time limit;,"['//', 'an', 'error', 'with', 'Timeout()', '==', 'true', 'after', 'a', 'fixed', 'time', 'limit;']","['COMMENT', 'DT', 'NN', 'IN', 'NNP', 'NNP', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'NN']"
+96,    // see SetDeadline and SetReadDeadline.,"['//', 'see', 'SetDeadline', 'and', 'SetReadDeadline.']","['COMMENT', 'VB', 'NNP', 'CC', 'NNP']"
+97,"    ReadFrom(b []byte) (n int, addr Addr, err error)","['ReadFrom', '(', 'b', '[]', 'byte', ')', '(', 'n', 'int', ',', 'addr', 'Addr', ',', 'err', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+98,    // WriteTo writes a packet with payload b to addr.,"['//', 'WriteTo', 'writes', 'a', 'packet', 'with', 'payload', 'b', 'to', 'addr.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NN', 'TO', 'VB']"
+99,    // WriteTo can be made to time out and return,"['//', 'WriteTo', 'can', 'be', 'made', 'to', 'time', 'out', 'and', 'return']","['COMMENT', 'NNP', 'MD', 'VB', 'VBN', 'TO', 'NN', 'RP', 'CC', 'VB']"
+100,    // an error with Timeout() == true after a fixed time limit;,"['//', 'an', 'error', 'with', 'Timeout()', '==', 'true', 'after', 'a', 'fixed', 'time', 'limit;']","['COMMENT', 'DT', 'NN', 'IN', 'NNP', 'NNP', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'NN']"
+101,    // see SetDeadline and SetWriteDeadline.,"['//', 'see', 'SetDeadline', 'and', 'SetWriteDeadline.']","['COMMENT', 'VB', 'NNP', 'CC', 'NNP']"
+102,"    // On packet-oriented connections, write timeouts are rare.","['//', 'On', 'packet-oriented', 'connections,', 'write', 'timeouts', 'are', 'rare.']","['COMMENT', 'IN', 'JJ', 'NN', 'NN', 'NNS', 'VBP', 'JJ']"
+103,"    WriteTo(b []byte, addr Addr) (n int, err error)","['WriteTo', '(', 'b', '[]', 'byte', ',', 'addr', 'Addr', ')', '(', 'n', 'int', ',', 'err', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+104,    // Close closes the connection.,"['//', 'Close', 'closes', 'the', 'connection.']","['COMMENT', 'JJ', 'VBZ', 'DT', 'NN']"
+105,    // Any blocked ReadFrom or WriteTo operations will be unblocked and return errors.,"['//', 'Any', 'blocked', 'ReadFrom', 'or', 'WriteTo', 'operations', 'will', 'be', 'unblocked', 'and', 'return', 'errors.']","['COMMENT', 'DT', 'JJ', 'NNP', 'CC', 'NNP', 'NNS', 'MD', 'VB', 'JJ', 'CC', 'NN', 'NN']"
+106,    Close() error,"['Close', '()', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+107,    // LocalAddr returns the local network address.,"['//', 'LocalAddr', 'returns', 'the', 'local', 'network', 'address.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN']"
+108,    LocalAddr() Addr,"['LocalAddr', '()', 'Addr']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+109,    // SetDeadline sets the read and write deadlines associated,"['//', 'SetDeadline', 'sets', 'the', 'read', 'and', 'write', 'deadlines', 'associated']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'CC', 'JJ', 'NNS', 'VBN']"
+110,    // with the connection.,"['//', 'with', 'the', 'connection.']","['COMMENT', 'IN', 'DT', 'NN']"
+111,    SetDeadline(t time.Time) error,"['SetDeadline', '(', 't', 'time', '.', 'Time', ')', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+112,    // SetReadDeadline sets the deadline for future Read calls.,"['//', 'SetReadDeadline', 'sets', 'the', 'deadline', 'for', 'future', 'Read', 'calls.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NN']"
+113,"    // If the deadline is reached, Read will fail with a timeout","['//', 'If', 'the', 'deadline', 'is', 'reached,', 'Read', 'will', 'fail', 'with', 'a', 'timeout']","['COMMENT', 'IN', 'DT', 'NN', 'VBZ', 'VBN', 'NNP', 'MD', 'VB', 'IN', 'DT', 'NN']"
+114,    // (see type Error) instead of blocking.,"['//', '(see', 'type', 'Error)', 'instead', 'of', 'blocking.']","['COMMENT', 'NN', 'NN', 'NNP', 'RB', 'IN', 'NN']"
+115,    // A zero value for t means Read will not time out.,"['//', 'A', 'zero', 'value', 'for', 't', 'means', 'Read', 'will', 'not', 'time', 'out.']","['COMMENT', 'DT', 'CD', 'NN', 'IN', 'NN', 'NNS', 'VBP', 'MD', 'RB', 'NN', 'NN']"
+116,    SetReadDeadline(t time.Time) error,"['SetReadDeadline', '(', 't', 'time', '.', 'Time', ')', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+117,    // SetWriteDeadline sets the deadline for future Write calls.,"['//', 'SetWriteDeadline', 'sets', 'the', 'deadline', 'for', 'future', 'Write', 'calls.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NN']"
+118,"    // If the deadline is reached, Write will fail with a timeout","['//', 'If', 'the', 'deadline', 'is', 'reached,', 'Write', 'will', 'fail', 'with', 'a', 'timeout']","['COMMENT', 'IN', 'DT', 'NN', 'VBZ', 'VBN', 'NNP', 'MD', 'VB', 'IN', 'DT', 'NN']"
+119,    // (see type Error) instead of blocking.,"['//', '(see', 'type', 'Error)', 'instead', 'of', 'blocking.']","['COMMENT', 'NN', 'NN', 'NNP', 'RB', 'IN', 'NN']"
+120,    // A zero value for t means Write will not time out.,"['//', 'A', 'zero', 'value', 'for', 't', 'means', 'Write', 'will', 'not', 'time', 'out.']","['COMMENT', 'DT', 'CD', 'NN', 'IN', 'NN', 'VBZ', 'NNP', 'MD', 'RB', 'NN', 'NN']"
+121,"    // Even if write times out, it may return n > 0, indicating that","['//', 'Even', 'if', 'write', 'times', 'out,', 'it', 'may', 'return', 'n', '>', '0,', 'indicating', 'that']","['COMMENT', 'RB', 'IN', 'JJ', 'NNS', 'VBP', 'PRP', 'MD', 'VB', 'JJ', '$', 'CD', 'NN', 'WDT']"
+122,    // some of the data was successfully written.,"['//', 'some', 'of', 'the', 'data', 'was', 'successfully', 'written.']","['COMMENT', 'DT', 'IN', 'DT', 'NN', 'VBD', 'RB', 'JJ']"
+123,    SetWriteDeadline(t time.Time) error,"['SetWriteDeadline', '(', 't', 'time', '.', 'Time', ')', 'error']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+124,},['}'],['OPERATOR']
+125,"
+
+Note: the  TCPConn.ReadFrom comes from implementing the io.ReaderFrom ReadFrom method.
+
+3. net.Write()
+
+As you might have guessed, we're looking at the same pattern over and over again. This is called implementing an interface. I'll leave you to look up this particular method and how it works using the above explanation as a road map.
+
+You would do well to take a look at the Effective Go parts about interfaces first.
+
+More net package info available at the source and GoDoc
+","['Note:', 'the', 'TCPConn.ReadFrom', 'comes', 'from', 'implementing', 'the', 'io.ReaderFrom', 'ReadFrom', 'method.', '3.', 'net.Write()', 'As', 'you', 'might', 'have', 'guessed,', ""we're"", 'looking', 'at', 'the', 'same', 'pattern', 'over', 'and', 'over', 'again.', 'This', 'is', 'called', 'implementing', 'an', 'interface.', ""I'll"", 'leave', 'you', 'to', 'look', 'up', 'this', 'particular', 'method', 'and', 'how', 'it', 'works', 'using', 'the', 'above', 'explanation', 'as', 'a', 'road', 'map.', 'You', 'would', 'do', 'well', 'to', 'take', 'a', 'look', 'at', 'the', 'Effective', 'Go', 'parts', 'about', 'interfaces', 'first.', 'More', 'net', 'package', 'info', 'available', 'at', 'the', 'source', 'and', 'GoDoc']","['NNP', 'DT', 'NNP', 'VBZ', 'IN', 'VBG', 'DT', 'NN', 'NNP', 'VBZ', 'CD', 'NN', 'IN', 'PRP', 'MD', 'VB', 'VBN', 'JJ', 'VBG', 'IN', 'DT', 'JJ', 'NN', 'IN', 'CC', 'IN', 'NN', 'DT', 'VBZ', 'VBN', 'VBG', 'DT', 'NN', 'NNP', 'VBP', 'PRP', 'TO', 'VB', 'RP', 'DT', 'JJ', 'NN', 'CC', 'WRB', 'PRP', 'VBZ', 'VBG', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN', 'PRP', 'MD', 'VB', 'RB', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NNP', 'NNS', 'IN', 'NNS', 'RB', 'RBR', 'JJ', 'NN', 'NN', 'JJ', 'IN', 'DT', 'NN', 'CC', 'NNP']"

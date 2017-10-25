@@ -1,0 +1,184 @@
+,text,token,annotation
+0,"I am using this library from http://jmoiron.github.io/sqlx/ to do a query. Following the documentation led me to the code below.
+
+","['I', 'am', 'using', 'this', 'library', 'from', 'http://jmoiron.github.io/sqlx/', 'to', 'do', 'a', 'query.', 'Following', 'the', 'documentation', 'led', 'me', 'to', 'the', 'code', 'below.']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'IN', 'NN', 'TO', 'VB', 'DT', 'NN', 'VBG', 'DT', 'NN', 'VBD', 'PRP', 'TO', 'DT', 'NN', 'NN']"
+1,"func cities(w http.ResponseWriter, r *http.Request, _ httprouter.Params) error {","['func', 'cities', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', '_', 'httprouter', '.', 'Params', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+2,    var main string,"['var', 'main', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+3,    var secondary string,"['var', 'secondary', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+4,    var limit string,"['var', 'limit', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+5,    queryParams := make(map[string]interface{}),"['queryParams', ':=', 'make', '(', 'map', '[', 'string', ']', 'interface', '{})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+6,"    if k := r.PostFormValue(""keyword""); k != """" {","['if', 'k', ':=', 'r', '.', 'PostFormValue', '(', '""keyword""); k != """"', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+7,"        main = ""city.name LIKE :keyword""","['main', '=', '""city.name LIKE :keyword""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+8,"        queryParams[""keyword""] = k + ""%""","['queryParams', '[', '""keyword""] = k + ""%""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+9,    },['}'],['OPERATOR']
+10,"    if sk := r.PostFormValue(""secondaryKeyword""); sk != """" && sk != ""null"" {","['if', 'sk', ':=', 'r', '.', 'PostFormValue', '(', '""secondaryKeyword""); sk != """" && sk != ""null""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+11,"        secondary = ""OR city.name = :secondaryKeyword""","['secondary', '=', '""OR city.name = :secondaryKeyword""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+12,"        queryParams[""secondaryKeyword""] = sk","['queryParams', '[', '""secondaryKeyword""', ']', '=', 'sk']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+13,    },['}'],['OPERATOR']
+14,"    if mr := r.PostFormValue(""maxResults""); mr != """" {","['if', 'mr', ':=', 'r', '.', 'PostFormValue', '(', '""maxResults""); mr != """"', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+15,"        limit = ""LIMIT :maxResults""","['limit', '=', '""LIMIT :maxResults""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+16,"        queryParams[""maxResults""] = mr","['queryParams', '[', '""maxResults""', ']', '=', 'mr']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+17,    },['}'],['OPERATOR']
+18,"    if lr := r.PostFormValue(""lastRequest""); lr != """" && lr == ""1"" {","['if', 'lr', ':=', 'r', '.', 'PostFormValue', '(', '""lastRequest""); lr != """" && lr == ""1""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+19,"        limit = """"","['limit', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+20,    },['}'],['OPERATOR']
+21,    query := fmt.Sprintf(`,"['query', ':=', 'fmt', '.', 'Sprintf', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,        SELECT,['SELECT'],['IDENTIFIER']
+23,"            city.geonameid AS cityId,","['city', '.', 'geonameid', 'AS', 'cityId', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+24,"            city.name AS cityName,","['city', '.', 'name', 'AS', 'cityName', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+25,"            COALESCE(admin1.name_local, '') AS admin1Name,","['COALESCE', '(', 'admin1', '.', 'name_local', ',', ')', 'AS', 'admin1Name', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+26,"            country.name AS countryName,","['country', '.', 'name', 'AS', 'countryName', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+27,"            CONCAT_WS(' ', city.name, city.asciiname, country.name) AS searchString","['CONCAT_WS', '(', ',', 'city', '.', 'name', ',', 'city', '.', 'asciiname', ',', 'country', '.', 'name', ')', 'AS', 'searchString']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+28,        FROM geonames_cities1000 AS city,"['FROM', 'geonames_cities1000', 'AS', 'city']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+29,            INNER JOIN geonames_countryinfo AS country,"['INNER', 'JOIN', 'geonames_countryinfo', 'AS', 'country']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+30,                ON city.iso_alpha2 = country.iso_alpha2,"['ON', 'city', '.', 'iso_alpha2', '=', 'country', '.', 'iso_alpha2']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+31,            LEFT OUTER JOIN geonames_admin1_codes_ascii as admin1,"['LEFT', 'OUTER', 'JOIN', 'geonames_admin1_codes_ascii', 'as', 'admin1']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+32,"                ON admin1.code = CONCAT(city.iso_alpha2, '.', city.admin1_code)","['ON', 'admin1', '.', 'code', '=', 'CONCAT', '(', 'city', '.', 'iso_alpha2', ',', '.', ',', 'city', '.', 'admin1_code', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,        WHERE %s %s,"['WHERE', 's', 's']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+34,        ORDER BY city.name ASC %s;,"['ORDER', 'BY', 'city', '.', 'name', 'ASC', 's', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+35,"    `, main, secondary, limit)","[',', 'main', ',', 'secondary', ',', 'limit', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,"    nstmt, err := sql.DB.PrepareNamed(query)","['nstmt', ',', 'err', ':=', 'sql', '.', 'DB', '.', 'PrepareNamed', '(', 'query', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+39,    },['}'],['OPERATOR']
+40,"    rows, err := nstmt.Queryx(queryParams)","['rows', ',', 'err', ':=', 'nstmt', '.', 'Queryx', '(', 'queryParams', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+43,    },['}'],['OPERATOR']
+44,    results := []interface{}{},"['results', ':=', '[]', 'interface', '{}{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+45,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+46,        row := make(map[string]interface{}),"['row', ':=', 'make', '(', 'map', '[', 'string', ']', 'interface', '{})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+47,        err := rows.MapScan(row),"['err', ':=', 'rows', '.', 'MapScan', '(', 'row', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+50,        },['}'],['OPERATOR']
+51,"        results = append(results, row)","['results', '=', 'append', '(', 'results', ',', 'row', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,    },['}'],['OPERATOR']
+53,"    b, err := json.Marshal(results)","['b', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'results', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+55,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+56,    },['}'],['OPERATOR']
+57,    w.Write(b),"['w', '.', 'Write', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+59,},['}'],['OPERATOR']
+60,"
+
+Sending a POST request postman chrome plugin with these values:
+
+","['Sending', 'a', 'POST', 'request', 'postman', 'chrome', 'plugin', 'with', 'these', 'values:']","['VBG', 'DT', 'NNP', 'NN', 'NN', 'VBD', 'NN', 'IN', 'DT', 'NNS']"
+61,"keyword: ""tron""","['keyword', ':', '""tron""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+62,maxResults: 7,"['maxResults', ':', '7']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+63,lastRequest: 0,"['lastRequest', ':', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+64,"
+
+gave this JSON output:
+
+","['gave', 'this', 'JSON', 'output:']","['VBD', 'DT', 'NNP', 'NN']"
+65,[,['['],['OPERATOR']
+66,    {,['{'],['OPERATOR']
+67,"        ""admin1Name"": ""VXR0YXJhZGl0"",","['""admin1Name"": ""VXR0YXJhZGl0""', ',']","['STRING_LITERAL', 'OPERATOR']"
+68,"        ""cityId"": 1605268,","['""cityId""', ':', '1605268', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+69,"        ""cityName"": ""VHJvbg=="",","['""cityName"": ""VHJvbg==""', ',']","['STRING_LITERAL', 'OPERATOR']"
+70,"        ""countryName"": ""VGhhaWxhbmQ="",","['""countryName"": ""VGhhaWxhbmQ=""', ',']","['STRING_LITERAL', 'OPERATOR']"
+71,"        ""searchString"": ""VHJvbiBUcm9uIFRoYWlsYW5k""","['""searchString"": ""VHJvbiBUcm9uIFRoYWlsYW5k""']",['STRING_LITERAL']
+72,"    },","['},']",['OPERATOR']
+73,    {,['{'],['OPERATOR']
+74,"        ""admin1Name"": ""Q2FsYWJyaWE="",","['""admin1Name"": ""Q2FsYWJyaWE=""', ',']","['STRING_LITERAL', 'OPERATOR']"
+75,"        ""cityId"": 8949073,","['""cityId""', ':', '8949073', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+76,"        ""cityName"": ""VHJvbmNh"",","['""cityName"": ""VHJvbmNh""', ',']","['STRING_LITERAL', 'OPERATOR']"
+77,"        ""countryName"": ""SXRhbHk="",","['""countryName"": ""SXRhbHk=""', ',']","['STRING_LITERAL', 'OPERATOR']"
+78,"        ""searchString"": ""VHJvbmNhIFRyb25jYSBJdGFseQ==""","['""searchString"": ""VHJvbmNhIFRyb25jYSBJdGFseQ==""']",['STRING_LITERAL']
+79,"    },","['},']",['OPERATOR']
+80,    {,['{'],['OPERATOR']
+81,"        ""admin1Name"": ""QXJhZ29u"",","['""admin1Name"": ""QXJhZ29u""', ',']","['STRING_LITERAL', 'OPERATOR']"
+82,"        ""cityId"": 3107444,","['""cityId""', ':', '3107444', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+83,"        ""cityName"": ""VHJvbmNow7Nu"",","['""cityName"": ""VHJvbmNow7Nu""', ',']","['STRING_LITERAL', 'OPERATOR']"
+84,"        ""countryName"": ""U3BhaW4="",","['""countryName"": ""U3BhaW4=""', ',']","['STRING_LITERAL', 'OPERATOR']"
+85,"        ""searchString"": ""VHJvbmNow7NuIFRyb25jaG9uIFNwYWlu""","['""searchString"": ""VHJvbmNow7NuIFRyb25jaG9uIFNwYWlu""']",['STRING_LITERAL']
+86,"    },","['},']",['OPERATOR']
+87,    {,['{'],['OPERATOR']
+88,"        ""admin1Name"": ""UHVlYmxh"",","['""admin1Name"": ""UHVlYmxh""', ',']","['STRING_LITERAL', 'OPERATOR']"
+89,"        ""cityId"": 8859151,","['""cityId""', ':', '8859151', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+90,"        ""cityName"": ""VHJvbmNvbmFs"",","['""cityName"": ""VHJvbmNvbmFs""', ',']","['STRING_LITERAL', 'OPERATOR']"
+91,"        ""countryName"": ""TWV4aWNv"",","['""countryName"": ""TWV4aWNv""', ',']","['STRING_LITERAL', 'OPERATOR']"
+92,"        ""searchString"": ""VHJvbmNvbmFsIFRyb25jb25hbCBNZXhpY28=""","['""searchString"": ""VHJvbmNvbmFsIFRyb25jb25hbCBNZXhpY28=""']",['STRING_LITERAL']
+93,"    },","['},']",['OPERATOR']
+94,    {,['{'],['OPERATOR']
+95,"        ""admin1Name"": ""U2NobGVzd2lnLUhvbHN0ZWlu"",","['""admin1Name"": ""U2NobGVzd2lnLUhvbHN0ZWlu""', ',']","['STRING_LITERAL', 'OPERATOR']"
+96,"        ""cityId"": 2821000,","['""cityId""', ':', '2821000', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+97,"        ""cityName"": ""VHLDtm5kZWw="",","['""cityName"": ""VHLDtm5kZWw=""', ',']","['STRING_LITERAL', 'OPERATOR']"
+98,"        ""countryName"": ""R2VybWFueQ=="",","['""countryName"": ""R2VybWFueQ==""', ',']","['STRING_LITERAL', 'OPERATOR']"
+99,"        ""searchString"": ""VHLDtm5kZWwgVHJvbmRlbCBHZXJtYW55""","['""searchString"": ""VHLDtm5kZWwgVHJvbmRlbCBHZXJtYW55""']",['STRING_LITERAL']
+100,"    },","['},']",['OPERATOR']
+101,    {,['{'],['OPERATOR']
+102,"        ""admin1Name"": ""U8O4ci1UcsO4bmRlbGFn"",","['""admin1Name"": ""U8O4ci1UcsO4bmRlbGFn""', ',']","['STRING_LITERAL', 'OPERATOR']"
+103,"        ""cityId"": 3133880,","['""cityId""', ':', '3133880', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+104,"        ""cityName"": ""VHJvbmRoZWlt"",","['""cityName"": ""VHJvbmRoZWlt""', ',']","['STRING_LITERAL', 'OPERATOR']"
+105,"        ""countryName"": ""Tm9yd2F5"",","['""countryName"": ""Tm9yd2F5""', ',']","['STRING_LITERAL', 'OPERATOR']"
+106,"        ""searchString"": ""VHJvbmRoZWltIFRyb25kaGVpbSBOb3J3YXk=""","['""searchString"": ""VHJvbmRoZWltIFRyb25kaGVpbSBOb3J3YXk=""']",['STRING_LITERAL']
+107,"    },","['},']",['OPERATOR']
+108,    {,['{'],['OPERATOR']
+109,"        ""admin1Name"": ""VG9uZ3Nh"",","['""admin1Name"": ""VG9uZ3Nh""', ',']","['STRING_LITERAL', 'OPERATOR']"
+110,"        ""cityId"": 1252408,","['""cityId""', ':', '1252408', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+111,"        ""cityName"": ""VHJvbmdzYQ=="",","['""cityName"": ""VHJvbmdzYQ==""', ',']","['STRING_LITERAL', 'OPERATOR']"
+112,"        ""countryName"": ""Qmh1dGFu"",","['""countryName"": ""Qmh1dGFu""', ',']","['STRING_LITERAL', 'OPERATOR']"
+113,"        ""searchString"": ""VHJvbmdzYSBUcm9uZ3NhIEJodXRhbg==""","['""searchString"": ""VHJvbmdzYSBUcm9uZ3NhIEJodXRhbg==""']",['STRING_LITERAL']
+114,    },['}'],['OPERATOR']
+115,],[']'],['OPERATOR']
+116,"
+
+Why are the results like this? Putting the results in spew.Dump()
+will give something like this (I'm just outputting one of the rows): 
+
+","['Why', 'are', 'the', 'results', 'like', 'this?', 'Putting', 'the', 'results', 'in', 'spew.Dump()', 'will', 'give', 'something', 'like', 'this', ""(I'm"", 'just', 'outputting', 'one', 'of', 'the', 'rows):']","['WRB', 'VBP', 'DT', 'NNS', 'IN', 'JJ', 'VBG', 'DT', 'NNS', 'IN', 'NN', 'MD', 'VB', 'NN', 'IN', 'DT', 'NN', 'RB', 'VBG', 'CD', 'IN', 'DT', 'NN']"
+117,(map[string]interface {}) (len=5) {,"['(', 'map', '[', 'string', ']', 'interface', '{})', '(', 'len', '=', '5', ')', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+118,"  (string) (len=11) ""countryName"": ([]uint8) (len=6 cap=6) {","['(', 'string', ')', '(', 'len', '=', '11', ')', '""countryName""', ':', '([]', 'uint8', ')', '(', 'len', '=', '6', 'cap', '=', '6', ')', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+119,   00000000  4e 6f 72 77 61 79                                 |Norway|,"['00000000', '4', 'e', '6', 'f', '72', '77', '61', '79', '|', 'Norway', '|']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,"  },","['},']",['OPERATOR']
+121,"  (string) (len=12) ""searchString"": ([]uint8) (len=26 cap=26) {","['(', 'string', ')', '(', 'len', '=', '12', ')', '""searchString""', ':', '([]', 'uint8', ')', '(', 'len', '=', '26', 'cap', '=', '26', ')', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+122,   00000000  54 72 6f 6e 64 68 65 69  6d 20 54 72 6f 6e 64 68  |Trondheim Trondh|,"['00000000', '54', '72', '6', 'f', '6', 'e', '64', '68', '65', '69', '6', 'd', '20', '54', '72', '6', 'f', '6', 'e', '64', '68', '|', 'Trondheim', 'Trondh', '|']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+123,   00000010  65 69 6d 20 4e 6f 72 77  61 79                    |eim Norway|,"['00000010', '65', '69', '6', 'd', '20', '4', 'e', '6', 'f', '72', '77', '61', '79', '|', 'eim', 'Norway', '|']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+124,"  },","['},']",['OPERATOR']
+125,"  (string) (len=6) ""cityId"": (int64) 3133880,","['(', 'string', ')', '(', 'len', '=', '6', ')', '""cityId""', ':', '(', 'int64', ')', '3133880', ',']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+126,"  (string) (len=8) ""cityName"": ([]uint8) (len=9 cap=9) {","['(', 'string', ')', '(', 'len', '=', '8', ')', '""cityName""', ':', '([]', 'uint8', ')', '(', 'len', '=', '9', 'cap', '=', '9', ')', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+127,   00000000  54 72 6f 6e 64 68 65 69  6d                       |Trondheim|,"['00000000', '54', '72', '6', 'f', '6', 'e', '64', '68', '65', '69', '6', 'd', '|', 'Trondheim', '|']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,"  },","['},']",['OPERATOR']
+129,"  (string) (len=10) ""admin1Name"": ([]uint8) (len=15 cap=15) {","['(', 'string', ')', '(', 'len', '=', '10', ')', '""admin1Name""', ':', '([]', 'uint8', ')', '(', 'len', '=', '15', 'cap', '=', '15', ')', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+130,   00000000  53 c3 b8 72 2d 54 72 c3  b8 6e 64 65 6c 61 67     |S..r-Tr..ndelag|,"['00000000', '53', 'c3', 'b8', '72', '2', 'd', '54', '72', 'c3', 'b8', '6', 'e', '64', '65', '6', 'c', '61', '67', '|', 'S', '..', 'r', '-', 'Tr', '..', 'ndelag', '|']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+131,  },['}'],['OPERATOR']
+132,"
+
+What do I do wrong here?'
+
+EDIT:
+
+I tried doing as Elwinar suggested with structs instead. But something really weird is going on.
+
+This code works:
+
+","['What', 'do', 'I', 'do', 'wrong', ""here?'"", 'EDIT:', 'I', 'tried', 'doing', 'as', 'Elwinar', 'suggested', 'with', 'structs', 'instead.', 'But', 'something', 'really', 'weird', 'is', 'going', 'on.', 'This', 'code', 'works:']","['WP', 'VBP', 'PRP', 'VB', 'JJ', 'VB', 'NNP', 'PRP', 'VBD', 'VBG', 'IN', 'NNP', 'VBD', 'IN', 'NNS', 'NNS', 'CC', 'NN', 'RB', 'JJ', 'VBZ', 'VBG', 'IN', 'DT', 'NN', 'NN']"
+133,type City struct {,"['type', 'City', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+134,"    AdminName    string `json:""admin1Name""   db:""admin1Name""`","['AdminName', 'string', 'json', ':', '""admin1Name""   db:""admin1Name""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+135,"    CityID       int64  `json:""cityId""       db:""cityId""`","['CityID', 'int64', 'json', ':', '""cityId""       db:""cityId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+136,"    CityName     string `json:""cityName""     db:""cityName""`","['CityName', 'string', 'json', ':', '""cityName""     db:""cityName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+137,"    CountryName  string `json:""countryName""  db:""countryName""`","['CountryName', 'string', 'json', ':', '""countryName""  db:""countryName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+138,"    SearchString string `json:""searchString"" db:""searchString""`","['SearchString', 'string', 'json', ':', '""searchString"" db:""searchString""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+139,},['}'],['OPERATOR']
+140,"
+
+But this code does not work and outputs error ""missing destination name cityId"":
+
+","['But', 'this', 'code', 'does', 'not', 'work', 'and', 'outputs', 'error', '""missing', 'destination', 'name', 'cityId"":']","['CC', 'DT', 'NN', 'VBZ', 'RB', 'VB', 'CC', 'VB', 'NN', 'VBG', 'NN', 'NN', 'NN']"
+141,type City struct {,"['type', 'City', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+142,"    CityId       int64  `json:""cityId""       db:""cityId""`","['CityId', 'int64', 'json', ':', '""cityId""       db:""cityId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+143,"    CityName     string `json:""cityName""     db:""cityName""`","['CityName', 'string', 'json', ':', '""cityName""     db:""cityName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+144,"    Admin1Name   string `json:""admin1Name""   db:""admin1Name""`","['Admin1Name', 'string', 'json', ':', '""admin1Name""   db:""admin1Name""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+145,"    CountryName  string `json:""countryName""  db:""countryName""`","['CountryName', 'string', 'json', ':', '""countryName""  db:""countryName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+146,"    SearchString string `json:""searchString"" db:""searchString""`","['SearchString', 'string', 'json', ':', '""searchString"" db:""searchString""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+147,},['}'],['OPERATOR']
+148,"
+
+What is the difference?
+
+Solution: Must separate the tags with space key. Can not do spacing with tab key, and can not use commas to separate tags.
+","['What', 'is', 'the', 'difference?', 'Solution:', 'Must', 'separate', 'the', 'tags', 'with', 'space', 'key.', 'Can', 'not', 'do', 'spacing', 'with', 'tab', 'key,', 'and', 'can', 'not', 'use', 'commas', 'to', 'separate', 'tags.']","['WP', 'VBZ', 'DT', 'JJ', 'NNP', 'NNP', 'VB', 'DT', 'NN', 'IN', 'NN', 'NNS', 'MD', 'RB', 'VB', 'VBG', 'IN', 'JJ', 'NNS', 'CC', 'MD', 'RB', 'VB', 'NN', 'TO', 'VB', 'NN']"

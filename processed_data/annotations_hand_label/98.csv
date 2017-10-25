@@ -1,0 +1,182 @@
+,text,token,annotation
+0,"It seems the use case is not as common as I thought. I implemented a custom ""parser"". Hopefully this doesn't violate any RFC. Any patch is welcome!
+
+","['It', 'seems', 'the', 'use', 'case', 'is', 'not', 'as', 'common', 'as', 'I', 'thought.', 'I', 'implemented', 'a', 'custom', '""parser"".', 'Hopefully', 'this', ""doesn't"", 'violate', 'any', 'RFC.', 'Any', 'patch', 'is', 'welcome!']","['PRP', 'VBZ', 'DT', 'NN', 'NN', 'VBZ', 'RB', 'RB', 'JJ', 'IN', 'PRP', 'VBP', 'PRP', 'VBD', 'DT', 'NN', 'NNP', 'NNP', 'DT', 'JJ', 'NN', 'DT', 'NNP', 'NNP', 'NN', 'VBZ', 'JJ']"
+1,package query,"['package', 'query']","['KEYWORD', 'IDENTIFIER']"
+2,import(,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
+4,"    ""strings""","['""strings""']",['STRING_LITERAL']
+5,),[')'],['OPERATOR']
+6,//ParseQueryOp parses the URL-encoded query string and returns a map ,"['//', 'ParseQueryOp', 'parses', 'the', 'URL-encoded', 'query', 'string', 'and', 'returns', 'a', 'map']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'CC', 'VBZ', 'DT', 'NN']"
+7,// listing the values specified for each key. ParseQueryOp always returns ,"['//', 'listing', 'the', 'values', 'specified', 'for', 'each', 'key.', 'ParseQueryOp', 'always', 'returns']","['COMMENT', 'VBG', 'DT', 'NNS', 'VBN', 'IN', 'DT', 'NN', 'NNP', 'RB', 'NNS']"
+8,// a non-nil map containing all the valid query parameters found;,"['//', 'a', 'non-nil', 'map', 'containing', 'all', 'the', 'valid', 'query', 'parameters', 'found;']","['COMMENT', 'DT', 'JJ', 'NN', 'VBG', 'PDT', 'DT', 'JJ', 'NN', 'NNS', 'VBP']"
+9,"// err describes the first decoding error encountered, if any.","['//', 'err', 'describes', 'the', 'first', 'decoding', 'error', 'encountered,', 'if', 'any.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'NN', 'IN', 'NN']"
+10,// If the query has operators (e.g. &amount>300) it is Add-ed in the map,"['//', 'If', 'the', 'query', 'has', 'operators', '(e.g.', '&amount>300)', 'it', 'is', 'Add-ed', 'in', 'the', 'map']","['COMMENT', 'IN', 'DT', 'NN', 'VBZ', 'NNS', 'VBP', 'IN', 'PRP', 'VBZ', 'JJ', 'IN', 'DT', 'NN']"
+11,// with a prefixed key ( {{prefix}}key ).,"['//', 'with', 'a', 'prefixed', 'key', '(', '{{prefix}}key', ').']","['COMMENT', 'IN', 'DT', 'JJ', 'NN', '(', 'JJ', 'NN']"
+12,/*,['*'],['OPERATOR']
+13," e.g. for a query &Amount>300 the operator("">"") is returnd","['e', '.', 'g', '.', 'for', 'a', 'query', '&', 'Amount', '>', '300', 'the', 'operator', '(', '"">""', ')', 'is', 'return', 'd']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+14,"    s := ""query &Amount>300""","['s', ':=', '""query &Amount>300""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+15,"    q, _ := ParseQueryOp(s, ""_op_"")","['q', ',', '_', ':=', 'ParseQueryOp', '(', 's', ',', '""_op_""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,"    print(q.Get(""_op_Amount"")) // prints `>`","['//', 'prints', '`>`']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'NNS', 'VBP']"
+17,"    print(q.Get(""Amount"")) // prints 300","['//', 'prints', '300']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'NNS', 'CD']"
+18,*/,['*'],['OPERATOR']
+19,"func ParseQueryOp(query, prefix string) (m url.Values, err error){","['func', 'ParseQueryOp', '(', 'query', ',', 'prefix', 'string', ')', '(', 'm', 'url', '.', 'Values', ',', 'err', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+20,    m = make(url.Values),"['m', '=', 'make', '(', 'url', '.', 'Values', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,"    for query != """" {","['for', 'query', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+22,        var opKey string,"['var', 'opKey', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+23,        key := query,"['key', ':=', 'query']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+24,"        if i := strings.IndexAny(key, ""&;""); i >= 0 {","['if', 'i', ':=', 'strings', '.', 'IndexAny', '(', 'key', ',', '""&;""', ');', 'i', '>=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+25,"            key, query = key[:i], key[i+1:]","['key', ',', 'query', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+26,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+27,"            query = """"","['query', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+28,        },['}'],['OPERATOR']
+29,"        if key == """" {","['if', 'key', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+30,            continue,['continue'],['KEYWORD']
+31,        },['}'],['OPERATOR']
+32,"        value := """"","['value', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+33,        var err1 error,"['var', 'err1', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+34,"        if i := strings.Index(key, "">=""); i >= 0{","['if', 'i', ':=', 'strings', '.', 'Index', '(', 'key', ',', '"">=""', ');', 'i', '>=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+35,"            key, value = key[:i], key[i+2:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '2', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+36,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+37,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url', '.', 'QueryUnescape', '(', 'opKey', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+41,                },['}'],['OPERATOR']
+42,                continue,['continue'],['KEYWORD']
+43,            },['}'],['OPERATOR']
+44,"            m[opKey] = append(m[opKey], "">="")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '"">=""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+45,"        }else if i = strings.Index(key, ""= 0{","['}', 'else', 'if', 'i', '=', 'strings', '.', 'Index', '(', 'key', ',', '=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+46,"            key, value = key[:i], key[i+2:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '2', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+47,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+48,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url', '.', 'QueryUnescape', '(', 'opKey', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+52,                },['}'],['OPERATOR']
+53,                continue,['continue'],['KEYWORD']
+54,            },['}'],['OPERATOR']
+55,"            m[opKey] = append(m[opKey], ""<="")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '""<=""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+56,"        }else if i = strings.Index(key, ""="");  i >= 0{","['}', 'else', 'if', 'i', '=', 'strings', '.', 'Index', '(', 'key', ',', '""=""', ');', 'i', '>=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+57,"            key, value = key[:i], key[i+1:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+58,"        }else if i = strings.Index(key, "">"");  i >= 0{","['}', 'else', 'if', 'i', '=', 'strings', '.', 'Index', '(', 'key', ',', '"">""', ');', 'i', '>=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+59,"            key, value = key[:i], key[i+1:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+60,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+61,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url', '.', 'QueryUnescape', '(', 'opKey', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+65,                },['}'],['OPERATOR']
+66,                continue,['continue'],['KEYWORD']
+67,            },['}'],['OPERATOR']
+68,"            m[opKey] = append(m[opKey], "">"")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '"">""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+69,"        }else if i = strings.Index(key, ""= 0{","['}', 'else', 'if', 'i', '=', 'strings', '.', 'Index', '(', 'key', ',', '=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+70,"            key, value = key[:i], key[i+1:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+71,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+72,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url', '.', 'QueryUnescape', '(', 'opKey', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+76,                },['}'],['OPERATOR']
+77,                continue,['continue'],['KEYWORD']
+78,            },['}'],['OPERATOR']
+79,"            m[opKey] = append(m[opKey], ""<"")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '""<""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+80,        },['}'],['OPERATOR']
+81,"        key, err1 = url.QueryUnescape(key)","['key', ',', 'err1', '=', 'url', '.', 'QueryUnescape', '(', 'key', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,        if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,            if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,                err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+85,            },['}'],['OPERATOR']
+86,            continue,['continue'],['KEYWORD']
+87,        },['}'],['OPERATOR']
+88,"        value, err1 = url.QueryUnescape(value)","['value', ',', 'err1', '=', 'url', '.', 'QueryUnescape', '(', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,        if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,            if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,                err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+92,            },['}'],['OPERATOR']
+93,            continue,['continue'],['KEYWORD']
+94,        },['}'],['OPERATOR']
+95,"        m[key] = append(m[key], value)","['m', '[', 'key', ']', '=', 'append', '(', 'm', '[', 'key', '],', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,    },['}'],['OPERATOR']
+97,"    return m, err","['return', 'm', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+98,},['}'],['OPERATOR']
+99,"
+
+And some tests
+
+","['And', 'some', 'tests']","['CC', 'DT', 'NNS']"
+100,package query,"['package', 'query']","['KEYWORD', 'IDENTIFIER']"
+101,import(,"['import', '(']","['KEYWORD', 'OPERATOR']"
+102,"    ""testing""","['""testing""']",['STRING_LITERAL']
+103,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
+104,),[')'],['OPERATOR']
+105,type parseTest struct {,"['type', 'parseTest', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+106,    query string,"['query', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+107,    out   url.Values,"['out', 'url', '.', 'Values']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+108,},['}'],['OPERATOR']
+109,var parseTests = []parseTest{,"['var', 'parseTests', '=', '[]', 'parseTest', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,    {,['{'],['OPERATOR']
+111,"        query: ""a=1&b=2"",","['query', ':', '""a=1&b=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+112,"        out:   url.Values{""a"": []string{""1""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1""}, ""b"": []string{""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+113,"    },","['},']",['OPERATOR']
+114,    {,['{'],['OPERATOR']
+115,"        query: ""a=1&a=2&a=banana"",","['query', ':', '""a=1&a=2&a=banana""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+116,"        out:   url.Values{""a"": []string{""1"", ""2"", ""banana""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1"", ""2"", ""banana""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+117,"    },","['},']",['OPERATOR']
+118,    {,['{'],['OPERATOR']
+119,"        query: ""ascii=%3Ckey%3A+0x90%3E"",","['query', ':', '""ascii=%3Ckey%3A+0x90%3E""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+120,"        out:   url.Values{""ascii"": []string{""""}},","['out', ':', 'url', '.', 'Values', '{', '""ascii"": []string{""""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+121,"    },","['},']",['OPERATOR']
+122,    {,['{'],['OPERATOR']
+123,"        query: ""a=1;b=2"",","['query', ':', '""a=1;b=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+124,"        out:   url.Values{""a"": []string{""1""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1""}, ""b"": []string{""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+125,"    },","['},']",['OPERATOR']
+126,    {,['{'],['OPERATOR']
+127,"        query: ""a=1&a=2;a=banana"",","['query', ':', '""a=1&a=2;a=banana""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+128,"        out:   url.Values{""a"": []string{""1"", ""2"", ""banana""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1"", ""2"", ""banana""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+129,"    },","['},']",['OPERATOR']
+130,    {,['{'],['OPERATOR']
+131,"        query: ""a=1&b>2"",","['query', ':', '""a=1&b>2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+132,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{"">""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1""}, ""_op_b"": []string{"">""}, ""b"": []string{""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+133,"    },","['},']",['OPERATOR']
+134,    {,['{'],['OPERATOR']
+135,"        query: ""a=1&b<2"",","['query', ':', '""a=1&b<2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+136,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{""<""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1""}, ""_op_b"": []string{""<""}, ""b"": []string{""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+137,"    },","['},']",['OPERATOR']
+138,    {,['{'],['OPERATOR']
+139,"        query: ""a=1&b>=2"",","['query', ':', '""a=1&b>=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+140,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{"">=""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1""}, ""_op_b"": []string{"">=""}, ""b"": []string{""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+141,"    },","['},']",['OPERATOR']
+142,    {,['{'],['OPERATOR']
+143,"        query: ""a=1&b<=2"",","['query', ':', '""a=1&b<=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+144,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{""<=""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a"": []string{""1""}, ""_op_b"": []string{""<=""}, ""b"": []string{""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+145,"    },","['},']",['OPERATOR']
+146,},['}'],['OPERATOR']
+147,func TestParseQueryOut(t *testing.T) {,"['func', 'TestParseQueryOut', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+148,"    for i, test := range parseTests {","['for', 'i', ',', 'test', ':=', 'range', 'parseTests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+149,"        form, err := ParseQueryOp(test.query, ""_op_"")","['for', 'm', ',', 'err', ':=', 'ParseQueryOp', '(', 'test', '.', 'query', ',', '""_op_""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+150,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+151,"            t.Errorf(""test %d: Unexpected error: %v"", i, err)","['t', '.', 'Errorf', '(', '""test %d: Unexpected error: %v""', ',', 'i', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,            continue,['continue'],['KEYWORD']
+153,        },['}'],['OPERATOR']
+154,        if len(form) != len(test.out) {,"['if', 'len', '(', 'for', 'm', ')', '!=', 'len', '(', 'test', '.', 'out', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+155,"            t.Errorf(""test %d: len(form) = %d, want %d"", i, len(form), len(test.out))","['t', '.', 'Errorf', '(', '""test %d: len(form) = %d, want %d""', ',', 'i', ',', 'len', '(', 'for', 'm', '),', 'len', '(', 'test', '.', 'out', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+156,        },['}'],['OPERATOR']
+157,"        for k, evs := range test.out {","['for', 'k', ',', 'evs', ':=', 'range', 'test', '.', 'out', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+158,"            vs, ok := form[k]","['vs', ',', 'ok', ':=', 'for', 'm', '[', 'k', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+159,            if !ok {,"['if', '!', 'ok', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+160,"                t.Errorf(""test %d: Missing key %q"", i, k)","['t', '.', 'Errorf', '(', '""test %d: Missing key %q""', ',', 'i', ',', 'k', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+161,                continue,['continue'],['KEYWORD']
+162,            },['}'],['OPERATOR']
+163,            if len(vs) != len(evs) {,"['if', 'len', '(', 'vs', ')', '!=', 'len', '(', 'evs', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+164,"                t.Errorf(""test %d: len(form[%q]) = %d, want %d"", i, k, len(vs), len(evs))","['t', '.', 'Errorf', '(', '""test %d: len(form[%q]) = %d, want %d""', ',', 'i', ',', 'k', ',', 'len', '(', 'vs', '),', 'len', '(', 'evs', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+165,                continue,['continue'],['KEYWORD']
+166,            },['}'],['OPERATOR']
+167,"            for j, ev := range evs {","['for', 'j', ',', 'ev', ':=', 'range', 'evs', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+168,                if v := vs[j]; v != ev {,"['if', 'v', ':=', 'vs', '[', 'j', '];', 'v', '!=', 'ev', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+169,"                    t.Errorf(""test %d: form[%q][%d] = %q, want %q"", i, k, j, v, ev)","['t', '.', 'Errorf', '(', '""test %d: form[%q][%d] = %q, want %q""', ',', 'i', ',', 'k', ',', 'j', ',', 'v', ',', 'ev', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,                },['}'],['OPERATOR']
+171,            },['}'],['OPERATOR']
+172,        },['}'],['OPERATOR']
+173,    },['}'],['OPERATOR']
+174,},['}'],['OPERATOR']

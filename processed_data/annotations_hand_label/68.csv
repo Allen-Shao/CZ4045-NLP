@@ -1,0 +1,230 @@
+,text,token,annotation
+0,"I want to keep an asio connection responsive, that I mean to check the server every second till it become alive and then send and receive. Here is my code
+
+---irunnable.h---
+
+","['I', 'want', 'to', 'keep', 'an', 'asio', 'connection', 'responsive,', 'that', 'I', 'mean', 'to', 'check', 'the', 'server', 'every', 'second', 'till', 'it', 'become', 'alive', 'and', 'then', 'send', 'and', 'receive.', 'Here', 'is', 'my', 'code', '---irunnable.h---']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'DT', 'JJ', 'NN', 'PRP', 'VBD', 'JJ', 'CC', 'RB', 'VB', 'CC', 'VB', 'RB', 'VBZ', 'PRP$', 'NN', 'NN']"
+1,#ifndef IRUNNABLE_H,"['if', 'ndef', 'IRUNNABLE_H']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+2,#define IRUNNABLE_H,"['define', 'IRUNNABLE_H']","['IDENTIFIER', 'IDENTIFIER']"
+3,#include ,['include'],['IDENTIFIER']
+4,#include ,['include'],['IDENTIFIER']
+5,#include ,['include'],['IDENTIFIER']
+6,class IRunnable,"['class', 'IRunnable']","['IDENTIFIER', 'IDENTIFIER']"
+7,{,['{'],['OPERATOR']
+8,public:,"['public', ':']","['IDENTIFIER', 'OPERATOR']"
+9,    IRunnable(): mThread(nullptr) {,"['IRunnable', '():', 'mThread', '(', 'nullptr', ')', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+10,        mRunning.store(false);,"['mRunning', '.', 'store', '(', 'false', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,    },['}'],['OPERATOR']
+12,    virtual ~IRunnable() {,"['virtual', 'IRunnable', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+13,        if (mRunning.load()),"['if', '(', 'mRunning', '.', 'load', '())']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,            Stop();,"['Stop', '();']","['IDENTIFIER', 'OPERATOR']"
+15,        delete mThread;,"['delete', 'mThread', ';']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+16,    },['}'],['OPERATOR']
+17,    virtual void Start() {,"['virtual', 'void', 'Start', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+18,        mRunning.store(true);,"['mRunning', '.', 'store', '(', 'true', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,"        mThread = new std::thread(&IRunnable::Run, this);","['mThread', '=', 'new', 'std', '::', 'thread', '(&', 'IRunnable', '::', 'Run', ',', 'this', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,    },['}'],['OPERATOR']
+21,    virtual void Stop() {,"['virtual', 'void', 'Stop', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+22,        mRunning.store(false);,"['mRunning', '.', 'store', '(', 'false', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,        if (mThread && mThread->joinable()),"['if', '(', 'mThread', '&&', 'mThread', '->', 'joinable', '())']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,            mThread->join();,"['mThread', '->', 'join', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,    },['}'],['OPERATOR']
+26,    virtual bool IsRunning() {return mRunning.load();},"['virtual', 'bool', 'IsRunning', '()', '{', 'return', 'mRunning', '.', 'load', '();}']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,protected:,"['protected', ':']","['IDENTIFIER', 'OPERATOR']"
+28,    virtual void Run() = 0;,"['virtual', 'void', 'Run', '()', '=', '0', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+29,    std::atomic mRunning;,"['std', '::', 'atomic', 'mRunning', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+30,private:,"['private', ':']","['IDENTIFIER', 'OPERATOR']"
+31,    std::thread *mThread;,"['std', '::', 'thread', '*', 'mThread', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,};,['};'],['OPERATOR']
+33,#endif // IRUNNABLE_H,"['//', 'IRUNNABLE_H']","['IDENTIFIER', 'COMMENT', 'NN']"
+34,"
+
+---mytcpconnection.h---
+
+",['---mytcpconnection.h---'],['NN']
+35,#ifndef MYTCPCONNECTION_H,"['if', 'ndef', 'MYTCPCONNECTION_H']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+36,#define MYTCPCONNECTION_H,"['define', 'MYTCPCONNECTION_H']","['IDENTIFIER', 'IDENTIFIER']"
+37,#include ,['include'],['IDENTIFIER']
+38,#include ,['include'],['IDENTIFIER']
+39,"#include ""irunnable.h""","['include', '""irunnable.h""']","['IDENTIFIER', 'STRING_LITERAL']"
+40,class MyTCPConnection : public IRunnable,"['class', 'MyTCPConnection', ':', 'public', 'IRunnable']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+41,{,['{'],['OPERATOR']
+42,public:,"['public', ':']","['IDENTIFIER', 'OPERATOR']"
+43,"    MyTCPConnection(const std::string &ip, const std::string &port);","['MyTCPConnection', '(', 'const', 'std', '::', 'string', '&', 'ip', ',', 'const', 'std', '::', 'string', '&', 'port', ');']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,    ~MyTCPConnection();,"['MyTCPConnection', '();']","['IDENTIFIER', 'OPERATOR']"
+45,    void Stop();,"['void', 'Stop', '();']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+46,    void Write(const std::string &msg);,"['void', 'Write', '(', 'const', 'std', '::', 'string', '&', 'msg', ');']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,    void Connect();,"['void', 'Connect', '();']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+48,protected:,"['protected', ':']","['IDENTIFIER', 'OPERATOR']"
+49,    void Run();,"['void', 'Run', '();']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+50,private:,"['private', ':']","['IDENTIFIER', 'OPERATOR']"
+51,    void readHeader();,"['void', 'readHeader', '();']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+52,private:,"['private', ':']","['IDENTIFIER', 'OPERATOR']"
+53,    std::string mIP;,"['std', '::', 'string', 'mIP', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+54,    std::string mPort;,"['std', '::', 'string', 'mPort', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+55,    asio::io_service mIOService;,"['asio', '::', 'io_service', 'mIOService', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+56,    asio::ip::tcp::socket mSocket;,"['asio', '::', 'ip', '::', 'tcp', '::', 'socket', 'mSocket', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+57,};,['};'],['OPERATOR']
+58,#endif // MYTCPCONNECTION_H,"['//', 'MYTCPCONNECTION_H']","['IDENTIFIER', 'COMMENT', 'NN']"
+59,"
+
+---mytcpconnection.cpp
+
+",['---mytcpconnection.cpp'],['NN']
+60,"#include ""mytcpconnection.h""","['include', '""mytcpconnection.h""']","['IDENTIFIER', 'STRING_LITERAL']"
+61,#include ,['include'],['IDENTIFIER']
+62,#include ,['include'],['IDENTIFIER']
+63,#include ,['include'],['IDENTIFIER']
+64,#include ,['include'],['IDENTIFIER']
+65,"MyTCPConnection::MyTCPConnection(const std::string &ip, const std::string &port):","['MyTCPConnection', '::', 'MyTCPConnection', '(', 'const', 'std', '::', 'string', '&', 'ip', ',', 'const', 'std', '::', 'string', '&', 'port', '):']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,"    mIP(ip),","['mIP', '(', 'ip', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,"    mPort(port),","['mPort', '(', 'port', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,    mSocket(mIOService),"['mSocket', '(', 'mIOService', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,{,['{'],['OPERATOR']
+70,    Connect();,"['Connect', '();']","['IDENTIFIER', 'OPERATOR']"
+71,},['}'],['OPERATOR']
+72,MyTCPConnection::~MyTCPConnection(),"['MyTCPConnection', '::', 'MyTCPConnection', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,{,['{'],['OPERATOR']
+74,    Stop();,"['Stop', '();']","['IDENTIFIER', 'OPERATOR']"
+75,},['}'],['OPERATOR']
+76,void MyTCPConnection::Stop(),"['void', 'MyTCPConnection', '::', 'Stop', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,{,['{'],['OPERATOR']
+78,    mIOService.stop();,"['mIOService', '.', 'stop', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    mSocket.close();,"['mSocket', '.', 'close', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    IRunnable::Stop();,"['IRunnable', '::', 'Stop', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,},['}'],['OPERATOR']
+82,void MyTCPConnection::Write(const std::string &msg),"['void', 'MyTCPConnection', '::', 'Write', '(', 'const', 'std', '::', 'string', '&', 'msg', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,{,['{'],['OPERATOR']
+84,"    asio::async_write(mSocket,","['asio', '::', 'async_write', '(', 'mSocket', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,"                    asio::buffer(msg.c_str(),","['asio', '::', 'buffer', '(', 'msg', '.', 'c_str', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,"                                msg.length()),","['msg', '.', 'length', '()),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,"                    [this, msg](std::error_code ec, std::size_t /*length*/)","['[', 'this', ',', 'msg', '](', 'std', '::', 'error_code', 'ec', ',', 'std', '::', 'size_t', '*', 'length', '*', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+88,    {,['{'],['OPERATOR']
+89,        if (!ec),"['if', '(!', 'ec', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,        {,['{'],['OPERATOR']
+91,            std::cout <<  msg << std::endl;,"['std', '::', 'cout', '<<', 'msg', '<<', 'std', '::', 'endl', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,        },['}'],['OPERATOR']
+93,        else,['else'],['KEYWORD']
+94,        {,['{'],['OPERATOR']
+95,            mSocket.close();,"['mSocket', '.', 'close', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,        },['}'],['OPERATOR']
+97,    });,['});'],['OPERATOR']
+98,},['}'],['OPERATOR']
+99,void MyTCPConnection::Run(),"['void', 'MyTCPConnection', '::', 'Run', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,{,['{'],['OPERATOR']
+101,    while (mRunning.load()) {,"['while', '(', 'mRunning', '.', 'load', '())', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+102,        sleep(1);,"['sleep', '(', '1', ');']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+103,//        Connect();,"['//', 'Connect();']","['COMMENT', 'NN']"
+104,"        std::cout << ""before run\n"";","['std', '::', 'cout', '<<', '""before run\\n""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+105,        mIOService.run();,"['mIOService', '.', 'run', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,"        std::cout << ""after run\n"";","['std', '::', 'cout', '<<', '""after run\\n""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+107,    },['}'],['OPERATOR']
+108,},['}'],['OPERATOR']
+109,void MyTCPConnection::Connect(),"['void', 'MyTCPConnection', '::', 'Connect', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,{,['{'],['OPERATOR']
+111,    asio::ip::tcp::resolver resolver(mIOService);,"['asio', '::', 'ip', '::', 'tcp', '::', 'resolver', 'resolver', '(', 'mIOService', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,"    asio::async_connect(mSocket, resolver.resolve({mIP, mPort}),","['asio', '::', 'async_connect', '(', 'mSocket', ',', 'resolver', '.', 'resolve', '({', 'mIP', ',', 'mPort', '}),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,"                        [this](std::error_code ec, asio::ip::tcp::resolver::iterator)","['[', 'this', '](', 'std', '::', 'error_code', 'ec', ',', 'asio', '::', 'ip', '::', 'tcp', '::', 'resolver', '::', 'iterator', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,    {,['{'],['OPERATOR']
+115,        if (!ec),"['if', '(!', 'ec', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,        {,['{'],['OPERATOR']
+117,"            std::cout << ""readHeader called\n"";","['std', '::', 'cout', '<<', '""readHeader called\\n""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+118,            readHeader();,"['readHeader', '();']","['IDENTIFIER', 'OPERATOR']"
+119,        },['}'],['OPERATOR']
+120,        else {,"['else', '{']","['KEYWORD', 'OPERATOR']"
+121,"            std::cout << ""can not connect\n"";","['std', '::', 'cout', '<<', '""can not connect\\n""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+122,            mSocket.close();,"['mSocket', '.', 'close', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+123,            mIOService.reset();,"['mIOService', '.', 'reset', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,"            std::cout << ""after stopping io_service\n"";","['std', '::', 'cout', '<<', '""after stopping io_service\\n""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+125,        },['}'],['OPERATOR']
+126,    });,['});'],['OPERATOR']
+127,},['}'],['OPERATOR']
+128,void MyTCPConnection::readHeader(),"['void', 'MyTCPConnection', '::', 'readHeader', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,{,['{'],['OPERATOR']
+130,    const int header_length = 16;,"['const', 'int', 'header_length', '=', '16', ';']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+131,"    std::shared_ptr msg(new char[header_length]{0},","['std', '::', 'shared_ptr', 'msg', '(', 'new', 'char', '[', 'header_length', ']{', '0', '},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+132,        [](char *c) {,"['[](', 'char', '*', 'c', ')', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+133,            delete[] c;,"['delete', '[]', 'c', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+134,    });,['});'],['OPERATOR']
+135,"    asio::async_read(mSocket,","['asio', '::', 'async_read', '(', 'mSocket', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,"                    asio::buffer(msg.get(), header_length),","['asio', '::', 'buffer', '(', 'msg', '.', 'get', '(),', 'header_length', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,"                    [this, msg](std::error_code ec, std::size_t s/*length*/)","['[', 'this', ',', 'msg', '](', 'std', '::', 'error_code', 'ec', ',', 'std', '::', 'size_t', 's', '*', 'length', '*', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+138,    {,['{'],['OPERATOR']
+139,        if (!ec),"['if', '(!', 'ec', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,        {,['{'],['OPERATOR']
+141,"            std::cout << ""Message read "" << s << std::endl;","['std', '::', 'cout', '<<', '""Message read ""', '<<', 's', '<<', 'std', '::', 'endl', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,            readHeader();,"['readHeader', '();']","['IDENTIFIER', 'OPERATOR']"
+143,        },['}'],['OPERATOR']
+144,        else,['else'],['KEYWORD']
+145,        {,['{'],['OPERATOR']
+146,"            std::cout << ""closing socket\n"";","['std', '::', 'cout', '<<', '""closing socket\\n""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+147,            mSocket.close();,"['mSocket', '.', 'close', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+148,            mIOService.stop();,"['mIOService', '.', 'stop', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,        },['}'],['OPERATOR']
+150,    });,['});'],['OPERATOR']
+151,},['}'],['OPERATOR']
+152,"
+
+---main.cpp---
+
+",['---main.cpp---'],['NN']
+153,#include ,['include'],['IDENTIFIER']
+154,"#include ""mytcpconnection.h""","['include', '""mytcpconnection.h""']","['IDENTIFIER', 'STRING_LITERAL']"
+155,using namespace std;,"['using', 'namespace', 'std', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+156,int main(),"['int', 'main', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+157,{,['{'],['OPERATOR']
+158,"    MyTCPConnection conn(""127.0.0.1"", ""12345"");","['MyTCPConnection', 'conn', '(', '""127.0.0.1"", ""12345""', ');']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+159,    conn.Start();,"['conn', '.', 'Start', '();']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+160,    while (true),"['while', '(', 'true', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+161,    {,['{'],['OPERATOR']
+162,"        conn.Write(""Hello server"");","['conn', '.', 'Write', '(', '""Hello server""', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+163,        sleep(1);,"['sleep', '(', '1', ');']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+164,    },['}'],['OPERATOR']
+165,    return 0;,"['return', '0', ';']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
+166,},['}'],['OPERATOR']
+167,"
+
+---server.go---
+
+",['---server.go---'],['NN']
+168,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+169,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+170,"        ""time""","['""time""']",['STRING_LITERAL']
+171,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
+172,"        ""net""","['""net""']",['STRING_LITERAL']
+173,),[')'],['OPERATOR']
+174,func handle_conn(conn net.Conn) {,"['func', 'handle_conn', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+175,"    b := make([]byte, 1028)","['b', ':=', 'make', '([]', 'byte', ',', '1028', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+176,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+177,"        n, err:= conn.Read(b)","['n', ',', 'err', ':=', 'conn', '.', 'Read', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+178,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,            fmt.Println(err.Error()),"['fmt', '.', 'Println', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+180,            break,['break'],['KEYWORD']
+181,        },['}'],['OPERATOR']
+182,        fmt.Println(string(b[:n])),"['fmt', '.', 'Println', '(', 'string', '(', 'b', '[:', 'n', ']))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,"        _, _ = conn.Write([]byte(""hellohellohello1""))","['_', ',', '_', '=', 'conn', '.', 'Write', '([]', 'byte', '(', '""hellohellohello1""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+184,        time.Sleep(time.Second*1),"['time', '.', 'Sleep', '(', 'time', '.', 'Second', '*', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+185,    },['}'],['OPERATOR']
+186,},['}'],['OPERATOR']
+187,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+188,"        ln, err := net.Listen(""tcp"", "":12345"")","['ln', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", "":12345""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+189,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+190,                fmt.Println(err.Error()),"['fmt', '.', 'Println', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+191,        },['}'],['OPERATOR']
+192,"        fmt.Println(""server started"")","['fmt', '.', 'Println', '(', '""server started""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+193,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+194,"                conn, err := ln.Accept()","['conn', ',', 'err', ':=', 'ln', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+195,"        fmt.Println(""connection from"", conn.RemoteAddr())","['fmt', '.', 'Println', '(', '""connection from""', ',', 'conn', '.', 'RemoteAddr', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+196,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+197,                        fmt.Println(err.Error()),"['fmt', '.', 'Println', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+198,                        continue,['continue'],['KEYWORD']
+199,                },['}'],['OPERATOR']
+200,                go handle_conn(conn),"['go', 'handle_conn', '(', 'conn', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+201,        },['}'],['OPERATOR']
+202,},['}'],['OPERATOR']
+203,"
+
+In this form, the client connects to the server (when the server is running) and keeps reading and writing. If I move the Connect() method in the mytcpconnection constructor to the Run() function (where it is commented now), the connection is not able to connect to the server. 
+
+How can I fix this problem?
+","['In', 'this', 'form,', 'the', 'client', 'connects', 'to', 'the', 'server', '(when', 'the', 'server', 'is', 'running)', 'and', 'keeps', 'reading', 'and', 'writing.', 'If', 'I', 'move', 'the', 'Connect()', 'method', 'in', 'the', 'mytcpconnection', 'constructor', 'to', 'the', 'Run()', 'function', '(where', 'it', 'is', 'commented', 'now),', 'the', 'connection', 'is', 'not', 'able', 'to', 'connect', 'to', 'the', 'server.', 'How', 'can', 'I', 'fix', 'this', 'problem?']","['IN', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'VBZ', 'NN', 'CC', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'NNP', 'NN', 'IN', 'DT', 'NN', 'NN', 'TO', 'DT', 'NNP', 'NN', 'WRB', 'PRP', 'VBZ', 'VBN', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'JJ', 'TO', 'VB', 'TO', 'DT', 'JJ', 'NNP', 'MD', 'PRP', 'VB', 'DT', 'NN']"
