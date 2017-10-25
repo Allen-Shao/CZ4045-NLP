@@ -5,155 +5,155 @@ Here is an implementation of Tarjan's algorithm (runnable here and originally po
 
 ","['As', 'mentioned', 'by', 'Anonymous,', 'you', 'need', 'a', 'topological', 'sort', 'for', 'this.', ""Tarjan's"", 'strongly', 'connected', 'components', 'algorithm', 'has', 'the', 'property', 'that', 'SCCs', 'are', 'returned', 'in', 'reverse', 'topological', 'sort', 'order.', 'This', 'means', 'it', 'can', 'be', 'used', 'as', 'a', 'topological', 'sort', 'algorithm.', 'Here', 'is', 'an', 'implementation', 'of', ""Tarjan's"", 'algorithm', '(runnable', 'here', 'and', 'originally', 'posted', 'by', 'me', 'to', 'the', 'golang-nuts', 'list)', 'based', 'on', 'the', 'pseudocode', 'at', 'wikipedia', '(more', 'generally', 'implemented', 'here', 'but', 'using', 'essentially', 'the', 'same', 'underlying', 'code):']","['IN', 'VBN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'NN', 'NNP', 'RB', 'VBD', 'NNS', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'NNP', 'VBP', 'VBN', 'IN', 'NN', 'JJ', 'NN', 'IN', 'DT', 'VBZ', 'PRP', 'MD', 'VB', 'VBN', 'IN', 'DT', 'JJ', 'NN', 'NN', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'NNP', 'NN', 'NN', 'RB', 'CC', 'RB', 'VBN', 'IN', 'PRP', 'TO', 'DT', 'NNS', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'IN', 'NN', 'NNP', 'RB', 'VBD', 'RB', 'CC', 'VBG', 'RB', 'DT', 'JJ', 'JJ', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 4,"    ""log""","['""log""']",['STRING_LITERAL']
-5,),[')'],['OPERATOR']
-6,type Stmt struct {,"['type', 'Stmt', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+5,),[')'],['PUNCTUATION']
+6,type Stmt struct {,"['type', 'Stmt', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 7,    Name  string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-8,    After []string,"['After', '[]', 'string']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-9,},['}'],['OPERATOR']
-10,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-11,    stmts := []Stmt{,"['stmts', ':=', '[]', 'Stmt', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-12,"        {Name: ""app"", After: []string{""app_user""}},","['{', 'Name', ':', '""app""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-13,"        {Name: ""billingplan"", After: []string{}},","['{', 'Name', ':', '""billingplan""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-14,"        {Name: ""campaign"", After: []string{""app_user""}},","['{', 'Name', ':', '""campaign""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-15,"        {Name: ""campaign_app"", After: []string{""campaign"", ""app""}},","['{', 'Name', ':', '""campaign_app""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""app""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-16,"        {Name: ""campaign_ip"", After: []string{""campaign"", ""ip""}},","['{', 'Name', ':', '""campaign_ip""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""ip""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-17,"        {Name: ""campaign_operator"", After: []string{""campaign"", ""operator""}},","['{', 'Name', ':', '""campaign_operator""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""operator""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-18,"        {Name: ""campaign_sponsor"", After: []string{""campaign"", ""sponsor""}},","['{', 'Name', ':', '""campaign_sponsor""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""sponsor""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-19,"        {Name: ""campaign_subscriberfilter"", After: []string{""campaign"", ""subscriber_filters""}},","['{', 'Name', ':', '""campaign_subscriberfilter""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""subscriber_filters""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-20,"        {Name: ""campaign_url"", After: []string{""campaign"", ""url""}},","['{', 'Name', ':', '""campaign_url""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""url""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-21,"        {Name: ""contentpartner"", After: []string{""app_user""}},","['{', 'Name', ':', '""contentpartner""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-22,"        {Name: ""filter_criteria"", After: []string{""campaign"", ""subscriber_filters""}},","['{', 'Name', ':', '""filter_criteria""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""subscriber_filters""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-23,"        {Name: ""ip"", After: []string{""app_user""}},","['{', 'Name', ':', '""ip""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-24,"        {Name: ""mobile_registered"", After: []string{""campaign"", ""app""}},","['{', 'Name', ':', '""mobile_registered""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""app""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-25,"        {Name: ""operator"", After: []string{}},","['{', 'Name', ':', '""operator""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,"        {Name: ""passwords"", After: []string{""app_user""}},","['{', 'Name', ':', '""passwords""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-27,"        {Name: ""publish_package"", After: []string{}},","['{', 'Name', ':', '""publish_package""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,"        {Name: ""role"", After: []string{}},","['{', 'Name', ':', '""role""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,"        {Name: ""passwords"", After: []string{""app_user""}},","['{', 'Name', ':', '""passwords""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-30,"        {Name: ""sponsor"", After: []string{""app_user""}},","['{', 'Name', ':', '""sponsor""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-31,"        {Name: ""subscriber_dbs"", After: []string{}},","['{', 'Name', ':', '""subscriber_dbs""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,"        {Name: ""subscriber_filters"", After: []string{""subscriber_dbs""}},","['{', 'Name', ':', '""subscriber_filters""', ',', 'After', ':', '[]', 'string', '{', '""subscriber_dbs""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-33,"        {Name: ""timezone"", After: []string{}},","['{', 'Name', ':', '""timezone""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,"        {Name: ""url"", After: []string{""app_user""}},","['{', 'Name', ':', '""url""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-35,"        {Name: ""app_user"", After: []string{}},","['{', 'Name', ':', '""app_user""', ',', 'After', ':', '[]', 'string', '{}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,"        {Name: ""user_role"", After: []string{""app_user"", ""role""}},","['{', 'Name', ':', '""user_role""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', ',', '""role""', '}},']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-37,    },['}'],['OPERATOR']
-38,    g := make(graph),"['g', ':=', 'make', '(', 'graph', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,"    for _, s := range stmts {","['for', '_', ',', 's', ':=', 'range', 'stmts', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-40,        g[s.Name] = after(s.After),"['g', '[', 's', '.', 'Name', ']', '=', 'after', '(', 's', '.', 'After', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,    },['}'],['OPERATOR']
-42,"    sorted, err := topoSort(g)","['sorted', ',', 'err', ':=', 'topoSort', '(', 'g', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-43,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+8,    After []string,"['After', '[]', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+9,},['}'],['PUNCTUATION']
+10,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+11,    stmts := []Stmt{,"['stmts', ':=', '[]', 'Stmt', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+12,"        {Name: ""app"", After: []string{""app_user""}},","['{', 'Name', ':', '""app""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+13,"        {Name: ""billingplan"", After: []string{}},","['{', 'Name', ':', '""billingplan""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+14,"        {Name: ""campaign"", After: []string{""app_user""}},","['{', 'Name', ':', '""campaign""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+15,"        {Name: ""campaign_app"", After: []string{""campaign"", ""app""}},","['{', 'Name', ':', '""campaign_app""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""app""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+16,"        {Name: ""campaign_ip"", After: []string{""campaign"", ""ip""}},","['{', 'Name', ':', '""campaign_ip""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""ip""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+17,"        {Name: ""campaign_operator"", After: []string{""campaign"", ""operator""}},","['{', 'Name', ':', '""campaign_operator""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""operator""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+18,"        {Name: ""campaign_sponsor"", After: []string{""campaign"", ""sponsor""}},","['{', 'Name', ':', '""campaign_sponsor""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""sponsor""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+19,"        {Name: ""campaign_subscriberfilter"", After: []string{""campaign"", ""subscriber_filters""}},","['{', 'Name', ':', '""campaign_subscriberfilter""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""subscriber_filters""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+20,"        {Name: ""campaign_url"", After: []string{""campaign"", ""url""}},","['{', 'Name', ':', '""campaign_url""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""url""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+21,"        {Name: ""contentpartner"", After: []string{""app_user""}},","['{', 'Name', ':', '""contentpartner""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+22,"        {Name: ""filter_criteria"", After: []string{""campaign"", ""subscriber_filters""}},","['{', 'Name', ':', '""filter_criteria""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""subscriber_filters""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+23,"        {Name: ""ip"", After: []string{""app_user""}},","['{', 'Name', ':', '""ip""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+24,"        {Name: ""mobile_registered"", After: []string{""campaign"", ""app""}},","['{', 'Name', ':', '""mobile_registered""', ',', 'After', ':', '[]', 'string', '{', '""campaign""', ',', '""app""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+25,"        {Name: ""operator"", After: []string{}},","['{', 'Name', ':', '""operator""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+26,"        {Name: ""passwords"", After: []string{""app_user""}},","['{', 'Name', ':', '""passwords""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+27,"        {Name: ""publish_package"", After: []string{}},","['{', 'Name', ':', '""publish_package""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+28,"        {Name: ""role"", After: []string{}},","['{', 'Name', ':', '""role""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+29,"        {Name: ""passwords"", After: []string{""app_user""}},","['{', 'Name', ':', '""passwords""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+30,"        {Name: ""sponsor"", After: []string{""app_user""}},","['{', 'Name', ':', '""sponsor""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+31,"        {Name: ""subscriber_dbs"", After: []string{}},","['{', 'Name', ':', '""subscriber_dbs""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+32,"        {Name: ""subscriber_filters"", After: []string{""subscriber_dbs""}},","['{', 'Name', ':', '""subscriber_filters""', ',', 'After', ':', '[]', 'string', '{', '""subscriber_dbs""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+33,"        {Name: ""timezone"", After: []string{}},","['{', 'Name', ':', '""timezone""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+34,"        {Name: ""url"", After: []string{""app_user""}},","['{', 'Name', ':', '""url""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+35,"        {Name: ""app_user"", After: []string{}},","['{', 'Name', ':', '""app_user""', ',', 'After', ':', '[]', 'string', '{}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+36,"        {Name: ""user_role"", After: []string{""app_user"", ""role""}},","['{', 'Name', ':', '""user_role""', ',', 'After', ':', '[]', 'string', '{', '""app_user""', ',', '""role""', '}},']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+37,    },['}'],['PUNCTUATION']
+38,    g := make(graph),"['g', ':=', 'make', '(', 'graph', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+39,"    for _, s := range stmts {","['for', '_', ',', 's', ':=', 'range', 'stmts', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+40,        g[s.Name] = after(s.After),"['g', '[', 's', '.', 'Name', ']', '=', 'after', '(', 's', '.', 'After', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+41,    },['}'],['PUNCTUATION']
+42,"    sorted, err := topoSort(g)","['sorted', ',', 'err', ':=', 'topoSort', '(', 'g', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+43,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 44,"        log.Fatalf(""could not sort: %v"", err)","['log.Fatalf(""could not sort: %v"", err)']",['FUNCTION_CALL']
-45,    },['}'],['OPERATOR']
-46,"    for _, s := range sorted {","['for', '_', ',', 's', ':=', 'range', 'sorted', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+45,    },['}'],['PUNCTUATION']
+46,"    for _, s := range sorted {","['for', '_', ',', 's', ':=', 'range', 'sorted', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 47,        fmt.Println(s),['fmt.Println(s)'],['FUNCTION_CALL']
-48,    },['}'],['OPERATOR']
-49,},['}'],['OPERATOR']
-50,"func topoSort(g graph) ([]string, error) {","['func', 'topoSort', '(', 'g', 'graph', ')', '([]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-51,    sccs := tarjanSCC(g),"['sccs', ':=', 'tarjanSCC', '(', 'g', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,"    sorted := make([]string, len(sccs))","['sorted', ':=', 'make', '([]', 'string', ',', 'len', '(', 'sccs', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-53,"    for i, s := range sccs {","['for', 'i', ',', 's', ':=', 'range', 'sccs', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-54,        if len(s) != 1 {,"['if', 'len', '(', 's', ')', '!=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-55,"            return nil, fmt.Errorf(""found directed cycle: %q"", s)","['return', 'nil', ',', 'fmt.Errorf(""found directed cycle: %q"", s)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-56,        },['}'],['OPERATOR']
-57,        sorted[i] = s[0],"['sorted', '[', 'i', ']', '=', 's', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-58,    },['}'],['OPERATOR']
-59,"    return sorted, nil","['return', 'sorted', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-60,},['}'],['OPERATOR']
+48,    },['}'],['PUNCTUATION']
+49,},['}'],['PUNCTUATION']
+50,"func topoSort(g graph) ([]string, error) {","['func', 'topoSort', '(', 'g', 'graph', ')', '([]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+51,    sccs := tarjanSCC(g),"['sccs', ':=', 'tarjanSCC', '(', 'g', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+52,"    sorted := make([]string, len(sccs))","['sorted', ':=', 'make', '([]', 'string', ',', 'len', '(', 'sccs', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+53,"    for i, s := range sccs {","['for', 'i', ',', 's', ':=', 'range', 'sccs', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+54,        if len(s) != 1 {,"['if', 'len', '(', 's', ')', '!=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+55,"            return nil, fmt.Errorf(""found directed cycle: %q"", s)","['return', 'nil', ',', 'fmt.Errorf(""found directed cycle: %q"", s)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+56,        },['}'],['PUNCTUATION']
+57,        sorted[i] = s[0],"['sorted', '[', 'i', ']', '=', 's', '[', '0', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+58,    },['}'],['PUNCTUATION']
+59,"    return sorted, nil","['return', 'sorted', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+60,},['}'],['PUNCTUATION']
 61,// graph is an edge list representation of a directed graph.,"['//', 'graph', 'is', 'an', 'edge', 'list', 'representation', 'of', 'a', 'directed', 'graph.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN']"
-62,type graph map[string]set,"['type', 'graph', 'map', '[', 'string', ']', 'set']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+62,type graph map[string]set,"['type', 'graph', 'map', '[', 'string', ']', 'set']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
 63,// set is an string set.,"['//', 'set', 'is', 'an', 'string', 'set.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
-64,type set map[string]struct{},"['type', 'set', 'map', '[', 'string', ']', 'struct', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-65,func after(i []string) set {,"['func', 'after', '(', 'i', '[]', 'string', ')', 'set', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-66,    if len(i) == 0 {,"['if', 'len', '(', 'i', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+64,type set map[string]struct{},"['type', 'set', 'map', '[', 'string', ']', 'struct', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+65,func after(i []string) set {,"['func', 'after', '(', 'i', '[]', 'string', ')', 'set', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+66,    if len(i) == 0 {,"['if', 'len', '(', 'i', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
 67,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-68,    },['}'],['OPERATOR']
-69,    s := make(set),"['s', ':=', 'make', '(', 'set', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,"    for _, v := range i {","['for', '_', ',', 'v', ':=', 'range', 'i', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-71,        s[v] = struct{}{},"['s', '[', 'v', ']', '=', 'struct', '{}{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-72,    },['}'],['OPERATOR']
+68,    },['}'],['PUNCTUATION']
+69,    s := make(set),"['s', ':=', 'make', '(', 'set', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+70,"    for _, v := range i {","['for', '_', ',', 'v', ':=', 'range', 'i', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+71,        s[v] = struct{}{},"['s', '[', 'v', ']', '=', 'struct', '{}{}']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION']"
+72,    },['}'],['PUNCTUATION']
 73,    return s,"['return', 's']","['KEYWORD', 'IDENTIFIER']"
-74,},['}'],['OPERATOR']
+74,},['}'],['PUNCTUATION']
 75,// tarjanSCC returns a the strongly connected components of the,"['//', 'tarjanSCC', 'returns', 'a', 'the', 'strongly', 'connected', 'components', 'of', 'the']","['COMMENT', 'NN', 'VBZ', 'DT', 'DT', 'RB', 'JJ', 'NNS', 'IN', 'DT']"
 76,// directed graph g.,"['//', 'directed', 'graph', 'g.']","['COMMENT', 'VBN', 'NN', 'NN']"
-77,func tarjanSCC(g graph) [][]string {,"['func', 'tarjanSCC', '(', 'g', 'graph', ')', '[][]', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-78,    t := tarjan{,"['t', ':=', 'tarjan', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,"        g: g,","['g', ':', 'g', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,"        indexTable: make(map[string]int, len(g)),","['indexTable', ':', 'make', '(', 'map', '[', 'string', ']', 'int', ',', 'len', '(', 'g', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,"        lowLink:    make(map[string]int, len(g)),","['lowLink', ':', 'make', '(', 'map', '[', 'string', ']', 'int', ',', 'len', '(', 'g', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-82,"        onStack:    make(map[string]bool, len(g)),","['onStack', ':', 'make', '(', 'map', '[', 'string', ']', 'bool', ',', 'len', '(', 'g', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-83,    },['}'],['OPERATOR']
-84,    for v := range t.g {,"['for', 'v', ':=', 'range', 't', '.', 'g', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,        if t.indexTable[v] == 0 {,"['if', 't', '.', 'indexTable', '[', 'v', ']', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+77,func tarjanSCC(g graph) [][]string {,"['func', 'tarjanSCC', '(', 'g', 'graph', ')', '[][]', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+78,    t := tarjan{,"['t', ':=', 'tarjan', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+79,"        g: g,","['g', ':', 'g', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+80,"        indexTable: make(map[string]int, len(g)),","['indexTable', ':', 'make', '(', 'map', '[', 'string', ']', 'int', ',', 'len', '(', 'g', ')),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+81,"        lowLink:    make(map[string]int, len(g)),","['lowLink', ':', 'make', '(', 'map', '[', 'string', ']', 'int', ',', 'len', '(', 'g', ')),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+82,"        onStack:    make(map[string]bool, len(g)),","['onStack', ':', 'make', '(', 'map', '[', 'string', ']', 'bool', ',', 'len', '(', 'g', ')),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+83,    },['}'],['PUNCTUATION']
+84,    for v := range t.g {,"['for', 'v', ':=', 'range', 't', '.', 'g', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+85,        if t.indexTable[v] == 0 {,"['if', 't', '.', 'indexTable', '[', 'v', ']', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
 86,            t.strongconnect(v),['t.strongconnect(v)'],['FUNCTION_CALL']
-87,        },['}'],['OPERATOR']
-88,    },['}'],['OPERATOR']
-89,    return t.sccs,"['return', 't', '.', 'sccs']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-90,},['}'],['OPERATOR']
+87,        },['}'],['PUNCTUATION']
+88,    },['}'],['PUNCTUATION']
+89,    return t.sccs,"['return', 't', '.', 'sccs']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+90,},['}'],['PUNCTUATION']
 91,// tarjan implements Tarjan's strongly connected component finding,"['//', 'tarjan', 'implements', ""Tarjan's"", 'strongly', 'connected', 'component', 'finding']","['COMMENT', 'NN', 'NNS', 'NNP', 'RB', 'VBD', 'NN', 'NN']"
 92,// algorithm. The implementation is from the pseudocode at,"['//', 'algorithm.', 'The', 'implementation', 'is', 'from', 'the', 'pseudocode', 'at']","['COMMENT', 'IN', 'DT', 'NN', 'VBZ', 'IN', 'DT', 'NN', 'IN']"
 93,//,['//'],['COMMENT']
 94,// http://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm,"['//', 'http:en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm']","['COMMENT', 'NN']"
 95,//,['//'],['COMMENT']
-96,type tarjan struct {,"['type', 'tarjan', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+96,type tarjan struct {,"['type', 'tarjan', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 97,    g graph,"['g', 'graph']","['IDENTIFIER', 'IDENTIFIER']"
 98,    index      int,"['index', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-99,    indexTable map[string]int,"['indexTable', 'map', '[', 'string', ']', 'int']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-100,    lowLink    map[string]int,"['lowLink', 'map', '[', 'string', ']', 'int']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-101,    onStack    map[string]bool,"['onStack', 'map', '[', 'string', ']', 'bool']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-102,    stack []string,"['stack', '[]', 'string']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-103,    sccs [][]string,"['sccs', '[][]', 'string']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-104,},['}'],['OPERATOR']
+99,    indexTable map[string]int,"['indexTable', 'map', '[', 'string', ']', 'int']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+100,    lowLink    map[string]int,"['lowLink', 'map', '[', 'string', ']', 'int']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+101,    onStack    map[string]bool,"['onStack', 'map', '[', 'string', ']', 'bool']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+102,    stack []string,"['stack', '[]', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+103,    sccs [][]string,"['sccs', '[][]', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+104,},['}'],['PUNCTUATION']
 105,// strongconnect is the strongconnect function described in the,"['//', 'strongconnect', 'is', 'the', 'strongconnect', 'function', 'described', 'in', 'the']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'VBN', 'IN', 'DT']"
 106,// wikipedia article.,"['//', 'wikipedia', 'article.']","['COMMENT', 'NN', 'NN']"
-107,func (t *tarjan) strongconnect(v string) {,"['func', '(', 't', '*', 'tarjan', ')', 'strongconnect', '(', 'v', 'string', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+107,func (t *tarjan) strongconnect(v string) {,"['func', '(', 't', '*', 'tarjan', ')', 'strongconnect', '(', 'v', 'string', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 108,    // Set the depth index for v to the smallest unused index.,"['//', 'Set', 'the', 'depth', 'index', 'for', 'v', 'to', 'the', 'smallest', 'unused', 'index.']","['COMMENT', 'NNP', 'DT', 'NN', 'NN', 'IN', 'NN', 'TO', 'DT', 'JJS', 'JJ', 'NN']"
-109,    t.index++,"['t', '.', 'index', '++']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,    t.indexTable[v] = t.index,"['t', '.', 'indexTable', '[', 'v', ']', '=', 't', '.', 'index']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-111,    t.lowLink[v] = t.index,"['t', '.', 'lowLink', '[', 'v', ']', '=', 't', '.', 'index']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-112,"    t.stack = append(t.stack, v)","['t', '.', 'stack', '=', 'append', '(', 't', '.', 'stack', ',', 'v', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,    t.onStack[v] = true,"['t', '.', 'onStack', '[', 'v', ']', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+109,    t.index++,"['t', '.', 'index', '++']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR']"
+110,    t.indexTable[v] = t.index,"['t', '.', 'indexTable', '[', 'v', ']', '=', 't', '.', 'index']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+111,    t.lowLink[v] = t.index,"['t', '.', 'lowLink', '[', 'v', ']', '=', 't', '.', 'index']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+112,"    t.stack = append(t.stack, v)","['t', '.', 'stack', '=', 'append', '(', 't', '.', 'stack', ',', 'v', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+113,    t.onStack[v] = true,"['t', '.', 'onStack', '[', 'v', ']', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
 114,    // Consider successors of v.,"['//', 'Consider', 'successors', 'of', 'v.']","['COMMENT', 'VB', 'NNS', 'IN', 'NN']"
-115,    for w := range t.g[v] {,"['for', 'w', ':=', 'range', 't', '.', 'g', '[', 'v', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-116,        if t.indexTable[w] == 0 {,"['if', 't', '.', 'indexTable', '[', 'w', ']', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+115,    for w := range t.g[v] {,"['for', 'w', ':=', 'range', 't', '.', 'g', '[', 'v', ']', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+116,        if t.indexTable[w] == 0 {,"['if', 't', '.', 'indexTable', '[', 'w', ']', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
 117,            // Successor w has not yet been visited; recur on it.,"['//', 'Successor', 'w', 'has', 'not', 'yet', 'been', 'visited;', 'recur', 'on', 'it.']","['COMMENT', 'NNP', 'NN', 'VBZ', 'RB', 'RB', 'VBN', 'JJ', 'NN', 'IN', 'NN']"
 118,            t.strongconnect(w),['t.strongconnect(w)'],['FUNCTION_CALL']
-119,"            t.lowLink[v] = min(t.lowLink[v], t.lowLink[w])","['t', '.', 'lowLink', '[', 'v', ']', '=', 'min', '(', 't', '.', 'lowLink', '[', 'v', '],', 't', '.', 'lowLink', '[', 'w', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,        } else if t.onStack[w] {,"['}', 'else', 'if', 't', '.', 'onStack', '[', 'w', ']', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+119,"            t.lowLink[v] = min(t.lowLink[v], t.lowLink[w])","['t', '.', 'lowLink', '[', 'v', ']', '=', 'min', '(', 't', '.', 'lowLink', '[', 'v', '],', 't', '.', 'lowLink', '[', 'w', '])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+120,        } else if t.onStack[w] {,"['}', 'else', 'if', 't', '.', 'onStack', '[', 'w', ']', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 121,            // Successor w is in stack s and hence in the current SCC.,"['//', 'Successor', 'w', 'is', 'in', 'stack', 's', 'and', 'hence', 'in', 'the', 'current', 'SCC.']","['COMMENT', 'NNP', 'NN', 'VBZ', 'IN', 'NN', 'NN', 'CC', 'NN', 'IN', 'DT', 'JJ', 'NN']"
-122,"            t.lowLink[v] = min(t.lowLink[v], t.indexTable[w])","['t', '.', 'lowLink', '[', 'v', ']', '=', 'min', '(', 't', '.', 'lowLink', '[', 'v', '],', 't', '.', 'indexTable', '[', 'w', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,        },['}'],['OPERATOR']
-124,    },['}'],['OPERATOR']
+122,"            t.lowLink[v] = min(t.lowLink[v], t.indexTable[w])","['t', '.', 'lowLink', '[', 'v', ']', '=', 'min', '(', 't', '.', 'lowLink', '[', 'v', '],', 't', '.', 'indexTable', '[', 'w', '])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+123,        },['}'],['PUNCTUATION']
+124,    },['}'],['PUNCTUATION']
 125,"    // If v is a root node, pop the stack and generate an SCC.","['//', 'If', 'v', 'is', 'a', 'root', 'node,', 'pop', 'the', 'stack', 'and', 'generate', 'an', 'SCC.']","['COMMENT', 'IN', 'NN', 'VBZ', 'DT', 'NN', 'JJ', 'NN', 'DT', 'NN', 'CC', 'VB', 'DT', 'NN']"
-126,    if t.lowLink[v] == t.indexTable[v] {,"['if', 't', '.', 'lowLink', '[', 'v', ']', '==', 't', '.', 'indexTable', '[', 'v', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+126,    if t.lowLink[v] == t.indexTable[v] {,"['if', 't', '.', 'lowLink', '[', 'v', ']', '==', 't', '.', 'indexTable', '[', 'v', ']', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 127,        // Start a new strongly connected component.,"['//', 'Start', 'a', 'new', 'strongly', 'connected', 'component.']","['COMMENT', 'VB', 'DT', 'JJ', 'RB', 'VBN', 'NN']"
-128,        var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
-129,            scc []string,"['scc', '[]', 'string']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+128,        var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
+129,            scc []string,"['scc', '[]', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
 130,            w   string,"['w', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-131,        ),[')'],['OPERATOR']
-132,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-133,"            w, t.stack = t.stack[len(t.stack)-1], t.stack[:len(t.stack)-1]","['w', ',', 't', '.', 'stack', '=', 't', '.', 'stack', '[', 'len', '(', 't', '.', 'stack', ')-', '1', '],', 't', '.', 'stack', '[:', 'len', '(', 't', '.', 'stack', ')-', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-134,            t.onStack[w] = false,"['t', '.', 'onStack', '[', 'w', ']', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+131,        ),[')'],['PUNCTUATION']
+132,        for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+133,"            w, t.stack = t.stack[len(t.stack)-1], t.stack[:len(t.stack)-1]","['w', ',', 't', '.', 'stack', '=', 't', '.', 'stack', '[', 'len', '(', 't', '.', 'stack', ')-', '1', '],', 't', '.', 'stack', '[:', 'len', '(', 't', '.', 'stack', ')-', '1', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+134,            t.onStack[w] = false,"['t', '.', 'onStack', '[', 'w', ']', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
 135,            // Add w to current strongly connected component.,"['//', 'Add', 'w', 'to', 'current', 'strongly', 'connected', 'component.']","['COMMENT', 'NNP', 'VBP', 'TO', 'JJ', 'RB', 'VBN', 'NN']"
-136,"            scc = append(scc, w)","['scc', '=', 'append', '(', 'scc', ',', 'w', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,            if w == v {,"['if', 'w', '==', 'v', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,"            scc = append(scc, w)","['scc', '=', 'append', '(', 'scc', ',', 'w', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+137,            if w == v {,"['if', 'w', '==', 'v', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 138,                break,['break'],['KEYWORD']
-139,            },['}'],['OPERATOR']
-140,        },['}'],['OPERATOR']
+139,            },['}'],['PUNCTUATION']
+140,        },['}'],['PUNCTUATION']
 141,        // Output the current strongly connected component.,"['//', 'Output', 'the', 'current', 'strongly', 'connected', 'component.']","['COMMENT', 'IN', 'DT', 'JJ', 'RB', 'VBN', 'NN']"
-142,"        t.sccs = append(t.sccs, scc)","['t', '.', 'sccs', '=', 'append', '(', 't', '.', 'sccs', ',', 'scc', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-143,    },['}'],['OPERATOR']
-144,},['}'],['OPERATOR']
-145,"func min(a, b int) int {","['func', 'min', '(', 'a', ',', 'b', 'int', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-146,    if a < b {,"['if', 'a', '<', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,"        t.sccs = append(t.sccs, scc)","['t', '.', 'sccs', '=', 'append', '(', 't', '.', 'sccs', ',', 'scc', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+143,    },['}'],['PUNCTUATION']
+144,},['}'],['PUNCTUATION']
+145,"func min(a, b int) int {","['func', 'min', '(', 'a', ',', 'b', 'int', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+146,    if a < b {,"['if', 'a', '<', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 147,        return a,"['return', 'a']","['KEYWORD', 'IDENTIFIER']"
-148,    },['}'],['OPERATOR']
+148,    },['}'],['PUNCTUATION']
 149,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
-150,},['}'],['OPERATOR']
+150,},['}'],['PUNCTUATION']
 151,"
 
 Note that running this code repeatedly will not result in the same strict ordering of output since a number of the paths are not definitively orderable relative to each other (this won't show up in the playground since the results are cached - you can see this though by wrapping the call to tarjanSCC).

@@ -8,155 +8,155 @@ Here is my Code:
 
 ","['i', 'am', 'new', 'in', 'Go', 'and', 'for', 'study', 'i', 'have', 'to', 'hold', 'a', 'presentation', 'about', 'concurrency', 'in', 'Go.', 'I', 'think', 'the', 'Go', 'lang', 'Tour', '-', 'Webcrawler', 'exercise', 'is', 'a', 'nice', 'example', 'to', 'talk', 'about', 'that.', 'Before', 'i', 'will', 'do', 'that,', 'it', 'would', 'be', 'nice', 'if', 'anybody', 'could', 'verify', 'if', 'this', 'solution', 'fits.', 'I', 'assume', 'it', 'is', 'correct', 'but', 'perhaps', 'i', 'have', 'missed', 'anything', 'or', 'anybody', 'of', 'you', 'has', 'a', 'better', 'alternative.', 'Here', 'is', 'my', 'Code:']","['NN', 'VBP', 'JJ', 'IN', 'NNP', 'CC', 'IN', 'NN', 'NNS', 'VBP', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'NNP', 'VBD', 'NNP', ':', 'NNP', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'TO', 'VB', 'IN', 'NN', 'IN', 'NN', 'MD', 'VB', 'VB', 'PRP', 'MD', 'VB', 'JJ', 'IN', 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'PRP', 'VBZ', 'JJ', 'CC', 'RB', 'NNS', 'VBP', 'VBN', 'NN', 'CC', 'NN', 'IN', 'PRP', 'VBZ', 'DT', 'JJR', 'NN', 'RB', 'VBZ', 'PRP$', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 4,"    ""sync""","['""sync""']",['STRING_LITERAL']
 5,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
 6,"    ""time""","['""time""']",['STRING_LITERAL']
-7,),[')'],['OPERATOR']
-8,/*,['*'],['OPERATOR']
-9, * Data and Types,"['*', 'Data', 'and', 'Types']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-10, * ===================================================================================,"['*', '===================================================================================']","['OPERATOR', 'OPERATOR']"
-11, */,['*'],['OPERATOR']
-12,var fetched map[string]bool    // Map of fetched URLs -> true: fetched,"['var', 'fetched', 'map', '[', 'string', ']', 'bool', '//', 'Map', 'of', 'fetched', 'URLs', '->', 'true:', 'fetched']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NNP', 'IN', 'JJ', 'NNP', 'NNP', 'NN', 'VBD']"
-13,var lock sync.Mutex            // locks write access to fetched-map,"['var', 'lock', 'sync', '.', 'Mutex', '//', 'locks', 'write', 'access', 'to', 'fetched-map']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NNS', 'VBP', 'NN', 'TO', 'NN']"
+7,),[')'],['PUNCTUATION']
+8,/*,['/*'],['PUNCTUATION']
+9, * Data and Types,"['*', 'Data', 'and', 'Types']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+10, * ===================================================================================,"['*', '===================================================================================']","['ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+11, */,['*/'],['PUNCTUATION']
+12,var fetched map[string]bool    // Map of fetched URLs -> true: fetched,"['var', 'fetched', 'map', '[', 'string', ']', 'bool', '//', 'Map', 'of', 'fetched', 'URLs', '->', 'true:', 'fetched']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'NNP', 'IN', 'JJ', 'NNP', 'NNP', 'NN', 'VBD']"
+13,var lock sync.Mutex            // locks write access to fetched-map,"['var', 'lock', 'sync', '.', 'Mutex', '//', 'locks', 'write', 'access', 'to', 'fetched-map']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'NNS', 'VBP', 'NN', 'TO', 'NN']"
 14,var urlChan chan string        // Channel to Write fetched URL,"['var', 'urlChan', 'chan', 'string', '//', 'Channel', 'to', 'Write', 'fetched', 'URL']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'COMMENT', 'NNP', 'TO', 'VB', 'JJ', 'NNP']"
-15,type Fetcher interface {,"['type', 'Fetcher', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+15,type Fetcher interface {,"['type', 'Fetcher', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 16,    // Fetch returns the body of URL and,"['//', 'Fetch', 'returns', 'the', 'body', 'of', 'URL', 'and']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NNP', 'CC']"
 17,    // a slice of URLs found on that page.,"['//', 'a', 'slice', 'of', 'URLs', 'found', 'on', 'that', 'page.']","['COMMENT', 'DT', 'NN', 'IN', 'NNP', 'VBD', 'IN', 'DT', 'NN']"
-18,"    Fetch(url string) (body string, urls []string, err error)","['Fetch', '(', 'url', 'string', ')', '(', 'body', 'string', ',', 'urls', '[]', 'string', ',', 'err', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-19,},['}'],['OPERATOR']
+18,"    Fetch(url string) (body string, urls []string, err error)","['Fetch', '(', 'url', 'string', ')', '(', 'body', 'string', ',', 'urls', '[]', 'string', ',', 'err', 'error', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+19,},['}'],['PUNCTUATION']
 20,// fakeFetcher is Fetcher that returns canned results.,"['//', 'fakeFetcher', 'is', 'Fetcher', 'that', 'returns', 'canned', 'results.']","['COMMENT', 'NN', 'VBZ', 'NNP', 'IN', 'NNS', 'VBD', 'NN']"
-21,type fakeFetcher map[string]*fakeResult,"['type', 'fakeFetcher', 'map', '[', 'string', ']*', 'fakeResult']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-22,type fakeResult struct {,"['type', 'fakeResult', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+21,type fakeFetcher map[string]*fakeResult,"['type', 'fakeFetcher', 'map', '[', 'string', ']*', 'fakeResult']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+22,type fakeResult struct {,"['type', 'fakeResult', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 23,    body string,"['body', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-24,    urls []string,"['urls', '[]', 'string']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-25,},['}'],['OPERATOR']
+24,    urls []string,"['urls', '[]', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+25,},['}'],['PUNCTUATION']
 26,// fetcher is a populated fakeFetcher.,"['//', 'fetcher', 'is', 'a', 'populated', 'fakeFetcher.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN']"
-27,var fetcher = fakeFetcher{,"['var', 'fetcher', '=', 'fakeFetcher', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,"    ""http://golang.org/"": &fakeResult{","['""http://golang.org/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,"        ""The Go Programming Language"",","['""The Go Programming Language""', ',']","['STRING_LITERAL', 'OPERATOR']"
-30,        []string{,"['[]', 'string', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,"            ""http://golang.org/pkg/"",","['""http://golang.org/pkg/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-32,"            ""http://golang.org/cmd/"",","['""http://golang.org/cmd/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-33,"        },","['},']",['OPERATOR']
-34,"    },","['},']",['OPERATOR']
-35,"    ""http://golang.org/pkg/"": &fakeResult{","['""http://golang.org/pkg/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,"        ""Packages"",","['""Packages""', ',']","['STRING_LITERAL', 'OPERATOR']"
-37,        []string{,"['[]', 'string', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,"            ""http://golang.org/"",","['""http://golang.org/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-39,"            ""http://golang.org/cmd/"",","['""http://golang.org/cmd/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-40,"            ""http://golang.org/pkg/fmt/"",","['""http://golang.org/pkg/fmt/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-41,"            ""http://golang.org/pkg/os/"",","['""http://golang.org/pkg/os/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-42,"        },","['},']",['OPERATOR']
-43,"    },","['},']",['OPERATOR']
-44,"    ""http://golang.org/pkg/fmt/"": &fakeResult{","['""http://golang.org/pkg/fmt/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,"        ""Package fmt"",","['""Package fmt""', ',']","['STRING_LITERAL', 'OPERATOR']"
-46,        []string{,"['[]', 'string', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,"            ""http://golang.org/"",","['""http://golang.org/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-48,"            ""http://golang.org/pkg/"",","['""http://golang.org/pkg/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-49,"        },","['},']",['OPERATOR']
-50,"    },","['},']",['OPERATOR']
-51,"    ""http://golang.org/pkg/os/"": &fakeResult{","['""http://golang.org/pkg/os/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,"        ""Package os"",","['""Package os""', ',']","['STRING_LITERAL', 'OPERATOR']"
-53,        []string{,"['[]', 'string', '{']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,"            ""http://golang.org/"",","['""http://golang.org/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-55,"            ""http://golang.org/pkg/"",","['""http://golang.org/pkg/""', ',']","['STRING_LITERAL', 'OPERATOR']"
-56,"        },","['},']",['OPERATOR']
-57,"    },","['},']",['OPERATOR']
-58,},['}'],['OPERATOR']
-59,/*,['*'],['OPERATOR']
-60, * End Data and Types,"['*', 'End', 'Data', 'and', 'Types']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-61, * ===================================================================================,"['*', '===================================================================================']","['OPERATOR', 'OPERATOR']"
-62, */,['*'],['OPERATOR']
-63,/*,['*'],['OPERATOR']
-64, * Webcrawler implementation,"['*', 'Webcrawler', 'implementation']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-65, * ===================================================================================,"['*', '===================================================================================']","['OPERATOR', 'OPERATOR']"
-66, */,['*'],['OPERATOR']
-67,func waitUntilDone(d int) {,"['func', 'waitUntilDone', '(', 'd', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-68,    fMap := make(map[string]string),"['fMap', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,    for i := 0; i < d; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'd', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-70,        fMap[<-urlChan] = strconv.Itoa(time.Now().Nanosecond()),"['fMap', '[<-', 'urlChan', ']', '=', 'strconv.Itoa(time.Now().Nanosecond())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-71,    },['}'],['OPERATOR']
+27,var fetcher = fakeFetcher{,"['var', 'fetcher', '=', 'fakeFetcher', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+28,"    ""http://golang.org/"": &fakeResult{","['""http://golang.org/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+29,"        ""The Go Programming Language"",","['""The Go Programming Language""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+30,        []string{,"['[]', 'string', '{']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+31,"            ""http://golang.org/pkg/"",","['""http://golang.org/pkg/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+32,"            ""http://golang.org/cmd/"",","['""http://golang.org/cmd/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+33,"        },","['},']",['PUNCTUATION']
+34,"    },","['},']",['PUNCTUATION']
+35,"    ""http://golang.org/pkg/"": &fakeResult{","['""http://golang.org/pkg/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+36,"        ""Packages"",","['""Packages""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+37,        []string{,"['[]', 'string', '{']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+38,"            ""http://golang.org/"",","['""http://golang.org/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+39,"            ""http://golang.org/cmd/"",","['""http://golang.org/cmd/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+40,"            ""http://golang.org/pkg/fmt/"",","['""http://golang.org/pkg/fmt/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+41,"            ""http://golang.org/pkg/os/"",","['""http://golang.org/pkg/os/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+42,"        },","['},']",['PUNCTUATION']
+43,"    },","['},']",['PUNCTUATION']
+44,"    ""http://golang.org/pkg/fmt/"": &fakeResult{","['""http://golang.org/pkg/fmt/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+45,"        ""Package fmt"",","['""Package fmt""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+46,        []string{,"['[]', 'string', '{']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+47,"            ""http://golang.org/"",","['""http://golang.org/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+48,"            ""http://golang.org/pkg/"",","['""http://golang.org/pkg/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+49,"        },","['},']",['PUNCTUATION']
+50,"    },","['},']",['PUNCTUATION']
+51,"    ""http://golang.org/pkg/os/"": &fakeResult{","['""http://golang.org/pkg/os/""', ':', '&', 'fakeResult', '{']","['STRING_LITERAL', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+52,"        ""Package os"",","['""Package os""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+53,        []string{,"['[]', 'string', '{']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+54,"            ""http://golang.org/"",","['""http://golang.org/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+55,"            ""http://golang.org/pkg/"",","['""http://golang.org/pkg/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+56,"        },","['},']",['PUNCTUATION']
+57,"    },","['},']",['PUNCTUATION']
+58,},['}'],['PUNCTUATION']
+59,/*,['/*'],['PUNCTUATION']
+60, * End Data and Types,"['*', 'End', 'Data', 'and', 'Types']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+61, * ===================================================================================,"['*', '===================================================================================']","['ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+62, */,['*/'],['PUNCTUATION']
+63,/*,['/*'],['PUNCTUATION']
+64, * Webcrawler implementation,"['*', 'Webcrawler', 'implementation']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+65, * ===================================================================================,"['*', '===================================================================================']","['ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+66, */,['*/'],['PUNCTUATION']
+67,func waitUntilDone(d int) {,"['func', 'waitUntilDone', '(', 'd', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+68,    fMap := make(map[string]string),"['fMap', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+69,    for i := 0; i < d; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'd', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+70,        fMap[<-urlChan] = strconv.Itoa(time.Now().Nanosecond()),"['fMap', '[<-', 'urlChan', ']', '=', 'strconv.Itoa(time.Now().Nanosecond())']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+71,    },['}'],['PUNCTUATION']
 72,    time.Sleep(time.Millisecond * 100),['time.Sleep(time.Millisecond * 100)'],['FUNCTION_CALL']
 73,    fmt.Println(),['fmt.Println()'],['FUNCTION_CALL']
 74,"    fmt.Println(""Fetch stats"")","['fmt.Println(""Fetch stats"")']",['FUNCTION_CALL']
 75,"    fmt.Println(""=================================================================="")","['fmt.Println(""=================================================================="")']",['FUNCTION_CALL']
-76,"    for k, v := range fMap {","['for', 'k', ',', 'v', ':=', 'range', 'fMap', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+76,"    for k, v := range fMap {","['for', 'k', ',', 'v', ':=', 'range', 'fMap', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 77,"        fmt.Println(""Fetched: "" + k + "" after: "" + v + "" ns"")","['fmt.Println(""Fetched: "" + k + "" after: "" + v + "" ns"")']",['FUNCTION_CALL']
-78,    },['}'],['OPERATOR']
+78,    },['}'],['PUNCTUATION']
 79,"    fmt.Println(""=================================================================="")","['fmt.Println(""=================================================================="")']",['FUNCTION_CALL']
 80,    fmt.Println(),['fmt.Println()'],['FUNCTION_CALL']
-81,},['}'],['OPERATOR']
-82,"func (f fakeFetcher) Fetch(url string) (string, []string, error) {","['func', '(', 'f', 'fakeFetcher', ')', 'Fetch', '(', 'url', 'string', ')', '(', 'string', ',', '[]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+81,},['}'],['PUNCTUATION']
+82,"func (f fakeFetcher) Fetch(url string) (string, []string, error) {","['func', '(', 'f', 'fakeFetcher', ')', 'Fetch', '(', 'url', 'string', ')', '(', 'string', ',', '[]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 83,    var str string,"['var', 'str', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-84,    var strArr [] string,"['var', 'strArr', '[]', 'string']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+84,    var strArr [] string,"['var', 'strArr', '[]', 'string']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
 85,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-86,    if fetched[url] {,"['if', 'fetched', '[', 'url', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+86,    if fetched[url] {,"['if', 'fetched', '[', 'url', ']', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 87,        // already fetched?,"['//', 'already', 'fetched?']","['COMMENT', 'RB', 'VB']"
-88,"        str, strArr, err = """", nil, fmt.Errorf(""already fetched: %s this will be ignored"", url)","['str', ',', 'strArr', ',', 'err', '=', '""""', ',', 'nil', ',', 'fmt.Errorf(""already fetched: %s this will be ignored"", url)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-89,"    }else if res, ok := f[url]; ok {","['}', 'else', 'if', 'res', ',', 'ok', ':=', 'f', '[', 'url', '];', 'ok', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,"        str, strArr, err = res.body, res.urls, nil","['str', ',', 'strArr', ',', 'err', '=', 'res', '.', 'body', ',', 'res', '.', 'urls', ',', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-91,        urlChan <- url,"['urlChan', '<-', 'url']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-92,    }else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-93,"        str, strArr, err = """", nil, fmt.Errorf(""not found: %s"", url)","['str', ',', 'strArr', ',', 'err', '=', '""""', ',', 'nil', ',', 'fmt.Errorf(""not found: %s"", url)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-94,    },['}'],['OPERATOR']
-95,"    return str, strArr, err","['return', 'str', ',', 'strArr', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-96,},['}'],['OPERATOR']
+88,"        str, strArr, err = """", nil, fmt.Errorf(""already fetched: %s this will be ignored"", url)","['str', ',', 'strArr', ',', 'err', '=', '""""', ',', 'nil', ',', 'fmt.Errorf(""already fetched: %s this will be ignored"", url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+89,"    }else if res, ok := f[url]; ok {","['}', 'else', 'if', 'res', ',', 'ok', ':=', 'f', '[', 'url', '];', 'ok', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+90,"        str, strArr, err = res.body, res.urls, nil","['str', ',', 'strArr', ',', 'err', '=', 'res', '.', 'body', ',', 'res', '.', 'urls', ',', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+91,        urlChan <- url,"['urlChan', '<-', 'url']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+92,    }else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+93,"        str, strArr, err = """", nil, fmt.Errorf(""not found: %s"", url)","['str', ',', 'strArr', ',', 'err', '=', '""""', ',', 'nil', ',', 'fmt.Errorf(""not found: %s"", url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+94,    },['}'],['PUNCTUATION']
+95,"    return str, strArr, err","['return', 'str', ',', 'strArr', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+96,},['}'],['PUNCTUATION']
 97,// Crawl uses fetcher to recursively crawl,"['//', 'Crawl', 'uses', 'fetcher', 'to', 'recursively', 'crawl']","['COMMENT', 'NNP', 'VBZ', 'RB', 'TO', 'RB', 'VB']"
 98,"// pages starting with url, to a maximum of depth.","['//', 'pages', 'starting', 'with', 'url,', 'to', 'a', 'maximum', 'of', 'depth.']","['COMMENT', 'NNS', 'VBG', 'IN', 'JJ', 'TO', 'DT', 'NN', 'IN', 'NN']"
-99,"func Crawl(url string, depth int, fetcher Fetcher, goRoutNum int) {","['func', 'Crawl', '(', 'url', 'string', ',', 'depth', 'int', ',', 'fetcher', 'Fetcher', ',', 'go', 'RoutNum', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-100,    if depth <= 0 {,"['if', 'depth', '<=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+99,"func Crawl(url string, depth int, fetcher Fetcher, goRoutNum int) {","['func', 'Crawl', '(', 'url', 'string', ',', 'depth', 'int', ',', 'fetcher', 'Fetcher', ',', 'go', 'RoutNum', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+100,    if depth <= 0 {,"['if', 'depth', '<=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
 101,        return,['return'],['KEYWORD']
-102,    },['}'],['OPERATOR']
+102,    },['}'],['PUNCTUATION']
 103,    // Start fetching url concurrently,"['//', 'Start', 'fetching', 'url', 'concurrently']","['COMMENT', 'NNP', 'VBG', 'RB', 'RB']"
 104,"    fmt.Println(""Goroutine "" + strconv.Itoa(goRoutNum) + "" is fetching: "" + url)","['fmt.Println(""Goroutine "" + strconv.Itoa(goRoutNum) + "" is fetching: "" + url)']",['FUNCTION_CALL']
-105,"    body, urls, err := fetcher.Fetch(url)","['body', ',', 'urls', ',', 'err', ':=', 'fetcher.Fetch(url)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-106,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,"    body, urls, err := fetcher.Fetch(url)","['body', ',', 'urls', ',', 'err', ':=', 'fetcher.Fetch(url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+106,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 107,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 108,        return,['return'],['KEYWORD']
-109,    },['}'],['OPERATOR']
+109,    },['}'],['PUNCTUATION']
 110,    // Lock map,"['//', 'Lock', 'map']","['COMMENT', 'NNP', 'NN']"
 111,    lock.Lock(),['lock.Lock()'],['FUNCTION_CALL']
-112,    fetched[url] = true,"['fetched', '[', 'url', ']', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+112,    fetched[url] = true,"['fetched', '[', 'url', ']', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
 113,    // Unlock,"['//', 'Unlock']","['COMMENT', 'NN']"
 114,    lock.Unlock(),['lock.Unlock()'],['FUNCTION_CALL']
 115,"    fmt.Printf(""found: %s %q\n"", url, body)","['fmt.Printf(""found: %s %q\\n"", url, body)']",['FUNCTION_CALL']
-116,"    for i, u := range urls {","['for', 'i', ',', 'u', ':=', 'range', 'urls', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-117,"        go func(url string, goRoutNumber int) {","['go', 'func', '(', 'url', 'string', ',', 'go', 'RoutNumber', 'int', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-118,"            Crawl(url, depth - 1, fetcher, goRoutNumber)","['Crawl', '(', 'url', ',', 'depth', '-', '1', ',', 'fetcher', ',', 'go', 'RoutNumber', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-119,"        }(u, i + 1)","['}(', 'u', ',', 'i', '+', '1', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-120,    },['}'],['OPERATOR']
+116,"    for i, u := range urls {","['for', 'i', ',', 'u', ':=', 'range', 'urls', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+117,"        go func(url string, goRoutNumber int) {","['go', 'func', '(', 'url', 'string', ',', 'go', 'RoutNumber', 'int', ')', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+118,"            Crawl(url, depth - 1, fetcher, goRoutNumber)","['Crawl', '(', 'url', ',', 'depth', '-', '1', ',', 'fetcher', ',', 'go', 'RoutNumber', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+119,"        }(u, i + 1)","['}(', 'u', ',', 'i', '+', '1', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+120,    },['}'],['PUNCTUATION']
 121,    return,['return'],['KEYWORD']
-122,},['}'],['OPERATOR']
-123,"func StartCrawling(url string, depth int, fetcher Fetcher) {","['func', 'StartCrawling', '(', 'url', 'string', ',', 'depth', 'int', ',', 'fetcher', 'Fetcher', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+122,},['}'],['PUNCTUATION']
+123,"func StartCrawling(url string, depth int, fetcher Fetcher) {","['func', 'StartCrawling', '(', 'url', 'string', ',', 'depth', 'int', ',', 'fetcher', 'Fetcher', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 124,    fmt.Println(),['fmt.Println()'],['FUNCTION_CALL']
 125,"    fmt.Println(""Start crawling ..."")","['fmt.Println(""Start crawling ..."")']",['FUNCTION_CALL']
 126,"    fmt.Println(""=================================================================="")","['fmt.Println(""=================================================================="")']",['FUNCTION_CALL']
-127,"    go func(u string, i int, f Fetcher) {","['go', 'func', '(', 'u', 'string', ',', 'i', 'int', ',', 'f', 'Fetcher', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-128,"        Crawl(u, i, f, 0)","['Crawl', '(', 'u', ',', 'i', ',', 'f', ',', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-129,"    }(url, depth, fetcher)","['}(', 'url', ',', 'depth', ',', 'fetcher', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-130,},['}'],['OPERATOR']
-131,/*,['*'],['OPERATOR']
-132, * End Webcrawler implementation,"['*', 'End', 'Webcrawler', 'implementation']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-133, * ===================================================================================,"['*', '===================================================================================']","['OPERATOR', 'OPERATOR']"
-134, */,['*'],['OPERATOR']
-135,/*,['*'],['OPERATOR']
-136, * Main,"['*', 'Main']","['OPERATOR', 'IDENTIFIER']"
-137, * ====================================================================,"['*', '====================================================================']","['OPERATOR', 'OPERATOR']"
-138, */,['*'],['OPERATOR']
-139,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-140,    depth := len(fetcher),"['depth', ':=', 'len', '(', 'fetcher', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-141,    fetched = make(map[string]bool),"['fetched', '=', 'make', '(', 'map', '[', 'string', ']', 'bool', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-142,"    url := ""http://golang.org/""","['url', ':=', '""http://golang.org/""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-143,"    urlChan = make(chan string, len(fetcher))","['urlChan', '=', 'make', '(', 'chan', 'string', ',', 'len', '(', 'fetcher', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-144,"    go StartCrawling(url, depth, fetcher)","['go', 'StartCrawling', '(', 'url', ',', 'depth', ',', 'fetcher', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-145,    waitUntilDone(depth),"['waitUntilDone', '(', 'depth', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-146,},['}'],['OPERATOR']
-147,/*,['*'],['OPERATOR']
-148, * End Main,"['*', 'End', 'Main']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-149, * =====================================================================,"['*', '=====================================================================']","['OPERATOR', 'OPERATOR']"
-150, */,['*'],['OPERATOR']
+127,"    go func(u string, i int, f Fetcher) {","['go', 'func', '(', 'u', 'string', ',', 'i', 'int', ',', 'f', 'Fetcher', ')', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+128,"        Crawl(u, i, f, 0)","['Crawl', '(', 'u', ',', 'i', ',', 'f', ',', '0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+129,"    }(url, depth, fetcher)","['}(', 'url', ',', 'depth', ',', 'fetcher', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+130,},['}'],['PUNCTUATION']
+131,/*,['/*'],['PUNCTUATION']
+132, * End Webcrawler implementation,"['*', 'End', 'Webcrawler', 'implementation']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+133, * ===================================================================================,"['*', '===================================================================================']","['ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+134, */,['*/'],['PUNCTUATION']
+135,/*,['/*'],['PUNCTUATION']
+136, * Main,"['*', 'Main']","['POINTER_OPERATOR', 'IDENTIFIER']"
+137, * ====================================================================,"['*', '====================================================================']","['ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+138, */,['*/'],['PUNCTUATION']
+139,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+140,    depth := len(fetcher),"['depth', ':=', 'len', '(', 'fetcher', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+141,    fetched = make(map[string]bool),"['fetched', '=', 'make', '(', 'map', '[', 'string', ']', 'bool', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+142,"    url := ""http://golang.org/""","['url', ':=', '""http://golang.org/""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+143,"    urlChan = make(chan string, len(fetcher))","['urlChan', '=', 'make', '(', 'chan', 'string', ',', 'len', '(', 'fetcher', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+144,"    go StartCrawling(url, depth, fetcher)","['go', 'StartCrawling', '(', 'url', ',', 'depth', ',', 'fetcher', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+145,    waitUntilDone(depth),"['waitUntilDone', '(', 'depth', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+146,},['}'],['PUNCTUATION']
+147,/*,['/*'],['PUNCTUATION']
+148, * End Main,"['*', 'End', 'Main']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+149, * =====================================================================,"['*', '=====================================================================']","['ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+150, */,['*/'],['PUNCTUATION']
 151,"
 
 Playground: https://play.golang.org/p/GHHt5I162o

@@ -12,7 +12,7 @@ main.go - For CLient
 
 ","['I', 'have', 'cluster', 'of', '4nodes', '2001,2002,2003', '&', '2004.', 'They', 'are', 'bind', 'using', 'goraft.', 'Supppose', '2001', 'is', 'master', 'server.', 'Now', 'when', 'it', 'fails,', 'another', 'node', 'becomes', 'the', 'server.', 'Now', 'what', 'I', 'want', 'is', 'that,', 'the', 'node', 'which', 'becomes', 'the', 'current', 'server', 'should', 'send', 'message', 'that', 'I', 'am', 'the', 'new', 'LEADER.', 'So', 'how', 'to', 'achieve', 'that?', 'I', 'am', 'using', 'GORAFT', 'with', 'GORAFD', 'implementation.', 'I', 'am', 'here', 'attaching', 'the', 'source', 'code.', 'main.go', '-', 'For', 'CLient']","['PRP', 'VBP', 'NN', 'IN', 'CD', 'CD', 'CC', 'CD', 'PRP', 'VBP', 'IN', 'VBG', 'NN', 'NNP', 'CD', 'VBZ', 'RBR', 'RB', 'RB', 'WRB', 'PRP', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'RB', 'WP', 'PRP', 'VBP', 'VBZ', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'DT', 'JJ', 'NN', 'MD', 'VB', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'JJ', 'NNP', 'NNP', 'WRB', 'TO', 'VB', 'NN', 'PRP', 'VBP', 'VBG', 'NNP', 'IN', 'NNP', 'NN', 'PRP', 'VBP', 'RB', 'VBG', 'DT', 'NN', 'NN', 'SYM', ':', 'IN', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 3,"    ""flag""","['""flag""']",['STRING_LITERAL']
 4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 5,"    ""github.com/goraft/raft""","['""github.com/goraft/raft""']",['STRING_LITERAL']
@@ -23,64 +23,64 @@ main.go - For CLient
 10,"    ""os""","['""os""']",['STRING_LITERAL']
 11,"    ""time""","['""time""']",['STRING_LITERAL']
 12,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-13,),[')'],['OPERATOR']
+13,),[')'],['PUNCTUATION']
 14,var verbose bool,"['var', 'verbose', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 15,var trace bool,"['var', 'trace', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 16,var debug bool,"['var', 'debug', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 17,var host string,"['var', 'host', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 18,var port int,"['var', 'port', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 19,var join string,"['var', 'join', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-20,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 21,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
 22,"    flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")","['flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")']",['FUNCTION_CALL']
 23,"    flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")","['flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")']",['FUNCTION_CALL']
 24,"    flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")","['flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")']",['FUNCTION_CALL']
 25,"    flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")","['flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")']",['FUNCTION_CALL']
-26,"    p,_:=strconv.Atoi(flag.Arg(1))","['p', ',', '_', ':=', 'strconv.Atoi(flag.Arg(1))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+26,"    p,_:=strconv.Atoi(flag.Arg(1))","['p', ',', '_', ':=', 'strconv.Atoi(flag.Arg(1))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 27,"    flag.IntVar(&port, ""p"", p, ""port"")","['flag.IntVar(&port, ""p"", p, ""port"")']",['FUNCTION_CALL']
 28,"    flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")","['flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")']",['FUNCTION_CALL']
-29,    flag.Usage = func() {,"['flag', '.', 'Usage', '=', 'func', '()', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+29,    flag.Usage = func() {,"['flag', '.', 'Usage', '=', 'func', '()', '{']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
 30,"        fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \n"", os.Args[0])","['fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \\n"", os.Args[0])']",['FUNCTION_CALL']
 31,        flag.PrintDefaults(),['flag.PrintDefaults()'],['FUNCTION_CALL']
-32,    },['}'],['OPERATOR']
-33,},['}'],['OPERATOR']
-34,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+32,    },['}'],['PUNCTUATION']
+33,},['}'],['PUNCTUATION']
+34,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 35,    log.SetFlags(0),['log.SetFlags(0)'],['FUNCTION_CALL']
 36,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-37,    if verbose {,"['if', 'verbose', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+37,    if verbose {,"['if', 'verbose', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 38,"        log.Print(""Verbose logging enabled."")","['log.Print(""Verbose logging enabled."")']",['FUNCTION_CALL']
-39,    },['}'],['OPERATOR']
-40,    if trace {,"['if', 'trace', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+39,    },['}'],['PUNCTUATION']
+40,    if trace {,"['if', 'trace', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 41,        raft.SetLogLevel(raft.Trace),['raft.SetLogLevel(raft.Trace)'],['FUNCTION_CALL']
 42,"        log.Print(""Raft trace debugging enabled."")","['log.Print(""Raft trace debugging enabled."")']",['FUNCTION_CALL']
-43,    } else if debug {,"['}', 'else', 'if', 'debug', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+43,    } else if debug {,"['}', 'else', 'if', 'debug', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 44,        raft.SetLogLevel(raft.Debug),['raft.SetLogLevel(raft.Debug)'],['FUNCTION_CALL']
 45,"        log.Print(""Raft debugging enabled."")","['log.Print(""Raft debugging enabled."")']",['FUNCTION_CALL']
-46,    },['}'],['OPERATOR']
+46,    },['}'],['PUNCTUATION']
 47,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
 48,    // Setup commands.,"['//', 'Setup', 'commands.']","['COMMENT', 'NNP', 'NN']"
 49,    raft.RegisterCommand(&command.WriteCommand{}),['raft.RegisterCommand(&command.WriteCommand{})'],['FUNCTION_CALL']
 50,    // Set the data directory.,"['//', 'Set', 'the', 'data', 'directory.']","['COMMENT', 'VB', 'DT', 'NNS', 'NN']"
-51,    if flag.NArg() == 0 {,"['if', 'flag.NArg()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+51,    if flag.NArg() == 0 {,"['if', 'flag.NArg()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
 52,        flag.Usage(),['flag.Usage()'],['FUNCTION_CALL']
 53,"        log.Fatal(""Data path argument required"")","['log.Fatal(""Data path argument required"")']",['FUNCTION_CALL']
-54,    },['}'],['OPERATOR']
-55,    path := flag.Arg(0),"['path', ':=', 'flag.Arg(0)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-56,"    if err := os.MkdirAll(path, 0744); err != nil {","['if', 'err', ':=', 'os.MkdirAll(path, 0744)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,    },['}'],['PUNCTUATION']
+55,    path := flag.Arg(0),"['path', ':=', 'flag.Arg(0)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+56,"    if err := os.MkdirAll(path, 0744); err != nil {","['if', 'err', ':=', 'os.MkdirAll(path, 0744)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 57,"        log.Fatalf(""Unable to create path: %v"", err)","['log.Fatalf(""Unable to create path: %v"", err)']",['FUNCTION_CALL']
-58,    },['}'],['OPERATOR']
+58,    },['}'],['PUNCTUATION']
 59,    log.SetFlags(log.LstdFlags),['log.SetFlags(log.LstdFlags)'],['FUNCTION_CALL']
-60,"    s := server.New(path, host, port)","['s', ':=', 'server.New(path, host, port)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+60,"    s := server.New(path, host, port)","['s', ':=', 'server.New(path, host, port)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 61,"    log.Fatal(s.ListenAndServe(""localhost:2001""))","['log.Fatal(s.ListenAndServe(""localhost:2001""))']",['FUNCTION_CALL']
-62,"    fmt.Println(""I am changing my status"");","['fmt.Println(""I am changing my status"")', ';']","['FUNCTION_CALL', 'OPERATOR']"
-63,},['}'],['OPERATOR']
+62,"    fmt.Println(""I am changing my status"");","['fmt.Println(""I am changing my status"")', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+63,},['}'],['PUNCTUATION']
 64,"
 
 Main.go - for Server i.e 2001
 
 ","['Main.go', '-', 'for', 'Server', 'i.e', '2001']","['NNP', ':', 'IN', 'NNP', 'NN', 'CD']"
 65,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-66,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+66,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 67,"    ""flag""","['""flag""']",['STRING_LITERAL']
 68,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 69,"    ""github.com/goraft/raft""","['""github.com/goraft/raft""']",['STRING_LITERAL']
@@ -91,63 +91,63 @@ Main.go - for Server i.e 2001
 74,"    ""os""","['""os""']",['STRING_LITERAL']
 75,"    ""time""","['""time""']",['STRING_LITERAL']
 76,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-77,),[')'],['OPERATOR']
+77,),[')'],['PUNCTUATION']
 78,var verbose bool,"['var', 'verbose', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 79,var trace bool,"['var', 'trace', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 80,var debug bool,"['var', 'debug', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 81,var host string,"['var', 'host', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 82,var port int,"['var', 'port', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 83,var join string,"['var', 'join', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-84,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+84,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 85,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
 86,"    flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")","['flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")']",['FUNCTION_CALL']
 87,"    flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")","['flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")']",['FUNCTION_CALL']
 88,"    flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")","['flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")']",['FUNCTION_CALL']
 89,"    flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")","['flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")']",['FUNCTION_CALL']
-90,"    p,_:=strconv.Atoi(flag.Arg(1))","['p', ',', '_', ':=', 'strconv.Atoi(flag.Arg(1))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+90,"    p,_:=strconv.Atoi(flag.Arg(1))","['p', ',', '_', ':=', 'strconv.Atoi(flag.Arg(1))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 91,"    flag.IntVar(&port, ""p"", p, ""port"")","['flag.IntVar(&port, ""p"", p, ""port"")']",['FUNCTION_CALL']
 92,"    flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")","['flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")']",['FUNCTION_CALL']
-93,    flag.Usage = func() {,"['flag', '.', 'Usage', '=', 'func', '()', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+93,    flag.Usage = func() {,"['flag', '.', 'Usage', '=', 'func', '()', '{']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
 94,"        fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \n"", os.Args[0])","['fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \\n"", os.Args[0])']",['FUNCTION_CALL']
 95,        flag.PrintDefaults(),['flag.PrintDefaults()'],['FUNCTION_CALL']
-96,    },['}'],['OPERATOR']
-97,},['}'],['OPERATOR']
-98,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+96,    },['}'],['PUNCTUATION']
+97,},['}'],['PUNCTUATION']
+98,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 99,    log.SetFlags(0),['log.SetFlags(0)'],['FUNCTION_CALL']
 100,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-101,    if verbose {,"['if', 'verbose', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+101,    if verbose {,"['if', 'verbose', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 102,"        log.Print(""Verbose logging enabled."")","['log.Print(""Verbose logging enabled."")']",['FUNCTION_CALL']
-103,    },['}'],['OPERATOR']
-104,    if trace {,"['if', 'trace', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+103,    },['}'],['PUNCTUATION']
+104,    if trace {,"['if', 'trace', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 105,        raft.SetLogLevel(raft.Trace),['raft.SetLogLevel(raft.Trace)'],['FUNCTION_CALL']
 106,"        log.Print(""Raft trace debugging enabled."")","['log.Print(""Raft trace debugging enabled."")']",['FUNCTION_CALL']
-107,    } else if debug {,"['}', 'else', 'if', 'debug', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+107,    } else if debug {,"['}', 'else', 'if', 'debug', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 108,        raft.SetLogLevel(raft.Debug),['raft.SetLogLevel(raft.Debug)'],['FUNCTION_CALL']
 109,"        log.Print(""Raft debugging enabled."")","['log.Print(""Raft debugging enabled."")']",['FUNCTION_CALL']
-110,    },['}'],['OPERATOR']
+110,    },['}'],['PUNCTUATION']
 111,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
 112,    // Setup commands.,"['//', 'Setup', 'commands.']","['COMMENT', 'NNP', 'NN']"
 113,    raft.RegisterCommand(&command.WriteCommand{}),['raft.RegisterCommand(&command.WriteCommand{})'],['FUNCTION_CALL']
 114,    // Set the data directory.,"['//', 'Set', 'the', 'data', 'directory.']","['COMMENT', 'VB', 'DT', 'NNS', 'NN']"
-115,    if flag.NArg() == 0 {,"['if', 'flag.NArg()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+115,    if flag.NArg() == 0 {,"['if', 'flag.NArg()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
 116,        flag.Usage(),['flag.Usage()'],['FUNCTION_CALL']
 117,"        log.Fatal(""Data path argument required"")","['log.Fatal(""Data path argument required"")']",['FUNCTION_CALL']
-118,    },['}'],['OPERATOR']
-119,    path := flag.Arg(0),"['path', ':=', 'flag.Arg(0)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-120,"    if err := os.MkdirAll(path, 0744); err != nil {","['if', 'err', ':=', 'os.MkdirAll(path, 0744)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,    },['}'],['PUNCTUATION']
+119,    path := flag.Arg(0),"['path', ':=', 'flag.Arg(0)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+120,"    if err := os.MkdirAll(path, 0744); err != nil {","['if', 'err', ':=', 'os.MkdirAll(path, 0744)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 121,"        log.Fatalf(""Unable to create path: %v"", err)","['log.Fatalf(""Unable to create path: %v"", err)']",['FUNCTION_CALL']
-122,    },['}'],['OPERATOR']
+122,    },['}'],['PUNCTUATION']
 123,    log.SetFlags(log.LstdFlags),['log.SetFlags(log.LstdFlags)'],['FUNCTION_CALL']
-124,"    s := server.New(path, host, port)","['s', ':=', 'server.New(path, host, port)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+124,"    s := server.New(path, host, port)","['s', ':=', 'server.New(path, host, port)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 125,    log.Fatal(s.ListenAndServe(join)),['log.Fatal(s.ListenAndServe(join))'],['FUNCTION_CALL']
-126,},['}'],['OPERATOR']
+126,},['}'],['PUNCTUATION']
 127,"
 
 Common Server.go code
 
 ","['Common', 'Server.go', 'code']","['JJ', 'NNP', 'NN']"
 128,package server,"['package', 'server']","['KEYWORD', 'IDENTIFIER']"
-129,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+129,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 130,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
 131,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
 132,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
@@ -162,141 +162,141 @@ Common Server.go code
 141,"    ""path/filepath""","['""path/filepath""']",['STRING_LITERAL']
 142,"    ""sync""","['""sync""']",['STRING_LITERAL']
 143,"    ""time""","['""time""']",['STRING_LITERAL']
-144,),[')'],['OPERATOR']
+144,),[')'],['PUNCTUATION']
 145,// The raftd server is a combination of the Raft server and an HTTP,"['//', 'The', 'raftd', 'server', 'is', 'a', 'combination', 'of', 'the', 'Raft', 'server', 'and', 'an', 'HTTP']","['COMMENT', 'DT', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'CC', 'DT', 'NNP']"
 146,// server which acts as the transport.,"['//', 'server', 'which', 'acts', 'as', 'the', 'transport.']","['COMMENT', 'NN', 'WDT', 'VBZ', 'IN', 'DT', 'NN']"
-147,type Server struct {,"['type', 'Server', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+147,type Server struct {,"['type', 'Server', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 148,    name       string,"['name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 149,    host       string,"['host', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 150,    port       int,"['port', 'int']","['IDENTIFIER', 'IDENTIFIER']"
 151,    path       string,"['path', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-152,    router     *mux.Router,"['router', '*', 'mux', '.', 'Router']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-153,    raftServer raft.Server,"['raftServer', 'raft', '.', 'Server']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-154,    httpServer *http.Server,"['httpServer', '*', 'http', '.', 'Server']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-155,    db         *db.DB,"['db', '*', 'db', '.', 'DB']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-156,    mutex      sync.RWMutex,"['mutex', 'sync', '.', 'RWMutex']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,},['}'],['OPERATOR']
+152,    router     *mux.Router,"['router', '*', 'mux', '.', 'Router']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+153,    raftServer raft.Server,"['raftServer', 'raft', '.', 'Server']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+154,    httpServer *http.Server,"['httpServer', '*', 'http', '.', 'Server']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+155,    db         *db.DB,"['db', '*', 'db', '.', 'DB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+156,    mutex      sync.RWMutex,"['mutex', 'sync', '.', 'RWMutex']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+157,},['}'],['PUNCTUATION']
 158,// Creates a new server.,"['//', 'Creates', 'a', 'new', 'server.']","['COMMENT', 'VBZ', 'DT', 'JJ', 'NN']"
-159,"func New(path string, host string, port int) *Server {","['func', 'New', '(', 'path', 'string', ',', 'host', 'string', ',', 'port', 'int', ')', '*', 'Server', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-160,    s := &Server{,"['s', ':=', '&', 'Server', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-161,"        host:   host,","['host', ':', 'host', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-162,"        port:   port,","['port', ':', 'port', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-163,"        path:   path,","['path', ':', 'path', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-164,"        db:     db.New(),","['db', ':', 'db.New()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-165,"        router: mux.NewRouter(),","['router', ':', 'mux.NewRouter()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-166,    },['}'],['OPERATOR']
+159,"func New(path string, host string, port int) *Server {","['func', 'New', '(', 'path', 'string', ',', 'host', 'string', ',', 'port', 'int', ')', '*', 'Server', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+160,    s := &Server{,"['s', ':=', '&', 'Server', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+161,"        host:   host,","['host', ':', 'host', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+162,"        port:   port,","['port', ':', 'port', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+163,"        path:   path,","['path', ':', 'path', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+164,"        db:     db.New(),","['db', ':', 'db.New()', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+165,"        router: mux.NewRouter(),","['router', ':', 'mux.NewRouter()', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+166,    },['}'],['PUNCTUATION']
 167,    // Read existing name or generate a new one.,"['//', 'Read', 'existing', 'name', 'or', 'generate', 'a', 'new', 'one.']","['COMMENT', 'NNP', 'VBG', 'NN', 'CC', 'VB', 'DT', 'JJ', 'NN']"
-168,"    if b, err := ioutil.ReadFile(filepath.Join(path, ""name"")); err == nil {","['if', 'b', ',', 'err', ':=', 'ioutil.ReadFile(filepath.Join(path, ""name""))', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-169,        s.name = string(b),"['s', '.', 'name', '=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-170,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-171,"        s.name = fmt.Sprintf(""%07x"", rand.Int())[0:7]","['s', '.', 'name', '=', 'fmt.Sprintf(""%07x"", rand.Int())', '[', '0', ':', '7', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-172,"        if err = ioutil.WriteFile(filepath.Join(path, ""name""), []byte(s.name), 0644); err != nil {","['if', 'err', '=', 'ioutil.WriteFile(filepath.Join(path, ""name""), []byte(s.name), 0644)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-173,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-174,        },['}'],['OPERATOR']
-175,    },['}'],['OPERATOR']
+168,"    if b, err := ioutil.ReadFile(filepath.Join(path, ""name"")); err == nil {","['if', 'b', ',', 'err', ':=', 'ioutil.ReadFile(filepath.Join(path, ""name""))', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+169,        s.name = string(b),"['s', '.', 'name', '=', 'string', '(', 'b', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+170,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+171,"        s.name = fmt.Sprintf(""%07x"", rand.Int())[0:7]","['s', '.', 'name', '=', 'fmt.Sprintf(""%07x"", rand.Int())', '[', '0', ':', '7', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+172,"        if err = ioutil.WriteFile(filepath.Join(path, ""name""), []byte(s.name), 0644); err != nil {","['if', 'err', '=', 'ioutil.WriteFile(filepath.Join(path, ""name""), []byte(s.name), 0644)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+173,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+174,        },['}'],['PUNCTUATION']
+175,    },['}'],['PUNCTUATION']
 176,    return s,"['return', 's']","['KEYWORD', 'IDENTIFIER']"
-177,},['}'],['OPERATOR']
+177,},['}'],['PUNCTUATION']
 178,// Returns the connection string.,"['//', 'Returns', 'the', 'connection', 'string.']","['COMMENT', 'VBZ', 'DT', 'NN', 'NN']"
-179,func (s *Server) connectionString() string {,"['func', '(', 's', '*', 'Server', ')', 'connectionString', '()', 'string', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,func (s *Server) connectionString() string {,"['func', '(', 's', '*', 'Server', ')', 'connectionString', '()', 'string', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 180,"    return fmt.Sprintf(""http://%s:%d"", s.host, s.port)","['return', 'fmt.Sprintf(""http://%s:%d"", s.host, s.port)']","['KEYWORD', 'FUNCTION_CALL']"
-181,},['}'],['OPERATOR']
+181,},['}'],['PUNCTUATION']
 182,// Starts the server.,"['//', 'Starts', 'the', 'server.']","['COMMENT', 'VBZ', 'DT', 'NN']"
-183,func (s *Server) ListenAndServe(leader string) error {,"['func', '(', 's', '*', 'Server', ')', 'ListenAndServe', '(', 'leader', 'string', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,func (s *Server) ListenAndServe(leader string) error {,"['func', '(', 's', '*', 'Server', ')', 'ListenAndServe', '(', 'leader', 'string', ')', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 184,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
 185,"    log.Printf(""Initializing Raft Server: %s"", s.path)","['log.Printf(""Initializing Raft Server: %s"", s.path)']",['FUNCTION_CALL']
 186,    // Initialize and start Raft server.,"['//', 'Initialize', 'and', 'start', 'Raft', 'server.']","['COMMENT', 'NNP', 'CC', 'VB', 'NNP', 'NN']"
-187,"    transporter := raft.NewHTTPTransporter(""/raft"", 200*time.Millisecond)","['transporter', ':=', 'raft.NewHTTPTransporter(""/raft"", 200*time.Millisecond)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-188,"    s.raftServer, err = raft.NewServer(s.name, s.path, transporter, nil, s.db, """")","['s', '.', 'raftServer', ',', 'err', '=', 'raft.NewServer(s.name, s.path, transporter, nil, s.db, """")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-189,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+187,"    transporter := raft.NewHTTPTransporter(""/raft"", 200*time.Millisecond)","['transporter', ':=', 'raft.NewHTTPTransporter(""/raft"", 200*time.Millisecond)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+188,"    s.raftServer, err = raft.NewServer(s.name, s.path, transporter, nil, s.db, """")","['s', '.', 'raftServer', ',', 'err', '=', 'raft.NewServer(s.name, s.path, transporter, nil, s.db, """")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+189,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 190,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-191,    },['}'],['OPERATOR']
+191,    },['}'],['PUNCTUATION']
 192,"    transporter.Install(s.raftServer, s)","['transporter.Install(s.raftServer, s)']",['FUNCTION_CALL']
-193,    s.raftServer.Start(),"['s', '.', 'raftServer.Start()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-194,"    if leader != """" {","['if', 'leader', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+193,    s.raftServer.Start(),"['s', '.', 'raftServer.Start()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+194,"    if leader != """" {","['if', 'leader', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
 195,        // Join to leader if specified.,"['//', 'Join', 'to', 'leader', 'if', 'specified.']","['COMMENT', 'NN', 'TO', 'NN', 'IN', 'NN']"
 196,"        log.Println(""Attempting to join leader:"", leader)","['log.Println(""Attempting to join leader:"", leader)']",['FUNCTION_CALL']
-197,        if !s.raftServer.IsLogEmpty() {,"['if', '!', 's', '.', 'raftServer.IsLogEmpty()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
+197,        if !s.raftServer.IsLogEmpty() {,"['if', '!', 's', '.', 'raftServer.IsLogEmpty()', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
 198,"            log.Fatal(""Cannot join with an existing log"")","['log.Fatal(""Cannot join with an existing log"")']",['FUNCTION_CALL']
-199,        },['}'],['OPERATOR']
-200,        if err := s.Join(leader); err != nil {,"['if', 'err', ':=', 's.Join(leader)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+199,        },['}'],['PUNCTUATION']
+200,        if err := s.Join(leader); err != nil {,"['if', 'err', ':=', 's.Join(leader)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 201,            log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-202,        },['}'],['OPERATOR']
-203,    } else if s.raftServer.IsLogEmpty() {,"['}', 'else', 'if', 's', '.', 'raftServer.IsLogEmpty()', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
+202,        },['}'],['PUNCTUATION']
+203,    } else if s.raftServer.IsLogEmpty() {,"['}', 'else', 'if', 's', '.', 'raftServer.IsLogEmpty()', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
 204,        // Initialize the server by joining itself.,"['//', 'Initialize', 'the', 'server', 'by', 'joining', 'itself.']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'VBG', 'NN']"
 205,"        log.Println(""Initializing new cluster"")","['log.Println(""Initializing new cluster"")']",['FUNCTION_CALL']
-206,"        _, err := s.raftServer.Do(&raft.DefaultJoinCommand{","['_', ',', 'err', ':=', 's', '.', 'raftServer', '.', 'Do', '(&', 'raft', '.', 'DefaultJoinCommand', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-207,"            Name:             s.raftServer.Name(),","['Name', ':', 's', '.', 'raftServer.Name()', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-208,"            ConnectionString: s.connectionString(),","['ConnectionString', ':', 's.connectionString()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-209,        }),['})'],['OPERATOR']
-210,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+206,"        _, err := s.raftServer.Do(&raft.DefaultJoinCommand{","['_', ',', 'err', ':=', 's', '.', 'raftServer', '.', 'Do', '(&', 'raft', '.', 'DefaultJoinCommand', '{']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+207,"            Name:             s.raftServer.Name(),","['Name', ':', 's', '.', 'raftServer.Name()', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+208,"            ConnectionString: s.connectionString(),","['ConnectionString', ':', 's.connectionString()', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+209,        }),['})'],['PUNCTUATION']
+210,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 211,            log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-212,        },['}'],['OPERATOR']
-213,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+212,        },['}'],['PUNCTUATION']
+213,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
 214,"        log.Println(""Recovered from log"")","['log.Println(""Recovered from log"")']",['FUNCTION_CALL']
-215,    },['}'],['OPERATOR']
+215,    },['}'],['PUNCTUATION']
 216,"    log.Println(""Initializing HTTP server"")","['log.Println(""Initializing HTTP server"")']",['FUNCTION_CALL']
 217,    // Initialize and start HTTP server.,"['//', 'Initialize', 'and', 'start', 'HTTP', 'server.']","['COMMENT', 'NNP', 'CC', 'VB', 'NNP', 'NN']"
-218,    s.httpServer = &http.Server{,"['s', '.', 'httpServer', '=', '&', 'http', '.', 'Server', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-219,"        Addr:    fmt.Sprintf("":%d"", s.port),","['Addr', ':', 'fmt.Sprintf("":%d"", s.port)', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-220,"        Handler: s.router,","['Handler', ':', 's', '.', 'router', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,    },['}'],['OPERATOR']
-222,"    s.router.HandleFunc(""/db/{key}"", s.readHandler).Methods(""GET"")","['s.router.HandleFunc(""/db/{key}"",', 's', '.', 'readHandler', ').', 'Methods', '(', '""GET""', ')']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-223,"    s.router.HandleFunc(""/db/{key}"", s.writeHandler).Methods(""POST"")","['s.router.HandleFunc(""/db/{key}"",', 's', '.', 'writeHandler', ').', 'Methods', '(', '""POST""', ')']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-224,"    s.router.HandleFunc(""/join"", s.joinHandler).Methods(""POST"")","['s.router.HandleFunc(""/join"",', 's', '.', 'joinHandler', ').', 'Methods', '(', '""POST""', ')']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+218,    s.httpServer = &http.Server{,"['s', '.', 'httpServer', '=', '&', 'http', '.', 'Server', '{']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+219,"        Addr:    fmt.Sprintf("":%d"", s.port),","['Addr', ':', 'fmt.Sprintf("":%d"", s.port)', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+220,"        Handler: s.router,","['Handler', ':', 's', '.', 'router', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+221,    },['}'],['PUNCTUATION']
+222,"    s.router.HandleFunc(""/db/{key}"", s.readHandler).Methods(""GET"")","['s.router.HandleFunc(""/db/{key}"",', 's', '.', 'readHandler', ').', 'Methods', '(', '""GET""', ')']","['DIRECTORY', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+223,"    s.router.HandleFunc(""/db/{key}"", s.writeHandler).Methods(""POST"")","['s.router.HandleFunc(""/db/{key}"",', 's', '.', 'writeHandler', ').', 'Methods', '(', '""POST""', ')']","['DIRECTORY', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+224,"    s.router.HandleFunc(""/join"", s.joinHandler).Methods(""POST"")","['s.router.HandleFunc(""/join"",', 's', '.', 'joinHandler', ').', 'Methods', '(', '""POST""', ')']","['DIRECTORY', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
 225,"    log.Println(""Listening at:"", s.connectionString())","['log.Println(""Listening at:"", s.connectionString())']",['FUNCTION_CALL']
-226,    return s.httpServer.ListenAndServe(),"['return', 's', '.', 'httpServer.ListenAndServe()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-227,},['}'],['OPERATOR']
+226,    return s.httpServer.ListenAndServe(),"['return', 's', '.', 'httpServer.ListenAndServe()']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+227,},['}'],['PUNCTUATION']
 228,// This is a hack around Gorilla mux not providing the correct net/http,"['//', 'This', 'is', 'a', 'hack', 'around', 'Gorilla', 'mux', 'not', 'providing', 'the', 'correct', 'net/http']","['COMMENT', 'DT', 'VBZ', 'DT', 'NN', 'IN', 'NNP', 'MD', 'RB', 'VBG', 'DT', 'JJ', 'NN']"
 229,// HandleFunc() interface.,"['//', 'HandleFunc()', 'interface.']","['COMMENT', 'NNP', 'NN']"
-230,"func (s *Server) HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {","['func', '(', 's', '*', 'Server', ')', 'HandleFunc', '(', 'pattern', 'string', ',', 'handler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', '))', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-231,"    s.router.HandleFunc(pattern, handler)","['s', '.', 'router.HandleFunc(pattern, handler)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-232,},['}'],['OPERATOR']
+230,"func (s *Server) HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {","['func', '(', 's', '*', 'Server', ')', 'HandleFunc', '(', 'pattern', 'string', ',', 'handler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', '))', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+231,"    s.router.HandleFunc(pattern, handler)","['s', '.', 'router.HandleFunc(pattern, handler)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+232,},['}'],['PUNCTUATION']
 233,// Joins to the leader of an existing cluster.,"['//', 'Joins', 'to', 'the', 'leader', 'of', 'an', 'existing', 'cluster.']","['COMMENT', 'NNS', 'TO', 'DT', 'NN', 'IN', 'DT', 'VBG', 'NN']"
-234,func (s *Server) Join(leader string) error {,"['func', '(', 's', '*', 'Server', ')', 'Join', '(', 'leader', 'string', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-235,    command := &raft.DefaultJoinCommand{,"['command', ':=', '&', 'raft', '.', 'DefaultJoinCommand', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-236,"        Name:     s.raftServer.Name(),","['Name', ':', 's', '.', 'raftServer.Name()', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-237,"        ConnectionString: s.connectionString(),","['ConnectionString', ':', 's.connectionString()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-238,    },['}'],['OPERATOR']
-239,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+234,func (s *Server) Join(leader string) error {,"['func', '(', 's', '*', 'Server', ')', 'Join', '(', 'leader', 'string', ')', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+235,    command := &raft.DefaultJoinCommand{,"['command', ':=', '&', 'raft', '.', 'DefaultJoinCommand', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+236,"        Name:     s.raftServer.Name(),","['Name', ':', 's', '.', 'raftServer.Name()', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+237,"        ConnectionString: s.connectionString(),","['ConnectionString', ':', 's.connectionString()', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+238,    },['}'],['PUNCTUATION']
+239,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
 240,    json.NewEncoder(&b).Encode(command),['json.NewEncoder(&b).Encode(command)'],['FUNCTION_CALL']
-241,"    resp, err := http.Post(fmt.Sprintf(""http://%s/join"", leader), ""application/json"", &b)","['resp', ',', 'err', ':=', 'http.Post(fmt.Sprintf(""http://%s/join"", leader), ""application/json"", &b)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-242,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+241,"    resp, err := http.Post(fmt.Sprintf(""http://%s/join"", leader), ""application/json"", &b)","['resp', ',', 'err', ':=', 'http.Post(fmt.Sprintf(""http://%s/join"", leader), ""application/json"", &b)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+242,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 243,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-244,    },['}'],['OPERATOR']
-245,    resp.Body.Close(),"['resp', '.', 'Body.Close()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+244,    },['}'],['PUNCTUATION']
+245,    resp.Body.Close(),"['resp', '.', 'Body.Close()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
 246,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-247,},['}'],['OPERATOR']
-248,"func (s *Server) joinHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'joinHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-249,    command := &raft.DefaultJoinCommand{},"['command', ':=', '&', 'raft', '.', 'DefaultJoinCommand', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-250,    if err := json.NewDecoder(req.Body).Decode(&command); err != nil {,"['if', 'err', ':=', 'json.NewDecoder(req.Body).Decode(&command)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+247,},['}'],['PUNCTUATION']
+248,"func (s *Server) joinHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'joinHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+249,    command := &raft.DefaultJoinCommand{},"['command', ':=', '&', 'raft', '.', 'DefaultJoinCommand', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+250,    if err := json.NewDecoder(req.Body).Decode(&command); err != nil {,"['if', 'err', ':=', 'json.NewDecoder(req.Body).Decode(&command)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 251,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
 252,        return,['return'],['KEYWORD']
-253,    },['}'],['OPERATOR']
-254,"    if _, err := s.raftServer.Do(command); err != nil {","['if', '_', ',', 'err', ':=', 's', '.', 'raftServer.Do(command)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+253,    },['}'],['PUNCTUATION']
+254,"    if _, err := s.raftServer.Do(command); err != nil {","['if', '_', ',', 'err', ':=', 's', '.', 'raftServer.Do(command)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 255,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
 256,        return,['return'],['KEYWORD']
-257,    },['}'],['OPERATOR']
-258,},['}'],['OPERATOR']
-259,"func (s *Server) readHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'readHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-260,    vars := mux.Vars(req),"['var', 's', ':=', 'mux.Vars(req)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-261,"    value := s.db.Get(vars[""key""])","['value', ':=', 's', '.', 'db.Get(vars[""key""])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+257,    },['}'],['PUNCTUATION']
+258,},['}'],['PUNCTUATION']
+259,"func (s *Server) readHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'readHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+260,    vars := mux.Vars(req),"['var', 's', ':=', 'mux.Vars(req)']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+261,"    value := s.db.Get(vars[""key""])","['value', ':=', 's', '.', 'db.Get(vars[""key""])']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
 262,    w.Write([]byte(value)),['w.Write([]byte(value))'],['FUNCTION_CALL']
-263,},['}'],['OPERATOR']
-264,"func (s *Server) writeHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'writeHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-265,    vars := mux.Vars(req),"['var', 's', ':=', 'mux.Vars(req)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+263,},['}'],['PUNCTUATION']
+264,"func (s *Server) writeHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'writeHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+265,    vars := mux.Vars(req),"['var', 's', ':=', 'mux.Vars(req)']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 266,    // Read the value from the POST body.,"['//', 'Read', 'the', 'value', 'from', 'the', 'POST', 'body.']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN']"
-267,"    b, err := ioutil.ReadAll(req.Body)","['b', ',', 'err', ':=', 'ioutil.ReadAll(req.Body)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-268,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+267,"    b, err := ioutil.ReadAll(req.Body)","['b', ',', 'err', ':=', 'ioutil.ReadAll(req.Body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+268,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 269,        w.WriteHeader(http.StatusBadRequest),['w.WriteHeader(http.StatusBadRequest)'],['FUNCTION_CALL']
 270,        return,['return'],['KEYWORD']
-271,    },['}'],['OPERATOR']
-272,    value := string(b),"['value', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+271,    },['}'],['PUNCTUATION']
+272,    value := string(b),"['value', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 273,    // Execute the command against the Raft server.,"['//', 'Execute', 'the', 'command', 'against', 'the', 'Raft', 'server.']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN']"
-274,"    _, err = s.raftServer.Do(command.NewWriteCommand(vars[""key""], value))","['_', ',', 'err', '=', 's', '.', 'raftServer.Do(command.NewWriteCommand(vars[""key""], value))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-275,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+274,"    _, err = s.raftServer.Do(command.NewWriteCommand(vars[""key""], value))","['_', ',', 'err', '=', 's', '.', 'raftServer.Do(command.NewWriteCommand(vars[""key""], value))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+275,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 276,"        http.Error(w, err.Error(), http.StatusBadRequest)","['http.Error(w, err.Error(), http.StatusBadRequest)']",['FUNCTION_CALL']
-277,    },['}'],['OPERATOR']
-278,},['}'],['OPERATOR']
+277,    },['}'],['PUNCTUATION']
+278,},['}'],['PUNCTUATION']
 279,"
 
 Please give some solutions.

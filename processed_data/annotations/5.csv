@@ -13,125 +13,125 @@ Below is the regular code without the go routines:
 
 ","[""I've"", 'got', 'a', 'bit', 'of', 'Go', 'code', 'that', ""I've"", 'been', 'tinkering', 'with', 'to', 'answer', 'a', 'little', 'curiosity', 'of', 'mine', 'related', 'to', 'a', 'video', 'game', 'my', 'brother-in-law', 'plays.', 'Essentially,', 'the', 'code', 'below', 'simulates', 'interactions', 'with', 'monsters', 'in', 'the', 'game', 'and', 'how', 'often', 'he', 'can', 'expect', 'them', 'to', 'drop', 'items', 'upon', 'their', 'defeat.', 'The', 'problem', ""I'm"", 'having', 'is', 'that', 'I', 'would', 'expect', 'a', 'piece', 'of', 'code', 'like', 'this', 'to', 'be', 'perfect', 'for', 'parallelization,', 'but', 'when', 'I', 'add', 'in', 'concurrency', 'the', 'time', 'it', 'takes', 'to', 'do', 'all', 'of', 'the', 'simulations', 'tends', 'to', 'slow', 'down', 'by', '4-6', 'times', 'the', 'original', 'without', 'concurrency.', 'To', 'give', 'you', 'a', 'better', 'understanding', 'of', 'how', 'the', 'code', 'works,', 'I', 'have', 'three', 'main', 'functions:', 'The', 'interaction', 'function', 'which', 'is', 'a', 'simple', 'interaction', 'between', 'the', 'player', 'and', 'a', 'monster.', 'It', 'returns', '1', 'if', 'the', 'monster', 'drops', 'an', 'item,', 'and', '0', 'otherwise.', 'The', 'simulation', 'function', 'runs', 'several', 'interactions', 'and', 'returns', 'a', 'slice', 'of', 'interaction', 'results', '(i.e.,', ""1's"", 'and', ""0's"", 'representing', 'successful/unsuccessful', 'interactions).', 'Finally,', 'there', 'is', 'the', 'test', 'function', 'which', 'runs', 'a', 'set', 'of', 'simulations', 'and', 'returns', 'a', 'slice', 'of', 'simulation', 'results', 'which', 'are', 'the', 'total', 'number', 'of', 'interactions', 'that', 'resulted', 'in', 'a', 'dropped', 'item.', ""It's"", 'the', 'last', 'function', 'which', 'I', 'am', 'trying', 'to', 'run', 'in', 'parallel.', 'Now,', 'I', 'could', 'understand', 'why', 'the', 'code', 'would', 'slow', 'down', 'if', 'I', 'created', 'a', 'goroutine', 'for', 'each', 'test', 'that', 'I', 'want', 'to', 'run.', 'Assuming', ""I'm"", 'running', '100', 'tests,', 'the', 'context', 'switching', 'between', 'each', 'of', 'the', 'goroutines', 'across', 'the', '4', 'CPUs', 'my', 'MacBook', 'Air', 'has', 'would', 'kill', 'the', 'performance,', 'but', ""I'm"", 'only', 'creating', 'as', 'many', 'goroutines', 'as', 'I', 'have', 'processors', 'and', 'dividing', 'the', 'number', 'of', 'tests', 'between', 'the', 'goroutines.', 'I', 'would', 'expect', 'this', 'to', 'actually', 'speed', 'up', 'the', ""code's"", 'performance', 'since', 'I', 'am', 'running', 'each', 'of', 'my', 'tests', 'in', 'parallel,', 'but,', 'of', 'course,', ""I'm"", 'getting', 'a', 'major', 'slow', 'down', 'instead.', ""I'd"", 'love', 'to', 'figure', 'out', 'why', 'this', 'is', 'happening,', 'so', 'any', 'help', 'would', 'be', 'greatly', 'appreciated.', 'Below', 'is', 'the', 'regular', 'code', 'without', 'the', 'go', 'routines:']","['NNP', 'VBD', 'DT', 'NN', 'IN', 'NNP', 'NN', 'WDT', 'NNP', 'VBN', 'VBG', 'IN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN', 'VBN', 'TO', 'DT', 'NN', 'NN', 'PRP$', 'NN', 'NN', 'NNP', 'DT', 'NN', 'IN', 'NNS', 'NNS', 'IN', 'NNS', 'IN', 'DT', 'NN', 'CC', 'WRB', 'RB', 'PRP', 'MD', 'VB', 'PRP', 'TO', 'VB', 'NNS', 'IN', 'PRP$', 'NN', 'DT', 'NN', 'NNP', 'VBG', 'VBZ', 'IN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'DT', 'TO', 'VB', 'JJ', 'IN', 'NN', 'CC', 'WRB', 'PRP', 'VBP', 'IN', 'NN', 'DT', 'NN', 'PRP', 'VBZ', 'TO', 'VB', 'DT', 'IN', 'DT', 'NNS', 'VBZ', 'TO', 'VB', 'RP', 'IN', 'JJ', 'NNS', 'DT', 'JJ', 'IN', 'NN', 'TO', 'VB', 'PRP', 'DT', 'JJR', 'NN', 'IN', 'WRB', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'CD', 'JJ', 'VBD', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'CC', 'DT', 'NN', 'PRP', 'VBZ', 'CD', 'IN', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'CC', 'CD', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'JJ', 'NNS', 'CC', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NNS', 'VBD', 'CD', 'CC', 'CD', 'VBG', 'JJ', 'JJ', 'NNP', 'EX', 'VBZ', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'CC', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NNS', 'WDT', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'NNS', 'WDT', 'VBD', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'DT', 'JJ', 'NN', 'WDT', 'PRP', 'VBP', 'VBG', 'TO', 'VB', 'IN', 'NN', 'NNP', 'PRP', 'MD', 'VB', 'WRB', 'DT', 'NN', 'MD', 'VB', 'RP', 'IN', 'PRP', 'VBD', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'NNP', 'NNP', 'VBG', 'CD', 'IN', 'DT', 'NN', 'VBG', 'IN', 'DT', 'IN', 'DT', 'NNS', 'IN', 'DT', 'CD', 'NNP', 'PRP$', 'NNP', 'NNP', 'VBZ', 'MD', 'VB', 'DT', 'NN', 'CC', 'NNP', 'RB', 'VBG', 'IN', 'JJ', 'NNS', 'IN', 'PRP', 'VBP', 'NNS', 'CC', 'VBG', 'DT', 'NN', 'IN', 'NNS', 'IN', 'DT', 'NN', 'PRP', 'MD', 'VB', 'DT', 'TO', 'RB', 'VB', 'RP', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'VBG', 'DT', 'IN', 'PRP$', 'NNS', 'IN', 'JJ', 'NN', 'IN', 'NN', 'NNP', 'VBG', 'DT', 'JJ', 'JJ', 'RP', 'NN', 'NNP', 'NN', 'TO', 'VB', 'RP', 'WRB', 'DT', 'VBZ', 'RB', 'RB', 'DT', 'NN', 'MD', 'VB', 'RB', 'JJ', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 4,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
 5,"    ""time""","['""time""']",['STRING_LITERAL']
-6,),[')'],['OPERATOR']
-7,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-8,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-9,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-10,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
-11,),[')'],['OPERATOR']
-12,/**,['**'],['OPERATOR']
-13, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-14, *,['*'],['OPERATOR']
-15, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
-16, */,['*'],['OPERATOR']
-17,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-18,    if rand.Float64() <= DROP_RATE {,"['if', 'rand.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+6,),[')'],['PUNCTUATION']
+7,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+8,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+9,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+10,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+11,),[')'],['PUNCTUATION']
+12,/**,['/**'],['PUNCTUATION']
+13, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+14, *,['*'],['ARITHMETIC_OPERATOR']
+15, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['POINTER_OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
+16, */,['*/'],['PUNCTUATION']
+17,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+18,    if rand.Float64() <= DROP_RATE {,"['if', 'rand.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 19,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
-20,    },['}'],['OPERATOR']
+20,    },['}'],['PUNCTUATION']
 21,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-22,},['}'],['OPERATOR']
-23,/**,['**'],['OPERATOR']
-24, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-25, */,['*'],['OPERATOR']
-26,func simulation(n int) []int {,"['func', 'simulation', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-29,        interactions[i] = interaction(),"['interactions', '[', 'i', ']', '=', 'interaction', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,    },['}'],['OPERATOR']
+22,},['}'],['PUNCTUATION']
+23,/**,['/**'],['PUNCTUATION']
+24, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+25, */,['*/'],['PUNCTUATION']
+26,func simulation(n int) []int {,"['func', 'simulation', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+27,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+28,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+29,        interactions[i] = interaction(),"['interactions', '[', 'i', ']', '=', 'interaction', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+30,    },['}'],['PUNCTUATION']
 31,    return interactions,"['return', 'interactions']","['KEYWORD', 'IDENTIFIER']"
-32,},['}'],['OPERATOR']
-33,/**,['**'],['OPERATOR']
-34, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-35, */,['*'],['OPERATOR']
-36,func test(n int) []int {,"['func', 'test', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-37,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-39,        successes := 0,"['successes', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-40,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-41,            successes += v,"['successes', '+=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-42,        },['}'],['OPERATOR']
-43,        simulations[i] = successes,"['simulations', '[', 'i', ']', '=', 'successes']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-44,    },['}'],['OPERATOR']
+32,},['}'],['PUNCTUATION']
+33,/**,['/**'],['PUNCTUATION']
+34, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+35, */,['*/'],['PUNCTUATION']
+36,func test(n int) []int {,"['func', 'test', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+37,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+38,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+39,        successes := 0,"['successes', ':=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+40,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+41,            successes += v,"['successes', '+=', 'v']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+42,        },['}'],['PUNCTUATION']
+43,        simulations[i] = successes,"['simulations', '[', 'i', ']', '=', 'successes']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+44,    },['}'],['PUNCTUATION']
 45,    return simulations,"['return', 'simulations']","['KEYWORD', 'IDENTIFIER']"
-46,},['}'],['OPERATOR']
-47,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+46,},['}'],['PUNCTUATION']
+47,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 48,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
 49,"    fmt.Println(""Successful interactions: "", test(NUMBER_OF_SIMULATIONS))","['fmt.Println(""Successful interactions: "", test(NUMBER_OF_SIMULATIONS))']",['FUNCTION_CALL']
-50,},['}'],['OPERATOR']
+50,},['}'],['PUNCTUATION']
 51,"
 
 And, here is the concurrent code with the goroutines:
 
 ","['And,', 'here', 'is', 'the', 'concurrent', 'code', 'with', 'the', 'goroutines:']","['NNP', 'RB', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN']"
 52,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-53,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+53,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 54,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 55,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
 56,"    ""time""","['""time""']",['STRING_LITERAL']
 57,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-58,),[')'],['OPERATOR']
-59,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-60,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-61,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-62,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
-63,),[')'],['OPERATOR']
-64,/**,['**'],['OPERATOR']
-65, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-66, *,['*'],['OPERATOR']
-67, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
-68, */,['*'],['OPERATOR']
-69,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,    if rand.Float64() <= DROP_RATE {,"['if', 'rand.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,),[')'],['PUNCTUATION']
+59,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+60,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+61,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+62,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+63,),[')'],['PUNCTUATION']
+64,/**,['/**'],['PUNCTUATION']
+65, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+66, *,['*'],['ARITHMETIC_OPERATOR']
+67, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['POINTER_OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
+68, */,['*/'],['PUNCTUATION']
+69,func interaction() int {,"['func', 'interaction', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+70,    if rand.Float64() <= DROP_RATE {,"['if', 'rand.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 71,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
-72,    },['}'],['OPERATOR']
+72,    },['}'],['PUNCTUATION']
 73,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-74,},['}'],['OPERATOR']
-75,/**,['**'],['OPERATOR']
-76, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-77, */,['*'],['OPERATOR']
-78,func simulation(n int) []int {,"['func', 'simulation', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-81,        interactions[i] = interaction(),"['interactions', '[', 'i', ']', '=', 'interaction', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-82,    },['}'],['OPERATOR']
+74,},['}'],['PUNCTUATION']
+75,/**,['/**'],['PUNCTUATION']
+76, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+77, */,['*/'],['PUNCTUATION']
+78,func simulation(n int) []int {,"['func', 'simulation', '(', 'n', 'int', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+79,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+80,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+81,        interactions[i] = interaction(),"['interactions', '[', 'i', ']', '=', 'interaction', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+82,    },['}'],['PUNCTUATION']
 83,    return interactions,"['return', 'interactions']","['KEYWORD', 'IDENTIFIER']"
-84,},['}'],['OPERATOR']
-85,/**,['**'],['OPERATOR']
-86, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-87, */,['*'],['OPERATOR']
-88,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-89,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-91,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-92,            simulations[i] += v,"['simulations', '[', 'i', ']', '+=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-93,        },['}'],['OPERATOR']
-94,    },['}'],['OPERATOR']
-95,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-96,},['}'],['OPERATOR']
-97,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+84,},['}'],['PUNCTUATION']
+85,/**,['/**'],['PUNCTUATION']
+86, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+87, */,['*/'],['PUNCTUATION']
+88,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+89,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+90,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+91,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+92,            simulations[i] += v,"['simulations', '[', 'i', ']', '+=', 'v']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+93,        },['}'],['PUNCTUATION']
+94,    },['}'],['PUNCTUATION']
+95,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+96,},['}'],['PUNCTUATION']
+97,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 98,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
-99,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime.NumCPU()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+99,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime.NumCPU()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 100,    runtime.GOMAXPROCS(nCPU),['runtime.GOMAXPROCS(nCPU)'],['FUNCTION_CALL']
 101,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt.Println(""Number of CPUs: "", nCPU)']",['FUNCTION_CALL']
-102,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-104,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test(NUMBER_OF_SIMULATIONS/nCPU,', 'c', ')']","['KEYWORD', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR']"
-106,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-107,    },['}'],['OPERATOR']
+102,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+103,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+104,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+105,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test(NUMBER_OF_SIMULATIONS/nCPU,', 'c', ')']","['KEYWORD', 'DIRECTORY', 'IDENTIFIER', 'PUNCTUATION']"
+106,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+107,    },['}'],['PUNCTUATION']
 108,    // Concatentate the test results,"['//', 'Concatentate', 'the', 'test', 'results']","['COMMENT', 'VB', 'DT', 'NN', 'NNS']"
-109,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-111,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'IDENTIFIER']"
-112,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-113,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-114,    },['}'],['OPERATOR']
+109,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+110,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+111,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', 'i']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY', 'POINTER_OPERATOR', 'IDENTIFIER']"
+112,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+113,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+114,    },['}'],['PUNCTUATION']
 115,"    fmt.Println(""Successful interactions: "", results)","['fmt.Println(""Successful interactions: "", results)']",['FUNCTION_CALL']
-116,},['}'],['OPERATOR']
+116,},['}'],['PUNCTUATION']
 117,"
 
 UPDATE (01/12/13 18:05) 
@@ -140,72 +140,72 @@ I've added a new version of the concurrent code below that creates a new Rand in
 
 ","['UPDATE', '(01/12/13', '18:05)', ""I've"", 'added', 'a', 'new', 'version', 'of', 'the', 'concurrent', 'code', 'below', 'that', 'creates', 'a', 'new', 'Rand', 'instance', 'for', 'each', 'goroutine', 'per', '""the', 'system""\'s', 'suggestion', 'below.', ""I'm"", 'now', 'seeing', 'a', 'very', 'slight', 'speed', 'up', 'compared', 'to', 'the', 'serial', 'version', 'of', 'the', 'code', '(around', 'a', '15-20%', 'reduction', 'in', 'overall', 'time', 'taken).', ""I'd"", 'love', 'to', 'know', 'why', 'I', ""don't"", 'see', 'something', 'closer', 'to', 'a', '75%', 'reduction', 'in', 'time', 'since', ""I'm"", 'spreading', 'the', 'workload', 'over', 'my', ""MBA's"", '4', 'cores.', 'Does', 'anyone', 'have', 'any', 'further', 'suggestions', 'that', 'could', 'help', 'out?']","['NNP', 'VBD', 'CD', 'NNP', 'VBD', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'VBZ', 'DT', 'JJ', 'NNP', 'NN', 'IN', 'DT', 'NN', 'IN', 'NNP', 'NN', 'NN', 'IN', 'NNP', 'RB', 'VBG', 'DT', 'RB', 'JJ', 'NN', 'RB', 'VBN', 'TO', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'TO', 'VB', 'WRB', 'PRP', 'VBP', 'VB', 'NN', 'JJR', 'TO', 'DT', 'CD', 'NN', 'IN', 'NN', 'IN', 'NNP', 'VBG', 'DT', 'NN', 'IN', 'PRP$', 'NNP', 'CD', 'NN', 'NNP', 'NN', 'VB', 'DT', 'JJ', 'NNS', 'WDT', 'MD', 'VB', 'VB']"
 118,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-119,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+119,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 120,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
 121,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
 122,"    ""time""","['""time""']",['STRING_LITERAL']
 123,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-124,),[')'],['OPERATOR']
-125,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-126,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-127,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-128,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
-129,),[')'],['OPERATOR']
-130,/**,['**'],['OPERATOR']
-131, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-132, *,['*'],['OPERATOR']
-133, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
-134, */,['*'],['OPERATOR']
-135,func interaction(generator *rand.Rand) int {,"['func', 'interaction', '(', 'generator', '*', 'rand', '.', 'Rand', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,    if generator.Float64() <= DROP_RATE {,"['if', 'generator.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,),[')'],['PUNCTUATION']
+125,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+126,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+127,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+128,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0', '0', '03']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+129,),[')'],['PUNCTUATION']
+130,/**,['/**'],['PUNCTUATION']
+131, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+132, *,['*'],['ARITHMETIC_OPERATOR']
+133, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['POINTER_OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER']"
+134, */,['*/'],['PUNCTUATION']
+135,func interaction(generator *rand.Rand) int {,"['func', 'interaction', '(', 'generator', '*', 'rand', '.', 'Rand', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+136,    if generator.Float64() <= DROP_RATE {,"['if', 'generator.Float64()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 137,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
-138,    },['}'],['OPERATOR']
+138,    },['}'],['PUNCTUATION']
 139,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-140,},['}'],['OPERATOR']
-141,/**,['**'],['OPERATOR']
-142, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-143, */,['*'],['OPERATOR']
-144,"func simulation(n int, generator *rand.Rand) []int {","['func', 'simulation', '(', 'n', 'int', ',', 'generator', '*', 'rand', '.', 'Rand', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-145,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-146,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-147,        interactions[i] = interaction(generator),"['interactions', '[', 'i', ']', '=', 'interaction', '(', 'generator', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-148,    },['}'],['OPERATOR']
+140,},['}'],['PUNCTUATION']
+141,/**,['/**'],['PUNCTUATION']
+142, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+143, */,['*/'],['PUNCTUATION']
+144,"func simulation(n int, generator *rand.Rand) []int {","['func', 'simulation', '(', 'n', 'int', ',', 'generator', '*', 'rand', '.', 'Rand', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+145,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+146,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+147,        interactions[i] = interaction(generator),"['interactions', '[', 'i', ']', '=', 'interaction', '(', 'generator', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+148,    },['}'],['PUNCTUATION']
 149,    return interactions,"['return', 'interactions']","['KEYWORD', 'IDENTIFIER']"
-150,},['}'],['OPERATOR']
-151,/**,['**'],['OPERATOR']
-152, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-153, */,['*'],['OPERATOR']
-154,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-155,    source := rand.NewSource(time.Now().UnixNano()),"['source', ':=', 'rand.NewSource(time.Now().UnixNano())']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-156,    generator := rand.New(source),"['generator', ':=', 'rand.New(source)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-157,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-158,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-159,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS, generator) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ',', 'generator', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-160,            simulations[i] += v,"['simulations', '[', 'i', ']', '+=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-161,        },['}'],['OPERATOR']
-162,    },['}'],['OPERATOR']
-163,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-164,},['}'],['OPERATOR']
-165,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+150,},['}'],['PUNCTUATION']
+151,/**,['/**'],['PUNCTUATION']
+152, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+153, */,['*/'],['PUNCTUATION']
+154,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+155,    source := rand.NewSource(time.Now().UnixNano()),"['source', ':=', 'rand.NewSource(time.Now().UnixNano())']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+156,    generator := rand.New(source),"['generator', ':=', 'rand.New(source)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+157,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+158,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+159,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS, generator) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ',', 'generator', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+160,            simulations[i] += v,"['simulations', '[', 'i', ']', '+=', 'v']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+161,        },['}'],['PUNCTUATION']
+162,    },['}'],['PUNCTUATION']
+163,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+164,},['}'],['PUNCTUATION']
+165,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 166,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
-167,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime.NumCPU()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+167,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime.NumCPU()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 168,    runtime.GOMAXPROCS(nCPU),['runtime.GOMAXPROCS(nCPU)'],['FUNCTION_CALL']
 169,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt.Println(""Number of CPUs: "", nCPU)']",['FUNCTION_CALL']
-170,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-171,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-172,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-173,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test(NUMBER_OF_SIMULATIONS/nCPU,', 'c', ')']","['KEYWORD', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR']"
-174,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-175,    },['}'],['OPERATOR']
+170,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+171,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+172,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+173,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test(NUMBER_OF_SIMULATIONS/nCPU,', 'c', ')']","['KEYWORD', 'DIRECTORY', 'IDENTIFIER', 'PUNCTUATION']"
+174,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+175,    },['}'],['PUNCTUATION']
 176,    // Concatentate the test results,"['//', 'Concatentate', 'the', 'test', 'results']","['COMMENT', 'VB', 'DT', 'NN', 'NNS']"
-177,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-178,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-179,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'IDENTIFIER']"
-180,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-181,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-182,    },['}'],['OPERATOR']
+177,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+178,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+179,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', 'i']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY', 'POINTER_OPERATOR', 'IDENTIFIER']"
+180,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(NUMBER_OF_SIMULATIONS/nCPU)', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+181,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+182,    },['}'],['PUNCTUATION']
 183,"    fmt.Println(""Successful interactions: "", results)","['fmt.Println(""Successful interactions: "", results)']",['FUNCTION_CALL']
-184,},['}'],['OPERATOR']
+184,},['}'],['PUNCTUATION']
 185,"
 
 UPDATE (01/13/13 17:58)

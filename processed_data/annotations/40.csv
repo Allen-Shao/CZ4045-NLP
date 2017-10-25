@@ -6,12 +6,12 @@ Passing the context
 first you can change the signature to accept context
 
 ","['I', 'can', 'think', 'of', 'a', 'couple', 'of', 'approaches', 'to', 'do', 'this.', 'Passing', 'the', 'context', 'first', 'you', 'can', 'change', 'the', 'signature', 'to', 'accept', 'context']","['PRP', 'MD', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'VB', 'VBG', 'DT', 'NN', 'RB', 'PRP', 'MD', 'VB', 'DT', 'NN', 'TO', 'VB', 'NN']"
-1,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-2,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-3,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+1,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
+2,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+3,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
 4,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-5,        },['}'],['OPERATOR']
-6,},['}'],['OPERATOR']
+5,        },['}'],['PUNCTUATION']
+6,},['}'],['PUNCTUATION']
 7,"
 
 Now I assume the AuthHandler has to do with authentication and setup the user in the context object. 
@@ -19,77 +19,77 @@ Now I assume the AuthHandler has to do with authentication and setup the user in
 What you could do is create another type handler which setup the context. like this
 
 ","['Now', 'I', 'assume', 'the', 'AuthHandler', 'has', 'to', 'do', 'with', 'authentication', 'and', 'setup', 'the', 'user', 'in', 'the', 'context', 'object.', 'What', 'you', 'could', 'do', 'is', 'create', 'another', 'type', 'handler', 'which', 'setup', 'the', 'context.', 'like', 'this']","['RB', 'PRP', 'VBP', 'DT', 'NNP', 'VBZ', 'TO', 'VB', 'IN', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RP', 'WP', 'PRP', 'MD', 'VB', 'VBZ', 'VB', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'DT']"
-8,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-9,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {           ","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+8,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
+9,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {           ","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 10,    // setup authentication here                                                    ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-11,    uid := 1                                                                        ,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+11,    uid := 1                                                                        ,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
 12,    // setup the context the way you want                                           ,"['//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want']","['COMMENT', 'VB', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP']"
-13,    parent := context.TODO()                                                        ,"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-14,"    ctx := context.WithValue(parent, userIdKey, uid)                                ","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-15,"    if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.              ","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+13,    parent := context.TODO()                                                        ,"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+14,"    ctx := context.WithValue(parent, userIdKey, uid)                                ","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+15,"    if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.              ","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
 16,"        http.Error(w, e.Message, e.Code)                                            ","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-17,    }                                                                               ,['}'],['OPERATOR']
-18,},['}'],['OPERATOR']
+17,    }                                                                               ,['}'],['PUNCTUATION']
+18,},['}'],['PUNCTUATION']
 19,"
 
 This way you can use it in the following way
 
 ","['This', 'way', 'you', 'can', 'use', 'it', 'in', 'the', 'following', 'way']","['DT', 'NN', 'PRP', 'MD', 'VB', 'PRP', 'IN', 'DT', 'JJ', 'NN']"
-20,func init() {                                                                         ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+20,func init() {                                                                         ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 21,"    http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication ","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
 22,"    http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication       ","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
-23,}                                                                                     ,['}'],['OPERATOR']
+23,}                                                                                     ,['}'],['PUNCTUATION']
 24,"
 
 This is the complete code
 
 ","['This', 'is', 'the', 'complete', 'code']","['DT', 'VBZ', 'DT', 'JJ', 'NN']"
 25,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-26,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+26,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 27,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
 28,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
 29,"        ""code.google.com/p/go.net/context""","['""code.google.com/p/go.net/context""']",['STRING_LITERAL']
-30,),[')'],['OPERATOR']
-31,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+30,),[')'],['PUNCTUATION']
+31,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 32,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
 33,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 34,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-35,},['}'],['OPERATOR']
+35,},['}'],['PUNCTUATION']
 36,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-37,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-38,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-39,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-40,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+37,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+38,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
+39,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+40,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
 41,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-42,        },['}'],['OPERATOR']
-43,},['}'],['OPERATOR']
-44,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-45,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+42,        },['}'],['PUNCTUATION']
+43,},['}'],['PUNCTUATION']
+44,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
+45,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 46,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-47,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+47,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
 48,        // setup the context the way you want,"['//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want']","['COMMENT', 'VB', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP']"
-49,        parent := context.TODO(),"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-50,"        ctx := context.WithValue(parent, userIdKey, uid)","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-51,"        if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+49,        parent := context.TODO(),"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+50,"        ctx := context.WithValue(parent, userIdKey, uid)","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+51,"        if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
 52,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-53,        },['}'],['OPERATOR']
-54,},['}'],['OPERATOR']
-55,"func viewRecord(w http.ResponseWriter, r *http.Request, c context.Context) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'c', 'context', '.', 'Context', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,        if c == nil {,"['if', 'c', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,        },['}'],['PUNCTUATION']
+54,},['}'],['PUNCTUATION']
+55,"func viewRecord(w http.ResponseWriter, r *http.Request, c context.Context) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'c', 'context', '.', 'Context', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+56,        if c == nil {,"['if', 'c', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 57,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt.Fprintf(w, ""User are not logged in"")']",['FUNCTION_CALL']
-58,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-59,                uid := c.Value(userIdKey),"['uid', ':=', 'c.Value(userIdKey)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+58,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+59,                uid := c.Value(userIdKey),"['uid', ':=', 'c.Value(userIdKey)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 60,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt.Fprintf(w, ""User logged in with uid: %d"", uid)']",['FUNCTION_CALL']
-61,        },['}'],['OPERATOR']
+61,        },['}'],['PUNCTUATION']
 62,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-63,},['}'],['OPERATOR']
-64,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+63,},['}'],['PUNCTUATION']
+64,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 65,"        http.Handle(""/view"", appHandler(viewRecord))      // viewRecord is an appHandler function","['http.Handle(""/view"", appHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'appHandler', 'function']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
 66,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // viewRecord is an authHandler function","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'authHandler', 'function']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
-67,},['}'],['OPERATOR']
-68,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+67,},['}'],['PUNCTUATION']
+68,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 69,"        http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
-70,},['}'],['OPERATOR']
+70,},['}'],['PUNCTUATION']
 71,"
 
 create map context
@@ -97,7 +97,7 @@ create map context
 Instead of passing the context, you create 
 
 ","['create', 'map', 'context', 'Instead', 'of', 'passing', 'the', 'context,', 'you', 'create']","['NN', 'NNS', 'JJ', 'RB', 'IN', 'VBG', 'DT', 'NN', 'PRP', 'VBP']"
-72,var contexts map[*http.Request]context.Context,"['var', 'contexts', 'map', '[*', 'http', '.', 'Request', ']', 'context', '.', 'Context']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+72,var contexts map[*http.Request]context.Context,"['var', 'contexts', 'map', '[*', 'http', '.', 'Request', ']', 'context', '.', 'Context']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
 73,"
 
 and get the context in view with contexts[r]. 
@@ -112,62 +112,62 @@ this is the full code
 
 ","['and', 'get', 'the', 'context', 'in', 'view', 'with', 'contexts[r].', 'But', 'because', 'of', 'map', 'is', 'not', 'thread', 'safe,', 'access', 'to', 'the', 'map', 'must', 'be', 'protected', 'with', 'mutex.', 'And', 'guess', 'what,', 'this', 'is', 'what', 'gorilla', 'context', 'is', 'doing', 'for', 'you,', 'and', 'I', 'think', ""it's"", 'better', 'approach', 'https://github.com/gorilla/context/blob/master/context.go#l20-28', 'this', 'is', 'the', 'full', 'code']","['CC', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'NN', 'CC', 'IN', 'IN', 'NN', 'VBZ', 'RB', 'JJ', 'JJ', 'NN', 'TO', 'DT', 'NN', 'MD', 'VB', 'VBN', 'IN', 'NN', 'CC', 'NN', 'NN', 'DT', 'VBZ', 'WP', 'NN', 'NN', 'VBZ', 'VBG', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'JJ', 'JJR', 'NN', 'NN', 'DT', 'VBZ', 'DT', 'JJ', 'NN']"
 74,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-75,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+75,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 76,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
 77,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
 78,"        ""github.com/gorilla/context""","['""github.com/gorilla/context""']",['STRING_LITERAL']
-79,),[')'],['OPERATOR']
-80,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+79,),[')'],['PUNCTUATION']
+80,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
 81,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
 82,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 83,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-84,},['}'],['OPERATOR']
+84,},['}'],['PUNCTUATION']
 85,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-86,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-87,"type appHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-88,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-89,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+86,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+87,"type appHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
+88,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+89,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
 90,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-91,        },['}'],['OPERATOR']
-92,},['}'],['OPERATOR']
-93,"type authHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-94,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+91,        },['}'],['PUNCTUATION']
+92,},['}'],['PUNCTUATION']
+93,"type authHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
+94,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 95,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-96,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+96,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
 97,"        context.Set(r, userIdKey, uid)","['context.Set(r, userIdKey, uid)']",['FUNCTION_CALL']
-98,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+98,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
 99,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-100,        },['}'],['OPERATOR']
-101,},['}'],['OPERATOR']
-102,"func viewRecord(w http.ResponseWriter, r *http.Request) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,"        if uid, ok := context.GetOk(r, userIdKey); !ok {","['if', 'uid', ',', 'ok', ':=', 'context.GetOk(r, userIdKey)', ';', '!', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,        },['}'],['PUNCTUATION']
+101,},['}'],['PUNCTUATION']
+102,"func viewRecord(w http.ResponseWriter, r *http.Request) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+103,"        if uid, ok := context.GetOk(r, userIdKey); !ok {","['if', 'uid', ',', 'ok', ':=', 'context.GetOk(r, userIdKey)', ';', '!', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 104,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt.Fprintf(w, ""User are not logged in"")']",['FUNCTION_CALL']
-105,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+105,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
 106,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt.Fprintf(w, ""User logged in with uid: %d"", uid)']",['FUNCTION_CALL']
-107,        },['}'],['OPERATOR']
+107,        },['}'],['PUNCTUATION']
 108,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-109,},['}'],['OPERATOR']
-110,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+109,},['}'],['PUNCTUATION']
+110,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 111,"        http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
 112,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
-113,},['}'],['OPERATOR']
-114,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+113,},['}'],['PUNCTUATION']
+114,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 115,"        http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
-116,},['}'],['OPERATOR']
+116,},['}'],['PUNCTUATION']
 117,"
 
 you can also opt for wrapper function instead of type function for auth
 
 ","['you', 'can', 'also', 'opt', 'for', 'wrapper', 'function', 'instead', 'of', 'type', 'function', 'for', 'auth']","['PRP', 'MD', 'RB', 'VB', 'IN', 'JJR', 'NN', 'RB', 'IN', 'JJ', 'NN', 'IN', 'NN']"
-118,func AuthHandler(h appHandler) appHandler {                                   ,"['func', 'AuthHandler', '(', 'h', 'appHandler', ')', 'appHandler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-119,"    return func(w http.ResponseWriter, r *http.Request) *appError {","['return', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,func AuthHandler(h appHandler) appHandler {                                   ,"['func', 'AuthHandler', '(', 'h', 'appHandler', ')', 'appHandler', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+119,"    return func(w http.ResponseWriter, r *http.Request) *appError {","['return', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 120,        // setup authentication here                                          ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-121,        uid := 1                                                              ,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+121,        uid := 1                                                              ,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
 122,"        context.Set(r, userIdKey, uid)                                        ","['context.Set(r, userIdKey, uid)']",['FUNCTION_CALL']
-123,"        return h(w, r)                                                        ","['return', 'h', '(', 'w', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-124,    }                                                                        ,['}'],['OPERATOR']
-125,}  ,['}'],['OPERATOR']
-126,func init() {                                                                                    ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+123,"        return h(w, r)                                                        ","['return', 'h', '(', 'w', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+124,    }                                                                        ,['}'],['PUNCTUATION']
+125,}  ,['}'],['PUNCTUATION']
+126,func init() {                                                                                    ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 127,"    http.Handle(""/view"", appHandler(viewRecord))                  // don't require authentication","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
 128,"    http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord))) // require authentication      ","['http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord)))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
-129,}                                                                                               ,['}'],['OPERATOR']
+129,}                                                                                               ,['}'],['PUNCTUATION']
