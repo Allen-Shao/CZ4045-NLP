@@ -17,12 +17,12 @@ PHP's and Go's public key cryptography should be entirely compatible. To test th
 4,"$data = ""TEST DATA TO COMPUTE"";","['$', 'data', '=', '""TEST DATA TO COMPUTE""', ';']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 5,"$privKeyPEM = ""-----BEGIN RSA PRIVATE KEY-----","['$', 'privKeyPEM', '=', '-----', 'BEGIN', 'RSA', 'PRIVATE', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 6,MIIBOgIBAAJBAK3ADijXKw72+YbC5QKK2y7IosCp7rWOhTf8Ph07ZA0KjdbKtfL/,"['MIIBOgIBAAJBAK3ADijXKw72', '+', 'YbC5QKK2y7IosCp7rWOhTf8Ph07ZA0KjdbKtfL']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-7,7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD,"['7', 'dmNKjSP6EkC', 'DJUWfZJNLIlGOtDLLA', 'AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD']","['DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-8,tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J,"['tobRZ1xjo93', 'dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe', 'yxYQf6B5J']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+7,7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD,['7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD'],['DIRECTORY']
+8,tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J,['tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J'],['DIRECTORY']
 9,AQIhANbhfZ4QJC8dLXAqcsxOXuLgztzbKixUre0gnhiVSd1hAiEAzv+sHJ4PMjKs,"['AQIhANbhfZ4QJC8dLXAqcsxOXuLgztzbKixUre0gnhiVSd1hAiEAzv', '+', 'sHJ4PMjKs']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-10,Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb,"['//', 'IgfljoCjb']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN']"
+10,Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb,['Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb'],['DIRECTORY']
 11,snuHDN9iSEwBAiEAmAc1XCtGE+Mdg+GG+T3xn3pubDIN5oHcia0YmKIIzsMCIEy1,"['snuHDN9iSEwBAiEAmAc1XCtGE', '+', 'Mdg', '+', 'GG', '+', 'T3xn3pubDIN5oHcia0YmKIIzsMCIEy1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-12,fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z,"['fWM5cIJ9bAUExKB6MV8PF', '+', '9', 'EjDvXzbSk1', 'Ycta8z']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+12,fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z,['fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z'],['DIRECTORY']
 13,"-----END RSA PRIVATE KEY-----"";","['-----', 'END', 'RSA', 'PRIVATE', 'KEY', '-----', ';']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 14,// Parse private key,"['//', 'Parse', 'private', 'key']","['COMMENT', 'NNP', 'JJ', 'NN']"
 15,$privkey = openssl_pkey_get_private($privKeyPEM);,"['$', 'privkey', '=', 'openssl_pkey_get_private', '($', 'privKeyPEM', ');']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -30,8 +30,8 @@ PHP's and Go's public key cryptography should be entirely compatible. To test th
 17,"    exit(""Could not parse private key"");","['exit', '(', '""Could not parse private key""', ');']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 18,},['}'],['OPERATOR']
 19,// Compute the signature,"['//', 'Compute', 'the', 'signature']","['COMMENT', 'VB', 'DT', 'NN']"
-20,$signature = '';,"['$', 'signature', '=', ';']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-21,"$ok = openssl_sign($data, $signature, $privkey, OPENSSL_ALGO_SHA1); //SHA1 of $data is computed automatically by this function","['//', 'SHA1', 'of', '$data', 'is', 'computed', 'automatically', 'by', 'this', 'function']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NNP', 'IN', 'NNP', 'VBZ', 'VBN', 'RB', 'IN', 'DT', 'NN']"
+20,$signature = '';,"['$', 'signature', '=', ""''"", ';']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+21,"$ok = openssl_sign($data, $signature, $privkey, OPENSSL_ALGO_SHA1); //SHA1 of $data is computed automatically by this function","['$', 'ok', '=', 'openssl_sign', '($', 'data', ',', '$', 'signature', ',', '$', 'privkey', ',', 'OPENSSL_ALGO_SHA1', ');', '//', 'SHA1', 'of', '$data', 'is', 'computed', 'automatically', 'by', 'this', 'function']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NNP', 'IN', 'NNP', 'VBZ', 'VBN', 'RB', 'IN', 'DT', 'NN']"
 22,if (!$ok) {,"['if', '(!$', 'ok', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 23,"    exit(""Could not compute signature"");","['exit', '(', '""Could not compute signature""', ');']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 24,},['}'],['OPERATOR']
@@ -58,37 +58,37 @@ And the same thing in Go:
 41,"    data = ""TEST DATA TO COMPUTE""","['data', '=', '""TEST DATA TO COMPUTE""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 42,    privKeyPEM = `-----BEGIN RSA PRIVATE KEY-----,"['privKeyPEM', '=', '-----', 'BEGIN', 'RSA', 'PRIVATE', 'KEY', '-----']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 43,MIIBOgIBAAJBAK3ADijXKw72+YbC5QKK2y7IosCp7rWOhTf8Ph07ZA0KjdbKtfL/,"['MIIBOgIBAAJBAK3ADijXKw72', '+', 'YbC5QKK2y7IosCp7rWOhTf8Ph07ZA0KjdbKtfL']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-44,7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD,"['7', 'dmNKjSP6EkC', 'DJUWfZJNLIlGOtDLLA', 'AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD']","['DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-45,tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J,"['tobRZ1xjo93', 'dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe', 'yxYQf6B5J']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+44,7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD,['7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQJAQj9kJrZDuKT6ZyOQZfPD'],['DIRECTORY']
+45,tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J,['tobRZ1xjo93/dWU72bF3aHDo4ILMy2Kigy5yhZU0ZGjOuPv5eUOLRe/yxYQf6B5J'],['DIRECTORY']
 46,AQIhANbhfZ4QJC8dLXAqcsxOXuLgztzbKixUre0gnhiVSd1hAiEAzv+sHJ4PMjKs,"['AQIhANbhfZ4QJC8dLXAqcsxOXuLgztzbKixUre0gnhiVSd1hAiEAzv', '+', 'sHJ4PMjKs']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-47,Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb,"['//', 'IgfljoCjb']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN']"
+47,Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb,['Iuf6/nUI9XFgQQRd+NGRovyHRZC18VsCIAX7AKQFjvxAs6MLi2ZkR//IgfljoCjb'],['DIRECTORY']
 48,snuHDN9iSEwBAiEAmAc1XCtGE+Mdg+GG+T3xn3pubDIN5oHcia0YmKIIzsMCIEy1,"['snuHDN9iSEwBAiEAmAc1XCtGE', '+', 'Mdg', '+', 'GG', '+', 'T3xn3pubDIN5oHcia0YmKIIzsMCIEy1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-49,fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z,"['fWM5cIJ9bAUExKB6MV8PF', '+', '9', 'EjDvXzbSk1', 'Ycta8z']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+49,fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z,['fWM5cIJ9bAUExKB6MV8PF+9EjDvXzbSk1/Ycta8z'],['DIRECTORY']
 50,-----END RSA PRIVATE KEY-----`,"['-----', 'END', 'RSA', 'PRIVATE', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 51,),[')'],['OPERATOR']
 52,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 53,    // Parse private key into rsa.PrivateKey,"['//', 'Parse', 'private', 'key', 'into', 'rsa.PrivateKey']","['COMMENT', 'NNP', 'JJ', 'NN', 'IN', 'NN']"
-54,"    PEMBlock, _ := pem.Decode([]byte(privKeyPEM))","['PEMBlock', ',', '_', ':=', 'pem', '.', 'Decode', '([]', 'byte', '(', 'privKeyPEM', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,"    PEMBlock, _ := pem.Decode([]byte(privKeyPEM))","['PEMBlock', ',', '_', ':=', 'pem.Decode([]byte(privKeyPEM))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 55,    if PEMBlock == nil {,"['if', 'PEMBlock', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,"        log.Fatal(""Could not parse Private Key PEM"")","['log', '.', 'Fatal', '(', '""Could not parse Private Key PEM""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+56,"        log.Fatal(""Could not parse Private Key PEM"")","['log.Fatal(""Could not parse Private Key PEM"")']",['FUNCTION_CALL']
 57,    },['}'],['OPERATOR']
 58,"    if PEMBlock.Type != ""RSA PRIVATE KEY"" {","['if', 'PEMBlock', '.', 'Type', '!=', '""RSA PRIVATE KEY""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-59,"        log.Fatal(""Found wrong key type"")","['log', '.', 'Fatal', '(', '""Found wrong key type""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+59,"        log.Fatal(""Found wrong key type"")","['log.Fatal(""Found wrong key type"")']",['FUNCTION_CALL']
 60,    },['}'],['OPERATOR']
-61,"    privkey, err := x509.ParsePKCS1PrivateKey(PEMBlock.Bytes)","['privkey', ',', 'err', ':=', 'x509', '.', 'ParsePKCS1PrivateKey', '(', 'PEMBlock', '.', 'Bytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"    privkey, err := x509.ParsePKCS1PrivateKey(PEMBlock.Bytes)","['privkey', ',', 'err', ':=', 'x509.ParsePKCS1PrivateKey(PEMBlock.Bytes)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 62,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 64,    },['}'],['OPERATOR']
 65,    // Compute the sha1,"['//', 'Compute', 'the', 'sha1']","['COMMENT', 'VB', 'DT', 'NN']"
-66,    h := sha1.New(),"['h', ':=', 'sha1', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,    h.Write([]byte(data)),"['h', '.', 'Write', '([]', 'byte', '(', 'data', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,    h := sha1.New(),"['h', ':=', 'sha1.New()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+67,    h.Write([]byte(data)),['h.Write([]byte(data))'],['FUNCTION_CALL']
 68,    // Sign the data,"['//', 'Sign', 'the', 'data']","['COMMENT', 'NNP', 'DT', 'NN']"
-69,"    signature, err := rsa.SignPKCS1v15(rand.Reader, privkey, crypto.SHA1, h.Sum(nil))","['signature', ',', 'err', ':=', 'rsa', '.', 'SignPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'privkey', ',', 'crypto', '.', 'SHA1', ',', 'h', '.', 'Sum', '(', 'nil', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,"    signature, err := rsa.SignPKCS1v15(rand.Reader, privkey, crypto.SHA1, h.Sum(nil))","['signature', ',', 'err', ':=', 'rsa.SignPKCS1v15(rand.Reader, privkey, crypto.SHA1, h.Sum(nil))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 70,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 72,    },['}'],['OPERATOR']
 73,    // Print the results,"['//', 'Print', 'the', 'results']","['COMMENT', 'VB', 'DT', 'NNS']"
-74,    fmt.Print(base64.StdEncoding.EncodeToString(signature)),"['fmt', '.', 'Print', '(', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'signature', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,    fmt.Print(base64.StdEncoding.EncodeToString(signature)),['fmt.Print(base64.StdEncoding.EncodeToString(signature))'],['FUNCTION_CALL']
 75,},['}'],['OPERATOR']
 76,"
 
@@ -101,7 +101,7 @@ We can also use both PHP and Go to verify the signatures. Here are a set of PHP 
 78,"$data = ""TEST DATA TO COMPUTE"";","['$', 'data', '=', '""TEST DATA TO COMPUTE""', ';']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 79,"$pubKeyPEM = ""-----BEGIN PUBLIC KEY-----","['$', 'pubKeyPEM', '=', '-----', 'BEGIN', 'PUBLIC', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 80,MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK3ADijXKw72+YbC5QKK2y7IosCp7rWO,"['MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK3ADijXKw72', '+', 'YbC5QKK2y7IosCp7rWO']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-81,hTf8Ph07ZA0KjdbKtfL/7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQ==,"['hTf8Ph07ZA0KjdbKtfL', '7', 'dmNKjSP6EkC', 'DJUWfZJNLIlGOtDLLA', 'AnsCAwEAAQ', '==']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+81,hTf8Ph07ZA0KjdbKtfL/7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQ==,['hTf8Ph07ZA0KjdbKtfL/7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQ=='],['DIRECTORY']
 82,"-----END PUBLIC KEY-----"";","['-----', 'END', 'PUBLIC', 'KEY', '-----', ';']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 83,// Parse public key,"['//', 'Parse', 'public', 'key']","['COMMENT', 'NNP', 'JJ', 'NN']"
 84,$pubkey = openssl_pkey_get_public($pubKeyPEM);,"['$', 'pubkey', '=', 'openssl_pkey_get_public', '($', 'pubKeyPEM', ');']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -109,15 +109,15 @@ We can also use both PHP and Go to verify the signatures. Here are a set of PHP 
 86,"    exit(""Could not parse public key"");","['exit', '(', '""Could not parse public key""', ');']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 87,},['}'],['OPERATOR']
 88,// Read the signature from stdin,"['//', 'Read', 'the', 'signature', 'from', 'stdin']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NN']"
-89,"$stdin = file_get_contents(""php://stdin"");","['$', 'stdin', '=', 'file_get_contents', '(', '""php://stdin""', ');']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+89,"$stdin = file_get_contents(""php://stdin"");","['$', 'stdin', '=', 'file_get_contents(""php://stdin"");']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DIRECTORY']"
 90,$signature = base64_decode($stdin);,"['$', 'signature', '=', 'base64_decode', '($', 'stdin', ');']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 91,// Verify the signature,"['//', 'Verify', 'the', 'signature']","['COMMENT', 'VB', 'DT', 'NN']"
-92,"$ok = openssl_verify($data, $signature, $pubkey, OPENSSL_ALGO_SHA1); //SHA1 of $data is computed automatically by this function","['//', 'SHA1', 'of', '$data', 'is', 'computed', 'automatically', 'by', 'this', 'function']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NNP', 'IN', 'NNP', 'VBZ', 'VBN', 'RB', 'IN', 'DT', 'NN']"
+92,"$ok = openssl_verify($data, $signature, $pubkey, OPENSSL_ALGO_SHA1); //SHA1 of $data is computed automatically by this function","['$', 'ok', '=', 'openssl_verify', '($', 'data', ',', '$', 'signature', ',', '$', 'pubkey', ',', 'OPENSSL_ALGO_SHA1', ');', '//', 'SHA1', 'of', '$data', 'is', 'computed', 'automatically', 'by', 'this', 'function']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NNP', 'IN', 'NNP', 'VBZ', 'VBN', 'RB', 'IN', 'DT', 'NN']"
 93,if ($ok == 1) {,"['if', '($', 'ok', '==', '1', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
-94,"    print ""OK\n""; // it worked!","['//', 'it', 'worked!']","['IDENTIFIER', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'PRP', 'VBD']"
-95,  exit(0);,"['exit', '(', '0', ');']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+94,"    print ""OK\n""; // it worked!","['print', '""OK\\n""', ';', '//', 'it', 'worked!']","['IDENTIFIER', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'PRP', 'VBD']"
+95,  exit(0);,"['exit', '(', '0', ');']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
 96,},['}'],['OPERATOR']
-97,else if ($ok == 0) {,"['else', 'if', '($', 'ok', '==', '0', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+97,else if ($ok == 0) {,"['else', 'if', '($', 'ok', '==', '0', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR']"
 98,"  exit(""Signature verification failed"");","['exit', '(', '""Signature verification failed""', ');']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 99,},['}'],['OPERATOR']
 100,else {,"['else', '{']","['KEYWORD', 'OPERATOR']"
@@ -145,38 +145,38 @@ And the same verification code in Go:
 118,"    data = ""TEST DATA TO COMPUTE""","['data', '=', '""TEST DATA TO COMPUTE""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 119,    pubKeyPEM = `-----BEGIN PUBLIC KEY-----,"['pubKeyPEM', '=', '-----', 'BEGIN', 'PUBLIC', 'KEY', '-----']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 120,MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK3ADijXKw72+YbC5QKK2y7IosCp7rWO,"['MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK3ADijXKw72', '+', 'YbC5QKK2y7IosCp7rWO']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-121,hTf8Ph07ZA0KjdbKtfL/7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQ==,"['hTf8Ph07ZA0KjdbKtfL', '7', 'dmNKjSP6EkC', 'DJUWfZJNLIlGOtDLLA', 'AnsCAwEAAQ', '==']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+121,hTf8Ph07ZA0KjdbKtfL/7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQ==,['hTf8Ph07ZA0KjdbKtfL/7dmNKjSP6EkC/DJUWfZJNLIlGOtDLLA/AnsCAwEAAQ=='],['DIRECTORY']
 122,-----END PUBLIC KEY-----`,"['-----', 'END', 'PUBLIC', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 123,),[')'],['OPERATOR']
 124,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 125,    // Parse public key into rsa.PublicKey,"['//', 'Parse', 'public', 'key', 'into', 'rsa.PublicKey']","['COMMENT', 'NNP', 'JJ', 'NN', 'IN', 'NN']"
-126,"    PEMBlock, _ := pem.Decode([]byte(pubKeyPEM))","['PEMBlock', ',', '_', ':=', 'pem', '.', 'Decode', '([]', 'byte', '(', 'pubKeyPEM', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,"    PEMBlock, _ := pem.Decode([]byte(pubKeyPEM))","['PEMBlock', ',', '_', ':=', 'pem.Decode([]byte(pubKeyPEM))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 127,    if PEMBlock == nil {,"['if', 'PEMBlock', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-128,"        log.Fatal(""Could not parse Public Key PEM"")","['log', '.', 'Fatal', '(', '""Could not parse Public Key PEM""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+128,"        log.Fatal(""Could not parse Public Key PEM"")","['log.Fatal(""Could not parse Public Key PEM"")']",['FUNCTION_CALL']
 129,    },['}'],['OPERATOR']
 130,"    if PEMBlock.Type != ""PUBLIC KEY"" {","['if', 'PEMBlock', '.', 'Type', '!=', '""PUBLIC KEY""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-131,"        log.Fatal(""Found wrong key type"")","['log', '.', 'Fatal', '(', '""Found wrong key type""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+131,"        log.Fatal(""Found wrong key type"")","['log.Fatal(""Found wrong key type"")']",['FUNCTION_CALL']
 132,    },['}'],['OPERATOR']
-133,"    pubkey, err := x509.ParsePKIXPublicKey(PEMBlock.Bytes)","['pubkey', ',', 'err', ':=', 'x509', '.', 'ParsePKIXPublicKey', '(', 'PEMBlock', '.', 'Bytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,"    pubkey, err := x509.ParsePKIXPublicKey(PEMBlock.Bytes)","['pubkey', ',', 'err', ':=', 'x509.ParsePKIXPublicKey(PEMBlock.Bytes)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 134,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-135,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 136,    },['}'],['OPERATOR']
 137,    // compute the sha1,"['//', 'compute', 'the', 'sha1']","['COMMENT', 'VB', 'DT', 'NN']"
-138,    h := sha1.New(),"['h', ':=', 'sha1', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,    h.Write([]byte(data)),"['h', '.', 'Write', '([]', 'byte', '(', 'data', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,    h := sha1.New(),"['h', ':=', 'sha1.New()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+139,    h.Write([]byte(data)),['h.Write([]byte(data))'],['FUNCTION_CALL']
 140,    // Read the signature from stdin,"['//', 'Read', 'the', 'signature', 'from', 'stdin']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NN']"
-141,"    b64 := base64.NewDecoder(base64.StdEncoding, os.Stdin)","['b64', ':=', 'base64', '.', 'NewDecoder', '(', 'base64', '.', 'StdEncoding', ',', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-142,"    signature, err := ioutil.ReadAll(b64)","['signature', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'b64', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+141,"    b64 := base64.NewDecoder(base64.StdEncoding, os.Stdin)","['b64', ':=', 'base64.NewDecoder(base64.StdEncoding, os.Stdin)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+142,"    signature, err := ioutil.ReadAll(b64)","['signature', ',', 'err', ':=', 'ioutil.ReadAll(b64)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 143,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-144,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 145,    },['}'],['OPERATOR']
 146,    // Verify,"['//', 'Verify']","['COMMENT', 'VB']"
-147,"    err = rsa.VerifyPKCS1v15(pubkey.(*rsa.PublicKey), crypto.SHA1, h.Sum(nil), signature)","['err', '=', 'rsa', '.', 'VerifyPKCS1v15', '(', 'pubkey', '.(*', 'rsa', '.', 'PublicKey', '),', 'crypto', '.', 'SHA1', ',', 'h', '.', 'Sum', '(', 'nil', '),', 'signature', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+147,"    err = rsa.VerifyPKCS1v15(pubkey.(*rsa.PublicKey), crypto.SHA1, h.Sum(nil), signature)","['err', '=', 'rsa.VerifyPKCS1v15(pubkey.(*rsa.PublicKey), crypto.SHA1, h.Sum(nil), signature)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 148,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-149,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
 150,    },['}'],['OPERATOR']
 151,    // It verified!,"['//', 'It', 'verified!']","['COMMENT', 'PRP', 'VBD']"
-152,"    fmt.Println(""OK"")","['fmt', '.', 'Println', '(', '""OK""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+152,"    fmt.Println(""OK"")","['fmt.Println(""OK"")']",['FUNCTION_CALL']
 153,},['}'],['OPERATOR']
 154,"
 

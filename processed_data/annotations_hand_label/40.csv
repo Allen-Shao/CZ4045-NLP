@@ -8,8 +8,8 @@ first you can change the signature to accept context
 ","['I', 'can', 'think', 'of', 'a', 'couple', 'of', 'approaches', 'to', 'do', 'this.', 'Passing', 'the', 'context', 'first', 'you', 'can', 'change', 'the', 'signature', 'to', 'accept', 'context']","['PRP', 'MD', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'VB', 'VBG', 'DT', 'NN', 'RB', 'PRP', 'MD', 'VB', 'DT', 'NN', 'TO', 'VB', 'NN']"
 1,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
 2,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-3,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-4,"                http.Error(w, e.Message, e.Code)","['http', '.', 'Error', '(', 'w', ',', 'e', '.', 'Message', ',', 'e', '.', 'Code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+3,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+4,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
 5,        },['}'],['OPERATOR']
 6,},['}'],['OPERATOR']
 7,"
@@ -18,233 +18,87 @@ Now I assume the AuthHandler has to do with authentication and setup the user in
 
 What you could do is create another type handler which setup the context. like this
 
-type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError
-
-func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {           
-    // setup authentication here                                                    
-    uid := 1                                                                        
-
-    // setup the context the way you want                                           
-    parent := context.TODO()                                                        
-    ctx := context.WithValue(parent, userIdKey, uid)                                
-    if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.              
-        http.Error(w, e.Message, e.Code)                                            
-    }                                                                               
-}
-
+","['Now', 'I', 'assume', 'the', 'AuthHandler', 'has', 'to', 'do', 'with', 'authentication', 'and', 'setup', 'the', 'user', 'in', 'the', 'context', 'object.', 'What', 'you', 'could', 'do', 'is', 'create', 'another', 'type', 'handler', 'which', 'setup', 'the', 'context.', 'like', 'this']","['RB', 'PRP', 'VBP', 'DT', 'NNP', 'VBZ', 'TO', 'VB', 'IN', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RP', 'WP', 'PRP', 'MD', 'VB', 'VBZ', 'VB', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'DT']"
+8,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+9,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {           ","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+10,    // setup authentication here                                                    ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
+11,    uid := 1                                                                        ,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+12,    // setup the context the way you want                                           ,"['//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want']","['COMMENT', 'VB', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP']"
+13,    parent := context.TODO()                                                        ,"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+14,"    ctx := context.WithValue(parent, userIdKey, uid)                                ","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+15,"    if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.              ","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+16,"        http.Error(w, e.Message, e.Code)                                            ","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
+17,    }                                                                               ,['}'],['OPERATOR']
+18,},['}'],['OPERATOR']
+19,"
 
 This way you can use it in the following way
 
-func init() {                                                                         
-    http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication 
-    http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication       
-}                                                                                     
-
+","['This', 'way', 'you', 'can', 'use', 'it', 'in', 'the', 'following', 'way']","['DT', 'NN', 'PRP', 'MD', 'VB', 'PRP', 'IN', 'DT', 'JJ', 'NN']"
+20,func init() {                                                                         ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+21,"    http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication ","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
+22,"    http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication       ","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
+23,}                                                                                     ,['}'],['OPERATOR']
+24,"
 
 This is the complete code
 
-package main
-
-import (
-        ""fmt""
-        ""net/http""
-
-        ""code.google.com/p/go.net/context""
-)
-
-type appError struct {
-        Error   error
-        Message string
-        Code    int
-}
-
-type key int
-
-const userIdKey key = 0
-
-","['Now', 'I', 'assume', 'the', 'AuthHandler', 'has', 'to', 'do', 'with', 'authentication', 'and', 'setup', 'the', 'user', 'in', 'the', 'context', 'object.', 'What', 'you', 'could', 'do', 'is', 'create', 'another', 'type', 'handler', 'which', 'setup', 'the', 'context.', 'like', 'this', 'type', 'authHandler', 'func(http.ResponseWriter,', '*http.Request,', 'context.Context)', '*appError', 'func', '(fn', 'authHandler)', 'ServeHTTP(w', 'http.ResponseWriter,', 'r', '*http.Request)', '{', '//', 'setup', 'authentication', 'here', 'uid', ':=', '1', '//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want', 'parent', ':=', 'context.TODO()', 'ctx', ':=', 'context.WithValue(parent,', 'userIdKey,', 'uid)', 'if', 'e', ':=', 'fn(w,', 'r,', 'ctx);', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.', 'http.Error(w,', 'e.Message,', 'e.Code)', '}', '}', 'This', 'way', 'you', 'can', 'use', 'it', 'in', 'the', 'following', 'way', 'func', 'init()', '{', 'http.Handle(""/view"",', 'appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication', 'http.Handle(""/viewAuth"",', 'authHandler(viewRecord))', '//', 'require', 'authentication', '}', 'This', 'is', 'the', 'complete', 'code', 'package', 'main', 'import', '(', '""fmt""', '""net/http""', '""code.google.com/p/go.net/context""', ')', 'type', 'appError', 'struct', '{', 'Error', 'error', 'Message', 'string', 'Code', 'int', '}', 'type', 'key', 'int', 'const', 'userIdKey', 'key', '=', '0']","['RB', 'PRP', 'VBP', 'DT', 'NNP', 'VBZ', 'TO', 'VB', 'IN', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RP', 'WP', 'PRP', 'MD', 'VB', 'VBZ', 'VB', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', '(', 'JJ', 'NN', 'NN', 'RB', 'JJ', 'VBP', 'CD', 'JJ', 'NN', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'JJ', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'VBZ', 'JJ', 'RB', 'JJ', 'NN', 'NN', 'NN', ')', ')', 'DT', 'NN', 'PRP', 'MD', 'VB', 'PRP', 'IN', 'DT', 'JJ', 'NN', 'JJ', 'NN', '(', 'JJ', 'NN', 'VBP', 'NN', 'VB', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', ')', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', ')', 'NN', 'NN', 'NN', '(', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', 'JJ', 'JJ', '$', 'CD']"
-8,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-9,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-10,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-11,"                http.Error(w, e.Message, e.Code)","['http', '.', 'Error', '(', 'w', ',', 'e', '.', 'Message', ',', 'e', '.', 'Code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-12,        },['}'],['OPERATOR']
-13,},['}'],['OPERATOR']
-14,"
-type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError
-
-func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-        // setup authentication here
-        uid := 1
-
-        // setup the context the way you want
-        parent := context.TODO()
-        ctx := context.WithValue(parent, userIdKey, uid)
-        if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.
-                http.Error(w, e.Message, e.Code)
-        }
-}
-
-func viewRecord(w http.ResponseWriter, r *http.Request, c context.Context) *appError {
-
-        if c == nil {
-                fmt.Fprintf(w, ""User are not logged in"")
-        } else {
-                uid := c.Value(userIdKey)
-                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)
-        }
-
-        return nil
-}
-
-func init() {
-        http.Handle(""/view"", appHandler(viewRecord))      // viewRecord is an appHandler function
-        http.Handle(""/viewAuth"", authHandler(viewRecord)) // viewRecord is an authHandler function
-}
-
-func main() {
-        http.ListenAndServe("":8080"", nil)
-}
-
+","['This', 'is', 'the', 'complete', 'code']","['DT', 'VBZ', 'DT', 'JJ', 'NN']"
+25,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+26,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+27,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
+28,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
+29,"        ""code.google.com/p/go.net/context""","['""code.google.com/p/go.net/context""']",['STRING_LITERAL']
+30,),[')'],['OPERATOR']
+31,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+32,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
+33,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+34,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+35,},['}'],['OPERATOR']
+36,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+37,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
+38,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+39,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+40,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+41,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
+42,        },['}'],['OPERATOR']
+43,},['}'],['OPERATOR']
+44,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+45,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+46,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
+47,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+48,        // setup the context the way you want,"['//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want']","['COMMENT', 'VB', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP']"
+49,        parent := context.TODO(),"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+50,"        ctx := context.WithValue(parent, userIdKey, uid)","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+51,"        if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+52,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
+53,        },['}'],['OPERATOR']
+54,},['}'],['OPERATOR']
+55,"func viewRecord(w http.ResponseWriter, r *http.Request, c context.Context) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'c', 'context', '.', 'Context', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,        if c == nil {,"['if', 'c', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt.Fprintf(w, ""User are not logged in"")']",['FUNCTION_CALL']
+58,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+59,                uid := c.Value(userIdKey),"['uid', ':=', 'c.Value(userIdKey)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+60,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt.Fprintf(w, ""User logged in with uid: %d"", uid)']",['FUNCTION_CALL']
+61,        },['}'],['OPERATOR']
+62,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+63,},['}'],['OPERATOR']
+64,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+65,"        http.Handle(""/view"", appHandler(viewRecord))      // viewRecord is an appHandler function","['http.Handle(""/view"", appHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'appHandler', 'function']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
+66,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // viewRecord is an authHandler function","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'authHandler', 'function']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
+67,},['}'],['OPERATOR']
+68,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+69,"        http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
+70,},['}'],['OPERATOR']
+71,"
 
 create map context
 
 Instead of passing the context, you create 
 
-var contexts map[*http.Request]context.Context
-
-
-and get the context in view with contexts[r]. 
-
-But because of map is not thread safe, access to the map must be protected with mutex.
-
-And guess what, this is what gorilla context is doing for you, and I think it's better approach
-
-https://github.com/gorilla/context/blob/master/context.go#l20-28
-
-this is the full code
-
-package main
-
-import (
-        ""fmt""
-        ""net/http""
-
-        ""github.com/gorilla/context""
-)
-
-type appError struct {
-        Error   error
-        Message string
-        Code    int
-}
-
-type key int
-
-const userIdKey key = 0
-
-type appHandler func(http.ResponseWriter, *http.Request) *appError
-
-func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-        if e := fn(w, r); e != nil { // e is *appError, not os.Error.
-                http.Error(w, e.Message, e.Code)
-        }
-}
-
-type authHandler func(http.ResponseWriter, *http.Request) *appError
-
-func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-        // setup authentication here
-        uid := 1
-
-        context.Set(r, userIdKey, uid)
-        if e := fn(w, r); e != nil { // e is *appError, not os.Error.
-                http.Error(w, e.Message, e.Code)
-        }
-}
-
-func viewRecord(w http.ResponseWriter, r *http.Request) *appError {
-
-        if uid, ok := context.GetOk(r, userIdKey); !ok {
-                fmt.Fprintf(w, ""User are not logged in"")
-        } else {
-                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)
-        }
-
-        return nil
-}
-
-func init() {
-        http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication
-        http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication
-}
-
-func main() {
-        http.ListenAndServe("":8080"", nil)
-}
-
-
-you can also opt for wrapper function instead of type function for auth
-
-func AuthHandler(h appHandler) appHandler {                                   
-    return func(w http.ResponseWriter, r *http.Request) *appError {
-        // setup authentication here                                          
-        uid := 1                                                              
-
-        context.Set(r, userIdKey, uid)                                        
-        return h(w, r)                                                        
-    }                                                                        
-}  
-
-func init() {                                                                                    
-    http.Handle(""/view"", appHandler(viewRecord))                  // don't require authentication
-    http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord))) // require authentication      
-}                                                                                               
-
-","['type', 'authHandler', 'func(http.ResponseWriter,', '*http.Request,', 'context.Context)', '*appError', 'func', '(fn', 'authHandler)', 'ServeHTTP(w', 'http.ResponseWriter,', 'r', '*http.Request)', '{', '//', 'setup', 'authentication', 'here', 'uid', ':=', '1', '//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want', 'parent', ':=', 'context.TODO()', 'ctx', ':=', 'context.WithValue(parent,', 'userIdKey,', 'uid)', 'if', 'e', ':=', 'fn(w,', 'r,', 'ctx);', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.', 'http.Error(w,', 'e.Message,', 'e.Code)', '}', '}', 'func', 'viewRecord(w', 'http.ResponseWriter,', 'r', '*http.Request,', 'c', 'context.Context)', '*appError', '{', 'if', 'c', '==', 'nil', '{', 'fmt.Fprintf(w,', '""User', 'are', 'not', 'logged', 'in"")', '}', 'else', '{', 'uid', ':=', 'c.Value(userIdKey)', 'fmt.Fprintf(w,', '""User', 'logged', 'in', 'with', 'uid:', '%d"",', 'uid)', '}', 'return', 'nil', '}', 'func', 'init()', '{', 'http.Handle(""/view"",', 'appHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'appHandler', 'function', 'http.Handle(""/viewAuth"",', 'authHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'authHandler', 'function', '}', 'func', 'main()', '{', 'http.ListenAndServe("":8080"",', 'nil)', '}', 'create', 'map', 'context', 'Instead', 'of', 'passing', 'the', 'context,', 'you', 'create', 'var', 'contexts', 'map[*http.Request]context.Context', 'and', 'get', 'the', 'context', 'in', 'view', 'with', 'contexts[r].', 'But', 'because', 'of', 'map', 'is', 'not', 'thread', 'safe,', 'access', 'to', 'the', 'map', 'must', 'be', 'protected', 'with', 'mutex.', 'And', 'guess', 'what,', 'this', 'is', 'what', 'gorilla', 'context', 'is', 'doing', 'for', 'you,', 'and', 'I', 'think', ""it's"", 'better', 'approach', 'https://github.com/gorilla/context/blob/master/context.go#l20-28', 'this', 'is', 'the', 'full', 'code', 'package', 'main', 'import', '(', '""fmt""', '""net/http""', '""github.com/gorilla/context""', ')', 'type', 'appError', 'struct', '{', 'Error', 'error', 'Message', 'string', 'Code', 'int', '}', 'type', 'key', 'int', 'const', 'userIdKey', 'key', '=', '0', 'type', 'appHandler', 'func(http.ResponseWriter,', '*http.Request)', '*appError', 'func', '(fn', 'appHandler)', 'ServeHTTP(w', 'http.ResponseWriter,', 'r', '*http.Request)', '{', 'if', 'e', ':=', 'fn(w,', 'r);', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.', 'http.Error(w,', 'e.Message,', 'e.Code)', '}', '}', 'type', 'authHandler', 'func(http.ResponseWriter,', '*http.Request)', '*appError', 'func', '(fn', 'authHandler)', 'ServeHTTP(w', 'http.ResponseWriter,', 'r', '*http.Request)', '{', '//', 'setup', 'authentication', 'here', 'uid', ':=', '1', 'context.Set(r,', 'userIdKey,', 'uid)', 'if', 'e', ':=', 'fn(w,', 'r);', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.', 'http.Error(w,', 'e.Message,', 'e.Code)', '}', '}', 'func', 'viewRecord(w', 'http.ResponseWriter,', 'r', '*http.Request)', '*appError', '{', 'if', 'uid,', 'ok', ':=', 'context.GetOk(r,', 'userIdKey);', '!ok', '{', 'fmt.Fprintf(w,', '""User', 'are', 'not', 'logged', 'in"")', '}', 'else', '{', 'fmt.Fprintf(w,', '""User', 'logged', 'in', 'with', 'uid:', '%d"",', 'uid)', '}', 'return', 'nil', '}', 'func', 'init()', '{', 'http.Handle(""/view"",', 'appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication', 'http.Handle(""/viewAuth"",', 'authHandler(viewRecord))', '//', 'require', 'authentication', '}', 'func', 'main()', '{', 'http.ListenAndServe("":8080"",', 'nil)', '}', 'you', 'can', 'also', 'opt', 'for', 'wrapper', 'function', 'instead', 'of', 'type', 'function', 'for', 'auth', 'func', 'AuthHandler(h', 'appHandler)', 'appHandler', '{', 'return', 'func(w', 'http.ResponseWriter,', 'r', '*http.Request)', '*appError', '{', '//', 'setup', 'authentication', 'here', 'uid', ':=', '1', 'context.Set(r,', 'userIdKey,', 'uid)', 'return', 'h(w,', 'r)', '}', '}', 'func', 'init()', '{', 'http.Handle(""/view"",', 'appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication', 'http.Handle(""/viewAuth"",', 'appHandler(AuthHandler(viewRecord)))', '//', 'require', 'authentication', '}']","['NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', '(', 'JJ', 'NN', 'NN', 'RB', 'JJ', 'VBP', 'CD', 'JJ', 'NN', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'JJ', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'VBZ', 'JJ', 'RB', 'JJ', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'JJ', 'NNP', '(', 'IN', 'VBN', 'NNP', 'JJ', '(', 'JJ', 'NN', 'VBP', 'RB', 'VBN', 'NN', ')', 'RB', '(', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBD', 'IN', 'IN', 'JJ', 'NNP', 'NN', ')', 'NN', 'JJ', ')', 'JJ', 'JJ', '(', 'JJ', 'NN', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NN', 'VBZ', 'DT', 'NN', 'NN', ')', 'NN', 'NNS', '(', 'NN', 'RB', ')', 'VB', 'JJ', 'JJ', 'RB', 'IN', 'VBG', 'DT', 'NN', 'PRP', 'VBP', 'JJ', 'NN', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'NN', 'CC', 'IN', 'IN', 'NN', 'VBZ', 'RB', 'JJ', 'JJ', 'NN', 'TO', 'DT', 'NN', 'MD', 'VB', 'VBN', 'IN', 'NN', 'CC', 'NN', 'NN', 'DT', 'VBZ', 'WP', 'NN', 'NN', 'VBZ', 'VBG', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'JJ', 'JJR', 'NN', 'NN', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', ')', 'NN', 'NN', 'NN', '(', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', 'JJ', 'JJ', '$', 'CD', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', '(', 'IN', 'VBN', 'NNP', 'JJ', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'VBZ', 'JJ', 'RB', 'JJ', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'NN', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', '(', 'JJ', 'NN', 'NN', 'RB', 'JJ', 'VBP', 'CD', 'NN', 'JJ', 'JJ', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'VBZ', 'JJ', 'RB', 'JJ', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NNP', '(', 'IN', 'JJ', 'JJ', 'NN', 'NN', 'JJ', 'NNP', '(', 'VB', 'NN', 'VBP', 'RB', 'VBN', 'NN', ')', 'RB', '(', 'VB', 'NNP', 'VBN', 'IN', 'IN', 'JJ', 'NNP', 'NN', ')', 'NN', 'JJ', ')', 'JJ', 'JJ', '(', 'JJ', 'NN', 'VBP', 'NN', 'VB', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', ')', 'NN', 'NNS', '(', 'NN', 'NN', ')', 'PRP', 'MD', 'RB', 'VB', 'IN', 'JJR', 'NN', 'RB', 'IN', 'JJ', 'NN', 'IN', 'NN', 'NN', 'NNP', 'VBZ', 'RB', '(', 'VB', 'NN', 'NN', 'NN', 'NNP', 'NNP', '(', 'JJ', 'NN', 'NN', 'RB', 'JJ', 'VBP', 'CD', 'NN', 'JJ', 'JJ', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'JJ', '(', 'JJ', 'NN', 'VBP', 'NN', 'VB', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', ')']"
-15,"
-type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError
-
-func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-        // setup authentication here
-        uid := 1
-
-        // setup the context the way you want
-        parent := context.TODO()
-        ctx := context.WithValue(parent, userIdKey, uid)
-        if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.
-                http.Error(w, e.Message, e.Code)
-        }
-}
-
-func viewRecord(w http.ResponseWriter, r *http.Request, c context.Context) *appError {
-
-        if c == nil {
-                fmt.Fprintf(w, ""User are not logged in"")
-        } else {
-                uid := c.Value(userIdKey)
-                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)
-        }
-
-        return nil
-}
-
-func init() {
-        http.Handle(""/view"", appHandler(viewRecord))      // viewRecord is an appHandler function
-        http.Handle(""/viewAuth"", authHandler(viewRecord)) // viewRecord is an authHandler function
-}
-
-func main() {
-        http.ListenAndServe("":8080"", nil)
-}
-
-
-create map context
-
-Instead of passing the context, you create 
-
-","['type', 'authHandler', 'func(http.ResponseWriter,', '*http.Request,', 'context.Context)', '*appError', 'func', '(fn', 'authHandler)', 'ServeHTTP(w', 'http.ResponseWriter,', 'r', '*http.Request)', '{', '//', 'setup', 'authentication', 'here', 'uid', ':=', '1', '//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want', 'parent', ':=', 'context.TODO()', 'ctx', ':=', 'context.WithValue(parent,', 'userIdKey,', 'uid)', 'if', 'e', ':=', 'fn(w,', 'r,', 'ctx);', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.', 'http.Error(w,', 'e.Message,', 'e.Code)', '}', '}', 'func', 'viewRecord(w', 'http.ResponseWriter,', 'r', '*http.Request,', 'c', 'context.Context)', '*appError', '{', 'if', 'c', '==', 'nil', '{', 'fmt.Fprintf(w,', '""User', 'are', 'not', 'logged', 'in"")', '}', 'else', '{', 'uid', ':=', 'c.Value(userIdKey)', 'fmt.Fprintf(w,', '""User', 'logged', 'in', 'with', 'uid:', '%d"",', 'uid)', '}', 'return', 'nil', '}', 'func', 'init()', '{', 'http.Handle(""/view"",', 'appHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'appHandler', 'function', 'http.Handle(""/viewAuth"",', 'authHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'authHandler', 'function', '}', 'func', 'main()', '{', 'http.ListenAndServe("":8080"",', 'nil)', '}', 'create', 'map', 'context', 'Instead', 'of', 'passing', 'the', 'context,', 'you', 'create']","['NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', '(', 'JJ', 'NN', 'NN', 'RB', 'JJ', 'VBP', 'CD', 'JJ', 'NN', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'JJ', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'VBZ', 'JJ', 'RB', 'JJ', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'JJ', 'NNP', '(', 'IN', 'VBN', 'NNP', 'JJ', '(', 'JJ', 'NN', 'VBP', 'RB', 'VBN', 'NN', ')', 'RB', '(', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'VBD', 'IN', 'IN', 'JJ', 'NNP', 'NN', ')', 'NN', 'JJ', ')', 'JJ', 'JJ', '(', 'JJ', 'NN', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NN', 'VBZ', 'DT', 'NN', 'NN', ')', 'NN', 'NNS', '(', 'NN', 'RB', ')', 'VB', 'JJ', 'JJ', 'RB', 'IN', 'VBG', 'DT', 'NN', 'PRP', 'VBP']"
-16,var contexts map[*http.Request]context.Context,"['var', 'contexts', 'map', '[*', 'http', '.', 'Request', ']', 'context', '.', 'Context']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-17,"
+","['create', 'map', 'context', 'Instead', 'of', 'passing', 'the', 'context,', 'you', 'create']","['NN', 'NNS', 'JJ', 'RB', 'IN', 'VBG', 'DT', 'NN', 'PRP', 'VBP']"
+72,var contexts map[*http.Request]context.Context,"['var', 'contexts', 'map', '[*', 'http', '.', 'Request', ']', 'context', '.', 'Context']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+73,"
 
 and get the context in view with contexts[r]. 
 
@@ -257,63 +111,63 @@ https://github.com/gorilla/context/blob/master/context.go#l20-28
 this is the full code
 
 ","['and', 'get', 'the', 'context', 'in', 'view', 'with', 'contexts[r].', 'But', 'because', 'of', 'map', 'is', 'not', 'thread', 'safe,', 'access', 'to', 'the', 'map', 'must', 'be', 'protected', 'with', 'mutex.', 'And', 'guess', 'what,', 'this', 'is', 'what', 'gorilla', 'context', 'is', 'doing', 'for', 'you,', 'and', 'I', 'think', ""it's"", 'better', 'approach', 'https://github.com/gorilla/context/blob/master/context.go#l20-28', 'this', 'is', 'the', 'full', 'code']","['CC', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'NN', 'CC', 'IN', 'IN', 'NN', 'VBZ', 'RB', 'JJ', 'JJ', 'NN', 'TO', 'DT', 'NN', 'MD', 'VB', 'VBN', 'IN', 'NN', 'CC', 'NN', 'NN', 'DT', 'VBZ', 'WP', 'NN', 'NN', 'VBZ', 'VBG', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'JJ', 'JJR', 'NN', 'NN', 'DT', 'VBZ', 'DT', 'JJ', 'NN']"
-18,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-19,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-20,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
-21,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
-22,"        ""github.com/gorilla/context""","['""github.com/gorilla/context""']",['STRING_LITERAL']
-23,),[')'],['OPERATOR']
-24,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-25,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
-26,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-27,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-28,},['}'],['OPERATOR']
-29,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-30,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-31,"type appHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-32,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-33,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-34,"                http.Error(w, e.Message, e.Code)","['http', '.', 'Error', '(', 'w', ',', 'e', '.', 'Message', ',', 'e', '.', 'Code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,        },['}'],['OPERATOR']
-36,},['}'],['OPERATOR']
-37,"type authHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-38,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-39,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-40,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-41,"        context.Set(r, userIdKey, uid)","['context', '.', 'Set', '(', 'r', ',', 'userIdKey', ',', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-43,"                http.Error(w, e.Message, e.Code)","['http', '.', 'Error', '(', 'w', ',', 'e', '.', 'Message', ',', 'e', '.', 'Code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,        },['}'],['OPERATOR']
-45,},['}'],['OPERATOR']
-46,"func viewRecord(w http.ResponseWriter, r *http.Request) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,"        if uid, ok := context.GetOk(r, userIdKey); !ok {","['if', 'uid', ',', 'ok', ':=', 'context', '.', 'GetOk', '(', 'r', ',', 'userIdKey', ');', '!', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt', '.', 'Fprintf', '(', 'w', ',', '""User are not logged in""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-49,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-50,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt', '.', 'Fprintf', '(', 'w', ',', '""User logged in with uid: %d""', ',', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,        },['}'],['OPERATOR']
-52,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-53,},['}'],['OPERATOR']
-54,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-55,"        http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication","['//', ""don't"", 'require', 'authentication']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VB', 'NN']"
-56,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication","['//', 'require', 'authentication']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'NN']"
-57,},['}'],['OPERATOR']
-58,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-59,"        http.ListenAndServe("":8080"", nil)","['http', '.', 'ListenAndServe', '(', '"":8080""', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,},['}'],['OPERATOR']
-61,"
+74,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+75,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+76,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
+77,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
+78,"        ""github.com/gorilla/context""","['""github.com/gorilla/context""']",['STRING_LITERAL']
+79,),[')'],['OPERATOR']
+80,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+81,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
+82,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+83,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+84,},['}'],['OPERATOR']
+85,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+86,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
+87,"type appHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+88,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+89,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+90,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
+91,        },['}'],['OPERATOR']
+92,},['}'],['OPERATOR']
+93,"type authHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+94,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+95,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
+96,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+97,"        context.Set(r, userIdKey, uid)","['context.Set(r, userIdKey, uid)']",['FUNCTION_CALL']
+98,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
+99,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
+100,        },['}'],['OPERATOR']
+101,},['}'],['OPERATOR']
+102,"func viewRecord(w http.ResponseWriter, r *http.Request) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,"        if uid, ok := context.GetOk(r, userIdKey); !ok {","['if', 'uid', ',', 'ok', ':=', 'context.GetOk(r, userIdKey)', ';', '!', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt.Fprintf(w, ""User are not logged in"")']",['FUNCTION_CALL']
+105,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+106,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt.Fprintf(w, ""User logged in with uid: %d"", uid)']",['FUNCTION_CALL']
+107,        },['}'],['OPERATOR']
+108,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+109,},['}'],['OPERATOR']
+110,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+111,"        http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
+112,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
+113,},['}'],['OPERATOR']
+114,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+115,"        http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
+116,},['}'],['OPERATOR']
+117,"
 
 you can also opt for wrapper function instead of type function for auth
 
 ","['you', 'can', 'also', 'opt', 'for', 'wrapper', 'function', 'instead', 'of', 'type', 'function', 'for', 'auth']","['PRP', 'MD', 'RB', 'VB', 'IN', 'JJR', 'NN', 'RB', 'IN', 'JJ', 'NN', 'IN', 'NN']"
-62,func AuthHandler(h appHandler) appHandler {                                   ,"['func', 'AuthHandler', '(', 'h', 'appHandler', ')', 'appHandler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,"    return func(w http.ResponseWriter, r *http.Request) *appError {","['return', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-64,        // setup authentication here                                          ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-65,        uid := 1                                                              ,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-66,"        context.Set(r, userIdKey, uid)                                        ","['context', '.', 'Set', '(', 'r', ',', 'userIdKey', ',', 'uid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,"        return h(w, r)                                                        ","['return', 'h', '(', 'w', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,    }                                                                        ,['}'],['OPERATOR']
-69,}  ,['}'],['OPERATOR']
-70,func init() {                                                                                    ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-71,"    http.Handle(""/view"", appHandler(viewRecord))                  // don't require authentication","['//', ""don't"", 'require', 'authentication']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VB', 'NN']"
-72,"    http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord))) // require authentication      ","['//', 'require', 'authentication']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'NN']"
-73,}                                                                                               ,['}'],['OPERATOR']
+118,func AuthHandler(h appHandler) appHandler {                                   ,"['func', 'AuthHandler', '(', 'h', 'appHandler', ')', 'appHandler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,"    return func(w http.ResponseWriter, r *http.Request) *appError {","['return', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,        // setup authentication here                                          ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
+121,        uid := 1                                                              ,"['uid', ':=', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+122,"        context.Set(r, userIdKey, uid)                                        ","['context.Set(r, userIdKey, uid)']",['FUNCTION_CALL']
+123,"        return h(w, r)                                                        ","['return', 'h', '(', 'w', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,    }                                                                        ,['}'],['OPERATOR']
+125,}  ,['}'],['OPERATOR']
+126,func init() {                                                                                    ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+127,"    http.Handle(""/view"", appHandler(viewRecord))                  // don't require authentication","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
+128,"    http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord))) // require authentication      ","['http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord)))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
+129,}                                                                                               ,['}'],['OPERATOR']

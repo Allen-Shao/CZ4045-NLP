@@ -29,7 +29,7 @@ type satisfying an interface can be put into the queue. Is this the way to go wi
 24,"in the heap, e.g. like this:","['in', 'the', 'heap', ',', 'e', '.', 'g', '.', 'like', 'this', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
 25,        type myType struct {,"['type', 'myType', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
 26,                value int,"['value', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-27,                index int // index in heap,"['//', 'index', 'in', 'heap']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NN', 'IN', 'NN']"
+27,                index int // index in heap,"['index', 'int', '//', 'index', 'in', 'heap']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NN', 'IN', 'NN']"
 28,        },['}'],['OPERATOR']
 29,        func (x *myType) Less(y prio.Interface) bool { return x.value < y.(*myType).value },"['func', '(', 'x', '*', 'myType', ')', 'Less', '(', 'y', 'prio', '.', 'Interface', ')', 'bool', '{', 'return', 'x', '.', 'value', '<', 'y', '.(*', 'myType', ').', 'value', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 30,        func (x *myType) Index(i int)                { x.index = i },"['func', '(', 'x', '*', 'myType', ')', 'Index', '(', 'i', 'int', ')', '{', 'x', '.', 'index', '=', 'i', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
@@ -59,26 +59,26 @@ type satisfying an interface can be put into the queue. Is this the way to go wi
 54,func (q *Queue) Push(x Interface) {,"['func', '(', 'q', '*', 'Queue', ')', 'Push', '(', 'x', 'Interface', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 55,        n := len(q.h),"['n', ':=', 'len', '(', 'q', '.', 'h', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 56,"        q.h = append(q.h, x)","['q', '.', 'h', '=', 'append', '(', 'q', '.', 'h', ',', 'x', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,"        up(q.h, n) // x.Index(n) is done by up.","['//', 'x.Index(n)', 'is', 'done', 'by', 'up.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
+57,"        up(q.h, n) // x.Index(n) is done by up.","['up', '(', 'q', '.', 'h', ',', 'n', ')', '//', 'x.Index(n)', 'is', 'done', 'by', 'up.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
 58,},['}'],['OPERATOR']
 59,// Pop removes a minimum element (according to Less) from the queue and returns it.,"['//', 'Pop', 'removes', 'a', 'minimum', 'element', '(according', 'to', 'Less)', 'from', 'the', 'queue', 'and', 'returns', 'it.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'VBG', 'TO', 'NNP', 'IN', 'DT', 'NN', 'CC', 'NNS', 'VBP']"
 60,"// The complexity is O(log(n)), where n = q.Len().","['//', 'The', 'complexity', 'is', 'O(log(n)),', 'where', 'n', '=', 'q.Len().']","['COMMENT', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'JJ', 'NN', 'NN']"
 61,func (q *Queue) Pop() Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Pop', '()', 'Interface', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 62,        h := q.h,"['h', ':=', 'q', '.', 'h']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 63,        n := len(h) - 1,"['n', ':=', 'len', '(', 'h', ')', '-', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
-64,        x := h[0],"['x', ':=', 'h', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-65,"        h[0], h[n] = h[n], nil","['h', '[', '0', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+64,        x := h[0],"['x', ':=', 'h', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+65,"        h[0], h[n] = h[n], nil","['h', '[', '0', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 66,        h = h[:n],"['h', '=', 'h', '[:', 'n', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,        if n > 0 {,"['if', 'n', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-68,"                down(h, 0) // h[0].Index(0) is done by down.","['//', 'h[0].Index(0)', 'is', 'done', 'by', 'down.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
+67,        if n > 0 {,"['if', 'n', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
+68,"                down(h, 0) // h[0].Index(0) is done by down.","['down', '(', 'h', ',', '0', ')', '//', 'h[0].Index(0)', 'is', 'done', 'by', 'down.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
 69,        },['}'],['OPERATOR']
 70,        q.h = h,"['q', '.', 'h', '=', 'h']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-71,        x.Index(-1) // for safety,"['//', 'for', 'safety']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'IN', 'NN']"
+71,        x.Index(-1) // for safety,"['x.Index(-1)', '//', 'for', 'safety']","['FUNCTION_CALL', 'COMMENT', 'IN', 'NN']"
 72,        return x,"['return', 'x']","['KEYWORD', 'IDENTIFIER']"
 73,},['}'],['OPERATOR']
 74,"// Peek returns, but does not remove, a minimum element (according to Less) of the queue.","['//', 'Peek', 'returns,', 'but', 'does', 'not', 'remove,', 'a', 'minimum', 'element', '(according', 'to', 'Less)', 'of', 'the', 'queue.']","['COMMENT', 'JJ', 'NN', 'CC', 'VBZ', 'RB', 'VB', 'DT', 'JJ', 'NN', 'VBG', 'TO', 'NNP', 'IN', 'DT', 'NN']"
 75,func (q *Queue) Peek() Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Peek', '()', 'Interface', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,        return q.h[0],"['return', 'q', '.', 'h', '[', '0', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+76,        return q.h[0],"['return', 'q', '.', 'h', '[', '0', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
 77,},['}'],['OPERATOR']
 78,// Remove removes the element at index i from the queue and returns it.,"['//', 'Remove', 'removes', 'the', 'element', 'at', 'index', 'i', 'from', 'the', 'queue', 'and', 'returns', 'it.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NN', 'IN', 'DT', 'NN', 'CC', 'NNS', 'VBP']"
 79,"// The complexity is O(log(n)), where n = q.Len().","['//', 'The', 'complexity', 'is', 'O(log(n)),', 'where', 'n', '=', 'q.Len().']","['COMMENT', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'JJ', 'NN', 'NN']"
@@ -89,11 +89,11 @@ type satisfying an interface can be put into the queue. Is this the way to go wi
 84,"        h[i], h[n] = h[n], nil","['h', '[', 'i', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 85,        h = h[:n],"['h', '=', 'h', '[:', 'n', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 86,        if i < n {,"['if', 'i', '<', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"                down(h, i) // h[i].Index(i) is done by down.","['//', 'h[i].Index(i)', 'is', 'done', 'by', 'down.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
+87,"                down(h, i) // h[i].Index(i) is done by down.","['down', '(', 'h', ',', 'i', ')', '//', 'h[i].Index(i)', 'is', 'done', 'by', 'down.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
 88,"                up(h, i)","['up', '(', 'h', ',', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 89,        },['}'],['OPERATOR']
 90,        q.h = h,"['q', '.', 'h', '=', 'h']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-91,        x.Index(-1) // for safety,"['//', 'for', 'safety']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'IN', 'NN']"
+91,        x.Index(-1) // for safety,"['x.Index(-1)', '//', 'for', 'safety']","['FUNCTION_CALL', 'COMMENT', 'IN', 'NN']"
 92,        return x,"['return', 'x']","['KEYWORD', 'IDENTIFIER']"
 93,},['}'],['OPERATOR']
 94,// Len returns the number of elements in the queue.,"['//', 'Len', 'returns', 'the', 'number', 'of', 'elements', 'in', 'the', 'queue.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'IN', 'DT', 'NN']"
@@ -103,10 +103,10 @@ type satisfying an interface can be put into the queue. Is this the way to go wi
 98,// Establishes the heap invariant in O(n) time.,"['//', 'Establishes', 'the', 'heap', 'invariant', 'in', 'O(n)', 'time.']","['COMMENT', 'NNS', 'DT', 'NN', 'NN', 'IN', 'NNP', 'NN']"
 99,func heapify(h []Interface) {,"['func', 'heapify', '(', 'h', '[]', 'Interface', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 100,        n := len(h),"['n', ':=', 'len', '(', 'h', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-101,        for i := n - 1; i >= n/2; i-- {,"['for', 'i', ':=', 'n', '-', '1', ';', 'i', '>=', 'n', '2', ';', 'i', '--', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+101,        for i := n - 1; i >= n/2; i-- {,"['for', 'i', ':=', 'n', '-', '1', ';', 'i', '>=', 'n/2;', 'i', '--', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 102,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 103,        },['}'],['OPERATOR']
-104,        for i := n/2 - 1; i >= 0; i-- { // h[i].Index(i) is done by down.,"['//', 'h[i].Index(i)', 'is', 'done', 'by', 'down.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
+104,        for i := n/2 - 1; i >= 0; i-- { // h[i].Index(i) is done by down.,"['for', 'i', ':=', 'n/2', '-', '1', ';', 'i', '>=', '0', ';', 'i', '--', '{', '//', 'h[i].Index(i)', 'is', 'done', 'by', 'down.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
 105,"                down(h, i)","['down', '(', 'h', ',', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 106,        },['}'],['OPERATOR']
 107,},['}'],['OPERATOR']
@@ -114,7 +114,7 @@ type satisfying an interface can be put into the queue. Is this the way to go wi
 109,"func up(h []Interface, i int) {","['func', 'up', '(', 'h', '[]', 'Interface', ',', 'i', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 110,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
 111,                parent := (i - 1) / 2,"['parent', ':=', '(', 'i', '-', '1', ')', '2']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-112,                if i == 0 || h[parent].Less(h[i]) {,"['if', 'i', '==', '0', '||', 'h', '[', 'parent', '].', 'Less', '(', 'h', '[', 'i', '])', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+112,                if i == 0 || h[parent].Less(h[i]) {,"['if', 'i', '==', '0', '||', 'h', '[', 'parent', '].', 'Less', '(', 'h', '[', 'i', '])', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
 113,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 114,                        break,['break'],['KEYWORD']
 115,                },['}'],['OPERATOR']

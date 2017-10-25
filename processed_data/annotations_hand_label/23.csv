@@ -25,72 +25,72 @@ It may require some customization of the variables, as well as some changes to t
 17,"        password = ""password""","['password', '=', '""password""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
 18,"        to       = []string{""recipient@example.org""}","['to', '=', '[]', 'string', '{', '""recipient@example.org""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 19,"        msg      = []byte(""This is my message"")","['msg', '=', '[]', 'byte', '(', '""This is my message""', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-20,"        auth     = smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")","['auth', '=', 'smtp', '.', 'PlainAuth', '(', '"""", from, password, ""smtp.myexchange.com""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,"        auth     = smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")","['auth', '=', 'smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 21,    ),[')'],['OPERATOR']
 22,    conf := new(tls.Config),"['conf', ':=', 'new', '(', 'tls', '.', 'Config', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 23,"    conf.Certificates = make([]tls.Certificate, 1)","['conf', '.', 'Certificates', '=', 'make', '([]', 'tls', '.', 'Certificate', ',', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-24,    conf.Certificates[0].Certificate = [][]byte{testRSACertificate},"['conf', '.', 'Certificates', '[', '0', '].', 'Certificate', '=', '[][]', 'byte', '{', 'testRSACertificate', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,    conf.Certificates[0].PrivateKey = testRSAPrivateKey,"['conf', '.', 'Certificates', '[', '0', '].', 'PrivateKey', '=', 'testRSAPrivateKey']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+24,    conf.Certificates[0].Certificate = [][]byte{testRSACertificate},"['conf', '.', 'Certificates', '[', '0', '].', 'Certificate', '=', '[][]', 'byte', '{', 'testRSACertificate', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,    conf.Certificates[0].PrivateKey = testRSAPrivateKey,"['conf', '.', 'Certificates', '[', '0', '].', 'PrivateKey', '=', 'testRSAPrivateKey']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 26,    conf.CipherSuites = []uint16{tls.TLS_RSA_WITH_RC4_128_SHA},"['conf', '.', 'CipherSuites', '=', '[]', 'uint16', '{', 'tls', '.', 'TLS_RSA_WITH_RC4_128_SHA', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 27,    conf.InsecureSkipVerify = true,"['conf', '.', 'InsecureSkipVerify', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 28,    conf.MinVersion = tls.VersionSSL30,"['conf', '.', 'MinVersion', '=', 'tls', '.', 'VersionSSL30']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
 29,    conf.MaxVersion = tls.VersionTLS10,"['conf', '.', 'MaxVersion', '=', 'tls', '.', 'VersionTLS10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-30,"    serverAddr := fmt.Sprintf(""%s:%d"", host, port)","['serverAddr', ':=', 'fmt', '.', 'Sprintf', '(', '""%s:%d""', ',', 'host', ',', 'port', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,"    conn, err := net.Dial(""tcp"", serverAddr)","['conn', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp""', ',', 'serverAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"    serverAddr := fmt.Sprintf(""%s:%d"", host, port)","['serverAddr', ':=', 'fmt.Sprintf(""%s:%d"", host, port)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
+31,"    conn, err := net.Dial(""tcp"", serverAddr)","['conn', ',', 'err', ':=', 'net.Dial(""tcp"", serverAddr)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,"        log.Printf(""Error Dialing %s\n"", err)","['log', '.', 'Printf', '(', '""Error Dialing %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,"        log.Printf(""Error Dialing %s\n"", err)","['log.Printf(""Error Dialing %s\\n"", err)']",['FUNCTION_CALL']
 34,        return,['return'],['KEYWORD']
 35,    },['}'],['OPERATOR']
-36,"    client, err := smtp.NewClient(conn, host)","['client', ',', 'err', ':=', 'smtp', '.', 'NewClient', '(', 'conn', ',', 'host', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,"    client, err := smtp.NewClient(conn, host)","['client', ',', 'err', ':=', 'smtp.NewClient(conn, host)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,"        log.Printf(""Error SMTP connection: %s\n"", err)","['log', '.', 'Printf', '(', '""Error SMTP connection: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"        log.Printf(""Error SMTP connection: %s\n"", err)","['log.Printf(""Error SMTP connection: %s\\n"", err)']",['FUNCTION_CALL']
 39,        return,['return'],['KEYWORD']
 40,    },['}'],['OPERATOR']
-41,    if err = client.StartTLS(conf); err != nil {,"['if', 'err', '=', 'client', '.', 'StartTLS', '(', 'conf', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,"        log.Printf(""Error performing StartTLS: %s\n"", err)","['log', '.', 'Printf', '(', '""Error performing StartTLS: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,    if err = client.StartTLS(conf); err != nil {,"['if', 'err', '=', 'client.StartTLS(conf)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,"        log.Printf(""Error performing StartTLS: %s\n"", err)","['log.Printf(""Error performing StartTLS: %s\\n"", err)']",['FUNCTION_CALL']
 43,        return,['return'],['KEYWORD']
 44,    },['}'],['OPERATOR']
-45,"    if ok, _ := client.Extension(""AUTH""); ok {","['if', 'ok', ',', '_', ':=', 'client', '.', 'Extension', '(', '""AUTH""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,        if err := client.Auth(auth); err != nil {,"['if', 'err', ':=', 'client', '.', 'Auth', '(', 'auth', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,"            log.Printf(""Error during AUTH %s\n"", err)","['log', '.', 'Printf', '(', '""Error during AUTH %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,"    if ok, _ := client.Extension(""AUTH""); ok {","['if', 'ok', ',', '_', ':=', 'client.Extension(""AUTH"")', ';', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,        if err := client.Auth(auth); err != nil {,"['if', 'err', ':=', 'client.Auth(auth)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,"            log.Printf(""Error during AUTH %s\n"", err)","['log.Printf(""Error during AUTH %s\\n"", err)']",['FUNCTION_CALL']
 48,            return,['return'],['KEYWORD']
 49,        },['}'],['OPERATOR']
 50,    },['}'],['OPERATOR']
-51,    if err := client.Mail(from); err != nil {,"['if', 'err', ':=', 'client', '.', 'Mail', '(', 'from', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,    if err := client.Mail(from); err != nil {,"['if', 'err', ':=', 'client.Mail(from)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
 53,        return,['return'],['KEYWORD']
 54,    },['}'],['OPERATOR']
 55,"    for _, addr := range to {","['for', '_', ',', 'addr', ':=', 'range', 'to', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-56,        if err := client.Rcpt(addr); err != nil {,"['if', 'err', ':=', 'client', '.', 'Rcpt', '(', 'addr', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,"            log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,        if err := client.Rcpt(addr); err != nil {,"['if', 'err', ':=', 'client.Rcpt(addr)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,"            log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
 58,            return,['return'],['KEYWORD']
 59,        },['}'],['OPERATOR']
 60,    },['}'],['OPERATOR']
-61,"    w, err := client.Data()","['w', ',', 'err', ':=', 'client', '.', 'Data', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"    w, err := client.Data()","['w', ',', 'err', ':=', 'client.Data()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 62,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
 64,        return,['return'],['KEYWORD']
 65,    },['}'],['OPERATOR']
-66,"    _, err = w.Write(msg)","['_', ',', 'err', '=', 'w', '.', 'Write', '(', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,"    _, err = w.Write(msg)","['_', ',', 'err', '=', 'w.Write(msg)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 67,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
 69,        return,['return'],['KEYWORD']
 70,    },['}'],['OPERATOR']
-71,    err = w.Close(),"['err', '=', 'w', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,    err = w.Close(),"['err', '=', 'w.Close()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 72,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
 74,        return,['return'],['KEYWORD']
 75,    },['}'],['OPERATOR']
-76,    client.Quit(),"['client', '.', 'Quit', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    client.Quit(),['client.Quit()'],['FUNCTION_CALL']
 77,},['}'],['OPERATOR']
 78,// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go,"['//', 'Code', 'below', 'from', 'http:golang.org/src/pkg/crypto/tls/handshake_server_test.go']","['COMMENT', 'NNP', 'IN', 'IN', 'NN']"
 79,func bigFromString(s string) *big.Int {,"['func', 'bigFromString', '(', 's', 'string', ')', '*', 'big', '.', 'Int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 80,    ret := new(big.Int),"['ret', ':=', 'new', '(', 'big', '.', 'Int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,"    ret.SetString(s, 10)","['ret', '.', 'SetString', '(', 's', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+81,"    ret.SetString(s, 10)","['ret.SetString(s, 10)']",['FUNCTION_CALL']
 82,    return ret,"['return', 'ret']","['KEYWORD', 'IDENTIFIER']"
 83,},['}'],['OPERATOR']
 84,func fromHex(s string) []byte {,"['func', 'fromHex', '(', 's', 'string', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,"    b, _ := hex.DecodeString(s)","['b', ',', '_', ':=', 'hex', '.', 'DecodeString', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,"    b, _ := hex.DecodeString(s)","['b', ',', '_', ':=', 'hex.DecodeString(s)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
 86,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
 87,},['}'],['OPERATOR']
 88,"var testRSACertificate = fromHex(""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9"")","['var', 'testRSACertificate', '=', 'fromHex', '(', '""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
