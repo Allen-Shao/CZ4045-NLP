@@ -1,149 +1,182 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,/*,['*'],['OPERATOR']
-2,"Fido fetches the list of public images from the Glance server, captures the IDs of images with 'status': 'active' and then queues the images for pre-fetching with the Glance CLI utility `glance-cache-manage`. Once the images are added to the queue, `glance-cache-prefetcher` is called to actively fetch the queued images into the local compute nodes' image cache.","['Fido', 'fetches', 'the', 'list', 'of', 'public', 'images', 'from', 'the', 'Glance', 'server', ',', 'captures', 'the', 'IDs', 'of', 'images', 'with', 'status', ':', 'active', 'and', 'then', 'queues', 'the', 'images', 'for', 'pre', '-', 'fetching', 'with', 'the', 'Glance', 'CLI', 'utility', 'glance', '-', 'cache', '-', 'manage', '.', 'Once', 'the', 'images', 'are', 'added', 'to', 'the', 'queue', ',', 'glance', '-', 'cache', '-', 'prefetcher', 'is', 'called', 'to', 'actively', 'fetch', 'the', 'queued', 'images', 'into', 'the', 'local', 'compute', 'nodes', 'image', 'cache', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-3,See http://docs.openstack.org/developer/glance/cache.html for further details on the Glance image cache.,"['See', 'http', ':', '//docs.openstack.org/developer/glance/cache.html for further details on the Glance image cache.']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'IN', 'JJ', 'NNS', 'IN', 'DT', 'NNP', 'NN', 'NN', '.']"
-4,*/,['*'],['OPERATOR']
-5,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-6,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-7,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-8,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-9,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-10,    /*,['*'],['OPERATOR']
-11,"        ""log""","['""log""']",['STRING_LITERAL']
-12,"        ""log/syslog""","['""log/syslog""']",['STRING_LITERAL']
-13,    */,['*'],['OPERATOR']
-14,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-15,"    ""os""","['""os""']",['STRING_LITERAL']
-16,"    ""os/exec""","['""os/exec""']",['STRING_LITERAL']
-17,),[')'],['OPERATOR']
-18,func prefetchImages() error {,"['func', 'prefetchImages', '()', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-19,"    cmd := exec.Command(""glance-cache-prefetcher"")","['cmd', ':=', 'exec', '.', 'Command', '(', '""glance-cache-prefetcher""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-20,    err := cmd.Run(),"['err', ':=', 'cmd', '.', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,"        return fmt.Errorf(""glance-cache-prefetcher failed to execute properly: %v"", err)","['return', 'fmt', '.', 'Errorf', '(', '""glance-cache-prefetcher failed to execute properly: %v""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-23,    },['}'],['OPERATOR']
-24,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-25,},['}'],['OPERATOR']
-26,"func queueImages(hostname string, imageList []string) error {","['func', 'queueImages', '(', 'hostname', 'string', ',', 'imageList', '[]', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,"    for _, image := range imageList {","['for', '_', ',', 'image', ':=', 'range', 'imageList', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-28,"        cmd := exec.Command(""glance-cache-manage"", ""--host="", hostname, ""queue-image"", image)","['cmd', ':=', 'exec', '.', 'Command', '(', '""glance-cache-manage"", ""--host="", hostname, ""queue-image""', ',', 'image', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,        err := cmd.Run(),"['err', ':=', 'cmd', '.', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,"            return fmt.Errorf(""glance-cache-manage failed to execute properly: %v"", err)","['return', 'fmt', '.', 'Errorf', '(', '""glance-cache-manage failed to execute properly: %v""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-33,"            fmt.Printf(""Image %s queued"", image)","['fmt', '.', 'Printf', '(', '""Image %s queued""', ',', 'image', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,        },['}'],['OPERATOR']
-35,    },['}'],['OPERATOR']
-36,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-37,},['}'],['OPERATOR']
-38,"func getBody(method string, url string, headers map[string]string, body []byte) ([]byte, error) {","['func', 'getBody', '(', 'method', 'string', ',', 'url', 'string', ',', 'headers', 'map', '[', 'string', ']', 'string', ',', 'body', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-39,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,"    req, err := http.NewRequest(method, url, bytes.NewReader(body))","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', 'method', ',', 'url', ',', 'bytes', '.', 'NewReader', '(', 'body', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-43,    },['}'],['OPERATOR']
-44,"    for key, value := range headers {","['for', 'key', ',', 'value', ':=', 'range', 'headers', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-45,"        req.Header.Add(key, value)","['req', '.', 'Header', '.', 'Add', '(', 'key', ',', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,    },['}'],['OPERATOR']
-47,"    res, err := client.Do(req)","['res', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,    defer res.Body.Close(),"['defer', 'res', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-51,    },['}'],['OPERATOR']
-52,    var bodyBytes []byte,"['var', 'bodyBytes', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-53,    if res.StatusCode == 200 {,"['if', 'res', '.', 'StatusCode', '==', '200', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-54,"        bodyBytes, err = ioutil.ReadAll(res.Body)","['bodyBytes', ',', 'err', '=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,    } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-57,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-58,"        return nil, fmt.Errorf(""The remote end did not return a HTTP 200 (OK) response."")","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""The remote end did not return a HTTP 200 (OK) response.""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-59,    },['}'],['OPERATOR']
-60,"    return bodyBytes, nil","['return', 'bodyBytes', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-61,},['}'],['OPERATOR']
-62,"func getImages(authToken string) ([]string, error) {","['func', 'getImages', '(', 'authToken', 'string', ')', '([]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-63,    type GlanceDetailResponse struct {,"['type', 'GlanceDetailResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-64,        Images []struct {,"['Images', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-65,"            Name   string `json:""name""`","['Name', 'string', 'json', ':', '""name""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-66,"            Status string `json:""status""`","['Status', 'string', 'json', ':', '""status""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-67,"            ID     string `json:""id""`","['ID', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-68,        },['}'],['OPERATOR']
-69,    },['}'],['OPERATOR']
-70,"    method := ""GET""","['method', ':=', '""GET""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-71,"    url := ""http://192.168.1.2:9292/v1.1/images/detail""","['url', ':=', '""http://192.168.1.2:9292/v1.1/images/detail""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-72,"    headers := map[string]string{""X-Auth-Token"": authToken}","['headers', ':=', 'map', '[', 'string', ']', 'string', '{', '""X-Auth-Token""', ':', 'authToken', '}']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"    bodyBytes, err := getBody(method, url, headers, nil)","['bodyBytes', ',', 'err', ':=', 'getBody', '(', 'method', ',', 'url', ',', 'headers', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-75,"        return nil, fmt.Errorf(""unable to retrieve the response body from the Glance API server: %v"", err)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""unable to retrieve the response body from the Glance API server: %v""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,    },['}'],['OPERATOR']
-77,    var glance GlanceDetailResponse,"['var', 'glance', 'GlanceDetailResponse']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-78,"    err = json.Unmarshal(bodyBytes, &glance)","['err', '=', 'json', '.', 'Unmarshal', '(', 'bodyBytes', ',', '&', 'glance', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,"        return nil, fmt.Errorf(""unable to parse the JSON response:"", err)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""unable to parse the JSON response:""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,    },['}'],['OPERATOR']
-82,"    imageList := make([]string, 10)","['imageList', ':=', 'make', '([]', 'string', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-83,"    for _, image := range glance.Images {","['for', '_', ',', 'image', ':=', 'range', 'glance', '.', 'Images', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-84,"        if image.Status == ""active"" {","['if', 'image', '.', 'Status', '==', '""active""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-85,"            imageList = append(imageList, image.ID)","['imageList', '=', 'append', '(', 'imageList', ',', 'image', '.', 'ID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,        },['}'],['OPERATOR']
+0,"I guess if you dig enough you'll find the answer:
+
+First off, when defining the LocalStructuredProperty properties in Python, you need to set keep_keys=True
+
+","['I', 'guess', 'if', 'you', 'dig', 'enough', ""you'll"", 'find', 'the', 'answer:', 'First', 'off,', 'when', 'defining', 'the', 'LocalStructuredProperty', 'properties', 'in', 'Python,', 'you', 'need', 'to', 'set', 'keep_keys=True']","['PRP', 'VBP', 'IN', 'PRP', 'VBP', 'JJ', 'NN', 'VB', 'DT', 'NN', 'NNP', 'NN', 'WRB', 'VBG', 'DT', 'NNP', 'NNS', 'IN', 'NNP', 'PRP', 'VBP', 'TO', 'VB', 'NN']"
+1,class ModelB(ndb.Model):,"['class', 'ModelB', '(', 'ndb', '.', 'Model', '):']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+2,    msg_id = ndb.StringProperty(indexed=False),"['msg_id', '=', 'ndb', '.', 'StringProperty', '(', 'indexed', '=', 'False', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+3,"    cat_ids = ndb.StringProperty(repeated=True, indexed=False)","['cat_ids', '=', 'ndb', '.', 'StringProperty', '(', 'repeated', '=', 'True', ',', 'indexed', '=', 'False', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+4,"    list_ids = ndb.StringProperty(repeated=True, indexed=False)","['list_ids', '=', 'ndb', '.', 'StringProperty', '(', 'repeated', '=', 'True', ',', 'indexed', '=', 'False', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+5,    default_list_id_index = ndb.IntegerProperty(indexed=False),"['default', '_list_id_index', '=', 'ndb', '.', 'IntegerProperty', '(', 'indexed', '=', 'False', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+6,class ModelA(ndb.Model):,"['class', 'ModelA', '(', 'ndb', '.', 'Model', '):']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+7,    date_join = ndb.DateTimeProperty(auto_now_add=True),"['date_join', '=', 'ndb', '.', 'DateTimeProperty', '(', 'auto_now_add', '=', 'True', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+8,    name = ndb.StringProperty(),"['name', '=', 'ndb', '.', 'StringProperty', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+9,    owner_salutation = ndb.StringProperty(indexed=False),"['owner_salutation', '=', 'ndb', '.', 'StringProperty', '(', 'indexed', '=', 'False', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+10,    owner_email_address = ndb.StringProperty(),"['owner_email_address', '=', 'ndb', '.', 'StringProperty', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,    logo_url = ndb.StringProperty(indexed=False),"['logo_url', '=', 'ndb', '.', 'StringProperty', '(', 'indexed', '=', 'False', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,    ...,['...'],['OPERATOR']
+13,"    messages = ndb.LocalStructuredProperty(ModelB, name='bm', repeated=True, keep_keys=True)","['messages', '=', 'ndb', '.', 'LocalStructuredProperty', '(', 'ModelB', ',', 'name', '=', 'bm', ',', 'repeated', '=', 'True', ',', 'keep_keys', '=', 'True', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,"
+
+A simple redefinition in my code and mapping over my entities doing a put() on each fixed up the representation.
+
+Then in my Go Code:
+
+","['A', 'simple', 'redefinition', 'in', 'my', 'code', 'and', 'mapping', 'over', 'my', 'entities', 'doing', 'a', 'put()', 'on', 'each', 'fixed', 'up', 'the', 'representation.', 'Then', 'in', 'my', 'Go', 'Code:']","['DT', 'JJ', 'NN', 'IN', 'PRP$', 'NN', 'CC', 'NN', 'IN', 'PRP$', 'NNS', 'VBG', 'DT', 'NN', 'IN', 'DT', 'VBN', 'RP', 'DT', 'NN', 'RB', 'IN', 'PRP$', 'NNP', 'NNP']"
+15,type ModelB struct {,"['type', 'ModelB', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+16,"    MessageID          string   `datastore:""msg_id,noindex""`","['MessageID', 'string', 'datastore', ':', '""msg_id,noindex""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+17,"    CategoryIDs        []string `datastore:""cat_ids,noindex""`","['CategoryIDs', '[]', 'string', 'datastore', ':', '""cat_ids,noindex""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+18,"    ListIDs            []string `datastore:""list_ids,noindex""`","['ListIDs', '[]', 'string', 'datastore', ':', '""list_ids,noindex""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+19,"    DefaultListIDIndex int      `datastore:""default_list_id_index,noindex""`","['DefaultListIDIndex', 'int', 'datastore', ':', '""default_list_id_index,noindex""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+20,},['}'],['OPERATOR']
+21,type ModelA struct {,"['type', 'ModelA', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+22,"    DateJoin          time.Time `datastore:""date_join,""`","['DateJoin', 'time', '.', 'Time', 'datastore', ':', '""date_join,""']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+23,"    Name              string    `datastore:""name,""`","['Name', 'string', 'datastore', ':', '""name,""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+24,"    OwnerSalutation   string    `datastore:""owner_salutation,noindex""`","['OwnerSalutation', 'string', 'datastore', ':', '""owner_salutation,noindex""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+25,"    OwnerEmailAddress string    `datastore:""owner_email_address,""`","['OwnerEmailAddress', 'string', 'datastore', ':', '""owner_email_address,""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+26,"    LogoURL           string    `datastore:""logo_url,noindex""`","['LogoURL', 'string', 'datastore', ':', '""logo_url,noindex""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+27,"    Messages          []ModelB  `datastore:""-""`","['Messages', '[]', 'ModelB', 'datastore', ':', '""-""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+28,},['}'],['OPERATOR']
+29,// Load is implemented for the PropertyLoaderSaver interface.,"['//', 'Load', 'is', 'implemented', 'for', 'the', 'PropertyLoaderSaver', 'interface.']","['COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'NNP', 'NN']"
+30,func (s *ModelA) Load(c <-chan datastore.Property) (err error) {,"['func', '(', 's', '*', 'ModelA', ')', 'Load', '(', 'c', '<-', 'chan', 'datastore', '.', 'Property', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+31,"    f := make(chan datastore.Property, 32)","['f', ':=', 'make', '(', 'chan', 'datastore', '.', 'Property', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+32,"    errc := make(chan error, 1)","['errc', ':=', 'make', '(', 'chan', 'error', ',', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+33,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+34,        if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,            err = <-errc,"['err', '=', '<-', 'errc']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+36,        },['}'],['OPERATOR']
+37,    }(),['}()'],['OPERATOR']
+38,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+39,        defer close(f),"['defer', 'close', '(', 'f', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,        for p := range c {,"['for', 'p', ':=', 'range', 'c', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+41,"            if p.Name == ""bm"" {","['if', 'p', '.', 'Name', '==', '""bm""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+42,                var b ModelB,"['var', 'b', 'ModelB']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+43,"                err := loadLocalStructuredProperty(&b, []byte(p.Value.(string)))","['err', ':=', 'loadLocalStructuredProperty', '(&', 'b', ',', '[]', 'byte', '(', 'p', '.', 'Value', '.(', 'string', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,                    errc <- err,"['errc', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+46,                    return,['return'],['KEYWORD']
+47,                },['}'],['OPERATOR']
+48,"                s.Messages = append(s.Messages, b)","['s', '.', 'Messages', '=', 'append', '(', 's', '.', 'Messages', ',', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+50,                f <- p,"['f', '<-', 'p']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+51,            },['}'],['OPERATOR']
+52,        },['}'],['OPERATOR']
+53,        errc <- nil,"['errc', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+54,    }(),['}()'],['OPERATOR']
+55,"    return datastore.LoadStruct(s, f)","['return', 'datastore', '.', 'LoadStruct', '(', 's', ',', 'f', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,},['}'],['OPERATOR']
+57,"
+
+I had to copy a bunch from the appengine/datastore package as a key function wasn't exported and to simplify the amount of code I needed to copy, I dropped support for Reference types. I opened a ticket on the issue tracker to see if we can get the loadEntity function exported: https://code.google.com/p/googleappengine/issues/detail?id=10426
+
+","['I', 'had', 'to', 'copy', 'a', 'bunch', 'from', 'the', 'appengine/datastore', 'package', 'as', 'a', 'key', 'function', ""wasn't"", 'exported', 'and', 'to', 'simplify', 'the', 'amount', 'of', 'code', 'I', 'needed', 'to', 'copy,', 'I', 'dropped', 'support', 'for', 'Reference', 'types.', 'I', 'opened', 'a', 'ticket', 'on', 'the', 'issue', 'tracker', 'to', 'see', 'if', 'we', 'can', 'get', 'the', 'loadEntity', 'function', 'exported:', 'https://code.google.com/p/googleappengine/issues/detail?id=10426']","['PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBD', 'CC', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBD', 'TO', 'VB', 'PRP', 'VBD', 'NN', 'IN', 'NNP', 'NN', 'PRP', 'VBD', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'TO', 'VB', 'IN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'NN', 'NN', 'NN']"
+58,import (    ,"['import', '(']","['KEYWORD', 'OPERATOR']"
+59,"    ""errors""    ","['""errors""']",['STRING_LITERAL']
+60,"    ""time""    ","['""time""']",['STRING_LITERAL']
+61,"    ""appengine""    ","['""appengine""']",['STRING_LITERAL']
+62,"    ""appengine/datastore""        ","['""appengine/datastore""']",['STRING_LITERAL']
+63,"    pb ""appengine_internal/datastore""    ","['pb', '""appengine_internal/datastore""']","['IDENTIFIER', 'STRING_LITERAL']"
+64,"    proto ""code.google.com/p/goprotobuf/proto""    ","['proto', '""code.google.com/p/goprotobuf/proto""']","['IDENTIFIER', 'STRING_LITERAL']"
+65,)    ,[')'],['OPERATOR']
+66,"func loadLocalStructuredProperty(dst interface{}, raw_proto []byte) error {    ","['func', 'loadLocalStructuredProperty', '(', 'dst', 'interface', '{},', 'raw_proto', '[]', 'byte', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,    var val pb.EntityProto    ,"['var', 'val', 'pb', '.', 'EntityProto']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+68,"    err := proto.Unmarshal(raw_proto, &val)    ","['err', ':=', 'proto', '.', 'Unmarshal', '(', 'raw_proto', ',', '&', 'val', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,    if err != nil {    ,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,        return err    ,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+71,    }    ,['}'],['OPERATOR']
+72,"    return loadEntity(dst, &val)    ","['return', 'loadEntity', '(', 'dst', ',', '&', 'val', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,},['}'],['OPERATOR']
+74,//Copied from appengine/datastore since its not exported,"['//', 'Copied', 'from', 'appengine/datastore', 'since', 'its', 'not', 'exported']","['COMMENT', 'VBN', 'IN', 'RB', 'IN', 'PRP$', 'RB', 'VBN']"
+75,// loadEntity loads an EntityProto into PropertyLoadSaver or struct pointer.,"['//', 'loadEntity', 'loads', 'an', 'EntityProto', 'into', 'PropertyLoadSaver', 'or', 'struct', 'pointer.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'IN', 'NNP', 'CC', 'NN', 'NN']"
+76,"func loadEntity(dst interface{}, src *pb.EntityProto) (err error) {","['func', 'loadEntity', '(', 'dst', 'interface', '{},', 'src', '*', 'pb', '.', 'EntityProto', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+77,"c := make(chan datastore.Property, 32)","['c', ':=', 'make', '(', 'chan', 'datastore', '.', 'Property', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+78," errc := make(chan error, 1)","['errc', ':=', 'make', '(', 'chan', 'error', ',', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+79, defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+80,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,            err = <-errc,"['err', '=', '<-', 'errc']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+82,        },['}'],['OPERATOR']
+83,    }(),['}()'],['OPERATOR']
+84,"    go protoToProperties(c, errc, src)","['go', 'protoToProperties', '(', 'c', ',', 'errc', ',', 'src', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,"    if e, ok := dst.(datastore.PropertyLoadSaver); ok {","['if', 'e', ',', 'ok', ':=', 'dst', '.(', 'datastore', '.', 'PropertyLoadSaver', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,        return e.Load(c),"['return', 'e', '.', 'Load', '(', 'c', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 87,    },['}'],['OPERATOR']
-88,"    return imageList, nil","['return', 'imageList', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,"    return datastore.LoadStruct(dst, c)","['return', 'datastore', '.', 'LoadStruct', '(', 'dst', ',', 'c', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 89,},['}'],['OPERATOR']
-90,"func getToken() (string, error) {","['func', 'getToken', '()', '(', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-91,    type TokenResponse struct {,"['type', 'TokenResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-92,        Auth []struct {,"['Auth', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-93,            Token struct {,"['Token', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-94,"                Expires string `json:""expires""`","['Expires', 'string', 'json', ':', '""expires""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-95,"                ID      string `json:""id""`","['ID', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-96,            },['}'],['OPERATOR']
-97,        },['}'],['OPERATOR']
-98,    },['}'],['OPERATOR']
-99,"    method := ""POST""","['method', ':=', '""POST""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-100,"    url := ""http://192.168.1.2:5000/v2.0/tokens""","['url', ':=', '""http://192.168.1.2:5000/v2.0/tokens""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-101,"    headers := map[string]string{""Content-type"": ""application/json""}","['headers', ':=', 'map', '[', 'string', ']', 'string', '{', '""Content-type"": ""application/json""', '}']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-102,"    creds := []byte(`{""auth"":{""passwordCredentials"":{""username"": ""glance"", ""password"":""""}, ""tenantId"":""""}}`)","['creds', ':=', '[]', 'byte', '(', '{', '""auth"":{""passwordCredentials"":{""username"": ""glance"", ""password"":""""}, ""tenantId"":""""', '}}', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-103,"    bodyBytes, err := getBody(method, url, headers, creds)","['bodyBytes', ',', 'err', ':=', 'getBody', '(', 'method', ',', 'url', ',', 'headers', ',', 'creds', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-104,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,"        return """", err","['return', '""""', ',', 'err']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-106,    },['}'],['OPERATOR']
-107,    var keystone TokenResponse,"['var', 'keystone', 'TokenResponse']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-108,"    err = json.Unmarshal(bodyBytes, &keystone)","['err', '=', 'json', '.', 'Unmarshal', '(', 'bodyBytes', ',', '&', 'keystone', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,"        return """", err","['return', '""""', ',', 'err']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-111,    },['}'],['OPERATOR']
-112,    authToken := string((keystone.Auth[0].Token.ID)),"['authToken', ':=', 'string', '((', 'keystone', '.', 'Auth', '[', '0', '].', 'Token', '.', 'ID', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,"    return authToken, nil","['return', 'authToken', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-114,},['}'],['OPERATOR']
-115,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-116,    /*,['*'],['OPERATOR']
-117,"        slog, err := syslog.New(syslog.LOG_ERR, ""[fido]"")","['slog', ',', 'err', ':=', 'syslog', '.', 'New', '(', 'syslog', '.', 'LOG_ERR', ',', '""[fido]""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-118,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-119,"            log.Fatalf(""unable to connect to syslog: %v"", err)","['log', '.', 'Fatalf', '(', '""unable to connect to syslog: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-121,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-122,            defer slog.Close(),"['defer', 'slog', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,        },['}'],['OPERATOR']
-124,    */,['*'],['OPERATOR']
-125,"    hostname, err := os.Hostname()","['hostname', ',', 'err', ':=', 'os', '.', 'Hostname', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-126,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-127,"        // slog.Err(""Hostname not captured"")","['// slog.Err(""Hostname not captured"")']","['COMMENT', 'NN', '(', '``', 'NNP', 'RB', 'VBD', ""''"", ')']"
-128,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-129,    },['}'],['OPERATOR']
-130,"    authToken, err := getToken()","['authToken', ',', 'err', ':=', 'getToken', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-131,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,"        // slog.Err(""The authentication token from the Glance API server was not retrieved"")","['// slog.Err(""The authentication token from the Glance API server was not retrieved"")']","['COMMENT', 'NN', '(', '``', 'DT', 'NN', 'NN', 'IN', 'DT', 'NNP', 'NNP', 'NN', 'VBD', 'RB', 'VBN', ""''"", ')']"
-133,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-134,    },['}'],['OPERATOR']
-135,"    imageList, err := getImages(authToken)","['imageList', ',', 'err', ':=', 'getImages', '(', 'authToken', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,"    err = queueImages(hostname, imageList)","['err', '=', 'queueImages', '(', 'hostname', ',', 'imageList', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-138,"        // slog.Err(""Could not queue the images for pre-fetching"")","['// slog.Err(""Could not queue the images for pre-fetching"")']","['COMMENT', 'NN', '(', '``', 'MD', 'RB', 'VB', 'DT', 'NNS', 'IN', 'NN', ""''"", ')']"
-139,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-140,    },['}'],['OPERATOR']
-141,    err = prefetchImages(),"['err', '=', 'prefetchImages', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-142,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-143,"        // slog.Err(""Could not queue the images for pre-fetching"")","['// slog.Err(""Could not queue the images for pre-fetching"")']","['COMMENT', 'NN', '(', '``', 'MD', 'RB', 'VB', 'DT', 'NNS', 'IN', 'NN', ""''"", ')']"
-144,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-145,    },['}'],['OPERATOR']
-146,    return,['return'],['KEYWORD']
-147,},['}'],['OPERATOR']
+90,"func protoToProperties(dst chan<- datastore.Property, errc chan<- error, src *pb.EntityProto) {","['func', 'protoToProperties', '(', 'dst', 'chan', '<-', 'datastore', '.', 'Property', ',', 'errc', 'chan', '<-', 'error', ',', 'src', '*', 'pb', '.', 'EntityProto', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+91,    defer close(dst),"['defer', 'close', '(', 'dst', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,"    props, rawProps := src.Property, src.RawProperty","['props', ',', 'rawProps', ':=', 'src', '.', 'Property', ',', 'src', '.', 'RawProperty']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+93,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+94,        var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+95,            x       *pb.Property,"['x', '*', 'pb', '.', 'Property']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+96,            noIndex bool,"['noIndex', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
+97,        ),[')'],['OPERATOR']
+98,        if len(props) > 0 {,"['if', 'len', '(', 'props', ')', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+99,"            x, props = props[0], props[1:]","['x', ',', 'props', '=', 'props', '[', '0', '],', 'props', '[', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+100,        } else if len(rawProps) > 0 {,"['}', 'else', 'if', 'len', '(', 'rawProps', ')', '>', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+101,"            x, rawProps = rawProps[0], rawProps[1:]","['x', ',', 'rawProps', '=', 'rawProps', '[', '0', '],', 'rawProps', '[', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+102,            noIndex = true,"['noIndex', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+103,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+104,            break,['break'],['KEYWORD']
+105,        },['}'],['OPERATOR']
+106,        var value interface{},"['var', 'value', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+107,        if x.Meaning != nil && *x.Meaning == pb.Property_INDEX_VALUE {,"['if', 'x', '.', 'Meaning', '!=', 'nil', '&&', '*', 'x', '.', 'Meaning', '==', 'pb', '.', 'Property_INDEX_VALUE', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,            value = indexValue{x.Value},"['value', '=', 'indexValue', '{', 'x', '.', 'Value', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+110,            var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+111,"            value, err = propValue(x.Value, x.GetMeaning())","['value', ',', 'err', '=', 'propValue', '(', 'x', '.', 'Value', ',', 'x', '.', 'GetMeaning', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,                errc <- err,"['errc', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+114,                return,['return'],['KEYWORD']
+115,            },['}'],['OPERATOR']
+116,        },['}'],['OPERATOR']
+117,        dst <- datastore.Property{,"['dst', '<-', 'datastore', '.', 'Property', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,"            Name:     x.GetName(),","['Name', ':', 'x', '.', 'GetName', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,"            Value:    value,","['Value', ':', 'value', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,"            NoIndex:  noIndex,","['NoIndex', ':', 'noIndex', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+121,"            Multiple: x.GetMultiple(),","['Multiple', ':', 'x', '.', 'GetMultiple', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,        },['}'],['OPERATOR']
+123,    },['}'],['OPERATOR']
+124,    errc <- nil,"['errc', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+125,},['}'],['OPERATOR']
+126,func fromUnixMicro(t int64) time.Time {,"['func', 'fromUnixMicro', '(', 't', 'int64', ')', 'time', '.', 'Time', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+127,"    return time.Unix(t/1e6, (t%1e6)*1e3)","['return', 'time', '.', 'Unix', '(', 't', '1', 'e6', ',', '(', 't', '1', 'e6', ')*', '1', 'e3', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+128,},['}'],['OPERATOR']
+129,// propValue returns a Go value that combines the raw PropertyValue with a,"['//', 'propValue', 'returns', 'a', 'Go', 'value', 'that', 'combines', 'the', 'raw', 'PropertyValue', 'with', 'a']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'NN', 'WDT', 'VBZ', 'DT', 'JJ', 'NNP', 'IN', 'DT']"
+130,"// meaning. For example, an Int64Value with GD_WHEN becomes a time.Time.","['//', 'meaning.', 'For', 'example,', 'an', 'Int64Value', 'with', 'GD_WHEN', 'becomes', 'a', 'time.Time.']","['COMMENT', 'NN', 'IN', 'NN', 'DT', 'NNP', 'IN', 'NNP', 'VBZ', 'DT', 'NN']"
+131,"func propValue(v *pb.PropertyValue, m pb.Property_Meaning) (interface{}, error) {","['func', 'propValue', '(', 'v', '*', 'pb', '.', 'PropertyValue', ',', 'm', 'pb', '.', 'Property_Meaning', ')', '(', 'interface', '{},', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+132,    switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
+133,    case v.Int64Value != nil:,"['case', 'v', '.', 'Int64Value', '!=', 'nil', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+134,        if m == pb.Property_GD_WHEN {,"['if', 'm', '==', 'pb', '.', 'Property_GD_WHEN', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,"            return fromUnixMicro(*v.Int64Value), nil","['return', 'fromUnixMicro', '(*', 'v', '.', 'Int64Value', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+136,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+137,"            return *v.Int64Value, nil","['return', '*', 'v', '.', 'Int64Value', ',', 'nil']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+138,        },['}'],['OPERATOR']
+139,    case v.BooleanValue != nil:,"['case', 'v', '.', 'BooleanValue', '!=', 'nil', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,"        return *v.BooleanValue, nil","['return', '*', 'v', '.', 'BooleanValue', ',', 'nil']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+141,    case v.StringValue != nil:,"['case', 'v', '.', 'StringValue', '!=', 'nil', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,        if m == pb.Property_BLOB {,"['if', 'm', '==', 'pb', '.', 'Property_BLOB', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+143,"            return []byte(*v.StringValue), nil","['return', '[]', 'byte', '(*', 'v', '.', 'StringValue', '),', 'nil']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+144,        } else if m == pb.Property_BLOBKEY {,"['}', 'else', 'if', 'm', '==', 'pb', '.', 'Property_BLOBKEY', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+145,"            return appengine.BlobKey(*v.StringValue), nil","['return', 'appengine', '.', 'BlobKey', '(*', 'v', '.', 'StringValue', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+146,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+147,"            return *v.StringValue, nil","['return', '*', 'v', '.', 'StringValue', ',', 'nil']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+148,        },['}'],['OPERATOR']
+149,    case v.DoubleValue != nil:,"['case', 'v', '.', 'DoubleValue', '!=', 'nil', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,"        return *v.DoubleValue, nil","['return', '*', 'v', '.', 'DoubleValue', ',', 'nil']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+151,    case v.Referencevalue != nil:,"['case', 'v', '.', 'Referencevalue', '!=', 'nil', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,"        return nil, errors.New(""Not Implemented!"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""Not Implemented!""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+153,    },['}'],['OPERATOR']
+154,"    return nil, nil","['return', 'nil', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+155,},['}'],['OPERATOR']
+156,// indexValue is a Property value that is created when entities are loaded from,"['//', 'indexValue', 'is', 'a', 'Property', 'value', 'that', 'is', 'created', 'when', 'entities', 'are', 'loaded', 'from']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'NN', 'WDT', 'VBZ', 'VBN', 'WRB', 'NNS', 'VBP', 'VBN', 'IN']"
+157,"// an index, such as from a projection query.","['//', 'an', 'index,', 'such', 'as', 'from', 'a', 'projection', 'query.']","['COMMENT', 'DT', 'NN', 'JJ', 'IN', 'IN', 'DT', 'NN', 'NN']"
+158,//,['//'],['COMMENT']
+159,// Such Property values do not contain all of the metadata required to be,"['//', 'Such', 'Property', 'values', 'do', 'not', 'contain', 'all', 'of', 'the', 'metadata', 'required', 'to', 'be']","['COMMENT', 'JJ', 'NNP', 'NNS', 'VBP', 'RB', 'VB', 'DT', 'IN', 'DT', 'NN', 'VBN', 'TO', 'VB']"
+160,"// faithfully represented as a Go value, and are instead represented as an","['//', 'faithfully', 'represented', 'as', 'a', 'Go', 'value,', 'and', 'are', 'instead', 'represented', 'as', 'an']","['COMMENT', 'RB', 'VBN', 'IN', 'DT', 'NNP', 'NN', 'CC', 'VBP', 'RB', 'VBN', 'IN', 'DT']"
+161,// opaque indexValue. Load the properties into a concrete struct type (e.g. by,"['//', 'opaque', 'indexValue.', 'Load', 'the', 'properties', 'into', 'a', 'concrete', 'struct', 'type', '(e.g.', 'by']","['COMMENT', 'JJ', 'NN', 'NNP', 'DT', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NN', 'NN', 'IN']"
+162,// passing a struct pointer to Iterator.Next) to reconstruct actual Go values,"['//', 'passing', 'a', 'struct', 'pointer', 'to', 'Iterator.Next)', 'to', 'reconstruct', 'actual', 'Go', 'values']","['COMMENT', 'VBG', 'DT', 'NN', 'NN', 'TO', 'NNP', 'TO', 'VB', 'JJ', 'NNP', 'NNS']"
+163,"// of type int, string, time.Time, etc.","['//', 'of', 'type', 'int,', 'string,', 'time.Time,', 'etc.']","['COMMENT', 'IN', 'NN', 'NN', 'NN', 'NN', 'NN']"
+164,type indexValue struct {,"['type', 'indexValue', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+165,    value *pb.PropertyValue,"['value', '*', 'pb', '.', 'PropertyValue']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+166,},['}'],['OPERATOR']

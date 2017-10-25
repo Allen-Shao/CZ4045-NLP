@@ -1,55 +1,187 @@
 ,text,token,annotation
-0,/*,['*'],['OPERATOR']
-1, * New Page,"['*', 'New', 'Page']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-2, *,['*'],['OPERATOR']
-3, * @param layout      (string),"['*', 'param', 'layout', '(', 'string', ')']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-4, * @param showSidebar (bool),"['*', 'param', 'showSidebar', '(', 'bool', ')']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-5, * @param pageData    (*PageData),"['*', 'param', 'pageData', '(*', 'PageData', ')']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-6, *,['*'],['OPERATOR']
-7, * @return (*Page),"['*', 'return', '(*', 'Page', ')']","['OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-8, */,['*'],['OPERATOR']
-9,"func NewPage(pageSetting *PageSetting, pageData *PageData) *Page {","['func', 'NewPage', '(', 'pageSetting', '*', 'PageSetting', ',', 'pageData', '*', 'PageData', ')', '*', 'Page', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-10,"    if pageSetting.Layout == """" {","['if', 'pageSetting', '.', 'Layout', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-11,        pageSetting.Layout = DEFAULT_LAYOUT,"['pageSetting', '.', 'Layout', '=', 'DEFAULT_LAYOUT']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-12,    },['}'],['OPERATOR']
-13,"    if pageSetting.Title == """" {","['if', 'pageSetting', '.', 'Title', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-14,        pageSetting.Title = config.Title,"['pageSetting', '.', 'Title', '=', 'config', '.', 'Title']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-15,    },['}'],['OPERATOR']
-16,"    if pageSetting.Description == """" {","['if', 'pageSetting', '.', 'Description', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-17,        pageSetting.Description = config.Description,"['pageSetting', '.', 'Description', '=', 'config', '.', 'Description']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-18,    },['}'],['OPERATOR']
-19,"    return &Page{ PageSetting: pageSetting, PageData: pageData }","['return', '&', 'Page', '{', 'PageSetting', ':', 'pageSetting', ',', 'PageData', ':', 'pageData', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,},['}'],['OPERATOR']
-21,/*,['*'],['OPERATOR']
-22, * Render page,"['*', 'Render', 'page']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-23, *,['*'],['OPERATOR']
-24, * @param pageFilePath (string),"['*', 'param', 'pageFilePath', '(', 'string', ')']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25, * @param w            (http.ResponseWriter),"['*', 'param', 'w', '(', 'http', '.', 'ResponseWriter', ')']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26, *,['*'],['OPERATOR']
-27, * @return (error),"['*', 'return', '(', 'error', ')']","['OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28, */,['*'],['OPERATOR']
-29,"func (page *Page) Render(pageFilePath string, w http.ResponseWriter) (err error) {","['func', '(', 'page', '*', 'Page', ')', 'Render', '(', 'pageFilePath', 'string', ',', 'w', 'http', '.', 'ResponseWriter', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-30,"    columnFilePath  := page.PageSetting.Layout + "".html""","['columnFilePath', ':=', 'page', '.', 'PageSetting', '.', 'Layout', '+', '"".html""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-31,"    mainFilePath    := ""main.html""","['mainFilePath', ':=', '""main.html""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-32,"    contentFilePath := pageFilePath + "".html""","['contentFilePath', ':=', 'pageFilePath', '+', '"".html""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-33,"    sidebarFilePath := ""sidebar.html""","['sidebarFilePath', ':=', '""sidebar.html""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-34,    var tmpl *template.Template,"['var', 'tmpl', '*', 'template', '.', 'Template']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-35,    switch page.PageSetting.ShowSidebar {,"['switch', 'page', '.', 'PageSetting', '.', 'ShowSidebar', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,        case true:,"['case', 'true', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-37,"            tmpl, err = template.ParseFiles(","['tmpl', ',', 'err', '=', 'template', '.', 'ParseFiles', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,"                            LAYOUT_FOLDER + mainFilePath,","['LAYOUT_FOLDER', '+', 'mainFilePath', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,"                            LAYOUT_FOLDER + columnFilePath,","['LAYOUT_FOLDER', '+', 'columnFilePath', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,"                            LAYOUT_FOLDER + sidebarFilePath,","['LAYOUT_FOLDER', '+', 'sidebarFilePath', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,                            STATIC_FOLDER + contentFilePath),"['STATIC_FOLDER', '+', 'contentFilePath', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,        case false:,"['case', 'false', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-43,"            tmpl, err = template.ParseFiles(","['tmpl', ',', 'err', '=', 'template', '.', 'ParseFiles', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,"                            LAYOUT_FOLDER + mainFilePath,","['LAYOUT_FOLDER', '+', 'mainFilePath', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,"                            LAYOUT_FOLDER + columnFilePath,","['LAYOUT_FOLDER', '+', 'columnFilePath', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,                            STATIC_FOLDER + contentFilePath),"['STATIC_FOLDER', '+', 'contentFilePath', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,    },['}'],['OPERATOR']
-48,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,        return,['return'],['KEYWORD']
-50,    },['}'],['OPERATOR']
-51,"    tmpl.Execute(w, page)","['tmpl', '.', 'Execute', '(', 'w', ',', 'page', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,    return,['return'],['KEYWORD']
-53,},['}'],['OPERATOR']
+0,"I have this simple OpenGL program in Go.
+
+When I compile and run it, the main game-loop gets through about 9 iterations before crashing with a segmentation violation. 
+
+","['I', 'have', 'this', 'simple', 'OpenGL', 'program', 'in', 'Go.', 'When', 'I', 'compile', 'and', 'run', 'it,', 'the', 'main', 'game-loop', 'gets', 'through', 'about', '9', 'iterations', 'before', 'crashing', 'with', 'a', 'segmentation', 'violation.']","['PRP', 'VBP', 'DT', 'JJ', 'NNP', 'NN', 'IN', 'NNP', 'WRB', 'PRP', 'VBP', 'CC', 'VBP', 'VB', 'DT', 'JJ', 'JJ', 'VBZ', 'IN', 'IN', 'CD', 'NNS', 'IN', 'VBG', 'IN', 'DT', 'NN', 'NN']"
+1,rendering for the  0  time,"['rendering', 'for', 'the', '0', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+2,rendering for the  1  time,"['rendering', 'for', 'the', '1', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+3,rendering for the  2  time,"['rendering', 'for', 'the', '2', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+4,rendering for the  3  time,"['rendering', 'for', 'the', '3', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+5,rendering for the  4  time,"['rendering', 'for', 'the', '4', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+6,rendering for the  5  time,"['rendering', 'for', 'the', '5', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+7,rendering for the  6  time,"['rendering', 'for', 'the', '6', 'time']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+8,SIGSEGV: segmentation violation,"['SIGSEGV', ':', 'segmentation', 'violation']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+9,PC=0x7fdab95a0e29,"['PC', '=', '0', 'x7fdab95a0e29']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+10,signal arrived during cgo execution,"['signal', 'arrived', 'during', 'cgo', 'execution']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+11,"runtime.cgocall(0x414f90, 0x7fdab9887e88)","['runtime', '.', 'cgocall', '(', '0', 'x414f90', ',', '0', 'x7fdab9887e88', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+12,    /usr/lib/go/src/pkg/runtime/cgocall.c:149 +0x11b fp=0x7fdab9887e70,"['usr', 'lib', 'go', 'src', 'pkg', 'runtime', 'cgocall', '.', 'c', ':', '149', '+', '0', 'x11b', 'fp', '=', '0', 'x7fdab9887e70']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+13,github.com/go-gl/gl._Cfunc_glClear(0xc200004100),"['github', '.', 'com', 'go', '-', 'gl', 'gl', '.', '_Cfunc_glClear', '(', '0', 'xc200004100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+14,    github.com/go-gl/gl/_obj/_cgo_defun.c:340 +0x31 fp=0x7fdab9887e88,"['github', '.', 'com', 'go', '-', 'gl', 'gl', '_obj', '_cgo_defun', '.', 'c', ':', '340', '+', '0', 'x31', 'fp', '=', '0', 'x7fdab9887e88']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+15,github.com/go-gl/gl.Clear(0x4100),"['github', '.', 'com', 'go', '-', 'gl', 'gl', '.', 'Clear', '(', '0', 'x4100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+16,    /mnt/data/Dropbox/Coding/Go/src/github.com/go-gl/gl/gl.go:161 +0x25 fp=0x7fdab9887e98,"['mnt', 'data', 'Dropbox', 'Coding', 'Go', 'src', 'github', '.', 'com', 'go', '-', 'gl', 'gl', 'gl', '.', 'go', ':', '161', '+', '0', 'x25', 'fp', '=', '0', 'x7fdab9887e98']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+17,main.draw(),"['main', '.', 'draw', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,    /home/josh/Coding/Go/src/github.com/JoshWillik/Wander/wander.go:120 +0x25 fp=0x7fdab9887eb8,"['home', 'josh', 'Coding', 'Go', 'src', 'github', '.', 'com', 'JoshWillik', 'Wander', 'wander', '.', 'go', ':', '120', '+', '0', 'x25', 'fp', '=', '0', 'x7fdab9887eb8']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+19,main.main(),"['main', '.', 'main', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,    /home/josh/Coding/Go/src/github.com/JoshWillik/Wander/wander.go:52 +0x300 fp=0x7fdab9887f48,"['home', 'josh', 'Coding', 'Go', 'src', 'github', '.', 'com', 'JoshWillik', 'Wander', 'wander', '.', 'go', ':', '52', '+', '0', 'x300', 'fp', '=', '0', 'x7fdab9887f48']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+21,runtime.main(),"['runtime', '.', 'main', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,    /usr/lib/go/src/pkg/runtime/proc.c:220 +0x11f fp=0x7fdab9887fa0,"['usr', 'lib', 'go', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '220', '+', '0', 'x11f', 'fp', '=', '0', 'x7fdab9887fa0']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+23,runtime.goexit(),"['runtime', '.', 'go', 'exit', '()']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+24,    /usr/lib/go/src/pkg/runtime/proc.c:1394 fp=0x7fdab9887fa8,"['usr', 'lib', 'go', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '1394', 'fp', '=', '0', 'x7fdab9887fa8']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+25,goroutine 3 [syscall]:,"['go', 'routine', '3', '[', 'syscall', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,runtime.goexit(),"['runtime', '.', 'go', 'exit', '()']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+27,    /usr/lib/go/src/pkg/runtime/proc.c:1394,"['usr', 'lib', 'go', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '1394']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+28,rax     0x0,"['rax', '0', 'x0']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+29,rbx     0x7fdab9887e88,"['rbx', '0', 'x7fdab9887e88']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+30,rcx     0x7fdab9887e88,"['rcx', '0', 'x7fdab9887e88']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+31,rdx     0x7fdab9887e20,"['rdx', '0', 'x7fdab9887e20']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+32,rdi     0x4100,"['rdi', '0', 'x4100']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+33,rsi     0xc210001900,"['rsi', '0', 'xc210001900']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+34,rbp     0xc21002a000,"['rbp', '0', 'xc21002a000']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+35,rsp     0x7fdab2a4ddd8,"['rsp', '0', 'x7fdab2a4ddd8']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+36,r8      0xc210001120,"['r8', '0', 'xc210001120']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+37,r9      0x7fdab9887e20,"['r9', '0', 'x7fdab9887e20']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+38,r10     0x0,"['r10', '0', 'x0']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+39,r11     0x286,"['r11', '0', 'x286']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+40,r12     0x0,"['r12', '0', 'x0']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+41,r13     0x7fdab9a74000,"['r13', '0', 'x7fdab9a74000']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+42,r14     0x0,"['r14', '0', 'x0']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+43,r15     0x7fdab2a4e700,"['r15', '0', 'x7fdab2a4e700']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+44,rip     0x7fdab95a0e29,"['rip', '0', 'x7fdab95a0e29']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+45,rflags  0x10202,"['rflags', '0', 'x10202']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+46,cs      0x33,"['cs', '0', 'x33']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+47,fs      0x0,"['fs', '0', 'x0']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+48,gs      0x0,"['gs', '0', 'x0']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+49,"
+
+If I remove the time-based logic in the shouldRender function, it makes it to about 28-29 iterations before crashing. 
+
+If I remove the call to gl.Clear() in the draw function, it lasts into the 90s before crashing.
+
+If I remove the call to fmt.Println() in shouldRender, the game runs as expected without crashing. (I've tested it up to about 2 or 3 minutes, so almost 10 thousand frames)
+
+This makes me suspect that the call to fmt.Println() is somehow responsible for the segmentation violation. Am I misreading the signs? If not, how is a core function like Println() so unstable?
+
+","['If', 'I', 'remove', 'the', 'time-based', 'logic', 'in', 'the', 'shouldRender', 'function,', 'it', 'makes', 'it', 'to', 'about', '28-29', 'iterations', 'before', 'crashing.', 'If', 'I', 'remove', 'the', 'call', 'to', 'gl.Clear()', 'in', 'the', 'draw', 'function,', 'it', 'lasts', 'into', 'the', '90s', 'before', 'crashing.', 'If', 'I', 'remove', 'the', 'call', 'to', 'fmt.Println()', 'in', 'shouldRender,', 'the', 'game', 'runs', 'as', 'expected', 'without', 'crashing.', ""(I've"", 'tested', 'it', 'up', 'to', 'about', '2', 'or', '3', 'minutes,', 'so', 'almost', '10', 'thousand', 'frames)', 'This', 'makes', 'me', 'suspect', 'that', 'the', 'call', 'to', 'fmt.Println()', 'is', 'somehow', 'responsible', 'for', 'the', 'segmentation', 'violation.', 'Am', 'I', 'misreading', 'the', 'signs?', 'If', 'not,', 'how', 'is', 'a', 'core', 'function', 'like', 'Println()', 'so', 'unstable?']","['IN', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBZ', 'PRP', 'TO', 'IN', 'JJ', 'NNS', 'IN', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'NN', 'TO', 'VB', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBZ', 'IN', 'DT', 'CD', 'IN', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'NN', 'TO', 'VB', 'IN', 'NN', 'DT', 'NN', 'VBZ', 'IN', 'VBN', 'IN', 'NN', 'NN', 'VBD', 'PRP', 'RP', 'TO', 'IN', 'CD', 'CC', 'CD', 'NNS', 'RB', 'RB', 'CD', 'JJ', 'NN', 'DT', 'VBZ', 'PRP', 'VB', 'IN', 'DT', 'NN', 'TO', 'VB', 'VBZ', 'RB', 'JJ', 'IN', 'DT', 'NN', 'IN', 'NNP', 'PRP', 'VBG', 'DT', 'NN', 'IN', 'JJ', 'WRB', 'VBZ', 'DT', 'NN', 'NN', 'IN', 'NNP', 'RB', 'JJ']"
+50,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+51,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+52,"    f ""fmt""","['f', '""fmt""']","['IDENTIFIER', 'STRING_LITERAL']"
+53,"    ""github.com/go-gl/gl""","['""github.com/go-gl/gl""']",['STRING_LITERAL']
+54,"    glfw ""github.com/go-gl/glfw3""","['glfw', '""github.com/go-gl/glfw3""']","['IDENTIFIER', 'STRING_LITERAL']"
+55,"    ""math""","['""math""']",['STRING_LITERAL']
+56,"    ""time""","['""time""']",['STRING_LITERAL']
+57,),[')'],['OPERATOR']
+58,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+59,    numRendered = 0,"['numRendered', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+60,    lastDraw = time.Now(),"['lastDraw', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,    fps = 60,"['fps', '=', '60']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+62,    seconds = time.Now(),"['seconds', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,    attr gl.AttribLocation,"['attr', 'gl', '.', 'AttribLocation']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+64,),[')'],['OPERATOR']
+65,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+66,    if !glfw.Init(){,"['if', '!', 'glfw', '.', 'Init', '(){']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,"        f.Println(""Failed to init glfw"")","['f', '.', 'Println', '(', '""Failed to init glfw""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+68,"        panic(""Cannot initialize glfw library"")","['panic', '(', '""Cannot initialize glfw library""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+69,    },['}'],['OPERATOR']
+70,    defer glfw.Terminate(),"['defer', 'glfw', '.', 'Terminate', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,"    //glfw.WindowHint(glfw.DepthBits, 16)","['//', 'glfw.WindowHint(glfw.DepthBits,', '16)']","['COMMENT', 'NN', 'CD']"
+72,"    window, err := glfw.CreateWindow(300, 300, ""Wander"", nil, nil)","['window', ',', 'err', ':=', 'glfw', '.', 'CreateWindow', '(', '300', ',', '300', ',', '""Wander""', ',', 'nil', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,    if err != nil{,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,    },['}'],['OPERATOR']
+76,    window.SetFramebufferSizeCallback(reshape),"['window', '.', 'SetFramebufferSizeCallback', '(', 'reshape', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,    window.SetKeyCallback(key),"['window', '.', 'SetKeyCallback', '(', 'key', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,    window.MakeContextCurrent(),"['window', '.', 'MakeContextCurrent', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    glfw.SwapInterval(1),"['glfw', '.', 'SwapInterval', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+80,"    width, height := window.GetFramebufferSize()","['width', ',', 'height', ':=', 'window', '.', 'GetFramebufferSize', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,"    reshape(window, width, height)","['reshape', '(', 'window', ',', 'width', ',', 'height', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,    if gl.Init() != 0 {,"['if', 'gl', '.', 'Init', '()', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+83,"        panic(""Failed to init GL"")","['panic', '(', '""Failed to init GL""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+84,    },['}'],['OPERATOR']
+85,    prog := setupProgram(),"['prog', ':=', 'setupProgram', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    defer prog.Delete(),"['defer', 'prog', '.', 'Delete', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,    prog.Use(),"['prog', '.', 'Use', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,"    attr = prog.GetAttribLocation(""offset"")","['attr', '=', 'prog', '.', 'GetAttribLocation', '(', '""offset""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+89,    setup(),"['setup', '()']","['IDENTIFIER', 'OPERATOR']"
+90,    for !window.ShouldClose() {,"['for', '!', 'window', '.', 'ShouldClose', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+91,        if shouldRender(){,"['if', 'shouldRender', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+92,            draw(),"['draw', '()']","['IDENTIFIER', 'OPERATOR']"
+93,        },['}'],['OPERATOR']
+94,        animate(),"['animate', '()']","['IDENTIFIER', 'OPERATOR']"
+95,        window.SwapBuffers(),"['window', '.', 'SwapBuffers', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,        glfw.PollEvents(),"['glfw', '.', 'PollEvents', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+97,    },['}'],['OPERATOR']
+98,},['}'],['OPERATOR']
+99,func setupProgram()(prog gl.Program){,"['func', 'setupProgram', '()(', 'prog', 'gl', '.', 'Program', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,    vertexSource := `,"['vertexSource', ':=']","['IDENTIFIER', 'OPERATOR']"
+101,        #version 430 core,"['version', '430', 'core']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+102,        layout (location = 0) in vec4 offset;,"['layout', '(', 'location', '=', '0', ')', 'in', 'vec4', 'offset', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+103,        const vec4 vertecies[3] = vec4[3](,"['const', 'vec4', 'vertecies', '[', '3', ']', '=', 'vec4', '[', '3', '](']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+104,"            vec4(0.25, 0.5, 0.5, 1.0),","['vec4', '(', '0', '.', '25', ',', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', '),']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+105,"            vec4(-0.25, 0.5, 0.5, 1.0),","['vec4', '(-', '0', '.', '25', ',', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', '),']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+106,"            vec4(-0.25, -0.5, 0.5, 1.0)","['vec4', '(-', '0', '.', '25', ',', '-', '0', '.', '5', ',', '0', '.', '5', ',', '1', '.', '0', ')']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+107,        );,[');'],['OPERATOR']
+108,        void main(){,"['void', 'main', '(){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+109,            gl_Position = vertecies[gl_VertexID] + offset;,"['gl_Position', '=', 'vertecies', '[', 'gl_VertexID', ']', '+', 'offset', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,        }`,['}'],['OPERATOR']
+111,    fragmentSource := `,"['fragmentSource', ':=']","['IDENTIFIER', 'OPERATOR']"
+112,        #version 430 core,"['version', '430', 'core']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+113,        out vec4 color;,"['out', 'vec4', 'color', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+114,        void main(){,"['void', 'main', '(){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+115,"            color = vec4(1.0, 0.0, 0.0, 0.0); // red, blue, green, ??","['//', 'red,', 'blue,', 'green,', '??']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'NN', 'NN', 'NN', 'NN']"
+116,        }`,['}'],['OPERATOR']
+117,"    vert, frag := gl.CreateShader(gl.VERTEX_SHADER), gl.CreateShader(gl.FRAGMENT_SHADER)","['vert', ',', 'frag', ':=', 'gl', '.', 'CreateShader', '(', 'gl', '.', 'VERTEX_SHADER', '),', 'gl', '.', 'CreateShader', '(', 'gl', '.', 'FRAGMENT_SHADER', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,    defer vert.Delete(),"['defer', 'vert', '.', 'Delete', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,    defer frag.Delete(),"['defer', 'frag', '.', 'Delete', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,    vert.Source(vertexSource),"['vert', '.', 'Source', '(', 'vertexSource', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+121,    frag.Source(fragmentSource),"['frag', '.', 'Source', '(', 'fragmentSource', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,    vert.Compile(),"['vert', '.', 'Compile', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+123,    frag.Compile(),"['frag', '.', 'Compile', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,    prog = gl.CreateProgram(),"['prog', '=', 'gl', '.', 'CreateProgram', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,    prog.AttachShader(vert),"['prog', '.', 'AttachShader', '(', 'vert', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,    prog.AttachShader(frag),"['prog', '.', 'AttachShader', '(', 'frag', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+127,    prog.Link(),"['prog', '.', 'Link', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,    prog.Use(),"['prog', '.', 'Use', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,    f.Println(prog.GetInfoLog()),"['f', '.', 'Println', '(', 'prog', '.', 'GetInfoLog', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+130,    return,['return'],['KEYWORD']
+131,},['}'],['OPERATOR']
+132,"func key(window *glfw.Window, k glfw.Key, s int, action glfw.Action, mods glfw.ModifierKey) {","['func', 'key', '(', 'window', '*', 'glfw', '.', 'Window', ',', 'k', 'glfw', '.', 'Key', ',', 's', 'int', ',', 'action', 'glfw', '.', 'Action', ',', 'mods', 'glfw', '.', 'ModifierKey', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+133,    if action != glfw.Press {,"['if', 'action', '!=', 'glfw', '.', 'Press', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+134,        return,['return'],['KEYWORD']
+135,    },['}'],['OPERATOR']
+136,    switch glfw.Key(k){,"['switch', 'glfw', '.', 'Key', '(', 'k', '){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,        case glfw.KeyEscape:,"['case', 'glfw', '.', 'KeyEscape', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,            window.SetShouldClose(true);,"['window', '.', 'SetShouldClose', '(', 'true', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+140,            return,['return'],['KEYWORD']
+141,    },['}'],['OPERATOR']
+142,},['}'],['OPERATOR']
+143,"func reshape(window *glfw.Window, width, height int){","['func', 'reshape', '(', 'window', '*', 'glfw', '.', 'Window', ',', 'width', ',', 'height', 'int', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+144,"    gl.Viewport(0, 0, width, height)","['gl', '.', 'Viewport', '(', '0', ',', '0', ',', 'width', ',', 'height', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+145,},['}'],['OPERATOR']
+146,func draw(){,"['func', 'draw', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+147,    gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),"['gl', '.', 'Clear', '(', 'gl', '.', 'COLOR_BUFFER_BIT', '|', 'gl', '.', 'DEPTH_BUFFER_BIT', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+148,"    gl.DrawArrays(gl.TRIANGLES, 0, 3)","['gl', '.', 'DrawArrays', '(', 'gl', '.', 'TRIANGLES', ',', '0', ',', '3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+149,},['}'],['OPERATOR']
+150,func shouldRender() bool{,"['func', 'shouldRender', '()', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+151,    if int(time.Since(lastDraw) * time.Second) >= 1000/fps{,"['if', 'int', '(', 'time', '.', 'Since', '(', 'lastDraw', ')', '*', 'time', '.', 'Second', ')', '>=', '1000', 'fps', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+152,"        //f.Println(""rendering for the "", numRendered, "" time"")","['//', 'f.Println(""rendering', 'for', 'the', '"",', 'numRendered,', '""', 'time"")']","['COMMENT', 'VBG', 'IN', 'DT', 'NNP', 'MD', 'VB', 'NN']"
+153,        numRendered++,"['numRendered', '++']","['IDENTIFIER', 'OPERATOR']"
+154,        lastDraw = time.Now(),"['lastDraw', '=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+155,        return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
+156,    },['}'],['OPERATOR']
+157,    return false;,"['return', 'false', ';']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+158,},['}'],['OPERATOR']
+159,func animate(){,"['func', 'animate', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+160,    now := float64(time.Since(seconds)),"['now', ':=', 'float64', '(', 'time', '.', 'Since', '(', 'seconds', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+161,    offset := [4]float32{,"['offset', ':=', '[', '4', ']', 'float32', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+162,"        float32(math.Sin(now)),","['float32', '(', 'math', '.', 'Sin', '(', 'now', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+163,"        float32(math.Cos(now)),","['float32', '(', 'math', '.', 'Cos', '(', 'now', ')),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+164,"        0.0,0.0}","['0', '.', '0', ',', '0', '.', '0', '}']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+165,    attr.Attrib4fv(&offset),"['attr', '.', 'Attrib4fv', '(&', 'offset', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,    red := gl.GLclampf(math.Sin(now) * 0.25 + 0.75),"['red', ':=', 'gl', '.', 'GLclampf', '(', 'math', '.', 'Sin', '(', 'now', ')', '*', '0', '.', '25', '+', '0', '.', '75', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+167,    blue := gl.GLclampf(math.Cos(now) * 0.25 + 0.75),"['blue', ':=', 'gl', '.', 'GLclampf', '(', 'math', '.', 'Cos', '(', 'now', ')', '*', '0', '.', '25', '+', '0', '.', '75', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+168,    green := gl.GLclampf(time.Since(seconds)),"['green', ':=', 'gl', '.', 'GLclampf', '(', 'time', '.', 'Since', '(', 'seconds', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+169,    _ = green;,"['_', '=', 'green', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,"    gl.ClearColor(red, blue, 0.2, 0.0)","['gl', '.', 'ClearColor', '(', 'red', ',', 'blue', ',', '0', '.', '2', ',', '0', '.', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+171,},['}'],['OPERATOR']

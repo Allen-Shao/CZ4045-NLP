@@ -1,139 +1,171 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""crypto""","['""crypto""']",['STRING_LITERAL']
-3,"    ""crypto/rand""","['""crypto/rand""']",['STRING_LITERAL']
-4,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
-5,"    ""crypto/sha256""","['""crypto/sha256""']",['STRING_LITERAL']
-6,"    ""crypto/x509""","['""crypto/x509""']",['STRING_LITERAL']
-7,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
-8,"    ""encoding/pem""","['""encoding/pem""']",['STRING_LITERAL']
-9,"    ""errors""","['""errors""']",['STRING_LITERAL']
-10,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-11,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-12,),[')'],['OPERATOR']
-13,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-14,"    signer, err := loadPrivateKey(""private.pem"");","['signer', ',', 'err', ':=', 'loadPrivateKey', '(', '""private.pem""', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-16,"        fmt.Errorf(""signer is damaged: %v"", err)","['fmt', '.', 'Errorf', '(', '""signer is damaged: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-17,    },['}'],['OPERATOR']
-18,"    toSign := ""date: Thu, 05 Jan 2012 21:31:40 GMT"";","['toSign', ':=', '""date: Thu, 05 Jan 2012 21:31:40 GMT""', ';']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-19,"    signed, err := signer.Sign([]byte(toSign))","['signed', ',', 'err', ':=', 'signer', '.', 'Sign', '([]', 'byte', '(', 'toSign', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,    },['}'],['OPERATOR']
-23,    sig := base64.StdEncoding.EncodeToString(signed),"['sig', ':=', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'signed', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,"    fmt.Printf(""Encoded: %v\n"", sig)","['fmt', '.', 'Printf', '(', '""Encoded: %v\\n""', ',', 'sig', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,"    parser, perr := loadPublicKey(""public.pem"");","['parser', ',', 'perr', ':=', 'loadPublicKey', '(', '""public.pem""', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-26,    if perr != nil {,"['if', 'perr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,    },['}'],['OPERATOR']
-29,"    unsigned, err := parser.Unsign(signed);","['unsigned', ',', 'err', ':=', 'parser', '.', 'Unsign', '(', 'signed', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,    },['}'],['OPERATOR']
-33,"    fmt.Printf(""Decrypted: %v\n"", base64.StdEncoding.EncodeToString(unsigned))    ","['fmt', '.', 'Printf', '(', '""Decrypted: %v\\n""', ',', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'unsigned', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,},['}'],['OPERATOR']
-35,// loadPrivateKey loads an parses a PEM encoded private key file.,['// loadPrivateKey loads an parses a PEM encoded private key file.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', 'NN', '.']"
-36,"func loadPublicKey(path string) (Unsigner, error) {","['func', 'loadPublicKey', '(', 'path', 'string', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-37,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-40,        },['}'],['OPERATOR']
-41,        return parsePublicKey(data),"['return', 'parsePublicKey', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,},['}'],['OPERATOR']
-43,// parsePublicKey parses a PEM encoded private key.,['// parsePublicKey parses a PEM encoded private key.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', '.']"
-44,"func parsePublicKey(pemBytes []byte) (Unsigner, error) {","['func', 'parsePublicKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-45,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem', '.', 'Decode', '(', 'pemBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""ssh: no key found""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-48,        },['}'],['OPERATOR']
-49,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-50,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,"        case ""PUBLIC KEY"":","['case', '""PUBLIC KEY""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
-52,"                rsa, err := x509.ParsePKIXPublicKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509', '.', 'ParsePKIXPublicKey', '(', 'block', '.', 'Bytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-53,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,"                        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-55,                },['}'],['OPERATOR']
-56,                rawkey = rsa,"['rawkey', '=', 'rsa']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-57,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-58,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %q""', ',', 'block', '.', 'Type', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-59,        },['}'],['OPERATOR']
-60,        return newUnsignerFromKey(rawkey),"['return', 'newUnsignerFromKey', '(', 'rawkey', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,},['}'],['OPERATOR']
-62,// loadPrivateKey loads an parses a PEM encoded private key file.,['// loadPrivateKey loads an parses a PEM encoded private key file.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', 'NN', '.']"
-63,"func loadPrivateKey(path string) (Signer, error) {","['func', 'loadPrivateKey', '(', 'path', 'string', ')', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-64,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-65,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-66,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-67,        },['}'],['OPERATOR']
-68,        return parsePrivateKey(data),"['return', 'parsePrivateKey', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,},['}'],['OPERATOR']
-70,// parsePublicKey parses a PEM encoded private key.,['// parsePublicKey parses a PEM encoded private key.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', '.']"
-71,"func parsePrivateKey(pemBytes []byte) (Signer, error) {","['func', 'parsePrivateKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-72,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem', '.', 'Decode', '(', 'pemBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""ssh: no key found""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-75,        },['}'],['OPERATOR']
-76,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-77,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-78,"        case ""RSA PRIVATE KEY"":","['case', '""RSA PRIVATE KEY""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
-79,"                rsa, err := x509.ParsePKCS1PrivateKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509', '.', 'ParsePKCS1PrivateKey', '(', 'block', '.', 'Bytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,"                        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-82,                },['}'],['OPERATOR']
-83,                rawkey = rsa,"['rawkey', '=', 'rsa']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-84,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-85,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %q""', ',', 'block', '.', 'Type', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,        },['}'],['OPERATOR']
-87,        return newSignerFromKey(rawkey),"['return', 'newSignerFromKey', '(', 'rawkey', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,},['}'],['OPERATOR']
-89,// A Signer is can create signatures that verify against a public key.,['// A Signer is can create signatures that verify against a public key.'],"['COMMENT', 'DT', 'NNP', 'VBZ', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'JJ', 'NN', '.']"
-90,type Signer interface {,"['type', 'Signer', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-91,        // Sign returns raw signature for the given data. This method,['// Sign returns raw signature for the given data. This method'],"['COMMENT', 'NNP', 'VBZ', 'JJ', 'NN', 'IN', 'DT', 'VBN', 'NNS', '.', 'DT', 'NN']"
-92,        // will apply the hash specified for the keytype to the data.,['// will apply the hash specified for the keytype to the data.'],"['COMMENT', 'MD', 'VB', 'DT', 'NN', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NNS', '.']"
-93,"        Sign(data []byte) ([]byte, error)","['Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,},['}'],['OPERATOR']
-95,// A Signer is can create signatures that verify against a public key.,['// A Signer is can create signatures that verify against a public key.'],"['COMMENT', 'DT', 'NNP', 'VBZ', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'JJ', 'NN', '.']"
-96,type Unsigner interface {,"['type', 'Unsigner', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-97,        // Sign returns raw signature for the given data. This method,['// Sign returns raw signature for the given data. This method'],"['COMMENT', 'NNP', 'VBZ', 'JJ', 'NN', 'IN', 'DT', 'VBN', 'NNS', '.', 'DT', 'NN']"
-98,        // will apply the hash specified for the keytype to the data.,['// will apply the hash specified for the keytype to the data.'],"['COMMENT', 'MD', 'VB', 'DT', 'NN', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NNS', '.']"
-99,"        Unsign(data []byte) ([]byte, error)","['Unsign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-100,},['}'],['OPERATOR']
-101,"func newSignerFromKey(k interface{}) (Signer, error) {","['func', 'newSignerFromKey', '(', 'k', 'interface', '{})', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-102,        var sshKey Signer,"['var', 'sshKey', 'Signer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-103,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-104,        case *rsa.PrivateKey:,"['case', '*', 'rsa', '.', 'PrivateKey', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,                sshKey = &rsaPrivateKey{t},"['sshKey', '=', '&', 'rsaPrivateKey', '{', 't', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-106,        default: ,"['default', ':']","['KEYWORD', 'OPERATOR']"
-107,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %T""', ',', 'k', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-108,        },['}'],['OPERATOR']
-109,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-110,},['}'],['OPERATOR']
-111,"func newUnsignerFromKey(k interface{}) (Unsigner, error) {","['func', 'newUnsignerFromKey', '(', 'k', 'interface', '{})', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-112,        var sshKey Unsigner,"['var', 'sshKey', 'Unsigner']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-113,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-114,        case *rsa.PublicKey:,"['case', '*', 'rsa', '.', 'PublicKey', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,                sshKey = &rsaPublicKey{t},"['sshKey', '=', '&', 'rsaPublicKey', '{', 't', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-117,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %T""', ',', 'k', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-118,        },['}'],['OPERATOR']
-119,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-120,},['}'],['OPERATOR']
-121,type rsaPublicKey struct {,"['type', 'rsaPublicKey', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-122,    *rsa.PublicKey,"['*', 'rsa', '.', 'PublicKey']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-123,},['}'],['OPERATOR']
-124,type rsaPrivateKey struct {,"['type', 'rsaPrivateKey', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-125,        *rsa.PrivateKey,"['*', 'rsa', '.', 'PrivateKey']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-126,},['}'],['OPERATOR']
-127,// Sign signs data with rsa-sha256,['// Sign signs data with rsa-sha256'],"['COMMENT', 'NNP', 'NNS', 'NNS', 'IN', 'NN']"
-128,"func (r *rsaPrivateKey) Sign(data []byte) ([]byte, error) {","['func', '(', 'r', '*', 'rsaPrivateKey', ')', 'Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-129,        h := sha256.New(),"['h', ':=', 'sha256', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-130,        h.Write(data),"['h', '.', 'Write', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-131,        d := h.Sum(nil),"['d', ':=', 'h', '.', 'Sum', '(', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,"        return rsa.SignPKCS1v15(rand.Reader, r.PrivateKey, crypto.SHA256, d)","['return', 'rsa', '.', 'SignPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'r', '.', 'PrivateKey', ',', 'crypto', '.', 'SHA256', ',', 'd', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-133,},['}'],['OPERATOR']
-134,// Unsign encrypts data with rsa-sha256,['// Unsign encrypts data with rsa-sha256'],"['COMMENT', 'NNP', 'VBZ', 'NNS', 'IN', 'NN']"
-135,"func (r *rsaPublicKey) Unsign(message []byte) ([]byte, error) {  ","['func', '(', 'r', '*', 'rsaPublicKey', ')', 'Unsign', '(', 'message', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-136,"        return rsa.EncryptPKCS1v15(rand.Reader, r.PublicKey, message)        ","['return', 'rsa', '.', 'EncryptPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'r', '.', 'PublicKey', ',', 'message', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,},['}'],['OPERATOR']
+0,"I am new to Go so hopefully I'm making myself clear with this issue I'm having.  My problem is that I am trying to iterate over an array of structs but I keep running into an index out of range issue.  For the purposes of this problem, I have already verified that my array is not empty but that it in fact does contain at least one Services struct and file_content is the string that contains my valid JSON
+
+Here is the snippet of code that represents the problem I'm having:
+
+","['I', 'am', 'new', 'to', 'Go', 'so', 'hopefully', ""I'm"", 'making', 'myself', 'clear', 'with', 'this', 'issue', ""I'm"", 'having.', 'My', 'problem', 'is', 'that', 'I', 'am', 'trying', 'to', 'iterate', 'over', 'an', 'array', 'of', 'structs', 'but', 'I', 'keep', 'running', 'into', 'an', 'index', 'out', 'of', 'range', 'issue.', 'For', 'the', 'purposes', 'of', 'this', 'problem,', 'I', 'have', 'already', 'verified', 'that', 'my', 'array', 'is', 'not', 'empty', 'but', 'that', 'it', 'in', 'fact', 'does', 'contain', 'at', 'least', 'one', 'Services', 'struct', 'and', 'file_content', 'is', 'the', 'string', 'that', 'contains', 'my', 'valid', 'JSON', 'Here', 'is', 'the', 'snippet', 'of', 'code', 'that', 'represents', 'the', 'problem', ""I'm"", 'having:']","['PRP', 'VBP', 'JJ', 'TO', 'VB', 'RB', 'RB', 'NNP', 'VBG', 'PRP', 'JJ', 'IN', 'DT', 'NN', 'NNP', 'VBD', 'PRP$', 'NN', 'VBZ', 'IN', 'PRP', 'VBP', 'VBG', 'TO', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNS', 'CC', 'PRP', 'VBP', 'VBG', 'IN', 'DT', 'NN', 'IN', 'IN', 'NN', 'NN', 'IN', 'DT', 'NNS', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'RB', 'VBN', 'IN', 'PRP$', 'NN', 'VBZ', 'RB', 'JJ', 'CC', 'IN', 'PRP', 'IN', 'NN', 'VBZ', 'VB', 'IN', 'JJS', 'CD', 'NNPS', 'NN', 'CC', 'NN', 'VBZ', 'DT', 'NN', 'WDT', 'VBZ', 'PRP$', 'JJ', 'NNP', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'NNP', 'NN']"
+1,type service_config struct {,"['type', 'service_config', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+2,    Services []struct {,"['Services', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+3,        Name    string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+4,        Command string,"['Command', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+5,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+6,    },['}'],['OPERATOR']
+7,},['}'],['OPERATOR']
+8,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+9,"err_json := json.Unmarshal(file_content, &ServiceConf)","['err_json', ':=', 'json', '.', 'Unmarshal', '(', 'file_content', ',', '&', 'ServiceConf', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+10,"for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,  log.Println(s),"['log', '.', 'Println', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,},['}'],['OPERATOR']
+13,"
+
+So every time I run my code I get:
+
+","['So', 'every', 'time', 'I', 'run', 'my', 'code', 'I', 'get:']","['RB', 'DT', 'NN', 'PRP', 'VBP', 'PRP$', 'NN', 'PRP', 'VBP']"
+14,2014/03/14 18:19:53 http: panic serving [::1]:65448: runtime error: index out of range,"['2014', '03', '14', '18', ':', '19', ':', '53', 'http', ':', 'panic', 'serving', '[::', '1', ']:', '65448', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
+15,"
+
+",[],[]
+16,{,['{'],['OPERATOR']
+17,"  ""services"" : [","['""services""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+18,    {,['{'],['OPERATOR']
+19,"      ""name"": ""translation"",","['""name"": ""translation""', ',']","['STRING_LITERAL', 'OPERATOR']"
+20,"      ""command"": ""to german"",","['""command"": ""to german""', ',']","['STRING_LITERAL', 'OPERATOR']"
+21,"      ""request"": {","['""request""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+22,"        ""key"": ""XXX"",","['""key"": ""XXX""', ',']","['STRING_LITERAL', 'OPERATOR']"
+23,"        ""url"": ""https://www.googleapis.com/language/translate/v2?""","['""url"": ""https://www.googleapis.com/language/translate/v2?""']",['STRING_LITERAL']
+24,      },['}'],['OPERATOR']
+25,    },['}'],['OPERATOR']
+26,  ],[']'],['OPERATOR']
+27,},['}'],['OPERATOR']
+28,"
+
+If you're interested in the complete source file:
+
+","['If', ""you're"", 'interested', 'in', 'the', 'complete', 'source', 'file:']","['IN', 'RB', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'NN']"
+29,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+30,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+31,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+32,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+33,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+34,"    ""log""","['""log""']",['STRING_LITERAL']
+35,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+36,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
+37,"    ""os""","['""os""']",['STRING_LITERAL']
+38,),[')'],['OPERATOR']
+39,type SlackResponse struct {,"['type', 'SlackResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+40,    token        string,"['token', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+41,    team_id      string,"['team_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+42,    channel_id   string,"['chan', 'nel_id', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+43,    channel_name string,"['chan', 'nel_name', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+44,    timestamp    string,"['timestamp', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+45,    user_id      string,"['user_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+46,    user_name    string,"['user_name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+47,    text         string,"['text', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+48,},['}'],['OPERATOR']
+49,type service_config struct {,"['type', 'service_config', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+50,    Services []struct {,"['Services', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+51,        Name    string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+52,        Command string,"['Command', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+53,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+54,    },['}'],['OPERATOR']
+55,},['}'],['OPERATOR']
+56,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+58,"    content, err_read := ioutil.ReadFile(""config.ini"")","['content', ',', 'err_read', ':=', 'ioutil', '.', 'ReadFile', '(', '""config.ini""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+59,    if err_read != nil {,"['if', 'err_read', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,"        log.Println(""Could not read config"")","['log', '.', 'Println', '(', '""Could not read config""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+61,        return,['return'],['KEYWORD']
+62,    },['}'],['OPERATOR']
+63,    log.Println(string(content)),"['log', '.', 'Println', '(', 'string', '(', 'content', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,"    err_json := json.Unmarshal(content, &ServiceConf)","['err_json', ':=', 'json', '.', 'Unmarshal', '(', 'content', ',', '&', 'ServiceConf', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,    if err_json != nil {,"['if', 'err_json', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,        log.Println(err_json),"['log', '.', 'Println', '(', 'err_json', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,    },['}'],['OPERATOR']
+68,"    http.HandleFunc(""/"", handler)","['http', '.', 'HandleFunc', '(', '""/""', ',', 'handler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,"    http.ListenAndServe("":""+os.Getenv(""PORT""), nil)","['http', '.', 'ListenAndServe', '(', '"":""+os.Getenv(""PORT""', '),', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,},['}'],['OPERATOR']
+71,"func handler(w http.ResponseWriter, r *http.Request) {","['func', 'handler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+72,    slack_response := SlackResponse{,"['slack_response', ':=', 'SlackResponse', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,"        r.FormValue(""token""),","['r', '.', 'FormValue', '(', '""token""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+74,"        r.FormValue(""team_id""),","['r', '.', 'FormValue', '(', '""team_id""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+75,"        r.FormValue(""channel_id""),","['r', '.', 'FormValue', '(', '""channel_id""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+76,"        r.FormValue(""channel_name""),","['r', '.', 'FormValue', '(', '""channel_name""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+77,"        r.FormValue(""timestamp""),","['r', '.', 'FormValue', '(', '""timestamp""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+78,"        r.FormValue(""user_id""),","['r', '.', 'FormValue', '(', '""user_id""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+79,"        r.FormValue(""user_name""),","['r', '.', 'FormValue', '(', '""user_name""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+80,"        r.FormValue(""text""),","['r', '.', 'FormValue', '(', '""text""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+81,    },['}'],['OPERATOR']
+82,"    // log.Println(ServiceConf.Services[0].Request[""key""])","['//', 'log.Println(ServiceConf.Services[0].Request[""key""])']","['COMMENT', 'NN']"
+83,    // loop through services to find command phrases,"['//', 'loop', 'through', 'services', 'to', 'find', 'command', 'phrases']","['COMMENT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'NN', 'NNS']"
+84,"    for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,        log.Println(s),"['log', '.', 'Println', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    },['}'],['OPERATOR']
+87,"    if slack_response.user_name == ""slackbot"" {","['if', 'slack_response', '.', 'user_name', '==', '""slackbot""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+88,        return,['return'],['KEYWORD']
+89,    },['}'],['OPERATOR']
+90,"    // fmt.Fprintf(w, ""{ \""text\"": \""Master %s!  You said: '%s'\"" }"", slack_response.user_name, slack_response.text)","['//', 'fmt.Fprintf(w,', '""{', '\\""text\\"":', '\\""Master', '%s!', 'You', 'said:', '\'%s\'\\""', '}"",', 'slack_response.user_name,', 'slack_response.text)']","['COMMENT', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'PRP', 'VBP', ""''"", 'JJ', 'NN', 'NN']"
+91,"    content, err := getContent(""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q="" + url.QueryEscape(slack_response.text))","['content', ',', 'err', ':=', 'getContent', '(', '""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q=""', '+', 'url', '.', 'QueryEscape', '(', 'slack_response', '.', 'text', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,"        fmt.Fprintf(w, ""{ \""text\"": \""Huh?!\"" }"")","['fmt', '.', 'Fprintf', '(', 'w', ',', '""{ \\""text\\"": \\""Huh?!\\"" }""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+94,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+95,        type trans struct {,"['type', 'trans', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+96,            Data struct {,"['Data', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+97,                Translations []struct {,"['Translations', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+98,"                    TranslatedText string `json:""translatedText""`","['TranslatedText', 'string', 'json', ':', '""translatedText""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+99,"                } `json:""translations""`","['}', 'json', ':', '""translations""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+100,"            } `json:""data""`","['}', 'json', ':', '""data""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+101,        },['}'],['OPERATOR']
+102,        f := trans{},"['f', ':=', 'trans', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,"        err := json.Unmarshal(content, &f)","['err', ':=', 'json', '.', 'Unmarshal', '(', 'content', ',', '&', 'f', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,            log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,        },['}'],['OPERATOR']
+107,"        fmt.Fprintf(w, ""{ \""text\"": \""Translated to German you said: '%s'\"" }"", f.Data.Translations[0].TranslatedText)","['fmt', '.', 'Fprintf', '(', 'w', ',', '""{ \\""text\\"": \\""Translated to German you said: \'%s\'\\"" }""', ',', 'f', '.', 'Data', '.', 'Translations', '[', '0', '].', 'TranslatedText', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,    },['}'],['OPERATOR']
+109,},['}'],['OPERATOR']
+110,// array of bytes if retrieved successfully.,"['//', 'array', 'of', 'bytes', 'if', 'retrieved', 'successfully.']","['COMMENT', 'NN', 'IN', 'NNS', 'IN', 'VBN', 'NN']"
+111,"func getContent(url string) ([]byte, error) {","['func', 'getContent', '(', 'url', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+112,    // Build the request,"['//', 'Build', 'the', 'request']","['COMMENT', 'VB', 'DT', 'NN']"
+113,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""GET""', ',', 'url', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+115,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+116,    },['}'],['OPERATOR']
+117,    // Send the request via a client,"['//', 'Send', 'the', 'request', 'via', 'a', 'client']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
+118,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+121,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+122,    },['}'],['OPERATOR']
+123,    // Defer the closing of the body,"['//', 'Defer', 'the', 'closing', 'of', 'the', 'body']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
+124,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,    // Read the content into a byte array,"['//', 'Read', 'the', 'content', 'into', 'a', 'byte', 'array']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN']"
+126,"    body, err := ioutil.ReadAll(resp.Body)","['body', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'resp', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+127,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+129,    },['}'],['OPERATOR']
+130,    // At this point we're done - simply return the bytes,"['//', 'At', 'this', 'point', ""we're"", 'done', '-', 'simply', 'return', 'the', 'bytes']","['COMMENT', 'IN', 'DT', 'NN', 'NN', 'VBN', ':', 'RB', 'VB', 'DT', 'NNS']"
+131,"    return body, nil","['return', 'body', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+132,},['}'],['OPERATOR']
+133,"
+
+Here is the stack trace:
+
+","['Here', 'is', 'the', 'stack', 'trace:']","['RB', 'VBZ', 'DT', 'NN', 'NN']"
+134,2014/03/21 23:21:29 http: panic serving [::1]:59508: runtime error: index out of range,"['2014', '03', '21', '23', ':', '21', ':', '29', 'http', ':', 'panic', 'serving', '[::', '1', ']:', '59508', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
+135,goroutine 3 [running]:,"['go', 'routine', '3', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,net/http.func·009(),"['net', 'http', '.', 'func', '009', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
+137,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1093 +0xae,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '1093', '+', '0', 'xae']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+138,"runtime.panic(0x215f80, 0x4b6537)","['runtime', '.', 'panic', '(', '0', 'x215f80', ',', '0', 'x4b6537', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+139,    /usr/local/Cellar/go/1.2/libexec/src/pkg/runtime/panic.c:248 +0x106,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'runtime', 'panic', '.', 'c', ':', '248', '+', '0', 'x106']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+140,"main.handler(0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['main', '.', 'handler', '(', '0', 'x5a85e8', ',', '0', 'xc21000f6e0', ',', '0', 'xc210037dd0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+141,    /Users/et/src/go/src/github.com/etdebruin/gojacques/main.go:100 +0x81b,"['Users', 'et', 'src', 'go', 'src', 'github', '.', 'com', 'etdebruin', 'go', 'jacques', 'main', '.', 'go', ':', '100', '+', '0', 'x81b']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+142,"net/http.HandlerFunc.ServeHTTP(0x2cbc60, 0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['net', 'http', '.', 'HandlerFunc', '.', 'ServeHTTP', '(', '0', 'x2cbc60', ',', '0', 'x5a85e8', ',', '0', 'xc21000f6e0', ',', '0', 'xc210037dd0', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+143,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1220 +0x40,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '1220', '+', '0', 'x40']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+144,"net/http.(*ServeMux).ServeHTTP(0xc21001e5d0, 0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['net', 'http', '.(*', 'ServeMux', ').', 'ServeHTTP', '(', '0', 'xc21001e5d0', ',', '0', 'x5a85e8', ',', '0', 'xc21000f6e0', ',', '0', 'xc210037dd0', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+145,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1496 +0x163,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '1496', '+', '0', 'x163']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+146,"net/http.serverHandler.ServeHTTP(0xc21001f500, 0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['net', 'http', '.', 'serverHandler', '.', 'ServeHTTP', '(', '0', 'xc21001f500', ',', '0', 'x5a85e8', ',', '0', 'xc21000f6e0', ',', '0', 'xc210037dd0', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+147,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1597 +0x16e,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '1597', '+', '0', 'x16e']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+148,net/http.(*conn).serve(0xc210058300),"['net', 'http', '.(*', 'conn', ').', 'serve', '(', '0', 'xc210058300', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+149,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1167 +0x7b7,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '1167', '+', '0', 'x7b7']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+150,created by net/http.(*Server).Serve,"['created', 'by', 'net', 'http', '.(*', 'Server', ').', 'Serve']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+151,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1644 +0x28b,"['usr', 'local', 'Cellar', 'go', '1', '.', '2', 'libexec', 'src', 'pkg', 'net', 'http', 'server', '.', 'go', ':', '1644', '+', '0', 'x28b']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"

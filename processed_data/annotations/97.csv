@@ -1,93 +1,221 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""github.com/gin-gonic/gin""","['""github.com/gin-gonic/gin""']",['STRING_LITERAL']
-3,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
-4,"    ""github.com/coopernurse/gorp""","['""github.com/coopernurse/gorp""']",['STRING_LITERAL']
-5,"    _ ""github.com/mattn/go-sqlite3""","['_', '""github.com/mattn/go-sqlite3""']","['IDENTIFIER', 'STRING_LITERAL']"
-6,"    ""log""","['""log""']",['STRING_LITERAL']
-7,"    ""time""","['""time""']",['STRING_LITERAL']
-8,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-9,"    ""github.com/go-errors/errors""","['""github.com/go-errors/errors""']",['STRING_LITERAL']
-10,),[')'],['OPERATOR']
-11,type Article struct {,"['type', 'Article', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-12,"    Id int64 `db:""article_id""`","['Id', 'int64', 'db', ':', '""article_id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-13,    Created int64,"['Created', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
-14,    Title string,"['Title', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-15,    Content string,"['Content', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-16,},['}'],['OPERATOR']
-17,var dbmap = initDb(),"['var', 'dbmap', '=', 'initDb', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-18,func initDb() gorp.DbMap {,"['func', 'initDb', '()', 'go', 'rp', '.', 'DbMap', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-19,"    db, err := sql.Open(""sqlite3"", ""db.sqlite3"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""db.sqlite3""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-20,"    checkErr(err, ""sql.Open faild"")","['checkErr', '(', 'err', ',', '""sql.Open faild""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-21,"    dbmap := gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}","['dbmap', ':=', 'go', 'rp', '.', 'DbMap', '{', 'Db', ':', 'db', ',', 'Dialect', ':', 'go', 'rp', '.', 'SqliteDialect', '{}}']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,"    dbmap.AddTableWithName(Article{}, ""articles"").SetKeys(true, ""Id"")","['dbmap', '.', 'AddTableWithName', '(', 'Article', '{},', '""articles"").SetKeys(true, ""Id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-23,    err = dbmap.CreateTablesIfNotExists(),"['err', '=', 'dbmap', '.', 'CreateTablesIfNotExists', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,"    checkErr(err, ""Create tables failed"")","['checkErr', '(', 'err', ',', '""Create tables failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-25,    return dbmap,"['return', 'dbmap']","['KEYWORD', 'IDENTIFIER']"
-26,},['}'],['OPERATOR']
-27,"func checkErr(err error, msg string) {","['func', 'checkErr', '(', 'err', 'error', ',', 'msg', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-28,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,"        log.Fatalln(msg, err.(*errors.Error).ErrorStack())","['log', '.', 'Fatalln', '(', 'msg', ',', 'err', '.(*', 'errors', '.', 'Error', ').', 'ErrorStack', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,    },['}'],['OPERATOR']
-31,},['}'],['OPERATOR']
-32,func index (c *gin.Context) {,"['func', 'index', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-33,"    content := gin.H{""Hello"": ""World""}","['content', ':=', 'gin', '.', 'H', '{', '""Hello"": ""World""', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-34,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,},['}'],['OPERATOR']
-36,func ArticlesList(c *gin.Context) {,"['func', 'ArticlesList', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-37,    var articles []Article,"['var', 'articles', '[]', 'Article']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-38,"    _, err := dbmap.Select(&articles, ""select * from articles order by article_id"")","['_', ',', 'err', ':=', 'dbmap', '.', 'Select', '(&', 'articles', ',', '""select * from articles order by article_id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-39,"    checkErr(err, ""Select failed"")","['checkErr', '(', 'err', ',', '""Select failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-40,    content := gin.H{},"['content', ':=', 'gin', '.', 'H', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,"    for k, v := range articles {","['for', 'k', ',', 'v', ':=', 'range', 'articles', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-42,        content[strconv.Itoa(k)] =v,"['content', '[', 'strconv', '.', 'Itoa', '(', 'k', ')]', '=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-43,    },['}'],['OPERATOR']
-44,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,},['}'],['OPERATOR']
-46,func ArticlesDetail(c *gin.Context) {,"['func', 'ArticlesDetail', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-47,"    article_id := c.Params.ByName(""id"")","['article_id', ':=', 'c', '.', 'Params', '.', 'ByName', '(', '""id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-48,"    a_id, _ := strconv.Atoi(article_id)","['a_id', ',', '_', ':=', 'strconv', '.', 'Atoi', '(', 'article_id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,    article := getArticle(a_id),"['article', ':=', 'getArticle', '(', 'a_id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,"    content := gin.H{""title"": article.Title, ""content"": article.Content}","['content', ':=', 'gin', '.', 'H', '{', '""title"": article.Title, ""content""', ':', 'article', '.', 'Content', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,"    c.JSON(200, content)","['c', '.', 'JSON', '(', '200', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,},['}'],['OPERATOR']
-53,func ArticlePost(c *gin.Context) {,"['func', 'ArticlePost', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-54,    var json Article,"['var', 'json', 'Article']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-55,    c.Bind(&json),"['c', '.', 'Bind', '(&', 'json', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,"    article := createArticle(json.Title, json.Content)","['article', ':=', 'createArticle', '(', 'json', '.', 'Title', ',', 'json', '.', 'Content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,    if article.Title == json.Title {,"['if', 'article', '.', 'Title', '==', 'json', '.', 'Title', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-58,        content := gin.H{,"['content', ':=', 'gin', '.', 'H', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-59,"            ""result"": ""Success"",","['""result"": ""Success""', ',']","['STRING_LITERAL', 'OPERATOR']"
-60,"            ""title"": article.Title,","['""title""', ':', 'article', '.', 'Title', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,"            ""content"": article.Content,","['""content""', ':', 'article', '.', 'Content', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,        },['}'],['OPERATOR']
-63,"        c.JSON(201, content)","['c', '.', 'JSON', '(', '201', ',', 'content', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-64,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-65,"        c.JSON(500, gin.H{""result"": ""An error occured""})","['c', '.', 'JSON', '(', '500', ',', 'gin', '.', 'H', '{', '""result"": ""An error occured""', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-66,    },['}'],['OPERATOR']
-67,},['}'],['OPERATOR']
-68,"func createArticle(title, body string) Article {","['func', 'createArticle', '(', 'title', ',', 'body', 'string', ')', 'Article', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,    article := Article{,"['article', ':=', 'Article', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,"        Created: time.Now().UnixNano(),","['Created', ':', 'time', '.', 'Now', '().', 'UnixNano', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,"        Title: title,","['Title', ':', 'title', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-72,"        Content: body,","['Content', ':', 'body', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,    },['}'],['OPERATOR']
-74,    err := dbmap.Insert(&article),"['err', ':=', 'dbmap', '.', 'Insert', '(&', 'article', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-75,"    checkErr(err, ""Insert failed"")","['checkErr', '(', 'err', ',', '""Insert failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-76,    return article,"['return', 'article']","['KEYWORD', 'IDENTIFIER']"
-77,},['}'],['OPERATOR']
-78,func getArticle(article_id int) Article {,"['func', 'getArticle', '(', 'article_id', 'int', ')', 'Article', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,    article := Article{},"['article', ':=', 'Article', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,"    err := dbmap.SelectOne(&article, ""select * from articles where article_id=?"", article_id)","['err', ':=', 'dbmap', '.', 'SelectOne', '(&', 'article', ',', '""select * from articles where article_id=?""', ',', 'article_id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,"    checkErr(err, ""selectOne failed"")","['checkErr', '(', 'err', ',', '""selectOne failed""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-82,    return article,"['return', 'article']","['KEYWORD', 'IDENTIFIER']"
-83,},['}'],['OPERATOR']
-84,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-85,    app := gin.Default(),"['app', ':=', 'gin', '.', 'Default', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,"    app.GET(""/"", index)","['app', '.', 'GET', '(', '""/""', ',', 'index', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"    app.GET(""/articles"", ArticlesList)","['app', '.', 'GET', '(', '""/articles""', ',', 'ArticlesList', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,"    app.POST(""/articles"", ArticlePost)","['app', '.', 'POST', '(', '""/articles""', ',', 'ArticlePost', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-89,"    app.GET(""/articles/:article_id"", ArticlesDetail)","['app', '.', 'GET', '(', '""/articles/:article_id""', ',', 'ArticlesDetail', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,"    app.Run("":8000"")","['app', '.', 'Run', '(', '"":8000""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-91,},['}'],['OPERATOR']
+0,"I've got a function that relies on checking some errors concurrently and I'm trying to use waitgroups to wait until all processes that return possible errors are done before I check all the errors. 
+
+It seems to be skipping some of the wg.Done() cals. Here's a youtube video of the debug (it loops through the 'for' loop 3 times, sorry):
+Golang Delve Debug for WaitGroups
+
+Any idea why it'd be skipping some of the waitgroup.Done() calls?
+
+Here's the code:
+
+","[""I've"", 'got', 'a', 'function', 'that', 'relies', 'on', 'checking', 'some', 'errors', 'concurrently', 'and', ""I'm"", 'trying', 'to', 'use', 'waitgroups', 'to', 'wait', 'until', 'all', 'processes', 'that', 'return', 'possible', 'errors', 'are', 'done', 'before', 'I', 'check', 'all', 'the', 'errors.', 'It', 'seems', 'to', 'be', 'skipping', 'some', 'of', 'the', 'wg.Done()', 'cals.', ""Here's"", 'a', 'youtube', 'video', 'of', 'the', 'debug', '(it', 'loops', 'through', 'the', ""'for'"", 'loop', '3', 'times,', 'sorry):', 'Golang', 'Delve', 'Debug', 'for', 'WaitGroups', 'Any', 'idea', 'why', ""it'd"", 'be', 'skipping', 'some', 'of', 'the', 'waitgroup.Done()', 'calls?', ""Here's"", 'the', 'code:']","['NNP', 'VBD', 'DT', 'NN', 'WDT', 'VBZ', 'IN', 'VBG', 'DT', 'NNS', 'RB', 'CC', 'NNP', 'VBG', 'TO', 'VB', 'NNS', 'TO', 'VB', 'IN', 'DT', 'NNS', 'WDT', 'VBP', 'JJ', 'NNS', 'VBP', 'VBN', 'IN', 'PRP', 'VBP', 'PDT', 'DT', 'NN', 'PRP', 'VBZ', 'TO', 'VB', 'VBG', 'DT', 'IN', 'DT', 'NN', 'NN', 'NNP', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'IN', 'DT', 'NNP', 'VBD', 'CD', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'NNP', 'NNP', 'NN', 'WRB', 'NN', 'VB', 'VBG', 'DT', 'IN', 'DT', 'NN', 'NN', 'NNP', 'DT', 'NN']"
+1,package controllers,"['package', 'controllers']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""errors""","['""errors""']",['STRING_LITERAL']
+4,"    ""mobilebid/billable""","['""mobilebid/billable""']",['STRING_LITERAL']
+5,"    db ""mobilebid/database""","['db', '""mobilebid/database""']","['IDENTIFIER', 'STRING_LITERAL']"
+6,"    ""mobilebid/stripe""","['""mobilebid/stripe""']",['STRING_LITERAL']
+7,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+8,"    ""os""","['""os""']",['STRING_LITERAL']
+9,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+10,"    ""sync""","['""sync""']",['STRING_LITERAL']
+11,"    ""time""","['""time""']",['STRING_LITERAL']
+12,"    log ""github.com/Sirupsen/logrus""","['log', '""github.com/Sirupsen/logrus""']","['IDENTIFIER', 'STRING_LITERAL']"
+13,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
+14,),[')'],['OPERATOR']
+15,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+16,"    errBillableID     = errors.New(""It looks like there was an error while getting your billable ID. Do you have a credit card set up?"")","['errBillableID', '=', 'errors', '.', 'New', '(', '""It looks like there was an error while getting your billable ID. Do you have a credit card set up?""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,"    errWinningItems   = errors.New(""It looks like there was an error while gathering your winning items. Please contact an event rep."")","['errWinningItems', '=', 'errors', '.', 'New', '(', '""It looks like there was an error while gathering your winning items. Please contact an event rep.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+18,"    errAcctInfo       = errors.New(""We had some trouble getting the account information for the event. Please contact an event rep."")","['errAcctInfo', '=', 'errors', '.', 'New', '(', '""We had some trouble getting the account information for the event. Please contact an event rep.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+19,"    errLoggingTrans   = errors.New(""It looks like we had some sort of issue while logging your transaction. Please contact an event rep."")","['errLoggingTrans', '=', 'errors', '.', 'New', '(', '""It looks like we had some sort of issue while logging your transaction. Please contact an event rep.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,"    errParsingURL     = errors.New(""We had some issue looking at the URL."")","['errParsingURL', '=', 'errors', '.', 'New', '(', '""We had some issue looking at the URL.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+21,"    errStripeIssue    = errors.New(""It looks like there was some kind of issue while talking with Stripe. If you were in the middle of a transaction, this doesn't mean the transaction was cancelled. Take a look at your transactions and/or contact an event rep."")","['errStripeIssue', '=', 'errors', '.', 'New', '(', '""It looks like there was some kind of issue while talking with Stripe. If you were in the middle of a transaction, this doesn\'t mean the transaction was cancelled. Take a look at your transactions and/or contact an event rep.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+22,"    errItemsPurchased = errors.New(""One or more of the items you're trying to purchase have already been purchased. If this doesn't sound right, please contact an event rep."")","['errItemsPurchased', '=', 'errors', '.', 'New', '(', '""One or more of the items you\'re trying to purchase have already been purchased. If this doesn\'t sound right, please contact an event rep.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+23,),[')'],['OPERATOR']
+24,"func createLogCtx(bidderID, eventID int) *log.Entry {","['func', 'createLogCtx', '(', 'bidderID', ',', 'eventID', 'int', ')', '*', 'log', '.', 'Entry', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,    return log.WithFields(log.Fields{,"['return', 'log', '.', 'WithFields', '(', 'log', '.', 'Fields', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"        ""bidderID"": bidderID,","['""bidderID""', ':', 'bidderID', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,"        ""eventID"":  eventID,","['""eventID""', ':', 'eventID', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,    }),['})'],['OPERATOR']
+29,},['}'],['OPERATOR']
+30,var wg sync.WaitGroup,"['var', 'wg', 'sync', '.', 'WaitGroup']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+31,const gorutineCt = 6,"['const', 'go', 'rutineCt', '=', '6']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+32,//PurchaseItems purchases items from the event for the bidder and sends the funds to the customer,"['//', 'PurchaseItems', 'purchases', 'items', 'from', 'the', 'event', 'for', 'the', 'bidder', 'and', 'sends', 'the', 'funds', 'to', 'the', 'customer']","['COMMENT', 'NNP', 'NNS', 'NNS', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'CC', 'VBZ', 'DT', 'NNS', 'TO', 'DT', 'NN']"
+33,//  In order for PurchaseItems to work:,"['//', 'In', 'order', 'for', 'PurchaseItems', 'to', 'work:']","['COMMENT', 'IN', 'NN', 'IN', 'NNPS', 'TO', 'VB']"
+34,//      1. Bidder must have a customer account set up in Stripe,"['//', '1.', 'Bidder', 'must', 'have', 'a', 'customer', 'account', 'set', 'up', 'in', 'Stripe']","['COMMENT', 'CD', 'NNP', 'MD', 'VB', 'DT', 'NN', 'NN', 'VBN', 'RP', 'IN', 'NNP']"
+35,//      2. Event owner needs to have their Stripe registered with the apps Stripe account,"['//', '2.', 'Event', 'owner', 'needs', 'to', 'have', 'their', 'Stripe', 'registered', 'with', 'the', 'apps', 'Stripe', 'account']","['COMMENT', 'CD', 'NNP', 'NN', 'NNS', 'TO', 'VB', 'PRP$', 'NNP', 'VBN', 'IN', 'DT', 'NN', 'NNP', 'NN']"
+36,//      3. Item must not have been purchased before (ever),"['//', '3.', 'Item', 'must', 'not', 'have', 'been', 'purchased', 'before', '(ever)']","['COMMENT', 'CD', 'NNP', 'MD', 'RB', 'VB', 'VBN', 'VBN', 'IN', 'NN']"
+37,func PurchaseItems(dB db.AppDB) http.HandlerFunc {,"['func', 'PurchaseItems', '(', 'dB', 'db', '.', 'AppDB', ')', 'http', '.', 'HandlerFunc', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"    return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {","['return', 'http', '.', 'HandlerFunc', '(', 'func', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+39,        ps := mux.Vars(req),"['ps', ':=', 'mux', '.', 'Vars', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,"        eventID, err := strconv.Atoi(ps[""eventID""])","['eventID', ',', 'err', ':=', 'strconv', '.', 'Atoi', '(', 'ps', '[', '""eventID""', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+41,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,            log.Error(err.Error()),"['log', '.', 'Error', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,            res.Write(ResErr(errParsingURL.Error())),"['res', '.', 'Write', '(', 'ResErr', '(', 'errParsingURL', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,            return,['return'],['KEYWORD']
+45,        },['}'],['OPERATOR']
+46,"        bidderID, err := strconv.Atoi(ps[""bidderID""])","['bidderID', ',', 'err', ':=', 'strconv', '.', 'Atoi', '(', 'ps', '[', '""bidderID""', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+47,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,            log.Error(err.Error()),"['log', '.', 'Error', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,            res.Write(ResErr(errParsingURL.Error())),"['res', '.', 'Write', '(', 'ResErr', '(', 'errParsingURL', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,            return,['return'],['KEYWORD']
+51,        },['}'],['OPERATOR']
+52,        itemsChan := make(chan []db.ItemWon),"['itemsChan', ':=', 'make', '(', 'chan', '[]', 'db', '.', 'ItemWon', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,        billableBidderIDChan := make(chan string),"['billableBidderIDChan', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+54,        creditableAcctChan := make(chan string),"['creditableAcctChan', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+55,"        errsChan := make(chan error, gorutineCt)","['errsChan', ':=', 'make', '(', 'chan', 'error', ',', 'go', 'rutineCt', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+56,        wg.Add(gorutineCt),"['wg', '.', 'Add', '(', 'go', 'rutineCt', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+57,"        logCtx := createLogCtx(bidderID, eventID)","['logCtx', ':=', 'createLogCtx', '(', 'bidderID', ',', 'eventID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,"        acct := stripe.New(os.Getenv(""SECRET_KEY""), os.Getenv(""PUBLISHABLE_KEY""))","['acct', ':=', 'stripe', '.', 'New', '(', 'os', '.', 'Getenv', '(', '""SECRET_KEY""), os.Getenv(""PUBLISHABLE_KEY""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+59,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+60,"            id, e := dB.GetBidderBillableID(bidderID)","['id', ',', 'e', ':=', 'dB', '.', 'GetBidderBillableID', '(', 'bidderID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,            if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,                logCtx.Error(e.Error()),"['logCtx', '.', 'Error', '(', 'e', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,                errsChan <- errBillableID,"['errsChan', '<-', 'errBillableID']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+64,                billableBidderIDChan <- id,"['billableBidderIDChan', '<-', 'id']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+65,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+66,                errsChan <- nil,"['errsChan', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+67,                billableBidderIDChan <- id,"['billableBidderIDChan', '<-', 'id']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+68,            },['}'],['OPERATOR']
+69,            wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,        }(),['}()'],['OPERATOR']
+71,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+72,"            i, e := dB.GetWinningItemsForBidder(bidderID, eventID)","['i', ',', 'e', ':=', 'dB', '.', 'GetWinningItemsForBidder', '(', 'bidderID', ',', 'eventID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,            if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,                logCtx.Error(e.Error()),"['logCtx', '.', 'Error', '(', 'e', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,                errsChan <- errWinningItems,"['errsChan', '<-', 'errWinningItems']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+76,                itemsChan <- i,"['itemsChan', '<-', 'i']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+77,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+78,                errsChan <- nil,"['errsChan', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+79,                itemsChan <- i,"['itemsChan', '<-', 'i']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+80,            },['}'],['OPERATOR']
+81,            wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,        }(),['}()'],['OPERATOR']
+83,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+84,"            a, e := dB.GetCreditableAccountFromEvent(eventID)","['a', ',', 'e', ':=', 'dB', '.', 'GetCreditableAccountFromEvent', '(', 'eventID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,            if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,                logCtx.Error(e.Error()),"['logCtx', '.', 'Error', '(', 'e', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,                errsChan <- errAcctInfo,"['errsChan', '<-', 'errAcctInfo']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,                creditableAcctChan <- a,"['creditableAcctChan', '<-', 'a']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+89,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+90,                errsChan <- nil,"['errsChan', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+91,                creditableAcctChan <- a,"['creditableAcctChan', '<-', 'a']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+92,            },['}'],['OPERATOR']
+93,            wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,        }(),['}()'],['OPERATOR']
+95,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+96,            items := <-itemsChan,"['items', ':=', '<-', 'itemsChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+97,"            for _, val := range items {","['for', '_', ',', 'val', ':=', 'range', 'items', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+98,                e := dB.CheckIfItemPurchased(val.ItemID),"['e', ':=', 'dB', '.', 'CheckIfItemPurchased', '(', 'val', '.', 'ItemID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,                if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,                    logCtx.WithFields(log.Fields{,"['logCtx', '.', 'WithFields', '(', 'log', '.', 'Fields', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+101,"                        ""itemID"":     val.ItemID,","['""itemID""', ':', 'val', '.', 'ItemID', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,"                        ""_timestamp"": time.Now(),","['""_timestamp""', ':', 'time', '.', 'Now', '(),']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,                    }).Error(e.Error()),"['}).', 'Error', '(', 'e', '.', 'Error', '())']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,                    errsChan <- errItemsPurchased,"['errsChan', '<-', 'errItemsPurchased']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+105,                    itemsChan <- items,"['itemsChan', '<-', 'items']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+106,                    wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,                    return,['return'],['KEYWORD']
+108,                },['}'],['OPERATOR']
+109,            },['}'],['OPERATOR']
+110,            errsChan <- nil,"['errsChan', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+111,            itemsChan <- items,"['itemsChan', '<-', 'items']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+112,            wg.Done() //SKIPPED,"['//', 'SKIPPED']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN']"
+113,        }(),['}()'],['OPERATOR']
+114,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+115,            billableBidderID := <-billableBidderIDChan,"['billableBidderID', ':=', '<-', 'billableBidderIDChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+116,            e := acct.BuyerIsBillable(billableBidderID),"['e', ':=', 'acct', '.', 'BuyerIsBillable', '(', 'billableBidderID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,            if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,                logCtx.Error(e.Error()),"['logCtx', '.', 'Error', '(', 'e', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,                errsChan <- errStripeIssue,"['errsChan', '<-', 'errStripeIssue']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+120,                billableBidderIDChan <- billableBidderID,"['billableBidderIDChan', '<-', 'billableBidderID']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+121,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+122,                errsChan <- nil,"['errsChan', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+123,                billableBidderIDChan <- billableBidderID,"['billableBidderIDChan', '<-', 'billableBidderID']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+124,            },['}'],['OPERATOR']
+125,            wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,        }(),['}()'],['OPERATOR']
+127,        go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+128,            creditableAcct := <-creditableAcctChan,"['creditableAcct', ':=', '<-', 'creditableAcctChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+129,            e := acct.CanReceiveFunds(creditableAcct),"['e', ':=', 'acct', '.', 'CanReceiveFunds', '(', 'creditableAcct', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+130,            if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+131,                logCtx.Error(e.Error()),"['logCtx', '.', 'Error', '(', 'e', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,                errsChan <- errStripeIssue,"['errsChan', '<-', 'errStripeIssue']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+133,                creditableAcctChan <- creditableAcct,"['creditableAcctChan', '<-', 'creditableAcct']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+134,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+135,                errsChan <- nil,"['errsChan', '<-', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+136,                creditableAcctChan <- creditableAcct,"['creditableAcctChan', '<-', 'creditableAcct']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+137,            },['}'],['OPERATOR']
+138,            wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,        }(),['}()'],['OPERATOR']
+140,        wg.Wait(),"['wg', '.', 'Wait', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+141,        close(errsChan),"['close', '(', 'errsChan', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,        if err = checkConcurrentErrs(errsChan); err != nil {,"['if', 'err', '=', 'checkConcurrentErrs', '(', 'errsChan', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+143,            logCtx.Error(err.Error()),"['logCtx', '.', 'Error', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,            res.Write(ResErr(err.Error())),"['res', '.', 'Write', '(', 'ResErr', '(', 'err', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+145,            return,['return'],['KEYWORD']
+146,        },['}'],['OPERATOR']
+147,        items := <-itemsChan,"['items', ':=', '<-', 'itemsChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+148,        amount := addItems(items),"['amount', ':=', 'addItems', '(', 'items', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,"        appFee := calculateFee(amount, .03) //TODO: Store this somewhere where it can be edited without having to restart the app.","['//', 'TODO:', 'Store', 'this', 'somewhere', 'where', 'it', 'can', 'be', 'edited', 'without', 'having', 'to', 'restart', 'the', 'app.']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'NNP', 'NNP', 'DT', 'RB', 'WRB', 'PRP', 'MD', 'VB', 'VBN', 'IN', 'VBG', 'TO', 'VB', 'DT', 'NN']"
+150,        invoice := billable.BillObject{,"['invoice', ':=', 'billable', '.', 'BillObject', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+151,"            Desc:     ""Test Charge"", //TODO: Generate this description from the event, items and bidder somehow.","['//', 'TODO:', 'Generate', 'this', 'description', 'from', 'the', 'event,', 'items', 'and', 'bidder', 'somehow.']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'NNP', 'NNP', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NNS', 'CC', 'NN', 'NN']"
+152,"            Amount:   amount,","['Amount', ':', 'amount', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,"            Currency: ""usd"",","['Currency', ':', '""usd""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+154,"            Dest:     <-creditableAcctChan,","['Dest', ':', '<-', 'creditableAcctChan', ',']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+155,"            Fee:      appFee,","['Fee', ':', 'appFee', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+156,"            Meta:     createItemsList(items),","['Meta', ':', 'createItemsList', '(', 'items', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+157,"            Customer: <-billableBidderIDChan,","['Customer', ':', '<-', 'billableBidderIDChan', ',']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+158,        },['}'],['OPERATOR']
+159,"        trans, err := acct.ChargeBidder(invoice)","['trans', ',', 'err', ':=', 'acct', '.', 'ChargeBidder', '(', 'invoice', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+160,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+161,            logCtx.Error(err.Error()),"['logCtx', '.', 'Error', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+162,            res.Write(ResErr(errStripeIssue.Error())),"['res', '.', 'Write', '(', 'ResErr', '(', 'errStripeIssue', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+163,            return,['return'],['KEYWORD']
+164,        },['}'],['OPERATOR']
+165,        logCtx.WithFields(log.Fields{,"['logCtx', '.', 'WithFields', '(', 'log', '.', 'Fields', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,"            ""stripeTransID"": trans.TransID,","['""stripeTransID""', ':', 'trans', '.', 'TransID', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+167,"            ""itemcCount"":    len(items),","['""itemcCount""', ':', 'len', '(', 'items', '),']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+168,"        }).Info(""Transferred funds from bidder to client"")","['}).', 'Info', '(', '""Transferred funds from bidder to client""', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+169,        dbTrans := db.Transaction{,"['dbTrans', ':=', 'db', '.', 'Transaction', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,"            TransID:  trans.TransID,","['TransID', ':', 'trans', '.', 'TransID', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+171,"            UserID:   5,","['UserID', ':', '5', ',']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+172,"            BidderID: bidderID,","['BidderID', ':', 'bidderID', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+173,"            EventID:  eventID,","['EventID', ':', 'eventID', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+174,"            Amount:   int64(amount),","['Amount', ':', 'int64', '(', 'amount', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+175,"            AppFee:   int64(appFee),","['AppFee', ':', 'int64', '(', 'appFee', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+176,"            Desc:     ""Some test order"",","['Desc', ':', '""Some test order""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+177,"            Status:   ""completed"",","['Status', ':', '""completed""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+178,        },['}'],['OPERATOR']
+179,"        orderID, err := dB.InsertTransaction(dbTrans)","['orderID', ',', 'err', ':=', 'dB', '.', 'InsertTransaction', '(', 'dbTrans', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+180,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+181,            logCtx.WithFields(log.Fields{,"['logCtx', '.', 'WithFields', '(', 'log', '.', 'Fields', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+182,"                ""stripeTransID"": dbTrans.TransID,","['""stripeTransID""', ':', 'dbTrans', '.', 'TransID', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,"                ""_timestamp"":    time.Now(),","['""_timestamp""', ':', 'time', '.', 'Now', '(),']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+184,            }).Error(err.Error()),"['}).', 'Error', '(', 'err', '.', 'Error', '())']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+185,            res.Write(ResErr(errLoggingTrans.Error())),"['res', '.', 'Write', '(', 'ResErr', '(', 'errLoggingTrans', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+186,            return,['return'],['KEYWORD']
+187,        },['}'],['OPERATOR']
+188,"        for it, val := range items {","['for', 'it', ',', 'val', ':=', 'range', 'items', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+189,            i := db.TransactionLine{,"['i', ':=', 'db', '.', 'TransactionLine', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+190,"                OrderID: orderID,","['OrderID', ':', 'orderID', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+191,"                ItemID:  val.ItemID,","['ItemID', ':', 'val', '.', 'ItemID', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+192,"                Amount:  uint64(val.Bid * 100), //Must do this since the bid is in dollars but the amount is pennies","['//', 'Must', 'do', 'this', 'since', 'the', 'bid', 'is', 'in', 'dollars', 'but', 'the', 'amount', 'is', 'pennies']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'NNP', 'VB', 'DT', 'IN', 'DT', 'NN', 'VBZ', 'IN', 'NNS', 'CC', 'DT', 'NN', 'VBZ', 'NNS']"
+193,"                Line:    it,","['Line', ':', 'it', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+194,            },['}'],['OPERATOR']
+195,            err := dB.InsertTransactionLine(i),"['err', ':=', 'dB', '.', 'InsertTransactionLine', '(', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+196,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+197,                logCtx.WithFields(log.Fields{,"['logCtx', '.', 'WithFields', '(', 'log', '.', 'Fields', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+198,"                    ""stripeTransID"": dbTrans.TransID,","['""stripeTransID""', ':', 'dbTrans', '.', 'TransID', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+199,"                    ""lineNumber"":    i,","['""lineNumber""', ':', 'i', ',']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+200,"                    ""_timestamp"":    time.Now(),","['""_timestamp""', ':', 'time', '.', 'Now', '(),']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+201,                }).Error(err.Error()),"['}).', 'Error', '(', 'err', '.', 'Error', '())']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+202,                res.Write(ResErr(errLoggingTrans.Error())),"['res', '.', 'Write', '(', 'ResErr', '(', 'errLoggingTrans', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+203,                return,['return'],['KEYWORD']
+204,            },['}'],['OPERATOR']
+205,        },['}'],['OPERATOR']
+206,"        logCtx.WithField(""orderID"", orderID).Info(""Order created"")","['logCtx', '.', 'WithField', '(', '""orderID"", orderID).Info(""Order created""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+207,        //TODO: Send receipt to buyer.,"['//', 'TODO:', 'Send', 'receipt', 'to', 'buyer.']","['COMMENT', 'NNP', 'NNP', 'NN', 'TO', 'VB']"
+208,        res.Write(ResOK(trans.TransID)),"['res', '.', 'Write', '(', 'ResOK', '(', 'trans', '.', 'TransID', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+209,    }),['})'],['OPERATOR']
+210,},['}'],['OPERATOR']

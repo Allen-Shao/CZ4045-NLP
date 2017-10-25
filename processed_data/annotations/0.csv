@@ -1,268 +1,271 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,"import ""rand""","['import', '""rand""']","['KEYWORD', 'STRING_LITERAL']"
-2,"func Routine1(command12 chan int, response12 chan int, command13 chan int, response13 chan int) {","['func', 'Routine1', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-3,    // z12 is a variable which stores the value comming from channel 2 and z13 is a variable which stores the value comming from channel 3.,['// z12 is a variable which stores the value comming from channel 2 and z13 is a variable which stores the value comming from channel 3.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD', 'CC', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD', '.']"
-4,    z12 := 200,"['z12', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-5,    z13 := 200,"['z13', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-6,    m12 := false,"['m12', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-7,    m13 := false,"['m13', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-8,    y := 0,"['y', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-9,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-10,        y = rand.Intn(100),"['y', '=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-11,        // If y's value is not 0 then the value will be sent to routine 2 or 3 according to   prime or not.,"[""// If y's value is not 0 then the value will be sent to routine 2 or 3 according to   prime or not.""]","['COMMENT', 'IN', 'PRP', 'VBZ', 'NN', 'VBZ', 'RB', 'CD', 'RB', 'DT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'CD', 'CC', 'CD', 'VBG', 'TO', 'JJ', 'CC', 'RB', '.']"
-12,"        // If y's value is 0 then process state (the varibles used by it means z12, z13) and channel state will be saved.[routine 1 is initiator]","[""// If y's value is 0 then process state (the varibles used by it means z12, z13) and channel state will be saved.[routine 1 is initiator]""]","['COMMENT', 'IN', 'PRP', 'VBZ', 'NN', 'VBZ', 'CD', 'RB', 'NN', 'NN', '(', 'DT', 'NNS', 'VBN', 'IN', 'PRP', 'VBZ', 'NN', ',', 'NN', ')', 'CC', 'NN', 'NN', 'MD', 'VB', 'VBN', '.', 'JJ', 'JJ', 'CD', 'VBZ', 'JJ', 'NN']"
-13,        if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-14,"            print(z12, ""    z12 STATE SAVED\n"")","['print', '(', 'z12', ',', '""    z12 STATE SAVED\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-15,"            print(z13, ""    z13 STATE SAVED\n"")","['print', '(', 'z13', ',', '""    z13 STATE SAVED\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-16,"            // Routine 1 is initiator,  it sends 0 to make other process to save the state.","['// Routine 1 is initiator,  it sends 0 to make other process to save the state.']","['COMMENT', 'JJ', 'CD', 'VBZ', 'NN', ',', 'PRP', 'VBZ', 'CD', 'TO', 'VB', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN', '.']"
-17,            y = 0,"['y', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-18,            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-19,            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-20,"            // Untill routine 2 and 3 does not send 0, process 1 is on channel saving state (it's process state is already saved).","[""// Untill routine 2 and 3 does not send 0, process 1 is on channel saving state (it's process state is already saved).""]","['COMMENT', 'NNP', 'VBZ', 'CD', 'CC', 'CD', 'VBZ', 'RB', 'VB', 'CD', ',', 'NN', 'CD', 'VBZ', 'IN', 'NN', 'VBG', 'NN', '(', 'PRP', 'VBZ', 'JJ', 'NN', 'VBZ', 'RB', 'VBN', ')', '.']"
-21,"            // When routine 1 recives 0 from both other processes, channel is saved and routine 1 retuns to it's common routine procedure.","[""// When routine 1 recives 0 from both other processes, channel is saved and routine 1 retuns to it's common routine procedure.""]","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NNS', ',', 'NN', 'VBZ', 'VBN', 'CC', 'JJ', 'CD', 'NNS', 'TO', 'PRP', 'VBZ', 'JJ', 'JJ', 'NN', '.']"
-22,"            // When routine 1 recives 0 from any other processes, saving channel bettwen them is stopped.","['// When routine 1 recives 0 from any other processes, saving channel bettwen them is stopped.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NNS', ',', 'VBG', 'NNS', 'IN', 'PRP', 'VBZ', 'VBN', '.']"
-23,"            // m12, m13 is used to mark whether 0 recived or not.","['// m12, m13 is used to mark whether 0 recived or not.']","['COMMENT', 'NN', ',', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'IN', 'CD', 'VBD', 'CC', 'RB', '.']"
-24,            for m12 != true || m13 != true {,"['for', 'm12', '!=', 'true', '||', 'm13', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,                select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-26,                case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,                    {,['{'],['OPERATOR']
-28,                        z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-29,                        if z12 != 0 {,"['if', 'z12', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-30,"                            print(z12, ""    z12  Channel Saving.... \n"")","['print', '(', 'z12', ',', '""    z12  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-31,                            y = rand.Intn(100),"['y', '=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-32,                            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-33,                        },['}'],['OPERATOR']
-34,                        if z12 == 0 {,"['if', 'z12', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-35,                            m12 = true,"['m12', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-36,"                            print("" z12  Channel Saving Stopped \n"")","['print', '(', '"" z12  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-37,                        },['}'],['OPERATOR']
-38,                    },['}'],['OPERATOR']
-39,                case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,                    {,['{'],['OPERATOR']
-41,                        z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-42,                        if z13 != 0 {,"['if', 'z13', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-43,"                            print(z13, ""    z13  Channel Saving.... \n"")","['print', '(', 'z13', ',', '""    z13  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-44,                            y = rand.Intn(100),"['y', '=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-45,                            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-46,                        },['}'],['OPERATOR']
-47,                        if z13 == 0 {,"['if', 'z13', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-48,                            m13 = true,"['m13', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-49,"                            print(""    z13  Channel Saving Stopped \n"")","['print', '(', '""    z13  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-50,                        },['}'],['OPERATOR']
-51,                    },['}'],['OPERATOR']
-52,                },['}'],['OPERATOR']
-53,            },['}'],['OPERATOR']
-54,            // After saving process state it retuns to it's normal behaviour.,"[""// After saving process state it retuns to it's normal behaviour.""]","['COMMENT', 'IN', 'VBG', 'NN', 'NN', 'PRP', 'VBZ', 'TO', 'PRP', 'VBZ', 'JJ', 'NN', '.']"
-55,            m12 = false,"['m12', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-56,            m13 = false,"['m13', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-57,        },['}'],['OPERATOR']
-58,        if y != 0 {,"['if', 'y', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-59,"            // If y value is not 0, routine 1 just sends int to other process according to prime or not and recives int accordingly.","['// If y value is not 0, routine 1 just sends int to other process according to prime or not and recives int accordingly.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', ',', 'JJ', 'CD', 'RB', 'NNS', 'VBP', 'TO', 'JJ', 'NN', 'VBG', 'TO', 'JJ', 'CC', 'RB', 'CC', 'VBZ', 'NN', 'RB', '.']"
-60,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-61,                command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-62,            },['}'],['OPERATOR']
-63,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-64,                command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-65,            },['}'],['OPERATOR']
-66,            select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-67,            case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,                {,['{'],['OPERATOR']
-69,                    z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-70,"                    print(z12, ""    z12\n"")","['print', '(', 'z12', ',', '""    z12\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-71,                },['}'],['OPERATOR']
-72,            case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,                {,['{'],['OPERATOR']
-74,                    z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-75,"                    print(z13, ""   z13\n"")","['print', '(', 'z13', ',', '""   z13\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-76,                },['}'],['OPERATOR']
-77,            },['}'],['OPERATOR']
-78,        },['}'],['OPERATOR']
-79,    },['}'],['OPERATOR']
-80,    close(command12),"['close', '(', 'command12', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,    close(command13),"['close', '(', 'command13', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-82,},['}'],['OPERATOR']
-83,//Routine 2 (or 3) is not an initiator (means it can't send 0). When it recives 0 (from routine 1 or 3) it save the state of process and the state of the channel from which it recived).,"[""//Routine 2 (or 3) is not an initiator (means it can't send 0). When it recives 0 (from routine 1 or 3) it save the state of process and the state of the channel from which it recived).""]","['COMMENT', 'JJ', 'CD', '(', 'CC', 'CD', ')', 'VBZ', 'RB', 'DT', 'NN', '(', 'VBZ', 'PRP', 'MD', 'RB', 'VB', 'CD', ')', '.', 'WRB', 'PRP', 'VBZ', 'CD', '(', 'IN', 'JJ', 'CD', 'CC', 'CD', ')', 'PRP', 'VBD', 'DT', 'NN', 'IN', 'NN', 'CC', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'WDT', 'PRP', 'VBD', ')', '.']"
-84,"// When it recives 0 from both other two routine, it saves all channel state and returns to it's common behaviour. [same in routine 3]","[""// When it recives 0 from both other two routine, it saves all channel state and returns to it's common behaviour. [same in routine 3]""]","['COMMENT', 'WRB', 'PRP', 'VBZ', 'CD', 'IN', 'DT', 'JJ', 'CD', 'NN', ',', 'PRP', 'VBZ', 'DT', 'NN', 'NN', 'CC', 'NNS', 'TO', 'PRP', 'VBZ', 'JJ', 'NN', '.', 'JJ', 'JJ', 'IN', 'JJ', 'CD', 'NN']"
-85,"func Routine2(command12 chan int, response12 chan int, command23 chan int, response23 chan int) {","['func', 'Routine2', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-86,    z21 := 200,"['z21', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-87,    z23 := 200,"['z23', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-88,    m21 := false,"['m21', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-89,    m23 := false,"['m23', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-90,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-91,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-92,"        case x, open := <-command12:","['case', 'x', ',', 'open', ':=', '<-', 'command12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-93,            {,['{'],['OPERATOR']
-94,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,                    return,['return'],['KEYWORD']
-96,                },['}'],['OPERATOR']
-97,                if x != 0 && m23 != true {,"['if', 'x', '!=', '0', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-98,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-99,"                    print(z21, ""   z21\n"")","['print', '(', 'z21', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-100,                },['}'],['OPERATOR']
-101,                if x != 0 && m23 == true {,"['if', 'x', '!=', '0', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-103,"                    print(z21, ""   z21 Channel Saving \n"")","['print', '(', 'z21', ',', '""   z21 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-104,                },['}'],['OPERATOR']
-105,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-106,                    m21 = true,"['m21', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-107,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-108,"                        print("" z21 and z23 Channel Saving Stopped \n"")","['print', '(', '"" z21 and z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-109,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-110,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-111,                    },['}'],['OPERATOR']
-112,                    if m21 == true && m23 != true {,"['if', 'm21', '==', 'true', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,                        z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-114,"                        print(z21, ""   z21  Channel Saved \n"")","['print', '(', 'z21', ',', '""   z21  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-115,                    },['}'],['OPERATOR']
-116,                },['}'],['OPERATOR']
-117,            },['}'],['OPERATOR']
-118,"        case x, open := <-response23:","['case', 'x', ',', 'open', ':=', '<-', 'response23', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-119,            {,['{'],['OPERATOR']
-120,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,                    return,['return'],['KEYWORD']
-122,                },['}'],['OPERATOR']
-123,                if x != 0 && m21 != true {,"['if', 'x', '!=', '0', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-124,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-125,"                    print(z23, ""   z21\n"")","['print', '(', 'z23', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-126,                },['}'],['OPERATOR']
-127,                if x != 0 && m21 == true {,"['if', 'x', '!=', '0', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-128,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-129,"                    print(z23, ""   z23 Channel Saving \n"")","['print', '(', 'z23', ',', '""   z23 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-130,                },['}'],['OPERATOR']
-131,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-132,                    m23 = true,"['m23', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-133,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-134,"                        print("" z23 Channel Saving Stopped \n"")","['print', '(', '"" z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-135,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-136,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-137,                    },['}'],['OPERATOR']
-138,                    if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,                        z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-140,"                        print(z23, ""   z23  Channel Saved \n"")","['print', '(', 'z23', ',', '""   z23  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-141,                    },['}'],['OPERATOR']
-142,                },['}'],['OPERATOR']
-143,            },['}'],['OPERATOR']
-144,        },['}'],['OPERATOR']
-145,        if m23 == false && m21 == false {,"['if', 'm23', '==', 'false', '&&', 'm21', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-146,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-147,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-148,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-149,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-150,                    response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-151,                },['}'],['OPERATOR']
-152,            },['}'],['OPERATOR']
-153,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-154,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-155,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-156,                    response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,                },['}'],['OPERATOR']
-158,            },['}'],['OPERATOR']
-159,        },['}'],['OPERATOR']
-160,        if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-161,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-162,            response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-163,        },['}'],['OPERATOR']
-164,        if m23 != true && m21 == true {,"['if', 'm23', '!=', 'true', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-165,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-166,            command23 <- y,"['command23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-167,        },['}'],['OPERATOR']
-168,    },['}'],['OPERATOR']
-169,    close(response12),"['close', '(', 'response12', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-170,    close(command23),"['close', '(', 'command23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-171,},['}'],['OPERATOR']
-172,"func Routine3(command13 chan int, response13 chan int, command23 chan int, response23 chan int) {","['func', 'Routine3', '(', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-173,    z31 := 200,"['z31', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-174,    z32 := 200,"['z32', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-175,    m31 := false,"['m31', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-176,    m32 := false,"['m32', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-177,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-178,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-179,"        case x, open := <-command13:","['case', 'x', ',', 'open', ':=', '<-', 'command13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-180,            {,['{'],['OPERATOR']
-181,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-182,                    return,['return'],['KEYWORD']
-183,                },['}'],['OPERATOR']
-184,                if x != 0 && m32 != true {,"['if', 'x', '!=', '0', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-185,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-186,"                    print(z31, ""   z21\n"")","['print', '(', 'z31', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-187,                },['}'],['OPERATOR']
-188,                if x != 0 && m32 == true {,"['if', 'x', '!=', '0', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-189,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-190,"                    print(z31, ""   z31 Channel Saving \n"")","['print', '(', 'z31', ',', '""   z31 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-191,                },['}'],['OPERATOR']
-192,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-193,                    m31 = true,"['m31', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-194,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-195,"                        print("" z21 Channel Saving Stopped \n"")","['print', '(', '"" z21 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-196,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-197,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-198,                    },['}'],['OPERATOR']
-199,                    if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-200,                        z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-201,"                        print(z31, ""   z31  Channel Saved \n"")","['print', '(', 'z31', ',', '""   z31  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-202,                    },['}'],['OPERATOR']
-203,                },['}'],['OPERATOR']
-204,            },['}'],['OPERATOR']
-205,"        case x, open := <-command23:","['case', 'x', ',', 'open', ':=', '<-', 'command23', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-206,            {,['{'],['OPERATOR']
-207,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-208,                    return,['return'],['KEYWORD']
-209,                },['}'],['OPERATOR']
-210,                if x != 0 && m31 != true {,"['if', 'x', '!=', '0', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-211,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-212,"                    print(z32, ""   z32\n"")","['print', '(', 'z32', ',', '""   z32\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-213,                },['}'],['OPERATOR']
-214,                if x != 0 && m31 == true {,"['if', 'x', '!=', '0', '&&', 'm31', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-215,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-216,"                    print(z32, ""   z32 Channel Saving \n"")","['print', '(', 'z32', ',', '""   z32 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-217,                },['}'],['OPERATOR']
-218,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-219,                    m32 = true,"['m32', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-220,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,"                        print("" z32 Channel Saving Stopped \n"")","['print', '(', '"" z32 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-222,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-223,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-224,                    },['}'],['OPERATOR']
-225,                    if m32 == true && m31 != true {,"['if', 'm32', '==', 'true', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-226,                        z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-227,"                        print(z32, ""   z32  Channel Saved \n"")","['print', '(', 'z32', ',', '""   z32  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-228,                    },['}'],['OPERATOR']
-229,                },['}'],['OPERATOR']
-230,            },['}'],['OPERATOR']
-231,        },['}'],['OPERATOR']
-232,        if m31 == false && m32 == false {,"['if', 'm31', '==', 'false', '&&', 'm32', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-233,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-234,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-235,                response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-236,            },['}'],['OPERATOR']
-237,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-238,                response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-239,            },['}'],['OPERATOR']
-240,        },['}'],['OPERATOR']
-241,        if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-242,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-243,            response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-244,        },['}'],['OPERATOR']
-245,        if m31 != true && m32 == true {,"['if', 'm31', '!=', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-246,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-247,            response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-248,        },['}'],['OPERATOR']
-249,    },['}'],['OPERATOR']
-250,    close(response13),"['close', '(', 'response13', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-251,    close(response23),"['close', '(', 'response23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-252,},['}'],['OPERATOR']
-253,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-254,    // Three concurrent channels are created to pass integers to each other.,['// Three concurrent channels are created to pass integers to each other.'],"['COMMENT', 'CD', 'NN', 'NNS', 'VBP', 'VBN', 'TO', 'VB', 'NNS', 'TO', 'DT', 'JJ', '.']"
-255,    // command 12 used to send int and response12 is used to receive int from routine 1 to routine 2.,['// command 12 used to send int and response12 is used to receive int from routine 1 to routine 2.'],"['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD', '.']"
-256,    // response 12 used to send int and command 12 is used to receive int from routine 2 to routine 1. {so as for others},['// response 12 used to send int and command 12 is used to receive int from routine 2 to routine 1. {so as for others}'],"['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'CD', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD', '.', '(', 'RB', 'IN', 'IN', 'NNS', ')']"
-257,    command12 := make(chan int),"['command12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-258,    response12 := make(chan int),"['response12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-259,    command13 := make(chan int),"['command13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-260,    response13 := make(chan int),"['response13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-261,    command23 := make(chan int),"['command23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-262,    response23 := make(chan int),"['response23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-263,"    go Routine1(command12, response12, command13, response13)","['go', 'Routine1', '(', 'command12', ',', 'response12', ',', 'command13', ',', 'response13', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-264,"    go Routine2(command12, response12, command23, response23)","['go', 'Routine2', '(', 'command12', ',', 'response12', ',', 'command23', ',', 'response23', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-265,"    Routine3(command13, response13, command23, response23)","['Routine3', '(', 'command13', ',', 'response13', ',', 'command23', ',', 'response23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-266,},['}'],['OPERATOR']
+0,"I want to write three concurrent go routines that sends integers to each other. Now, my code is compiled properly, however after first execution it gives error ""throw: all goroutines are asleep - deadlock!"". I tried to find the error but I could not able to find any error in code logic.Can anybody help me to find the mistake with my code. My code is given below. 
+
+","['I', 'want', 'to', 'write', 'three', 'concurrent', 'go', 'routines', 'that', 'sends', 'integers', 'to', 'each', 'other.', 'Now,', 'my', 'code', 'is', 'compiled', 'properly,', 'however', 'after', 'first', 'execution', 'it', 'gives', 'error', '""throw:', 'all', 'goroutines', 'are', 'asleep', '-', 'deadlock!"".', 'I', 'tried', 'to', 'find', 'the', 'error', 'but', 'I', 'could', 'not', 'able', 'to', 'find', 'any', 'error', 'in', 'code', 'logic.Can', 'anybody', 'help', 'me', 'to', 'find', 'the', 'mistake', 'with', 'my', 'code.', 'My', 'code', 'is', 'given', 'below.']","['PRP', 'VBP', 'TO', 'VB', 'CD', 'NN', 'VB', 'NNS', 'WDT', 'VBZ', 'NNS', 'TO', 'DT', 'NN', 'NNP', 'PRP$', 'NN', 'VBZ', 'VBN', 'NN', 'RB', 'IN', 'JJ', 'NN', 'PRP', 'VBZ', 'JJ', 'IN', 'DT', 'NNS', 'VBP', 'JJ', ':', 'NN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'CC', 'PRP', 'MD', 'RB', 'JJ', 'TO', 'VB', 'DT', 'NN', 'IN', 'JJ', 'NN', 'NN', 'VB', 'PRP', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP$', 'NN', 'PRP$', 'NN', 'VBZ', 'VBN', 'NNS']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,"import ""rand""","['import', '""rand""']","['KEYWORD', 'STRING_LITERAL']"
+3,"func Routine1(command12 chan int, response12 chan int, command13 chan int, response13 chan int) {","['func', 'Routine1', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+4,    // z12 is a variable which stores the value comming from channel 2 and z13 is a variable which stores the value comming from channel 3.,"['//', 'z12', 'is', 'a', 'variable', 'which', 'stores', 'the', 'value', 'comming', 'from', 'channel', '2', 'and', 'z13', 'is', 'a', 'variable', 'which', 'stores', 'the', 'value', 'comming', 'from', 'channel', '3.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD', 'CC', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD']"
+5,    z12 := 200,"['z12', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+6,    z13 := 200,"['z13', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+7,    m12 := false,"['m12', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+8,    m13 := false,"['m13', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+9,    y := 0,"['y', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+10,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+11,        y = rand.Intn(100),"['y', '=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+12,        // If y's value is not 0 then the value will be sent to routine 2 or 3 according to   prime or not.,"['//', 'If', ""y's"", 'value', 'is', 'not', '0', 'then', 'the', 'value', 'will', 'be', 'sent', 'to', 'routine', '2', 'or', '3', 'according', 'to', 'prime', 'or', 'not.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', 'RB', 'DT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'CD', 'CC', 'CD', 'VBG', 'TO', 'JJ', 'CC', 'JJ']"
+13,"        // If y's value is 0 then process state (the varibles used by it means z12, z13) and channel state will be saved.[routine 1 is initiator]","['//', 'If', ""y's"", 'value', 'is', '0', 'then', 'process', 'state', '(the', 'varibles', 'used', 'by', 'it', 'means', 'z12,', 'z13)', 'and', 'channel', 'state', 'will', 'be', 'saved.[routine', '1', 'is', 'initiator]']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'CD', 'RB', 'NN', 'NN', 'NN', 'NNS', 'VBN', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', 'CC', 'NN', 'NN', 'MD', 'VB', 'JJ', 'CD', 'VBZ', 'JJ']"
+14,        if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+15,"            print(z12, ""    z12 STATE SAVED\n"")","['print', '(', 'z12', ',', '""    z12 STATE SAVED\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,"            print(z13, ""    z13 STATE SAVED\n"")","['print', '(', 'z13', ',', '""    z13 STATE SAVED\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,"            // Routine 1 is initiator,  it sends 0 to make other process to save the state.","['//', 'Routine', '1', 'is', 'initiator,', 'it', 'sends', '0', 'to', 'make', 'other', 'process', 'to', 'save', 'the', 'state.']","['COMMENT', 'JJ', 'CD', 'VBZ', 'JJ', 'PRP', 'VBZ', 'CD', 'TO', 'VB', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN']"
+18,            y = 0,"['y', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+19,            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+20,            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+21,"            // Untill routine 2 and 3 does not send 0, process 1 is on channel saving state (it's process state is already saved).","['//', 'Untill', 'routine', '2', 'and', '3', 'does', 'not', 'send', '0,', 'process', '1', 'is', 'on', 'channel', 'saving', 'state', ""(it's"", 'process', 'state', 'is', 'already', 'saved).']","['COMMENT', 'NNP', 'VBZ', 'CD', 'CC', 'CD', 'VBZ', 'RB', 'VB', 'CD', 'NN', 'CD', 'VBZ', 'IN', 'NN', 'VBG', 'NN', 'NN', 'NN', 'NN', 'VBZ', 'RB', 'JJ']"
+22,"            // When routine 1 recives 0 from both other processes, channel is saved and routine 1 retuns to it's common routine procedure.","['//', 'When', 'routine', '1', 'recives', '0', 'from', 'both', 'other', 'processes,', 'channel', 'is', 'saved', 'and', 'routine', '1', 'retuns', 'to', ""it's"", 'common', 'routine', 'procedure.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBZ', 'VBN', 'CC', 'JJ', 'CD', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NN']"
+23,"            // When routine 1 recives 0 from any other processes, saving channel bettwen them is stopped.","['//', 'When', 'routine', '1', 'recives', '0', 'from', 'any', 'other', 'processes,', 'saving', 'channel', 'bettwen', 'them', 'is', 'stopped.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NN', 'VBG', 'NNS', 'IN', 'PRP', 'VBZ', 'JJ']"
+24,"            // m12, m13 is used to mark whether 0 recived or not.","['//', 'm12,', 'm13', 'is', 'used', 'to', 'mark', 'whether', '0', 'recived', 'or', 'not.']","['COMMENT', 'NN', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'IN', 'CD', 'VBD', 'CC', 'NNS']"
+25,            for m12 != true || m13 != true {,"['for', 'm12', '!=', 'true', '||', 'm13', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,                select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
+27,                case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,                    {,['{'],['OPERATOR']
+29,                        z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+30,                        if z12 != 0 {,"['if', 'z12', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+31,"                            print(z12, ""    z12  Channel Saving.... \n"")","['print', '(', 'z12', ',', '""    z12  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+32,                            y = rand.Intn(100),"['y', '=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+33,                            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+34,                        },['}'],['OPERATOR']
+35,                        if z12 == 0 {,"['if', 'z12', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+36,                            m12 = true,"['m12', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+37,"                            print("" z12  Channel Saving Stopped \n"")","['print', '(', '"" z12  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+38,                        },['}'],['OPERATOR']
+39,                    },['}'],['OPERATOR']
+40,                case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,                    {,['{'],['OPERATOR']
+42,                        z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+43,                        if z13 != 0 {,"['if', 'z13', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+44,"                            print(z13, ""    z13  Channel Saving.... \n"")","['print', '(', 'z13', ',', '""    z13  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+45,                            y = rand.Intn(100),"['y', '=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+46,                            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+47,                        },['}'],['OPERATOR']
+48,                        if z13 == 0 {,"['if', 'z13', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+49,                            m13 = true,"['m13', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+50,"                            print(""    z13  Channel Saving Stopped \n"")","['print', '(', '""    z13  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+51,                        },['}'],['OPERATOR']
+52,                    },['}'],['OPERATOR']
+53,                },['}'],['OPERATOR']
+54,            },['}'],['OPERATOR']
+55,            // After saving process state it retuns to it's normal behaviour.,"['//', 'After', 'saving', 'process', 'state', 'it', 'retuns', 'to', ""it's"", 'normal', 'behaviour.']","['COMMENT', 'IN', 'VBG', 'NN', 'NN', 'PRP', 'VBZ', 'TO', 'VB', 'JJ', 'NN']"
+56,            m12 = false,"['m12', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+57,            m13 = false,"['m13', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+58,        },['}'],['OPERATOR']
+59,        if y != 0 {,"['if', 'y', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+60,"            // If y value is not 0, routine 1 just sends int to other process according to prime or not and recives int accordingly.","['//', 'If', 'y', 'value', 'is', 'not', '0,', 'routine', '1', 'just', 'sends', 'int', 'to', 'other', 'process', 'according', 'to', 'prime', 'or', 'not', 'and', 'recives', 'int', 'accordingly.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', 'JJ', 'CD', 'RB', 'NNS', 'VBP', 'TO', 'JJ', 'NN', 'VBG', 'TO', 'JJ', 'CC', 'RB', 'CC', 'VBZ', 'NN', 'NN']"
+61,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+62,                command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+63,            },['}'],['OPERATOR']
+64,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+65,                command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+66,            },['}'],['OPERATOR']
+67,            select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
+68,            case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,                {,['{'],['OPERATOR']
+70,                    z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+71,"                    print(z12, ""    z12\n"")","['print', '(', 'z12', ',', '""    z12\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+72,                },['}'],['OPERATOR']
+73,            case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,                {,['{'],['OPERATOR']
+75,                    z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+76,"                    print(z13, ""   z13\n"")","['print', '(', 'z13', ',', '""   z13\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+77,                },['}'],['OPERATOR']
+78,            },['}'],['OPERATOR']
+79,        },['}'],['OPERATOR']
+80,    },['}'],['OPERATOR']
+81,    close(command12),"['close', '(', 'command12', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,    close(command13),"['close', '(', 'command13', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,},['}'],['OPERATOR']
+84,//Routine 2 (or 3) is not an initiator (means it can't send 0). When it recives 0 (from routine 1 or 3) it save the state of process and the state of the channel from which it recived).,"['//', 'Routine', '2', '(or', '3)', 'is', 'not', 'an', 'initiator', '(means', 'it', ""can't"", 'send', '0).', 'When', 'it', 'recives', '0', '(from', 'routine', '1', 'or', '3)', 'it', 'save', 'the', 'state', 'of', 'process', 'and', 'the', 'state', 'of', 'the', 'channel', 'from', 'which', 'it', 'recived).']","['COMMENT', 'JJ', 'CD', 'JJ', 'CD', 'VBZ', 'RB', 'DT', 'NN', 'VBZ', 'PRP', 'JJ', 'VB', 'CD', 'WRB', 'PRP', 'VBZ', 'CD', 'NN', 'JJ', 'CD', 'CC', 'CD', 'PRP', 'VBD', 'DT', 'NN', 'IN', 'NN', 'CC', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'WDT', 'PRP', 'VBD']"
+85,"// When it recives 0 from both other two routine, it saves all channel state and returns to it's common behaviour. [same in routine 3]","['//', 'When', 'it', 'recives', '0', 'from', 'both', 'other', 'two', 'routine,', 'it', 'saves', 'all', 'channel', 'state', 'and', 'returns', 'to', ""it's"", 'common', 'behaviour.', '[same', 'in', 'routine', '3]']","['COMMENT', 'WRB', 'PRP', 'VBZ', 'CD', 'IN', 'DT', 'JJ', 'CD', 'VBP', 'PRP', 'VBZ', 'DT', 'NN', 'NN', 'CC', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NN', 'IN', 'JJ', 'CD']"
+86,"func Routine2(command12 chan int, response12 chan int, command23 chan int, response23 chan int) {","['func', 'Routine2', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+87,    z21 := 200,"['z21', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+88,    z23 := 200,"['z23', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+89,    m21 := false,"['m21', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+90,    m23 := false,"['m23', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+91,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+92,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
+93,"        case x, open := <-command12:","['case', 'x', ',', 'open', ':=', '<-', 'command12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,            {,['{'],['OPERATOR']
+95,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,                    return,['return'],['KEYWORD']
+97,                },['}'],['OPERATOR']
+98,                if x != 0 && m23 != true {,"['if', 'x', '!=', '0', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+100,"                    print(z21, ""   z21\n"")","['print', '(', 'z21', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+101,                },['}'],['OPERATOR']
+102,                if x != 0 && m23 == true {,"['if', 'x', '!=', '0', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+104,"                    print(z21, ""   z21 Channel Saving \n"")","['print', '(', 'z21', ',', '""   z21 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+105,                },['}'],['OPERATOR']
+106,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+107,                    m21 = true,"['m21', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+108,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,"                        print("" z21 and z23 Channel Saving Stopped \n"")","['print', '(', '"" z21 and z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+110,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+111,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+112,                    },['}'],['OPERATOR']
+113,                    if m21 == true && m23 != true {,"['if', 'm21', '==', 'true', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,                        z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+115,"                        print(z21, ""   z21  Channel Saved \n"")","['print', '(', 'z21', ',', '""   z21  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+116,                    },['}'],['OPERATOR']
+117,                },['}'],['OPERATOR']
+118,            },['}'],['OPERATOR']
+119,"        case x, open := <-response23:","['case', 'x', ',', 'open', ':=', '<-', 'response23', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,            {,['{'],['OPERATOR']
+121,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,                    return,['return'],['KEYWORD']
+123,                },['}'],['OPERATOR']
+124,                if x != 0 && m21 != true {,"['if', 'x', '!=', '0', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+126,"                    print(z23, ""   z21\n"")","['print', '(', 'z23', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+127,                },['}'],['OPERATOR']
+128,                if x != 0 && m21 == true {,"['if', 'x', '!=', '0', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+130,"                    print(z23, ""   z23 Channel Saving \n"")","['print', '(', 'z23', ',', '""   z23 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+131,                },['}'],['OPERATOR']
+132,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+133,                    m23 = true,"['m23', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+134,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,"                        print("" z23 Channel Saving Stopped \n"")","['print', '(', '"" z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+136,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+137,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+138,                    },['}'],['OPERATOR']
+139,                    if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,                        z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+141,"                        print(z23, ""   z23  Channel Saved \n"")","['print', '(', 'z23', ',', '""   z23  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+142,                    },['}'],['OPERATOR']
+143,                },['}'],['OPERATOR']
+144,            },['}'],['OPERATOR']
+145,        },['}'],['OPERATOR']
+146,        if m23 == false && m21 == false {,"['if', 'm23', '==', 'false', '&&', 'm21', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+147,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+148,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+149,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+150,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+151,                    response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+152,                },['}'],['OPERATOR']
+153,            },['}'],['OPERATOR']
+154,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+155,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+156,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+157,                    response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+158,                },['}'],['OPERATOR']
+159,            },['}'],['OPERATOR']
+160,        },['}'],['OPERATOR']
+161,        if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+162,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+163,            response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+164,        },['}'],['OPERATOR']
+165,        if m23 != true && m21 == true {,"['if', 'm23', '!=', 'true', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+167,            command23 <- y,"['command23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+168,        },['}'],['OPERATOR']
+169,    },['}'],['OPERATOR']
+170,    close(response12),"['close', '(', 'response12', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+171,    close(command23),"['close', '(', 'command23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+172,},['}'],['OPERATOR']
+173,"func Routine3(command13 chan int, response13 chan int, command23 chan int, response23 chan int) {","['func', 'Routine3', '(', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+174,    z31 := 200,"['z31', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+175,    z32 := 200,"['z32', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+176,    m31 := false,"['m31', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+177,    m32 := false,"['m32', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+178,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+179,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
+180,"        case x, open := <-command13:","['case', 'x', ',', 'open', ':=', '<-', 'command13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+181,            {,['{'],['OPERATOR']
+182,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,                    return,['return'],['KEYWORD']
+184,                },['}'],['OPERATOR']
+185,                if x != 0 && m32 != true {,"['if', 'x', '!=', '0', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+186,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+187,"                    print(z31, ""   z21\n"")","['print', '(', 'z31', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+188,                },['}'],['OPERATOR']
+189,                if x != 0 && m32 == true {,"['if', 'x', '!=', '0', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+190,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+191,"                    print(z31, ""   z31 Channel Saving \n"")","['print', '(', 'z31', ',', '""   z31 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+192,                },['}'],['OPERATOR']
+193,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+194,                    m31 = true,"['m31', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+195,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+196,"                        print("" z21 Channel Saving Stopped \n"")","['print', '(', '"" z21 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+197,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+198,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+199,                    },['}'],['OPERATOR']
+200,                    if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+201,                        z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+202,"                        print(z31, ""   z31  Channel Saved \n"")","['print', '(', 'z31', ',', '""   z31  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+203,                    },['}'],['OPERATOR']
+204,                },['}'],['OPERATOR']
+205,            },['}'],['OPERATOR']
+206,"        case x, open := <-command23:","['case', 'x', ',', 'open', ':=', '<-', 'command23', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+207,            {,['{'],['OPERATOR']
+208,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+209,                    return,['return'],['KEYWORD']
+210,                },['}'],['OPERATOR']
+211,                if x != 0 && m31 != true {,"['if', 'x', '!=', '0', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+212,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+213,"                    print(z32, ""   z32\n"")","['print', '(', 'z32', ',', '""   z32\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+214,                },['}'],['OPERATOR']
+215,                if x != 0 && m31 == true {,"['if', 'x', '!=', '0', '&&', 'm31', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+216,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+217,"                    print(z32, ""   z32 Channel Saving \n"")","['print', '(', 'z32', ',', '""   z32 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+218,                },['}'],['OPERATOR']
+219,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+220,                    m32 = true,"['m32', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+221,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+222,"                        print("" z32 Channel Saving Stopped \n"")","['print', '(', '"" z32 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+223,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+224,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+225,                    },['}'],['OPERATOR']
+226,                    if m32 == true && m31 != true {,"['if', 'm32', '==', 'true', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+227,                        z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+228,"                        print(z32, ""   z32  Channel Saved \n"")","['print', '(', 'z32', ',', '""   z32  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+229,                    },['}'],['OPERATOR']
+230,                },['}'],['OPERATOR']
+231,            },['}'],['OPERATOR']
+232,        },['}'],['OPERATOR']
+233,        if m31 == false && m32 == false {,"['if', 'm31', '==', 'false', '&&', 'm32', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+234,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+235,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+236,                response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+237,            },['}'],['OPERATOR']
+238,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+239,                response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+240,            },['}'],['OPERATOR']
+241,        },['}'],['OPERATOR']
+242,        if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+243,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+244,            response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+245,        },['}'],['OPERATOR']
+246,        if m31 != true && m32 == true {,"['if', 'm31', '!=', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+247,            y := rand.Intn(100),"['y', ':=', 'rand', '.', 'Intn', '(', '100', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+248,            response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+249,        },['}'],['OPERATOR']
+250,    },['}'],['OPERATOR']
+251,    close(response13),"['close', '(', 'response13', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+252,    close(response23),"['close', '(', 'response23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+253,},['}'],['OPERATOR']
+254,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+255,    // Three concurrent channels are created to pass integers to each other.,"['//', 'Three', 'concurrent', 'channels', 'are', 'created', 'to', 'pass', 'integers', 'to', 'each', 'other.']","['COMMENT', 'CD', 'NN', 'NNS', 'VBP', 'VBN', 'TO', 'VB', 'NNS', 'TO', 'DT', 'NN']"
+256,    // command 12 used to send int and response12 is used to receive int from routine 1 to routine 2.,"['//', 'command', '12', 'used', 'to', 'send', 'int', 'and', 'response12', 'is', 'used', 'to', 'receive', 'int', 'from', 'routine', '1', 'to', 'routine', '2.']","['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD']"
+257,    // response 12 used to send int and command 12 is used to receive int from routine 2 to routine 1. {so as for others},"['//', 'response', '12', 'used', 'to', 'send', 'int', 'and', 'command', '12', 'is', 'used', 'to', 'receive', 'int', 'from', 'routine', '2', 'to', 'routine', '1.', '{so', 'as', 'for', 'others}']","['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'CD', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD', 'NN', 'IN', 'IN', 'NN']"
+258,    command12 := make(chan int),"['command12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+259,    response12 := make(chan int),"['response12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+260,    command13 := make(chan int),"['command13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+261,    response13 := make(chan int),"['response13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+262,    command23 := make(chan int),"['command23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+263,    response23 := make(chan int),"['response23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+264,"    go Routine1(command12, response12, command13, response13)","['go', 'Routine1', '(', 'command12', ',', 'response12', ',', 'command13', ',', 'response13', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+265,"    go Routine2(command12, response12, command23, response23)","['go', 'Routine2', '(', 'command12', ',', 'response12', ',', 'command23', ',', 'response23', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+266,"    Routine3(command13, response13, command23, response23)","['Routine3', '(', 'command13', ',', 'response13', ',', 'command23', ',', 'response23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+267,},['}'],['OPERATOR']

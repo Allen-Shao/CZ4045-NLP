@@ -1,187 +1,177 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
-3,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-4,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
-5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-6,"    ""os""","['""os""']",['STRING_LITERAL']
-7,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-8,"    ""unicode/utf16""","['""unicode/utf16""']",['STRING_LITERAL']
-9,"    ""unicode/utf8""","['""unicode/utf8""']",['STRING_LITERAL']
-10,),[')'],['OPERATOR']
-11,"// UTF16BytesToString converts UTF-16 encoded bytes, in big or little endian byte order,","['// UTF16BytesToString converts UTF-16 encoded bytes, in big or little endian byte order,']","['COMMENT', 'VBG', 'NNS', 'NNP', 'VBD', 'NNS', ',', 'IN', 'JJ', 'CC', 'JJ', 'JJ', 'NN', 'NN', ',']"
-12,// to a UTF-8 encoded string.,['// to a UTF-8 encoded string.'],"['COMMENT', 'TO', 'DT', 'NNP', 'VBD', 'NN', '.']"
-13,"func UTF16BytesToString(b []byte, o binary.ByteOrder) string {","['func', 'UTF16BytesToString', '(', 'b', '[]', 'byte', ',', 'o', 'binary', '.', 'ByteOrder', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-14,"    utf := make([]uint16, (len(b)+(2-1))/2)","['utf', ':=', 'make', '([]', 'uint16', ',', '(', 'len', '(', 'b', ')+(', '2', '-', '1', '))', '2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-15,    for i := 0; i+(2-1) < len(b); i += 2 {,"['for', 'i', ':=', '0', ';', 'i', '+(', '2', '-', '1', ')', '<', 'len', '(', 'b', ');', 'i', '+=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-16,        utf[i/2] = o.Uint16(b[i:]),"['utf', '[', 'i', '2', ']', '=', 'o', '.', 'Uint16', '(', 'b', '[', 'i', ':])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-17,    },['}'],['OPERATOR']
-18,    if len(b)/2 < len(utf) {,"['if', 'len', '(', 'b', ')', '2', '<', 'len', '(', 'utf', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-19,        utf[len(utf)-1] = utf8.RuneError,"['utf', '[', 'len', '(', 'utf', ')-', '1', ']', '=', 'utf8', '.', 'RuneError']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-20,    },['}'],['OPERATOR']
-21,    return string(utf16.Decode(utf)),"['return', 'string', '(', 'utf16', '.', 'Decode', '(', 'utf', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,},['}'],['OPERATOR']
-23,// UTF-16 endian byte order,['// UTF-16 endian byte order'],"['COMMENT', 'JJ', 'JJ', 'NN', 'NN']"
-24,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-25,    unknownEndian = iota,"['unknownEndian', '=', 'iota']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-26,    bigEndian,['bigEndian'],['IDENTIFIER']
-27,    littleEndian,['littleEndian'],['IDENTIFIER']
-28,),[')'],['OPERATOR']
-29,// dropCREndian drops a terminal \r from the endian data.,['// dropCREndian drops a terminal \\r from the endian data.'],"['COMMENT', 'JJ', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', '.']"
-30,"func dropCREndian(data []byte, t1, t2 byte) []byte {","['func', 'dropCREndian', '(', 'data', '[]', 'byte', ',', 't1', ',', 't2', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,    if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-32,        if data[len(data)-2] == t1 && data[len(data)-1] == t2 {,"['if', 'data', '[', 'len', '(', 'data', ')-', '2', ']', '==', 't1', '&&', 'data', '[', 'len', '(', 'data', ')-', '1', ']', '==', 't2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,            return data[0 : len(data)-2],"['return', 'data', '[', '0', ':', 'len', '(', 'data', ')-', '2', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-34,        },['}'],['OPERATOR']
-35,    },['}'],['OPERATOR']
-36,    return data,"['return', 'data']","['KEYWORD', 'IDENTIFIER']"
-37,},['}'],['OPERATOR']
-38,// dropCRBE drops a terminal \r from the big endian data.,['// dropCRBE drops a terminal \\r from the big endian data.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', 'NN', '.']"
-39,func dropCRBE(data []byte) []byte {,"['func', 'dropCRBE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,"    return dropCREndian(data, '\x00', '\r')","['return', 'dropCREndian', '(', 'data', ',', 'x00', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,},['}'],['OPERATOR']
-42,// dropCRLE drops a terminal \r from the little endian data.,['// dropCRLE drops a terminal \\r from the little endian data.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', 'NNS', '.']"
-43,func dropCRLE(data []byte) []byte {,"['func', 'dropCRLE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,"    return dropCREndian(data, '\r', '\x00')","['return', 'dropCREndian', '(', 'data', ',', 'r', ',', 'x00', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,},['}'],['OPERATOR']
-46,// dropCR drops a terminal \r from the data.,['// dropCR drops a terminal \\r from the data.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NNS', '.']"
-47,"func dropCR(data []byte) ([]byte, int) {","['func', 'dropCR', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-48,    var endian = unknownEndian,"['var', 'endian', '=', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-49,    switch ld := len(data); {,"['switch', 'ld', ':=', 'len', '(', 'data', ');', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-50,    case ld != len(dropCRLE(data)):,"['case', 'ld', '!=', 'len', '(', 'dropCRLE', '(', 'data', ')):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,        endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-52,    case ld != len(dropCRBE(data)):,"['case', 'ld', '!=', 'len', '(', 'dropCRBE', '(', 'data', ')):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-53,        endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-54,    },['}'],['OPERATOR']
-55,"    return data, endian","['return', 'data', ',', 'endian']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-56,},['}'],['OPERATOR']
-57,// SplitFunc is a split function for a Scanner that returns each line of,['// SplitFunc is a split function for a Scanner that returns each line of'],"['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'NN', 'IN', 'DT', 'NNP', 'IN', 'VBZ', 'DT', 'NN', 'IN']"
-58,"// text, stripped of any trailing end-of-line marker. The returned line may","['// text, stripped of any trailing end-of-line marker. The returned line may']","['COMMENT', 'NN', ',', 'VBD', 'IN', 'DT', 'VBG', 'JJ', 'NN', '.', 'DT', 'JJ', 'NN', 'MD']"
-59,// be empty. The end-of-line marker is one optional carriage return followed,['// be empty. The end-of-line marker is one optional carriage return followed'],"['COMMENT', 'VB', 'JJ', '.', 'DT', 'JJ', 'NN', 'VBZ', 'CD', 'JJ', 'NN', 'NN', 'VBD']"
-60,"// by one mandatory newline. In regular expression notation, it is `\r?\n`.","['// by one mandatory newline. In regular expression notation, it is `\\r?\\n`.']","['COMMENT', 'IN', 'CD', 'JJ', 'NN', '.', 'IN', 'JJ', 'NN', 'NN', ',', 'PRP', 'VBZ', 'VBN', '.', 'UH', '.']"
-61,// The last non-empty line of input will be returned even if it has no,['// The last non-empty line of input will be returned even if it has no'],"['COMMENT', 'DT', 'JJ', 'JJ', 'NN', 'IN', 'NN', 'MD', 'VB', 'VBN', 'RB', 'IN', 'PRP', 'VBZ', 'DT']"
-62,// newline.,['// newline.'],"['COMMENT', 'NN', '.']"
-63,"func ScanUTF16LinesFunc(byteOrder binary.ByteOrder) (bufio.SplitFunc, func() binary.ByteOrder) {","['func', 'ScanUTF16LinesFunc', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '(', 'bufio', '.', 'SplitFunc', ',', 'func', '()', 'binary', '.', 'ByteOrder', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-64,    // Function closure variables,['// Function closure variables'],"['COMMENT', 'NNP', 'NN', 'NNS']"
-65,    var endian = unknownEndian,"['var', 'endian', '=', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-66,    switch byteOrder {,"['switch', 'byteOrder', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-67,    case binary.BigEndian:,"['case', 'binary', '.', 'BigEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,        endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-69,    case binary.LittleEndian:,"['case', 'binary', '.', 'LittleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,        endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-71,    },['}'],['OPERATOR']
-72,    const bom = 0xFEFF,"['const', 'bom', '=', '0', 'xFEFF']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-73,    var checkBOM bool = endian == unknownEndian,"['var', 'checkBOM', 'bool', '=', 'endian', '==', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-74,    // Scanner split function,['// Scanner split function'],"['COMMENT', 'NNP', 'NN', 'NN']"
-75,"    splitFunc := func(data []byte, atEOF bool) (advance int, token []byte, err error) {","['splitFunc', ':=', 'func', '(', 'data', '[]', 'byte', ',', 'atEOF', 'bool', ')', '(', 'advance', 'int', ',', 'token', '[]', 'byte', ',', 'err', 'error', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-76,        if atEOF && len(data) == 0 {,"['if', 'atEOF', '&&', 'len', '(', 'data', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-77,"            return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-78,        },['}'],['OPERATOR']
-79,        if checkBOM {,"['if', 'checkBOM', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-80,            checkBOM = false,"['checkBOM', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-81,            if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-82,                switch uint16(bom) {,"['switch', 'uint16', '(', 'bom', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-83,                case uint16(data[0])<<8 | uint16(data[1]):,"['case', 'uint16', '(', 'data', '[', '0', '])<<', '8', '|', 'uint16', '(', 'data', '[', '1', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-84,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-85,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-86,                case uint16(data[1])<<8 | uint16(data[0]):,"['case', 'uint16', '(', 'data', '[', '1', '])<<', '8', '|', 'uint16', '(', 'data', '[', '0', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-87,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-88,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-89,                },['}'],['OPERATOR']
-90,            },['}'],['OPERATOR']
-91,        },['}'],['OPERATOR']
-92,        // Scan for newline-terminated lines.,['// Scan for newline-terminated lines.'],"['COMMENT', 'JJ', 'IN', 'JJ', 'NNS', '.']"
-93,        i := 0,"['i', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-94,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-95,"            j := bytes.IndexByte(data[i:], '\n')","['j', ':=', 'bytes', '.', 'IndexByte', '(', 'data', '[', 'i', ':],', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,            if j < 0 {,"['if', 'j', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-97,                break,['break'],['KEYWORD']
-98,            },['}'],['OPERATOR']
-99,            i += j,"['i', '+=', 'j']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-100,            switch e := i % 2; e {,"['switch', 'e', ':=', 'i', '2', ';', 'e', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-101,            case 1: // UTF-16BE,"['case', '1', ':', '// UTF-16BE']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
-102,                if endian != littleEndian {,"['if', 'endian', '!=', 'littleEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,                    if i > 1 {,"['if', 'i', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-104,                        if data[i-1] == '\x00' {,"['if', 'data', '[', 'i', '-', '1', ']', '==', 'x00', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,                            endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-106,                            // We have a full newline-terminated line.,['// We have a full newline-terminated line.'],"['COMMENT', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN', '.']"
-107,"                            return i + 1, dropCRBE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRBE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-108,                        },['}'],['OPERATOR']
-109,                    },['}'],['OPERATOR']
-110,                },['}'],['OPERATOR']
-111,            case 0: // UTF-16LE,"['case', '0', ':', '// UTF-16LE']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
-112,                if endian != bigEndian {,"['if', 'endian', '!=', 'bigEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,                    if i+1 < len(data) {,"['if', 'i', '+', '1', '<', 'len', '(', 'data', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-114,                        i++,"['i', '++']","['IDENTIFIER', 'OPERATOR']"
-115,                        if data[i] == '\x00' {,"['if', 'data', '[', 'i', ']', '==', 'x00', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,                            endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-117,                            // We have a full newline-terminated line.,['// We have a full newline-terminated line.'],"['COMMENT', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN', '.']"
-118,"                            return i + 1, dropCRLE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRLE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-119,                        },['}'],['OPERATOR']
-120,                    },['}'],['OPERATOR']
-121,                },['}'],['OPERATOR']
-122,            },['}'],['OPERATOR']
-123,            i++,"['i', '++']","['IDENTIFIER', 'OPERATOR']"
-124,        },['}'],['OPERATOR']
-125,"        // If we're at EOF, we have a final, non-terminated line. Return it.","[""// If we're at EOF, we have a final, non-terminated line. Return it.""]","['COMMENT', 'IN', 'PRP', 'VBP', 'IN', 'NNP', ',', 'PRP', 'VBP', 'DT', 'JJ', ',', 'JJ', 'NN', '.', 'VB', 'PRP', '.']"
-126,        if atEOF {,"['if', 'atEOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-127,            // drop CR.,['// drop CR.'],"['COMMENT', 'NN', 'NNP', '.']"
-128,            advance = len(data),"['advance', '=', 'len', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-129,            switch endian {,"['switch', 'endian', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-130,            case bigEndian:,"['case', 'bigEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-131,                data = dropCRBE(data),"['data', '=', 'dropCRBE', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,            case littleEndian:,"['case', 'littleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-133,                data = dropCRLE(data),"['data', '=', 'dropCRLE', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-134,            default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-135,"                data, endian = dropCR(data)","['data', ',', 'endian', '=', 'dropCR', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,            },['}'],['OPERATOR']
-137,            if endian == unknownEndian {,"['if', 'endian', '==', 'unknownEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-138,"                if runtime.GOOS == ""windows"" {","['if', 'runtime', '.', 'GOOS', '==', '""windows""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-139,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-140,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-141,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-142,                },['}'],['OPERATOR']
-143,            },['}'],['OPERATOR']
-144,"            return advance, data, nil","['return', 'advance', ',', 'data', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-145,        },['}'],['OPERATOR']
-146,        // Request more data.,['// Request more data.'],"['COMMENT', 'NNP', 'JJR', 'NNS', '.']"
-147,"        return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-148,    },['}'],['OPERATOR']
-149,    // Endian byte order function,['// Endian byte order function'],"['COMMENT', 'JJ', 'NN', 'NN', 'NN']"
-150,    orderFunc := func() (byteOrder binary.ByteOrder) {,"['orderFunc', ':=', 'func', '()', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-151,        switch endian {,"['switch', 'endian', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-152,        case bigEndian:,"['case', 'bigEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-153,            byteOrder = binary.BigEndian,"['byteOrder', '=', 'binary', '.', 'BigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-154,        case littleEndian:,"['case', 'littleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-155,            byteOrder = binary.LittleEndian,"['byteOrder', '=', 'binary', '.', 'LittleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-156,        },['}'],['OPERATOR']
-157,        return byteOrder,"['return', 'byteOrder']","['KEYWORD', 'IDENTIFIER']"
-158,    },['}'],['OPERATOR']
-159,"    return splitFunc, orderFunc","['return', 'splitFunc', ',', 'orderFunc']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-160,},['}'],['OPERATOR']
-161,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-162,"    file, err := os.Open(""utf16.le.txt"")","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', '""utf16.le.txt""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-163,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-164,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-165,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-166,    },['}'],['OPERATOR']
-167,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-168,    fmt.Println(file.Name()),"['fmt', '.', 'Println', '(', 'file', '.', 'Name', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-169,    rdr := bufio.NewReader(file),"['rdr', ':=', 'bufio', '.', 'NewReader', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-170,    scanner := bufio.NewScanner(rdr),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'rdr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-171,"    var bo binary.ByteOrder // unknown, infer from data","['var', 'bo', 'binary', '.', 'ByteOrder', '// unknown, infer from data']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'JJ', ',', 'VBP', 'IN', 'NNS']"
-172,    // bo = binary.LittleEndian // windows,['// bo = binary.LittleEndian // windows'],"['COMMENT', 'NN', 'NN', 'JJ', 'NNS']"
-173,"    splitFunc, orderFunc := ScanUTF16LinesFunc(bo)","['splitFunc', ',', 'orderFunc', ':=', 'ScanUTF16LinesFunc', '(', 'bo', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-174,    scanner.Split(splitFunc),"['scanner', '.', 'Split', '(', 'splitFunc', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-175,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-176,        b := scanner.Bytes(),"['b', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-177,"        s := UTF16BytesToString(b, orderFunc())","['s', ':=', 'UTF16BytesToString', '(', 'b', ',', 'orderFunc', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-178,"        fmt.Println(len(s), s)","['fmt', '.', 'Println', '(', 'len', '(', 's', '),', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-179,"        fmt.Println(len(b), b)","['fmt', '.', 'Println', '(', 'len', '(', 'b', '),', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-180,    },['}'],['OPERATOR']
-181,    fmt.Println(orderFunc()),"['fmt', '.', 'Println', '(', 'orderFunc', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-182,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-183,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-184,    },['}'],['OPERATOR']
-185,},['}'],['OPERATOR']
+0,"I'm trying to sign a string and later on verifying it with the public key. My verified result is empty. What am I doing wrong?
+
+","[""I'm"", 'trying', 'to', 'sign', 'a', 'string', 'and', 'later', 'on', 'verifying', 'it', 'with', 'the', 'public', 'key.', 'My', 'verified', 'result', 'is', 'empty.', 'What', 'am', 'I', 'doing', 'wrong?']","['NNP', 'VBG', 'TO', 'VB', 'DT', 'NN', 'CC', 'RB', 'IN', 'VBG', 'PRP', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'VBD', 'NN', 'VBZ', 'JJ', 'WP', 'VBP', 'PRP', 'VBG', 'NN']"
+1,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""crypto""","['""crypto""']",['STRING_LITERAL']
+4,"    ""crypto/rand""","['""crypto/rand""']",['STRING_LITERAL']
+5,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
+6,"    ""crypto/sha256""","['""crypto/sha256""']",['STRING_LITERAL']
+7,"    ""crypto/x509""","['""crypto/x509""']",['STRING_LITERAL']
+8,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
+9,"    ""encoding/pem""","['""encoding/pem""']",['STRING_LITERAL']
+10,"    ""errors""","['""errors""']",['STRING_LITERAL']
+11,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+12,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+13,),[')'],['OPERATOR']
+14,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+15,"    signer, err := loadPrivateKey(""private.pem"");","['signer', ',', 'err', ':=', 'loadPrivateKey', '(', '""private.pem""', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,"        fmt.Errorf(""signer is damaged: %v"", err)","['fmt', '.', 'Errorf', '(', '""signer is damaged: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,    },['}'],['OPERATOR']
+19,"    toSign := ""date: Thu, 05 Jan 2012 21:31:40 GMT"";","['toSign', ':=', '""date: Thu, 05 Jan 2012 21:31:40 GMT""', ';']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,"    signed, err := signer.Sign([]byte(toSign))","['signed', ',', 'err', ':=', 'signer', '.', 'Sign', '([]', 'byte', '(', 'toSign', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,    },['}'],['OPERATOR']
+24,    sig := base64.StdEncoding.EncodeToString(signed),"['sig', ':=', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'signed', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,"    fmt.Printf(""Encoded: %v\n"", sig)","['fmt', '.', 'Printf', '(', '""Encoded: %v\\n""', ',', 'sig', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,"    parser, perr := loadPublicKey(""public.pem"");","['parser', ',', 'perr', ':=', 'loadPublicKey', '(', '""public.pem""', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+27,    if perr != nil {,"['if', 'perr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,    },['}'],['OPERATOR']
+30,"    unsigned, err := parser.Unsign(signed);","['unsigned', ',', 'err', ':=', 'parser', '.', 'Unsign', '(', 'signed', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt', '.', 'Errorf', '(', '""could not sign request: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,    },['}'],['OPERATOR']
+34,"    fmt.Printf(""Decrypted: %v\n"", base64.StdEncoding.EncodeToString(unsigned))    ","['fmt', '.', 'Printf', '(', '""Decrypted: %v\\n""', ',', 'base64', '.', 'StdEncoding', '.', 'EncodeToString', '(', 'unsigned', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,},['}'],['OPERATOR']
+36,// loadPrivateKey loads an parses a PEM encoded private key file.,"['//', 'loadPrivateKey', 'loads', 'an', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', 'file.']","['COMMENT', 'NN', 'VBZ', 'DT', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', 'NN']"
+37,"func loadPublicKey(path string) (Unsigner, error) {","['func', 'loadPublicKey', '(', 'path', 'string', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+38,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+41,        },['}'],['OPERATOR']
+42,        return parsePublicKey(data),"['return', 'parsePublicKey', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,},['}'],['OPERATOR']
+44,// parsePublicKey parses a PEM encoded private key.,"['//', 'parsePublicKey', 'parses', 'a', 'PEM', 'encoded', 'private', 'key.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'JJ', 'JJ', 'NN']"
+45,"func parsePublicKey(pemBytes []byte) (Unsigner, error) {","['func', 'parsePublicKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+46,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem', '.', 'Decode', '(', 'pemBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""ssh: no key found""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+49,        },['}'],['OPERATOR']
+50,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+51,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,"        case ""PUBLIC KEY"":","['case', '""PUBLIC KEY""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+53,"                rsa, err := x509.ParsePKIXPublicKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509', '.', 'ParsePKIXPublicKey', '(', 'block', '.', 'Bytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+55,"                        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+56,                },['}'],['OPERATOR']
+57,                rawkey = rsa,"['rawkey', '=', 'rsa']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+58,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+59,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %q""', ',', 'block', '.', 'Type', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,        },['}'],['OPERATOR']
+61,        return newUnsignerFromKey(rawkey),"['return', 'newUnsignerFromKey', '(', 'rawkey', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,},['}'],['OPERATOR']
+63,// loadPrivateKey loads an parses a PEM encoded private key file.,"['//', 'loadPrivateKey', 'loads', 'an', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', 'file.']","['COMMENT', 'NN', 'VBZ', 'DT', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', 'NN']"
+64,"func loadPrivateKey(path string) (Signer, error) {","['func', 'loadPrivateKey', '(', 'path', 'string', ')', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+65,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', 'path', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+68,        },['}'],['OPERATOR']
+69,        return parsePrivateKey(data),"['return', 'parsePrivateKey', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,},['}'],['OPERATOR']
+71,// parsePublicKey parses a PEM encoded private key.,"['//', 'parsePublicKey', 'parses', 'a', 'PEM', 'encoded', 'private', 'key.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'JJ', 'JJ', 'NN']"
+72,"func parsePrivateKey(pemBytes []byte) (Signer, error) {","['func', 'parsePrivateKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+73,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem', '.', 'Decode', '(', 'pemBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors', '.', 'New', '(', '""ssh: no key found""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+76,        },['}'],['OPERATOR']
+77,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+78,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,"        case ""RSA PRIVATE KEY"":","['case', '""RSA PRIVATE KEY""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+80,"                rsa, err := x509.ParsePKCS1PrivateKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509', '.', 'ParsePKCS1PrivateKey', '(', 'block', '.', 'Bytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,"                        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+83,                },['}'],['OPERATOR']
+84,                rawkey = rsa,"['rawkey', '=', 'rsa']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+85,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+86,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %q""', ',', 'block', '.', 'Type', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,        },['}'],['OPERATOR']
+88,        return newSignerFromKey(rawkey),"['return', 'newSignerFromKey', '(', 'rawkey', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,},['}'],['OPERATOR']
+90,// A Signer is can create signatures that verify against a public key.,"['//', 'A', 'Signer', 'is', 'can', 'create', 'signatures', 'that', 'verify', 'against', 'a', 'public', 'key.']","['COMMENT', 'DT', 'NNP', 'VBZ', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'JJ', 'NN']"
+91,type Signer interface {,"['type', 'Signer', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+92,        // Sign returns raw signature for the given data. This method,"['//', 'Sign', 'returns', 'raw', 'signature', 'for', 'the', 'given', 'data.', 'This', 'method']","['COMMENT', 'NNP', 'VBZ', 'JJ', 'NN', 'IN', 'DT', 'VBN', 'NN', 'DT', 'NN']"
+93,        // will apply the hash specified for the keytype to the data.,"['//', 'will', 'apply', 'the', 'hash', 'specified', 'for', 'the', 'keytype', 'to', 'the', 'data.']","['COMMENT', 'MD', 'VB', 'DT', 'NN', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN']"
+94,"        Sign(data []byte) ([]byte, error)","['Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+95,},['}'],['OPERATOR']
+96,// A Signer is can create signatures that verify against a public key.,"['//', 'A', 'Signer', 'is', 'can', 'create', 'signatures', 'that', 'verify', 'against', 'a', 'public', 'key.']","['COMMENT', 'DT', 'NNP', 'VBZ', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'JJ', 'NN']"
+97,type Unsigner interface {,"['type', 'Unsigner', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+98,        // Sign returns raw signature for the given data. This method,"['//', 'Sign', 'returns', 'raw', 'signature', 'for', 'the', 'given', 'data.', 'This', 'method']","['COMMENT', 'NNP', 'VBZ', 'JJ', 'NN', 'IN', 'DT', 'VBN', 'NN', 'DT', 'NN']"
+99,        // will apply the hash specified for the keytype to the data.,"['//', 'will', 'apply', 'the', 'hash', 'specified', 'for', 'the', 'keytype', 'to', 'the', 'data.']","['COMMENT', 'MD', 'VB', 'DT', 'NN', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN']"
+100,"        Unsign(data []byte) ([]byte, error)","['Unsign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+101,},['}'],['OPERATOR']
+102,"func newSignerFromKey(k interface{}) (Signer, error) {","['func', 'newSignerFromKey', '(', 'k', 'interface', '{})', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+103,        var sshKey Signer,"['var', 'sshKey', 'Signer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+104,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+105,        case *rsa.PrivateKey:,"['case', '*', 'rsa', '.', 'PrivateKey', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,                sshKey = &rsaPrivateKey{t},"['sshKey', '=', '&', 'rsaPrivateKey', '{', 't', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,        default: ,"['default', ':']","['KEYWORD', 'OPERATOR']"
+108,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %T""', ',', 'k', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,        },['}'],['OPERATOR']
+110,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+111,},['}'],['OPERATOR']
+112,"func newUnsignerFromKey(k interface{}) (Unsigner, error) {","['func', 'newUnsignerFromKey', '(', 'k', 'interface', '{})', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+113,        var sshKey Unsigner,"['var', 'sshKey', 'Unsigner']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+114,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+115,        case *rsa.PublicKey:,"['case', '*', 'rsa', '.', 'PublicKey', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,                sshKey = &rsaPublicKey{t},"['sshKey', '=', '&', 'rsaPublicKey', '{', 't', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+118,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""ssh: unsupported key type %T""', ',', 'k', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,        },['}'],['OPERATOR']
+120,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+121,},['}'],['OPERATOR']
+122,type rsaPublicKey struct {,"['type', 'rsaPublicKey', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+123,    *rsa.PublicKey,"['*', 'rsa', '.', 'PublicKey']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+124,},['}'],['OPERATOR']
+125,type rsaPrivateKey struct {,"['type', 'rsaPrivateKey', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+126,        *rsa.PrivateKey,"['*', 'rsa', '.', 'PrivateKey']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+127,},['}'],['OPERATOR']
+128,// Sign signs data with rsa-sha256,"['//', 'Sign', 'signs', 'data', 'with', 'rsa-sha256']","['COMMENT', 'NNP', 'NNS', 'NNS', 'IN', 'NN']"
+129,"func (r *rsaPrivateKey) Sign(data []byte) ([]byte, error) {","['func', '(', 'r', '*', 'rsaPrivateKey', ')', 'Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+130,        h := sha256.New(),"['h', ':=', 'sha256', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+131,        h.Write(data),"['h', '.', 'Write', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,        d := h.Sum(nil),"['d', ':=', 'h', '.', 'Sum', '(', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,"        return rsa.SignPKCS1v15(rand.Reader, r.PrivateKey, crypto.SHA256, d)","['return', 'rsa', '.', 'SignPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'r', '.', 'PrivateKey', ',', 'crypto', '.', 'SHA256', ',', 'd', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+134,},['}'],['OPERATOR']
+135,// Unsign encrypts data with rsa-sha256,"['//', 'Unsign', 'encrypts', 'data', 'with', 'rsa-sha256']","['COMMENT', 'NNP', 'VBZ', 'NNS', 'IN', 'NN']"
+136,"func (r *rsaPublicKey) Unsign(message []byte) ([]byte, error) {  ","['func', '(', 'r', '*', 'rsaPublicKey', ')', 'Unsign', '(', 'message', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+137,"        return rsa.EncryptPKCS1v15(rand.Reader, r.PublicKey, message)        ","['return', 'rsa', '.', 'EncryptPKCS1v15', '(', 'rand', '.', 'Reader', ',', 'r', '.', 'PublicKey', ',', 'message', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,},['}'],['OPERATOR']
+139,"
+
+private.pem looks like this:
+
+","['private.pem', 'looks', 'like', 'this:']","['JJ', 'NNS', 'IN', 'NN']"
+140,-----BEGIN RSA PRIVATE KEY-----,"['-----', 'BEGIN', 'RSA', 'PRIVATE', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+141,MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF,"['MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj', '+', 'CvfSC8', '+', 'q28hxA161QF']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+142,NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F,"['NUd13wuCTUcq0Qd2qsBe', '2', 'hFyc2DCJJg0h1L78', '+', '6', 'Z4UMR7EOcpfdUE9Hf3m', 'hs', '+', 'F']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+143,UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB,"['UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc', '+', '2', 'xjJwoYi', '+', '1', 'hqp1fIekaxsyQIDAQAB']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+144,AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA,"['AoGBAJR8ZkCUvx5kzv', '+', 'utdl7T5MnordT1TvoXXJGXK7ZZ', '+', 'UuvMNUCdN2QPc4sBiA']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+145,QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK,"['QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9', '+', 'xEpubyeW2oH4Zx71wqBtOK']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+146,kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg,"['kqwrXa', 'pzdpiucRRjk6vE6YY7EBBs', 'g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+147,f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u,"['f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR', 'Zm3pR5m0tCmBqa5RK95u']","['IDENTIFIER', 'IDENTIFIER']"
+148,412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc,"['412', 'jt1dPIwJBANJT3v8pnkth48bQo', 'fKel6uEYyboRtA5', 'uHuHkZ6FQF7OUkGogc']","['DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+149,mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7,"['mSJluOdc5t6hI1VsLn0QZEjQZMEOWr', '+', 'wKSMCQQCC4kXJEsHAve77oP6HtG', 'IiEn7']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+150,kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA,"['kpyUXRNvFsDE0czpJJBvL', 'aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA']","['IDENTIFIER', 'IDENTIFIER']"
+151,gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW,['gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW'],['IDENTIFIER']
+152,G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI,"['G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci', '2', 'ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+153,7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==,"['7', 'U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA', '==']","['DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+154,-----END RSA PRIVATE KEY-----,"['-----', 'END', 'RSA', 'PRIVATE', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+155,"
+
+And public.pem:
+
+","['And', 'public.pem:']","['CC', 'NN']"
+156,-----BEGIN PUBLIC KEY-----,"['-----', 'BEGIN', 'PUBLIC', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+157,MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3,['MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3'],['IDENTIFIER']
+158,6rPJj+CvfSC8+q28hxA161QFNUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6,"['6', 'rPJj', '+', 'CvfSC8', '+', 'q28hxA161QFNUd13wuCTUcq0Qd2qsBe', '2', 'hFyc2DCJJg0h1L78', '+', '6']","['DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+159,Z4UMR7EOcpfdUE9Hf3m/hs+FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJw,"['Z4UMR7EOcpfdUE9Hf3m', 'hs', '+', 'FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc', '+', '2', 'xjJw']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+160,oYi+1hqp1fIekaxsyQIDAQAB,"['oYi', '+', '1', 'hqp1fIekaxsyQIDAQAB']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+161,-----END PUBLIC KEY-----,"['-----', 'END', 'PUBLIC', 'KEY', '-----']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+162,"
+
+Thanks. 
+",['Thanks.'],['NN']

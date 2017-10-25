@@ -1,9 +1,128 @@
 ,text,token,annotation
-0,#ifndef _WRAPPER_H_,"['if', 'ndef', '_WRAPPER_H_']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-1,#define _WRAPPER_H_,"['define', '_WRAPPER_H_']","['IDENTIFIER', 'IDENTIFIER']"
-2,#include ,['include'],['IDENTIFIER']
-3,#include ,['include'],['IDENTIFIER']
-4,#include ,['include'],['IDENTIFIER']
-5,xpc_connection_t connect( char* name);,"['xpc_connection_t', 'connect', '(', 'char', '*', 'name', ');']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-6,void set_event_handler(xpc_connection_t connection);,"['void', 'set_event_handler', '(', 'xpc_connection_t', 'connection', ');']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-7,#endif,['endif'],['IDENTIFIER']
+0,"I'm experimenting with falcore (go(lang) framework), and they have a nice example that allows you to send a SIGHUP to the process, after which it restarts a client, moves connections over and exits the parent.
+
+So, in my example, I have a single server.go (posted at the end) where I serve one file by default.
+
+I run the server, then edit the .go file, kill -1 the pid of the process, and the app restarts as expected, but the newly added code to the .go file is not loaded.
+
+For example, I change the default file served from summary.xml to AppNexus-Interesting.txt, but it will keep serving the summary.xml file for all new requests.
+
+Any help is appreciated.
+
+","[""I'm"", 'experimenting', 'with', 'falcore', '(go(lang)', 'framework),', 'and', 'they', 'have', 'a', 'nice', 'example', 'that', 'allows', 'you', 'to', 'send', 'a', 'SIGHUP', 'to', 'the', 'process,', 'after', 'which', 'it', 'restarts', 'a', 'client,', 'moves', 'connections', 'over', 'and', 'exits', 'the', 'parent.', 'So,', 'in', 'my', 'example,', 'I', 'have', 'a', 'single', 'server.go', '(posted', 'at', 'the', 'end)', 'where', 'I', 'serve', 'one', 'file', 'by', 'default.', 'I', 'run', 'the', 'server,', 'then', 'edit', 'the', '.go', 'file,', 'kill', '-1', 'the', 'pid', 'of', 'the', 'process,', 'and', 'the', 'app', 'restarts', 'as', 'expected,', 'but', 'the', 'newly', 'added', 'code', 'to', 'the', '.go', 'file', 'is', 'not', 'loaded.', 'For', 'example,', 'I', 'change', 'the', 'default', 'file', 'served', 'from', 'summary.xml', 'to', 'AppNexus-Interesting.txt,', 'but', 'it', 'will', 'keep', 'serving', 'the', 'summary.xml', 'file', 'for', 'all', 'new', 'requests.', 'Any', 'help', 'is', 'appreciated.']","['NNP', 'VBG', 'IN', 'NN', 'NN', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'PRP', 'TO', 'VB', 'DT', 'NNP', 'TO', 'DT', 'NN', 'IN', 'WDT', 'PRP', 'VBZ', 'DT', 'NN', 'VBZ', 'NNS', 'IN', 'CC', 'VBZ', 'DT', 'NN', 'NNP', 'IN', 'PRP$', 'NN', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'VBN', 'IN', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'CD', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'RB', 'VBZ', 'DT', 'NNP', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'IN', 'NN', 'CC', 'DT', 'RB', 'VBN', 'NN', 'TO', 'DT', 'NNP', 'NN', 'VBZ', 'RB', 'JJ', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'VBD', 'IN', 'NN', 'TO', 'NNP', 'CC', 'PRP', 'MD', 'VB', 'VBG', 'DT', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'NN', 'VBZ', 'JJ']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""flag""","['""flag""']",['STRING_LITERAL']
+4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+5,"    ""github.com/fitstar/falcore""","['""github.com/fitstar/falcore""']",['STRING_LITERAL']
+6,"    ""github.com/fitstar/falcore/filter""","['""github.com/fitstar/falcore/filter""']",['STRING_LITERAL']
+7,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+8,"    ""os""","['""os""']",['STRING_LITERAL']
+9,"    ""os/signal""","['""os/signal""']",['STRING_LITERAL']
+10,"    ""syscall""","['""syscall""']",['STRING_LITERAL']
+11,),[')'],['OPERATOR']
+12,// Command line options,"['//', 'Command', 'line', 'options']","['COMMENT', 'NNP', 'NN', 'NNS']"
+13,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+14,"    port = flag.Int(""port"", 8000, ""the port to listen on"")","['port', '=', 'flag', '.', 'Int', '(', '""port"", 8000, ""the port to listen on""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+15,"    path = flag.String(""base"", ""./www"", ""the path to serve files from"")","['path', '=', 'flag', '.', 'String', '(', '""base"", ""./www"", ""the path to serve files from""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,),[')'],['OPERATOR']
+17,// very simple request filter,"['//', 'very', 'simple', 'request', 'filter']","['COMMENT', 'RB', 'JJ', 'NN', 'NN']"
+18,func Filter(req *falcore.Request) *http.Response {,"['func', 'Filter', '(', 'req', '*', 'falcore', '.', 'Request', ')', '*', 'http', '.', 'Response', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,    pid := syscall.Getpid(),"['pid', ':=', 'syscall', '.', 'Getpid', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,"    fmt.Println(pid, ""GET"", req.HttpRequest.URL.Path)","['fmt', '.', 'Println', '(', 'pid', ',', '""GET""', ',', 'req', '.', 'HttpRequest', '.', 'URL', '.', 'Path', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,"    // return falcore.StringResponse(request.HttpRequest, 200, nil, ""OK\n"")","['//', 'return', 'falcore.StringResponse(request.HttpRequest,', '200,', 'nil,', '""OK\\n"")']","['COMMENT', 'NN', 'VBZ', 'CD', 'NN', 'NN']"
+22,"    if req.HttpRequest.URL.Path == ""/"" {","['if', 'req', '.', 'HttpRequest', '.', 'URL', '.', 'Path', '==', '""/""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+23,"        req.HttpRequest.URL.Path = ""AppNexus-Interesting.txt"" //""/summary.xml""","['req', '.', 'HttpRequest', '.', 'URL', '.', 'Path', '=', '""AppNexus-Interesting.txt"" //""/summary.xml""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+24,    },['}'],['OPERATOR']
+25,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+26,},['}'],['OPERATOR']
+27,// flag to accept a socket file descriptor,"['//', 'flag', 'to', 'accept', 'a', 'socket', 'file', 'descriptor']","['COMMENT', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'NN']"
+28,"var socketFd = flag.Int(""socket"", -1, ""Socket file descriptor"")","['var', 'socketFd', '=', 'flag', '.', 'Int', '(', '""socket"", -1, ""Socket file descriptor""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+29,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+30,    pid := syscall.Getpid(),"['pid', ':=', 'syscall', '.', 'Getpid', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,    flag.Parse(),"['flag', '.', 'Parse', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,"    fmt.Println(""Falcore hot restart running with pid:"", pid, ""to hot restart, issue the kill -1"", pid, ""command"")","['fmt', '.', 'Println', '(', '""Falcore hot restart running with pid:"", pid, ""to hot restart, issue the kill -1"", pid, ""command""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+33,    // create the pipeline,"['//', 'create', 'the', 'pipeline']","['COMMENT', 'VB', 'DT', 'NN']"
+34,    pipeline := falcore.NewPipeline(),"['pipeline', ':=', 'falcore', '.', 'NewPipeline', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,    // upstream filters,"['//', 'upstream', 'filters']","['COMMENT', 'JJ', 'NNS']"
+36,    pipeline.Upstream.PushBack(falcore.NewRequestFilter(Filter)),"['pipeline', '.', 'Upstream', '.', 'PushBack', '(', 'falcore', '.', 'NewRequestFilter', '(', 'Filter', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    // Serve files,"['//', 'Serve', 'files']","['COMMENT', 'NNP', 'NNS']"
+38,    pipeline.Upstream.PushBack(&filter.FileFilter{,"['pipeline', '.', 'Upstream', '.', 'PushBack', '(&', 'filter', '.', 'FileFilter', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,"        BasePath: *path,","['BasePath', ':', '*', 'path', ',']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,    }),['})'],['OPERATOR']
+41,    // downstream filters,"['//', 'downstream', 'filters']","['COMMENT', 'NN', 'NNS']"
+42,    pipeline.Downstream.PushBack(filter.NewCompressionFilter(nil)),"['pipeline', '.', 'Downstream', '.', 'PushBack', '(', 'filter', '.', 'NewCompressionFilter', '(', 'nil', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,    // create the server with the pipeline,"['//', 'create', 'the', 'server', 'with', 'the', 'pipeline']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
+44,"    srv := falcore.NewServer(*port, pipeline)","['srv', ':=', 'falcore', '.', 'NewServer', '(*', 'port', ',', 'pipeline', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,"    // if passed the socket file descriptor, setup the listener that way","['//', 'if', 'passed', 'the', 'socket', 'file', 'descriptor,', 'setup', 'the', 'listener', 'that', 'way']","['COMMENT', 'IN', 'VBN', 'DT', 'NN', 'NN', 'NN', 'VBD', 'DT', 'NN', 'DT', 'NN']"
+46,"    // if you don't have it, the default is to create the socket listener","['//', 'if', 'you', ""don't"", 'have', 'it,', 'the', 'default', 'is', 'to', 'create', 'the', 'socket', 'listener']","['COMMENT', 'IN', 'PRP', 'VBP', 'VB', 'VBN', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'NN']"
+47,    // with the data passed to falcore.NewServer above (happens in ListenAndServer()),"['//', 'with', 'the', 'data', 'passed', 'to', 'falcore.NewServer', 'above', '(happens', 'in', 'ListenAndServer())']","['COMMENT', 'IN', 'DT', 'NNS', 'VBD', 'TO', 'VB', 'IN', 'NNS', 'IN', 'NNP']"
+48,    if *socketFd != -1 {,"['if', '*', 'socketFd', '!=', '-', '1', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+49,        // I know I'm a child process if I get here so I can signal the parent when I'm ready to take over,"['//', 'I', 'know', ""I'm"", 'a', 'child', 'process', 'if', 'I', 'get', 'here', 'so', 'I', 'can', 'signal', 'the', 'parent', 'when', ""I'm"", 'ready', 'to', 'take', 'over']","['COMMENT', 'PRP', 'VBP', 'VBZ', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'RB', 'RB', 'PRP', 'MD', 'VB', 'DT', 'NN', 'WRB', 'NNP', 'VBZ', 'TO', 'VB', 'RP']"
+50,        go childReady(srv),"['go', 'childReady', '(', 'srv', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+51,"        fmt.Printf(""%v Got socket FD: %v\n"", pid, *socketFd)","['fmt', '.', 'Printf', '(', '""%v Got socket FD: %v\\n""', ',', 'pid', ',', '*', 'socketFd', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,        srv.FdListen(*socketFd),"['srv', '.', 'FdListen', '(*', 'socketFd', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,    },['}'],['OPERATOR']
+54,    // using signals to manage the restart lifecycle,"['//', 'using', 'signals', 'to', 'manage', 'the', 'restart', 'lifecycle']","['COMMENT', 'VBG', 'NNS', 'TO', 'VB', 'DT', 'NN', 'NN']"
+55,    go handleSignals(srv),"['go', 'handleSignals', '(', 'srv', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,    // start the server,"['//', 'start', 'the', 'server']","['COMMENT', 'VB', 'DT', 'NN']"
+57,    // this is normally blocking forever unless you send lifecycle commands,"['//', 'this', 'is', 'normally', 'blocking', 'forever', 'unless', 'you', 'send', 'lifecycle', 'commands']","['COMMENT', 'DT', 'VBZ', 'RB', 'VBG', 'RB', 'IN', 'PRP', 'VBP', 'JJ', 'NNS']"
+58,    if err := srv.ListenAndServe(); err != nil {,"['if', 'err', ':=', 'srv', '.', 'ListenAndServe', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,"        fmt.Printf(""%v Could not start server: %v"", pid, err)","['fmt', '.', 'Printf', '(', '""%v Could not start server: %v""', ',', 'pid', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,    },['}'],['OPERATOR']
+61,"    fmt.Printf(""%v Exiting now\n"", pid)","['fmt', '.', 'Printf', '(', '""%v Exiting now\\n""', ',', 'pid', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,},['}'],['OPERATOR']
+63,"// blocks on the server ready and when ready, it sends","['//', 'blocks', 'on', 'the', 'server', 'ready', 'and', 'when', 'ready,', 'it', 'sends']","['COMMENT', 'NNS', 'IN', 'DT', 'NN', 'JJ', 'CC', 'WRB', 'NN', 'PRP', 'VBZ']"
+64,// a signal to the parent so that it knows it cna now exit,"['//', 'a', 'signal', 'to', 'the', 'parent', 'so', 'that', 'it', 'knows', 'it', 'cna', 'now', 'exit']","['COMMENT', 'DT', 'NN', 'TO', 'DT', 'NN', 'IN', 'IN', 'PRP', 'VBZ', 'PRP', 'VBZ', 'RB', 'NN']"
+65,func childReady(srv *falcore.Server) {,"['func', 'childReady', '(', 'srv', '*', 'falcore', '.', 'Server', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+66,    pid := syscall.Getpid(),"['pid', ':=', 'syscall', '.', 'Getpid', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,    // wait for the ready signal,"['//', 'wait', 'for', 'the', 'ready', 'signal']","['COMMENT', 'NN', 'IN', 'DT', 'JJ', 'NN']"
+68,    <-srv.AcceptReady,"['<-', 'srv', '.', 'AcceptReady']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+69,    // grab the parent and send a signal that the child is ready,"['//', 'grab', 'the', 'parent', 'and', 'send', 'a', 'signal', 'that', 'the', 'child', 'is', 'ready']","['COMMENT', 'NN', 'DT', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'JJ']"
+70,    parent := syscall.Getppid(),"['parent', ':=', 'syscall', '.', 'Getppid', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,"    fmt.Printf(""%v Kill parent %v with SIGUSR1\n"", pid, parent)","['fmt', '.', 'Printf', '(', '""%v Kill parent %v with SIGUSR1\\n""', ',', 'pid', ',', 'parent', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,"    syscall.Kill(parent, syscall.SIGUSR1)","['syscall', '.', 'Kill', '(', 'parent', ',', 'syscall', '.', 'SIGUSR1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,},['}'],['OPERATOR']
+74,// setup and fork/exec myself. Make sure to keep open important FD's that won't get re-created by the child,"['//', 'setup', 'and', 'fork/exec', 'myself.', 'Make', 'sure', 'to', 'keep', 'open', 'important', ""FD's"", 'that', ""won't"", 'get', 're-created', 'by', 'the', 'child']","['COMMENT', 'NN', 'CC', 'JJ', 'NNS', 'VBP', 'JJ', 'TO', 'VB', 'JJ', 'JJ', 'NNP', 'WDT', 'VBD', 'VB', 'JJ', 'IN', 'DT', 'NN']"
+75,"// specifically, std* and your listen socket","['//', 'specifically,', 'std*', 'and', 'your', 'listen', 'socket']","['COMMENT', 'NN', 'NN', 'CC', 'PRP$', 'NN', 'NN']"
+76,"func forker(srv *falcore.Server) (pid int, err error) {","['func', 'for', 'ker', '(', 'srv', '*', 'falcore', '.', 'Server', ')', '(', 'pid', 'int', ',', 'err', 'error', ')', '{']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+77,"    fmt.Printf(""Forking now with socket: %v\n"", srv.SocketFd())","['fmt', '.', 'Printf', '(', '""Forking now with socket: %v\\n""', ',', 'srv', '.', 'SocketFd', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,    mypath := os.Args[0],"['mypath', ':=', 'os', '.', 'Args', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+79,"    args := []string{mypath, ""-socket"", fmt.Sprintf(""%v"", srv.SocketFd())}","['args', ':=', '[]', 'string', '{', 'mypath', ',', '""-socket"", fmt.Sprintf(""%v""', ',', 'srv', '.', 'SocketFd', '())}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    attr := new(syscall.ProcAttr),"['attr', ':=', 'new', '(', 'syscall', '.', 'ProcAttr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,"    attr.Files = append([]uintptr(nil), 0, 1, 2, uintptr(srv.SocketFd()))","['attr', '.', 'Files', '=', 'append', '([]', 'uintptr', '(', 'nil', '),', '0', ',', '1', ',', '2', ',', 'uintptr', '(', 'srv', '.', 'SocketFd', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,"    pid, err = syscall.ForkExec(mypath, args, attr)","['pid', ',', 'err', '=', 'syscall', '.', 'ForkExec', '(', 'mypath', ',', 'args', ',', 'attr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,    return,['return'],['KEYWORD']
+84,},['}'],['OPERATOR']
+85,// Handle lifecycle events,"['//', 'Handle', 'lifecycle', 'events']","['COMMENT', 'NNP', 'NN', 'NNS']"
+86,func handleSignals(srv *falcore.Server) {,"['func', 'handleSignals', '(', 'srv', '*', 'falcore', '.', 'Server', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+87,    var sig os.Signal,"['var', 'sig', 'os', '.', 'Signal']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,    var sigChan = make(chan os.Signal),"['var', 'sigChan', '=', 'make', '(', 'chan', 'os', '.', 'Signal', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,"    signal.Notify(sigChan, syscall.SIGHUP, syscall.SIGUSR1, syscall.SIGINT, syscall.SIGTERM, syscall.SIGTSTP)","['signal', '.', 'Notify', '(', 'sigChan', ',', 'syscall', '.', 'SIGHUP', ',', 'syscall', '.', 'SIGUSR1', ',', 'syscall', '.', 'SIGINT', ',', 'syscall', '.', 'SIGTERM', ',', 'syscall', '.', 'SIGTSTP', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,    pid := syscall.Getpid(),"['pid', ':=', 'syscall', '.', 'Getpid', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+92,        sig = <-sigChan,"['sig', '=', '<-', 'sigChan']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+93,        switch sig {,"['switch', 'sig', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+94,        case syscall.SIGHUP:,"['case', 'syscall', '.', 'SIGHUP', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+95,            // send this to the paraent process to initiate the restart,"['//', 'send', 'this', 'to', 'the', 'paraent', 'process', 'to', 'initiate', 'the', 'restart']","['COMMENT', 'VB', 'DT', 'TO', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN']"
+96,"            fmt.Println(pid, ""Received SIGHUP.  forking."")","['fmt', '.', 'Println', '(', 'pid', ',', '""Received SIGHUP.  forking.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+97,"            cpid, err := forker(srv)","['cpid', ',', 'err', ':=', 'for', 'ker', '(', 'srv', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+98,"            fmt.Println(pid, ""Forked pid:"", cpid, ""errno:"", err)","['fmt', '.', 'Println', '(', 'pid', ',', '""Forked pid:"", cpid, ""errno:""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,        case syscall.SIGUSR1:,"['case', 'syscall', '.', 'SIGUSR1', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,            // child sends this back to the parent when it's ready to Accept,"['//', 'child', 'sends', 'this', 'back', 'to', 'the', 'parent', 'when', ""it's"", 'ready', 'to', 'Accept']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'TO', 'DT', 'NN', 'WRB', 'NN', 'NN', 'TO', 'VB']"
+101,"            fmt.Println(pid, ""Received SIGUSR1.  Stopping accept."")","['fmt', '.', 'Println', '(', 'pid', ',', '""Received SIGUSR1.  Stopping accept.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+102,            srv.StopAccepting(),"['srv', '.', 'StopAccepting', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,        case syscall.SIGINT:,"['case', 'syscall', '.', 'SIGINT', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,"            fmt.Println(pid, ""Received SIGINT.  Shutting down."")","['fmt', '.', 'Println', '(', 'pid', ',', '""Received SIGINT.  Shutting down.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+105,            os.Exit(0),"['os', '.', 'Exit', '(', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+106,        case syscall.SIGTERM:,"['case', 'syscall', '.', 'SIGTERM', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,"            fmt.Println(pid, ""Received SIGTERM.  Terminating."")","['fmt', '.', 'Println', '(', 'pid', ',', '""Received SIGTERM.  Terminating.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+108,            os.Exit(0),"['os', '.', 'Exit', '(', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+109,        case syscall.SIGTSTP:,"['case', 'syscall', '.', 'SIGTSTP', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,"            fmt.Println(pid, ""Received SIGTSTP.  Stopping."")","['fmt', '.', 'Println', '(', 'pid', ',', '""Received SIGTSTP.  Stopping.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+111,"            syscall.Kill(pid, syscall.SIGSTOP)","['syscall', '.', 'Kill', '(', 'pid', ',', 'syscall', '.', 'SIGSTOP', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+113,"            fmt.Println(pid, ""Received"", sig, "": ignoring"")","['fmt', '.', 'Println', '(', 'pid', ',', '""Received"", sig, "": ignoring""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+114,        },['}'],['OPERATOR']
+115,    },['}'],['OPERATOR']
+116,},['}'],['OPERATOR']

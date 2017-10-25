@@ -1,13 +1,354 @@
 ,text,token,annotation
-0,type service_config struct {,"['type', 'service_config', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-1,    Services []struct {,"['Services', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-2,        Name    string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-3,        Command string,"['Command', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-4,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-5,    },['}'],['OPERATOR']
-6,},['}'],['OPERATOR']
-7,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-8,"err_json := json.Unmarshal(file_content, &ServiceConf)","['err_json', ':=', 'json', '.', 'Unmarshal', '(', 'file_content', ',', '&', 'ServiceConf', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-9,"for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-10,  log.Println(s),"['log', '.', 'Println', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-11,},['}'],['OPERATOR']
+0,"I need to validate a google id_token and one step involves to check the token signature. 
+
+First I obtain the certificate from: https://www.googleapis.com/oauth2/v2/certs and extract the modulus (n) and exponent (e) part from the certificate and generate a public key, then I take apart the token (header, payload and digest), after then I send the decoded header.payload together with the Google pKey + digest to the rsa function rsa.VerifyPKCS1v15. 
+
+I am stuck with this verification error: ","['I', 'need', 'to', 'validate', 'a', 'google', 'id_token', 'and', 'one', 'step', 'involves', 'to', 'check', 'the', 'token', 'signature.', 'First', 'I', 'obtain', 'the', 'certificate', 'from:', 'https://www.googleapis.com/oauth2/v2/certs', 'and', 'extract', 'the', 'modulus', '(n)', 'and', 'exponent', '(e)', 'part', 'from', 'the', 'certificate', 'and', 'generate', 'a', 'public', 'key,', 'then', 'I', 'take', 'apart', 'the', 'token', '(header,', 'payload', 'and', 'digest),', 'after', 'then', 'I', 'send', 'the', 'decoded', 'header.payload', 'together', 'with', 'the', 'Google', 'pKey', '+', 'digest', 'to', 'the', 'rsa', 'function', 'rsa.VerifyPKCS1v15.', 'I', 'am', 'stuck', 'with', 'this', 'verification', 'error:']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'NN', 'CC', 'CD', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'NN', 'NNP', 'PRP', 'VB', 'DT', 'NN', 'NN', 'NNS', 'CC', 'VB', 'DT', 'NN', 'NNP', 'CC', 'JJ', 'NNP', 'NN', 'IN', 'DT', 'NN', 'CC', 'VB', 'DT', 'JJ', 'NN', 'RB', 'PRP', 'VBP', 'RB', 'DT', 'JJ', 'NNP', 'NN', 'CC', 'NN', 'IN', 'RB', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'RB', 'IN', 'DT', 'NNP', 'NN', 'NNP', 'NN', 'TO', 'DT', 'NN', 'NN', 'NN', 'PRP', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'NN']"
+1,crypto/rsa: verification error,"['crypto', 'rsa', ':', 'verification', 'error']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+2,"
+
+Here's the code (I commented part of code which fails with ","[""Here's"", 'the', 'code', '(I', 'commented', 'part', 'of', 'code', 'which', 'fails', 'with']","['NNP', 'DT', 'NN', 'NNP', 'VBD', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'IN']"
+3,// validation here fails,"['//', 'validation', 'here', 'fails']","['COMMENT', 'NN', 'RB', 'VBZ']"
+4,"):
+
+func ValidateIDToken(auth_token string) (err error){    
+    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")
+    if err != nil {
+        log.Fatal(err)
+        return err
+    }
+
+    certs, err := ioutil.ReadAll(res.Body)
+    res.Body.Close()
+    if err != nil {
+        log.Fatal(err)
+        return err
+    }
+
+    //get modulus and exponent from the cert
+    var goCertificate interface{}
+
+    err = json.Unmarshal(certs, &goCertificate)    
+    k := goCertificate.(map[string]interface{})[""keys""]
+    j := k.([]interface{})
+    x := j[1]
+    h := x.(map[string]interface{})[""n""]
+    g := x.(map[string]interface{})[""e""]
+    e64 := base64.StdEncoding
+    //build the google pub key
+    nStr := h.(string)
+    decN, err := base64.StdEncoding.DecodeString(nStr)
+    if err != nil {
+        log.Println(err)
+        return
+    }
+
+    n := big.NewInt(0)
+    n.SetBytes(decN)
+    eStr := g.(string)
+    decE, err := base64.StdEncoding.DecodeString(eStr)
+    if err != nil {
+        log.Println(err)
+        return
+    }
+
+    var eBytes []byte
+    if len(decE) < 8 {
+        eBytes = make([]byte, 8-len(decE), 8)
+        eBytes = append(eBytes, decE...)
+    } else {
+        eBytes = decE
+    }
+
+    eReader := bytes.NewReader(eBytes)
+    var e uint64
+    err = binary.Read(eReader, binary.BigEndian, &e)
+    if err != nil {
+        log.Println(err)
+        return
+    }
+
+    pKey := rsa.PublicKey{N: n, E: int(e)}
+    w := strings.SplitAfter(auth_token, ""."")    
+    for i, val := range w {
+        w[i] = strings.Trim(val, ""."")
+    }
+    y := w[0:2]
+
+    //Join just the first two parts, the header and the payload without the signature
+    o := strings.Join(y, ""."")   
+    headerOauth := DecodeB64(nil,[]byte(w[0]),e64)
+    inblockOauth := DecodeB64(nil,[]byte(w[1]),e64)
+    toHash := string(headerOauth) + ""}."" + string(inblockOauth)
+    digestOauth := DecodeB64(nil, []byte(w[2]),e64)
+
+    hasherOauth := sha256.New()
+    hasherOauth.Write([]byte(toHash))
+
+    ","['):', 'func', 'ValidateIDToken(auth_token', 'string)', '(err', 'error){', 'res,', 'err', ':=', 'http.Get(""https://www.googleapis.com/oauth2/v2/certs"")', 'if', 'err', '!=', 'nil', '{', 'log.Fatal(err)', 'return', 'err', '}', 'certs,', 'err', ':=', 'ioutil.ReadAll(res.Body)', 'res.Body.Close()', 'if', 'err', '!=', 'nil', '{', 'log.Fatal(err)', 'return', 'err', '}', '//get', 'modulus', 'and', 'exponent', 'from', 'the', 'cert', 'var', 'goCertificate', 'interface{}', 'err', '=', 'json.Unmarshal(certs,', '&goCertificate)', 'k', ':=', 'goCertificate.(map[string]interface{})[""keys""]', 'j', ':=', 'k.([]interface{})', 'x', ':=', 'j[1]', 'h', ':=', 'x.(map[string]interface{})[""n""]', 'g', ':=', 'x.(map[string]interface{})[""e""]', 'e64', ':=', 'base64.StdEncoding', '//build', 'the', 'google', 'pub', 'key', 'nStr', ':=', 'h.(string)', 'decN,', 'err', ':=', 'base64.StdEncoding.DecodeString(nStr)', 'if', 'err', '!=', 'nil', '{', 'log.Println(err)', 'return', '}', 'n', ':=', 'big.NewInt(0)', 'n.SetBytes(decN)', 'eStr', ':=', 'g.(string)', 'decE,', 'err', ':=', 'base64.StdEncoding.DecodeString(eStr)', 'if', 'err', '!=', 'nil', '{', 'log.Println(err)', 'return', '}', 'var', 'eBytes', '[]byte', 'if', 'len(decE)', '<', '8', '{', 'eBytes', '=', 'make([]byte,', '8-len(decE),', '8)', 'eBytes', '=', 'append(eBytes,', 'decE...)', '}', 'else', '{', 'eBytes', '=', 'decE', '}', 'eReader', ':=', 'bytes.NewReader(eBytes)', 'var', 'e', 'uint64', 'err', '=', 'binary.Read(eReader,', 'binary.BigEndian,', '&e)', 'if', 'err', '!=', 'nil', '{', 'log.Println(err)', 'return', '}', 'pKey', ':=', 'rsa.PublicKey{N:', 'n,', 'E:', 'int(e)}', 'w', ':=', 'strings.SplitAfter(auth_token,', '""."")', 'for', 'i,', 'val', ':=', 'range', 'w', '{', 'w[i]', '=', 'strings.Trim(val,', '""."")', '}', 'y', ':=', 'w[0:2]', '//Join', 'just', 'the', 'first', 'two', 'parts,', 'the', 'header', 'and', 'the', 'payload', 'without', 'the', 'signature', 'o', ':=', 'strings.Join(y,', '""."")', 'headerOauth', ':=', 'DecodeB64(nil,[]byte(w[0]),e64)', 'inblockOauth', ':=', 'DecodeB64(nil,[]byte(w[1]),e64)', 'toHash', ':=', 'string(headerOauth)', '+', '""}.""', '+', 'string(inblockOauth)', 'digestOauth', ':=', 'DecodeB64(nil,', '[]byte(w[2]),e64)', 'hasherOauth', ':=', 'sha256.New()', 'hasherOauth.Write([]byte(toHash))']","['JJ', 'NN', 'NNP', 'NN', 'NNP', 'VBZ', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NN', ')', 'NN', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NN', ')', 'NNP', 'NN', 'CC', 'NN', 'IN', 'DT', 'NN', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'VBZ', 'JJ', 'VBG', 'PDT', 'DT', 'NN', 'NN', 'JJ', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'FW', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NN', 'NNS', 'VBP', 'IN', 'JJ', 'VBP', 'CD', '(', 'NNS', 'VBP', 'JJ', 'JJ', 'CD', 'NNS', 'JJ', 'JJ', 'NN', ')', 'RB', '(', 'NNS', 'VBP', 'NN', ')', 'JJR', 'JJ', 'NN', 'NN', 'NN', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NN', 'NNP', 'NN', 'NN', '(', 'JJ', 'NNP', 'NN', 'NN', ')', 'JJR', 'JJ', 'NN', 'NN', 'RB', 'DT', 'JJ', 'CD', 'VBP', 'DT', 'NN', 'CC', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'VBD', 'JJ', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NN']"
+5,// validation here fails,"['//', 'validation', 'here', 'fails']","['COMMENT', 'NN', 'RB', 'VBZ']"
+6,"
+    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)
+
+    if err != nil {
+        log.Printf(""Error verifying key %s"",err.Error())
+        return err
+    }
+    return err
+}
+
+
+UPDATE 1:
+Here is toHash var which contains header and payload:
+
+{""alg"":""RS256"",""kid"":""d91c503452d0f8849200a321ffbf7dea76f9371d""}.{""iss"":""accounts.google.com"",""sub"":""104869993929250743503"",""azp"":""client_email_till_@.apps.googleusercontent.com"",""email"":""test@test.hr"",""at_hash"":""KAm1M0g-ssMkdjds7jkbVQ"",""email_verified"":true,""aud"":client_email_till_@.apps.googleusercontent.com"",""hd"":""test.hr"",""iat"":1412246551,""exp"":1412250451}
+
+
+UPDATE 2:
+Thanks for the reply @Florent Morselli, I tried it again and it failed, I B64decoded this time only the third part (signature) but the error was still there, could someone test it with their
+auth_token, just put the ID token in auth_token variable below in the code, and let me know if it worked, thank You.
+
+package main
+import(
+    ""strings""
+    ""encoding/binary""
+    ""errors""
+    ""fmt""
+    ""log""
+    ""encoding/base64""
+    ""io/ioutil""
+    ""crypto""    
+    ""crypto/sha256""
+    ""crypto/rsa""
+    ""bytes""
+    ""encoding/json""
+    ""net/http""
+    ""math/big""  
+
+)
+
+func main() {
+    auth_token := """"
+    w := strings.SplitAfter(auth_token, ""."")    
+    for i, val := range w {
+        w[i] = strings.Trim(val, ""."")
+    }
+    headerOauth, err := base64.URLEncoding.DecodeString(w[0])
+
+    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    certs, err := ioutil.ReadAll(res.Body)
+    res.Body.Close()
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    //extract kid from token header
+    var header interface{}
+
+    err = json.Unmarshal([]byte(string(headerOauth)+""}""), &header)
+
+    token_kid := header.(map[string]interface{})[""kid""]
+    fmt.Println(""By 1"")
+    //get modulus and exponent from the cert
+
+    var goCertificate interface{}
+
+    err = json.Unmarshal(certs, &goCertificate)    
+
+    //k := goCertificate.(map[string]interface{})[token_kid.(string)]
+    k := goCertificate.(map[string]interface{})[""keys""]
+
+    ///*mod & exp part
+    j := k.([]interface{})
+    x := j[0]
+
+    if j[0].(map[string]interface{})[""kid""] == token_kid {
+        x = j[0]
+    }else{
+        if j[1].(map[string]interface{})[""kid""] == token_kid {
+            x = j[1]
+        }else{
+            errors.New(""Token is not valid, kid from token and certificate don't match"")
+
+        }
+    }
+    h := x.(map[string]interface{})[""n""]
+    g := x.(map[string]interface{})[""e""]
+
+    //build the google pub key
+    nStr := h.(string)
+    decN, err := base64.URLEncoding.DecodeString(nStr)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    n := big.NewInt(0)
+    n.SetBytes(decN)
+    eStr := g.(string)
+    decE, err := base64.URLEncoding.DecodeString(eStr)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    var eBytes []byte
+    if len(decE) < 8 {
+        eBytes = make([]byte, 8-len(decE), 8)
+        eBytes = append(eBytes, decE...)
+    } else {
+        eBytes = decE
+    }
+
+    eReader := bytes.NewReader(eBytes)
+    var e uint64
+    err = binary.Read(eReader, binary.BigEndian, &e)
+    if err != nil {
+        log.Println(err)
+        return
+    }
+
+    pKey := rsa.PublicKey{N: n, E: int(e)}
+        //inblockOauth := base64.URLEncoding.DecodeString(w[1])
+    toHash := w[0] + ""."" + w[1]
+    digestOauth, err := base64.URLEncoding.DecodeString(w[2])
+
+    hasherOauth := sha256.New()
+    hasherOauth.Write([]byte(toHash))
+
+    // verification here fails
+    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)
+
+    if err != nil {
+        fmt.Printf(""Error verifying key %s"",err.Error())
+
+    }
+
+}
+
+","['err', '=', 'rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)', 'if', 'err', '!=', 'nil', '{', 'log.Printf(""Error', 'verifying', 'key', '%s"",err.Error())', 'return', 'err', '}', 'return', 'err', '}', 'UPDATE', '1:', 'Here', 'is', 'toHash', 'var', 'which', 'contains', 'header', 'and', 'payload:', '{""alg"":""RS256"",""kid"":""d91c503452d0f8849200a321ffbf7dea76f9371d""}.{""iss"":""accounts.google.com"",""sub"":""104869993929250743503"",""azp"":""client_email_till_@.apps.googleusercontent.com"",""email"":""test@test.hr"",""at_hash"":""KAm1M0g-ssMkdjds7jkbVQ"",""email_verified"":true,""aud"":client_email_till_@.apps.googleusercontent.com"",""hd"":""test.hr"",""iat"":1412246551,""exp"":1412250451}', 'UPDATE', '2:', 'Thanks', 'for', 'the', 'reply', '@Florent', 'Morselli,', 'I', 'tried', 'it', 'again', 'and', 'it', 'failed,', 'I', 'B64decoded', 'this', 'time', 'only', 'the', 'third', 'part', '(signature)', 'but', 'the', 'error', 'was', 'still', 'there,', 'could', 'someone', 'test', 'it', 'with', 'their', 'auth_token,', 'just', 'put', 'the', 'ID', 'token', 'in', 'auth_token', 'variable', 'below', 'in', 'the', 'code,', 'and', 'let', 'me', 'know', 'if', 'it', 'worked,', 'thank', 'You.', 'package', 'main', 'import(', '""strings""', '""encoding/binary""', '""errors""', '""fmt""', '""log""', '""encoding/base64""', '""io/ioutil""', '""crypto""', '""crypto/sha256""', '""crypto/rsa""', '""bytes""', '""encoding/json""', '""net/http""', '""math/big""', ')', 'func', 'main()', '{', 'auth_token', ':=', '""""', 'w', ':=', 'strings.SplitAfter(auth_token,', '""."")', 'for', 'i,', 'val', ':=', 'range', 'w', '{', 'w[i]', '=', 'strings.Trim(val,', '""."")', '}', 'headerOauth,', 'err', ':=', 'base64.URLEncoding.DecodeString(w[0])', 'res,', 'err', ':=', 'http.Get(""https://www.googleapis.com/oauth2/v2/certs"")', 'if', 'err', '!=', 'nil', '{', 'fmt.Println(err)', '}', 'certs,', 'err', ':=', 'ioutil.ReadAll(res.Body)', 'res.Body.Close()', 'if', 'err', '!=', 'nil', '{', 'fmt.Println(err)', '}', '//extract', 'kid', 'from', 'token', 'header', 'var', 'header', 'interface{}', 'err', '=', 'json.Unmarshal([]byte(string(headerOauth)+""}""),', '&header)', 'token_kid', ':=', 'header.(map[string]interface{})[""kid""]', 'fmt.Println(""By', '1"")', '//get', 'modulus', 'and', 'exponent', 'from', 'the', 'cert', 'var', 'goCertificate', 'interface{}', 'err', '=', 'json.Unmarshal(certs,', '&goCertificate)', '//k', ':=', 'goCertificate.(map[string]interface{})[token_kid.(string)]', 'k', ':=', 'goCertificate.(map[string]interface{})[""keys""]', '///*mod', '&', 'exp', 'part', 'j', ':=', 'k.([]interface{})', 'x', ':=', 'j[0]', 'if', 'j[0].(map[string]interface{})[""kid""]', '==', 'token_kid', '{', 'x', '=', 'j[0]', '}else{', 'if', 'j[1].(map[string]interface{})[""kid""]', '==', 'token_kid', '{', 'x', '=', 'j[1]', '}else{', 'errors.New(""Token', 'is', 'not', 'valid,', 'kid', 'from', 'token', 'and', 'certificate', ""don't"", 'match"")', '}', '}', 'h', ':=', 'x.(map[string]interface{})[""n""]', 'g', ':=', 'x.(map[string]interface{})[""e""]', '//build', 'the', 'google', 'pub', 'key', 'nStr', ':=', 'h.(string)', 'decN,', 'err', ':=', 'base64.URLEncoding.DecodeString(nStr)', 'if', 'err', '!=', 'nil', '{', 'fmt.Println(err)', 'return', '}', 'n', ':=', 'big.NewInt(0)', 'n.SetBytes(decN)', 'eStr', ':=', 'g.(string)', 'decE,', 'err', ':=', 'base64.URLEncoding.DecodeString(eStr)', 'if', 'err', '!=', 'nil', '{', 'fmt.Println(err)', 'return', '}', 'var', 'eBytes', '[]byte', 'if', 'len(decE)', '<', '8', '{', 'eBytes', '=', 'make([]byte,', '8-len(decE),', '8)', 'eBytes', '=', 'append(eBytes,', 'decE...)', '}', 'else', '{', 'eBytes', '=', 'decE', '}', 'eReader', ':=', 'bytes.NewReader(eBytes)', 'var', 'e', 'uint64', 'err', '=', 'binary.Read(eReader,', 'binary.BigEndian,', '&e)', 'if', 'err', '!=', 'nil', '{', 'log.Println(err)', 'return', '}', 'pKey', ':=', 'rsa.PublicKey{N:', 'n,', 'E:', 'int(e)}', '//inblockOauth', ':=', 'base64.URLEncoding.DecodeString(w[1])', 'toHash', ':=', 'w[0]', '+', '"".""', '+', 'w[1]', 'digestOauth,', 'err', ':=', 'base64.URLEncoding.DecodeString(w[2])', 'hasherOauth', ':=', 'sha256.New()', 'hasherOauth.Write([]byte(toHash))', '//', 'verification', 'here', 'fails', 'err', '=', 'rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)', 'if', 'err', '!=', 'nil', '{', 'fmt.Printf(""Error', 'verifying', 'key', '%s"",err.Error())', '}', '}']","['NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', 'VBG', 'JJ', 'NNP', 'NN', 'NN', ')', 'NN', 'JJ', ')', '$', 'CD', 'RB', 'VBZ', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'CC', 'JJ', 'JJ', 'NNP', 'CD', 'NNP', 'IN', 'DT', 'NN', 'JJ', 'NNP', 'PRP', 'VBD', 'PRP', 'RB', 'CC', 'PRP', 'VBD', 'PRP', 'VBD', 'DT', 'NN', 'RB', 'DT', 'JJ', 'NN', 'NN', 'CC', 'DT', 'NN', 'VBD', 'RB', 'VBN', 'MD', 'NN', 'VB', 'PRP', 'IN', 'PRP$', 'NN', 'RB', 'VBD', 'DT', 'NNP', 'NN', 'IN', 'JJ', 'JJ', 'IN', 'IN', 'DT', 'NN', 'CC', 'VB', 'PRP', 'VB', 'IN', 'PRP', 'VBD', 'JJ', 'NNP', 'NN', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'JJ', '(', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NN', 'NNP', 'NN', 'NN', '(', 'JJ', 'NNP', 'NN', 'NN', ')', 'NN', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', ')', 'NN', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', ')', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'VBD', 'CD', 'NN', 'NN', 'CC', 'NN', 'IN', 'DT', 'NN', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'CC', 'JJ', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'VBZ', 'RB', 'JJ', 'NN', 'IN', 'JJ', 'CC', 'JJ', 'NN', 'NN', ')', ')', 'JJ', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'VBD', 'DT', 'NN', 'NN', 'JJ', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'FW', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NN', 'NNS', 'VBP', 'IN', 'JJ', 'VBP', 'CD', '(', 'NNS', 'VBP', 'JJ', 'JJ', 'CD', 'NNS', 'JJ', 'JJ', 'NN', ')', 'RB', '(', 'NNS', 'VBP', 'NN', ')', 'JJR', 'JJ', 'NN', 'NN', 'NN', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'VBD', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'RB', 'VBZ', 'JJ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', 'VBG', 'JJ', 'NN', ')', ')']"
+7,"
+    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)
+
+    if err != nil {
+        log.Printf(""Error verifying key %s"",err.Error())
+        return err
+    }
+    return err
+}
+
+
+UPDATE 1:
+Here is toHash var which contains header and payload:
+
+","['err', '=', 'rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)', 'if', 'err', '!=', 'nil', '{', 'log.Printf(""Error', 'verifying', 'key', '%s"",err.Error())', 'return', 'err', '}', 'return', 'err', '}', 'UPDATE', '1:', 'Here', 'is', 'toHash', 'var', 'which', 'contains', 'header', 'and', 'payload:']","['NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', 'VBG', 'JJ', 'NNP', 'NN', 'NN', ')', 'NN', 'JJ', ')', '$', 'CD', 'RB', 'VBZ', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'CC', 'NN']"
+8,"{""alg"":""RS256"",""kid"":""d91c503452d0f8849200a321ffbf7dea76f9371d""}.{""iss"":""accounts.google.com"",""sub"":""104869993929250743503"",""azp"":""client_email_till_@.apps.googleusercontent.com"",""email"":""test@test.hr"",""at_hash"":""KAm1M0g-ssMkdjds7jkbVQ"",""email_verified"":true,""aud"":client_email_till_@.apps.googleusercontent.com"",""hd"":""test.hr"",""iat"":1412246551,""exp"":1412250451}","['{', '""alg"":""RS256"",""kid"":""d91c503452d0f8849200a321ffbf7dea76f9371d""}.{""iss"":""accounts.google.com"",""sub"":""104869993929250743503"",""azp"":""client_email_till_@.apps.googleusercontent.com"",""email"":""test@test.hr"",""at_hash"":""KAm1M0g-ssMkdjds7jkbVQ"",""email_verified"":true,""aud"":client_email_till_@.apps.googleusercontent.com"",""hd"":""test.hr"",""iat"":1412246551,""exp""', ':', '1412250451', '}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+9,"
+
+UPDATE 2:
+Thanks for the reply @Florent Morselli, I tried it again and it failed, I B64decoded this time only the third part (signature) but the error was still there, could someone test it with their
+auth_token, just put the ID token in auth_token variable below in the code, and let me know if it worked, thank You.
+
+","['UPDATE', '2:', 'Thanks', 'for', 'the', 'reply', '@Florent', 'Morselli,', 'I', 'tried', 'it', 'again', 'and', 'it', 'failed,', 'I', 'B64decoded', 'this', 'time', 'only', 'the', 'third', 'part', '(signature)', 'but', 'the', 'error', 'was', 'still', 'there,', 'could', 'someone', 'test', 'it', 'with', 'their', 'auth_token,', 'just', 'put', 'the', 'ID', 'token', 'in', 'auth_token', 'variable', 'below', 'in', 'the', 'code,', 'and', 'let', 'me', 'know', 'if', 'it', 'worked,', 'thank', 'You.']","['RB', 'CD', 'NNS', 'IN', 'DT', 'NN', 'JJ', 'NNP', 'PRP', 'VBD', 'PRP', 'RB', 'CC', 'PRP', 'VBD', 'PRP', 'VBD', 'DT', 'NN', 'RB', 'DT', 'JJ', 'NN', 'NN', 'CC', 'DT', 'NN', 'VBD', 'RB', 'VBN', 'MD', 'NN', 'VB', 'PRP', 'IN', 'PRP$', 'NN', 'RB', 'VBD', 'DT', 'NNP', 'NN', 'IN', 'JJ', 'JJ', 'IN', 'IN', 'DT', 'NN', 'CC', 'VB', 'PRP', 'VB', 'IN', 'PRP', 'VBD', 'JJ', 'NN']"
+10,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+11,import(,"['import', '(']","['KEYWORD', 'OPERATOR']"
+12,"    ""strings""","['""strings""']",['STRING_LITERAL']
+13,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
+14,"    ""errors""","['""errors""']",['STRING_LITERAL']
+15,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+16,"    ""log""","['""log""']",['STRING_LITERAL']
+17,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
+18,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+19,"    ""crypto""    ","['""crypto""']",['STRING_LITERAL']
+20,"    ""crypto/sha256""","['""crypto/sha256""']",['STRING_LITERAL']
+21,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
+22,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+23,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+24,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+25,"    ""math/big""  ","['""math/big""']",['STRING_LITERAL']
+26,),[')'],['OPERATOR']
+27,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+28,"    auth_token := """"","['auth_token', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+29,"    w := strings.SplitAfter(auth_token, ""."")    ","['w', ':=', 'strings', '.', 'SplitAfter', '(', 'auth_token', ',', '"".""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+30,"    for i, val := range w {","['for', 'i', ',', 'val', ':=', 'range', 'w', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+31,"        w[i] = strings.Trim(val, ""."")","['w', '[', 'i', ']', '=', 'strings', '.', 'Trim', '(', 'val', ',', '"".""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+32,    },['}'],['OPERATOR']
+33,"    headerOauth, err := base64.URLEncoding.DecodeString(w[0])","['headerOauth', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'w', '[', '0', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+34,"    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")","['res', ',', 'err', ':=', 'http', '.', 'Get', '(', '""https://www.googleapis.com/oauth2/v2/certs""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    },['}'],['OPERATOR']
+38,"    certs, err := ioutil.ReadAll(res.Body)","['certs', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,    res.Body.Close(),"['res', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,    },['}'],['OPERATOR']
+43,    //extract kid from token header,"['//', 'extract', 'kid', 'from', 'token', 'header']","['COMMENT', 'JJ', 'NN', 'IN', 'JJ', 'NN']"
+44,    var header interface{},"['var', 'header', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+45,"    err = json.Unmarshal([]byte(string(headerOauth)+""}""), &header)","['err', '=', 'json', '.', 'Unmarshal', '([]', 'byte', '(', 'string', '(', 'headerOauth', ')+', '""}""', '),', '&', 'header', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,"    token_kid := header.(map[string]interface{})[""kid""]","['token_kid', ':=', 'header', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+47,"    fmt.Println(""By 1"")","['fmt', '.', 'Println', '(', '""By 1""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+48,    //get modulus and exponent from the cert,"['//', 'get', 'modulus', 'and', 'exponent', 'from', 'the', 'cert']","['COMMENT', 'VB', 'JJ', 'CC', 'NN', 'IN', 'DT', 'NN']"
+49,    var goCertificate interface{},"['var', 'go', 'Certificate', 'interface', '{}']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+50,"    err = json.Unmarshal(certs, &goCertificate)    ","['err', '=', 'json', '.', 'Unmarshal', '(', 'certs', ',', '&', 'go', 'Certificate', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+51,    //k := goCertificate.(map[string]interface{})[token_kid.(string)],"['//', 'k', ':=', 'goCertificate.(map[string]interface{})[token_kid.(string)]']","['COMMENT', 'NN', 'NNP', 'NN']"
+52,"    k := goCertificate.(map[string]interface{})[""keys""]","['k', ':=', 'go', 'Certificate', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""keys""', ']']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+53,    ///*mod & exp part,"['//', '/*mod', '&', 'exp', 'part']","['COMMENT', 'NN', 'CC', 'JJ', 'NN']"
+54,    j := k.([]interface{}),"['j', ':=', 'k', '.([]', 'interface', '{})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+55,    x := j[0],"['x', ':=', 'j', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+56,"    if j[0].(map[string]interface{})[""kid""] == token_kid {","['if', 'j', '[', '0', '].(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']', '==', 'token_kid', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,        x = j[0],"['x', '=', 'j', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+58,    }else{,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+59,"        if j[1].(map[string]interface{})[""kid""] == token_kid {","['if', 'j', '[', '1', '].(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']', '==', 'token_kid', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,            x = j[1],"['x', '=', 'j', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+61,        }else{,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+62,"            errors.New(""Token is not valid, kid from token and certificate don't match"")","['errors', '.', 'New', '(', '""Token is not valid, kid from token and certificate don\'t match""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+63,        },['}'],['OPERATOR']
+64,    },['}'],['OPERATOR']
+65,"    h := x.(map[string]interface{})[""n""]","['h', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""n""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+66,"    g := x.(map[string]interface{})[""e""]","['g', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""e""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+67,    //build the google pub key,"['//', 'build', 'the', 'google', 'pub', 'key']","['COMMENT', 'VB', 'DT', 'NN', 'NN', 'NN']"
+68,    nStr := h.(string),"['nStr', ':=', 'h', '.(', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,"    decN, err := base64.URLEncoding.DecodeString(nStr)","['decN', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'nStr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,        return,['return'],['KEYWORD']
+73,    },['}'],['OPERATOR']
+74,    n := big.NewInt(0),"['n', ':=', 'big', '.', 'NewInt', '(', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+75,    n.SetBytes(decN),"['n', '.', 'SetBytes', '(', 'decN', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    eStr := g.(string),"['eStr', ':=', 'g', '.(', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,"    decE, err := base64.URLEncoding.DecodeString(eStr)","['decE', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'eStr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,        return,['return'],['KEYWORD']
+81,    },['}'],['OPERATOR']
+82,    var eBytes []byte,"['var', 'eBytes', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+83,    if len(decE) < 8 {,"['if', 'len', '(', 'decE', ')', '<', '8', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+84,"        eBytes = make([]byte, 8-len(decE), 8)","['eBytes', '=', 'make', '([]', 'byte', ',', '8', '-', 'len', '(', 'decE', '),', '8', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+85,"        eBytes = append(eBytes, decE...)","['eBytes', '=', 'append', '(', 'eBytes', ',', 'decE', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+87,        eBytes = decE,"['eBytes', '=', 'decE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,    },['}'],['OPERATOR']
+89,    eReader := bytes.NewReader(eBytes),"['eReader', ':=', 'bytes', '.', 'NewReader', '(', 'eBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,    var e uint64,"['var', 'e', 'uint64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+91,"    err = binary.Read(eReader, binary.BigEndian, &e)","['err', '=', 'binary', '.', 'Read', '(', 'eReader', ',', 'binary', '.', 'BigEndian', ',', '&', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,        log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,        return,['return'],['KEYWORD']
+95,    },['}'],['OPERATOR']
+96,"    pKey := rsa.PublicKey{N: n, E: int(e)}","['pKey', ':=', 'rsa', '.', 'PublicKey', '{', 'N', ':', 'n', ',', 'E', ':', 'int', '(', 'e', ')}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+97,        //inblockOauth := base64.URLEncoding.DecodeString(w[1]),"['//', 'inblockOauth', ':=', 'base64.URLEncoding.DecodeString(w[1])']","['COMMENT', 'NN', 'CD', 'NN']"
+98,"    toHash := w[0] + ""."" + w[1]","['toHash', ':=', 'w', '[', '0', ']', '+', '"".""', '+', 'w', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+99,"    digestOauth, err := base64.URLEncoding.DecodeString(w[2])","['digestOauth', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'w', '[', '2', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+100,    hasherOauth := sha256.New(),"['hasherOauth', ':=', 'sha256', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+101,    hasherOauth.Write([]byte(toHash)),"['hasherOauth', '.', 'Write', '([]', 'byte', '(', 'toHash', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,    // verification here fails,"['//', 'verification', 'here', 'fails']","['COMMENT', 'NN', 'RB', 'VBZ']"
+103,"    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)","['err', '=', 'rsa', '.', 'VerifyPKCS1v15', '(&', 'pKey', ',', 'crypto', '.', 'SHA256', ',', 'hasherOauth', '.', 'Sum', '(', 'nil', '),', 'digestOauth', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,"        fmt.Printf(""Error verifying key %s"",err.Error())","['fmt', '.', 'Printf', '(', '""Error verifying key %s""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,    },['}'],['OPERATOR']
+107,},['}'],['OPERATOR']

@@ -1,327 +1,142 @@
 ,text,token,annotation
-0,// +build windows,['// +build windows'],"['COMMENT', 'JJ', 'NNS']"
-1,/*,['*'],['OPERATOR']
-2,Package wmi provides a WQL interface for WMI on Windows.,"['Package', 'wmi', 'provides', 'a', 'WQL', 'interface', 'for', 'WMI', 'on', 'Windows', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-3,Example code to print names of running processes:,"['Example', 'code', 'to', 'print', 'names', 'of', 'running', 'processes', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-4,    type Win32_Process struct {,"['type', 'Win32_Process', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-5,        Name string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-6,    },['}'],['OPERATOR']
-7,    func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-8,        var dst []Win32_Process,"['var', 'dst', '[]', 'Win32_Process']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-9,"        q := wmi.CreateQuery(&dst, """")","['q', ':=', 'wmi', '.', 'CreateQuery', '(&', 'dst', ',', '""""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-10,"        err := wmi.Query(q, &dst)","['err', ':=', 'wmi', '.', 'Query', '(', 'q', ',', '&', 'dst', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-11,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-12,            log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-13,        },['}'],['OPERATOR']
-14,"        for i, v := range dst {","['for', 'i', ',', 'v', ':=', 'range', 'dst', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-15,"            println(i, v.Name)","['println', '(', 'i', ',', 'v', '.', 'Name', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-16,        },['}'],['OPERATOR']
-17,    },['}'],['OPERATOR']
-18,*/,['*'],['OPERATOR']
-19,package wmi,"['package', 'wmi']","['KEYWORD', 'IDENTIFIER']"
-20,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-21,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-22,"    ""errors""","['""errors""']",['STRING_LITERAL']
-23,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-24,"    ""log""","['""log""']",['STRING_LITERAL']
-25,"    ""os""","['""os""']",['STRING_LITERAL']
-26,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
-27,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-28,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-29,"    ""strings""","['""strings""']",['STRING_LITERAL']
-30,"    ""sync""","['""sync""']",['STRING_LITERAL']
-31,"    ""time""","['""time""']",['STRING_LITERAL']
-32,"    ""github.com/mattn/go-ole""","['""github.com/mattn/go-ole""']",['STRING_LITERAL']
-33,"    ""github.com/mattn/go-ole/oleutil""","['""github.com/mattn/go-ole/oleutil""']",['STRING_LITERAL']
-34,),[')'],['OPERATOR']
-35,"var l = log.New(os.Stdout, """", log.LstdFlags)","['var', 'l', '=', 'log', '.', 'New', '(', 'os', '.', 'Stdout', ',', '""""', ',', 'log', '.', 'LstdFlags', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
-37,"    ErrInvalidEntityType = errors.New(""wmi: invalid entity type"")","['ErrInvalidEntityType', '=', 'errors', '.', 'New', '(', '""wmi: invalid entity type""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-38,    lock                 sync.Mutex,"['lock', 'sync', '.', 'Mutex']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-39,),[')'],['OPERATOR']
-40,// QueryNamespace invokes Query with the given namespace on the local machine.,['// QueryNamespace invokes Query with the given namespace on the local machine.'],"['COMMENT', 'NNP', 'VBZ', 'NNP', 'IN', 'DT', 'VBN', 'NN', 'IN', 'DT', 'JJ', 'NN', '.']"
-41,"func QueryNamespace(query string, dst interface{}, namespace string) error {","['func', 'QueryNamespace', '(', 'query', 'string', ',', 'dst', 'interface', '{},', 'namespace', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,"    return Query(query, dst, nil, namespace)","['return', 'Query', '(', 'query', ',', 'dst', ',', 'nil', ',', 'namespace', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-43,},['}'],['OPERATOR']
-44,// Query runs the WQL query and appends the values to dst.,['// Query runs the WQL query and appends the values to dst.'],"['COMMENT', 'NNP', 'VBZ', 'DT', 'NNP', 'NN', 'CC', 'VBZ', 'DT', 'NNS', 'TO', 'VB', '.']"
-45,//,['//'],['COMMENT']
-46,"// dst must have type *[]S or *[]*S, for some struct type S. Fields selected in","['// dst must have type *[]S or *[]*S, for some struct type S. Fields selected in']","['COMMENT', 'NN', 'MD', 'VB', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'NNP', ',', 'IN', 'DT', 'NN', 'NN', 'NNP', 'NNP', 'VBD', 'IN']"
-47,// the query must have the same name in dst. Supported types are all signed and,['// the query must have the same name in dst. Supported types are all signed and'],"['COMMENT', 'DT', 'NN', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN', '.', 'VBN', 'NNS', 'VBP', 'DT', 'VBN', 'CC']"
-48,"// unsigned integers, time.Time, string, bool, or a pointer to one of those.","['// unsigned integers, time.Time, string, bool, or a pointer to one of those.']","['COMMENT', 'JJ', 'NNS', ',', 'NN', ',', 'NN', ',', 'NN', ',', 'CC', 'DT', 'NN', 'TO', 'CD', 'IN', 'DT', '.']"
-49,// Array types are not supported.,['// Array types are not supported.'],"['COMMENT', 'NNP', 'NNS', 'VBP', 'RB', 'VBN', '.']"
-50,//,['//'],['COMMENT']
-51,"// By default, the local machine and default namespace are used. These can be","['// By default, the local machine and default namespace are used. These can be']","['COMMENT', 'IN', 'NN', ',', 'DT', 'JJ', 'NN', 'CC', 'NN', 'NN', 'VBP', 'VBN', '.', 'DT', 'MD', 'VB']"
-52,// changed using connectServerArgs. See,['// changed using connectServerArgs. See'],"['COMMENT', 'VBN', 'VBG', 'NN', '.', 'VB']"
-53,// http://msdn.microsoft.com/en-us/library/aa393720.aspx for details.,['// http://msdn.microsoft.com/en-us/library/aa393720.aspx for details.'],"['COMMENT', 'NN', ':', 'NN', 'IN', 'NNS', '.']"
-54,"func Query(query string, dst interface{}, connectServerArgs ...interface{}) error {","['func', 'Query', '(', 'query', 'string', ',', 'dst', 'interface', '{},', 'connectServerArgs', '...', 'interface', '{})', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,    dv := reflect.ValueOf(dst),"['dv', ':=', 'reflect', '.', 'ValueOf', '(', 'dst', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,    if dv.Kind() != reflect.Ptr || dv.IsNil() {,"['if', 'dv', '.', 'Kind', '()', '!=', 'reflect', '.', 'Ptr', '||', 'dv', '.', 'IsNil', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-57,        return ErrInvalidEntityType,"['return', 'ErrInvalidEntityType']","['KEYWORD', 'IDENTIFIER']"
-58,    },['}'],['OPERATOR']
-59,    dv = dv.Elem(),"['dv', '=', 'dv', '.', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,"    mat, elemType := checkMultiArg(dv)","['mat', ',', 'elemType', ':=', 'checkMultiArg', '(', 'dv', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,    if mat == multiArgTypeInvalid {,"['if', 'mat', '==', 'multiArgTypeInvalid', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,        return ErrInvalidEntityType,"['return', 'ErrInvalidEntityType']","['KEYWORD', 'IDENTIFIER']"
-63,    },['}'],['OPERATOR']
-64,    lock.Lock(),"['lock', '.', 'Lock', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-65,    defer lock.Unlock(),"['defer', 'lock', '.', 'Unlock', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-66,    runtime.LockOSThread(),"['runtime', '.', 'LockOSThread', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,    defer runtime.UnlockOSThread(),"['defer', 'runtime', '.', 'UnlockOSThread', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,"    err := ole.CoInitializeEx(0, ole.COINIT_MULTITHREADED)","['err', ':=', 'ole', '.', 'CoInitializeEx', '(', '0', ',', 'ole', '.', 'COINIT_MULTITHREADED', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,        oleerr := err.(*ole.OleError),"['oleerr', ':=', 'err', '.(*', 'ole', '.', 'OleError', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,        // S_FALSE           = 0x00000001 // CoInitializeEx was already called on this thread,['// S_FALSE           = 0x00000001 // CoInitializeEx was already called on this thread'],"['COMMENT', 'NNP', 'VBZ', 'CD', 'NNP', 'VBD', 'RB', 'VBN', 'IN', 'DT', 'NN']"
-72,        if oleerr.Code() != ole.S_OK && oleerr.Code() != 0x00000001 {,"['if', 'oleerr', '.', 'Code', '()', '!=', 'ole', '.', 'S_OK', '&&', 'oleerr', '.', 'Code', '()', '!=', '0', 'x00000001', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-73,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-74,        },['}'],['OPERATOR']
-75,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-76,        // Only invoke CoUninitialize if the thread was not initizlied before.,['// Only invoke CoUninitialize if the thread was not initizlied before.'],"['COMMENT', 'RB', 'RB', 'VB', 'IN', 'DT', 'NN', 'VBD', 'RB', 'VBN', 'IN', '.']"
-77,        // This will allow other go packages based on go-ole play along,['// This will allow other go packages based on go-ole play along'],"['COMMENT', 'DT', 'MD', 'VB', 'JJ', 'VB', 'NNS', 'VBN', 'IN', 'JJ', 'NN', 'IN']"
-78,        // with this library.,['// with this library.'],"['COMMENT', 'IN', 'DT', 'NN', '.']"
-79,        defer ole.CoUninitialize(),"['defer', 'ole', '.', 'CoUninitialize', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,    },['}'],['OPERATOR']
-81,"    unknown, err := oleutil.CreateObject(""WbemScripting.SWbemLocator"")","['unknown', ',', 'err', ':=', 'oleutil', '.', 'CreateObject', '(', '""WbemScripting.SWbemLocator""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-82,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-83,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-84,    },['}'],['OPERATOR']
-85,    defer unknown.Release(),"['defer', 'unknown', '.', 'Release', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,"    wmi, err := unknown.QueryInterface(ole.IID_IDispatch)","['wmi', ',', 'err', ':=', 'unknown', '.', 'QueryInterface', '(', 'ole', '.', 'IID_IDispatch', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-89,    },['}'],['OPERATOR']
-90,    defer wmi.Release(),"['defer', 'wmi', '.', 'Release', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,    // service is a SWbemServices,['// service is a SWbemServices'],"['COMMENT', 'NN', 'VBZ', 'DT', 'NNS']"
-92,"    serviceRaw, err := oleutil.CallMethod(wmi, ""ConnectServer"", connectServerArgs...)","['serviceRaw', ',', 'err', ':=', 'oleutil', '.', 'CallMethod', '(', 'wmi', ',', '""ConnectServer""', ',', 'connectServerArgs', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-93,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-95,    },['}'],['OPERATOR']
-96,    service := serviceRaw.ToIDispatch(),"['service', ':=', 'serviceRaw', '.', 'ToIDispatch', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-97,    defer serviceRaw.Clear(),"['defer', 'serviceRaw', '.', 'Clear', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-98,    // result is a SWBemObjectSet,['// result is a SWBemObjectSet'],"['COMMENT', 'NN', 'VBZ', 'DT', 'NN']"
-99,"    resultRaw, err := oleutil.CallMethod(service, ""ExecQuery"", query)","['resultRaw', ',', 'err', ':=', 'oleutil', '.', 'CallMethod', '(', 'service', ',', '""ExecQuery""', ',', 'query', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-100,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-101,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-102,    },['}'],['OPERATOR']
-103,    result := resultRaw.ToIDispatch(),"['result', ':=', 'resultRaw', '.', 'ToIDispatch', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-104,    defer resultRaw.Clear(),"['defer', 'resultRaw', '.', 'Clear', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,"    count, err := oleInt64(result, ""Count"")","['count', ',', 'err', ':=', 'oleInt64', '(', 'result', ',', '""Count""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-106,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-107,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-108,    },['}'],['OPERATOR']
-109,    // Initialize a slice with Count capacity,['// Initialize a slice with Count capacity'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNP', 'NN']"
-110,"    dv.Set(reflect.MakeSlice(dv.Type(), 0, int(count)))","['dv', '.', 'Set', '(', 'reflect', '.', 'MakeSlice', '(', 'dv', '.', 'Type', '(),', '0', ',', 'int', '(', 'count', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-111,    var errFieldMismatch error,"['var', 'errFieldMismatch', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-112,    for i := int64(0); i < count; i++ {,"['for', 'i', ':=', 'int64', '(', '0', ');', 'i', '<', 'count', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-113,        err := func() error {,"['err', ':=', 'func', '()', 'error', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-114,"            // item is a SWbemObject, but really a Win32_Process","['// item is a SWbemObject, but really a Win32_Process']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', ',', 'CC', 'RB', 'DT', 'NN']"
-115,"            itemRaw, err := oleutil.CallMethod(result, ""ItemIndex"", i)","['itemRaw', ',', 'err', ':=', 'oleutil', '.', 'CallMethod', '(', 'result', ',', '""ItemIndex""', ',', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-117,                return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-118,            },['}'],['OPERATOR']
-119,            item := itemRaw.ToIDispatch(),"['item', ':=', 'itemRaw', '.', 'ToIDispatch', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,            defer itemRaw.Clear(),"['defer', 'itemRaw', '.', 'Clear', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,            ev := reflect.New(elemType),"['ev', ':=', 'reflect', '.', 'New', '(', 'elemType', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,"            if err = loadEntity(ev.Interface(), item); err != nil {","['if', 'err', '=', 'loadEntity', '(', 'ev', '.', 'Interface', '(),', 'item', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,"                if _, ok := err.(*ErrFieldMismatch); ok {","['if', '_', ',', 'ok', ':=', 'err', '.(*', 'ErrFieldMismatch', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-124,                    // We continue loading entities even in the face of field mismatch errors.,['// We continue loading entities even in the face of field mismatch errors.'],"['COMMENT', 'PRP', 'VBP', 'VBG', 'NNS', 'RB', 'IN', 'DT', 'NN', 'IN', 'NN', 'NN', 'NNS', '.']"
-125,"                    // If we encounter any other error, that other error is returned. Otherwise,","['// If we encounter any other error, that other error is returned. Otherwise,']","['COMMENT', 'IN', 'PRP', 'VBP', 'DT', 'JJ', 'NN', ',', 'IN', 'JJ', 'NN', 'VBZ', 'VBN', '.', 'RB', ',']"
-126,                    // an ErrFieldMismatch is returned.,['// an ErrFieldMismatch is returned.'],"['COMMENT', 'DT', 'NN', 'VBZ', 'VBN', '.']"
-127,                    errFieldMismatch = err,"['errFieldMismatch', '=', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-128,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-129,                    return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-130,                },['}'],['OPERATOR']
-131,            },['}'],['OPERATOR']
-132,            if mat != multiArgTypeStructPtr {,"['if', 'mat', '!=', 'multiArgTypeStructPtr', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-133,                ev = ev.Elem(),"['ev', '=', 'ev', '.', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-134,            },['}'],['OPERATOR']
-135,"            dv.Set(reflect.Append(dv, ev))","['dv', '.', 'Set', '(', 'reflect', '.', 'Append', '(', 'dv', ',', 'ev', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,            return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-137,        }(),['}()'],['OPERATOR']
-138,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-140,        },['}'],['OPERATOR']
-141,    },['}'],['OPERATOR']
-142,    return errFieldMismatch,"['return', 'errFieldMismatch']","['KEYWORD', 'IDENTIFIER']"
-143,},['}'],['OPERATOR']
-144,// ErrFieldMismatch is returned when a field is to be loaded into a different,['// ErrFieldMismatch is returned when a field is to be loaded into a different'],"['COMMENT', 'NN', 'VBZ', 'VBN', 'WRB', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'VBN', 'IN', 'DT', 'JJ']"
-145,"// type than the one it was stored from, or when a field is missing or","['// type than the one it was stored from, or when a field is missing or']","['COMMENT', 'NN', 'IN', 'DT', 'CD', 'PRP', 'VBD', 'VBN', 'IN', ',', 'CC', 'WRB', 'DT', 'NN', 'VBZ', 'VBG', 'CC']"
-146,// unexported in the destination struct.,['// unexported in the destination struct.'],"['COMMENT', 'VBN', 'IN', 'DT', 'NN', 'NN', '.']"
-147,// StructType is the type of the struct pointed to by the destination argument.,['// StructType is the type of the struct pointed to by the destination argument.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBD', 'TO', 'IN', 'DT', 'NN', 'NN', '.']"
-148,type ErrFieldMismatch struct {,"['type', 'ErrFieldMismatch', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-149,    StructType reflect.Type,"['StructType', 'reflect', '.', 'Type']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-150,    FieldName  string,"['FieldName', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-151,    Reason     string,"['Reason', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-152,},['}'],['OPERATOR']
-153,func (e *ErrFieldMismatch) Error() string {,"['func', '(', 'e', '*', 'ErrFieldMismatch', ')', 'Error', '()', 'string', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-154,"    return fmt.Sprintf(""wmi: cannot load field %q into a %q: %s"",","['return', 'fmt', '.', 'Sprintf', '(', '""wmi: cannot load field %q into a %q: %s""', ',']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-155,"        e.FieldName, e.StructType, e.Reason)","['e', '.', 'FieldName', ',', 'e', '.', 'StructType', ',', 'e', '.', 'Reason', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-156,},['}'],['OPERATOR']
-157,var timeType = reflect.TypeOf(time.Time{}),"['var', 'timeType', '=', 'reflect', '.', 'TypeOf', '(', 'time', '.', 'Time', '{})']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-158,// loadEntity loads a SWbemObject into a struct pointer.,['// loadEntity loads a SWbemObject into a struct pointer.'],"['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'IN', 'DT', 'NN', 'NN', '.']"
-159,"func loadEntity(dst interface{}, src *ole.IDispatch) (errFieldMismatch error) {","['func', 'loadEntity', '(', 'dst', 'interface', '{},', 'src', '*', 'ole', '.', 'IDispatch', ')', '(', 'errFieldMismatch', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-160,    v := reflect.ValueOf(dst).Elem(),"['v', ':=', 'reflect', '.', 'ValueOf', '(', 'dst', ').', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-161,    for i := 0; i < v.NumField(); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'v', '.', 'NumField', '();', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-162,        f := v.Field(i),"['f', ':=', 'v', '.', 'Field', '(', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-163,        isPtr := f.Kind() == reflect.Ptr,"['isPtr', ':=', 'f', '.', 'Kind', '()', '==', 'reflect', '.', 'Ptr']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-164,        if isPtr {,"['if', 'isPtr', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-165,            ptr := reflect.New(f.Type().Elem()),"['ptr', ':=', 'reflect', '.', 'New', '(', 'f', '.', 'Type', '().', 'Elem', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-166,            f.Set(ptr),"['f', '.', 'Set', '(', 'ptr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-167,            f = f.Elem(),"['f', '=', 'f', '.', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-168,        },['}'],['OPERATOR']
-169,        n := v.Type().Field(i).Name,"['n', ':=', 'v', '.', 'Type', '().', 'Field', '(', 'i', ').', 'Name']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-170,        if !f.CanSet() {,"['if', '!', 'f', '.', 'CanSet', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-171,            return &ErrFieldMismatch{,"['return', '&', 'ErrFieldMismatch', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-172,"                StructType: f.Type(),","['StructType', ':', 'f', '.', 'Type', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-173,"                FieldName:  n,","['FieldName', ':', 'n', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-174,"                Reason:     ""CanSet() is false"",","['Reason', ':', '""CanSet() is false""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-175,            },['}'],['OPERATOR']
-176,        },['}'],['OPERATOR']
-177,"        prop, err := oleutil.GetProperty(src, n)","['prop', ',', 'err', ':=', 'oleutil', '.', 'GetProperty', '(', 'src', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-178,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-179,            errFieldMismatch = &ErrFieldMismatch{,"['errFieldMismatch', '=', '&', 'ErrFieldMismatch', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-180,"                StructType: f.Type(),","['StructType', ':', 'f', '.', 'Type', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-181,"                FieldName:  n,","['FieldName', ':', 'n', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-182,"                Reason:     ""no such struct field"",","['Reason', ':', '""no such struct field""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-183,            },['}'],['OPERATOR']
-184,            continue,['continue'],['KEYWORD']
-185,        },['}'],['OPERATOR']
-186,        defer prop.Clear(),"['defer', 'prop', '.', 'Clear', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-187,        switch val := prop.Value().(type) {,"['switch', 'val', ':=', 'prop', '.', 'Value', '().(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-188,"        case int, int64:","['case', 'int', ',', 'int64', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-189,            var v int64,"['var', 'v', 'int64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-190,            switch val := val.(type) {,"['switch', 'val', ':=', 'val', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-191,            case int:,"['case', 'int', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-192,                v = int64(val),"['v', '=', 'int64', '(', 'val', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-193,            case int64:,"['case', 'int64', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-194,                v = val,"['v', '=', 'val']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-195,            default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-196,"                panic(""unexpected type"")","['panic', '(', '""unexpected type""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-197,            },['}'],['OPERATOR']
-198,            switch f.Kind() {,"['switch', 'f', '.', 'Kind', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-199,"            case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:","['case', 'reflect', '.', 'Int', ',', 'reflect', '.', 'Int8', ',', 'reflect', '.', 'Int16', ',', 'reflect', '.', 'Int32', ',', 'reflect', '.', 'Int64', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-200,                f.SetInt(v),"['f', '.', 'SetInt', '(', 'v', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-201,"            case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:","['case', 'reflect', '.', 'Uint', ',', 'reflect', '.', 'Uint8', ',', 'reflect', '.', 'Uint16', ',', 'reflect', '.', 'Uint32', ',', 'reflect', '.', 'Uint64', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-202,                f.SetUint(uint64(v)),"['f', '.', 'SetUint', '(', 'uint64', '(', 'v', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-203,            default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-204,                return &ErrFieldMismatch{,"['return', '&', 'ErrFieldMismatch', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-205,"                    StructType: f.Type(),","['StructType', ':', 'f', '.', 'Type', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-206,"                    FieldName:  n,","['FieldName', ':', 'n', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-207,"                    Reason:     ""not an integer class"",","['Reason', ':', '""not an integer class""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-208,                },['}'],['OPERATOR']
-209,            },['}'],['OPERATOR']
-210,        case string:,"['case', 'string', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-211,"            iv, err := strconv.ParseInt(val, 10, 64)","['iv', ',', 'err', ':=', 'strconv', '.', 'ParseInt', '(', 'val', ',', '10', ',', '64', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-212,            switch f.Kind() {,"['switch', 'f', '.', 'Kind', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-213,            case reflect.String:,"['case', 'reflect', '.', 'String', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-214,                f.SetString(val),"['f', '.', 'SetString', '(', 'val', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-215,"            case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:","['case', 'reflect', '.', 'Int', ',', 'reflect', '.', 'Int8', ',', 'reflect', '.', 'Int16', ',', 'reflect', '.', 'Int32', ',', 'reflect', '.', 'Int64', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-216,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-217,                    return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-218,                },['}'],['OPERATOR']
-219,                f.SetInt(iv),"['f', '.', 'SetInt', '(', 'iv', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-220,"            case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:","['case', 'reflect', '.', 'Uint', ',', 'reflect', '.', 'Uint8', ',', 'reflect', '.', 'Uint16', ',', 'reflect', '.', 'Uint32', ',', 'reflect', '.', 'Uint64', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-222,                    return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-223,                },['}'],['OPERATOR']
-224,                f.SetUint(uint64(iv)),"['f', '.', 'SetUint', '(', 'uint64', '(', 'iv', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-225,            case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-226,                switch f.Type() {,"['switch', 'f', '.', 'Type', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-227,                case timeType:,"['case', 'timeType', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-228,                    if len(val) == 25 {,"['if', 'len', '(', 'val', ')', '==', '25', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-229,"                        mins, err := strconv.Atoi(val[22:])","['mins', ',', 'err', ':=', 'strconv', '.', 'Atoi', '(', 'val', '[', '22', ':])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-230,                        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-231,                            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-232,                        },['}'],['OPERATOR']
-233,"                        val = val[:22] + fmt.Sprintf(""%02d%02d"", mins/60, mins%60)","['val', '=', 'val', '[:', '22', ']', '+', 'fmt', '.', 'Sprintf', '(', '""%02d%02d""', ',', 'mins', '60', ',', 'mins', '60', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR']"
-234,                    },['}'],['OPERATOR']
-235,"                    t, err := time.Parse(""20060102150405.000000-0700"", val)","['t', ',', 'err', ':=', 'time', '.', 'Parse', '(', '""20060102150405.000000-0700""', ',', 'val', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-236,                    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-237,                        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-238,                    },['}'],['OPERATOR']
-239,                    f.Set(reflect.ValueOf(t)),"['f', '.', 'Set', '(', 'reflect', '.', 'ValueOf', '(', 't', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-240,                },['}'],['OPERATOR']
-241,            },['}'],['OPERATOR']
-242,        case bool:,"['case', 'bool', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-243,            switch f.Kind() {,"['switch', 'f', '.', 'Kind', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-244,            case reflect.Bool:,"['case', 'reflect', '.', 'Bool', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-245,                f.SetBool(val),"['f', '.', 'SetBool', '(', 'val', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-246,            default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-247,                return &ErrFieldMismatch{,"['return', '&', 'ErrFieldMismatch', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-248,"                    StructType: f.Type(),","['StructType', ':', 'f', '.', 'Type', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-249,"                    FieldName:  n,","['FieldName', ':', 'n', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-250,"                    Reason:     ""not a bool"",","['Reason', ':', '""not a bool""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-251,                },['}'],['OPERATOR']
-252,            },['}'],['OPERATOR']
-253,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-254,            typeof := reflect.TypeOf(val),"['type', 'of', ':=', 'reflect', '.', 'TypeOf', '(', 'val', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-255,            if isPtr && typeof == nil {,"['if', 'isPtr', '&&', 'type', 'of', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-256,                break,['break'],['KEYWORD']
-257,            },['}'],['OPERATOR']
-258,            return &ErrFieldMismatch{,"['return', '&', 'ErrFieldMismatch', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-259,"                StructType: f.Type(),","['StructType', ':', 'f', '.', 'Type', '(),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-260,"                FieldName:  n,","['FieldName', ':', 'n', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-261,"                Reason:     fmt.Sprintf(""unsupported type (%T)"", val),","['Reason', ':', 'fmt', '.', 'Sprintf', '(', '""unsupported type (%T)""', ',', 'val', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-262,            },['}'],['OPERATOR']
-263,        },['}'],['OPERATOR']
-264,    },['}'],['OPERATOR']
-265,    return errFieldMismatch,"['return', 'errFieldMismatch']","['KEYWORD', 'IDENTIFIER']"
-266,},['}'],['OPERATOR']
-267,type multiArgType int,"['type', 'multiArgType', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-268,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-269,    multiArgTypeInvalid multiArgType = iota,"['multiArgTypeInvalid', 'multiArgType', '=', 'iota']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-270,    multiArgTypeStruct,['multiArgTypeStruct'],['IDENTIFIER']
-271,    multiArgTypeStructPtr,['multiArgTypeStructPtr'],['IDENTIFIER']
-272,),[')'],['OPERATOR']
-273,"// checkMultiArg checks that v has type []S, []*S for some struct type S.","['// checkMultiArg checks that v has type []S, []*S for some struct type S.']","['COMMENT', 'NN', 'NNS', 'WDT', 'NN', 'VBZ', 'VBN', 'NNP', 'NNP', 'NNP', ',', 'NNP', 'NNP', 'NNP', 'IN', 'DT', 'NN', 'NN', 'NNP', '.']"
-274,//,['//'],['COMMENT']
-275,"// It returns what category the slice's elements are, and the reflect.Type","[""// It returns what category the slice's elements are, and the reflect.Type""]","['COMMENT', 'PRP', 'VBZ', 'WP', 'VBZ', 'DT', 'NN', 'POS', 'NNS', 'VBP', ',', 'CC', 'DT', 'NN']"
-276,// that represents S.,['// that represents S.'],"['COMMENT', 'DT', 'VBZ', 'NNP', '.']"
-277,"func checkMultiArg(v reflect.Value) (m multiArgType, elemType reflect.Type) {","['func', 'checkMultiArg', '(', 'v', 'reflect', '.', 'Value', ')', '(', 'm', 'multiArgType', ',', 'elemType', 'reflect', '.', 'Type', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-278,    if v.Kind() != reflect.Slice {,"['if', 'v', '.', 'Kind', '()', '!=', 'reflect', '.', 'Slice', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-279,"        return multiArgTypeInvalid, nil","['return', 'multiArgTypeInvalid', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-280,    },['}'],['OPERATOR']
-281,    elemType = v.Type().Elem(),"['elemType', '=', 'v', '.', 'Type', '().', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-282,    switch elemType.Kind() {,"['switch', 'elemType', '.', 'Kind', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-283,    case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-284,"        return multiArgTypeStruct, elemType","['return', 'multiArgTypeStruct', ',', 'elemType']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-285,    case reflect.Ptr:,"['case', 'reflect', '.', 'Ptr', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-286,        elemType = elemType.Elem(),"['elemType', '=', 'elemType', '.', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-287,        if elemType.Kind() == reflect.Struct {,"['if', 'elemType', '.', 'Kind', '()', '==', 'reflect', '.', 'Struct', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-288,"            return multiArgTypeStructPtr, elemType","['return', 'multiArgTypeStructPtr', ',', 'elemType']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-289,        },['}'],['OPERATOR']
-290,    },['}'],['OPERATOR']
-291,"    return multiArgTypeInvalid, nil","['return', 'multiArgTypeInvalid', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-292,},['}'],['OPERATOR']
-293,"func oleInt64(item *ole.IDispatch, prop string) (int64, error) {","['func', 'oleInt64', '(', 'item', '*', 'ole', '.', 'IDispatch', ',', 'prop', 'string', ')', '(', 'int64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-294,"    v, err := oleutil.GetProperty(item, prop)","['v', ',', 'err', ':=', 'oleutil', '.', 'GetProperty', '(', 'item', ',', 'prop', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-295,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-296,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-297,    },['}'],['OPERATOR']
-298,    defer v.Clear(),"['defer', 'v', '.', 'Clear', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-299,    i := int64(v.Val),"['i', ':=', 'int64', '(', 'v', '.', 'Val', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-300,"    return i, nil","['return', 'i', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-301,},['}'],['OPERATOR']
-302,// CreateQuery returns a WQL query string that queries all columns of src. where,['// CreateQuery returns a WQL query string that queries all columns of src. where'],"['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'NN', '.', 'WRB']"
-303,"// is an optional string that is appended to the query, to be used with WHERE","['// is an optional string that is appended to the query, to be used with WHERE']","['COMMENT', 'VBZ', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'VBN', 'TO', 'DT', 'NN', ',', 'TO', 'VB', 'VBN', 'IN', 'NNP']"
-304,"// clauses. In such a case, the ""WHERE"" string should appear at the beginning.","['// clauses. In such a case, the ""WHERE"" string should appear at the beginning.']","['COMMENT', 'NNS', '.', 'IN', 'JJ', 'DT', 'NN', ',', 'DT', '``', 'NNP', ""''"", 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', '.']"
-305,"func CreateQuery(src interface{}, where string) string {","['func', 'CreateQuery', '(', 'src', 'interface', '{},', 'where', 'string', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-306,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-307,"    b.WriteString(""SELECT "")","['b', '.', 'WriteString', '(', '""SELECT ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-308,    s := reflect.Indirect(reflect.ValueOf(src)),"['s', ':=', 'reflect', '.', 'Indirect', '(', 'reflect', '.', 'ValueOf', '(', 'src', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-309,    t := s.Type(),"['t', ':=', 's', '.', 'Type', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-310,    if s.Kind() == reflect.Slice {,"['if', 's', '.', 'Kind', '()', '==', 'reflect', '.', 'Slice', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-311,        t = t.Elem(),"['t', '=', 't', '.', 'Elem', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-312,    },['}'],['OPERATOR']
-313,    if t.Kind() != reflect.Struct {,"['if', 't', '.', 'Kind', '()', '!=', 'reflect', '.', 'Struct', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-314,"        return """"","['return', '""""']","['KEYWORD', 'STRING_LITERAL']"
-315,    },['}'],['OPERATOR']
-316,    var fields []string,"['var', 'fields', '[]', 'string']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-317,    for i := 0; i < t.NumField(); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 't', '.', 'NumField', '();', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-318,"        fields = append(fields, t.Field(i).Name)","['fields', '=', 'append', '(', 'fields', ',', 't', '.', 'Field', '(', 'i', ').', 'Name', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-319,    },['}'],['OPERATOR']
-320,"    b.WriteString(strings.Join(fields, "", ""))","['b', '.', 'WriteString', '(', 'strings', '.', 'Join', '(', 'fields', ',', '"", ""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-321,"    b.WriteString("" FROM "")","['b', '.', 'WriteString', '(', '"" FROM ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-322,    b.WriteString(t.Name()),"['b', '.', 'WriteString', '(', 't', '.', 'Name', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-323,"    b.WriteString("" "" + where)","['b', '.', 'WriteString', '(', '"" ""', '+', 'where', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-324,    return b.String(),"['return', 'b', '.', 'String', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-325,},['}'],['OPERATOR']
+0,"I have a loop that is apparently causing a data race its near the bottom of this function and I will have it marked:
+
+","['I', 'have', 'a', 'loop', 'that', 'is', 'apparently', 'causing', 'a', 'data', 'race', 'its', 'near', 'the', 'bottom', 'of', 'this', 'function', 'and', 'I', 'will', 'have', 'it', 'marked:']","['PRP', 'VBP', 'DT', 'NN', 'WDT', 'VBZ', 'RB', 'VBG', 'DT', 'NN', 'NN', 'PRP$', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'CC', 'PRP', 'MD', 'VB', 'PRP', 'VB']"
+1,func (p *PartialParty) SendReadyCheck(party PartialParty) {,"['func', '(', 'p', '*', 'PartialParty', ')', 'SendReadyCheck', '(', 'party', 'PartialParty', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+2,"    msg, err := json.Marshal(&ReadyCheckMsg{""ReadyCheck"", """"})","['msg', ',', 'err', ':=', 'json', '.', 'Marshal', '(&', 'ReadyCheckMsg', '{', '""ReadyCheck"", """"', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+3,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+4,        log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+5,    },['}'],['OPERATOR']
+6,"    for _, member := range party.Members {","['for', '_', ',', 'member', ':=', 'range', 'party', '.', 'Members', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+7,        member.Conn.send <- msg,"['member', '.', 'Conn', '.', 'send', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+8,    },['}'],['OPERATOR']
+9,    counter := 0,"['counter', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+10,    loopBreaker := true,"['loopBreaker', ':=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+11,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+12,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
+13,        case <-p.Accept:,"['case', '<-', 'p', '.', 'Accept', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,            counter++,"['counter', '++']","['IDENTIFIER', 'OPERATOR']"
+15,"            resp, err := json.Marshal(&ReadyCheckMsg{""ReadyAccepted"", """"})","['resp', ',', 'err', ':=', 'json', '.', 'Marshal', '(&', 'ReadyCheckMsg', '{', '""ReadyAccepted"", """"', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,                log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,            },['}'],['OPERATOR']
+19,"            for _, member := range party.Members {","['for', '_', ',', 'member', ':=', 'range', 'party', '.', 'Members', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,                member.Conn.send <- resp,"['member', '.', 'Conn', '.', 'send', '<-', 'resp']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+21,            },['}'],['OPERATOR']
+22,            if counter == 2 {,"['if', 'counter', '==', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+23,                // Create a new party with all members,"['//', 'Create', 'a', 'new', 'party', 'with', 'all', 'members']","['COMMENT', 'VB', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NNS']"
+24,                partyid := PartyID(feeds.NewUUID().String()),"['partyid', ':=', 'PartyID', '(', 'feeds', '.', 'NewUUID', '().', 'String', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,                db := common.Db(),"['db', ':=', 'common', '.', 'Db', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,                newParty := &Party{,"['newParty', ':=', '&', 'Party', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,"                    Active:    true,","['Active', ':', 'true', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,"                    Members:   p.Members,","['Members', ':', 'p', '.', 'Members', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,"                    Broadcast: make(chan []byte),","['Broadcast', ':', 'make', '(', 'chan', '[]', 'byte', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"                    PartyID:   partyid,","['PartyID', ':', 'partyid', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,                },['}'],['OPERATOR']
+32,                // Insert the new party into the database,"['//', 'Insert', 'the', 'new', 'party', 'into', 'the', 'database']","['COMMENT', 'NNP', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN']"
+33,"                _, err := db.Exec(""INSERT INTO party SET party_id = ?, active = ?"", partyid.String(), true)","['_', ',', 'err', ':=', 'db', '.', 'Exec', '(', '""INSERT INTO party SET party_id = ?, active = ?""', ',', 'partyid', '.', 'String', '(),', 'true', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,                    log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,                },['}'],['OPERATOR']
+37,                // Go through the members and update the database,"['//', 'Go', 'through', 'the', 'members', 'and', 'update', 'the', 'database']","['COMMENT', 'NNP', 'IN', 'DT', 'NNS', 'CC', 'VB', 'DT', 'NN']"
+38,                var wg sync.WaitGroup,"['var', 'wg', 'sync', '.', 'WaitGroup']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+39,"                for _, member := range party.Members {","['for', '_', ',', 'member', ':=', 'range', 'party', '.', 'Members', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,                    wg.Add(1),"['wg', '.', 'Add', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+41,                    m := member,"['m', ':=', 'member']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+42,                    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+43,"                        _, err := db.Exec(""UPDATE party_members SET active = ? WHERE steamid = ?"", false, m.SteamID)","['_', ',', 'err', ':=', 'db', '.', 'Exec', '(', '""UPDATE party_members SET active = ? WHERE steamid = ?""', ',', 'false', ',', 'm', '.', 'SteamID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,                        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,                            log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,                        },['}'],['OPERATOR']
+47,"                        _, err = db.Exec(""INSERT INTO party_members SET belongs_to =?, active = ?, steamid = ?"", partyid.String(), true, m.SteamID)","['_', ',', 'err', '=', 'db', '.', 'Exec', '(', '""INSERT INTO party_members SET belongs_to =?, active = ?, steamid = ?""', ',', 'partyid', '.', 'String', '(),', 'true', ',', 'm', '.', 'SteamID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,                        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,                            log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,                        },['}'],['OPERATOR']
+51,                        wg.Done(),"['wg', '.', 'Done', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,                    }(),['}()'],['OPERATOR']
+53,                },['}'],['OPERATOR']
+54,                // Wait for all the database stuff to finish,"['//', 'Wait', 'for', 'all', 'the', 'database', 'stuff', 'to', 'finish']","['COMMENT', 'NNP', 'IN', 'PDT', 'DT', 'NN', 'NN', 'TO', 'VB']"
+55,                wg.Wait(),"['wg', '.', 'Wait', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,                PHub.AddNewParty(newParty),"['PHub', '.', 'AddNewParty', '(', 'newParty', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,                loopBreaker = false,"['loopBreaker', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+58,                break,['break'],['KEYWORD']
+59,            },['}'],['OPERATOR']
+60,        case conn := <-p.Decline:,"['case', 'conn', ':=', '<-', 'p', '.', 'Decline', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,            if conn.Ready {,"['if', 'conn', '.', 'Ready', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,                break,['break'],['KEYWORD']
+63,            },['}'],['OPERATOR']
+64,            conn.Ready = false,"['conn', '.', 'Ready', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+65,            conn.InQueue = false,"['conn', '.', 'InQueue', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+66,"            conn.CurrentParty = """"","['conn', '.', 'CurrentParty', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+67,"            resp, err := json.Marshal(&ReadyCheckMsg{""ReadyCheckDeclined"", """"})","['resp', ',', 'err', ':=', 'json', '.', 'Marshal', '(&', 'ReadyCheckMsg', '{', '""ReadyCheckDeclined"", """"', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+68,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,                log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,            },['}'],['OPERATOR']
+71,            p.Accepting = true,"['p', '.', 'Accepting', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+72,            identifier := conn.Identifier,"['identifier', ':=', 'conn', '.', 'Identifier']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+73,"            if _, ok := party.Members[identifier]; ok {","['if', '_', ',', 'ok', ':=', 'party', '.', 'Members', '[', 'identifier', '];', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,"                delete(p.Members, identifier)","['delete', '(', 'p', '.', 'Members', ',', 'identifier', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,            },['}'],['OPERATOR']
+76,"            for _, m := range party.Members {","['for', '_', ',', 'm', ':=', 'range', 'party', '.', 'Members', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,                member := m,"['member', ':=', 'm']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+78,                member.Conn.send <- resp,"['member', '.', 'Conn', '.', 'send', '<-', 'resp']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+79,            },['}'],['OPERATOR']
+80,"            log.Println(""Here"")","['log', '.', 'Println', '(', '""Here""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+81,            loopBreaker = false,"['loopBreaker', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+82,            break,['break'],['KEYWORD']
+83,        case <-time.After(30 * time.Second):,"['case', '<-', 'time', '.', 'After', '(', '30', '*', 'time', '.', 'Second', '):']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,            if counter == 2 {,"['if', 'counter', '==', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+85,                return,['return'],['KEYWORD']
+86,            },['}'],['OPERATOR']
+87,            p.Accepting = true,"['p', '.', 'Accepting', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,"            failedMsg, err := json.Marshal(&ReadyCheckMsg{""FailedToReady"", """"})","['failedMsg', ',', 'err', ':=', 'json', '.', 'Marshal', '(&', 'ReadyCheckMsg', '{', '""FailedToReady"", """"', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+89,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,                log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,            },['}'],['OPERATOR']
+92,"            somebodyDeclinedMsg, err := json.Marshal(&ReadyCheckMsg{""ReadyCheckDeclined"", """"})","['somebodyDeclinedMsg', ',', 'err', ':=', 'json', '.', 'Marshal', '(&', 'ReadyCheckMsg', '{', '""ReadyCheckDeclined"", """"', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+93,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,                log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+95,            },['}'],['OPERATOR']
+96,"    >>>>     for _, member := range party.Members { ***<<<< This Line***","['>>>>', 'for', '_', ',', 'member', ':=', 'range', 'party', '.', 'Members', '{', '***<<<<', 'This', 'Line', '***']","['OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+97,                m := member,"['m', ':=', 'member']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+98,                if !m.Conn.Ready {,"['if', '!', 'm', '.', 'Conn', '.', 'Ready', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,                    m.Conn.Ready = false,"['m', '.', 'Conn', '.', 'Ready', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+100,                    m.Conn.InQueue = false,"['m', '.', 'Conn', '.', 'InQueue', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+101,"                    m.Conn.CurrentParty = """"","['m', '.', 'Conn', '.', 'CurrentParty', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+102,                    m.Conn.send <- failedMsg,"['m', '.', 'Conn', '.', 'send', '<-', 'failedMsg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+103,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+104,                    m.Conn.Ready = false,"['m', '.', 'Conn', '.', 'Ready', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+105,                    m.Conn.send <- somebodyDeclinedMsg,"['m', '.', 'Conn', '.', 'send', '<-', 'somebodyDeclinedMsg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+106,                },['}'],['OPERATOR']
+107,            },['}'],['OPERATOR']
+108,            loopBreaker = false,"['loopBreaker', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+109,            break,['break'],['KEYWORD']
+110,        },['}'],['OPERATOR']
+111,        if !loopBreaker {,"['if', '!', 'loopBreaker', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,            break,['break'],['KEYWORD']
+113,        },['}'],['OPERATOR']
+114,    },['}'],['OPERATOR']
+115,},['}'],['OPERATOR']
+116,"
+
+It is apparently conflicting with this:
+
+","['It', 'is', 'apparently', 'conflicting', 'with', 'this:']","['PRP', 'VBZ', 'RB', 'VBG', 'IN', 'NN']"
+117,// AddNewMember will add a new user to the party,"['//', 'AddNewMember', 'will', 'add', 'a', 'new', 'user', 'to', 'the', 'party']","['COMMENT', 'NNP', 'MD', 'VB', 'DT', 'JJ', 'NN', 'TO', 'DT', 'NN']"
+118,"func (p *PartyHub) AddNewMember(member *Member, partyid PartyID) {","['func', '(', 'p', '*', 'PartyHub', ')', 'AddNewMember', '(', 'member', '*', 'Member', ',', 'partyid', 'PartyID', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+119,    p.Lock(),"['p', '.', 'Lock', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,    defer p.Unlock(),"['defer', 'p', '.', 'Unlock', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+121,>>> p.PartialPartys[partyid].Members[member.Conn.Identifier] = member,"['>>>', 'p', '.', 'PartialPartys', '[', 'partyid', '].', 'Members', '[', 'member', '.', 'Conn', '.', 'Identifier', ']', '=', 'member']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+122,},['}'],['OPERATOR']
+123,type PartialParty struct {,"['type', 'PartialParty', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+124,    Accepting bool,"['Accepting', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
+125,    Members   map[Identifier]*Member,"['Members', 'map', '[', 'Identifier', ']*', 'Member']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+126,    Accept    chan *Connection,"['Accept', 'chan', '*', 'Connection']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER']"
+127,    Decline   chan *Connection,"['Decline', 'chan', '*', 'Connection']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER']"
+128,    PartyID   PartyID,"['PartyID', 'PartyID']","['IDENTIFIER', 'IDENTIFIER']"
+129,    sync.Mutex,"['sync', '.', 'Mutex']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+130,},['}'],['OPERATOR']
+131,"
+
+Right now it is impossible to AddNewMember if the goroutine SendReadyCheck  is running ``because it is protected by an if statement that checks if the goroutine is running, so I'm not sure why they are saying they are racing each other. Any help on clearing this up would be great. I've tried setting a variable inside the loop to try to get away from it but it doesn't seem to cause it
+","['Right', 'now', 'it', 'is', 'impossible', 'to', 'AddNewMember', 'if', 'the', 'goroutine', 'SendReadyCheck', 'is', 'running', '``because', 'it', 'is', 'protected', 'by', 'an', 'if', 'statement', 'that', 'checks', 'if', 'the', 'goroutine', 'is', 'running,', 'so', ""I'm"", 'not', 'sure', 'why', 'they', 'are', 'saying', 'they', 'are', 'racing', 'each', 'other.', 'Any', 'help', 'on', 'clearing', 'this', 'up', 'would', 'be', 'great.', ""I've"", 'tried', 'setting', 'a', 'variable', 'inside', 'the', 'loop', 'to', 'try', 'to', 'get', 'away', 'from', 'it', 'but', 'it', ""doesn't"", 'seem', 'to', 'cause', 'it']","['RB', 'RB', 'PRP', 'VBZ', 'JJ', 'TO', 'NNP', 'IN', 'DT', 'NN', 'NNP', 'VBZ', 'VBG', 'IN', 'PRP', 'VBZ', 'VBN', 'IN', 'DT', 'IN', 'NN', 'IN', 'VBZ', 'IN', 'DT', 'NN', 'VBZ', 'VBN', 'RB', 'NNP', 'RB', 'JJ', 'WRB', 'PRP', 'VBP', 'VBG', 'PRP', 'VBP', 'VBG', 'DT', 'NN', 'NNP', 'NN', 'IN', 'VBG', 'DT', 'RP', 'MD', 'VB', 'JJ', 'NNP', 'VBD', 'VBG', 'DT', 'JJ', 'IN', 'DT', 'NN', 'TO', 'VB', 'TO', 'VB', 'RB', 'IN', 'PRP', 'CC', 'PRP', 'VBZ', 'VB', 'TO', 'VB', 'PRP']"

@@ -1,36 +1,186 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+0,"No issues building at commandline:
+
+
+  Darians-MacBook-Pro:gdriveweb darianhickman$ go build helloworld/hello.go
+  
+  Darians-MacBook-Pro:gdriveweb darianhickman$ 
+
+
+Error at locahost:8080/
+
+
+  The Go application could not be built.
+  
+  (Executed command: /Users/darianhickman/go_appengine/goroot/bin/go-app-builder -app_base /Users/darianhickman/gowork/src/bitbucket.org/darian_hickman/gdriveweb/helloworld -arch 6 -dynamic -goroot /Users/darianhickman/go_appengine/goroot -nobuild_files ^^$ -unsafe -gopath /Users/darianhickman/gowork -binary_name _go_app -extra_imports appengine_internal/init -work_dir /var/folders/fk/wknp5jzn53gbgbml0yn695_m0000gn/T/tmpsHFP6tappengine-go-bin -gcflags -I,/Users/darianhickman/go_appengine/goroot/pkg/darwin_amd64_appengine -ldflags -L,/Users/darianhickman/go_appengine/goroot/pkg/darwin_amd64_appengine hello.go)
+  /Users/darianhickman/gowork/src/golang.org/x/net/context/ctxhttp/ctxhttp.go:35: req.Cancel undefined (type *http.Request has no field or method Cancel)
+  
+  2016/05/24 19:39:17 go-app-builder: build timing: 6×6g (469ms total), 0×6l (0 total)
+  2016/05/24 19:39:17 go-app-builder: failed running 6g: exit status 1
+
+
+When I research the error
+
+
+  *http.Request has no field or method Cancel
+
+
+it leads to a bunch of nonapplicable posts about updating to >Go1.5. 
+
+Source:
+
+","['No', 'issues', 'building', 'at', 'commandline:', 'Darians-MacBook-Pro:gdriveweb', 'darianhickman$', 'go', 'build', 'helloworld/hello.go', 'Darians-MacBook-Pro:gdriveweb', 'darianhickman$', 'Error', 'at', 'locahost:8080/', 'The', 'Go', 'application', 'could', 'not', 'be', 'built.', '(Executed', 'command:', '/Users/darianhickman/go_appengine/goroot/bin/go-app-builder', '-app_base', '/Users/darianhickman/gowork/src/bitbucket.org/darian_hickman/gdriveweb/helloworld', '-arch', '6', '-dynamic', '-goroot', '/Users/darianhickman/go_appengine/goroot', '-nobuild_files', '^^$', '-unsafe', '-gopath', '/Users/darianhickman/gowork', '-binary_name', '_go_app', '-extra_imports', 'appengine_internal/init', '-work_dir', '/var/folders/fk/wknp5jzn53gbgbml0yn695_m0000gn/T/tmpsHFP6tappengine-go-bin', '-gcflags', '-I,/Users/darianhickman/go_appengine/goroot/pkg/darwin_amd64_appengine', '-ldflags', '-L,/Users/darianhickman/go_appengine/goroot/pkg/darwin_amd64_appengine', 'hello.go)', '/Users/darianhickman/gowork/src/golang.org/x/net/context/ctxhttp/ctxhttp.go:35:', 'req.Cancel', 'undefined', '(type', '*http.Request', 'has', 'no', 'field', 'or', 'method', 'Cancel)', '2016/05/24', '19:39:17', 'go-app-builder:', 'build', 'timing:', '6×6g', '(469ms', 'total),', '0×6l', '(0', 'total)', '2016/05/24', '19:39:17', 'go-app-builder:', 'failed', 'running', '6g:', 'exit', 'status', '1', 'When', 'I', 'research', 'the', 'error', '*http.Request', 'has', 'no', 'field', 'or', 'method', 'Cancel', 'it', 'leads', 'to', 'a', 'bunch', 'of', 'nonapplicable', 'posts', 'about', 'updating', 'to', '>Go1.5.', 'Source:']","['DT', 'NNS', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'VBP', 'JJ', 'JJ', 'NNP', 'NN', 'NNP', 'IN', 'NN', 'DT', 'NNP', 'NN', 'MD', 'RB', 'VB', 'RB', 'VBN', 'JJ', 'JJ', 'NN', 'NNP', 'VBZ', 'CD', 'JJ', 'NN', 'NN', 'VBZ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'VBZ', 'JJ', 'JJ', 'JJ', 'NNS', 'VBP', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'VBD', 'JJ', 'NNP', 'VBZ', 'DT', 'NN', 'CC', 'NN', 'NNP', 'CD', 'CD', 'JJ', 'NN', 'NN', 'CD', 'NNP', 'VBD', 'CD', 'NNP', 'VBD', 'CD', 'CD', 'NN', 'VBD', 'VBG', 'CD', 'NN', 'NN', 'CD', 'WRB', 'PRP', 'NN', 'DT', 'NN', 'NNP', 'VBZ', 'DT', 'NN', 'CC', 'NN', 'NNP', 'PRP', 'VBZ', 'TO', 'DT', 'NN', 'IN', 'JJ', 'NNS', 'IN', 'VBG', 'TO', 'VB', 'NNP']"
+1, package hello,"['package', 'hello']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
 3,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
 4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-5,"    ""log""","['""log""']",['STRING_LITERAL']
-6,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-7,),[')'],['OPERATOR']
-8,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-9,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-10,    // Why this stringData is lost and was not send with POST request?,['// Why this stringData is lost and was not send with POST request?'],"['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBD', 'RB', 'JJ', 'IN', 'NNP', 'NN', '.']"
-11,"    stringData := `INSERT INTO V SET name = 'jack', boss = #11:19`","['stringData', ':=', 'INSERT', 'INTO', 'V', 'SET', 'name', '=', 'jack', ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-12,"    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql""', ',', 'bytes', '.', 'NewBufferString', '(', 'stringData', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-13,"    req.SetBasicAuth(""root"", ""1"")","['req', '.', 'SetBasicAuth', '(', '""root"", ""1""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-14,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-16,"        fmt.Printf(""Error : %s"", err)","['fmt', '.', 'Printf', '(', '""Error : %s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-17,    },['}'],['OPERATOR']
-18,"    fmt.Println(""resp"")","['fmt', '.', 'Println', '(', '""resp""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-19,    fmt.Println(ToJson(resp)),"['fmt', '.', 'Println', '(', 'ToJson', '(', 'resp', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-21,"    _, err = b.ReadFrom(resp.Body)","['_', ',', 'err', '=', 'b', '.', 'ReadFrom', '(', 'resp', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-23,"        log.Fatal(""Error : %s"", err)","['log', '.', 'Fatal', '(', '""Error : %s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,    },['}'],['OPERATOR']
-25,    fmt.Println(b.String()),"['fmt', '.', 'Println', '(', 'b', '.', 'String', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,},['}'],['OPERATOR']
-27,func ToJson(obj interface{}) string {,"['func', 'ToJson', '(', 'obj', 'interface', '{})', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,"    b, err := json.MarshalIndent(&obj, """", ""   "")","['b', ',', 'err', ':=', 'json', '.', 'MarshalIndent', '(&', 'obj', ',', '"""", ""   ""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-29,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,"        fmt.Printf(""Error : %s"", err)","['fmt', '.', 'Printf', '(', '""Error : %s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,    },['}'],['OPERATOR']
-32,    strJson := string(b),"['strJson', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,    return strJson,"['return', 'strJson']","['KEYWORD', 'IDENTIFIER']"
-34,},['}'],['OPERATOR']
+5,"    ""golang.org/x/net/context""","['""golang.org/x/net/context""']",['STRING_LITERAL']
+6,"    ""golang.org/x/oauth2""","['""golang.org/x/oauth2""']",['STRING_LITERAL']
+7,"    ""golang.org/x/oauth2/google""","['""golang.org/x/oauth2/google""']",['STRING_LITERAL']
+8,"    ""google.golang.org/api/drive/v3""","['""google.golang.org/api/drive/v3""']",['STRING_LITERAL']
+9,"    _ ""google.golang.org/appengine/urlfetch""","['_', '""google.golang.org/appengine/urlfetch""']","['IDENTIFIER', 'STRING_LITERAL']"
+10,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+11,"    ""log""","['""log""']",['STRING_LITERAL']
+12,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+13,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
+14,"    ""os""","['""os""']",['STRING_LITERAL']
+15,"    ""os/user""","['""os/user""']",['STRING_LITERAL']
+16,"    ""path/filepath""","['""path/filepath""']",['STRING_LITERAL']
+17,),[')'],['OPERATOR']
+18,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
+19,"    assetfolder = ""0B-zdryEj60U_MXVkajFweXBQWHM""","['assetfolder', '=', '""0B-zdryEj60U_MXVkajFweXBQWHM""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+20,),[')'],['OPERATOR']
+21,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+22,    dir *drive.FileList,"['dir', '*', 'drive', '.', 'FileList']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+23,),[')'],['OPERATOR']
+24,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+25,"    http.HandleFunc(""/"", handler)","['http', '.', 'HandleFunc', '(', '""/""', ',', 'handler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,    ctx := context.Background(),"['ctx', ':=', 'context', '.', 'Background', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,"    b, err := ioutil.ReadFile(""client_secret.json"")","['b', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', '""client_secret.json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+28,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,"        log.Fatalf(""Unable to read client secret file: %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to read client secret file: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,    },['}'],['OPERATOR']
+31,"    // If modifying these scopes, delete your previously saved credentials","['//', 'If', 'modifying', 'these', 'scopes,', 'delete', 'your', 'previously', 'saved', 'credentials']","['COMMENT', 'IN', 'VBG', 'DT', 'JJ', 'NN', 'PRP$', 'RB', 'VBN', 'NNS']"
+32,    // at ~/.credentials/drive-go-quickstart.json,"['//', 'at', '~/.credentials/drive-go-quickstart.json']","['COMMENT', 'IN', 'JJ']"
+33,"    config, err := google.ConfigFromJSON(b, drive.DriveMetadataReadonlyScope)","['config', ',', 'err', ':=', 'go', 'ogle', '.', 'ConfigFromJSON', '(', 'b', ',', 'drive', '.', 'DriveMetadataReadonlyScope', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+35,"        log.Fatalf(""Unable to parse client secret file to config: %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to parse client secret file to config: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,    },['}'],['OPERATOR']
+37,"    client := getClient(ctx, config)","['client', ':=', 'getClient', '(', 'ctx', ',', 'config', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"    srv, err := drive.New(client)","['srv', ',', 'err', ':=', 'drive', '.', 'New', '(', 'client', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,"        log.Fatalf(""Unable to retrieve drive Client %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to retrieve drive Client %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,    },['}'],['OPERATOR']
+42,"    dir, err = srv.Files.List().PageSize(10).","['dir', ',', 'err', '=', 'srv', '.', 'Files', '.', 'List', '().', 'PageSize', '(', '10', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+43,"        Fields(""nextPageToken, files(id, name)"").Do()","['Fields', '(', '""nextPageToken, files(id, name)""', ').', 'Do', '()']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,"        log.Fatalf(""Unable to retrieve files."", err)","['log', '.', 'Fatalf', '(', '""Unable to retrieve files.""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,    },['}'],['OPERATOR']
+47,},['}'],['OPERATOR']
+48,"func handler(w http.ResponseWriter, r *http.Request) {","['func', 'handler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+49,"    //fmt.Fprint(w, r.RequestURI)","['//', 'fmt.Fprint(w,', 'r.RequestURI)']","['COMMENT', 'NN', 'NN']"
+50,"    fmt.Fprint(w, ""Files:"")","['fmt', '.', 'Fprint', '(', 'w', ',', '""Files:""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+51,    if len(dir.Files) > 0 {,"['if', 'len', '(', 'dir', '.', 'Files', ')', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+52,"        for _, i := range dir.Files {","['for', '_', ',', 'i', ':=', 'range', 'dir', '.', 'Files', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,"            fmt.Fprint(w, ""%s (%s)\n"", i.Name, i.Id)","['fmt', '.', 'Fprint', '(', 'w', ',', '""%s (%s)\\n""', ',', 'i', '.', 'Name', ',', 'i', '.', 'Id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,        },['}'],['OPERATOR']
+55,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+56,"        fmt.Fprint(w, ""No files found."")","['fmt', '.', 'Fprint', '(', 'w', ',', '""No files found.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+57,    },['}'],['OPERATOR']
+58,},['}'],['OPERATOR']
+59,// getClient uses a Context and Config to retrieve a Token,"['//', 'getClient', 'uses', 'a', 'Context', 'and', 'Config', 'to', 'retrieve', 'a', 'Token']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'CC', 'NNP', 'TO', 'VB', 'DT', 'NNP']"
+60,// then generate a Client. It returns the generated Client.,"['//', 'then', 'generate', 'a', 'Client.', 'It', 'returns', 'the', 'generated', 'Client.']","['COMMENT', 'RB', 'VB', 'DT', 'NNP', 'PRP', 'VBZ', 'DT', 'JJ', 'NNP']"
+61,"func getClient(ctx context.Context, config *oauth2.Config) *http.Client {","['func', 'getClient', '(', 'ctx', 'context', '.', 'Context', ',', 'config', '*', 'oauth2', '.', 'Config', ')', '*', 'http', '.', 'Client', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,"    cacheFile, err := tokenCacheFile()","['cacheFile', ',', 'err', ':=', 'tokenCacheFile', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,"        log.Fatalf(""Unable to get path to cached credential file. %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to get path to cached credential file. %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,    },['}'],['OPERATOR']
+66,"    tok, err := tokenFromFile(cacheFile)","['tok', ',', 'err', ':=', 'tokenFromFile', '(', 'cacheFile', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,        tok = getTokenFromWeb(config),"['tok', '=', 'getTokenFromWeb', '(', 'config', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,"        saveToken(cacheFile, tok)","['saveToken', '(', 'cacheFile', ',', 'tok', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,    },['}'],['OPERATOR']
+71,"    return config.Client(ctx, tok)","['return', 'config', '.', 'Client', '(', 'ctx', ',', 'tok', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,},['}'],['OPERATOR']
+73,// getTokenFromWeb uses Config to request a Token.,"['//', 'getTokenFromWeb', 'uses', 'Config', 'to', 'request', 'a', 'Token.']","['COMMENT', 'NN', 'VBZ', 'NNP', 'TO', 'VB', 'DT', 'NN']"
+74,// It returns the retrieved Token.,"['//', 'It', 'returns', 'the', 'retrieved', 'Token.']","['COMMENT', 'PRP', 'VBZ', 'DT', 'JJ', 'NNP']"
+75,func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {,"['func', 'getTokenFromWeb', '(', 'config', '*', 'oauth2', '.', 'Config', ')', '*', 'oauth2', '.', 'Token', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,"    authURL := config.AuthCodeURL(""state-token"", oauth2.AccessTypeOffline)","['authURL', ':=', 'config', '.', 'AuthCodeURL', '(', '""state-token""', ',', 'oauth2', '.', 'AccessTypeOffline', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,"    fmt.Printf(""Go to the following link in your browser then type the ""+","['fmt', '.', 'Printf', '(', '""Go to the following link in your browser then type the ""', '+']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+78,"        ""authorization code: \n%v\n"", authURL)","['""authorization code: \\n%v\\n""', ',', 'authURL', ')']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,    var code string,"['var', 'code', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+80,"    if _, err := fmt.Scan(&code); err != nil {","['if', '_', ',', 'err', ':=', 'fmt', '.', 'Scan', '(&', 'code', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,"        log.Fatalf(""Unable to read authorization code %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to read authorization code %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,    },['}'],['OPERATOR']
+83,"    tok, err := config.Exchange(oauth2.NoContext, code)","['tok', ',', 'err', ':=', 'config', '.', 'Exchange', '(', 'oauth2', '.', 'NoContext', ',', 'code', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,"        log.Fatalf(""Unable to retrieve token from web %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to retrieve token from web %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    },['}'],['OPERATOR']
+87,    return tok,"['return', 'tok']","['KEYWORD', 'IDENTIFIER']"
+88,},['}'],['OPERATOR']
+89,// tokenCacheFile generates credential file path/filename.,"['//', 'tokenCacheFile', 'generates', 'credential', 'file', 'path/filename.']","['COMMENT', 'NN', 'VBZ', 'JJ', 'NN', 'NN']"
+90,// It returns the generated credential path/filename.,"['//', 'It', 'returns', 'the', 'generated', 'credential', 'path/filename.']","['COMMENT', 'PRP', 'VBZ', 'DT', 'JJ', 'JJ', 'NN']"
+91,"func tokenCacheFile() (string, error) {","['func', 'tokenCacheFile', '()', '(', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+92,"    usr, err := user.Current()","['usr', ',', 'err', ':=', 'user', '.', 'Current', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,"        return """", err","['return', '""""', ',', 'err']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+95,    },['}'],['OPERATOR']
+96,"    tokenCacheDir := filepath.Join(usr.HomeDir, "".credentials"")","['tokenCacheDir', ':=', 'filepath', '.', 'Join', '(', 'usr', '.', 'HomeDir', ',', '"".credentials""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+97,"    os.MkdirAll(tokenCacheDir, 0700)","['os', '.', 'MkdirAll', '(', 'tokenCacheDir', ',', '0700', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+98,"    return filepath.Join(tokenCacheDir,","['return', 'filepath', '.', 'Join', '(', 'tokenCacheDir', ',']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,"        url.QueryEscape(""drive-go-quickstart.json"")), err","['url', '.', 'QueryEscape', '(', '""drive-go-quickstart.json""', ')),', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+100,},['}'],['OPERATOR']
+101,// tokenFromFile retrieves a Token from a given file path.,"['//', 'tokenFromFile', 'retrieves', 'a', 'Token', 'from', 'a', 'given', 'file', 'path.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'IN', 'DT', 'VBN', 'NN', 'NN']"
+102,// It returns the retrieved Token and any read error encountered.,"['//', 'It', 'returns', 'the', 'retrieved', 'Token', 'and', 'any', 'read', 'error', 'encountered.']","['COMMENT', 'PRP', 'VBZ', 'DT', 'JJ', 'NNP', 'CC', 'DT', 'JJ', 'NN', 'NN']"
+103,"func tokenFromFile(file string) (*oauth2.Token, error) {","['func', 'tokenFromFile', '(', 'file', 'string', ')', '(*', 'oauth2', '.', 'Token', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+104,"    f, err := os.Open(file)","['f', ',', 'err', ':=', 'os', '.', 'Open', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+107,    },['}'],['OPERATOR']
+108,    t := &oauth2.Token{},"['t', ':=', '&', 'oauth2', '.', 'Token', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,    err = json.NewDecoder(f).Decode(t),"['err', '=', 'json', '.', 'NewDecoder', '(', 'f', ').', 'Decode', '(', 't', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,    defer f.Close(),"['defer', 'f', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,"    return t, err","['return', 't', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+112,},['}'],['OPERATOR']
+113,// saveToken uses a file path to create a file and store the,"['//', 'saveToken', 'uses', 'a', 'file', 'path', 'to', 'create', 'a', 'file', 'and', 'store', 'the']","['COMMENT', 'JJ', 'VBZ', 'DT', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN', 'CC', 'NN', 'DT']"
+114,// token in it.,"['//', 'token', 'in', 'it.']","['COMMENT', 'VBN', 'IN', 'NN']"
+115,"func saveToken(file string, token *oauth2.Token) {","['func', 'saveToken', '(', 'file', 'string', ',', 'token', '*', 'oauth2', '.', 'Token', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+116,"    fmt.Printf(""Saving credential file to: %s\n"", file)","['fmt', '.', 'Printf', '(', '""Saving credential file to: %s\\n""', ',', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+117,"    f, err := os.Create(file)","['f', ',', 'err', ':=', 'os', '.', 'Create', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,"        log.Fatalf(""Unable to cache oauth token: %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to cache oauth token: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,    },['}'],['OPERATOR']
+121,    defer f.Close(),"['defer', 'f', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+122,    json.NewEncoder(f).Encode(token),"['json', '.', 'NewEncoder', '(', 'f', ').', 'Encode', '(', 'token', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+123,},['}'],['OPERATOR']
+124,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+125,    ctx := context.Background(),"['ctx', ':=', 'context', '.', 'Background', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,"    b, err := ioutil.ReadFile(""client_secret.json"")","['b', ',', 'err', ':=', 'ioutil', '.', 'ReadFile', '(', '""client_secret.json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+127,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,"        log.Fatalf(""Unable to read client secret file: %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to read client secret file: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,    },['}'],['OPERATOR']
+130,"    // If modifying these scopes, delete your previously saved credentials","['//', 'If', 'modifying', 'these', 'scopes,', 'delete', 'your', 'previously', 'saved', 'credentials']","['COMMENT', 'IN', 'VBG', 'DT', 'JJ', 'NN', 'PRP$', 'RB', 'VBN', 'NNS']"
+131,    // at ~/.credentials/drive-go-quickstart.json,"['//', 'at', '~/.credentials/drive-go-quickstart.json']","['COMMENT', 'IN', 'JJ']"
+132,"    config, err := google.ConfigFromJSON(b, drive.DriveMetadataReadonlyScope)","['config', ',', 'err', ':=', 'go', 'ogle', '.', 'ConfigFromJSON', '(', 'b', ',', 'drive', '.', 'DriveMetadataReadonlyScope', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+134,"        log.Fatalf(""Unable to parse client secret file to config: %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to parse client secret file to config: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,    },['}'],['OPERATOR']
+136,"    client := getClient(ctx, config)","['client', ':=', 'getClient', '(', 'ctx', ',', 'config', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,"    srv, err := drive.New(client)","['srv', ',', 'err', ':=', 'drive', '.', 'New', '(', 'client', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,"        log.Fatalf(""Unable to retrieve drive Client %v"", err)","['log', '.', 'Fatalf', '(', '""Unable to retrieve drive Client %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,    },['}'],['OPERATOR']
+141,"    r, err := srv.Files.List().PageSize(10).","['r', ',', 'err', ':=', 'srv', '.', 'Files', '.', 'List', '().', 'PageSize', '(', '10', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+142,"        Fields(""nextPageToken, files(id, name)"").Do()","['Fields', '(', '""nextPageToken, files(id, name)""', ').', 'Do', '()']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+143,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,"        log.Fatalf(""Unable to retrieve files."", err)","['log', '.', 'Fatalf', '(', '""Unable to retrieve files.""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+145,    },['}'],['OPERATOR']
+146,"    fmt.Println(""Files:"")","['fmt', '.', 'Println', '(', '""Files:""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+147,    if len(r.Files) > 0 {,"['if', 'len', '(', 'r', '.', 'Files', ')', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+148,"        for _, i := range r.Files {","['for', '_', ',', 'i', ':=', 'range', 'r', '.', 'Files', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,"            fmt.Printf(""%s (%s)\n"", i.Name, i.Id)","['fmt', '.', 'Printf', '(', '""%s (%s)\\n""', ',', 'i', '.', 'Name', ',', 'i', '.', 'Id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,        },['}'],['OPERATOR']
+151,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+152,"        fmt.Print(""No files found."")","['fmt', '.', 'Print', '(', '""No files found.""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+153,    },['}'],['OPERATOR']
+154,},['}'],['OPERATOR']

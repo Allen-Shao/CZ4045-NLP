@@ -1,504 +1,192 @@
 ,text,token,annotation
-0,"// Direct port of R code from nmath/{phyper,dbinom,stirlerr}.c and {dpq,nmath}.h.","['// Direct port of R code from nmath/{phyper,dbinom,stirlerr}.c and {dpq,nmath}.h.']","['COMMENT', 'JJ', 'NN', 'IN', 'NNP', 'NN', 'IN', 'JJ', '(', 'NN', ',', 'NN', ',', 'NN', ')', 'NNP', 'CC', '(', 'NN', ',', 'NN', ')', 'NN', '.']"
-1,// Code licensed under GPL for that reason (c) Dan Kortschak.,['// Code licensed under GPL for that reason (c) Dan Kortschak.'],"['COMMENT', 'NNP', 'VBD', 'IN', 'NNP', 'IN', 'DT', 'NN', '(', 'NN', ')', 'NNP', 'NNP', '.']"
-2,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-3,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-4,"    ""errors""","['""errors""']",['STRING_LITERAL']
-5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-6,"    ""math""","['""math""']",['STRING_LITERAL']
-7,),[')'],['OPERATOR']
-8,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-9,    // Example values come from:,['// Example values come from:'],"['COMMENT', 'JJ', 'NNS', 'VBP', 'IN', ':']"
-10,    // http://stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper,['// http://stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper'],"['COMMENT', 'NN', ':', 'JJ']"
-11,"    fmt.Println(Phyper(62, 1998, 5260-1998, 131, true, false))","['fmt', '.', 'Println', '(', 'Phyper', '(', '62', ',', '1998', ',', '5260', '-', '1998', ',', '131', ',', 'true', ',', 'false', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-12,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-13,"        fmt.Println(Phyper(x, 10, 7, 8, true, false))","['fmt', '.', 'Println', '(', 'Phyper', '(', 'x', ',', '10', ',', '7', ',', '8', ',', 'true', ',', 'false', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-14,    },['}'],['OPERATOR']
-15,    fmt.Println(),"['fmt', '.', 'Println', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-16,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-17,"        fmt.Println(Dhyper(x, 10, 7, 8, false))","['fmt', '.', 'Println', '(', 'Dhyper', '(', 'x', ',', '10', ',', '7', ',', '8', ',', 'false', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-18,    },['}'],['OPERATOR']
-19,    fmt.Println(),"['fmt', '.', 'Println', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-21,"        fmt.Println(Qhyper(x, 10, 7, 8, true, false))","['fmt', '.', 'Println', '(', 'Qhyper', '(', 'x', ',', '10', ',', '7', ',', '8', ',', 'true', ',', 'false', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,    },['}'],['OPERATOR']
-23,},['}'],['OPERATOR']
-24,"var ErrDomain = errors.New(""hyper: argument out of domain"")","['var', 'ErrDomain', '=', 'errors', '.', 'New', '(', '""hyper: argument out of domain""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-25,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-26,    epsilon = 2.2204460492503131e-16,"['epsilon', '=', '2', '.', '2204460492503131', 'e', '-', '16']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-27,    min     = 2.2250738585072014e-308,"['min', '=', '2', '.', '2250738585072014', 'e', '-', '308']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-28,),[')'],['OPERATOR']
-29,// Sample of n balls from r red and b black ones; x are red,['// Sample of n balls from r red and b black ones; x are red'],"['COMMENT', 'NN', 'IN', 'JJ', 'NNS', 'IN', 'NN', 'JJ', 'CC', 'JJ', 'JJ', 'NNS', ':', 'NNS', 'VBP', 'JJ']"
-30,"func Phyper(x, r, b, n float64, lowerTail, logP bool) (float64, error) {","['func', 'Phyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-31,    x = math.Floor(x + 1e-7),"['x', '=', 'math', '.', 'Floor', '(', 'x', '+', '1', 'e', '-', '7', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-32,    r = round(r),"['r', '=', 'round', '(', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,    b = round(b),"['b', '=', 'round', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,    if r  r+b {,"['if', 'r', 'r', '+', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-37,    },['}'],['OPERATOR']
-38,    if x*(r+b) > n*r {,"['if', 'x', '*(', 'r', '+', 'b', ')', '>', 'n', '*', 'r', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,"        b, r = r, b","['b', ',', 'r', '=', 'r', ',', 'b']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-40,        x = n - x - 1,"['x', '=', 'n', '-', 'x', '-', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-41,        lowerTail = !lowerTail,"['lowerTail', '=', '!', 'lowerTail']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-42,    },['}'],['OPERATOR']
-43,    if x < 0 {,"['if', 'x', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-44,"        return dt0(lowerTail, logP), nil","['return', 'dt0', '(', 'lowerTail', ',', 'logP', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-45,    },['}'],['OPERATOR']
-46,    if x >= r || x >= n {,"['if', 'x', '>=', 'r', '||', 'x', '>=', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,"        return dt1(lowerTail, logP), nil","['return', 'dt1', '(', 'lowerTail', ',', 'logP', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-48,    },['}'],['OPERATOR']
-49,"    d, err := Dhyper(x, r, b, n, logP)","['d', ',', 'err', ':=', 'Dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'logP', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,"        return d, err","['return', 'd', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-52,    },['}'],['OPERATOR']
-53,"    pd := pdhyper(x, r, b, n, logP)","['pd', ':=', 'pdhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'logP', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-55,"        return log(d+pd, lowerTail), nil","['return', 'log', '(', 'd', '+', 'pd', ',', 'lowerTail', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-56,    },['}'],['OPERATOR']
-57,    res := d * pd,"['res', ':=', 'd', '*', 'pd']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-58,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-59,"        return res, nil","['return', 'res', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-60,    },['}'],['OPERATOR']
-61,    // Use 0.5 - p + 0.5 to perhaps gain 1 bit of accuracy,['// Use 0.5 - p + 0.5 to perhaps gain 1 bit of accuracy'],"['COMMENT', 'NNP', 'CD', ':', 'NN', 'VBZ', 'CD', 'TO', 'RB', 'VB', 'CD', 'NN', 'IN', 'NN']"
-62,    res = 0.5 - res,"['res', '=', '0', '.', '5', '-', 'res']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-63,"    return res + 0.5, nil","['return', 'res', '+', '0', '.', '5', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-64,},['}'],['OPERATOR']
-65,"func Dhyper(x, r, b, n float64, giveLog bool) (float64, error) {","['func', 'Dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'giveLog', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-66,    if negativeOrNotInteger(r) || negativeOrNotInteger(b) || negativeOrNotInteger(n) || n > r+b {,"['if', 'negativeOrNotInteger', '(', 'r', ')', '||', 'negativeOrNotInteger', '(', 'b', ')', '||', 'negativeOrNotInteger', '(', 'n', ')', '||', 'n', '>', 'r', '+', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-68,    },['}'],['OPERATOR']
-69,    if x < 0 {,"['if', 'x', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-70,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-71,    },['}'],['OPERATOR']
-72,    if x != math.Floor(x) {,"['if', 'x', '!=', 'math', '.', 'Floor', '(', 'x', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-73,"        return 0, fmt.Errorf(""non-integer x = %f"", x)","['return', '0', ',', 'fmt', '.', 'Errorf', '(', '""non-integer x = %f""', ',', 'x', ')']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,    },['}'],['OPERATOR']
-75,    x = round(x),"['x', '=', 'round', '(', 'x', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,    r = round(r),"['r', '=', 'round', '(', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-77,    b = round(b),"['b', '=', 'round', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-78,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,    if n  b {,"['if', 'n', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-80,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-81,    },['}'],['OPERATOR']
-82,    if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-83,        if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-84,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-85,        },['}'],['OPERATOR']
-86,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-87,    },['}'],['OPERATOR']
-88,    p := n / (r + b),"['p', ':=', 'n', '(', 'r', '+', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-89,    q := (r + b - n) / (r + b),"['q', ':=', '(', 'r', '+', 'b', '-', 'n', ')', '(', 'r', '+', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,"    p1, err := dbinom(x, r, p, q, giveLog)","['p1', ',', 'err', ':=', 'dbinom', '(', 'x', ',', 'r', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-92,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-93,    },['}'],['OPERATOR']
-94,"    p2, err := dbinom(n-x, b, p, q, giveLog)","['p2', ',', 'err', ':=', 'dbinom', '(', 'n', '-', 'x', ',', 'b', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-97,    },['}'],['OPERATOR']
-98,"    p3, err := dbinom(n, r+b, p, q, giveLog)","['p3', ',', 'err', ':=', 'dbinom', '(', 'n', ',', 'r', '+', 'b', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-100,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-101,    },['}'],['OPERATOR']
-102,    if giveLog {,"['if', 'giveLog', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-103,"        return p1 + p2 - p3, nil","['return', 'p1', '+', 'p2', '-', 'p3', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-104,    },['}'],['OPERATOR']
-105,"    return p1 * p2 / p3, nil","['return', 'p1', '*', 'p2', 'p3', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-106,},['}'],['OPERATOR']
-107,"func Qhyper(p, NR, NB, n float64, lowerTail, logP bool) (float64, error) {","['func', 'Qhyper', '(', 'p', ',', 'NR', ',', 'NB', ',', 'n', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-108,    if notFinite(p) || notFinite(NR) || notFinite(NB) || notFinite(n) {,"['if', 'notFinite', '(', 'p', ')', '||', 'notFinite', '(', 'NR', ')', '||', 'notFinite', '(', 'NB', ')', '||', 'notFinite', '(', 'n', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-109,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-110,    },['}'],['OPERATOR']
-111,    NR = round(NR),"['NR', '=', 'round', '(', 'NR', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-112,    NB = round(NB),"['NB', '=', 'round', '(', 'NB', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,    N := NR + NB,"['N', ':=', 'NR', '+', 'NB']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-114,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,    if NR  N {,"['if', 'NR', 'N', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-116,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-117,    },['}'],['OPERATOR']
-118,    /* Goal: Find xr (= #{red balls in sample}) such that,"['*', 'Goal', ':', 'Find', 'xr', '(=', '{', 'red', 'balls', 'in', 'sample', '})', 'such', 'that']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-119,"    * phyper(xr, NR,NB, n) >= p > phyper(xr - 1, NR,NB, n)","['*', 'phyper', '(', 'xr', ',', 'NR', ',', 'NB', ',', 'n', ')', '>=', 'p', '>', 'phyper', '(', 'xr', '-', '1', ',', 'NR', ',', 'NB', ',', 'n', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,     */,['*'],['OPERATOR']
-121,"    xstart := math.Max(0, n-NB)","['xstart', ':=', 'math', '.', 'Max', '(', '0', ',', 'n', '-', 'NB', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,"    xend := math.Min(n, NR)","['xend', ':=', 'math', '.', 'Min', '(', 'n', ',', 'NR', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-124,        if p > 0 {,"['if', 'p', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-125,"            return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-126,        },['}'],['OPERATOR']
-127,        if p == 0 { /* upper bound*/,"['if', 'p', '==', '0', '{', '*', 'upper', 'bound', '*']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-128,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-129,"                return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-130,            },['}'],['OPERATOR']
-131,"            return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-132,        },['}'],['OPERATOR']
-133,"        if math.IsInf(p, -1) {","['if', 'math', '.', 'IsInf', '(', 'p', ',', '-', '1', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
-134,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-135,"                return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-136,            },['}'],['OPERATOR']
-137,"            return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-138,        },['}'],['OPERATOR']
-139,    } else { /* !logP */,"['}', 'else', '{', '*', '!', 'logP', '*']","['OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-140,        if p  1 {,"['if', 'p', '1', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR']"
-141,"            return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-142,        },['}'],['OPERATOR']
-143,        if p == 0 {,"['if', 'p', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-144,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-145,"                return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-146,            },['}'],['OPERATOR']
-147,"            return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-148,        },['}'],['OPERATOR']
-149,        if p == 1 {,"['if', 'p', '==', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-150,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-151,"                return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-152,            },['}'],['OPERATOR']
-153,"            return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-154,        },['}'],['OPERATOR']
-155,    },['}'],['OPERATOR']
-156,    xr := xstart,"['xr', ':=', 'xstart']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,    xb := n - xr /* always ( = #{black balls in sample} ) */,"['xb', ':=', 'n', '-', 'xr', '*', 'always', '(', '=', '{', 'black', 'balls', 'in', 'sample', '}', ')', '*']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR']"
-158,    smallN := N < 1000 /* won't have underflow in product below */,"['smallN', ':=', 'N', '<', '1000', '*', 'won', 't', 'have', 'underflow', 'in', 'product', 'below', '*']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-159,"    /* if N is small, term := product.ratio( bin.coef );","['*', 'if', 'N', 'is', 'small', ',', 'term', ':=', 'product', '.', 'ratio', '(', 'bin', '.', 'coef', ');']","['OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-160,    otherwise work with its logarithm to protect against underflow */,"['otherwise', 'work', 'with', 'its', 'logarithm', 'to', 'protect', 'against', 'underflow', '*']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-161,"    t1, err := lfastchoose(NR, xr)","['t1', ',', 'err', ':=', 'lfastchoose', '(', 'NR', ',', 'xr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-162,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-163,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-164,    },['}'],['OPERATOR']
-165,"    t2, err := lfastchoose(NB, xb)","['t2', ',', 'err', ':=', 'lfastchoose', '(', 'NB', ',', 'xb', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-166,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-167,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-168,    },['}'],['OPERATOR']
-169,"    t3, err := lfastchoose(N, n)","['t3', ',', 'err', ':=', 'lfastchoose', '(', 'N', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-170,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-171,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-172,    },['}'],['OPERATOR']
-173,    term := t1 + t2 - t3,"['term', ':=', 't1', '+', 't2', '-', 't3']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-174,    if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-175,        term = math.Exp(term),"['term', '=', 'math', '.', 'Exp', '(', 'term', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-176,    },['}'],['OPERATOR']
-177,    NR -= xr,"['NR', '-=', 'xr']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-178,    NB -= xb,"['NB', '-=', 'xb']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-179,    if !lowerTail || logP {,"['if', '!', 'lowerTail', '||', 'logP', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-180,"        p = qIv(p, lowerTail, logP)","['p', '=', 'qIv', '(', 'p', ',', 'lowerTail', ',', 'logP', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-181,    },['}'],['OPERATOR']
-182,"    p *= 1 - 1000*epsilon /* was 64, but failed on FreeBSD sometimes */","['p', '*=', '1', '-', '1000', '*', 'epsilon', '*', 'was', '64', ',', 'but', 'failed', 'on', 'FreeBSD', 'sometimes', '*']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-183,    var sum float64,"['var', 'sum', 'float64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-184,    if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-185,        sum = term,"['sum', '=', 'term']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-186,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-187,        sum = math.Exp(term),"['sum', '=', 'math', '.', 'Exp', '(', 'term', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-188,    },['}'],['OPERATOR']
-189,    for sum < p && xr < xend {,"['for', 'sum', '<', 'p', '&&', 'xr', '<', 'xend', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-190,        xr++,"['xr', '++']","['IDENTIFIER', 'OPERATOR']"
-191,        NB++,"['NB', '++']","['IDENTIFIER', 'OPERATOR']"
-192,        if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-193,            term *= (NR / xr) * (xb / NB),"['term', '*=', '(', 'NR', 'xr', ')', '*', '(', 'xb', 'NB', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-194,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-195,            term += math.Log((NR / xr) * (xb / NB)),"['term', '+=', 'math', '.', 'Log', '((', 'NR', 'xr', ')', '*', '(', 'xb', 'NB', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-196,        },['}'],['OPERATOR']
-197,        if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-198,            sum += term,"['sum', '+=', 'term']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-199,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-200,            sum += math.Exp(term),"['sum', '+=', 'math', '.', 'Exp', '(', 'term', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-201,        },['}'],['OPERATOR']
-202,        xb--,"['xb', '--']","['IDENTIFIER', 'OPERATOR']"
-203,        NR--,"['NR', '--']","['IDENTIFIER', 'OPERATOR']"
-204,    },['}'],['OPERATOR']
-205,"    return xr, nil","['return', 'xr', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-206,},['}'],['OPERATOR']
-207,"func lfastchoose(n, k float64) (float64, error) {","['func', 'lfastchoose', '(', 'n', ',', 'k', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-208,"    lb, err := lbeta(n-k+1, k+1)","['lb', ',', 'err', ':=', 'lbeta', '(', 'n', '-', 'k', '+', '1', ',', 'k', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-209,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-210,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-211,    },['}'],['OPERATOR']
-212,"    return -math.Log(n+1) - lb, nil","['return', '-', 'math', '.', 'Log', '(', 'n', '+', '1', ')', '-', 'lb', ',', 'nil']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-213,},['}'],['OPERATOR']
-214,"func lbeta(a, b float64) (float64, error) {","['func', 'lbeta', '(', 'a', ',', 'b', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-215,    p := a,"['p', ':=', 'a']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-216,    q := a,"['q', ':=', 'a']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-217,    if b < p {,"['if', 'b', '<', 'p', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-218,        p = b,"['p', '=', 'b']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-219,"    } /* := min(a,b) */","['}', '*', ':=', 'min', '(', 'a', ',', 'b', ')', '*']","['OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-220,    if b > q {,"['if', 'b', '>', 'q', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,        q = b,"['q', '=', 'b']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-222,"    } /* := max(a,b) */","['}', '*', ':=', 'max', '(', 'a', ',', 'b', ')', '*']","['OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-223,    /* both arguments must be >= 0 */,"['*', 'both', 'arguments', 'must', 'be', '>=', '0', '*']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-224,    if p < 0 {,"['if', 'p', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-225,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-226,    } else if p == 0 {,"['}', 'else', 'if', 'p', '==', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-227,"        return math.Inf(1), nil","['return', 'math', '.', 'Inf', '(', '1', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-228,    } else if notFinite(q) { /* q == +Inf */,"['}', 'else', 'if', 'notFinite', '(', 'q', ')', '{', '*', 'q', '==', '+', 'Inf', '*']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-229,"        return math.Inf(1), nil","['return', 'math', '.', 'Inf', '(', '1', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-230,    },['}'],['OPERATOR']
-231,    if p >= 10 {,"['if', 'p', '>=', '10', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-232,        /* p and q are big. */,"['*', 'p', 'and', 'q', 'are', 'big', '.', '*']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-233,        corr := stirlerr(p) + stirlerr(q) - stirlerr(p+q),"['corr', ':=', 'stirlerr', '(', 'p', ')', '+', 'stirlerr', '(', 'q', ')', '-', 'stirlerr', '(', 'p', '+', 'q', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-234,"        return math.Log(q)*-0.5 + logSqrt2Pi + corr + (p-0.5)*math.Log(p/(p+q)) + q*math.Log1p(-p/(p+q)), nil","['return', 'math', '.', 'Log', '(', 'q', ')*-', '0', '.', '5', '+', 'logSqrt2Pi', '+', 'corr', '+', '(', 'p', '-', '0', '.', '5', ')*', 'math', '.', 'Log', '(', 'p', '(', 'p', '+', 'q', '))', '+', 'q', '*', 'math', '.', 'Log1p', '(-', 'p', '(', 'p', '+', 'q', ')),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-235,    } else if q >= 10 {,"['}', 'else', 'if', 'q', '>=', '10', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-236,"        /* p is small, but q is big. */","['*', 'p', 'is', 'small', ',', 'but', 'q', 'is', 'big', '.', '*']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-237,        corr := stirlerr(q) - stirlerr(p+q),"['corr', ':=', 'stirlerr', '(', 'q', ')', '-', 'stirlerr', '(', 'p', '+', 'q', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-238,"        return math.Gamma(p) + corr + p - p*math.Log(p+q) + (q-0.5)*math.Log1p(-p/(p+q)), nil","['return', 'math', '.', 'Gamma', '(', 'p', ')', '+', 'corr', '+', 'p', '-', 'p', '*', 'math', '.', 'Log', '(', 'p', '+', 'q', ')', '+', '(', 'q', '-', '0', '.', '5', ')*', 'math', '.', 'Log1p', '(-', 'p', '(', 'p', '+', 'q', ')),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-239,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-240,        /* p and q are small: p <= q < 10. */,"['*', 'p', 'and', 'q', 'are', 'small', ':', 'p', '<=', 'q', '<', '10', '.', '*']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
-241,        /* R change for very small args */,"['*', 'R', 'chan', 'ge', 'for', 'very', 'small', 'args', '*']","['OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-242,        if p < min {,"['if', 'p', '<', 'min', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-243,"            return lgamma(p) + (lgamma(q) - lgamma(p+q)), nil","['return', 'lgamma', '(', 'p', ')', '+', '(', 'lgamma', '(', 'q', ')', '-', 'lgamma', '(', 'p', '+', 'q', ')),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-244,        },['}'],['OPERATOR']
-245,    },['}'],['OPERATOR']
-246,"    return math.Log(math.Gamma(p) * (math.Gamma(q) / math.Gamma(p+q))), nil","['return', 'math', '.', 'Log', '(', 'math', '.', 'Gamma', '(', 'p', ')', '*', '(', 'math', '.', 'Gamma', '(', 'q', ')', 'math', '.', 'Gamma', '(', 'p', '+', 'q', '))),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-247,},['}'],['OPERATOR']
-248,func lgamma(p float64) float64 {,"['func', 'lgamma', '(', 'p', 'float64', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-249,"    r, _ := math.Lgamma(p)","['r', ',', '_', ':=', 'math', '.', 'Lgamma', '(', 'p', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-250,    return r,"['return', 'r']","['KEYWORD', 'IDENTIFIER']"
-251,},['}'],['OPERATOR']
-252,"func qIv(p float64, lowerTail, logP bool) float64 {","['func', 'qIv', '(', 'p', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-253,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-254,        if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-255,            return math.Exp(p),"['return', 'math', '.', 'Exp', '(', 'p', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-256,        },['}'],['OPERATOR']
-257,        return -math.Expm1(p),"['return', '-', 'math', '.', 'Expm1', '(', 'p', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-258,    },['}'],['OPERATOR']
-259,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-260,        return p,"['return', 'p']","['KEYWORD', 'IDENTIFIER']"
-261,    },['}'],['OPERATOR']
-262,    p = 0.5 - p,"['p', '=', '0', '.', '5', '-', 'p']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-263,    return p + 0.5,"['return', 'p', '+', '0', '.', '5']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-264,},['}'],['OPERATOR']
-265,// Calculate,['// Calculate'],"['COMMENT', 'NN']"
-266,//,['//'],['COMMENT']
-267,"// phyper (x, r, b, n, TRUE, FALSE)","['// phyper (x, r, b, n, TRUE, FALSE)']","['COMMENT', 'NN', '(', 'UH', ',', 'NN', ',', 'NN', ',', 'JJ', ',', 'NNP', ',', 'NNP', ')']"
-268,// [log] ----------------------------------,['// [log] ----------------------------------'],"['COMMENT', 'JJ', 'NN', 'NNP', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':']"
-269,"// dhyper (x, r, b, n, FALSE)","['// dhyper (x, r, b, n, FALSE)']","['COMMENT', 'NN', '(', 'UH', ',', 'NN', ',', 'NN', ',', 'RB', ',', 'NNP', ')']"
-270,//,['//'],['COMMENT']
-271,// without actually calling phyper. This assumes that,['// without actually calling phyper. This assumes that'],"['COMMENT', 'IN', 'RB', 'VBG', 'NN', '.', 'DT', 'VBZ', 'IN']"
-272,//,['//'],['COMMENT']
-273,// x * (r + b) <= n * r,['// x * (r + b) <= n * r'],"['COMMENT', 'NN', 'NN', '(', 'NN', 'NNP', 'NN', ')', 'NN', 'NNP', 'NN', 'NNP', 'NN']"
-274,"func pdhyper(x, r, b, n float64, logP bool) float64 {","['func', 'pdhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-275,    sum := 0.,"['sum', ':=', '0', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-276,    term := 1.,"['term', ':=', '1', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-277,    for x > 0 && term >= epsilon*sum {,"['for', 'x', '>', '0', '&&', 'term', '>=', 'epsilon', '*', 'sum', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-278,        term *= x * (b - n + x) / (n + 1 - x) / (r + 1 - x),"['term', '*=', 'x', '*', '(', 'b', '-', 'n', '+', 'x', ')', '(', 'n', '+', '1', '-', 'x', ')', '(', 'r', '+', '1', '-', 'x', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-279,        sum += term,"['sum', '+=', 'term']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-280,        x--,"['x', '--']","['IDENTIFIER', 'OPERATOR']"
-281,    },['}'],['OPERATOR']
-282,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-283,        return math.Log1p(sum),"['return', 'math', '.', 'Log1p', '(', 'sum', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-284,    },['}'],['OPERATOR']
-285,    return 1 + sum,"['return', '1', '+', 'sum']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-286,},['}'],['OPERATOR']
-287,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
-288,    ln2   = math.Log(2),"['ln2', '=', 'math', '.', 'Log', '(', '2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-289,    ln2Pi = math.Log(2 * math.Pi),"['ln2Pi', '=', 'math', '.', 'Log', '(', '2', '*', 'math', '.', 'Pi', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-290,),[')'],['OPERATOR']
-291,"func log(x float64, lowerTail bool) float64 {","['func', 'log', '(', 'x', 'float64', ',', 'lowerTail', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-292,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-293,        return math.Log(x),"['return', 'math', '.', 'Log', '(', 'x', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-294,    },['}'],['OPERATOR']
-295,    if x > -ln2 {,"['if', 'x', '>', '-', 'ln2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-296,        return math.Log(-math.Expm1(x)),"['return', 'math', '.', 'Log', '(-', 'math', '.', 'Expm1', '(', 'x', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-297,    },['}'],['OPERATOR']
-298,    return math.Log1p(-math.Exp(x)),"['return', 'math', '.', 'Log1p', '(-', 'math', '.', 'Exp', '(', 'x', '))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-299,},['}'],['OPERATOR']
-300,"func dbinom(x, n, p, q float64, giveLog bool) (float64, error) {","['func', 'dbinom', '(', 'x', ',', 'n', ',', 'p', ',', 'q', 'float64', ',', 'giveLog', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-301,    if p == 0 {,"['if', 'p', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-302,        if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-303,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-304,        },['}'],['OPERATOR']
-305,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-306,    },['}'],['OPERATOR']
-307,    if q == 0 {,"['if', 'q', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-308,        if x == n {,"['if', 'x', '==', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-309,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-310,        },['}'],['OPERATOR']
-311,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-312,    },['}'],['OPERATOR']
-313,    if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-314,        if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-315,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-316,        },['}'],['OPERATOR']
-317,        if p < 0.1 {,"['if', 'p', '<', '0', '.', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-318,"            t, err := bd0(n, n*q)","['t', ',', 'err', ':=', 'bd0', '(', 'n', ',', 'n', '*', 'q', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-319,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-320,"                return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-321,            },['}'],['OPERATOR']
-322,"            return exp(-t-n*p, giveLog), nil","['return', 'exp', '(-', 't', '-', 'n', '*', 'p', ',', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-323,        },['}'],['OPERATOR']
-324,"        return exp(n*math.Log(q), giveLog), nil","['return', 'exp', '(', 'n', '*', 'math', '.', 'Log', '(', 'q', '),', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-325,    },['}'],['OPERATOR']
-326,    if x == n {,"['if', 'x', '==', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-327,        if q < 0.1 {,"['if', 'q', '<', '0', '.', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-328,"            t, err := bd0(n, n*p)","['t', ',', 'err', ':=', 'bd0', '(', 'n', ',', 'n', '*', 'p', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-329,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-330,"                return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-331,            },['}'],['OPERATOR']
-332,"            return exp(-t-n*q, giveLog), nil","['return', 'exp', '(-', 't', '-', 'n', '*', 'q', ',', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-333,        },['}'],['OPERATOR']
-334,"        return exp(n*math.Log(p), giveLog), nil","['return', 'exp', '(', 'n', '*', 'math', '.', 'Log', '(', 'p', '),', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-335,    },['}'],['OPERATOR']
-336,    if x  n {,"['if', 'x', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-337,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-338,    },['}'],['OPERATOR']
-339,    // n*p or n*q can underflow to zero if n and p or q are small. This,['// n*p or n*q can underflow to zero if n and p or q are small. This'],"['COMMENT', 'NN', 'CC', 'NN', 'MD', 'VB', 'TO', 'CD', 'IN', 'NNS', 'CC', 'NN', 'CC', 'NN', 'VBP', 'JJ', '.', 'DT']"
-340,"    // used to occur in dbeta, and gives NaN as from R 2.3.0.","['// used to occur in dbeta, and gives NaN as from R 2.3.0.']","['COMMENT', 'VBN', 'TO', 'VB', 'IN', 'NN', ',', 'CC', 'VBZ', 'NNP', 'IN', 'IN', 'NNP', 'CD', '.']"
-341,"    t1, err := bd0(x, n*p)","['t1', ',', 'err', ':=', 'bd0', '(', 'x', ',', 'n', '*', 'p', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-342,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-343,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-344,    },['}'],['OPERATOR']
-345,"    t2, err := bd0(n-x, n*q)","['t2', ',', 'err', ':=', 'bd0', '(', 'n', '-', 'x', ',', 'n', '*', 'q', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-346,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-347,"        return math.NaN(), err","['return', 'math', '.', 'NaN', '(),', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-348,    },['}'],['OPERATOR']
-349,    lc := stirlerr(n) - stirlerr(x) - stirlerr(n-x) - t1 - t2,"['lc', ':=', 'stirlerr', '(', 'n', ')', '-', 'stirlerr', '(', 'x', ')', '-', 'stirlerr', '(', 'n', '-', 'x', ')', '-', 't1', '-', 't2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-350,    // f = (M_2PI*x*(n-x))/n; could overflow or underflow,['// f = (M_2PI*x*(n-x))/n; could overflow or underflow'],"['COMMENT', 'NN', 'NNP', '(', 'NNP', '(', 'JJ', ')', ')', 'VBP', ':', 'MD', 'VB', 'CC', 'VB']"
-351,    // Upto R 2.7.1:,['// Upto R 2.7.1:'],"['COMMENT', 'NNP', 'NNP', 'CD', ':']"
-352,    // lf = log(M_2PI) + log(x) + log(n-x) - log(n);,['// lf = log(M_2PI) + log(x) + log(n-x) - log(n);'],"['COMMENT', 'NN', 'NN', 'NN', '(', 'NNP', ')', 'VBP', 'NN', '(', 'NNP', ')', 'VBP', 'NN', '(', 'JJ', ')', ':', 'NN', '(', 'JJ', ')', ':']"
-353,    // -- following is much better for x << n :,['// -- following is much better for x << n :'],"['COMMENT', ':', 'NN', 'VBZ', 'RB', 'JJR', 'IN', 'JJ', 'NNP', 'NNP', 'NN', ':']"
-354,    lf := ln2Pi + math.Log(x) + math.Log1p(-x/n),"['lf', ':=', 'ln2Pi', '+', 'math', '.', 'Log', '(', 'x', ')', '+', 'math', '.', 'Log1p', '(-', 'x', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-355,"    return exp(lc-0.5*lf, giveLog), nil","['return', 'exp', '(', 'lc', '-', '0', '.', '5', '*', 'lf', ',', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-356,},['}'],['OPERATOR']
-357,func negativeOrNotInteger(x float64) bool {,"['func', 'negativeOrNotInteger', '(', 'x', 'float64', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-358,    return x < 0 || x != math.Floor(x),"['return', 'x', '<', '0', '||', 'x', '!=', 'math', '.', 'Floor', '(', 'x', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-359,},['}'],['OPERATOR']
-360,func notFinite(x float64) bool {,"['func', 'notFinite', '(', 'x', 'float64', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-361,"    return math.IsNaN(x) || math.IsInf(x, 0)","['return', 'math', '.', 'IsNaN', '(', 'x', ')', '||', 'math', '.', 'IsInf', '(', 'x', ',', '0', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-362,},['}'],['OPERATOR']
-363,func round(x float64) float64 {,"['func', 'round', '(', 'x', 'float64', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-364,"    if _, frac := math.Modf(x); frac >= 0.5 {","['if', '_', ',', 'frac', ':=', 'math', '.', 'Modf', '(', 'x', ');', 'frac', '>=', '0', '.', '5', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-365,        return math.Ceil(x),"['return', 'math', '.', 'Ceil', '(', 'x', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-366,    },['}'],['OPERATOR']
-367,    return math.Floor(x),"['return', 'math', '.', 'Floor', '(', 'x', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-368,},['}'],['OPERATOR']
-369,"func exp(x float64, giveLog bool) float64 {","['func', 'exp', '(', 'x', 'float64', ',', 'giveLog', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-370,    if giveLog {,"['if', 'giveLog', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-371,        return x,"['return', 'x']","['KEYWORD', 'IDENTIFIER']"
-372,    },['}'],['OPERATOR']
-373,    return math.Exp(x),"['return', 'math', '.', 'Exp', '(', 'x', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-374,},['}'],['OPERATOR']
-375,"func dt0(lowerTail, logP bool) float64 {","['func', 'dt0', '(', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-376,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-377,        return d0(logP),"['return', 'd0', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-378,    },['}'],['OPERATOR']
-379,    return d1(logP),"['return', 'd1', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-380,},['}'],['OPERATOR']
-381,"func dt1(lowerTail, logP bool) float64 {","['func', 'dt1', '(', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-382,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-383,        return d1(logP),"['return', 'd1', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-384,    },['}'],['OPERATOR']
-385,    return d0(logP),"['return', 'd0', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-386,},['}'],['OPERATOR']
-387,func d0(logP bool) float64 {,"['func', 'd0', '(', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-388,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-389,        return math.Inf(-1),"['return', 'math', '.', 'Inf', '(-', '1', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-390,    },['}'],['OPERATOR']
-391,    return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
-392,},['}'],['OPERATOR']
-393,func d1(logP bool) float64 {,"['func', 'd1', '(', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-394,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-395,        return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
-396,    },['}'],['OPERATOR']
-397,    return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
-398,},['}'],['OPERATOR']
-399,"// bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =","['// bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =']","['COMMENT', 'NN', '(', 'UH', ',', 'NNP', ')', ':', 'JJ', 'NNP', 'NNP', 'NNP', '(', 'NNP', ')', 'VBP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', '(', 'NNP', ')', 'VBD', 'CD', ':', '(', 'NN', ')', 'VBZ', 'JJ']"
-400,//       =  x * log(x/M) + M - x,['//       =  x * log(x/M) + M - x'],"['COMMENT', 'JJ', 'NNP', 'NNP', 'NN', '(', 'NNP', ')', 'VBP', 'NNP', ':', 'NN']"
-401,"// where M = E[X] = n*p (or = lambda), for   x, M > 0","['// where M = E[X] = n*p (or = lambda), for   x, M > 0']","['COMMENT', 'WRB', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', '(', 'CC', 'VB', 'NN', ')', ',', 'IN', 'NN', ',', 'NNP', 'VBZ', 'CD']"
-402,//,['//'],['COMMENT']
-403,// in a manner that should be stable (with small relative error),['// in a manner that should be stable (with small relative error)'],"['COMMENT', 'IN', 'DT', 'NN', 'WDT', 'MD', 'VB', 'JJ', '(', 'IN', 'JJ', 'JJ', 'NN', ')']"
-404,"// for all x and M=np. In particular for x/np close to 1, direct","['// for all x and M=np. In particular for x/np close to 1, direct']","['COMMENT', 'IN', 'DT', 'NNP', 'CC', 'NNP', '.', 'IN', 'JJ', 'IN', 'NNP', 'NN', 'TO', 'CD', ',', 'JJ']"
-405,"// evaluation fails, and evaluation is based on the Taylor series","['// evaluation fails, and evaluation is based on the Taylor series']","['COMMENT', 'NN', 'NNS', ',', 'CC', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'NNP', 'NN']"
-406,// of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).,['// of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).'],"['COMMENT', 'IN', 'NN', '(', '(', 'CD', ')', 'NN', '(', 'JJ', ')', ')', 'IN', 'NN', 'NN', '(', 'JJ', ')', 'NN', '(', 'NNP', ')', 'NN', '(', 'JJ', ')', 'NN', '(', 'NNP', ')', '.']"
-407,//,['//'],['COMMENT']
-408,"func bd0(x, np float64) (float64, error) {","['func', 'bd0', '(', 'x', ',', 'np', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-409,    if notFinite(x) || notFinite(np) || np == 0 {,"['if', 'notFinite', '(', 'x', ')', '||', 'notFinite', '(', 'np', ')', '||', 'np', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-410,"        return math.NaN(), ErrDomain","['return', 'math', '.', 'NaN', '(),', 'ErrDomain']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-411,    },['}'],['OPERATOR']
-412,    if math.Abs(x-np) < 0.1*(x+np) {,"['if', 'math', '.', 'Abs', '(', 'x', '-', 'np', ')', '<', '0', '.', '1', '*(', 'x', '+', 'np', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-413,        v := (x - np) / (x + np) // might underflow to 0,"['v', ':=', '(', 'x', '-', 'np', ')', '(', 'x', '+', 'np', ')', '// might underflow to 0']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'MD', 'VB', 'TO', 'CD']"
-414,        s := (x - np) * v        // s using v -- change by MM,"['s', ':=', '(', 'x', '-', 'np', ')', '*', 'v', '// s using v -- change by MM']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBG', 'NN', ':', 'NN', 'IN', 'NNP']"
-415,        if math.Abs(s) < min {,"['if', 'math', '.', 'Abs', '(', 's', ')', '<', 'min', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-416,"            return s, nil","['return', 's', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-417,        },['}'],['OPERATOR']
-418,        ej := 2 * x * v,"['ej', ':=', '2', '*', 'x', '*', 'v']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-419,        v = v * v,"['v', '=', 'v', '*', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-420,        for j := 1; j < 1000; j++ {,"['for', 'j', ':=', '1', ';', 'j', '<', '1000', ';', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-421,            // Taylor series; 1000: no infinite loop,['// Taylor series; 1000: no infinite loop'],"['COMMENT', 'NNP', 'NN', ':', 'CD', ':', 'DT', 'NN', 'NN']"
-422,"            // as |v| < .1,  v^2000 is ""zero""","['// as |v| < .1,  v^2000 is ""zero""']","['COMMENT', 'IN', 'NNP', 'NNP', 'NNP', ',', 'NN', 'VBZ', '``', 'CD', ""''""]"
-423,            ej *= v // = v^(2j+1),"['ej', '*=', 'v', '// = v^(2j+1)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'NN', '(', 'CD', ')']"
-424,            s1 := s + ej/float64((j<<1)+1),"['s1', ':=', 's', '+', 'ej', 'float64', '((', 'j', '<<', '1', ')+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-425,            if s1 == s { // last term was effectively 0,"['if', 's1', '==', 's', '{', '// last term was effectively 0']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'JJ', 'NN', 'VBD', 'RB', 'CD']"
-426,"                return s1, nil","['return', 's1', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-427,            },['}'],['OPERATOR']
-428,            s = s1,"['s', '=', 's1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-429,        },['}'],['OPERATOR']
-430,    },['}'],['OPERATOR']
-431,    /* else:  | x - np |  is not too small */,"['*', 'else', ':', '|', 'x', '-', 'np', '|', 'is', 'not', 'too', 'small', '*']","['OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-432,"    return x*math.Log(x/np) + np - x, nil","['return', 'x', '*', 'math', '.', 'Log', '(', 'x', 'np', ')', '+', 'np', '-', 'x', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-433,},['}'],['OPERATOR']
-434,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
-435,"    // error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.","['// error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.']","['COMMENT', 'NN', 'IN', 'CD', ',', 'CD', ',', 'CD', ',', 'CD', ',', ':', ',', 'CD', ',', 'CD', '.']"
-436,    sfErrHalves = [31]float64{,"['sfErrHalves', '=', '[', '31', ']', 'float64', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-437,"        0.0, // n=0 - wrong, place holder only","['0', '.', '0', ',', '// n=0 - wrong, place holder only']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'SYM', ':', 'JJ', ',', 'NN', 'NN', 'RB']"
-438,"        0.1534264097200273452913848,   // 0.5","['0', '.', '1534264097200273452913848', ',', '// 0.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-439,"        0.0810614667953272582196702,   // 1.0","['0', '.', '0810614667953272582196702', ',', '// 1.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-440,"        0.0548141210519176538961390,   // 1.5","['0', '.', '0548141210519176538961390', ',', '// 1.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-441,"        0.0413406959554092940938221,   // 2.0","['0', '.', '0413406959554092940938221', ',', '// 2.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-442,"        0.03316287351993628748511048,  // 2.5","['0', '.', '03316287351993628748511048', ',', '// 2.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-443,"        0.02767792568499833914878929,  // 3.0","['0', '.', '02767792568499833914878929', ',', '// 3.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-444,"        0.02374616365629749597132920,  // 3.5","['0', '.', '02374616365629749597132920', ',', '// 3.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-445,"        0.02079067210376509311152277,  // 4.0","['0', '.', '02079067210376509311152277', ',', '// 4.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-446,"        0.01848845053267318523077934,  // 4.5","['0', '.', '01848845053267318523077934', ',', '// 4.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-447,"        0.01664469118982119216319487,  // 5.0","['0', '.', '01664469118982119216319487', ',', '// 5.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-448,"        0.01513497322191737887351255,  // 5.5","['0', '.', '01513497322191737887351255', ',', '// 5.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-449,"        0.01387612882307074799874573,  // 6.0","['0', '.', '01387612882307074799874573', ',', '// 6.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-450,"        0.01281046524292022692424986,  // 6.5","['0', '.', '01281046524292022692424986', ',', '// 6.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-451,"        0.01189670994589177009505572,  // 7.0","['0', '.', '01189670994589177009505572', ',', '// 7.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-452,"        0.01110455975820691732662991,  // 7.5","['0', '.', '01110455975820691732662991', ',', '// 7.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-453,"        0.010411265261972096497478567, // 8.0","['0', '.', '010411265261972096497478567', ',', '// 8.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-454,"        0.009799416126158803298389475, // 8.5","['0', '.', '009799416126158803298389475', ',', '// 8.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-455,"        0.009255462182712732917728637, // 9.0","['0', '.', '009255462182712732917728637', ',', '// 9.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-456,"        0.008768700134139385462952823, // 9.5","['0', '.', '008768700134139385462952823', ',', '// 9.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-457,"        0.008330563433362871256469318, // 10.0","['0', '.', '008330563433362871256469318', ',', '// 10.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-458,"        0.007934114564314020547248100, // 10.5","['0', '.', '007934114564314020547248100', ',', '// 10.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-459,"        0.007573675487951840794972024, // 11.0","['0', '.', '007573675487951840794972024', ',', '// 11.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-460,"        0.007244554301320383179543912, // 11.5","['0', '.', '007244554301320383179543912', ',', '// 11.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-461,"        0.006942840107209529865664152, // 12.0","['0', '.', '006942840107209529865664152', ',', '// 12.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-462,"        0.006665247032707682442354394, // 12.5","['0', '.', '006665247032707682442354394', ',', '// 12.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-463,"        0.006408994188004207068439631, // 13.0","['0', '.', '006408994188004207068439631', ',', '// 13.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-464,"        0.006171712263039457647532867, // 13.5","['0', '.', '006171712263039457647532867', ',', '// 13.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-465,"        0.005951370112758847735624416, // 14.0","['0', '.', '005951370112758847735624416', ',', '// 14.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-466,"        0.005746216513010115682023589, // 14.5","['0', '.', '005746216513010115682023589', ',', '// 14.5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-467,"        0.005554733551962801371038690, // 15.0","['0', '.', '005554733551962801371038690', ',', '// 15.0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'CD']"
-468,    },['}'],['OPERATOR']
-469,    logSqrt2Pi = math.Log(math.Sqrt(2 * math.Pi)),"['logSqrt2Pi', '=', 'math', '.', 'Log', '(', 'math', '.', 'Sqrt', '(', '2', '*', 'math', '.', 'Pi', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-470,),[')'],['OPERATOR']
-471,// stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n ),['// stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n )'],"['COMMENT', 'NN', '(', 'JJ', ')', 'FW', 'NN', '(', 'JJ', '.', ')', ':', 'NN', '(', 'NN', '(', 'CD', ')', 'NN', '(', 'JJ', ')', 'NN', ')']"
-472,//             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1],['//             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1]'],"['COMMENT', 'JJ', 'NN', 'NNP', '(', 'NN', ')', ':', 'CD', 'NN', 'NN', 'NN', '(', 'CD', ')', 'NN', 'NN', '(', 'JJ', ')', 'SYM', ':', 'NN', 'JJ', 'NN', '(', 'NN', ')', ':', 'CD', 'NN']"
-473,//             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2,['//             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2'],"['COMMENT', 'JJ', 'NN', 'NNP', '(', 'NN', ')', ':', '(', 'JJ', 'NNP', 'CD', ')', 'NN', 'NN', '(', 'JJ', ')', 'FW', 'SYM', ':', 'NN', '(', 'CD', ')', 'NN']"
-474,func stirlerr(n float64) float64 {,"['func', 'stirlerr', '(', 'n', 'float64', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-475,    const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-476,        S0 = 1. / 12.,"['S0', '=', '1', '.', '12', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-477,        S1 = 1. / 360.,"['S1', '=', '1', '.', '360', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-478,        S2 = 1. / 1260.,"['S2', '=', '1', '.', '1260', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-479,        S3 = 1. / 1680.,"['S3', '=', '1', '.', '1680', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-480,        S4 = 1. / 1188.,"['S4', '=', '1', '.', '1188', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-481,    ),[')'],['OPERATOR']
-482,    var nn float64,"['var', 'nn', 'float64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-483,    if n <= 15.0 {,"['if', 'n', '<=', '15', '.', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-484,        nn = n + n,"['nn', '=', 'n', '+', 'n']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-485,        if nn == math.Floor(nn) {,"['if', 'nn', '==', 'math', '.', 'Floor', '(', 'nn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-486,            return sfErrHalves[int(nn)],"['return', 'sfErrHalves', '[', 'int', '(', 'nn', ')]']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-487,        },['}'],['OPERATOR']
-488,"        lg, _ := math.Lgamma(n + 1)","['lg', ',', '_', ':=', 'math', '.', 'Lgamma', '(', 'n', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-489,        return lg - (n+0.5)*math.Log(n) + n - logSqrt2Pi,"['return', 'lg', '-', '(', 'n', '+', '0', '.', '5', ')*', 'math', '.', 'Log', '(', 'n', ')', '+', 'n', '-', 'logSqrt2Pi']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-490,    },['}'],['OPERATOR']
-491,    nn = n * n,"['nn', '=', 'n', '*', 'n']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-492,    switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
-493,    case n > 500:,"['case', 'n', '>', '500', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-494,        return ((S0 - S1/nn) / n),"['return', '((', 'S0', '-', 'S1', 'nn', ')', 'n', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-495,    case n > 80:,"['case', 'n', '>', '80', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-496,        return ((S0 - (S1-S2/nn)/nn) / n),"['return', '((', 'S0', '-', '(', 'S1', '-', 'S2', 'nn', ')', 'nn', ')', 'n', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-497,    case n > 35:,"['case', 'n', '>', '35', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-498,        return ((S0 - (S1-(S2-S3/nn)/nn)/nn) / n),"['return', '((', 'S0', '-', '(', 'S1', '-(', 'S2', '-', 'S3', 'nn', ')', 'nn', ')', 'nn', ')', 'n', ')']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-499,    default: // 15 < n <= 35,"['default', ':', '// 15 < n <= 35']","['KEYWORD', 'OPERATOR', 'COMMENT', 'CD', 'JJ', 'JJ', 'NNP', 'VBD', 'CD']"
-500,        return (S0 - (S1-(S2-(S3-S4/nn)/nn)/nn)/nn) / n,"['return', '(', 'S0', '-', '(', 'S1', '-(', 'S2', '-(', 'S3', '-', 'S4', 'nn', ')', 'nn', ')', 'nn', ')', 'nn', ')', 'n']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-501,    },['}'],['OPERATOR']
-502,},['}'],['OPERATOR']
+0,"I'm trying to get ElasticSearch to index content for my autocomplete service, using Completion Suggesters in v1.4x. I was following advice from ElasticSearch - You Complete Me and am using the Go Client olivere/elastic. 
+
+My index method looks a bit like this:
+
+","[""I'm"", 'trying', 'to', 'get', 'ElasticSearch', 'to', 'index', 'content', 'for', 'my', 'autocomplete', 'service,', 'using', 'Completion', 'Suggesters', 'in', 'v1.4x.', 'I', 'was', 'following', 'advice', 'from', 'ElasticSearch', '-', 'You', 'Complete', 'Me', 'and', 'am', 'using', 'the', 'Go', 'Client', 'olivere/elastic.', 'My', 'index', 'method', 'looks', 'a', 'bit', 'like', 'this:']","['NNP', 'VBG', 'TO', 'VB', 'NNP', 'TO', 'NN', 'NN', 'IN', 'PRP$', 'JJ', 'NN', 'VBG', 'NNP', 'NNP', 'IN', 'NN', 'PRP', 'VBD', 'VBG', 'NN', 'IN', 'NNP', ':', 'PRP', 'VB', 'NNP', 'CC', 'VBP', 'VBG', 'DT', 'NNP', 'NNP', 'MD', 'NNP', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'NN']"
+1,"func IndexVehicle(client *elastic.Client, vehicle Vehicle) (bool, error) {","['func', 'IndexVehicle', '(', 'client', '*', 'elastic', '.', 'Client', ',', 'vehicle', 'Vehicle', ')', '(', 'bool', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+2,    // See if it exists already,"['//', 'See', 'if', 'it', 'exists', 'already']","['COMMENT', 'VB', 'IN', 'PRP', 'VBZ', 'RB']"
+3,"    fetch, err := client.Get().","['fetch', ',', 'err', ':=', 'client', '.', 'Get', '().']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+4,        Index(vehicleIndex).,"['Index', '(', 'vehicleIndex', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+5,"        Type(""vehicle"").","['Type', '(', '""vehicle""', ').']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+6,        Id(vehicle.Id).,"['Id', '(', 'vehicle', '.', 'Id', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+7,        Do(),"['Do', '()']","['IDENTIFIER', 'OPERATOR']"
+8,    if err != nil || fetch.Found {,"['if', 'err', '!=', 'nil', '||', 'fetch', '.', 'Found', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+9,"        return false, err","['return', 'false', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+10,    },['}'],['OPERATOR']
+11,"    vehicleName := fmt.Sprintf(""%s %s (%s) %s"", vehicle.Make, vehicle.Model, vehicle.Model_year, vehicle.Primary_fuel)","['vehicleName', ':=', 'fmt', '.', 'Sprintf', '(', '""%s %s (%s) %s""', ',', 'vehicle', '.', 'Make', ',', 'vehicle', '.', 'Model', ',', 'vehicle', '.', 'Model_year', ',', 'vehicle', '.', 'Primary_fuel', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,    suggest := elastic.NewSuggestField(),"['suggest', ':=', 'elastic', '.', 'NewSuggestField', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,"    suggest.Input(vehicle.Make, vehicle.Model, vehicle.Primary_fuel, vehicle.Model_year).","['suggest', '.', 'Input', '(', 'vehicle', '.', 'Make', ',', 'vehicle', '.', 'Model', ',', 'vehicle', '.', 'Primary_fuel', ',', 'vehicle', '.', 'Model_year', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,        Output(vehicleName).,"['Output', '(', 'vehicleName', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,        Payload(vehicle),"['Payload', '(', 'vehicle', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+16,    // Go forth and save,"['//', 'Go', 'forth', 'and', 'save']","['COMMENT', 'NNP', 'NN', 'CC', 'VB']"
+17,"    put, err := client.Index().","['put', ',', 'err', ':=', 'client', '.', 'Index', '().']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+18,        Index(vehicleIndex).,"['Index', '(', 'vehicleIndex', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,"        Type(""vehicle"").","['Type', '(', '""vehicle""', ').']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,        Id(vehicle.Id).,"['Id', '(', 'vehicle', '.', 'Id', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,        Debug(true).Pretty(true).,"['Debug', '(', 'true', ').', 'Pretty', '(', 'true', ').']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,"        BodyJson(indexBody{Name: vehicleName, Suggest: suggest}).","['BodyJson', '(', 'indexBody', '{', 'Name', ':', 'vehicleName', ',', 'Suggest', ':', 'suggest', '}).']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,        Do(),"['Do', '()']","['IDENTIFIER', 'OPERATOR']"
+24,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,"        return false, err","['return', 'false', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+26,    },['}'],['OPERATOR']
+27,"    return put.Created, nil","['return', 'put', '.', 'Created', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+28,},['}'],['OPERATOR']
+29,"
+
+Now what is weird, is that in some of my tests this method works fine and items will be indexed. In other tests after wiping and rebuilding the index the tests will fail:
+
+Earlier tests look like this in the debug:
+
+","['Now', 'what', 'is', 'weird,', 'is', 'that', 'in', 'some', 'of', 'my', 'tests', 'this', 'method', 'works', 'fine', 'and', 'items', 'will', 'be', 'indexed.', 'In', 'other', 'tests', 'after', 'wiping', 'and', 'rebuilding', 'the', 'index', 'the', 'tests', 'will', 'fail:', 'Earlier', 'tests', 'look', 'like', 'this', 'in', 'the', 'debug:']","['RB', 'WP', 'VBZ', 'NN', 'VBZ', 'IN', 'IN', 'DT', 'IN', 'PRP$', 'NNS', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'NNS', 'MD', 'VB', 'VBN', 'IN', 'JJ', 'NNS', 'IN', 'VBG', 'CC', 'VBG', 'DT', 'NN', 'DT', 'NNS', 'MD', 'VB', 'NNP', 'NNS', 'VBP', 'IN', 'DT', 'IN', 'DT', 'NN']"
+30,2014/12/15 14:11:37 PUT /vehicle/vehicle/369f96459b340507c4688740da3bfe1a?pretty=true HTTP/1.1,"['2014', '12', '15', '14', ':', '11', ':', '37', 'PUT', 'vehicle', 'vehicle', '369', 'f96459b340507c4688740da3bfe1a', 'pretty', '=', 'true', 'HTTP', '1', '.', '1']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+31,Host: localhost:9200,"['Host', ':', 'localhost', ':', '9200']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+32,User-Agent: elastic/1.3.1 (darwin-amd64),"['User', '-', 'Agent', ':', 'elastic', '1', '.', '3', '.', '1', '(', 'darwin', '-', 'amd64', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,Transfer-Encoding: chunked,"['Transfer', '-', 'Encoding', ':', 'chunked']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+34,Accept: application/json,"['Accept', ':', 'application', 'json']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+35,Content-Type: application/json,"['Content', '-', 'Type', ':', 'application', 'json']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+36,Accept-Encoding: gzip,"['Accept', '-', 'Encoding', ':', 'gzip']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+37,"{""name"":""American Motors Corporation Eagle 4WD (1986) regular"",""suggest"":{""input"":[""American Motors Corporation"",""Eagle 4WD"",""regular"",""1986""],""output"":""American Motors Corporation Eagle 4WD (1986) regular"",""payload"":{""make"":""American Motors Corporation"",""model_year"":""1986"",""model"":""Eagle 4WD"",""primary_fuel"":""regular"",""vehicle_class"":""Special Purpose Vehicle 4WD"",""transmission"":""Automatic 3-spd"",""displacement"":""4.2"",""drive"":""4-Wheel or All-Wheel Drive"",""city_mpg"":""15.0"",""highway_mpg"":""19.0"",""comb_mpg"":""17.0""}}}","['{', '""name"":""American Motors Corporation Eagle 4WD (1986) regular"",""suggest"":{""input"":[""American Motors Corporation"",""Eagle 4WD"",""regular"",""1986""],""output"":""American Motors Corporation Eagle 4WD (1986) regular"",""payload"":{""make"":""American Motors Corporation"",""model_year"":""1986"",""model"":""Eagle 4WD"",""primary_fuel"":""regular"",""vehicle_class"":""Special Purpose Vehicle 4WD"",""transmission"":""Automatic 3-spd"",""displacement"":""4.2"",""drive"":""4-Wheel or All-Wheel Drive"",""city_mpg"":""15.0"",""highway_mpg"":""19.0"",""comb_mpg"":""17.0""', '}}}']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+38,2014/12/15 14:11:37 HTTP/1.1 201 Created,"['2014', '12', '15', '14', ':', '11', ':', '37', 'HTTP', '1', '.', '1', '201', 'Created']","['DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+39,Content-Length: 134,"['Content', '-', 'Length', ':', '134']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+40,Content-Type: application/json; charset=UTF-8,"['Content', '-', 'Type', ':', 'application', 'json', ';', 'charset', '=', 'UTF', '-', '8']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+41,{,['{'],['OPERATOR']
+42,"  ""_index"" : ""vehicle"",","['""_index"" : ""vehicle""', ',']","['STRING_LITERAL', 'OPERATOR']"
+43,"  ""_type"" : ""vehicle"",","['""_type"" : ""vehicle""', ',']","['STRING_LITERAL', 'OPERATOR']"
+44,"  ""_id"" : ""369f96459b340507c4688740da3bfe1a"",","['""_id"" : ""369f96459b340507c4688740da3bfe1a""', ',']","['STRING_LITERAL', 'OPERATOR']"
+45,"  ""_version"" : 1,","['""_version""', ':', '1', ',']","['STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+46,"  ""created"" : true","['""created""', ':', 'true']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+47,},['}'],['OPERATOR']
+48,"
+
+But in later tests, doing this same thing leads to errors. The err returned from IndexVehicle() in later tests is:
+
+","['But', 'in', 'later', 'tests,', 'doing', 'this', 'same', 'thing', 'leads', 'to', 'errors.', 'The', 'err', 'returned', 'from', 'IndexVehicle()', 'in', 'later', 'tests', 'is:']","['CC', 'IN', 'RB', 'JJ', 'VBG', 'DT', 'JJ', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'VBD', 'IN', 'NNP', 'IN', 'RB', 'NNS', 'VBP']"
+49,E,['E'],['IDENTIFIER']
+50,Errors:,"['Errors', ':']","['IDENTIFIER', 'OPERATOR']"
+51,  * /Users/phil/go/src/github.com/ride/autocomplete/vehicle_test.go ,"['*', 'Users', 'phil', 'go', 'src', 'github', '.', 'com', 'ride', 'autocomplete', 'vehicle_test', '.', 'go']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+52,  Line 79: - elastic: Error 400: ElasticsearchIllegalArgumentException[No feature for name [vehicle]] ,"['Line', '79', ':', '-', 'elastic', ':', 'Error', '400', ':', 'ElasticsearchIllegalArgumentException', '[', 'No', 'feature', 'for', 'name', '[', 'vehicle', ']]']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,  goroutine 245 [running]:,"['go', 'routine', '245', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,  github.com/ride/autocomplete.func·033(),"['github', '.', 'com', 'ride', 'autocomplete', '.', 'func', '033', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
+55,    /Users/phil/go/src/github.com/ride/autocomplete/vehicle_test.go:79 +0x249,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'ride', 'autocomplete', 'vehicle_test', '.', 'go', ':', '79', '+', '0', 'x249']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+56,  github.com/ride/autocomplete.useIndex(0x499e98),"['github', '.', 'com', 'ride', 'autocomplete', '.', 'useIndex', '(', '0', 'x499e98', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+57,    /Users/phil/go/src/github.com/ride/autocomplete/test_helper.go:18 +0x55,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'ride', 'autocomplete', 'test_helper', '.', 'go', ':', '18', '+', '0', 'x55']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+58,  github.com/ride/autocomplete.func·034(),"['github', '.', 'com', 'ride', 'autocomplete', '.', 'func', '034', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR']"
+59,    /Users/phil/go/src/github.com/ride/autocomplete/vehicle_test.go:96 +0x2a,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'ride', 'autocomplete', 'vehicle_test', '.', 'go', ':', '96', '+', '0', 'x2a']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+60,"  github.com/jtolds/gls._m(0x0, 0xc2080ae9e0)","['github', '.', 'com', 'jtolds', 'gls', '.', '_m', '(', '0', 'x0', ',', '0', 'xc2080ae9e0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+61,    /Users/phil/go/src/github.com/jtolds/gls/stack_tags.go:70 +0x32,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'jtolds', 'gls', 'stack_tags', '.', 'go', ':', '70', '+', '0', 'x32']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+62,"  github.com/jtolds/gls.markS(0x0, 0xc2080ae9e0)","['github', '.', 'com', 'jtolds', 'gls', '.', 'markS', '(', '0', 'x0', ',', '0', 'xc2080ae9e0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+63,    /Users/phil/go/src/github.com/jtolds/gls/stack_tags.go:21 +0x32,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'jtolds', 'gls', 'stack_tags', '.', 'go', ':', '21', '+', '0', 'x32']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+64,"  github.com/jtolds/gls.addStackTag(0x0, 0xc2080ae9e0)","['github', '.', 'com', 'jtolds', 'gls', '.', 'addStackTag', '(', '0', 'x0', ',', '0', 'xc2080ae9e0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+65,    /Users/phil/go/src/github.com/jtolds/gls/stack_tags.go:18 +0x3e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'jtolds', 'gls', 'stack_tags', '.', 'go', ':', '18', '+', '0', 'x3e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+66,"  github.com/jtolds/gls.(*ContextManager).SetValues(0xc20801e080, 0xc2080b31d0, 0xc2080ae9e0)","['github', '.', 'com', 'jtolds', 'gls', '.(*', 'ContextManager', ').', 'SetValues', '(', '0', 'xc20801e080', ',', '0', 'xc2080b31d0', ',', '0', 'xc2080ae9e0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+67,    /Users/phil/go/src/github.com/jtolds/gls/context.go:98 +0x503,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'jtolds', 'gls', 'context', '.', 'go', ':', '98', '+', '0', 'x503']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+68,  github.com/ride/autocomplete.TestSearchForVehicles(0xc20806a480),"['github', '.', 'com', 'ride', 'autocomplete', '.', 'TestSearchForVehicles', '(', '0', 'xc20806a480', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+69,    /Users/phil/go/src/github.com/ride/autocomplete/vehicle_test.go:97 +0x243,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'ride', 'autocomplete', 'vehicle_test', '.', 'go', ':', '97', '+', '0', 'x243']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+70,"  testing.tRunner(0xc20806a480, 0x5be890)","['testing', '.', 'tRunner', '(', '0', 'xc20806a480', ',', '0', 'x5be890', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+71,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/testing/testing.go:447 +0xbf,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'testing', 'testing', '.', 'go', ':', '447', '+', '0', 'xbf']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+72,  created by testing.RunTests,"['created', 'by', 'testing', '.', 'RunTests']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+73,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/testing/testing.go:555 +0xa8b,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'testing', 'testing', '.', 'go', ':', '555', '+', '0', 'xa8b']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+74,  goroutine 1 [chan receive]:,"['go', 'routine', '1', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+75,"  testing.RunTests(0x49a078, 0x5be800, 0x7, 0x7, 0x67c001)","['testing', '.', 'RunTests', '(', '0', 'x49a078', ',', '0', 'x5be800', ',', '0', 'x7', ',', '0', 'x7', ',', '0', 'x67c001', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+76,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/testing/testing.go:556 +0xad6,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'testing', 'testing', '.', 'go', ':', '556', '+', '0', 'xad6']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+77,"  testing.(*M).Run(0xc2080463c0, 0x5c9b20)","['testing', '.(*', 'M', ').', 'Run', '(', '0', 'xc2080463c0', ',', '0', 'x5c9b20', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+78,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/testing/testing.go:485 +0x6c,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'testing', 'testing', '.', 'go', ':', '485', '+', '0', 'x6c']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+79,  main.main(),"['main', '.', 'main', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    github.com/ride/autocomplete/_test/_testmain.go:64 +0x1d5,"['github', '.', 'com', 'ride', 'autocomplete', '_test', '_testmain', '.', 'go', ':', '64', '+', '0', 'x1d5']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+81,  goroutine 208 [chan receive]:,"['go', 'routine', '208', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+82,  github.com/olivere/elastic.(*Client).pinger(0xc208106d40),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106d40', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+83,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+84,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+85,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+86,  goroutine 248 [runnable]:,"['go', 'routine', '248', '[', 'runnable', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,  net/http.(*persistConn).readLoop(0xc20802e4d0),"['net', 'http', '.(*', 'persistConn', ').', 'readLoop', '(', '0', 'xc20802e4d0', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+88,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/net/http/transport.go:928 +0x9ce,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'net', 'http', 'transport', '.', 'go', ':', '928', '+', '0', 'x9ce']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+89,  created by net/http.(*Transport).dialConn,"['created', 'by', 'net', 'http', '.(*', 'Transport', ').', 'dialConn']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+90,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/net/http/transport.go:660 +0xc9f,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'net', 'http', 'transport', '.', 'go', ':', '660', '+', '0', 'xc9f']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+91,  goroutine 98 [chan receive]:,"['go', 'routine', '98', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+92,  github.com/olivere/elastic.(*Client).pinger(0xc208033e00),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208033e00', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+93,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+94,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+95,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+96,"  goroutine 17 [syscall, locked to thread]:","['go', 'routine', '17', '[', 'syscall', ',', 'locked', 'to', 'thread', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+97,  runtime.goexit(),"['runtime', '.', 'go', 'exit', '()']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+98,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/runtime/asm_amd64.s:2232 +0x1,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'runtime', 'asm_amd64', '.', 's', ':', '2232', '+', '0', 'x1']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+99,  goroutine 44 [chan receive]:,"['go', 'routine', '44', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+100,  github.com/olivere/elastic.(*Client).pinger(0xc2080332c0),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc2080332c0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+101,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+102,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+103,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+104,  goroutine 249 [select]:,"['go', 'routine', '249', '[', 'select', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+105,  net/http.(*persistConn).writeLoop(0xc20802e4d0),"['net', 'http', '.(*', 'persistConn', ').', 'writeLoop', '(', '0', 'xc20802e4d0', ')']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+106,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/net/http/transport.go:945 +0x41d,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'net', 'http', 'transport', '.', 'go', ':', '945', '+', '0', 'x41d']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+107,  created by net/http.(*Transport).dialConn,"['created', 'by', 'net', 'http', '.(*', 'Transport', ').', 'dialConn']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+108,    /opt/boxen/homebrew/Cellar/go/1.4/libexec/src/net/http/transport.go:661 +0xcbc,"['opt', 'boxen', 'homebrew', 'Cellar', 'go', '1', '.', '4', 'libexec', 'src', 'net', 'http', 'transport', '.', 'go', ':', '661', '+', '0', 'xcbc']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+109,  goroutine 54 [chan receive]:,"['go', 'routine', '54', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+110,  github.com/olivere/elastic.(*Client).pinger(0xc208032f80),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208032f80', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+111,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+112,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+113,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+114,  goroutine 76 [chan receive]:,"['go', 'routine', '76', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+115,  github.com/olivere/elastic.(*Client).pinger(0xc208032e00),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208032e00', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+116,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+117,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+118,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+119,  goroutine 250 [chan receive]:,"['go', 'routine', '250', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+120,  github.com/olivere/elastic.(*Client).pinger(0xc208106c40),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106c40', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+121,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+122,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+123,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+124,  goroutine 120 [chan receive]:,"['go', 'routine', '120', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+125,  github.com/olivere/elastic.(*Client).pinger(0xc208106b00),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106b00', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+126,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+127,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+128,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+129,  goroutine 142 [chan receive]:,"['go', 'routine', '142', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+130,  github.com/olivere/elastic.(*Client).pinger(0xc208106e00),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106e00', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+131,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+132,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+133,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+134,  goroutine 164 [chan receive]:,"['go', 'routine', '164', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+135,  github.com/olivere/elastic.(*Client).pinger(0xc208106b80),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106b80', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+136,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+137,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+138,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+139,  goroutine 186 [chan receive]:,"['go', 'routine', '186', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+140,  github.com/olivere/elastic.(*Client).pinger(0xc208106d00),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106d00', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+141,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+142,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+143,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+144,  goroutine 230 [chan receive]:,"['go', 'routine', '230', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+145,  github.com/olivere/elastic.(*Client).pinger(0xc208106dc0),"['github', '.', 'com', 'olivere', 'elastic', '.(*', 'Client', ').', 'pinger', '(', '0', 'xc208106dc0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+146,    /Users/phil/go/src/github.com/olivere/elastic/client.go:79 +0x6b,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '79', '+', '0', 'x6b']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+147,  created by github.com/olivere/elastic.NewClient,"['created', 'by', 'github', '.', 'com', 'olivere', 'elastic', '.', 'NewClient']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+148,    /Users/phil/go/src/github.com/olivere/elastic/client.go:60 +0x26e,"['Users', 'phil', 'go', 'src', 'github', '.', 'com', 'olivere', 'elastic', 'client', '.', 'go', ':', '60', '+', '0', 'x26e']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+149,"
+
+Possibly the more important part of that backtrace is this: 
+
+
+  Error 400: ElasticsearchIllegalArgumentException[No feature for name [vehicle]] 
+
+
+So, not sure what the heck is going wrong here. I have a 1 second timeout on the index, because this client doesn't support ""wait for green"" logic [yet].
+
+","['Possibly', 'the', 'more', 'important', 'part', 'of', 'that', 'backtrace', 'is', 'this:', 'Error', '400:', 'ElasticsearchIllegalArgumentException[No', 'feature', 'for', 'name', '[vehicle]]', 'So,', 'not', 'sure', 'what', 'the', 'heck', 'is', 'going', 'wrong', 'here.', 'I', 'have', 'a', '1', 'second', 'timeout', 'on', 'the', 'index,', 'because', 'this', 'client', ""doesn't"", 'support', '""wait', 'for', 'green""', 'logic', '[yet].']","['RB', 'DT', 'RBR', 'JJ', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'JJ', 'NNP', 'CD', 'NNP', 'NN', 'IN', 'NN', 'NNP', 'NNP', 'RB', 'JJ', 'WP', 'DT', 'NN', 'VBZ', 'VBG', 'JJ', 'NN', 'PRP', 'VBP', 'DT', 'CD', 'JJ', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'VB', 'NN', 'IN', 'NN', 'NN', 'NN']"
+150,func ResetVehicleIndex(client *elastic.Client) (err error) {,"['func', 'ResetVehicleIndex', '(', 'client', '*', 'elastic', '.', 'Client', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+151,"    if _, err = client.DeleteIndex(vehicleIndex).Do(); err != nil {","['if', '_', ',', 'err', '=', 'client', '.', 'DeleteIndex', '(', 'vehicleIndex', ').', 'Do', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,        return,['return'],['KEYWORD']
+153,    },['}'],['OPERATOR']
+154,"    if _, err = EnsureVehicleIndex(client); err != nil {","['if', '_', ',', 'err', '=', 'EnsureVehicleIndex', '(', 'client', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+155,        return,['return'],['KEYWORD']
+156,    },['}'],['OPERATOR']
+157,"    // TODO: This is awful. Switch to ""wait for green"" when elastic client supports it","['//', 'TODO:', 'This', 'is', 'awful.', 'Switch', 'to', '""wait', 'for', 'green""', 'when', 'elastic', 'client', 'supports', 'it']","['COMMENT', 'NN', 'DT', 'VBZ', 'JJ', 'NNP', 'TO', 'VB', 'IN', 'NN', 'WRB', 'JJ', 'NN', 'VBZ', 'PRP']"
+158,    time.Sleep(time.Second * 1),"['time', '.', 'Sleep', '(', 'time', '.', 'Second', '*', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+159,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+160,},['}'],['OPERATOR']
+161,"
+
+This has worked for most other tests, as elasticsearch seems to get ready in a second or so, but these tests are consistently erroring regardless of the wait time in that bit of code.
+
+Any ideas? I might need to edit the question to add more code or better explanations, but I'll reply super quickly to any questions especially if you ping me on Twitter @philsturgeon. I'm really stuck on this.
+","['This', 'has', 'worked', 'for', 'most', 'other', 'tests,', 'as', 'elasticsearch', 'seems', 'to', 'get', 'ready', 'in', 'a', 'second', 'or', 'so,', 'but', 'these', 'tests', 'are', 'consistently', 'erroring', 'regardless', 'of', 'the', 'wait', 'time', 'in', 'that', 'bit', 'of', 'code.', 'Any', 'ideas?', 'I', 'might', 'need', 'to', 'edit', 'the', 'question', 'to', 'add', 'more', 'code', 'or', 'better', 'explanations,', 'but', ""I'll"", 'reply', 'super', 'quickly', 'to', 'any', 'questions', 'especially', 'if', 'you', 'ping', 'me', 'on', 'Twitter', '@philsturgeon.', ""I'm"", 'really', 'stuck', 'on', 'this.']","['DT', 'VBZ', 'VBN', 'IN', 'JJS', 'JJ', 'NN', 'IN', 'NN', 'VBZ', 'TO', 'VB', 'JJ', 'IN', 'DT', 'JJ', 'CC', 'JJ', 'CC', 'DT', 'NNS', 'VBP', 'RB', 'VBG', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'NN', 'NNP', 'NN', 'PRP', 'MD', 'VB', 'TO', 'VB', 'DT', 'NN', 'TO', 'VB', 'JJR', 'NN', 'CC', 'JJR', 'NN', 'CC', 'NNP', 'VBP', 'JJ', 'RB', 'TO', 'DT', 'NNS', 'RB', 'IN', 'PRP', 'VBG', 'PRP', 'IN', 'NNP', 'NNP', 'NNP', 'RB', 'VBD', 'IN', 'NN']"

@@ -1,75 +1,181 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-4,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-5,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-6,"    ""os""","['""os""']",['STRING_LITERAL']
-7,),[')'],['OPERATOR']
-8,"const api_endpoint = ""http://www.reddit.com/r/%s/top.json?t=all&limit=100""","['const', 'api_endpoint', '=', '""http://www.reddit.com/r/%s/top.json?t=all&limit=100""']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-9,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-10,    // Get console argument 'subreddit' and format the API endpoint URL.,"[""// Get console argument 'subreddit' and format the API endpoint URL.""]","['COMMENT', 'NNP', 'JJ', 'NN', 'POS', 'POS', 'CC', 'VB', 'DT', 'NNP', 'NN', 'NNP', '.']"
-11,    subreddit := os.Args[1],"['subreddit', ':=', 'os', '.', 'Args', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-12,"    top_by_subreddit_endpoint := fmt.Sprintf(api_endpoint, subreddit)","['top_by_subreddit_endpoint', ':=', 'fmt', '.', 'Sprintf', '(', 'api_endpoint', ',', 'subreddit', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-13,    // Hit the API service.,['// Hit the API service.'],"['COMMENT', 'VB', 'DT', 'NNP', 'NN', '.']"
-14,"    response, err := http.Get(top_by_subreddit_endpoint)","['response', ',', 'err', ':=', 'http', '.', 'Get', '(', 'top_by_subreddit_endpoint', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-16,        //Perror(err),['//Perror(err)'],"['COMMENT', 'NNP', '(', 'NN', ')']"
-17,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-18,        defer response.Body.Close(),"['defer', 'response', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-19,"        content, err := ioutil.ReadAll(response.Body)","['content', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'response', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,            //Perror(err),['//Perror(err)'],"['COMMENT', 'NNP', '(', 'NN', ')']"
-22,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-23,            var top_submissions Submission,"['var', 'top_submissions', 'Submission']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-24,"            json.Unmarshal(content, &top_submissions)","['json', '.', 'Unmarshal', '(', 'content', ',', '&', 'top_submissions', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,        },['}'],['OPERATOR']
-26,    },['}'],['OPERATOR']
-27,},['}'],['OPERATOR']
-28,type ByCreated []Submission,"['type', 'ByCreated', '[]', 'Submission']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-29,func (a ByCreated) Len() int           { return len(a) },"['func', '(', 'a', 'ByCreated', ')', 'Len', '()', 'int', '{', 'return', 'len', '(', 'a', ')', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-30,"func (a ByCreated) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }","['func', '(', 'a', 'ByCreated', ')', 'Swap', '(', 'i', ',', 'j', 'int', ')', '{', 'a', '[', 'i', '],', 'a', '[', 'j', ']', '=', 'a', '[', 'j', '],', 'a', '[', 'i', ']', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-31,"func (a ByCreated) Less(i, j int) bool { return a[i].Created < a[j].Created }","['func', '(', 'a', 'ByCreated', ')', 'Less', '(', 'i', ',', 'j', 'int', ')', 'bool', '{', 'return', 'a', '[', 'i', '].', 'Created', '<', 'a', '[', 'j', '].', 'Created', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,type Submission struct {,"['type', 'Submission', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-33,"    Domain              string `json:""domain""`","['Domain', 'string', 'json', ':', '""domain""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-34,"    BannedBy            string `json:""banned_by""`","['BannedBy', 'string', 'json', ':', '""banned_by""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-35,"    MediaEmbed          string `json:""media_embed""`","['MediaEmbed', 'string', 'json', ':', '""media_embed""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-36,"    Subreddit           string `json:""subreddit""`","['Subreddit', 'string', 'json', ':', '""subreddit""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-37,"    SelftextHtml        string `json:""selftext_html""`","['SelftextHtml', 'string', 'json', ':', '""selftext_html""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-38,"    Selftext            string `json:""selftext""`","['Selftext', 'string', 'json', ':', '""selftext""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-39,"    Likes               bool   `json:""likes""`","['Likes', 'bool', 'json', ':', '""likes""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-40,"    SecureMedia         string `json:""secure_media""`","['SecureMedia', 'string', 'json', ':', '""secure_media""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-41,"    LinkFlairText       string `json:""link_flair_text""`","['LinkFlairText', 'string', 'json', ':', '""link_flair_text""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-42,"    Id                  string `json:""id""`","['Id', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-43,"    Gilded              int    `json:""gilded""`","['Gilded', 'int', 'json', ':', '""gilded""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-44,"    SecureMediaEmbed    string `json:""secure_media_embed""`","['SecureMediaEmbed', 'string', 'json', ':', '""secure_media_embed""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-45,"    Clicked             bool   `json:""clicked""`","['Clicked', 'bool', 'json', ':', '""clicked""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-46,"    Stickied            bool   `json:""stickied""`","['Stickied', 'bool', 'json', ':', '""stickied""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-47,"    Author              string `json:""author""`","['Author', 'string', 'json', ':', '""author""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-48,"    Media               string `json:""media""`","['Media', 'string', 'json', ':', '""media""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-49,"    Score               int    `json:""score""`","['Score', 'int', 'json', ':', '""score""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-50,"    ApprovedBy          string `json:""approved_by""`","['ApprovedBy', 'string', 'json', ':', '""approved_by""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-51,"    Over18              bool   `json:""over_18""`","['Over18', 'bool', 'json', ':', '""over_18""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-52,"    Hidden              bool   `json:""hidden""`","['Hidden', 'bool', 'json', ':', '""hidden""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-53,"    Thumbnail           string `json:""thumbnail""`","['Thumbnail', 'string', 'json', ':', '""thumbnail""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-54,"    SubredditId         string `json:""subreddit_id""`","['SubredditId', 'string', 'json', ':', '""subreddit_id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-55,"    Edited              int    `json:""edited""`","['Edited', 'int', 'json', ':', '""edited""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-56,"    LinkFlairCssClass   string `json:""link_flair_css_class""`","['LinkFlairCssClass', 'string', 'json', ':', '""link_flair_css_class""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-57,"    AuthorFlairCssClass string `json:""author_flair_css_class""`","['AuthorFlairCssClass', 'string', 'json', ':', '""author_flair_css_class""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-58,"    Downs               int    `json:""downs""`","['Downs', 'int', 'json', ':', '""downs""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-59,"    Saved               bool   `json:""saved""`","['Saved', 'bool', 'json', ':', '""saved""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-60,"    IsSelf              bool   `json:""is_self""`","['IsSelf', 'bool', 'json', ':', '""is_self""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-61,"    Permalink           string `json:""permalink""`","['Permalink', 'string', 'json', ':', '""permalink""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-62,"    Name                string `json:""name""`","['Name', 'string', 'json', ':', '""name""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-63,"    Created             int    `json:""created""`","['Created', 'int', 'json', ':', '""created""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-64,"    Url                 string `json:""url""`","['Url', 'string', 'json', ':', '""url""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-65,"    AuthorFlairText     string `json:""author_flair_text""`","['AuthorFlairText', 'string', 'json', ':', '""author_flair_text""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-66,"    Title               string `json:""title""`","['Title', 'string', 'json', ':', '""title""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-67,"    CreatedUtc          int    `json:""created_utc""`","['CreatedUtc', 'int', 'json', ':', '""created_utc""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-68,"    Ups                 int    `json:""ups""`","['Ups', 'int', 'json', ':', '""ups""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-69,"    NumComments         int    `json:""num_comments""`","['NumComments', 'int', 'json', ':', '""num_comments""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-70,"    Visited             bool   `json:""visited""`","['Visited', 'bool', 'json', ':', '""visited""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-71,"    NumReports          string `json:""num_reports""`","['NumReports', 'string', 'json', ':', '""num_reports""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-72,"    Distinguished       string `json:""distinguished""`","['Distinguished', 'string', 'json', ':', '""distinguished""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-73,},['}'],['OPERATOR']
+0,"It turned out that I had to restart the listener not only to close the connection. I've modified the broker function to reset the destNet listener if it can't write (i.e. writes 0 bytes) to src. I'm still not sure if this is the right way to do it (i.e. closing the listener seems bad in a multi-connections scenario as I guess I reset all the client connections dialing on that address) but so far this is the best I could do to fix it.
+
+","['It', 'turned', 'out', 'that', 'I', 'had', 'to', 'restart', 'the', 'listener', 'not', 'only', 'to', 'close', 'the', 'connection.', ""I've"", 'modified', 'the', 'broker', 'function', 'to', 'reset', 'the', 'destNet', 'listener', 'if', 'it', ""can't"", 'write', '(i.e.', 'writes', '0', 'bytes)', 'to', 'src.', ""I'm"", 'still', 'not', 'sure', 'if', 'this', 'is', 'the', 'right', 'way', 'to', 'do', 'it', '(i.e.', 'closing', 'the', 'listener', 'seems', 'bad', 'in', 'a', 'multi-connections', 'scenario', 'as', 'I', 'guess', 'I', 'reset', 'all', 'the', 'client', 'connections', 'dialing', 'on', 'that', 'address)', 'but', 'so', 'far', 'this', 'is', 'the', 'best', 'I', 'could', 'do', 'to', 'fix', 'it.']","['PRP', 'VBD', 'RP', 'IN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'RB', 'RB', 'TO', 'VB', 'DT', 'NN', 'NNP', 'VBD', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', 'VBZ', 'CD', 'NN', 'TO', 'VB', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'TO', 'VB', 'PRP', 'VB', 'VBG', 'DT', 'NN', 'VBZ', 'JJ', 'IN', 'DT', 'NNS', 'NN', 'IN', 'PRP', 'VBP', 'PRP', 'VBP', 'PDT', 'DT', 'NN', 'NNS', 'VBG', 'IN', 'DT', 'NN', 'CC', 'RB', 'RB', 'DT', 'VBZ', 'DT', 'JJS', 'PRP', 'MD', 'VB', 'TO', 'VB', 'NN']"
+1, if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+2,        lrNewCh <- 1,"['lrNewCh', '<-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+3,    },['}'],['OPERATOR']
+4,"
+
+Here is all the code. All the credit goes to @JimB
+
+// Make a bridge between dstNet which is
+// usually behind NAT and srcNet which is usually a client
+// which wants to route the traffic though the NAT machine.
+package main
+
+import (
+    log ""github.com/golang/glog""
+    ""io""
+    ""net""
+)
+
+// listen on the dstNet so that we can
+// create a connection with the NAT client
+var dstNet *net.TCPAddr = &net.TCPAddr{IP: net.ParseIP(""0.0.0.0""), Port: 9000}
+
+// listen on srcNet so that we can get traffic
+// to forward to dstNet
+var srcNet *net.TCPAddr = &net.TCPAddr{IP: net.ParseIP(""0.0.0.0""), Port: 9001}
+
+var errCh = make(chan error, 1)
+
+// make a channel to send the reverse connections
+var lrCh = make(chan *net.TCPConn, 1)
+var lrNewCh = make(chan int, 1)
+
+func listenDst() {
+    // Listen on the dstNet
+    lr, err := net.ListenTCP(""tcp"", dstNet)
+    if err != nil {
+        log.Error(err)
+        errCh <- err
+        return
+    }
+    // accept the connection
+    for {
+        lrConn, err := lr.AcceptTCP()
+        if err != nil {
+                log.Error(err)
+                //errCh <- err
+                //return
+        }
+        status := <-lrNewCh
+            log.Errorf(""status request is %v"", status)
+            if status == 1{
+                log.Errorf(""we close and restart the listener and the connection"")
+                if err =  lrConn.Close(); err !=nil{
+                    log.Error(err)
+                }
+                if err =  lr.Close(); err !=nil{
+                    log.Error(err)
+                }
+                    lr, err = net.ListenTCP(""tcp"", dstNet)
+                    if err != nil {
+                        log.Error(err)
+                        errCh <- err
+                        return
+                    }
+                lrConn, err = lr.AcceptTCP()
+                if err !=nil{
+                    log.Error(err)
+                    errCh <- err
+                }
+            }else{
+                log.Errorf(""new connection on its way"")
+                lrCh <- lrConn
+            }
+    //  default:
+            // log.Errorf(""accepting new connections"")
+
+
+    }
+
+}
+
+func main() {
+
+    go func() {
+        for err := range errCh {
+            if err != nil {
+                panic(err)
+            }
+        }
+    }()
+    // listen for the nat server
+    go listenDst()
+
+    // listen for clients to connect
+    l, err := net.ListenTCP(""tcp"", srcNet)
+    if err != nil {
+        log.Error(err)
+        panic(err)
+    }
+    // accept the connection
+    for {
+        conn, err := l.AcceptTCP()
+        if err != nil {
+            log.Error(err)
+            panic(err)
+        }
+        // serve the connection
+        go func(conn *net.TCPConn) {
+            defer conn.Close()
+            lrNewCh <- 0
+            dst := <-lrCh
+            defer dst.Close()
+            proxy(dst, conn)
+        }(conn)
+
+    }
+}
+
+func proxy(srvConn, cliConn *net.TCPConn) {
+    // channels to wait on the close event for each connection
+    serverClosed := make(chan struct{}, 1)
+    clientClosed := make(chan struct{}, 1)
+
+    go broker(srvConn, cliConn, clientClosed)
+    go broker(cliConn, srvConn, serverClosed)
+
+    // wait for one half of the proxy to exit, then trigger a shutdown of the
+    // other half by calling CloseRead(). This will break the read loop in the
+    // broker and allow us to fully close the connection cleanly without a
+    // ""use of closed network connection"" error.
+    var waitFor chan struct{}
+    select {
+    case <-clientClosed:
+        // the client closed first and any more packets from the server aren't
+        // useful, so we can optionally SetLinger(0) here to recycle the port
+        // faster.
+        srvConn.SetLinger(0)
+        srvConn.CloseRead()
+        waitFor = serverClosed
+    case <-serverClosed:
+        cliConn.CloseRead()
+        waitFor = clientClosed
+    }
+
+    // Wait for the other connection to close.
+    // This ""waitFor"" pattern isn't required, but gives us a way to track the
+    // connection and ensure all copies terminate correctly; we can trigger
+    // stats on entry and deferred exit of this function.
+    <-waitFor
+}
+
+// This does the actual data transfer.
+// The broker only closes the Read side.
+func broker(dst, src net.Conn, srcClosed chan struct{}) {
+    // We can handle errors in a finer-grained manner by inlining io.Copy (it's
+    // simple, and we drop the ReaderFrom or WriterTo checks for
+    // net.Conn->net.Conn transfers, which aren't needed). This would also let
+    // us adjust buffersize.
+    n, err := io.Copy(dst, src)
+    log.Errorf("" %v bytes copied"", n)
+    if err != nil {
+        log.Errorf(""Copy error: %s"", err)
+        // errCh <- err
+    }
+    if err := src.Close(); err != nil {
+        log.Errorf(""Close error: %s"", err)
+        errCh <- err
+    }
+   ","['Here', 'is', 'all', 'the', 'code.', 'All', 'the', 'credit', 'goes', 'to', '@JimB', '//', 'Make', 'a', 'bridge', 'between', 'dstNet', 'which', 'is', '//', 'usually', 'behind', 'NAT', 'and', 'srcNet', 'which', 'is', 'usually', 'a', 'client', '//', 'which', 'wants', 'to', 'route', 'the', 'traffic', 'though', 'the', 'NAT', 'machine.', 'package', 'main', 'import', '(', 'log', '""github.com/golang/glog""', '""io""', '""net""', ')', '//', 'listen', 'on', 'the', 'dstNet', 'so', 'that', 'we', 'can', '//', 'create', 'a', 'connection', 'with', 'the', 'NAT', 'client', 'var', 'dstNet', '*net.TCPAddr', '=', '&net.TCPAddr{IP:', 'net.ParseIP(""0.0.0.0""),', 'Port:', '9000}', '//', 'listen', 'on', 'srcNet', 'so', 'that', 'we', 'can', 'get', 'traffic', '//', 'to', 'forward', 'to', 'dstNet', 'var', 'srcNet', '*net.TCPAddr', '=', '&net.TCPAddr{IP:', 'net.ParseIP(""0.0.0.0""),', 'Port:', '9001}', 'var', 'errCh', '=', 'make(chan', 'error,', '1)', '//', 'make', 'a', 'channel', 'to', 'send', 'the', 'reverse', 'connections', 'var', 'lrCh', '=', 'make(chan', '*net.TCPConn,', '1)', 'var', 'lrNewCh', '=', 'make(chan', 'int,', '1)', 'func', 'listenDst()', '{', '//', 'Listen', 'on', 'the', 'dstNet', 'lr,', 'err', ':=', 'net.ListenTCP(""tcp"",', 'dstNet)', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'errCh', '<-', 'err', 'return', '}', '//', 'accept', 'the', 'connection', 'for', '{', 'lrConn,', 'err', ':=', 'lr.AcceptTCP()', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', '//errCh', '<-', 'err', '//return', '}', 'status', ':=', '<-lrNewCh', 'log.Errorf(""status', 'request', 'is', '%v"",', 'status)', 'if', 'status', '==', '1{', 'log.Errorf(""we', 'close', 'and', 'restart', 'the', 'listener', 'and', 'the', 'connection"")', 'if', 'err', '=', 'lrConn.Close();', 'err', '!=nil{', 'log.Error(err)', '}', 'if', 'err', '=', 'lr.Close();', 'err', '!=nil{', 'log.Error(err)', '}', 'lr,', 'err', '=', 'net.ListenTCP(""tcp"",', 'dstNet)', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'errCh', '<-', 'err', 'return', '}', 'lrConn,', 'err', '=', 'lr.AcceptTCP()', 'if', 'err', '!=nil{', 'log.Error(err)', 'errCh', '<-', 'err', '}', '}else{', 'log.Errorf(""new', 'connection', 'on', 'its', 'way"")', 'lrCh', '<-', 'lrConn', '}', '//', 'default:', '//', 'log.Errorf(""accepting', 'new', 'connections"")', '}', '}', 'func', 'main()', '{', 'go', 'func()', '{', 'for', 'err', ':=', 'range', 'errCh', '{', 'if', 'err', '!=', 'nil', '{', 'panic(err)', '}', '}', '}()', '//', 'listen', 'for', 'the', 'nat', 'server', 'go', 'listenDst()', '//', 'listen', 'for', 'clients', 'to', 'connect', 'l,', 'err', ':=', 'net.ListenTCP(""tcp"",', 'srcNet)', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'panic(err)', '}', '//', 'accept', 'the', 'connection', 'for', '{', 'conn,', 'err', ':=', 'l.AcceptTCP()', 'if', 'err', '!=', 'nil', '{', 'log.Error(err)', 'panic(err)', '}', '//', 'serve', 'the', 'connection', 'go', 'func(conn', '*net.TCPConn)', '{', 'defer', 'conn.Close()', 'lrNewCh', '<-', '0', 'dst', ':=', '<-lrCh', 'defer', 'dst.Close()', 'proxy(dst,', 'conn)', '}(conn)', '}', '}', 'func', 'proxy(srvConn,', 'cliConn', '*net.TCPConn)', '{', '//', 'channels', 'to', 'wait', 'on', 'the', 'close', 'event', 'for', 'each', 'connection', 'serverClosed', ':=', 'make(chan', 'struct{},', '1)', 'clientClosed', ':=', 'make(chan', 'struct{},', '1)', 'go', 'broker(srvConn,', 'cliConn,', 'clientClosed)', 'go', 'broker(cliConn,', 'srvConn,', 'serverClosed)', '//', 'wait', 'for', 'one', 'half', 'of', 'the', 'proxy', 'to', 'exit,', 'then', 'trigger', 'a', 'shutdown', 'of', 'the', '//', 'other', 'half', 'by', 'calling', 'CloseRead().', 'This', 'will', 'break', 'the', 'read', 'loop', 'in', 'the', '//', 'broker', 'and', 'allow', 'us', 'to', 'fully', 'close', 'the', 'connection', 'cleanly', 'without', 'a', '//', '""use', 'of', 'closed', 'network', 'connection""', 'error.', 'var', 'waitFor', 'chan', 'struct{}', 'select', '{', 'case', '<-clientClosed:', '//', 'the', 'client', 'closed', 'first', 'and', 'any', 'more', 'packets', 'from', 'the', 'server', ""aren't"", '//', 'useful,', 'so', 'we', 'can', 'optionally', 'SetLinger(0)', 'here', 'to', 'recycle', 'the', 'port', '//', 'faster.', 'srvConn.SetLinger(0)', 'srvConn.CloseRead()', 'waitFor', '=', 'serverClosed', 'case', '<-serverClosed:', 'cliConn.CloseRead()', 'waitFor', '=', 'clientClosed', '}', '//', 'Wait', 'for', 'the', 'other', 'connection', 'to', 'close.', '//', 'This', '""waitFor""', 'pattern', ""isn't"", 'required,', 'but', 'gives', 'us', 'a', 'way', 'to', 'track', 'the', '//', 'connection', 'and', 'ensure', 'all', 'copies', 'terminate', 'correctly;', 'we', 'can', 'trigger', '//', 'stats', 'on', 'entry', 'and', 'deferred', 'exit', 'of', 'this', 'function.', '<-waitFor', '}', '//', 'This', 'does', 'the', 'actual', 'data', 'transfer.', '//', 'The', 'broker', 'only', 'closes', 'the', 'Read', 'side.', 'func', 'broker(dst,', 'src', 'net.Conn,', 'srcClosed', 'chan', 'struct{})', '{', '//', 'We', 'can', 'handle', 'errors', 'in', 'a', 'finer-grained', 'manner', 'by', 'inlining', 'io.Copy', ""(it's"", '//', 'simple,', 'and', 'we', 'drop', 'the', 'ReaderFrom', 'or', 'WriterTo', 'checks', 'for', '//', 'net.Conn->net.Conn', 'transfers,', 'which', ""aren't"", 'needed).', 'This', 'would', 'also', 'let', '//', 'us', 'adjust', 'buffersize.', 'n,', 'err', ':=', 'io.Copy(dst,', 'src)', 'log.Errorf(""', '%v', 'bytes', 'copied"",', 'n)', 'if', 'err', '!=', 'nil', '{', 'log.Errorf(""Copy', 'error:', '%s"",', 'err)', '//', 'errCh', '<-', 'err', '}', 'if', 'err', ':=', 'src.Close();', 'err', '!=', 'nil', '{', 'log.Errorf(""Close', 'error:', '%s"",', 'err)', 'errCh', '<-', 'err', '}']","['RB', 'VBZ', 'PDT', 'DT', 'NN', 'PDT', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'NNP', 'NNP', 'DT', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'NNP', 'RB', 'IN', 'NNP', 'CC', 'NN', 'WDT', 'VBZ', 'RB', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', ')', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'RB', 'IN', 'PRP', 'MD', 'VB', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'VBD', 'NNP', 'CD', 'NNP', 'NN', 'IN', 'NN', 'RB', 'IN', 'PRP', 'MD', 'VB', 'NN', 'NN', 'TO', 'VB', 'TO', 'VB', 'JJ', 'NN', 'NN', 'NNP', 'NNP', 'VBD', 'NNP', 'CD', 'NN', 'NN', 'NNP', 'NN', 'VBD', 'CD', 'NNS', 'VBP', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'NNS', 'VBP', 'JJ', 'NNP', 'NN', 'VBD', 'CD', 'NN', 'NN', 'NNP', 'NN', 'NN', 'CD', 'NN', 'NN', '(', 'JJ', 'NNP', 'IN', 'DT', 'NN', 'NN', 'NN', 'NNP', 'RB', 'VBZ', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'VB', 'JJ', 'JJ', 'NN', ')', 'NNP', 'IN', 'DT', 'NN', 'IN', '(', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'JJ', 'JJ', 'NN', 'NN', ')', 'NN', 'JJ', 'JJ', 'NN', 'NN', 'VBZ', 'JJ', 'NN', 'IN', 'NN', 'VBP', 'CD', 'NNS', 'RB', 'CC', 'VB', 'DT', 'NN', 'CC', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', ')', 'VBZ', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'VB', 'JJ', 'JJ', 'NN', ')', 'JJR', 'JJ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'VBD', 'JJ', 'NN', ')', 'NNP', 'JJ', 'NN', 'IN', 'PRP$', 'JJ', 'JJ', 'JJ', 'NN', ')', 'NNP', 'JJ', 'NNP', 'VBG', 'JJ', 'NN', ')', ')', 'JJ', 'NN', '(', 'VB', 'RB', '(', 'IN', 'NN', 'NNP', 'NN', 'RB', '(', 'IN', 'VBN', 'NNP', 'RB', '(', 'NN', ')', ')', 'JJ', 'NNP', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBP', 'JJ', 'NNP', 'NN', 'IN', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NNP', 'RB', 'VBP', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NNP', 'IN', 'DT', 'NN', 'IN', '(', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', ')', 'NNP', 'VBP', 'DT', 'NN', 'VBP', 'RB', 'RB', '(', 'VB', 'JJ', 'JJ', 'JJ', 'CD', 'NN', 'JJ', 'JJ', 'NN', 'NN', 'NN', 'NN', 'NN', ')', ')', 'JJ', 'JJ', 'NN', 'NNP', '(', 'JJ', 'NNS', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'VBD', 'NNP', 'NNP', 'VBD', 'CD', 'JJ', 'NN', 'NN', 'VBD', 'CD', 'NNS', 'JJ', 'NN', 'NN', 'VBP', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'IN', 'CD', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'RB', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'JJ', 'NN', 'IN', 'VBG', 'NNP', 'DT', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'RB', 'VB', 'DT', 'NN', 'RB', 'IN', 'DT', 'NN', 'NN', 'IN', 'JJ', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', '(', 'NN', 'JJ', 'NNP', 'DT', 'NN', 'VBD', 'RB', 'CC', 'DT', 'JJR', 'NNS', 'IN', 'DT', 'NN', 'NN', 'NNP', 'RB', 'IN', 'PRP', 'MD', 'RB', 'VB', 'RB', 'TO', 'VB', 'DT', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NN', 'VBD', 'NN', 'JJ', 'NN', 'NN', 'NN', 'VBD', ')', 'NNP', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'TO', 'VB', 'VB', 'DT', 'JJ', 'NN', 'NN', 'NN', 'CC', 'VBZ', 'PRP', 'DT', 'NN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'CC', 'VB', 'DT', 'NNS', 'VBP', 'NN', 'PRP', 'MD', 'VB', 'JJ', 'NNS', 'IN', 'NN', 'CC', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', ')', 'FW', 'DT', 'VBZ', 'DT', 'JJ', 'NNS', 'NN', 'IN', 'DT', 'NN', 'RB', 'VBZ', 'DT', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NN', 'VBD', 'JJ', 'NN', '(', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'IN', 'VBG', 'NN', 'NNP', 'NNP', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'NNP', 'CC', 'NNP', 'NNS', 'IN', 'JJ', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'DT', 'MD', 'RB', 'VB', 'NNP', 'PRP', 'VBP', 'JJ', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'VBP', 'JJ', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NNP', 'VBZ', 'JJ', 'JJ', 'JJ', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'RB', '(', 'JJ', 'NN', 'NNP', 'VBZ', 'JJ', 'JJ', 'NN', ')']"
+5, if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+6,        lrNewCh <- 1,"['lrNewCh', '<-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+7,    },['}'],['OPERATOR']
+8,"    srcClosed <- struct{}{}
+
+}
+
+","['srcClosed', '<-', 'struct{}{}', '}']","['VBN', 'JJ', 'NN', ')']"

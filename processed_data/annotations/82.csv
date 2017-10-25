@@ -1,50 +1,187 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,"import ""fmt""","['import', '""fmt""']","['KEYWORD', 'STRING_LITERAL']"
-2,"func calc_ols_params(y []float64, x[][]float64, n_iterations int, alpha float64) []float64 {","['func', 'calc_ols_params', '(', 'y', '[]', 'float64', ',', 'x', '[][]', 'float64', ',', 'n_iterations', 'int', ',', 'alpha', 'float64', ')', '[]', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-3,"    thetas := make([]float64, len(x))","['thetas', ':=', 'make', '([]', 'float64', ',', 'len', '(', 'x', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-4,    for i := 0; i < n_iterations; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'n_iterations', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-5,"        my_diffs := calc_diff(thetas, y, x)","['my_diffs', ':=', 'calc_diff', '(', 'thetas', ',', 'y', ',', 'x', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-6,"        my_grad := calc_gradient(my_diffs, x)","['my_grad', ':=', 'calc_gradient', '(', 'my_diffs', ',', 'x', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-7,        for j := 0; j < len(my_grad); j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'len', '(', 'my_grad', ');', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-8,            thetas[j] += alpha * my_grad[j],"['thetas', '[', 'j', ']', '+=', 'alpha', '*', 'my_grad', '[', 'j', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-9,        },['}'],['OPERATOR']
-10,    },['}'],['OPERATOR']
-11,    return thetas,"['return', 'thetas']","['KEYWORD', 'IDENTIFIER']"
-12,},['}'],['OPERATOR']
-13,"func calc_diff (thetas []float64, y []float64, x[][]float64) []float64 {","['func', 'calc_diff', '(', 'thetas', '[]', 'float64', ',', 'y', '[]', 'float64', ',', 'x', '[][]', 'float64', ')', '[]', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-14,"    diffs := make([]float64, len(y))","['diffs', ':=', 'make', '([]', 'float64', ',', 'len', '(', 'y', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,    for i := 0; i < len(y); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 'y', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-16,        prediction := 0.0,"['prediction', ':=', '0', '.', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-17,        for j := 0; j < len(thetas); j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'len', '(', 'thetas', ');', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-18,            prediction += thetas[j] * x[j][i],"['prediction', '+=', 'thetas', '[', 'j', ']', '*', 'x', '[', 'j', '][', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-19,        },['}'],['OPERATOR']
-20,        diffs[i] = y[i] - prediction,"['diffs', '[', 'i', ']', '=', 'y', '[', 'i', ']', '-', 'prediction']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-21,    },['}'],['OPERATOR']
-22,    return diffs,"['return', 'diffs']","['KEYWORD', 'IDENTIFIER']"
-23,},['}'],['OPERATOR']
-24,"func calc_gradient(diffs[] float64, x[][]float64) []float64 {","['func', 'calc_gradient', '(', 'diffs', '[]', 'float64', ',', 'x', '[][]', 'float64', ')', '[]', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,"    gradient := make([]float64, len(x))","['gradient', ':=', 'make', '([]', 'float64', ',', 'len', '(', 'x', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,    for i := 0; i < len(diffs); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 'diffs', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-27,        for j := 0; j < len(x); j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'len', '(', 'x', ');', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-28,            gradient[j] += diffs[i] * x[j][i],"['gradient', '[', 'j', ']', '+=', 'diffs', '[', 'i', ']', '*', 'x', '[', 'j', '][', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,        },['}'],['OPERATOR']
-30,    },['}'],['OPERATOR']
-31,    for i := 0; i < len(x); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 'x', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-32,        gradient[i] = gradient[i] / float64(len(diffs)),"['gradient', '[', 'i', ']', '=', 'gradient', '[', 'i', ']', 'float64', '(', 'len', '(', 'diffs', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,    },['}'],['OPERATOR']
-34,    return gradient,"['return', 'gradient']","['KEYWORD', 'IDENTIFIER']"
-35,},['}'],['OPERATOR']
-36,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-37,"    y := []float64 {3,4,5,6,7}","['y', ':=', '[]', 'float64', '{', '3', ',', '4', ',', '5', ',', '6', ',', '7', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-38,"    x := [][]float64 {{1,1,1,1,1}, {4,3,2,1,3}}","['x', ':=', '[][]', 'float64', '{{', '1', ',', '1', ',', '1', ',', '1', ',', '1', '},', '{', '4', ',', '3', ',', '2', ',', '1', ',', '3', '}}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-39,"    thetas := calc_ols_params(y, x, 100000, 0.001)","['thetas', ':=', 'calc_ols_params', '(', 'y', ',', 'x', ',', '100000', ',', '0', '.', '001', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-40,"    fmt.Println(""Thetas : "", thetas)","['fmt', '.', 'Println', '(', '""Thetas : ""', ',', 'thetas', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,"    y_2 := []float64 {1,2,3,4,3,4,5,4,5,5,4,5,4,5,4,5,6,5,4,5,4,3,4}","['y_2', ':=', '[]', 'float64', '{', '1', ',', '2', ',', '3', ',', '4', ',', '3', ',', '4', ',', '5', ',', '4', ',', '5', ',', '5', ',', '4', ',', '5', ',', '4', ',', '5', ',', '4', ',', '5', ',', '6', ',', '5', ',', '4', ',', '5', ',', '4', ',', '3', ',', '4', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-42,"    x_2 := [][]float64 {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},","['x_2', ':=', '[][]', 'float64', '{{', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', ',', '1', '},']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-43,"                            {4,2,3,4,5,4,5,6,7,4,8,9,8,8,6,6,5,5,5,5,5,5,5},","['{', '4', ',', '2', ',', '3', ',', '4', ',', '5', ',', '4', ',', '5', ',', '6', ',', '7', ',', '4', ',', '8', ',', '9', ',', '8', ',', '8', ',', '6', ',', '6', ',', '5', ',', '5', ',', '5', ',', '5', ',', '5', ',', '5', ',', '5', '},']","['OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-44,"                    {4,1,2,3,4,5,6,7,5,8,7,8,7,8,7,8,7,7,7,7,7,6,5},","['{', '4', ',', '1', ',', '2', ',', '3', ',', '4', ',', '5', ',', '6', ',', '7', ',', '5', ',', '8', ',', '7', ',', '8', ',', '7', ',', '8', ',', '7', ',', '8', ',', '7', ',', '7', ',', '7', ',', '7', ',', '7', ',', '6', ',', '5', '},']","['OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-45,"                    {4,1,2,5,6,7,8,9,7,8,7,8,7,7,7,7,7,7,6,6,4,4,4},}","['{', '4', ',', '1', ',', '2', ',', '5', ',', '6', ',', '7', ',', '8', ',', '9', ',', '7', ',', '8', ',', '7', ',', '8', ',', '7', ',', '7', ',', '7', ',', '7', ',', '7', ',', '7', ',', '6', ',', '6', ',', '4', ',', '4', ',', '4', '},}']","['OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-46,"    thetas_2 := calc_ols_params(y_2, x_2, 100000, 0.001)","['thetas_2', ':=', 'calc_ols_params', '(', 'y_2', ',', 'x_2', ',', '100000', ',', '0', '.', '001', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-47,"    fmt.Println(""Thetas_2 : "", thetas_2)","['fmt', '.', 'Println', '(', '""Thetas_2 : ""', ',', 'thetas_2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,},['}'],['OPERATOR']
+0,"I wrote code that unzips a file in a particular location then copies the contents of the folder to outside where the folder is unzipped then it removes the folder. 
+
+This is the Code I wrote:
+
+","['I', 'wrote', 'code', 'that', 'unzips', 'a', 'file', 'in', 'a', 'particular', 'location', 'then', 'copies', 'the', 'contents', 'of', 'the', 'folder', 'to', 'outside', 'where', 'the', 'folder', 'is', 'unzipped', 'then', 'it', 'removes', 'the', 'folder.', 'This', 'is', 'the', 'Code', 'I', 'wrote:']","['PRP', 'VBD', 'NN', 'IN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'RB', 'VBZ', 'DT', 'NNS', 'IN', 'DT', 'NN', 'TO', 'VB', 'WRB', 'DT', 'NN', 'VBZ', 'JJ', 'RB', 'PRP', 'VBZ', 'DT', 'NN', 'DT', 'VBZ', 'DT', 'NNP', 'PRP', 'VBP']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2, import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"   ""os""","['""os""']",['STRING_LITERAL']
+4,"   ""flag""","['""flag""']",['STRING_LITERAL']
+5,"   ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"   ""io""","['""io""']",['STRING_LITERAL']
+7,"   ""path/filepath""","['""path/filepath""']",['STRING_LITERAL']
+8,"   ""os/exec""","['""os/exec""']",['STRING_LITERAL']
+9,"   ""archive/zip""","['""archive/zip""']",['STRING_LITERAL']
+10,"   ""time""","['""time""']",['STRING_LITERAL']
+11, ),[')'],['OPERATOR']
+12,func RemoveContents(dir string) error {,"['func', 'RemoveContents', '(', 'dir', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,"    d, err := os.Open(dir)","['d', ',', 'err', ':=', 'os', '.', 'Open', '(', 'dir', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+16,    },['}'],['OPERATOR']
+17,"    names, err := d.Readdirnames(-1)","['names', ',', 'err', ':=', 'd', '.', 'Readdirnames', '(-', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+18,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+20,    },['}'],['OPERATOR']
+21,"    for _, name := range names { ","['for', '_', ',', 'name', ':=', 'range', 'names', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+22,"            err = os.RemoveAll(filepath.Join(dir, name))","['err', '=', 'os', '.', 'RemoveAll', '(', 'filepath', '.', 'Join', '(', 'dir', ',', 'name', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,                return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+25,            },['}'],['OPERATOR']
+26,    },['}'],['OPERATOR']
+27,    d.Close(),"['d', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+29,},['}'],['OPERATOR']
+30,"func CopyFile(source string, dest string) (err error) {","['func', 'CopyFile', '(', 'source', 'string', ',', 'dest', 'string', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+31,"     sourcefile, err := os.Open(source)","['sourcefile', ',', 'err', ':=', 'os', '.', 'Open', '(', 'source', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,         return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+34,     },['}'],['OPERATOR']
+35,     defer sourcefile.Close(),"['defer', 'sourcefile', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+36,"     destfile, err := os.Create(dest)","['destfile', ',', 'err', ':=', 'os', '.', 'Create', '(', 'dest', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,         return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+39,     },['}'],['OPERATOR']
+40,     defer destfile.Close(),"['defer', 'destfile', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,"     _, err = io.Copy(destfile, sourcefile)","['_', ',', 'err', '=', 'io', '.', 'Copy', '(', 'destfile', ',', 'sourcefile', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,     if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,"         sourceinfo, err := os.Stat(source)","['sourceinfo', ',', 'err', ':=', 'os', '.', 'Stat', '(', 'source', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,         if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,"             err = os.Chmod(dest, sourceinfo.Mode())","['err', '=', 'os', '.', 'Chmod', '(', 'dest', ',', 'sourceinfo', '.', 'Mode', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,         },['}'],['OPERATOR']
+47,     },['}'],['OPERATOR']
+48,     return,['return'],['KEYWORD']
+49, },['}'],['OPERATOR']
+50," func CopyDir(source string, dest string) (err error) {","['func', 'CopyDir', '(', 'source', 'string', ',', 'dest', 'string', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+51,     // get properties of source dir,"['//', 'get', 'properties', 'of', 'source', 'dir']","['COMMENT', 'NN', 'NNS', 'IN', 'NN', 'NN']"
+52,"     sourceinfo, err := os.Stat(source)","['sourceinfo', ',', 'err', ':=', 'os', '.', 'Stat', '(', 'source', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,         return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+55,     },['}'],['OPERATOR']
+56,     // create dest dir,"['//', 'create', 'dest', 'dir']","['COMMENT', 'NN', 'JJS', 'NN']"
+57,"     err = os.MkdirAll(dest, sourceinfo.Mode())","['err', '=', 'os', '.', 'MkdirAll', '(', 'dest', ',', 'sourceinfo', '.', 'Mode', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,         return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+60,     },['}'],['OPERATOR']
+61,"     directory, _ := os.Open(source)","['directory', ',', '_', ':=', 'os', '.', 'Open', '(', 'source', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,"     objects, err := directory.Readdir(-1)","['objects', ',', 'err', ':=', 'directory', '.', 'Readdir', '(-', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+63,"     for _, obj := range objects {","['for', '_', ',', 'obj', ':=', 'range', 'objects', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+64,"         sourcefilepointer := source + ""/"" + obj.Name()","['sourcefilepointer', ':=', 'source', '+', '""/""', '+', 'obj', '.', 'Name', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,"         destinationfilepointer := dest + ""/"" + obj.Name()","['destinationfilepointer', ':=', 'dest', '+', '""/""', '+', 'obj', '.', 'Name', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,         if obj.IsDir() {,"['if', 'obj', '.', 'IsDir', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+67,             // create sub-directories - recursively,"['//', 'create', 'sub-directories', '-', 'recursively']","['COMMENT', 'VB', 'NNS', ':', 'RB']"
+68,"             err = CopyDir(sourcefilepointer, destinationfilepointer)","['err', '=', 'CopyDir', '(', 'sourcefilepointer', ',', 'destinationfilepointer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,             if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,                 fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,             },['}'],['OPERATOR']
+72,         } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+73,             // perform copy,"['//', 'perform', 'copy']","['COMMENT', 'NN', 'NN']"
+74,"             err = CopyFile(sourcefilepointer, destinationfilepointer)","['err', '=', 'CopyFile', '(', 'sourcefilepointer', ',', 'destinationfilepointer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,             if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,                 fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,             },['}'],['OPERATOR']
+78,         },['}'],['OPERATOR']
+79,     },['}'],['OPERATOR']
+80,     return,['return'],['KEYWORD']
+81, },['}'],['OPERATOR']
+82, func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+83,    flag.Parse() // get the source and destination directory,"['//', 'get', 'the', 'source', 'and', 'destination', 'directory']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'VB', 'DT', 'NN', 'CC', 'NN', 'NN']"
+84,    source_dir := flag.Arg(0) // get the source directory from 1st argument,"['//', 'get', 'the', 'source', 'directory', 'from', '1st', 'argument']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'VB', 'DT', 'NN', 'NN', 'IN', 'CD', 'NN']"
+85,    dest_dir := flag.Arg(1) // get the destination directory from the 2nd argument,"['//', 'get', 'the', 'destination', 'directory', 'from', 'the', '2nd', 'argument']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'VB', 'DT', 'NN', 'NN', 'IN', 'DT', 'CD', 'NN']"
+86,"        os.MkdirAll(""E:\\go\\copyDirectory\\myFile.zip"",0777)","['os', '.', 'MkdirAll', '(', '""E:\\\\go\\\\copyDirectory\\\\myFile.zip""', ',', '0777', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+87,"    zipFilePath := ""E:\\go\\copyDirectory\\myFile.zip""","['zipFilePath', ':=', '""E:\\\\go\\\\copyDirectory\\\\myFile.zip""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+88,"    tempWrkDir := ""E:\\go\\copyDirectory\\""","['tempWrkDir', ':=', '""E:\\\\go\\\\copyDirectory\\\\""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+89,    //Read zip file and get path handle.,"['//', 'Read', 'zip', 'file', 'and', 'get', 'path', 'handle.']","['COMMENT', 'JJ', 'NN', 'NN', 'CC', 'VB', 'NN', 'NN']"
+90,"    fileHandleReader, err := zip.OpenReader(zipFilePath)","['fileHandleReader', ',', 'err', ':=', 'zip', '.', 'OpenReader', '(', 'zipFilePath', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+92,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+94,    },['}'],['OPERATOR']
+95,    //open zip file and read all the folder and files inside,"['//', 'open', 'zip', 'file', 'and', 'read', 'all', 'the', 'folder', 'and', 'files', 'inside']","['COMMENT', 'JJ', 'NN', 'NN', 'CC', 'VB', 'PDT', 'DT', 'NN', 'CC', 'NNS', 'IN']"
+96,"    for _, fileReadHandler := range fileHandleReader.Reader.File {","['for', '_', ',', 'fileReadHandler', ':=', 'range', 'fileHandleReader', '.', 'Reader', '.', 'File', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+97,        //read the file or folder handle inside zip,"['//', 'read', 'the', 'file', 'or', 'folder', 'handle', 'inside', 'zip']","['COMMENT', 'VB', 'DT', 'NN', 'CC', 'NN', 'NN', 'IN', 'NN']"
+98,"        fileOpenHandle, err := fileReadHandler.Open()","['fileOpenHandle', ',', 'err', ':=', 'fileReadHandler', '.', 'Open', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,            fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+101,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+102,        },['}'],['OPERATOR']
+103,        defer fileOpenHandle.Close(),"['defer', 'fileOpenHandle', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,"    targetUnZipPath := filepath.Join(tempWrkDir, fileReadHandler.Name)","['targetUnZipPath', ':=', 'filepath', '.', 'Join', '(', 'tempWrkDir', ',', 'fileReadHandler', '.', 'Name', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,    if fileReadHandler.FileInfo().IsDir() {,"['if', 'fileReadHandler', '.', 'FileInfo', '().', 'IsDir', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+106,"            os.MkdirAll(targetUnZipPath, fileReadHandler.Mode())","['os', '.', 'MkdirAll', '(', 'targetUnZipPath', ',', 'fileReadHandler', '.', 'Mode', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,"            //fmt.Println(""Creating directory"", path)","['//', 'fmt.Println(""Creating', 'directory"",', 'path)']","['COMMENT', 'VBG', 'NN', 'NN']"
+108,        }else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+109,            // create new dummy file to copy original file.,"['//', 'create', 'new', 'dummy', 'file', 'to', 'copy', 'original', 'file.']","['COMMENT', 'VB', 'JJ', 'NNS', 'NN', 'TO', 'VB', 'JJ', 'NN']"
+110,"            newTempFileHandle, err := os.OpenFile(targetUnZipPath, os.O_WRONLY|os.O_CREATE, fileReadHandler.Mode())","['newTempFileHandle', ',', 'err', ':=', 'os', '.', 'OpenFile', '(', 'targetUnZipPath', ',', 'os', '.', 'O_WRONLY', '|', 'os', '.', 'O_CREATE', ',', 'fileReadHandler', '.', 'Mode', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,                fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,                os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+114,            },['}'],['OPERATOR']
+115,            defer newTempFileHandle.Close(),"['defer', 'newTempFileHandle', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,            //copying original file to dummy file.,"['//', 'copying', 'original', 'file', 'to', 'dummy', 'file.']","['COMMENT', 'VBG', 'JJ', 'NN', 'TO', 'VB', 'NN']"
+117,"            if _, err = io.Copy(newTempFileHandle, fileOpenHandle); err != nil {","['if', '_', ',', 'err', '=', 'io', '.', 'Copy', '(', 'newTempFileHandle', ',', 'fileOpenHandle', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+118,                fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,                os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+120,            },['}'],['OPERATOR']
+121,        },['}'],['OPERATOR']
+122,    },['}'],['OPERATOR']
+123,      time.Sleep(1000*time.Millisecond),"['time', '.', 'Sleep', '(', '1000', '*', 'time', '.', 'Millisecond', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,"      fmt.Println(""Source :"" + source_dir)","['fmt', '.', 'Println', '(', '""Source :""', '+', 'source_dir', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,      // check if the source dir exist,"['//', 'check', 'if', 'the', 'source', 'dir', 'exist']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBP']"
+126,"      src, err := os.Stat(source_dir)","['src', ',', 'err', ':=', 'os', '.', 'Stat', '(', 'source_dir', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+127,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,       panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,    },['}'],['OPERATOR']
+130,     if !src.IsDir() {,"['if', '!', 'src', '.', 'IsDir', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+131,"       fmt.Println(""Source is not a directory"")","['fmt', '.', 'Println', '(', '""Source is not a directory""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+132,       os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+133,    },['}'],['OPERATOR']
+134,   // create the destination directory,"['//', 'create', 'the', 'destination', 'directory']","['COMMENT', 'VB', 'DT', 'NN', 'NN']"
+135,"   fmt.Println(""Destination :""+ dest_dir)","['fmt', '.', 'Println', '(', '""Destination :""', '+', 'dest_dir', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,"   /*_, err = os.Open(dest_dir)","['*', '_', ',', 'err', '=', 'os', '.', 'Open', '(', 'dest_dir', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,   if !os.IsNotExist(err) {,"['if', '!', 'os', '.', 'IsNotExist', '(', 'err', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+138,"     fmt.Println(""Destination directory already exists. Abort!"")","['fmt', '.', 'Println', '(', '""Destination directory already exists. Abort!""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+139,     os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+140,   }*/,['}*'],['OPERATOR']
+141,"   err = CopyDir(source_dir, dest_dir)","['err', '=', 'CopyDir', '(', 'source_dir', ',', 'dest_dir', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,   if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+143,      fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,   } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+145,"      fmt.Println(""Directory copied"")","['fmt', '.', 'Println', '(', '""Directory copied""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+146,   },['}'],['OPERATOR']
+147,"    err = RemoveContents(""./myFiles"")","['err', '=', 'RemoveContents', '(', '""./myFiles""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+148,       if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,"        fmt.Println(""ERRR:::"",err)","['fmt', '.', 'Println', '(', '""ERRR:::""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,       },['}'],['OPERATOR']
+151,    //time.Sleep(10000*time.Millisecond),"['//', 'time.Sleep(10000*time.Millisecond)']","['COMMENT', 'NN']"
+152, },['}'],['OPERATOR']
+153,"
+
+The problem is that everything works fine except for deleting the folder. The folder has only one file in it. The location of the file is as follows:
+
+","['The', 'problem', 'is', 'that', 'everything', 'works', 'fine', 'except', 'for', 'deleting', 'the', 'folder.', 'The', 'folder', 'has', 'only', 'one', 'file', 'in', 'it.', 'The', 'location', 'of', 'the', 'file', 'is', 'as', 'follows:']","['DT', 'NN', 'VBZ', 'IN', 'NN', 'NNS', 'VBP', 'IN', 'IN', 'VBG', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'RB', 'CD', 'NN', 'IN', 'NN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'IN', 'NN']"
+154,E:\go\copyDirectory\myfile\mytextfile.txt,"['E', ':', 'go', 'copyDirectory', 'myfile', 'mytextfile', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+155,"
+
+The Location of the zip file is as follows:
+
+","['The', 'Location', 'of', 'the', 'zip', 'file', 'is', 'as', 'follows:']","['DT', 'NNP', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'IN', 'NN']"
+156, E:\go\copyDirectory\myfile.zip,"['E', ':', 'go', 'copyDirectory', 'myfile', '.', 'zip']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+157,"
+
+The zip file has only one text file. The File inside the zip file is as follows:
+
+","['The', 'zip', 'file', 'has', 'only', 'one', 'text', 'file.', 'The', 'File', 'inside', 'the', 'zip', 'file', 'is', 'as', 'follows:']","['DT', 'NN', 'NN', 'VBZ', 'RB', 'CD', 'NN', 'VBZ', 'DT', 'NNP', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'IN', 'NN']"
+158,E:\go\copyDirectory\myfile.zip\myfile\mytextfile.txt,"['E', ':', 'go', 'copyDirectory', 'myfile', '.', 'zip', 'myfile', 'mytextfile', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+159,"
+
+The error I get is:
+
+","['The', 'error', 'I', 'get', 'is:']","['DT', 'NN', 'PRP', 'VBP', 'JJ']"
+160,ERRR::: remove myfile\mytextfile.txt: The process cannot,"['ERRR', ':::', 'remove', 'myfile', 'mytextfile', '.', 'txt', ':', 'The', 'process', 'cannot']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+161,access the file because it is being used by another process.,"['access', 'the', 'file', 'because', 'it', 'is', 'being', 'used', 'by', 'another', 'process', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+162,"
+
+Thanks in advance.
+","['Thanks', 'in', 'advance.']","['NNS', 'IN', 'NN']"

@@ -1,148 +1,111 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-3,"    ""errors""","['""errors""']",['STRING_LITERAL']
-4,"    ""flag""","['""flag""']",['STRING_LITERAL']
-5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-6,"    ""log""","['""log""']",['STRING_LITERAL']
-7,"    ""net""","['""net""']",['STRING_LITERAL']
-8,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-9,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-10,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-11,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-12,"    ""time""","['""time""']",['STRING_LITERAL']
-13,),[')'],['OPERATOR']
-14,const DEFAULT_IDLE_TIMEOUT = 5 * time.Second,"['const', 'DEFAULT_IDLE_TIMEOUT', '=', '5', '*', 'time', '.', 'Second']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-15,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
-16,    listen       string,"['listen', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-17,    logOn        bool,"['logOn', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
-18,"    localhost, _ = url.Parse(""http://localhost:8080/"")","['localhost', ',', '_', '=', 'url', '.', 'Parse', '(', '""http://localhost:8080/""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-19,    client       = &http.Client{,"['client', '=', '&', 'http', '.', 'Client', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,        Transport: &http.Transport{,"['Transport', ':', '&', 'http', '.', 'Transport', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,"            Proxy: NoProxyAllowed,","['Proxy', ':', 'NoProxyAllowed', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,"            Dial: func(network, addr string) (net.Conn, error) {","['Dial', ':', 'func', '(', 'network', ',', 'addr', 'string', ')', '(', 'net', '.', 'Conn', ',', 'error', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-23,"                return NewTimeoutConnDial(network, addr, DEFAULT_IDLE_TIMEOUT)","['return', 'NewTimeoutConnDial', '(', 'network', ',', 'addr', ',', 'DEFAULT_IDLE_TIMEOUT', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,"            },","['},']",['OPERATOR']
-25,"        },","['},']",['OPERATOR']
-26,    },['}'],['OPERATOR']
-27,),[')'],['OPERATOR']
-28,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-29,    runtime.GOMAXPROCS(runtime.NumCPU()),"['runtime', '.', 'GOMAXPROCS', '(', 'runtime', '.', 'NumCPU', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,"    flag.StringVar(&listen, ""listen"", ""0.0.0.0:9000"", ""listen on address"")","['flag', '.', 'StringVar', '(&', 'listen', ',', '""listen"", ""0.0.0.0:9000"", ""listen on address""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-31,"    flag.BoolVar(&logOn, ""log"", true, ""enable logging"")","['flag', '.', 'BoolVar', '(&', 'logOn', ',', '""log"", true, ""enable logging""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-32,    flag.Parse(),"['flag', '.', 'Parse', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,"    server := getTimeoutServer(listen, http.HandlerFunc(proxyHandlerFunc))","['server', ':=', 'getTimeoutServer', '(', 'listen', ',', 'http', '.', 'HandlerFunc', '(', 'proxyHandlerFunc', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,"    log.Printf(""Starting router-server on %s\n"", listen)","['log', '.', 'Printf', '(', '""Starting router-server on %s\\n""', ',', 'listen', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,    log.Fatal(server.ListenAndServe()),"['log', '.', 'Fatal', '(', 'server', '.', 'ListenAndServe', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,},['}'],['OPERATOR']
-37,"func proxyHandlerFunc(w http.ResponseWriter, req *http.Request) {","['func', 'proxyHandlerFunc', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-38,    if logOn {,"['if', 'logOn', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-39,"        log.Printf(""%+v\n"", req)","['log', '.', 'Printf', '(', '""%+v\\n""', ',', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+0,"To expand on Cory LaNou's answer, you can  use StartTLS on a normal net.Conn. You need to define a tls.Config and then use that to upgrade the connection to use TLS.
+
+The example below is based on Cory's answer and also steals some code from the crypto/tls test files for creating the RSA cert and private key. In production you'd obviously replace these with real certs and keys.
+
+It may require some customization of the variables, as well as some changes to the tls.Config to suit your environment.
+
+","['To', 'expand', 'on', 'Cory', ""LaNou's"", 'answer,', 'you', 'can', 'use', 'StartTLS', 'on', 'a', 'normal', 'net.Conn.', 'You', 'need', 'to', 'define', 'a', 'tls.Config', 'and', 'then', 'use', 'that', 'to', 'upgrade', 'the', 'connection', 'to', 'use', 'TLS.', 'The', 'example', 'below', 'is', 'based', 'on', ""Cory's"", 'answer', 'and', 'also', 'steals', 'some', 'code', 'from', 'the', 'crypto/tls', 'test', 'files', 'for', 'creating', 'the', 'RSA', 'cert', 'and', 'private', 'key.', 'In', 'production', ""you'd"", 'obviously', 'replace', 'these', 'with', 'real', 'certs', 'and', 'keys.', 'It', 'may', 'require', 'some', 'customization', 'of', 'the', 'variables,', 'as', 'well', 'as', 'some', 'changes', 'to', 'the', 'tls.Config', 'to', 'suit', 'your', 'environment.']","['TO', 'VB', 'IN', 'NNP', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'CC', 'RB', 'VB', 'DT', 'TO', 'VB', 'DT', 'NN', 'TO', 'VB', 'NNP', 'DT', 'NN', 'NN', 'VBZ', 'VBN', 'IN', 'NNP', 'NN', 'CC', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NNS', 'IN', 'VBG', 'DT', 'NNP', 'NN', 'CC', 'JJ', 'NN', 'IN', 'NN', 'NN', 'RB', 'VB', 'DT', 'IN', 'JJ', 'NNS', 'CC', 'VB', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RB', 'RB', 'IN', 'DT', 'NNS', 'TO', 'DT', 'NN', 'TO', 'VB', 'PRP$', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
+4,"    ""crypto/tls""","['""crypto/tls""']",['STRING_LITERAL']
+5,"    ""encoding/hex""","['""encoding/hex""']",['STRING_LITERAL']
+6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+7,"    ""log""","['""log""']",['STRING_LITERAL']
+8,"    ""math/big""","['""math/big""']",['STRING_LITERAL']
+9,"    ""net""","['""net""']",['STRING_LITERAL']
+10,"    ""net/smtp""","['""net/smtp""']",['STRING_LITERAL']
+11,),[')'],['OPERATOR']
+12,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+13,    var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+14,"        host     = ""smtp.myexchange.com""","['host', '=', '""smtp.myexchange.com""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+15,        port     = 587,"['port', '=', '587']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+16,"        from     = ""sender@example.org""","['from', '=', '""sender@example.org""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+17,"        password = ""password""","['password', '=', '""password""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+18,"        to       = []string{""recipient@example.org""}","['to', '=', '[]', 'string', '{', '""recipient@example.org""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+19,"        msg      = []byte(""This is my message"")","['msg', '=', '[]', 'byte', '(', '""This is my message""', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+20,"        auth     = smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")","['auth', '=', 'smtp', '.', 'PlainAuth', '(', '"""", from, password, ""smtp.myexchange.com""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+21,    ),[')'],['OPERATOR']
+22,    conf := new(tls.Config),"['conf', ':=', 'new', '(', 'tls', '.', 'Config', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,"    conf.Certificates = make([]tls.Certificate, 1)","['conf', '.', 'Certificates', '=', 'make', '([]', 'tls', '.', 'Certificate', ',', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+24,    conf.Certificates[0].Certificate = [][]byte{testRSACertificate},"['conf', '.', 'Certificates', '[', '0', '].', 'Certificate', '=', '[][]', 'byte', '{', 'testRSACertificate', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,    conf.Certificates[0].PrivateKey = testRSAPrivateKey,"['conf', '.', 'Certificates', '[', '0', '].', 'PrivateKey', '=', 'testRSAPrivateKey']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+26,    conf.CipherSuites = []uint16{tls.TLS_RSA_WITH_RC4_128_SHA},"['conf', '.', 'CipherSuites', '=', '[]', 'uint16', '{', 'tls', '.', 'TLS_RSA_WITH_RC4_128_SHA', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,    conf.InsecureSkipVerify = true,"['conf', '.', 'InsecureSkipVerify', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+28,    conf.MinVersion = tls.VersionSSL30,"['conf', '.', 'MinVersion', '=', 'tls', '.', 'VersionSSL30']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+29,    conf.MaxVersion = tls.VersionTLS10,"['conf', '.', 'MaxVersion', '=', 'tls', '.', 'VersionTLS10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+30,"    serverAddr := fmt.Sprintf(""%s:%d"", host, port)","['serverAddr', ':=', 'fmt', '.', 'Sprintf', '(', '""%s:%d""', ',', 'host', ',', 'port', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,"    conn, err := net.Dial(""tcp"", serverAddr)","['conn', ',', 'err', ':=', 'net', '.', 'Dial', '(', '""tcp""', ',', 'serverAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+33,"        log.Printf(""Error Dialing %s\n"", err)","['log', '.', 'Printf', '(', '""Error Dialing %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,        return,['return'],['KEYWORD']
+35,    },['}'],['OPERATOR']
+36,"    client, err := smtp.NewClient(conn, host)","['client', ',', 'err', ':=', 'smtp', '.', 'NewClient', '(', 'conn', ',', 'host', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,"        log.Printf(""Error SMTP connection: %s\n"", err)","['log', '.', 'Printf', '(', '""Error SMTP connection: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,        return,['return'],['KEYWORD']
 40,    },['}'],['OPERATOR']
-41,    // Setup request URL,['// Setup request URL'],"['COMMENT', 'NNP', 'NN', 'NN']"
-42,    origURL := req.URL,"['origURL', ':=', 'req', '.', 'URL']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-43,    req.URL = new(url.URL),"['req', '.', 'URL', '=', 'new', '(', 'url', '.', 'URL', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,    *req.URL = *localhost,"['*', 'req', '.', 'URL', '=', '*', 'localhost']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-45,"    req.URL.Path, req.URL.RawQuery, req.URL.Fragment = origURL.Path, origURL.RawQuery, origURL.Fragment","['req', '.', 'URL', '.', 'Path', ',', 'req', '.', 'URL', '.', 'RawQuery', ',', 'req', '.', 'URL', '.', 'Fragment', '=', 'origURL', '.', 'Path', ',', 'origURL', '.', 'RawQuery', ',', 'origURL', '.', 'Fragment']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-46,"    req.RequestURI, req.Host = """", req.URL.Host","['req', '.', 'RequestURI', ',', 'req', '.', 'Host', '=', '""""', ',', 'req', '.', 'URL', '.', 'Host']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-47,    // Perform request,['// Perform request'],"['COMMENT', 'VB', 'NN']"
-48,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,        w.WriteHeader(http.StatusBadGateway),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusBadGateway', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,"        w.Write([]byte(fmt.Sprintf(""%d - StatusBadGateway: %s"", http.StatusBadGateway, err)))","['w', '.', 'Write', '([]', 'byte', '(', 'fmt', '.', 'Sprintf', '(', '""%d - StatusBadGateway: %s""', ',', 'http', '.', 'StatusBadGateway', ',', 'err', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,        return,['return'],['KEYWORD']
-53,    },['}'],['OPERATOR']
-54,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,    var respBuffer *bytes.Buffer,"['var', 'respBuffer', '*', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-56,    if resp.ContentLength != -1 {,"['if', 'resp', '.', 'ContentLength', '!=', '-', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-57,"        respBuffer = bytes.NewBuffer(make([]byte, 0, resp.ContentLength))","['respBuffer', '=', 'bytes', '.', 'NewBuffer', '(', 'make', '([]', 'byte', ',', '0', ',', 'resp', '.', 'ContentLength', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-58,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-59,        respBuffer = new(bytes.Buffer),"['respBuffer', '=', 'new', '(', 'bytes', '.', 'Buffer', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,    if err = client.StartTLS(conf); err != nil {,"['if', 'err', '=', 'client', '.', 'StartTLS', '(', 'conf', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,"        log.Printf(""Error performing StartTLS: %s\n"", err)","['log', '.', 'Printf', '(', '""Error performing StartTLS: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,        return,['return'],['KEYWORD']
+44,    },['}'],['OPERATOR']
+45,"    if ok, _ := client.Extension(""AUTH""); ok {","['if', 'ok', ',', '_', ':=', 'client', '.', 'Extension', '(', '""AUTH""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,        if err := client.Auth(auth); err != nil {,"['if', 'err', ':=', 'client', '.', 'Auth', '(', 'auth', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+47,"            log.Printf(""Error during AUTH %s\n"", err)","['log', '.', 'Printf', '(', '""Error during AUTH %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,            return,['return'],['KEYWORD']
+49,        },['}'],['OPERATOR']
+50,    },['}'],['OPERATOR']
+51,    if err := client.Mail(from); err != nil {,"['if', 'err', ':=', 'client', '.', 'Mail', '(', 'from', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,        return,['return'],['KEYWORD']
+54,    },['}'],['OPERATOR']
+55,"    for _, addr := range to {","['for', '_', ',', 'addr', ':=', 'range', 'to', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+56,        if err := client.Rcpt(addr); err != nil {,"['if', 'err', ':=', 'client', '.', 'Rcpt', '(', 'addr', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,"            log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,            return,['return'],['KEYWORD']
+59,        },['}'],['OPERATOR']
 60,    },['}'],['OPERATOR']
-61,"    if _, err = respBuffer.ReadFrom(resp.Body); err != nil {","['if', '_', ',', 'err', '=', 'respBuffer', '.', 'ReadFrom', '(', 'resp', '.', 'Body', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,        w.WriteHeader(http.StatusBadGateway),"['w', '.', 'WriteHeader', '(', 'http', '.', 'StatusBadGateway', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,"        w.Write([]byte(fmt.Sprintf(""%d - StatusBadGateway: %s"", http.StatusBadGateway, err)))","['w', '.', 'Write', '([]', 'byte', '(', 'fmt', '.', 'Sprintf', '(', '""%d - StatusBadGateway: %s""', ',', 'http', '.', 'StatusBadGateway', ',', 'err', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,"    w, err := client.Data()","['w', ',', 'err', ':=', 'client', '.', 'Data', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
 64,        return,['return'],['KEYWORD']
 65,    },['}'],['OPERATOR']
-66,    // Write result of request,['// Write result of request'],"['COMMENT', 'NNP', 'NN', 'IN', 'NN']"
-67,    headers := w.Header(),"['headers', ':=', 'w', '.', 'Header', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,    var key string,"['var', 'key', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-69,    var val []string,"['var', 'val', '[]', 'string']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-70,"    for key, val = range resp.Header {","['for', 'key', ',', 'val', '=', 'range', 'resp', '.', 'Header', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,        headers[key] = val,"['headers', '[', 'key', ']', '=', 'val']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-72,    },['}'],['OPERATOR']
-73,"    headers.Set(""Content-Length"", strconv.Itoa(respBuffer.Len()))","['headers', '.', 'Set', '(', '""Content-Length""', ',', 'strconv', '.', 'Itoa', '(', 'respBuffer', '.', 'Len', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,    w.WriteHeader(resp.StatusCode),"['w', '.', 'WriteHeader', '(', 'resp', '.', 'StatusCode', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-75,    w.Write(respBuffer.Bytes()),"['w', '.', 'Write', '(', 'respBuffer', '.', 'Bytes', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,},['}'],['OPERATOR']
-77,"func getTimeoutServer(addr string, handler http.Handler) *http.Server {","['func', 'getTimeoutServer', '(', 'addr', 'string', ',', 'handler', 'http', '.', 'Handler', ')', '*', 'http', '.', 'Server', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-78,    //keeps people who are slow or are sending keep-alives from eating all our sockets,['//keeps people who are slow or are sending keep-alives from eating all our sockets'],"['COMMENT', 'NNS', 'NNS', 'WP', 'VBP', 'JJ', 'CC', 'VBP', 'VBG', 'NNS', 'IN', 'VBG', 'DT', 'PRP$', 'NNS']"
-79,    const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-80,        HTTP_READ_TO  = DEFAULT_IDLE_TIMEOUT,"['HTTP_READ_TO', '=', 'DEFAULT_IDLE_TIMEOUT']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-81,        HTTP_WRITE_TO = DEFAULT_IDLE_TIMEOUT,"['HTTP_WRITE_TO', '=', 'DEFAULT_IDLE_TIMEOUT']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-82,    ),[')'],['OPERATOR']
-83,    return &http.Server{,"['return', '&', 'http', '.', 'Server', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-84,"        Addr:         addr,","['Addr', ':', 'addr', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,"        Handler:      handler,","['Handler', ':', 'handler', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,"        ReadTimeout:  HTTP_READ_TO,","['ReadTimeout', ':', 'HTTP_READ_TO', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"        WriteTimeout: HTTP_WRITE_TO,","['WriteTimeout', ':', 'HTTP_WRITE_TO', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,    },['}'],['OPERATOR']
-89,},['}'],['OPERATOR']
-90,"func NoProxyAllowed(request *http.Request) (*url.URL, error) {","['func', 'NoProxyAllowed', '(', 'request', '*', 'http', '.', 'Request', ')', '(*', 'url', '.', 'URL', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-91,"    return nil, nil","['return', 'nil', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-92,},['}'],['OPERATOR']
-93,//TimeoutConn-------------------------,['//TimeoutConn-------------------------'],"['COMMENT', 'NNP', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':', ':']"
-94,//Put me in my own TimeoutConn.go ?,['//Put me in my own TimeoutConn.go ?'],"['COMMENT', 'VB', 'PRP', 'IN', 'PRP$', 'JJ', 'NNP', '.']"
-95,type TimeoutConn struct {,"['type', 'TimeoutConn', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-96,    net.Conn,"['net', '.', 'Conn']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-97,"    readTimeout, writeTimeout time.Duration","['readTimeout', ',', 'writeTimeout', 'time', '.', 'Duration']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-98,},['}'],['OPERATOR']
-99,"var invalidOperationError = errors.New(""TimeoutConn does not support or allow .SetDeadline operations"")","['var', 'invalidOperationError', '=', 'errors', '.', 'New', '(', '""TimeoutConn does not support or allow .SetDeadline operations""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-100,"func NewTimeoutConn(conn net.Conn, ioTimeout time.Duration) (*TimeoutConn, error) {","['func', 'NewTimeoutConn', '(', 'conn', 'net', '.', 'Conn', ',', 'ioTimeout', 'time', '.', 'Duration', ')', '(*', 'TimeoutConn', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-101,"    return NewTimeoutConnReadWriteTO(conn, ioTimeout, ioTimeout)","['return', 'NewTimeoutConnReadWriteTO', '(', 'conn', ',', 'ioTimeout', ',', 'ioTimeout', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,},['}'],['OPERATOR']
-103,"func NewTimeoutConnReadWriteTO(conn net.Conn, readTimeout, writeTimeout time.Duration) (*TimeoutConn, error) {","['func', 'NewTimeoutConnReadWriteTO', '(', 'conn', 'net', '.', 'Conn', ',', 'readTimeout', ',', 'writeTimeout', 'time', '.', 'Duration', ')', '(*', 'TimeoutConn', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-104,    this := &TimeoutConn{,"['this', ':=', '&', 'TimeoutConn', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,"        Conn:         conn,","['Conn', ':', 'conn', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-106,"        readTimeout:  readTimeout,","['readTimeout', ':', 'readTimeout', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-107,"        writeTimeout: writeTimeout,","['writeTimeout', ':', 'writeTimeout', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-108,    },['}'],['OPERATOR']
-109,    now := time.Now(),"['now', ':=', 'time', '.', 'Now', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,    err := this.Conn.SetReadDeadline(now.Add(this.readTimeout)),"['err', ':=', 'this', '.', 'Conn', '.', 'SetReadDeadline', '(', 'now', '.', 'Add', '(', 'this', '.', 'readTimeout', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-111,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-112,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-113,    },['}'],['OPERATOR']
-114,    err = this.Conn.SetWriteDeadline(now.Add(this.writeTimeout)),"['err', '=', 'this', '.', 'Conn', '.', 'SetWriteDeadline', '(', 'now', '.', 'Add', '(', 'this', '.', 'writeTimeout', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-117,    },['}'],['OPERATOR']
-118,"    return this, nil","['return', 'this', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-119,},['}'],['OPERATOR']
-120,"func NewTimeoutConnDial(network, addr string, ioTimeout time.Duration) (net.Conn, error) {","['func', 'NewTimeoutConnDial', '(', 'network', ',', 'addr', 'string', ',', 'ioTimeout', 'time', '.', 'Duration', ')', '(', 'net', '.', 'Conn', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-121,"    conn, err := net.DialTimeout(network, addr, ioTimeout)","['conn', ',', 'err', ':=', 'net', '.', 'DialTimeout', '(', 'network', ',', 'addr', ',', 'ioTimeout', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-124,    },['}'],['OPERATOR']
-125,"    if conn, err = NewTimeoutConn(conn, ioTimeout); err != nil {","['if', 'conn', ',', 'err', '=', 'NewTimeoutConn', '(', 'conn', ',', 'ioTimeout', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-126,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-127,    },['}'],['OPERATOR']
-128,"    return conn, nil","['return', 'conn', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-129,},['}'],['OPERATOR']
-130,"func (this *TimeoutConn) Read(data []byte) (int, error) {","['func', '(', 'this', '*', 'TimeoutConn', ')', 'Read', '(', 'data', '[]', 'byte', ')', '(', 'int', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-131,    this.Conn.SetReadDeadline(time.Now().Add(this.readTimeout)),"['this', '.', 'Conn', '.', 'SetReadDeadline', '(', 'time', '.', 'Now', '().', 'Add', '(', 'this', '.', 'readTimeout', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,    return this.Conn.Read(data),"['return', 'this', '.', 'Conn', '.', 'Read', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-133,},['}'],['OPERATOR']
-134,"func (this *TimeoutConn) Write(data []byte) (int, error) {","['func', '(', 'this', '*', 'TimeoutConn', ')', 'Write', '(', 'data', '[]', 'byte', ')', '(', 'int', ',', 'error', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-135,    this.Conn.SetWriteDeadline(time.Now().Add(this.writeTimeout)),"['this', '.', 'Conn', '.', 'SetWriteDeadline', '(', 'time', '.', 'Now', '().', 'Add', '(', 'this', '.', 'writeTimeout', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,    return this.Conn.Write(data),"['return', 'this', '.', 'Conn', '.', 'Write', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,},['}'],['OPERATOR']
-138,func (this *TimeoutConn) SetDeadline(time time.Time) error {,"['func', '(', 'this', '*', 'TimeoutConn', ')', 'SetDeadline', '(', 'time', 'time', '.', 'Time', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,    return invalidOperationError,"['return', 'invalidOperationError']","['KEYWORD', 'IDENTIFIER']"
-140,},['}'],['OPERATOR']
-141,func (this *TimeoutConn) SetReadDeadline(time time.Time) error {,"['func', '(', 'this', '*', 'TimeoutConn', ')', 'SetReadDeadline', '(', 'time', 'time', '.', 'Time', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-142,    return invalidOperationError,"['return', 'invalidOperationError']","['KEYWORD', 'IDENTIFIER']"
-143,},['}'],['OPERATOR']
-144,func (this *TimeoutConn) SetWriteDeadline(time time.Time) error {,"['func', '(', 'this', '*', 'TimeoutConn', ')', 'SetWriteDeadline', '(', 'time', 'time', '.', 'Time', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-145,    return invalidOperationError,"['return', 'invalidOperationError']","['KEYWORD', 'IDENTIFIER']"
-146,},['}'],['OPERATOR']
+66,"    _, err = w.Write(msg)","['_', ',', 'err', '=', 'w', '.', 'Write', '(', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,        return,['return'],['KEYWORD']
+70,    },['}'],['OPERATOR']
+71,    err = w.Close(),"['err', '=', 'w', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,"        log.Printf(""Error: %s\n"", err)","['log', '.', 'Printf', '(', '""Error: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,        return,['return'],['KEYWORD']
+75,    },['}'],['OPERATOR']
+76,    client.Quit(),"['client', '.', 'Quit', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,},['}'],['OPERATOR']
+78,// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go,"['//', 'Code', 'below', 'from', 'http:golang.org/src/pkg/crypto/tls/handshake_server_test.go']","['COMMENT', 'NNP', 'IN', 'IN', 'NN']"
+79,func bigFromString(s string) *big.Int {,"['func', 'bigFromString', '(', 's', 'string', ')', '*', 'big', '.', 'Int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,    ret := new(big.Int),"['ret', ':=', 'new', '(', 'big', '.', 'Int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+81,"    ret.SetString(s, 10)","['ret', '.', 'SetString', '(', 's', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+82,    return ret,"['return', 'ret']","['KEYWORD', 'IDENTIFIER']"
+83,},['}'],['OPERATOR']
+84,func fromHex(s string) []byte {,"['func', 'fromHex', '(', 's', 'string', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,"    b, _ := hex.DecodeString(s)","['b', ',', '_', ':=', 'hex', '.', 'DecodeString', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
+87,},['}'],['OPERATOR']
+88,"var testRSACertificate = fromHex(""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9"")","['var', 'testRSACertificate', '=', 'fromHex', '(', '""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+89,var testRSAPrivateKey = &rsa.PrivateKey{,"['var', 'testRSAPrivateKey', '=', '&', 'rsa', '.', 'PrivateKey', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+90,    PublicKey: rsa.PublicKey{,"['PublicKey', ':', 'rsa', '.', 'PublicKey', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,"        N: bigFromString(""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""),","['N', ':', 'bigFromString', '(', '""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+92,"        E: 65537,","['E', ':', '65537', ',']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+93,"    },","['},']",['OPERATOR']
+94,"    D: bigFromString(""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""),","['D', ':', 'bigFromString', '(', '""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+95,    Primes: []*big.Int{,"['Primes', ':', '[]*', 'big', '.', 'Int', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,"        bigFromString(""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""),","['bigFromString', '(', '""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""', '),']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+97,"        bigFromString(""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""),","['bigFromString', '(', '""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""', '),']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+98,"    },","['},']",['OPERATOR']
+99,},['}'],['OPERATOR']
+100,"
+
+Playground
+",['Playground'],['NN']

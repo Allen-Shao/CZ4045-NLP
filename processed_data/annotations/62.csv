@@ -1,221 +1,291 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
-3,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-4,"    ""errors""","['""errors""']",['STRING_LITERAL']
-5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-6,"    ""os""","['""os""']",['STRING_LITERAL']
-7,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-8,"    ""sort""","['""sort""']",['STRING_LITERAL']
-9,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-10,),[')'],['OPERATOR']
-11,type Edge struct {,"['type', 'Edge', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-12,"    U, V uint32","['U', ',', 'V', 'uint32']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-13,},['}'],['OPERATOR']
-14,func (e Edge) String() string {,"['func', '(', 'e', 'Edge', ')', 'String', '()', 'string', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,"    return fmt.Sprintf(""%d,%d"", e.U, e.V)","['return', 'fmt', '.', 'Sprintf', '(', '""%d,%d""', ',', 'e', '.', 'U', ',', 'e', '.', 'V', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-16,},['}'],['OPERATOR']
-17,type ByKey []Edge,"['type', 'ByKey', '[]', 'Edge']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-18,func (a ByKey) Len() int      { return len(a) },"['func', '(', 'a', 'ByKey', ')', 'Len', '()', 'int', '{', 'return', 'len', '(', 'a', ')', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-19,"func (a ByKey) Swap(i, j int) { a[i], a[j] = a[j], a[i] }","['func', '(', 'a', 'ByKey', ')', 'Swap', '(', 'i', ',', 'j', 'int', ')', '{', 'a', '[', 'i', '],', 'a', '[', 'j', ']', '=', 'a', '[', 'j', '],', 'a', '[', 'i', ']', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-20,"func (a ByKey) Less(i, j int) bool {","['func', '(', 'a', 'ByKey', ')', 'Less', '(', 'i', ',', 'j', 'int', ')', 'bool', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,    if a[i].U < a[j].U {,"['if', 'a', '[', 'i', '].', 'U', '<', 'a', '[', 'j', '].', 'U', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,        return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
-23,    },['}'],['OPERATOR']
-24,    if a[i].U == a[j].U && a[i].V < a[j].V {,"['if', 'a', '[', 'i', '].', 'U', '==', 'a', '[', 'j', '].', 'U', '&&', 'a', '[', 'i', '].', 'V', '<', 'a', '[', 'j', '].', 'V', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,        return true,"['return', 'true']","['KEYWORD', 'IDENTIFIER']"
-26,    },['}'],['OPERATOR']
-27,    return false,"['return', 'false']","['KEYWORD', 'IDENTIFIER']"
-28,},['}'],['OPERATOR']
-29,func countEdges(scanner *bufio.Scanner) int {,"['func', 'countEdges', '(', 'scanner', '*', 'bufio', '.', 'Scanner', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,"    var nNodes, nEdges int","['var', 'nNodes', ',', 'nEdges', 'int']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-31,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-32,        line := scanner.Bytes(),"['line', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,        if !(len(line) > 0 && line[0] == '#') {,"['if', '!(', 'len', '(', 'line', ')', '>', '0', '&&', 'line', '[', '0', ']', '==', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'OPERATOR']"
-34,            nEdges++,"['nEdges', '++']","['IDENTIFIER', 'OPERATOR']"
-35,            continue,['continue'],['KEYWORD']
-36,        },['}'],['OPERATOR']
-37,"        n, err := fmt.Sscanf(string(line), ""# Nodes: %d Edges: %d"", &nNodes, &nEdges)","['n', ',', 'err', ':=', 'fmt', '.', 'Sscanf', '(', 'string', '(', 'line', '),', '""# Nodes: %d Edges: %d""', ',', '&', 'nNodes', ',', '&', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,        if err != nil || n != 2 {,"['if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-39,"            n, err = fmt.Sscanf(string(line), ""# %d,%d"", &nNodes, &nEdges)","['n', ',', 'err', '=', 'fmt', '.', 'Sscanf', '(', 'string', '(', 'line', '),', '""# %d,%d""', ',', '&', 'nNodes', ',', '&', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,            if err != nil || n != 2 {,"['if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-41,                continue,['continue'],['KEYWORD']
-42,            },['}'],['OPERATOR']
-43,        },['}'],['OPERATOR']
-44,        fmt.Println(string(line)),"['fmt', '.', 'Println', '(', 'string', '(', 'line', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,        break,['break'],['KEYWORD']
-46,    },['}'],['OPERATOR']
-47,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,    },['}'],['OPERATOR']
-50,    fmt.Println(nEdges),"['fmt', '.', 'Println', '(', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,    return nEdges,"['return', 'nEdges']","['KEYWORD', 'IDENTIFIER']"
-52,},['}'],['OPERATOR']
-53,func loadEdges(filename string) []Edge {,"['func', 'loadEdges', '(', 'filename', 'string', ')', '[]', 'Edge', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,"    file, err := os.Open(filename)","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,    },['}'],['OPERATOR']
-58,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-59,    scanner := bufio.NewScanner(file),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,    nEdges := countEdges(scanner),"['nEdges', ':=', 'countEdges', '(', 'scanner', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,"    edges := make([]Edge, 0, nEdges)","['edges', ':=', 'make', '([]', 'Edge', ',', '0', ',', 'nEdges', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,"    offset, err := file.Seek(0, os.SEEK_SET)","['offset', ',', 'err', ':=', 'file', '.', 'Seek', '(', '0', ',', 'os', '.', 'SEEK_SET', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,    if err != nil || offset != 0 {,"['if', 'err', '!=', 'nil', '||', 'offset', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-64,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-65,    },['}'],['OPERATOR']
-66,    var sep byte = '\t',"['var', 'sep', 'byte', '=', 't']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-67,    scanner = bufio.NewScanner(file),"['scanner', '=', 'bufio', '.', 'NewScanner', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-69,        line := scanner.Bytes(),"['line', ':=', 'scanner', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,        if len(line) > 0 && line[0] == '#' {,"['if', 'len', '(', 'line', ')', '>', '0', '&&', 'line', '[', '0', ']', '==', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'OPERATOR']"
-71,            continue,['continue'],['KEYWORD']
-72,        },['}'],['OPERATOR']
-73,"        i := bytes.IndexByte(line, sep)","['i', ':=', 'bytes', '.', 'IndexByte', '(', 'line', ',', 'sep', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,        if i = len(line) {,"['if', 'i', '=', 'len', '(', 'line', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-75,"            sep = ','","['sep', '=', ',']","['IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-76,"            i = bytes.IndexByte(line, sep)","['i', '=', 'bytes', '.', 'IndexByte', '(', 'line', ',', 'sep', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-77,            if i = len(line) {,"['if', 'i', '=', 'len', '(', 'line', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-78,"                err := errors.New(""Invalid line format: "" + string(line))","['err', ':=', 'errors', '.', 'New', '(', '""Invalid line format: ""', '+', 'string', '(', 'line', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,                panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,            },['}'],['OPERATOR']
-81,        },['}'],['OPERATOR']
-82,"        u, err := ParseUint(line[:i], 10, 32)","['u', ',', 'err', ':=', 'ParseUint', '(', 'line', '[:', 'i', '],', '10', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-83,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-84,            panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,        },['}'],['OPERATOR']
-86,"        v, err := ParseUint(line[i+1:], 10, 32)","['v', ',', 'err', ':=', 'ParseUint', '(', 'line', '[', 'i', '+', '1', ':],', '10', ',', '32', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-87,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,            panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-89,        },['}'],['OPERATOR']
-90,        if u > v {,"['if', 'u', '>', 'v', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,"            u, v = v, u","['u', ',', 'v', '=', 'v', ',', 'u']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-92,        },['}'],['OPERATOR']
-93,"        edges = append(edges, Edge{uint32(u), uint32(v)})","['edges', '=', 'append', '(', 'edges', ',', 'Edge', '{', 'uint32', '(', 'u', '),', 'uint32', '(', 'v', ')})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,    },['}'],['OPERATOR']
-95,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner', '.', 'Err', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-97,    },['}'],['OPERATOR']
-98,    if len(edges) <= 1 {,"['if', 'len', '(', 'edges', ')', '<=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-99,        return edges,"['return', 'edges']","['KEYWORD', 'IDENTIFIER']"
-100,    },['}'],['OPERATOR']
-101,    sort.Sort(ByKey(edges)),"['sort', '.', 'Sort', '(', 'ByKey', '(', 'edges', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,    j := 0,"['j', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-103,    i := j + 1,"['i', ':=', 'j', '+', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-104,"    for ; i < len(edges); i, j = i+1, j+1 {","['for', ';', 'i', '<', 'len', '(', 'edges', ');', 'i', ',', 'j', '=', 'i', '+', '1', ',', 'j', '+', '1', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-105,        if edges[i] == edges[j] {,"['if', 'edges', '[', 'i', ']', '==', 'edges', '[', 'j', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-106,            break,['break'],['KEYWORD']
-107,        },['}'],['OPERATOR']
-108,    },['}'],['OPERATOR']
-109,    for ; i < len(edges); i++ {,"['for', ';', 'i', '<', 'len', '(', 'edges', ');', 'i', '++', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-110,        if edges[i] != edges[j] {,"['if', 'edges', '[', 'i', ']', '!=', 'edges', '[', 'j', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-111,            j++,"['j', '++']","['IDENTIFIER', 'OPERATOR']"
-112,            edges[j] = edges[i],"['edges', '[', 'j', ']', '=', 'edges', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,        },['}'],['OPERATOR']
-114,    },['}'],['OPERATOR']
-115,    edges = edges[:j+1],"['edges', '=', 'edges', '[:', 'j', '+', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-116,    return edges,"['return', 'edges']","['KEYWORD', 'IDENTIFIER']"
-117,},['}'],['OPERATOR']
-118,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-119,    if len(os.Args) <= 1 {,"['if', 'len', '(', 'os', '.', 'Args', ')', '<=', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-120,"        err := errors.New(""Missing file name"")","['err', ':=', 'errors', '.', 'New', '(', '""Missing file name""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-121,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,    },['}'],['OPERATOR']
-123,    filename := os.Args[1],"['filename', ':=', 'os', '.', 'Args', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-124,    fmt.Println(filename),"['fmt', '.', 'Println', '(', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-125,    edges := loadEdges(filename),"['edges', ':=', 'loadEdges', '(', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-126,    var ms runtime.MemStats,"['var', 'ms', 'runtime', '.', 'MemStats']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-127,    runtime.ReadMemStats(&ms),"['runtime', '.', 'ReadMemStats', '(&', 'ms', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-128,"    fmt.Println(ms.Alloc, ms.TotalAlloc, ms.Sys, ms.Mallocs, ms.Frees)","['fmt', '.', 'Println', '(', 'ms', '.', 'Alloc', ',', 'ms', '.', 'TotalAlloc', ',', 'ms', '.', 'Sys', ',', 'ms', '.', 'Mallocs', ',', 'ms', '.', 'Frees', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-129,"    fmt.Println(len(edges), cap(edges))","['fmt', '.', 'Println', '(', 'len', '(', 'edges', '),', 'cap', '(', 'edges', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-130,"    for i, e := range edges {","['for', 'i', ',', 'e', ':=', 'range', 'edges', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-131,        fmt.Println(e),"['fmt', '.', 'Println', '(', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,        if i >= 10 {,"['if', 'i', '>=', '10', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-133,            break,['break'],['KEYWORD']
-134,        },['}'],['OPERATOR']
-135,    },['}'],['OPERATOR']
-136,},['}'],['OPERATOR']
-137,// bytconv from strconv,['// bytconv from strconv'],"['COMMENT', 'NN', 'IN', 'NN']"
-138,// Return the first number n such that n*base >= 1<<64.,['// Return the first number n such that n*base >= 1<<64.'],"['COMMENT', 'VB', 'DT', 'JJ', 'NN', 'NNS', 'JJ', 'IN', 'JJ', 'NNP', 'NNP', 'CD', 'NNP', 'VBD', 'CD', '.']"
-139,func cutoff64(base int) uint64 {,"['func', 'cutoff64', '(', 'base', 'int', ')', 'uint64', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-140,    if base < 2 {,"['if', 'base', '<', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-141,        return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
-142,    },['}'],['OPERATOR']
-143,    return (1<<64-1)/uint64(base) + 1,"['return', '(', '1', '<<', '64', '-', '1', ')', 'uint64', '(', 'base', ')', '+', '1']","['KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
-144,},['}'],['OPERATOR']
-145,// ParseUint is like ParseInt but for unsigned numbers.,['// ParseUint is like ParseInt but for unsigned numbers.'],"['COMMENT', 'NN', 'VBZ', 'IN', 'NNP', 'CC', 'IN', 'JJ', 'NNS', '.']"
-146,"func ParseUint(s []byte, base int, bitSize int) (n uint64, err error) {","['func', 'ParseUint', '(', 's', '[]', 'byte', ',', 'base', 'int', ',', 'bitSize', 'int', ')', '(', 'n', 'uint64', ',', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-147,"    var cutoff, maxVal uint64","['var', 'cutoff', ',', 'maxVal', 'uint64']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-148,    if bitSize == 0 {,"['if', 'bitSize', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-149,        bitSize = int(strconv.IntSize),"['bitSize', '=', 'int', '(', 'strconv', '.', 'IntSize', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-150,    },['}'],['OPERATOR']
-151,    s0 := s,"['s0', ':=', 's']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-152,    switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
-153,    case len(s) < 1:,"['case', 'len', '(', 's', ')', '<', '1', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-154,        err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-155,        goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-156,    case 2 <= base && base <= 36:,"['case', '2', '<=', 'base', '&&', 'base', '<=', '36', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-157,        // valid base; nothing to do,['// valid base; nothing to do'],"['COMMENT', 'JJ', 'NN', ':', 'NN', 'TO', 'VB']"
-158,    case base == 0:,"['case', 'base', '==', '0', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-159,"        // Look for octal, hex prefix.","['// Look for octal, hex prefix.']","['COMMENT', 'NN', 'IN', 'JJ', ',', 'JJ', 'NN', '.']"
-160,        switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
-161,        case s[0] == '0' && len(s) > 1 && (s[1] == 'x' || s[1] == 'X'):,"['case', 's', '[', '0', ']', '==', '0', '&&', 'len', '(', 's', ')', '>', '1', '&&', '(', 's', '[', '1', ']', '==', 'x', '||', 's', '[', '1', ']', '==', 'X', '):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-162,            base = 16,"['base', '=', '16']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-163,            s = s[2:],"['s', '=', 's', '[', '2', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-164,            if len(s) < 1 {,"['if', 'len', '(', 's', ')', '<', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-165,                err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-166,                goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-167,            },['}'],['OPERATOR']
-168,        case s[0] == '0':,"['case', 's', '[', '0', ']', '==', '0', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-169,            base = 8,"['base', '=', '8']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-170,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-171,            base = 10,"['base', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-172,        },['}'],['OPERATOR']
-173,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-174,"        err = errors.New(""invalid base "" + strconv.Itoa(base))","['err', '=', 'errors', '.', 'New', '(', '""invalid base ""', '+', 'strconv', '.', 'Itoa', '(', 'base', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-175,        goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-176,    },['}'],['OPERATOR']
-177,    n = 0,"['n', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-178,    cutoff = cutoff64(base),"['cutoff', '=', 'cutoff64', '(', 'base', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-179,    maxVal = 1<<uint(bitSize) - 1,"['maxVal', '=', '1', '<<', 'uint', '(', 'bitSize', ')', '-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
-180,    for i := 0; i < len(s); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-181,        var v byte,"['var', 'v', 'byte']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-182,        d := s[i],"['d', ':=', 's', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-183,        switch {,"['switch', '{']","['IDENTIFIER', 'OPERATOR']"
-184,        case '0' <= d && d <= '9':,"['case', '0', '<=', 'd', '&&', 'd', '<=', '9', ':']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-185,            v = d - '0',"['v', '=', 'd', '-', '0']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-186,        case 'a' <= d && d <= 'z':,"['case', 'a', '<=', 'd', '&&', 'd', '<=', 'z', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-187,            v = d - 'a' + 10,"['v', '=', 'd', '-', 'a', '+', '10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-188,        case 'A' <= d && d <= 'Z':,"['case', 'A', '<=', 'd', '&&', 'd', '<=', 'Z', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-189,            v = d - 'A' + 10,"['v', '=', 'd', '-', 'A', '+', '10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-190,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-191,            n = 0,"['n', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-192,            err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-193,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-194,        },['}'],['OPERATOR']
-195,        if int(v) >= base {,"['if', 'int', '(', 'v', ')', '>=', 'base', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-196,            n = 0,"['n', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-197,            err = strconv.ErrSyntax,"['err', '=', 'strconv', '.', 'ErrSyntax']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-198,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-199,        },['}'],['OPERATOR']
-200,        if n >= cutoff {,"['if', 'n', '>=', 'cutoff', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-201,            // n*base overflows,['// n*base overflows'],"['COMMENT', 'NN', 'NNS']"
-202,            n = 1<<64 - 1,"['n', '=', '1', '<<', '64', '-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-203,            err = strconv.ErrRange,"['err', '=', 'strconv', '.', 'ErrRange']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-204,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-205,        },['}'],['OPERATOR']
-206,        n *= uint64(base),"['n', '*=', 'uint64', '(', 'base', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-207,        n1 := n + uint64(v),"['n1', ':=', 'n', '+', 'uint64', '(', 'v', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-208,        if n1  maxVal {,"['if', 'n1', 'maxVal', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-209,            // n+v overflows,['// n+v overflows'],"['COMMENT', 'NN', 'NNS']"
-210,            n = 1<<64 - 1,"['n', '=', '1', '<<', '64', '-', '1']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-211,            err = strconv.ErrRange,"['err', '=', 'strconv', '.', 'ErrRange']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-212,            goto Error,"['go', 'to', 'Error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-213,        },['}'],['OPERATOR']
-214,        n = n1,"['n', '=', 'n1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-215,    },['}'],['OPERATOR']
-216,"    return n, nil","['return', 'n', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-217,Error:,"['Error', ':']","['IDENTIFIER', 'OPERATOR']"
-218,"    return n, &strconv.NumError{""ParseUint"", string(s0), err}","['return', 'n', ',', '&', 'strconv', '.', 'NumError', '{', '""ParseUint""', ',', 'string', '(', 's0', '),', 'err', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-219,},['}'],['OPERATOR']
+0,"I'm quite a basic Go programmer and I've been taking a look at this small Scheme interpreter and I've been trying to understand how it works.
+
+I found it here:
+https://pkelchte.wordpress.com/2013/12/31/scm-go/
+
+I read the webpage, but I'm still struggling to understand how it works because the source code is obviously written by someone who's a lot more familiar with Go than I am.
+
+Particularly there's these lines that I'm struggling to understand:
+
+","[""I'm"", 'quite', 'a', 'basic', 'Go', 'programmer', 'and', ""I've"", 'been', 'taking', 'a', 'look', 'at', 'this', 'small', 'Scheme', 'interpreter', 'and', ""I've"", 'been', 'trying', 'to', 'understand', 'how', 'it', 'works.', 'I', 'found', 'it', 'here:', 'https://pkelchte.wordpress.com/2013/12/31/scm-go/', 'I', 'read', 'the', 'webpage,', 'but', ""I'm"", 'still', 'struggling', 'to', 'understand', 'how', 'it', 'works', 'because', 'the', 'source', 'code', 'is', 'obviously', 'written', 'by', 'someone', ""who's"", 'a', 'lot', 'more', 'familiar', 'with', 'Go', 'than', 'I', 'am.', 'Particularly', ""there's"", 'these', 'lines', 'that', ""I'm"", 'struggling', 'to', 'understand:']","['NNP', 'RB', 'DT', 'JJ', 'NNP', 'NN', 'CC', 'NNP', 'VBN', 'VBG', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NNP', 'NN', 'CC', 'NNP', 'VBN', 'VBG', 'TO', 'VB', 'WRB', 'PRP', 'VBD', 'PRP', 'VBD', 'PRP', 'VBZ', 'JJ', 'PRP', 'VBP', 'DT', 'NN', 'CC', 'NNP', 'RB', 'VBG', 'TO', 'VB', 'WRB', 'PRP', 'VBZ', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'RB', 'VBN', 'IN', 'NN', 'NN', 'DT', 'NN', 'JJR', 'JJ', 'IN', 'NNP', 'IN', 'PRP', 'VBP', 'RB', 'JJ', 'DT', 'NNS', 'WDT', 'NNP', 'VBG', 'TO', 'VB']"
+1,e := expression.(type) // Line 73,"['//', 'Line', '73']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'COMMENT', 'NNP', 'CD']"
+2,"
+
+I'm not sure what the .(type) part means, I thought it was casting but it doesn't look like the casting I've seen before.
+
+","[""I'm"", 'not', 'sure', 'what', 'the', '.(type)', 'part', 'means,', 'I', 'thought', 'it', 'was', 'casting', 'but', 'it', ""doesn't"", 'look', 'like', 'the', 'casting', ""I've"", 'seen', 'before.']","['NNP', 'RB', 'JJ', 'WP', 'DT', 'JJ', 'NN', 'NN', 'PRP', 'VBD', 'PRP', 'VBD', 'VBG', 'CC', 'PRP', 'VBZ', 'NN', 'IN', 'DT', 'NN', 'NNP', 'VBN', 'NN']"
+3,switch p := procedure.(type) {,"['switch', 'p', ':=', 'procedure', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+4,case func(...scmer) scmer:,"['case', 'func', '(...', 'scmer', ')', 'scmer', ':']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+5,    value = p(args...),"['value', '=', 'p', '(', 'args', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+6,case proc:,"['case', 'proc', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+7,"    en := &env{make(vars), p.en}","['en', ':=', '&', 'env', '{', 'make', '(', 'var', 's', '),', 'p', '.', 'en', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+8,    switch params := p.params.(type) {,"['switch', 'params', ':=', 'p', '.', 'params', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+9,    case []scmer:,"['case', '[]', 'scmer', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+10,"        for i, param := range params {","['for', 'i', ',', 'param', ':=', 'range', 'params', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+11,            en.vars[param.(symbol)] = args[i],"['en', '.', 'var', 's', '[', 'param', '.(', 'symbol', ')]', '=', 'args', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+12,        },['}'],['OPERATOR']
+13,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+14,        en.vars[params.(symbol)] = args,"['en', '.', 'var', 's', '[', 'params', '.(', 'symbol', ')]', '=', 'args']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+15,    },['}'],['OPERATOR']
+16,"    value = eval(p.body, en)","['value', '=', 'eval', '(', 'p', '.', 'body', ',', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+17,"
+
+I don't really understand any of this code to be honest. Lines 73 - 86
+
+","['I', ""don't"", 'really', 'understand', 'any', 'of', 'this', 'code', 'to', 'be', 'honest.', 'Lines', '73', '-', '86']","['PRP', 'VBP', 'RB', 'JJ', 'DT', 'IN', 'DT', 'NN', 'TO', 'VB', 'JJ', 'NNP', 'CD', ':', 'CD']"
+18,*tokens = (*tokens)[1:] // Line 208,"['//', 'Line', '208']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'NNP', 'CD']"
+19,"
+
+I'm not sure what this line means due to it's weird syntax. I get that its pointers and that the parenthesises are because of the *. But I'm not sure what that lines doing.
+
+Finally there's these lines:
+
+","[""I'm"", 'not', 'sure', 'what', 'this', 'line', 'means', 'due', 'to', ""it's"", 'weird', 'syntax.', 'I', 'get', 'that', 'its', 'pointers', 'and', 'that', 'the', 'parenthesises', 'are', 'because', 'of', 'the', '*.', 'But', ""I'm"", 'not', 'sure', 'what', 'that', 'lines', 'doing.', 'Finally', ""there's"", 'these', 'lines:']","['NNP', 'RB', 'JJ', 'WP', 'DT', 'NN', 'VBZ', 'JJ', 'TO', 'VB', 'JJ', 'NN', 'PRP', 'VBP', 'IN', 'PRP$', 'NNS', 'CC', 'IN', 'DT', 'NNS', 'VBP', 'IN', 'IN', 'DT', 'NN', 'CC', 'NNP', 'RB', 'JJ', 'WP', 'IN', 'NNS', 'VBP', 'RB', 'JJ', 'DT', 'NNS']"
+20,token := (*tokens)[0],"['token', ':=', '(*', 'tokens', ')[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+21,*tokens = (*tokens)[1:],"['*', 'tokens', '=', '(*', 'tokens', ')[', '1', ':]']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+22,switch token {,"['switch', 'token', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+23,"case ""("": //a list begins","['//', 'a', 'list', 'begins']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'DT', 'NN', 'VBZ']"
+24,"    L := make([]scmer, 0)","['L', ':=', 'make', '([]', 'scmer', ',', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+25,"    for (*tokens)[0] != "")"" {","['for', '(*', 'tokens', ')[', '0', ']', '!=', '"")""', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+26,"        if i := readFrom(tokens); i != symbol("""") {","['if', 'i', ':=', 'readFrom', '(', 'tokens', ');', 'i', '!=', 'symbol', '(', '""""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+27,"            L = append(L, i)","['L', '=', 'append', '(', 'L', ',', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,        },['}'],['OPERATOR']
+29,    },['}'],['OPERATOR']
+30,    *tokens = (*tokens)[1:],"['*', 'tokens', '=', '(*', 'tokens', ')[', '1', ':]']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+31,    return L,"['return', 'L']","['KEYWORD', 'IDENTIFIER']"
+32,"
+
+I don't know what these lines do either. Lines 198 - 209
+
+Here's the complete code if you want it, I realise it's 250 lines long but I'd really appreciate as many explanations about what its doing as possible.
+
+","['I', ""don't"", 'know', 'what', 'these', 'lines', 'do', 'either.', 'Lines', '198', '-', '209', ""Here's"", 'the', 'complete', 'code', 'if', 'you', 'want', 'it,', 'I', 'realise', ""it's"", '250', 'lines', 'long', 'but', ""I'd"", 'really', 'appreciate', 'as', 'many', 'explanations', 'about', 'what', 'its', 'doing', 'as', 'possible.']","['PRP', 'VBP', 'VB', 'WP', 'DT', 'NNS', 'VBP', 'VB', 'NNP', 'CD', ':', 'CD', 'NNP', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'VBP', 'JJ', 'PRP', 'VBP', 'RB', 'CD', 'NNS', 'RB', 'CC', 'NNP', 'RB', 'VB', 'IN', 'JJ', 'NNS', 'IN', 'WP', 'PRP$', 'VBG', 'IN', 'NN']"
+33,/*,['*'],['OPERATOR']
+34," * A minimal Scheme interpreter, as seen in lis.py and SICP","['*', 'A', 'minimal', 'Scheme', 'interpreter', ',', 'as', 'seen', 'in', 'lis', '.', 'py', 'and', 'SICP']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+35, * http://norvig.com/lispy.html,"['//', 'norvig.com/lispy.html']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN']"
+36, * http://mitpress.mit.edu/sicp/full-text/sicp/book/node77.html,"['//', 'mitpress.mit.edu/sicp/full-text/sicp/book/node77.html']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN']"
+37, *,['*'],['OPERATOR']
+38, * Pieter Kelchtermans 2013,"['*', 'Pieter', 'Kelchtermans', '2013']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+39, * LICENSE: WTFPL 2.0,"['*', 'LICENSE', ':', 'WTFPL', '2', '.', '0']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+40, */,['*'],['OPERATOR']
+41,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+42,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+43,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
+44,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+45,"    ""log""","['""log""']",['STRING_LITERAL']
+46,"    ""os""","['""os""']",['STRING_LITERAL']
+47,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
+48,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+49,"    ""strings""","['""strings""']",['STRING_LITERAL']
+50,),[')'],['OPERATOR']
+51,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+52,    Repl(),"['Repl', '()']","['IDENTIFIER', 'OPERATOR']"
+53,},['}'],['OPERATOR']
+54,/*,['*'],['OPERATOR']
+55, Eval / Apply,"['Eval', 'Apply']","['IDENTIFIER', 'IDENTIFIER']"
+56,*/,['*'],['OPERATOR']
+57,"func eval(expression scmer, en *env) (value scmer) {","['func', 'eval', '(', 'expression', 'scmer', ',', 'en', '*', 'env', ')', '(', 'value', 'scmer', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+58,    switch e := expression.(type) {,"['switch', 'e', ':=', 'expression', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+59,    case number:,"['case', 'number', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+60,        value = e,"['value', '=', 'e']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+61,    case symbol:,"['case', 'symbol', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+62,        value = en.Find(e).vars[e],"['value', '=', 'en', '.', 'Find', '(', 'e', ').', 'var', 's', '[', 'e', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,    case []scmer:,"['case', '[]', 'scmer', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,"        switch car, _ := e[0].(symbol); car {","['switch', 'car', ',', '_', ':=', 'e', '[', '0', '].(', 'symbol', ');', 'car', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,"        case ""quote"":","['case', '""quote""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+66,            value = e[1],"['value', '=', 'e', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+67,"        case ""if"":","['case', '""if""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+68,"            if eval(e[1], en).(bool) {","['if', 'eval', '(', 'e', '[', '1', '],', 'en', ').(', 'bool', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+69,"                value = eval(e[2], en)","['value', '=', 'eval', '(', 'e', '[', '2', '],', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+71,"                value = eval(e[3], en)","['value', '=', 'eval', '(', 'e', '[', '3', '],', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+72,            },['}'],['OPERATOR']
+73,"        case ""set!"":","['case', '""set!""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+74,            v := e[1].(symbol),"['v', ':=', 'e', '[', '1', '].(', 'symbol', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,"            en.Find(v).vars[v] = eval(e[2], en)","['en', '.', 'Find', '(', 'v', ').', 'var', 's', '[', 'v', ']', '=', 'eval', '(', 'e', '[', '2', '],', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,"            value = ""ok""","['value', '=', '""ok""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+77,"        case ""define"":","['case', '""define""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+78,"            en.vars[e[1].(symbol)] = eval(e[2], en)","['en', '.', 'var', 's', '[', 'e', '[', '1', '].(', 'symbol', ')]', '=', 'eval', '(', 'e', '[', '2', '],', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,"            value = ""ok""","['value', '=', '""ok""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+80,"        case ""lambda"":","['case', '""lambda""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+81,"            value = proc{e[1], e[2], en}","['value', '=', 'proc', '{', 'e', '[', '1', '],', 'e', '[', '2', '],', 'en', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,"        case ""begin"":","['case', '""begin""', ':']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR']"
+83,"            for _, i := range e[1:] {","['for', '_', ',', 'i', ':=', 'range', 'e', '[', '1', ':]', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+84,"                value = eval(i, en)","['value', '=', 'eval', '(', 'i', ',', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,            },['}'],['OPERATOR']
+86,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+87,            operands := e[1:],"['operands', ':=', 'e', '[', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+88,"            values := make([]scmer, len(operands))","['values', ':=', 'make', '([]', 'scmer', ',', 'len', '(', 'operands', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+89,"            for i, x := range operands {","['for', 'i', ',', 'x', ':=', 'range', 'operands', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+90,"                values[i] = eval(x, en)","['values', '[', 'i', ']', '=', 'eval', '(', 'x', ',', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,            },['}'],['OPERATOR']
+92,"            value = apply(eval(e[0], en), values)","['value', '=', 'apply', '(', 'eval', '(', 'e', '[', '0', '],', 'en', '),', 'values', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+93,        },['}'],['OPERATOR']
+94,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+95,"        log.Println(""Unknown expression type - EVAL"", e)","['log', '.', 'Println', '(', '""Unknown expression type - EVAL""', ',', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,    },['}'],['OPERATOR']
+97,    return,['return'],['KEYWORD']
+98,},['}'],['OPERATOR']
+99,"func apply(procedure scmer, args []scmer) (value scmer) {","['func', 'apply', '(', 'procedure', 'scmer', ',', 'args', '[]', 'scmer', ')', '(', 'value', 'scmer', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+100,    switch p := procedure.(type) {,"['switch', 'p', ':=', 'procedure', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+101,    case func(...scmer) scmer:,"['case', 'func', '(...', 'scmer', ')', 'scmer', ':']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,        value = p(args...),"['value', '=', 'p', '(', 'args', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,    case proc:,"['case', 'proc', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+104,"        en := &env{make(vars), p.en}","['en', ':=', '&', 'env', '{', 'make', '(', 'var', 's', '),', 'p', '.', 'en', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,        switch params := p.params.(type) {,"['switch', 'params', ':=', 'p', '.', 'params', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+106,        case []scmer:,"['case', '[]', 'scmer', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,"            for i, param := range params {","['for', 'i', ',', 'param', ':=', 'range', 'params', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+108,                en.vars[param.(symbol)] = args[i],"['en', '.', 'var', 's', '[', 'param', '.(', 'symbol', ')]', '=', 'args', '[', 'i', ']']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,            },['}'],['OPERATOR']
+110,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+111,            en.vars[params.(symbol)] = args,"['en', '.', 'var', 's', '[', 'params', '.(', 'symbol', ')]', '=', 'args']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+112,        },['}'],['OPERATOR']
+113,"        value = eval(p.body, en)","['value', '=', 'eval', '(', 'p', '.', 'body', ',', 'en', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+114,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+115,"        log.Println(""Unknown procedure type - APPLY"", p)","['log', '.', 'Println', '(', '""Unknown procedure type - APPLY""', ',', 'p', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,    },['}'],['OPERATOR']
+117,    return,['return'],['KEYWORD']
+118,},['}'],['OPERATOR']
+119,type proc struct {,"['type', 'proc', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+120,"    params, body scmer","['params', ',', 'body', 'scmer']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+121,    en           *env,"['en', '*', 'env']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+122,},['}'],['OPERATOR']
+123,/*,['*'],['OPERATOR']
+124, Environments,['Environments'],['IDENTIFIER']
+125,*/,['*'],['OPERATOR']
+126,type vars map[symbol]scmer,"['type', 'var', 's', 'map', '[', 'symbol', ']', 'scmer']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+127,type env struct {,"['type', 'env', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+128,    vars,"['var', 's']","['KEYWORD', 'IDENTIFIER']"
+129,    outer *env,"['outer', '*', 'env']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+130,},['}'],['OPERATOR']
+131,func (e *env) Find(s symbol) *env {,"['func', '(', 'e', '*', 'env', ')', 'Find', '(', 's', 'symbol', ')', '*', 'env', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,"    if _, ok := e.vars[s]; ok {","['if', '_', ',', 'ok', ':=', 'e', '.', 'var', 's', '[', 's', '];', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,        return e,"['return', 'e']","['KEYWORD', 'IDENTIFIER']"
+134,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+135,        return e.outer.Find(s),"['return', 'e', '.', 'outer', '.', 'Find', '(', 's', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,    },['}'],['OPERATOR']
+137,},['}'],['OPERATOR']
+138,/*,['*'],['OPERATOR']
+139, Primitives,['Primitives'],['IDENTIFIER']
+140,*/,['*'],['OPERATOR']
+141,var globalenv env,"['var', 'globalenv', 'env']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+142,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+143,    globalenv = env{,"['globalenv', '=', 'env', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+144,        vars{ //aka an incomplete set of compiled-in functions,"['//', 'aka', 'an', 'incomplete', 'set', 'of', 'compiled-in', 'functions']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'IN', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'NNS']"
+145,"            ""+"": func(a ...scmer) scmer {","['""+""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+146,                v := a[0].(number),"['v', ':=', 'a', '[', '0', '].(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+147,"                for _, i := range a[1:] {","['for', '_', ',', 'i', ':=', 'range', 'a', '[', '1', ':]', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+148,                    v += i.(number),"['v', '+=', 'i', '.(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,                },['}'],['OPERATOR']
+150,                return v,"['return', 'v']","['KEYWORD', 'IDENTIFIER']"
+151,"            },","['},']",['OPERATOR']
+152,"            ""-"": func(a ...scmer) scmer {","['""-""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,                v := a[0].(number),"['v', ':=', 'a', '[', '0', '].(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+154,"                for _, i := range a[1:] {","['for', '_', ',', 'i', ':=', 'range', 'a', '[', '1', ':]', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+155,                    v -= i.(number),"['v', '-=', 'i', '.(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+156,                },['}'],['OPERATOR']
+157,                return v,"['return', 'v']","['KEYWORD', 'IDENTIFIER']"
+158,"            },","['},']",['OPERATOR']
+159,"            ""*"": func(a ...scmer) scmer {","['""*""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+160,                v := a[0].(number),"['v', ':=', 'a', '[', '0', '].(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+161,"                for _, i := range a[1:] {","['for', '_', ',', 'i', ':=', 'range', 'a', '[', '1', ':]', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+162,                    v *= i.(number),"['v', '*=', 'i', '.(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+163,                },['}'],['OPERATOR']
+164,                return v,"['return', 'v']","['KEYWORD', 'IDENTIFIER']"
+165,"            },","['},']",['OPERATOR']
+166,"            ""/"": func(a ...scmer) scmer {","['""/""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+167,                v := a[0].(number),"['v', ':=', 'a', '[', '0', '].(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+168,"                for _, i := range a[1:] {","['for', '_', ',', 'i', ':=', 'range', 'a', '[', '1', ':]', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
+169,                    v /= i.(number),"['v', '=', 'i', '.(', 'number', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,                },['}'],['OPERATOR']
+171,                return v,"['return', 'v']","['KEYWORD', 'IDENTIFIER']"
+172,"            },","['},']",['OPERATOR']
+173,"            ""<="": func(a ...scmer) scmer {","['""<=""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+174,                return a[0].(number) <= a[1].(number),"['return', 'a', '[', '0', '].(', 'number', ')', '<=', 'a', '[', '1', '].(', 'number', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+175,"            },","['},']",['OPERATOR']
+176,"            ""equal?"": func(a ...scmer) scmer {","['""equal?""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+177,"                return reflect.DeepEqual(a[0], a[1])","['return', 'reflect', '.', 'DeepEqual', '(', 'a', '[', '0', '],', 'a', '[', '1', '])']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+178,"            },","['},']",['OPERATOR']
+179,"            ""cons"": func(a ...scmer) scmer {","['""cons""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+180,                switch car := a[0]; cdr := a[1].(type) {,"['switch', 'car', ':=', 'a', '[', '0', '];', 'cdr', ':=', 'a', '[', '1', '].(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+181,                case []scmer:,"['case', '[]', 'scmer', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+182,"                    return append([]scmer{car}, cdr...)","['return', 'append', '([]', 'scmer', '{', 'car', '},', 'cdr', '...)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,                default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+184,"                    return []scmer{car, cdr}","['return', '[]', 'scmer', '{', 'car', ',', 'cdr', '}']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+185,                },['}'],['OPERATOR']
+186,"            },","['},']",['OPERATOR']
+187,"            ""car"": func(a ...scmer) scmer {","['""car""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+188,                return a[0].([]scmer)[0],"['return', 'a', '[', '0', '].([]', 'scmer', ')[', '0', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+189,"            },","['},']",['OPERATOR']
+190,"            ""cdr"": func(a ...scmer) scmer {","['""cdr""', ':', 'func', '(', 'a', '...', 'scmer', ')', 'scmer', '{']","['STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+191,                return a[0].([]scmer)[1:],"['return', 'a', '[', '0', '].([]', 'scmer', ')[', '1', ':]']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+192,"            },","['},']",['OPERATOR']
+193,"            ""list"": eval(read(","['""list""', ':', 'eval', '(', 'read', '(']","['STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+194,"                ""(lambda z z)""),","['""(lambda z z)""', '),']","['STRING_LITERAL', 'OPERATOR']"
+195,"                &globalenv),","['&', 'globalenv', '),']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+196,"        },","['},']",['OPERATOR']
+197,        nil},"['nil', '}']","['IDENTIFIER', 'OPERATOR']"
+198,},['}'],['OPERATOR']
+199,/*,['*'],['OPERATOR']
+200, Parsing,['Parsing'],['IDENTIFIER']
+201,*/,['*'],['OPERATOR']
+202,"//symbols, numbers, expressions, procedures, lists, ... all implement this interface, which enables passing them along in the interpreter","['//', 'symbols,', 'numbers,', 'expressions,', 'procedures,', 'lists,', '...', 'all', 'implement', 'this', 'interface,', 'which', 'enables', 'passing', 'them', 'along', 'in', 'the', 'interpreter']","['COMMENT', 'NN', 'CC', 'JJ', 'NN', 'NN', ':', 'DT', 'NN', 'DT', 'NN', 'WDT', 'VBZ', 'VBG', 'PRP', 'IN', 'IN', 'DT', 'NN']"
+203,type scmer interface{},"['type', 'scmer', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+204,type symbol string  //symbols are represented by strings,"['//', 'symbols', 'are', 'represented', 'by', 'strings']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NNS', 'VBP', 'VBN', 'IN', 'NNS']"
+205,type number float64 //numbers by float64,"['//', 'numbers', 'by', 'float64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NNS', 'IN', 'NN']"
+206,func read(s string) (expression scmer) {,"['func', 'read', '(', 's', 'string', ')', '(', 'expression', 'scmer', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+207,    tokens := tokenize(s),"['tokens', ':=', 'tokenize', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+208,    return readFrom(&tokens),"['return', 'readFrom', '(&', 'tokens', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+209,},['}'],['OPERATOR']
+210,//Syntactic Analysis,"['//', 'Syntactic', 'Analysis']","['COMMENT', 'JJ', 'NN']"
+211,func readFrom(tokens *[]string) (expression scmer) {,"['func', 'readFrom', '(', 'tokens', '*[]', 'string', ')', '(', 'expression', 'scmer', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+212,    //pop first element from tokens,"['//', 'pop', 'first', 'element', 'from', 'tokens']","['COMMENT', 'NN', 'JJ', 'NN', 'IN', 'NNS']"
+213,    token := (*tokens)[0],"['token', ':=', '(*', 'tokens', ')[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+214,    *tokens = (*tokens)[1:],"['*', 'tokens', '=', '(*', 'tokens', ')[', '1', ':]']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+215,    switch token {,"['switch', 'token', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+216,"    case ""("": //a list begins","['//', 'a', 'list', 'begins']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'DT', 'NN', 'VBZ']"
+217,"        L := make([]scmer, 0)","['L', ':=', 'make', '([]', 'scmer', ',', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+218,"        for (*tokens)[0] != "")"" {","['for', '(*', 'tokens', ')[', '0', ']', '!=', '"")""', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+219,"            if i := readFrom(tokens); i != symbol("""") {","['if', 'i', ':=', 'readFrom', '(', 'tokens', ');', 'i', '!=', 'symbol', '(', '""""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+220,"                L = append(L, i)","['L', '=', 'append', '(', 'L', ',', 'i', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+221,            },['}'],['OPERATOR']
+222,        },['}'],['OPERATOR']
+223,        *tokens = (*tokens)[1:],"['*', 'tokens', '=', '(*', 'tokens', ')[', '1', ':]']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+224,        return L,"['return', 'L']","['KEYWORD', 'IDENTIFIER']"
+225,    default: //an atom occurs,"['//', 'an', 'atom', 'occurs']","['KEYWORD', 'OPERATOR', 'COMMENT', 'DT', 'NN', 'NN']"
+226,"        if f, err := strconv.ParseFloat(token, 64); err == nil {","['if', 'f', ',', 'err', ':=', 'strconv', '.', 'ParseFloat', '(', 'token', ',', '64', ');', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+227,            return number(f),"['return', 'number', '(', 'f', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+228,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+229,            return symbol(token),"['return', 'symbol', '(', 'token', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+230,        },['}'],['OPERATOR']
+231,    },['}'],['OPERATOR']
+232,},['}'],['OPERATOR']
+233,//Lexical Analysis,"['//', 'Lexical', 'Analysis']","['COMMENT', 'JJ', 'NN']"
+234,func tokenize(s string) []string {,"['func', 'tokenize', '(', 's', 'string', ')', '[]', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+235,    return strings.Split(,"['return', 'strings', '.', 'Split', '(']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+236,"        strings.Replace(strings.Replace(s, ""("", ""( "",","['strings', '.', 'Replace', '(', 'strings', '.', 'Replace', '(', 's', ',', '""("", ""( ""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+237,"            -1), "")"", "" )"",","['-', '1', '),', '"")"", "" )""', ',']","['OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+238,"            -1), "" "")","['-', '1', '),', '"" ""', ')']","['OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+239,},['}'],['OPERATOR']
+240,/*,['*'],['OPERATOR']
+241, Interactivity,['Interactivity'],['IDENTIFIER']
+242,*/,['*'],['OPERATOR']
+243,func String(v scmer) string {,"['func', 'String', '(', 'v', 'scmer', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+244,    switch v := v.(type) {,"['switch', 'v', ':=', 'v', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+245,    case []scmer:,"['case', '[]', 'scmer', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+246,"        l := make([]string, len(v))","['l', ':=', 'make', '([]', 'string', ',', 'len', '(', 'v', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+247,"        for i, x := range v {","['for', 'i', ',', 'x', ':=', 'range', 'v', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+248,            l[i] = String(x),"['l', '[', 'i', ']', '=', 'String', '(', 'x', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+249,        },['}'],['OPERATOR']
+250,"        return ""("" + strings.Join(l, "" "") + "")""","['return', '""("" + strings.Join(l, "" "") + "")""']","['KEYWORD', 'STRING_LITERAL']"
+251,    default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
+252,        return fmt.Sprint(v),"['return', 'fmt', '.', 'Sprint', '(', 'v', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+253,    },['}'],['OPERATOR']
+254,},['}'],['OPERATOR']
+255,func Repl() {,"['func', 'Repl', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+256,    scanner := bufio.NewScanner(os.Stdin),"['scanner', ':=', 'bufio', '.', 'NewScanner', '(', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+257,"    for fmt.Print(""> ""); scanner.Scan(); fmt.Print(""> "") {","['for', 'fmt', '.', 'Print', '(', '""> ""); scanner.Scan(); fmt.Print(""> ""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+258,"        fmt.Println(""==>"", String(eval(read(scanner.Text()), &globalenv)))","['fmt', '.', 'Println', '(', '""==>""', ',', 'String', '(', 'eval', '(', 'read', '(', 'scanner', '.', 'Text', '()),', '&', 'globalenv', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+259,    },['}'],['OPERATOR']
+260,},['}'],['OPERATOR']

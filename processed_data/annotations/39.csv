@@ -1,105 +1,344 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-4,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-5,"    ""log""","['""log""']",['STRING_LITERAL']
-6,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-7,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-8,"    ""os""","['""os""']",['STRING_LITERAL']
-9,),[')'],['OPERATOR']
-10,type SlackResponse struct {,"['type', 'SlackResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-11,    token        string,"['token', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-12,    team_id      string,"['team_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-13,    channel_id   string,"['chan', 'nel_id', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-14,    channel_name string,"['chan', 'nel_name', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-15,    timestamp    string,"['timestamp', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-16,    user_id      string,"['user_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-17,    user_name    string,"['user_name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-18,    text         string,"['text', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-19,},['}'],['OPERATOR']
-20,type service_config struct {,"['type', 'service_config', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-21,    Services []struct {,"['Services', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-22,        Name    string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-23,        Command string,"['Command', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-24,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-25,    },['}'],['OPERATOR']
-26,},['}'],['OPERATOR']
-27,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-29,"    content, err_read := ioutil.ReadFile(""config.ini"")","['content', ',', 'err_read', ':=', 'ioutil', '.', 'ReadFile', '(', '""config.ini""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-30,    if err_read != nil {,"['if', 'err_read', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,"        log.Println(""Could not read config"")","['log', '.', 'Println', '(', '""Could not read config""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-32,        return,['return'],['KEYWORD']
-33,    },['}'],['OPERATOR']
-34,    log.Println(string(content)),"['log', '.', 'Println', '(', 'string', '(', 'content', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,"    err_json := json.Unmarshal(content, &ServiceConf)","['err_json', ':=', 'json', '.', 'Unmarshal', '(', 'content', ',', '&', 'ServiceConf', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,    if err_json != nil {,"['if', 'err_json', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-37,        log.Println(err_json),"['log', '.', 'Println', '(', 'err_json', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,    },['}'],['OPERATOR']
-39,"    http.HandleFunc(""/"", handler)","['http', '.', 'HandleFunc', '(', '""/""', ',', 'handler', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,"    http.ListenAndServe("":""+os.Getenv(""PORT""), nil)","['http', '.', 'ListenAndServe', '(', '"":""+os.Getenv(""PORT""', '),', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,},['}'],['OPERATOR']
-42,"func handler(w http.ResponseWriter, r *http.Request) {","['func', 'handler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-43,    slack_response := SlackResponse{,"['slack_response', ':=', 'SlackResponse', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,"        r.FormValue(""token""),","['r', '.', 'FormValue', '(', '""token""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-45,"        r.FormValue(""team_id""),","['r', '.', 'FormValue', '(', '""team_id""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-46,"        r.FormValue(""channel_id""),","['r', '.', 'FormValue', '(', '""channel_id""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-47,"        r.FormValue(""channel_name""),","['r', '.', 'FormValue', '(', '""channel_name""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-48,"        r.FormValue(""timestamp""),","['r', '.', 'FormValue', '(', '""timestamp""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-49,"        r.FormValue(""user_id""),","['r', '.', 'FormValue', '(', '""user_id""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-50,"        r.FormValue(""user_name""),","['r', '.', 'FormValue', '(', '""user_name""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-51,"        r.FormValue(""text""),","['r', '.', 'FormValue', '(', '""text""', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-52,    },['}'],['OPERATOR']
-53,"    // log.Println(ServiceConf.Services[0].Request[""key""])","['// log.Println(ServiceConf.Services[0].Request[""key""])']","['COMMENT', 'NN', '(', 'NNP', 'RB', 'CD', 'JJ', 'NNP', 'NN', '``', 'JJ', ""''"", 'NN', ')']"
-54,    // loop through services to find command phrases,['// loop through services to find command phrases'],"['COMMENT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'NN', 'NNS']"
-55,"    for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,        log.Println(s),"['log', '.', 'Println', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,    },['}'],['OPERATOR']
-58,"    if slack_response.user_name == ""slackbot"" {","['if', 'slack_response', '.', 'user_name', '==', '""slackbot""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-59,        return,['return'],['KEYWORD']
-60,    },['}'],['OPERATOR']
-61,"    // fmt.Fprintf(w, ""{ \""text\"": \""Master %s!  You said: '%s'\"" }"", slack_response.user_name, slack_response.text)","['// fmt.Fprintf(w, ""{ \\""text\\"": \\""Master %s!  You said: \'%s\'\\"" }"", slack_response.user_name, slack_response.text)']","['COMMENT', 'NN', '(', 'NN', ',', '``', '(', 'NN', ""''"", 'NN', ""''"", ':', 'NN', ""''"", 'NNP', 'NN', 'NN', '.', 'PRP', 'VBD', ':', ""''"", 'NN', 'NN', ""''"", ')', ""''"", ',', 'NN', ',', 'NN', ')']"
-62,"    content, err := getContent(""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q="" + url.QueryEscape(slack_response.text))","['content', ',', 'err', ':=', 'getContent', '(', '""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q=""', '+', 'url', '.', 'QueryEscape', '(', 'slack_response', '.', 'text', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-64,"        fmt.Fprintf(w, ""{ \""text\"": \""Huh?!\"" }"")","['fmt', '.', 'Fprintf', '(', 'w', ',', '""{ \\""text\\"": \\""Huh?!\\"" }""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-65,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-66,        type trans struct {,"['type', 'trans', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-67,            Data struct {,"['Data', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-68,                Translations []struct {,"['Translations', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-69,"                    TranslatedText string `json:""translatedText""`","['TranslatedText', 'string', 'json', ':', '""translatedText""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-70,"                } `json:""translations""`","['}', 'json', ':', '""translations""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-71,"            } `json:""data""`","['}', 'json', ':', '""data""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-72,        },['}'],['OPERATOR']
-73,        f := trans{},"['f', ':=', 'trans', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,"        err := json.Unmarshal(content, &f)","['err', ':=', 'json', '.', 'Unmarshal', '(', 'content', ',', '&', 'f', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-75,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,            log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-77,        },['}'],['OPERATOR']
-78,"        fmt.Fprintf(w, ""{ \""text\"": \""Translated to German you said: '%s'\"" }"", f.Data.Translations[0].TranslatedText)","['fmt', '.', 'Fprintf', '(', 'w', ',', '""{ \\""text\\"": \\""Translated to German you said: \'%s\'\\"" }""', ',', 'f', '.', 'Data', '.', 'Translations', '[', '0', '].', 'TranslatedText', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,    },['}'],['OPERATOR']
-80,},['}'],['OPERATOR']
-81,// array of bytes if retrieved successfully.,['// array of bytes if retrieved successfully.'],"['COMMENT', 'NN', 'IN', 'NNS', 'IN', 'VBN', 'RB', '.']"
-82,"func getContent(url string) ([]byte, error) {","['func', 'getContent', '(', 'url', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-83,    // Build the request,['// Build the request'],"['COMMENT', 'VB', 'DT', 'NN']"
-84,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', '""GET""', ',', 'url', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-87,    },['}'],['OPERATOR']
-88,    // Send the request via a client,['// Send the request via a client'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
-89,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-92,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-93,    },['}'],['OPERATOR']
-94,    // Defer the closing of the body,['// Defer the closing of the body'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
-95,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,    // Read the content into a byte array,['// Read the content into a byte array'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN']"
-97,"    body, err := ioutil.ReadAll(resp.Body)","['body', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'resp', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-98,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-100,    },['}'],['OPERATOR']
-101,    // At this point we're done - simply return the bytes,"[""// At this point we're done - simply return the bytes""]","['COMMENT', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'VBN', ':', 'RB', 'VB', 'DT', 'NNS']"
-102,"    return body, nil","['return', 'body', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-103,},['}'],['OPERATOR']
+0,"You are squandering memory. Here's how to rectify it.
+
+You give the sample input a.txt, 48 bytes.
+
+","['You', 'are', 'squandering', 'memory.', ""Here's"", 'how', 'to', 'rectify', 'it.', 'You', 'give', 'the', 'sample', 'input', 'a.txt,', '48', 'bytes.']","['PRP', 'VBP', 'VBG', 'NNS', 'NNP', 'WRB', 'TO', 'VB', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'RB', 'CD', 'NN']"
+1,"# 3072441,117185083","['3072441', ',', '117185083']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+2,"1,2","['1', ',', '2']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+3,"1,3","['1', ',', '3']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+4,"1,4","['1', ',', '4']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+5,"1,5","['1', ',', '5']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+6,"
+
+On http://snap.stanford.edu/data/com-Orkut.html, I found http://snap.stanford.edu/data/bigdata/communities/","['On', 'http://snap.stanford.edu/data/com-Orkut.html,', 'I', 'found', 'http://snap.stanford.edu/data/bigdata/communities/']","['IN', 'NN', 'PRP', 'VBD', 'NN']"
+7,com-orkut.ungraph.txt,"['com', '-', 'orkut', '.', 'ungraph', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+8,".gz, 1.8 GB uncompressed, 117,185,083 edges.
+
+# Undirected graph: ../../data/output/orkut.txt
+# Orkut
+# Nodes: 3072441 Edges: 117185083
+# FromNodeId    ToNodeId
+1   2
+1   3
+1   4
+1   5
+
+
+On http://socialnetworks.mpi-sws.org/data-imc2007.html, I found http://socialnetworks.mpi-sws.mpg.de/data/orkut-links.txt.gz, 3.4 GB uncompressed, 223,534,301 edges.
+
+1   2
+1   3
+1   4
+1   5
+
+
+Since they are similar, one program can handle all formats.
+
+Your Edge type is
+
+type Edge struct {
+    u, v int
+}
+
+
+which is 16 bytes on a 64-bit architecture.
+
+Use
+
+type Edge struct {
+    U, V uint32
+}
+
+
+which is 8 bytes, it is adequate.
+
+If the capacity of a slice is not large enough to fit the additional values, append allocates a new, sufficiently large underlying array that fits both the existing slice elements and the additional values. Otherwise, append re-uses the underlying array. For a large slice, the new array is 1.25 times the size of the old array. While the old array is being copied to the new array, 1 + 1.25 = 2.25 times the memory for the old array is required. Therefore, allocate the underlying array so that all values fit.
+
+make(T, n) initializes map of type T with initial space for n elements. Provide a value for n to limit the cost of reorganization and fragmentation as elements are added. Hashing functions are often imperfect which leads to wasted space. Eliminate the map as it's unneccesary. To eliminate duplicates, sort the slice in place and move the unique elements down.
+
+A string is immutable, therefore a new string is allocated for scanner.Text() to convert from a byte slice buffer. To parse numbers we use strconv. To minimize temporary allocations, use scanner.Bytes() and adapt strconv.ParseUint to accept a byte array argument (bytconv).
+
+For example,
+
+orkut.go
+
+package main
+
+import (
+    ""bufio""
+    ""bytes""
+    ""errors""
+    ""fmt""
+    ""os""
+    ""runtime""
+    ""sort""
+    ""strconv""
+)
+
+type Edge struct {
+    U, V uint32
+}
+
+func (e Edge) String() string {
+    return fmt.Sprintf(""%d,%d"", e.U, e.V)
+}
+
+type ByKey []Edge
+
+func (a ByKey) Len() int      { return len(a) }
+func (a ByKey) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a ByKey) Less(i, j int) bool {
+    if a[i].U < a[j].U {
+        return true
+    }
+    if a[i].U == a[j].U && a[i].V < a[j].V {
+        return true
+    }
+    return false
+}
+
+func countEdges(scanner *bufio.Scanner) int {
+    var nNodes, nEdges int
+    for scanner.Scan() {
+        line := scanner.Bytes()
+        if !(len(line) > 0 && line[0] == '#') {
+            nEdges++
+            continue
+        }
+        n, err := fmt.Sscanf(string(line), ""# Nodes: %d Edges: %d"", &nNodes, &nEdges)
+        if err != nil || n != 2 {
+            n, err = fmt.Sscanf(string(line), ""# %d,%d"", &nNodes, &nEdges)
+            if err != nil || n != 2 {
+                continue
+            }
+        }
+        fmt.Println(string(line))
+        break
+    }
+    if err := scanner.Err(); err != nil {
+        panic(err.Error())
+    }
+    fmt.Println(nEdges)
+    return nEdges
+}
+
+func loadEdges(filename string) []Edge {
+    file, err := os.Open(filename)
+    if err != nil {
+        panic(err.Error())
+    }
+    defer file.Close()
+
+    scanner := bufio.NewScanner(file)
+    nEdges := countEdges(scanner)
+    edges := make([]Edge, 0, nEdges)
+    offset, err := file.Seek(0, os.SEEK_SET)
+    if err != nil || offset != 0 {
+        panic(err.Error())
+    }
+
+    var sep byte = '\t'
+    scanner = bufio.NewScanner(file)
+    for scanner.Scan() {
+        line := scanner.Bytes()
+        if len(line) > 0 && line[0] == '#' {
+            continue
+        }
+        i := bytes.IndexByte(line, sep)
+        if i = len(line) {
+            sep = ','
+            i = bytes.IndexByte(line, sep)
+            if i = len(line) {
+                err := errors.New(""Invalid line format: "" + string(line))
+                panic(err.Error())
+            }
+        }
+        u, err := ParseUint(line[:i], 10, 32)
+        if err != nil {
+            panic(err.Error())
+        }
+        v, err := ParseUint(line[i+1:], 10, 32)
+        if err != nil {
+            panic(err.Error())
+        }
+        if u > v {
+            u, v = v, u
+        }
+        edges = append(edges, Edge{uint32(u), uint32(v)})
+    }
+    if err := scanner.Err(); err != nil {
+        panic(err.Error())
+    }
+
+    if len(edges) <= 1 {
+        return edges
+    }
+    sort.Sort(ByKey(edges))
+    j := 0
+    i := j + 1
+    for ; i < len(edges); i, j = i+1, j+1 {
+        if edges[i] == edges[j] {
+            break
+        }
+    }
+    for ; i < len(edges); i++ {
+        if edges[i] != edges[j] {
+            j++
+            edges[j] = edges[i]
+        }
+    }
+    edges = edges[:j+1]
+    return edges
+}
+
+func main() {
+    if len(os.Args) <= 1 {
+        err := errors.New(""Missing file name"")
+        panic(err.Error())
+    }
+    filename := os.Args[1]
+    fmt.Println(filename)
+    edges := loadEdges(filename)
+
+    var ms runtime.MemStats
+    runtime.ReadMemStats(&ms)
+    fmt.Println(ms.Alloc, ms.TotalAlloc, ms.Sys, ms.Mallocs, ms.Frees)
+    fmt.Println(len(edges), cap(edges))
+    for i, e := range edges {
+        fmt.Println(e)
+        if i >= 10 {
+            break
+        }
+    }
+}
+
+// bytconv from strconv
+
+// Return the first number n such that n*base >= 1<<64.
+func cutoff64(base int) uint64 {
+    if base < 2 {
+        return 0
+    }
+    return (1<<64-1)/uint64(base) + 1
+}
+
+// ParseUint is like ParseInt but for unsigned numbers.
+func ParseUint(s []byte, base int, bitSize int) (n uint64, err error) {
+    var cutoff, maxVal uint64
+
+    if bitSize == 0 {
+        bitSize = int(strconv.IntSize)
+    }
+
+    s0 := s
+    switch {
+    case len(s) < 1:
+        err = strconv.ErrSyntax
+        goto Error
+
+    case 2 <= base && base <= 36:
+        // valid base; nothing to do
+
+    case base == 0:
+        // Look for octal, hex prefix.
+        switch {
+        case s[0] == '0' && len(s) > 1 && (s[1] == 'x' || s[1] == 'X'):
+            base = 16
+            s = s[2:]
+            if len(s) < 1 {
+                err = strconv.ErrSyntax
+                goto Error
+            }
+        case s[0] == '0':
+            base = 8
+        default:
+            base = 10
+        }
+
+    default:
+        err = errors.New(""invalid base "" + strconv.Itoa(base))
+        goto Error
+    }
+
+    n = 0
+    cutoff = cutoff64(base)
+    maxVal = 1<<uint(bitSize) - 1
+
+    for i := 0; i < len(s); i++ {
+        var v byte
+        d := s[i]
+        switch {
+        case '0' <= d && d <= '9':
+            v = d - '0'
+        case 'a' <= d && d <= 'z':
+            v = d - 'a' + 10
+        case 'A' <= d && d <= 'Z':
+            v = d - 'A' + 10
+        default:
+            n = 0
+            err = strconv.ErrSyntax
+            goto Error
+        }
+        if int(v) >= base {
+            n = 0
+            err = strconv.ErrSyntax
+            goto Error
+        }
+
+        if n >= cutoff {
+            // n*base overflows
+            n = 1<<64 - 1
+            err = strconv.ErrRange
+            goto Error
+        }
+        n *= uint64(base)
+
+        n1 := n + uint64(v)
+        if n1  maxVal {
+            // n+v overflows
+            n = 1<<64 - 1
+            err = strconv.ErrRange
+            goto Error
+        }
+        n = n1
+    }
+
+    return n, nil
+
+Error:
+    return n, &strconv.NumError{""ParseUint"", string(s0), err}
+}
+
+
+Output:
+
+$ go build orkut.go
+$ time ./orkut ~/release-orkut-links.txt
+/home/peter/release-orkut-links.txt
+223534301
+1788305680 1788327856 1904683256 135 50
+117185083 223534301
+1,2
+1,3
+1,4
+1,5
+1,6
+1,7
+1,8
+1,9
+1,10
+1,11
+1,12
+real    2m53.203s
+user    2m51.584s
+sys 0m1.628s
+$
+
+
+The orkut.go program with the release-orkut-links.txt file (3,372,855,860 (3.4 GB) bytes with 223,534,301 edges) uses about 1.8 GiB of memory. After eliminating duplicates, 117,185,083 unique edges remain. This matches the 117,185,083 unique edge ","['.gz,', '1.8', 'GB', 'uncompressed,', '117,185,083', 'edges.', '#', 'Undirected', 'graph:', '../../data/output/orkut.txt', '#', 'Orkut', '#', 'Nodes:', '3072441', 'Edges:', '117185083', '#', 'FromNodeId', 'ToNodeId', '1', '2', '1', '3', '1', '4', '1', '5', 'On', 'http://socialnetworks.mpi-sws.org/data-imc2007.html,', 'I', 'found', 'http://socialnetworks.mpi-sws.mpg.de/data/orkut-links.txt.gz,', '3.4', 'GB', 'uncompressed,', '223,534,301', 'edges.', '1', '2', '1', '3', '1', '4', '1', '5', 'Since', 'they', 'are', 'similar,', 'one', 'program', 'can', 'handle', 'all', 'formats.', 'Your', 'Edge', 'type', 'is', 'type', 'Edge', 'struct', '{', 'u,', 'v', 'int', '}', 'which', 'is', '16', 'bytes', 'on', 'a', '64-bit', 'architecture.', 'Use', 'type', 'Edge', 'struct', '{', 'U,', 'V', 'uint32', '}', 'which', 'is', '8', 'bytes,', 'it', 'is', 'adequate.', 'If', 'the', 'capacity', 'of', 'a', 'slice', 'is', 'not', 'large', 'enough', 'to', 'fit', 'the', 'additional', 'values,', 'append', 'allocates', 'a', 'new,', 'sufficiently', 'large', 'underlying', 'array', 'that', 'fits', 'both', 'the', 'existing', 'slice', 'elements', 'and', 'the', 'additional', 'values.', 'Otherwise,', 'append', 're-uses', 'the', 'underlying', 'array.', 'For', 'a', 'large', 'slice,', 'the', 'new', 'array', 'is', '1.25', 'times', 'the', 'size', 'of', 'the', 'old', 'array.', 'While', 'the', 'old', 'array', 'is', 'being', 'copied', 'to', 'the', 'new', 'array,', '1', '+', '1.25', '=', '2.25', 'times', 'the', 'memory', 'for', 'the', 'old', 'array', 'is', 'required.', 'Therefore,', 'allocate', 'the', 'underlying', 'array', 'so', 'that', 'all', 'values', 'fit.', 'make(T,', 'n)', 'initializes', 'map', 'of', 'type', 'T', 'with', 'initial', 'space', 'for', 'n', 'elements.', 'Provide', 'a', 'value', 'for', 'n', 'to', 'limit', 'the', 'cost', 'of', 'reorganization', 'and', 'fragmentation', 'as', 'elements', 'are', 'added.', 'Hashing', 'functions', 'are', 'often', 'imperfect', 'which', 'leads', 'to', 'wasted', 'space.', 'Eliminate', 'the', 'map', 'as', ""it's"", 'unneccesary.', 'To', 'eliminate', 'duplicates,', 'sort', 'the', 'slice', 'in', 'place', 'and', 'move', 'the', 'unique', 'elements', 'down.', 'A', 'string', 'is', 'immutable,', 'therefore', 'a', 'new', 'string', 'is', 'allocated', 'for', 'scanner.Text()', 'to', 'convert', 'from', 'a', 'byte', 'slice', 'buffer.', 'To', 'parse', 'numbers', 'we', 'use', 'strconv.', 'To', 'minimize', 'temporary', 'allocations,', 'use', 'scanner.Bytes()', 'and', 'adapt', 'strconv.ParseUint', 'to', 'accept', 'a', 'byte', 'array', 'argument', '(bytconv).', 'For', 'example,', 'orkut.go', 'package', 'main', 'import', '(', '""bufio""', '""bytes""', '""errors""', '""fmt""', '""os""', '""runtime""', '""sort""', '""strconv""', ')', 'type', 'Edge', 'struct', '{', 'U,', 'V', 'uint32', '}', 'func', '(e', 'Edge)', 'String()', 'string', '{', 'return', 'fmt.Sprintf(""%d,%d"",', 'e.U,', 'e.V)', '}', 'type', 'ByKey', '[]Edge', 'func', '(a', 'ByKey)', 'Len()', 'int', '{', 'return', 'len(a)', '}', 'func', '(a', 'ByKey)', 'Swap(i,', 'j', 'int)', '{', 'a[i],', 'a[j]', '=', 'a[j],', 'a[i]', '}', 'func', '(a', 'ByKey)', 'Less(i,', 'j', 'int)', 'bool', '{', 'if', 'a[i].U', '<', 'a[j].U', '{', 'return', 'true', '}', 'if', 'a[i].U', '==', 'a[j].U', '&&', 'a[i].V', '<', 'a[j].V', '{', 'return', 'true', '}', 'return', 'false', '}', 'func', 'countEdges(scanner', '*bufio.Scanner)', 'int', '{', 'var', 'nNodes,', 'nEdges', 'int', 'for', 'scanner.Scan()', '{', 'line', ':=', 'scanner.Bytes()', 'if', '!(len(line)', '>', '0', '&&', 'line[0]', '==', ""'#')"", '{', 'nEdges++', 'continue', '}', 'n,', 'err', ':=', 'fmt.Sscanf(string(line),', '""#', 'Nodes:', '%d', 'Edges:', '%d"",', '&nNodes,', '&nEdges)', 'if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{', 'n,', 'err', '=', 'fmt.Sscanf(string(line),', '""#', '%d,%d"",', '&nNodes,', '&nEdges)', 'if', 'err', '!=', 'nil', '||', 'n', '!=', '2', '{', 'continue', '}', '}', 'fmt.Println(string(line))', 'break', '}', 'if', 'err', ':=', 'scanner.Err();', 'err', '!=', 'nil', '{', 'panic(err.Error())', '}', 'fmt.Println(nEdges)', 'return', 'nEdges', '}', 'func', 'loadEdges(filename', 'string)', '[]Edge', '{', 'file,', 'err', ':=', 'os.Open(filename)', 'if', 'err', '!=', 'nil', '{', 'panic(err.Error())', '}', 'defer', 'file.Close()', 'scanner', ':=', 'bufio.NewScanner(file)', 'nEdges', ':=', 'countEdges(scanner)', 'edges', ':=', 'make([]Edge,', '0,', 'nEdges)', 'offset,', 'err', ':=', 'file.Seek(0,', 'os.SEEK_SET)', 'if', 'err', '!=', 'nil', '||', 'offset', '!=', '0', '{', 'panic(err.Error())', '}', 'var', 'sep', 'byte', '=', ""'\\t'"", 'scanner', '=', 'bufio.NewScanner(file)', 'for', 'scanner.Scan()', '{', 'line', ':=', 'scanner.Bytes()', 'if', 'len(line)', '>', '0', '&&', 'line[0]', '==', ""'#'"", '{', 'continue', '}', 'i', ':=', 'bytes.IndexByte(line,', 'sep)', 'if', 'i', '=', 'len(line)', '{', 'sep', '=', ""','"", 'i', '=', 'bytes.IndexByte(line,', 'sep)', 'if', 'i', '=', 'len(line)', '{', 'err', ':=', 'errors.New(""Invalid', 'line', 'format:', '""', '+', 'string(line))', 'panic(err.Error())', '}', '}', 'u,', 'err', ':=', 'ParseUint(line[:i],', '10,', '32)', 'if', 'err', '!=', 'nil', '{', 'panic(err.Error())', '}', 'v,', 'err', ':=', 'ParseUint(line[i+1:],', '10,', '32)', 'if', 'err', '!=', 'nil', '{', 'panic(err.Error())', '}', 'if', 'u', '>', 'v', '{', 'u,', 'v', '=', 'v,', 'u', '}', 'edges', '=', 'append(edges,', 'Edge{uint32(u),', 'uint32(v)})', '}', 'if', 'err', ':=', 'scanner.Err();', 'err', '!=', 'nil', '{', 'panic(err.Error())', '}', 'if', 'len(edges)', '<=', '1', '{', 'return', 'edges', '}', 'sort.Sort(ByKey(edges))', 'j', ':=', '0', 'i', ':=', 'j', '+', '1', 'for', ';', 'i', '<', 'len(edges);', 'i,', 'j', '=', 'i+1,', 'j+1', '{', 'if', 'edges[i]', '==', 'edges[j]', '{', 'break', '}', '}', 'for', ';', 'i', '<', 'len(edges);', 'i++', '{', 'if', 'edges[i]', '!=', 'edges[j]', '{', 'j++', 'edges[j]', '=', 'edges[i]', '}', '}', 'edges', '=', 'edges[:j+1]', 'return', 'edges', '}', 'func', 'main()', '{', 'if', 'len(os.Args)', '<=', '1', '{', 'err', ':=', 'errors.New(""Missing', 'file', 'name"")', 'panic(err.Error())', '}', 'filename', ':=', 'os.Args[1]', 'fmt.Println(filename)', 'edges', ':=', 'loadEdges(filename)', 'var', 'ms', 'runtime.MemStats', 'runtime.ReadMemStats(&ms)', 'fmt.Println(ms.Alloc,', 'ms.TotalAlloc,', 'ms.Sys,', 'ms.Mallocs,', 'ms.Frees)', 'fmt.Println(len(edges),', 'cap(edges))', 'for', 'i,', 'e', ':=', 'range', 'edges', '{', 'fmt.Println(e)', 'if', 'i', '>=', '10', '{', 'break', '}', '}', '}', '//', 'bytconv', 'from', 'strconv', '//', 'Return', 'the', 'first', 'number', 'n', 'such', 'that', 'n*base', '>=', '1<<64.', 'func', 'cutoff64(base', 'int)', 'uint64', '{', 'if', 'base', '<', '2', '{', 'return', '0', '}', 'return', '(1<<64-1)/uint64(base)', '+', '1', '}', '//', 'ParseUint', 'is', 'like', 'ParseInt', 'but', 'for', 'unsigned', 'numbers.', 'func', 'ParseUint(s', '[]byte,', 'base', 'int,', 'bitSize', 'int)', '(n', 'uint64,', 'err', 'error)', '{', 'var', 'cutoff,', 'maxVal', 'uint64', 'if', 'bitSize', '==', '0', '{', 'bitSize', '=', 'int(strconv.IntSize)', '}', 's0', ':=', 's', 'switch', '{', 'case', 'len(s)', '<', '1:', 'err', '=', 'strconv.ErrSyntax', 'goto', 'Error', 'case', '2', '<=', 'base', '&&', 'base', '<=', '36:', '//', 'valid', 'base;', 'nothing', 'to', 'do', 'case', 'base', '==', '0:', '//', 'Look', 'for', 'octal,', 'hex', 'prefix.', 'switch', '{', 'case', 's[0]', '==', ""'0'"", '&&', 'len(s)', '>', '1', '&&', '(s[1]', '==', ""'x'"", '||', 's[1]', '==', ""'X'):"", 'base', '=', '16', 's', '=', 's[2:]', 'if', 'len(s)', '<', '1', '{', 'err', '=', 'strconv.ErrSyntax', 'goto', 'Error', '}', 'case', 's[0]', '==', ""'0':"", 'base', '=', '8', 'default:', 'base', '=', '10', '}', 'default:', 'err', '=', 'errors.New(""invalid', 'base', '""', '+', 'strconv.Itoa(base))', 'goto', 'Error', '}', 'n', '=', '0', 'cutoff', '=', 'cutoff64(base)', 'maxVal', '=', '1<<uint(bitSize)', '-', '1', 'for', 'i', ':=', '0;', 'i', '<', 'len(s);', 'i++', '{', 'var', 'v', 'byte', 'd', ':=', 's[i]', 'switch', '{', 'case', ""'0'"", '<=', 'd', '&&', 'd', '<=', ""'9':"", 'v', '=', 'd', '-', ""'0'"", 'case', ""'a'"", '<=', 'd', '&&', 'd', '<=', ""'z':"", 'v', '=', 'd', '-', ""'a'"", '+', '10', 'case', ""'A'"", '<=', 'd', '&&', 'd', '<=', ""'Z':"", 'v', '=', 'd', '-', ""'A'"", '+', '10', 'default:', 'n', '=', '0', 'err', '=', 'strconv.ErrSyntax', 'goto', 'Error', '}', 'if', 'int(v)', '>=', 'base', '{', 'n', '=', '0', 'err', '=', 'strconv.ErrSyntax', 'goto', 'Error', '}', 'if', 'n', '>=', 'cutoff', '{', '//', 'n*base', 'overflows', 'n', '=', '1<<64', '-', '1', 'err', '=', 'strconv.ErrRange', 'goto', 'Error', '}', 'n', '*=', 'uint64(base)', 'n1', ':=', 'n', '+', 'uint64(v)', 'if', 'n1', 'maxVal', '{', '//', 'n+v', 'overflows', 'n', '=', '1<<64', '-', '1', 'err', '=', 'strconv.ErrRange', 'goto', 'Error', '}', 'n', '=', 'n1', '}', 'return', 'n,', 'nil', 'Error:', 'return', 'n,', '&strconv.NumError{""ParseUint"",', 'string(s0),', 'err}', '}', 'Output:', '$', 'go', 'build', 'orkut.go', '$', 'time', './orkut', '~/release-orkut-links.txt', '/home/peter/release-orkut-links.txt', '223534301', '1788305680', '1788327856', '1904683256', '135', '50', '117185083', '223534301', '1,2', '1,3', '1,4', '1,5', '1,6', '1,7', '1,8', '1,9', '1,10', '1,11', '1,12', 'real', '2m53.203s', 'user', '2m51.584s', 'sys', '0m1.628s', '$', 'The', 'orkut.go', 'program', 'with', 'the', 'release-orkut-links.txt', 'file', '(3,372,855,860', '(3.4', 'GB)', 'bytes', 'with', '223,534,301', 'edges)', 'uses', 'about', '1.8', 'GiB', 'of', 'memory.', 'After', 'eliminating', 'duplicates,', '117,185,083', 'unique', 'edges', 'remain.', 'This', 'matches', 'the', '117,185,083', 'unique', 'edge']","['RB', 'CD', 'NNP', 'JJ', 'CD', 'JJ', '#', 'VBN', 'NN', 'NNP', '#', 'NNP', '#', 'NNP', 'CD', 'NNP', 'CD', '#', 'NNP', 'NNP', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'IN', 'NN', 'PRP', 'VBD', 'RB', 'CD', 'NNP', 'JJ', 'CD', 'JJ', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'IN', 'PRP', 'VBP', 'JJ', 'CD', 'NN', 'MD', 'VB', 'DT', 'VB', 'NNP', 'NNP', 'NN', 'VBZ', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NN', ')', 'WDT', 'VBZ', 'CD', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NN', '(', 'NNP', 'NNP', 'NN', ')', 'WDT', 'VBZ', 'CD', 'NN', 'PRP', 'VBZ', 'JJ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'JJ', 'RB', 'TO', 'VB', 'DT', 'JJ', 'NN', 'VBP', 'VBZ', 'DT', 'NN', 'RB', 'JJ', 'VBG', 'NN', 'WDT', 'VBZ', 'DT', 'DT', 'VBG', 'NN', 'NNS', 'CC', 'DT', 'JJ', 'NN', 'NNP', 'VBP', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', 'DT', 'JJ', 'NN', 'VBZ', 'CD', 'NNS', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'VBG', 'VBN', 'TO', 'DT', 'JJ', 'NN', 'CD', 'NN', 'CD', 'NN', 'CD', 'NNS', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'JJ', 'NNP', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'IN', 'DT', 'NNS', 'VBP', 'JJ', 'NN', 'VBZ', 'NN', 'IN', 'NN', 'NNP', 'IN', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'NNP', 'DT', 'NN', 'IN', 'JJ', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'CC', 'NN', 'IN', 'NNS', 'VBP', 'JJ', 'NNP', 'NNS', 'VBP', 'RB', 'JJ', 'WDT', 'VBZ', 'TO', 'VB', 'JJ', 'NNP', 'DT', 'NN', 'IN', 'JJ', 'NN', 'TO', 'VB', 'JJ', 'NN', 'DT', 'NN', 'IN', 'NN', 'CC', 'VB', 'DT', 'JJ', 'NNS', 'VBP', 'DT', 'NN', 'VBZ', 'JJ', 'RB', 'DT', 'JJ', 'NN', 'VBZ', 'VBN', 'IN', 'NN', 'TO', 'VB', 'IN', 'DT', 'NN', 'NN', 'NN', 'TO', 'VB', 'NNS', 'PRP', 'VBP', 'JJ', 'TO', 'VB', 'JJ', 'NN', 'NN', 'NN', 'CC', 'JJ', 'NN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'NN', 'NN', 'IN', 'NN', 'JJ', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'NN', 'NNP', 'NN', '(', 'NNP', 'NNP', 'JJ', ')', 'JJ', 'NNP', 'NNP', 'NNP', 'VBG', '(', 'NN', 'NN', 'NN', 'NN', ')', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NN', '(', 'VB', 'NN', ')', 'NN', 'JJ', 'NNP', 'NNP', 'NN', 'NN', '(', 'JJ', 'NN', 'NNP', 'NN', 'NN', ')', 'NN', 'JJ', 'NNP', 'NNP', 'NN', 'NN', 'NN', '(', 'IN', 'VBN', 'NNP', 'JJ', '(', 'VB', 'JJ', ')', 'IN', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'VBZ', '(', 'VB', 'JJ', ')', 'NN', 'JJ', ')', 'JJ', 'NN', 'VBD', 'JJ', '(', 'JJ', 'NN', 'NNS', 'VBP', 'IN', 'NN', '(', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'VBP', 'CD', 'JJ', 'NN', 'NNP', 'POS', '(', 'JJ', 'NN', ')', 'FW', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'IN', 'JJ', 'NNP', 'NN', 'NNP', 'VBZ', 'RB', 'CD', '(', 'JJ', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'IN', 'JJ', 'NNP', 'NN', 'NNP', 'VBZ', 'RB', 'CD', '(', 'VB', ')', ')', 'JJ', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'RB', '(', 'NN', ')', 'JJ', 'NN', 'NNS', ')', 'VBP', 'JJ', 'NN', 'NNP', '(', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ')', 'NN', 'JJ', 'NN', 'NNP', 'NN', 'NNS', 'VBP', 'JJ', 'NNS', 'VBP', '$', 'CD', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'NNP', 'VBD', '$', 'CD', '(', 'NN', ')', 'NN', 'JJ', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'IN', 'JJ', '(', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'VBP', 'CD', 'JJ', 'NN', 'NNP', 'NNP', '(', 'VBP', ')', 'JJ', 'VBP', 'NN', 'NN', 'IN', 'JJ', 'VBP', 'JJ', '(', 'JJ', 'NNP', 'POS', 'NN', 'VBP', 'NN', 'NN', 'IN', 'JJ', 'VBP', 'JJ', '(', 'JJ', 'NNP', 'JJ', 'NN', 'NN', 'NNP', 'NNP', 'NN', 'NN', ')', ')', 'JJ', 'JJ', 'NNP', 'NNP', 'CD', 'CD', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ')', 'NN', 'JJ', 'NNP', 'NNP', 'CD', 'CD', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NNP', 'NN', 'NN', ')', 'VBZ', 'JJ', 'NN', 'NNP', 'NN', ')', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'RB', '(', 'NN', ')', 'IN', 'JJ', 'VBP', 'CD', '(', 'NN', 'NNS', ')', 'VBP', 'JJ', 'IN', 'CD', 'JJ', 'NNP', 'NN', 'VBD', 'CD', 'IN', ':', 'JJ', 'VBP', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NN', '(', 'IN', 'VBN', 'NNP', 'RB', '(', 'VB', ')', ')', 'IN', ':', 'JJ', 'VBP', 'JJ', 'NN', '(', 'IN', 'VBN', 'NNP', 'FW', '(', 'NN', 'NN', 'NNP', 'NN', ')', ')', 'VBZ', 'JJ', 'JJ', 'NN', 'NNS', ')', 'VBP', 'RB', '(', 'IN', 'VBN', 'VBP', 'CD', '(', 'NN', 'NN', 'VBG', 'NN', 'NN', 'NN', ')', 'NN', 'NNP', 'VBZ', 'JJ', 'NNS', 'VBP', 'JJ', 'NN', 'NN', 'NNS', 'VBP', 'JJ', 'NN', 'NN', 'NN', 'NN', 'NN', 'NN', 'IN', 'JJ', 'NN', 'NNP', 'NN', 'NNS', '(', 'NN', 'IN', 'JJ', 'VBP', 'CD', '(', 'NN', ')', ')', ')', 'JJ', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'DT', 'JJ', 'NN', 'NNS', 'JJ', 'IN', 'JJ', '$', 'CD', 'JJ', 'NN', 'NN', 'JJ', '(', 'IN', 'NN', 'VBD', 'CD', '(', 'NN', 'CD', ')', 'VB', 'JJ', 'NN', 'CD', ')', 'JJR', 'NNP', 'VBZ', 'IN', 'NNP', 'CC', 'IN', 'JJ', 'NNS', 'VBP', 'NNP', 'NNP', 'NN', 'NN', 'VB', 'JJ', 'NNP', 'NN', 'NN', 'NN', '(', 'JJ', 'NN', 'NN', 'JJ', 'IN', 'JJ', 'VBP', 'CD', '(', 'VB', 'NNP', 'NN', ')', 'NN', 'JJ', 'NN', 'NN', '(', 'NN', 'VBZ', '$', 'CD', 'NN', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'CD', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'CD', 'NNP', 'JJ', 'NN', 'NN', 'TO', 'VB', 'NN', 'VB', 'NNP', 'CD', 'NNP', 'NNP', 'IN', 'JJ', 'NN', 'NN', 'VB', '(', 'NN', 'VB', 'NNP', 'NNP', 'NNP', 'VBD', '$', 'CD', 'NNP', 'NNP', 'NNP', 'POS', 'NNP', 'NN', 'NNP', 'POS', 'NN', 'VBD', 'CD', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'VBP', 'CD', '(', 'NN', 'NNP', 'NN', 'NN', 'NNP', ')', 'NN', 'JJ', 'NNP', 'POS', 'NN', 'VBD', 'CD', 'JJ', 'NN', 'VBD', 'CD', ')', 'NN', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', 'NNP', 'VBD', 'JJ', 'NNP', ')', 'VBP', '$', 'CD', 'NN', 'NN', 'NN', 'NN', 'VBD', 'CD', ':', 'CD', 'IN', 'NN', 'VBP', 'CD', 'JJ', 'VBP', 'JJ', 'NN', '(', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', '(', 'NN', 'POS', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'POS', 'NN', 'NNP', 'VBZ', ':', ""''"", 'NN', 'POS', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'POS', 'NN', 'NNP', 'VBZ', ':', 'POS', '$', 'CD', 'NN', 'CD', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'POS', 'NN', 'NNP', 'VBZ', ':', 'POS', '$', 'CD', 'NN', 'NN', 'VBD', 'CD', 'NN', 'JJ', 'NN', 'NN', 'NNP', ')', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', '$', 'CD', 'NN', 'JJ', 'NN', 'NN', 'NNP', ')', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'VBZ', 'JJ', '$', 'CD', ':', 'CD', 'NN', 'NNP', 'NN', 'NN', 'NNP', ')', 'FW', 'JJ', 'JJ', 'NN', 'NNP', 'CC', 'NNP', 'VBP', 'IN', 'JJ', 'FW', '(', 'JJ', 'NN', 'VBZ', 'JJ', '$', 'CD', ':', 'CD', 'NN', 'NNP', 'NN', 'NN', 'NNP', ')', 'FW', 'JJ', 'NN', ')', 'NN', 'JJ', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'NN', ')', 'NNP', '$', 'VBP', 'JJ', 'RB', '$', 'NN', 'JJ', 'JJ', 'JJ', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'CD', 'JJ', 'CD', 'RB', 'CD', 'VBD', 'CD', '$', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'VBZ', 'IN', 'CD', 'JJ', 'NNS', 'IN', 'CD', 'NNP', 'IN', 'NN', 'IN', 'VBG', 'RB', 'CD', 'JJ', 'NNS', 'VBP', 'DT', 'VBZ', 'DT', 'CD', 'NN', 'NN']"
+9,com-orkut.ungraph.txt,"['com', '-', 'orkut', '.', 'ungraph', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+10," file.
+
+With 8 GB of memory on your machine, you can load much larger files.
+","['file.', 'With', '8', 'GB', 'of', 'memory', 'on', 'your', 'machine,', 'you', 'can', 'load', 'much', 'larger', 'files.']","['NN', 'IN', 'CD', 'NNP', 'IN', 'NN', 'IN', 'PRP$', 'NN', 'PRP', 'MD', 'VB', 'RB', 'JJR', 'NN']"

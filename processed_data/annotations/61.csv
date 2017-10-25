@@ -1,99 +1,176 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import(,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""strings""","['""strings""']",['STRING_LITERAL']
-3,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
-4,"    ""errors""","['""errors""']",['STRING_LITERAL']
-5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-6,"    ""log""","['""log""']",['STRING_LITERAL']
-7,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
-8,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-9,"    ""crypto""    ","['""crypto""']",['STRING_LITERAL']
-10,"    ""crypto/sha256""","['""crypto/sha256""']",['STRING_LITERAL']
-11,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
-12,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-13,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-14,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-15,"    ""math/big""  ","['""math/big""']",['STRING_LITERAL']
-16,),[')'],['OPERATOR']
-17,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-18,"    auth_token := """"","['auth_token', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-19,"    w := strings.SplitAfter(auth_token, ""."")    ","['w', ':=', 'strings', '.', 'SplitAfter', '(', 'auth_token', ',', '"".""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-20,"    for i, val := range w {","['for', 'i', ',', 'val', ':=', 'range', 'w', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-21,"        w[i] = strings.Trim(val, ""."")","['w', '[', 'i', ']', '=', 'strings', '.', 'Trim', '(', 'val', ',', '"".""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-22,    },['}'],['OPERATOR']
-23,"    headerOauth, err := base64.URLEncoding.DecodeString(w[0])","['headerOauth', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'w', '[', '0', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-24,"    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")","['res', ',', 'err', ':=', 'http', '.', 'Get', '(', '""https://www.googleapis.com/oauth2/v2/certs""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,    },['}'],['OPERATOR']
-28,"    certs, err := ioutil.ReadAll(res.Body)","['certs', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-29,    res.Body.Close(),"['res', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,    },['}'],['OPERATOR']
-33,    //extract kid from token header,['//extract kid from token header'],"['COMMENT', 'JJ', 'NN', 'IN', 'JJ', 'NN']"
-34,    var header interface{},"['var', 'header', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-35,"    err = json.Unmarshal([]byte(string(headerOauth)+""}""), &header)","['err', '=', 'json', '.', 'Unmarshal', '([]', 'byte', '(', 'string', '(', 'headerOauth', ')+', '""}""', '),', '&', 'header', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,"    token_kid := header.(map[string]interface{})[""kid""]","['token_kid', ':=', 'header', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-37,"    fmt.Println(""By 1"")","['fmt', '.', 'Println', '(', '""By 1""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-38,    //get modulus and exponent from the cert,['//get modulus and exponent from the cert'],"['COMMENT', 'VB', 'JJ', 'CC', 'NN', 'IN', 'DT', 'NN']"
-39,    var goCertificate interface{},"['var', 'go', 'Certificate', 'interface', '{}']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-40,"    err = json.Unmarshal(certs, &goCertificate)    ","['err', '=', 'json', '.', 'Unmarshal', '(', 'certs', ',', '&', 'go', 'Certificate', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-41,    //k := goCertificate.(map[string]interface{})[token_kid.(string)],['//k := goCertificate.(map[string]interface{})[token_kid.(string)]'],"['COMMENT', 'NN', ':', 'NN', 'NN', '(', 'JJ', 'NN', 'VBG', 'JJ', 'NN', '(', ')', ')', 'FW', 'NN', '.', '(', 'VBG', ')', 'NN']"
-42,"    k := goCertificate.(map[string]interface{})[""keys""]","['k', ':=', 'go', 'Certificate', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""keys""', ']']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-43,    ///*mod & exp part,['///*mod & exp part'],"['COMMENT', 'NN', 'CC', 'JJ', 'NN']"
-44,    j := k.([]interface{}),"['j', ':=', 'k', '.([]', 'interface', '{})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-45,    x := j[0],"['x', ':=', 'j', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-46,"    if j[0].(map[string]interface{})[""kid""] == token_kid {","['if', 'j', '[', '0', '].(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']', '==', 'token_kid', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,        x = j[0],"['x', '=', 'j', '[', '0', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-48,    }else{,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-49,"        if j[1].(map[string]interface{})[""kid""] == token_kid {","['if', 'j', '[', '1', '].(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']', '==', 'token_kid', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,            x = j[1],"['x', '=', 'j', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-51,        }else{,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-52,"            errors.New(""Token is not valid, kid from token and certificate don't match"")","['errors', '.', 'New', '(', '""Token is not valid, kid from token and certificate don\'t match""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-53,        },['}'],['OPERATOR']
-54,    },['}'],['OPERATOR']
-55,"    h := x.(map[string]interface{})[""n""]","['h', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""n""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-56,"    g := x.(map[string]interface{})[""e""]","['g', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""e""', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-57,    //build the google pub key,['//build the google pub key'],"['COMMENT', 'VB', 'DT', 'NN', 'NN', 'NN']"
-58,    nStr := h.(string),"['nStr', ':=', 'h', '.(', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-59,"    decN, err := base64.URLEncoding.DecodeString(nStr)","['decN', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'nStr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,        return,['return'],['KEYWORD']
-63,    },['}'],['OPERATOR']
-64,    n := big.NewInt(0),"['n', ':=', 'big', '.', 'NewInt', '(', '0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-65,    n.SetBytes(decN),"['n', '.', 'SetBytes', '(', 'decN', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-66,    eStr := g.(string),"['eStr', ':=', 'g', '.(', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,"    decE, err := base64.URLEncoding.DecodeString(eStr)","['decE', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'eStr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,        fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,        return,['return'],['KEYWORD']
-71,    },['}'],['OPERATOR']
-72,    var eBytes []byte,"['var', 'eBytes', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-73,    if len(decE) < 8 {,"['if', 'len', '(', 'decE', ')', '<', '8', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-74,"        eBytes = make([]byte, 8-len(decE), 8)","['eBytes', '=', 'make', '([]', 'byte', ',', '8', '-', 'len', '(', 'decE', '),', '8', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-75,"        eBytes = append(eBytes, decE...)","['eBytes', '=', 'append', '(', 'eBytes', ',', 'decE', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-77,        eBytes = decE,"['eBytes', '=', 'decE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-78,    },['}'],['OPERATOR']
-79,    eReader := bytes.NewReader(eBytes),"['eReader', ':=', 'bytes', '.', 'NewReader', '(', 'eBytes', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,    var e uint64,"['var', 'e', 'uint64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-81,"    err = binary.Read(eReader, binary.BigEndian, &e)","['err', '=', 'binary', '.', 'Read', '(', 'eReader', ',', 'binary', '.', 'BigEndian', ',', '&', 'e', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-82,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-83,        log.Println(err),"['log', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-84,        return,['return'],['KEYWORD']
-85,    },['}'],['OPERATOR']
-86,"    pKey := rsa.PublicKey{N: n, E: int(e)}","['pKey', ':=', 'rsa', '.', 'PublicKey', '{', 'N', ':', 'n', ',', 'E', ':', 'int', '(', 'e', ')}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,        //inblockOauth := base64.URLEncoding.DecodeString(w[1]),['//inblockOauth := base64.URLEncoding.DecodeString(w[1])'],"['COMMENT', 'NN', ':', 'NN', 'NN', '(', 'JJ', '$', 'CD', 'NN', ')']"
-88,"    toHash := w[0] + ""."" + w[1]","['toHash', ':=', 'w', '[', '0', ']', '+', '"".""', '+', 'w', '[', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-89,"    digestOauth, err := base64.URLEncoding.DecodeString(w[2])","['digestOauth', ',', 'err', ':=', 'base64', '.', 'URLEncoding', '.', 'DecodeString', '(', 'w', '[', '2', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-90,    hasherOauth := sha256.New(),"['hasherOauth', ':=', 'sha256', '.', 'New', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,    hasherOauth.Write([]byte(toHash)),"['hasherOauth', '.', 'Write', '([]', 'byte', '(', 'toHash', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-92,    // verification here fails,['// verification here fails'],"['COMMENT', 'NN', 'RB', 'VBZ']"
-93,"    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)","['err', '=', 'rsa', '.', 'VerifyPKCS1v15', '(&', 'pKey', ',', 'crypto', '.', 'SHA256', ',', 'hasherOauth', '.', 'Sum', '(', 'nil', '),', 'digestOauth', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+0,"I have deployed the Go App on Heroku but on hitting the url.. its not giving proper response. The Heroku logs looks something like this : 
+
+","['I', 'have', 'deployed', 'the', 'Go', 'App', 'on', 'Heroku', 'but', 'on', 'hitting', 'the', 'url..', 'its', 'not', 'giving', 'proper', 'response.', 'The', 'Heroku', 'logs', 'looks', 'something', 'like', 'this', ':']","['PRP', 'VBP', 'VBN', 'DT', 'NNP', 'NNP', 'IN', 'NNP', 'CC', 'IN', 'VBG', 'DT', 'NN', 'PRP$', 'RB', 'VBG', 'JJ', 'NN', 'DT', 'NNP', 'NNS', 'VBZ', 'NN', 'IN', 'DT', ':']"
+1,2015-06-27T10:43:06.839094+00:00 heroku[web.1]: Starting process with command `FlickrImage`,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '06', '.', '839094', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'Starting', 'process', 'with', 'command', 'FlickrImage']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+2,2015-06-27T10:43:08.998400+00:00 heroku[web.1]: State changed from starting to crashed,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '08', '.', '998400', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'State', 'chan', 'ged', 'from', 'starting', 'to', 'crashed']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+3,2015-06-27T10:43:08.998400+00:00 heroku[web.1]: State changed from crashed to starting,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '08', '.', '998400', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'State', 'chan', 'ged', 'from', 'crashed', 'to', 'starting']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+4,2015-06-27T10:43:08.985737+00:00 heroku[web.1]: Process exited with status 0,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '08', '.', '985737', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'Process', 'exited', 'with', 'status', '0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+5,2015-06-27T10:43:10.795684+00:00 heroku[web.1]: Starting process with command `FlickrImage`,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '10', '.', '795684', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'Starting', 'process', 'with', 'command', 'FlickrImage']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+6,2015-06-27T10:43:13.837301+00:00 heroku[web.1]: Process exited with status 0,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '13', '.', '837301', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'Process', 'exited', 'with', 'status', '0']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+7,2015-06-27T10:43:13.850141+00:00 heroku[web.1]: State changed from starting to crashed,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '13', '.', '850141', '+', '00', ':', '00', 'heroku', '[', 'web', '.', '1', ']:', 'State', 'chan', 'ged', 'from', 'starting', 'to', 'crashed']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+8,"2015-06-27T10:44:41.914412+00:00 heroku[router]: at=error code=H10 desc=""App crashed"" method=GET path=""/Index"" host=morning-ridge-1365.herokuapp.com request_id=89d2e794-a725-4ddf-b437-dbcbd988428c fwd=""202.12.83.44"" dyno= connect= service= status=503 bytes=","['2015', '-', '06', '-', '27', 'T10', ':', '44', ':', '41', '.', '914412', '+', '00', ':', '00', 'heroku', '[', 'router', ']:', 'at', '=', 'error', 'code', '=', 'H10', 'desc', '=', '""App crashed"" method=GET path=""/Index"" host=morning-ridge-1365.herokuapp.com request_id=89d2e794-a725-4ddf-b437-dbcbd988428c fwd=""202.12.83.44""', 'dyno', '=', 'connect', '=', 'service', '=', 'status', '=', '503', 'bytes', '=']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+9,"
+
+FlickrImage is my go file and I have created a Procfile which contains ""web: FlickrImage""
+
+EDIT :
+FlickrImageServer Code :
+
+","['FlickrImage', 'is', 'my', 'go', 'file', 'and', 'I', 'have', 'created', 'a', 'Procfile', 'which', 'contains', '""web:', 'FlickrImage""', 'EDIT', ':', 'FlickrImageServer', 'Code', ':']","['NN', 'VBZ', 'PRP$', 'JJ', 'NN', 'CC', 'PRP', 'VBP', 'VBN', 'DT', 'NNP', 'WDT', 'VBZ', 'JJ', 'NNP', 'NNP', ':', 'NN', 'NN', ':']"
+10,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+11,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+12,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+13,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+14,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+15,"    ""log""","['""log""']",['STRING_LITERAL']
+16,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+17,"    ""os""","['""os""']",['STRING_LITERAL']
+18,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
+19,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+20,"    ""strings""","['""strings""']",['STRING_LITERAL']
+21,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
+22,"    ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['STRING_LITERAL']
+23,"    ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['STRING_LITERAL']
+24,),[')'],['OPERATOR']
+25,type imageLinks struct {,"['type', 'imageLinks', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+26,"    Link     string `bson:""link""`","['Link', 'string', 'bson', ':', '""link""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+27,"    Upvote   int    `bson:""upvote""`","['Upvote', 'int', 'bson', ':', '""upvote""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+28,"    Downvote int    `bson:""downvote""`","['Downvote', 'int', 'bson', ':', '""downvote""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+29,},['}'],['OPERATOR']
+30,type Result struct {,"['type', 'Result', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+31,    Photos struct {,"['Photos', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+32,"        Page    int    `json: ""page""`","['Page', 'int', 'json', ':', '""page""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+33,"        Pages   int    `json: ""pages""`","['Pages', 'int', 'json', ':', '""pages""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+34,"        PerPage int    `json: ""perpage""`","['PerPage', 'int', 'json', ':', '""perpage""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+35,"        Total   string `json: ""total""`","['Total', 'string', 'json', ':', '""total""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+36,        Photo   []struct {,"['Photo', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+37,"            Id       string `json: ""id""`","['Id', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+38,"            Owner    string `json: ""owner""`","['Owner', 'string', 'json', ':', '""owner""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+39,"            Secret   string `json: ""secret""`","['Secret', 'string', 'json', ':', '""secret""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+40,"            Server   string `json: ""server""`","['Server', 'string', 'json', ':', '""server""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+41,"            Farm     int    `json: ""farm""`","['Farm', 'int', 'json', ':', '""farm""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+42,"            Title    string `json: ""title""`","['Title', 'string', 'json', ':', '""title""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+43,"            IsPublic int    `json: ""ispublic""`","['IsPublic', 'int', 'json', ':', '""ispublic""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+44,"            IsFriend int    `json: ""isfriend""`","['IsFriend', 'int', 'json', ':', '""isfriend""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+45,"            IsFamily int    `json: ""isfamily`","['IsFamily', 'int', 'json', ':', 'isfamily']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+46,"        } `json: ""photo""`","['}', 'json', ':', '""photo""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+47,"    } `json: ""photos""`","['}', 'json', ':', '""photos""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+48,"    Stat string `json: ""stat""`","['Stat', 'string', 'json', ':', '""stat""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+49,},['}'],['OPERATOR']
+50,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+51,    router := mux.NewRouter().StrictSlash(true),"['router', ':=', 'mux', '.', 'NewRouter', '().', 'StrictSlash', '(', 'true', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+52,"    router.HandleFunc(""/Index"", Index)","['router', '.', 'HandleFunc', '(', '""/Index""', ',', 'Index', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,"    router.HandleFunc(""/UpVote"", UpVoteRoute)","['router', '.', 'HandleFunc', '(', '""/UpVote""', ',', 'UpVoteRoute', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,"    router.HandleFunc(""/DownVote"", DownVoteRoute)","['router', '.', 'HandleFunc', '(', '""/DownVote""', ',', 'DownVoteRoute', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+55,"    log.Fatal(http.ListenAndServe("":8080"", router))","['log', '.', 'Fatal', '(', 'http', '.', 'ListenAndServe', '(', '"":8080""', ',', 'router', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,},['}'],['OPERATOR']
+57,"func UpVoteRoute(w http.ResponseWriter, r *http.Request) {","['func', 'UpVoteRoute', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+58,"    link := r.URL.Query().Get(""imagelink"")","['link', ':=', 'r', '.', 'URL', '.', 'Query', '().', 'Get', '(', '""imagelink""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+59,"    w.Header().Set(""Content-Type"", ""application/json"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""application/json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+60,"    session, err := mgo.Dial(""mongodb://:@ds061631.mongolab.com:61631/flickrimagedb"")","['session', ',', 'err', ':=', 'mgo', '.', 'Dial', '(', '""mongodb://:@ds061631.mongolab.com:61631/flickrimagedb""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+61,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+62,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+64,    },['}'],['OPERATOR']
+65,    defer session.Close(),"['defer', 'session', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+66,"    session.SetMode(mgo.Monotonic, true)","['session', '.', 'SetMode', '(', 'mgo', '.', 'Monotonic', ',', 'true', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,"    c := session.DB(""flickrimagedb"").C(""image_links_votes"")","['c', ':=', 'session', '.', 'DB', '(', '""flickrimagedb"").C(""image_links_votes""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+68,"    err = c.Update(bson.M{""link"": link}, bson.M{""$inc"": bson.M{""upvote"": 1}})","['err', '=', 'c', '.', 'Update', '(', 'bson', '.', 'M', '{', '""link"": link}, bson.M{""$inc"": bson.M{""upvote""', ':', '1', '}})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+69,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,"        fmt.Printf(""Can't update document %v\n"", err)","['fmt', '.', 'Printf', '(', '""Can\'t update document %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+71,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+72,    },['}'],['OPERATOR']
+73,},['}'],['OPERATOR']
+74,"func DownVoteRoute(w http.ResponseWriter, r *http.Request) {","['func', 'DownVoteRoute', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+75,"    link := r.URL.Query().Get(""imagelink"")","['link', ':=', 'r', '.', 'URL', '.', 'Query', '().', 'Get', '(', '""imagelink""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+76,"    w.Header().Set(""Content-Type"", ""application/json"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""application/json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+77,"    session, err := mgo.Dial(""mongodb://*********:*******@ds061631.mongolab.com:61631/flickrimagedb"")","['session', ',', 'err', ':=', 'mgo', '.', 'Dial', '(', '""mongodb://*********:*******@ds061631.mongolab.com:61631/flickrimagedb""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+78,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+80,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+81,    },['}'],['OPERATOR']
+82,    defer session.Close(),"['defer', 'session', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,"    session.SetMode(mgo.Monotonic, true)","['session', '.', 'SetMode', '(', 'mgo', '.', 'Monotonic', ',', 'true', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,"    c := session.DB(""flickrimagedb"").C(""image_links_votes"")","['c', ':=', 'session', '.', 'DB', '(', '""flickrimagedb"").C(""image_links_votes""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+85,"    err = c.Update(bson.M{""link"": link}, bson.M{""$inc"": bson.M{""downvote"": 1}})","['err', '=', 'c', '.', 'Update', '(', 'bson', '.', 'M', '{', '""link"": link}, bson.M{""$inc"": bson.M{""downvote""', ':', '1', '}})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+86,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+87,"        fmt.Printf(""Can't update document %v\n"", err)","['fmt', '.', 'Printf', '(', '""Can\'t update document %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+88,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+89,    },['}'],['OPERATOR']
+90,},['}'],['OPERATOR']
+91,"func Index(w http.ResponseWriter, r *http.Request) {","['func', 'Index', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+92,"    w.Header().Set(""Content-Type"", ""application/json"")","['w', '.', 'Header', '().', 'Set', '(', '""Content-Type"", ""application/json""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+93,"    session, err := mgo.Dial(""mongodb://*********:*********@ds061631.mongolab.com:61631/flickrimagedb"")","['session', ',', 'err', ':=', 'mgo', '.', 'Dial', '(', '""mongodb://*********:*********@ds061631.mongolab.com:61631/flickrimagedb""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 94,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,"        fmt.Printf(""Error verifying key %s"",err.Error())","['fmt', '.', 'Printf', '(', '""Error verifying key %s""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,    },['}'],['OPERATOR']
-97,},['}'],['OPERATOR']
+95,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+97,    },['}'],['OPERATOR']
+98,    defer session.Close(),"['defer', 'session', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,"    session.SetMode(mgo.Monotonic, true)","['session', '.', 'SetMode', '(', 'mgo', '.', 'Monotonic', ',', 'true', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,"    c := session.DB(""flickrimagedb"").C(""image_links_votes"")","['c', ':=', 'session', '.', 'DB', '(', '""flickrimagedb"").C(""image_links_votes""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+101,    checkResult := &imageLinks{},"['checkResult', ':=', '&', 'imageLinks', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,    // Create a slice to begin with,"['//', 'Create', 'a', 'slice', 'to', 'begin', 'with']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'IN']"
+103,    myType := reflect.TypeOf(checkResult),"['myType', ':=', 'reflect', '.', 'TypeOf', '(', 'checkResult', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+104,"    slice := reflect.MakeSlice(reflect.SliceOf(myType), 10, 10)","['slice', ':=', 'reflect', '.', 'MakeSlice', '(', 'reflect', '.', 'SliceOf', '(', 'myType', '),', '10', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+105,    // Create a pointer to a slice value and set it to the slice,"['//', 'Create', 'a', 'pointer', 'to', 'a', 'slice', 'value', 'and', 'set', 'it', 'to', 'the', 'slice']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'DT', 'NN']"
+106,    x := reflect.New(slice.Type()),"['x', ':=', 'reflect', '.', 'New', '(', 'slice', '.', 'Type', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,    x.Elem().Set(slice),"['x', '.', 'Elem', '().', 'Set', '(', 'slice', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,    err = c.Find(bson.M{}).All(x.Interface()),"['err', '=', 'c', '.', 'Find', '(', 'bson', '.', 'M', '{}).', 'All', '(', 'x', '.', 'Interface', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,"        response, err := json.Marshal(x.Interface())","['response', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'x', '.', 'Interface', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,"            fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,            os.Exit(2),"['os', '.', 'Exit', '(', '2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+114,        },['}'],['OPERATOR']
+115,"        fmt.Fprintf(w, string(response))","['fmt', '.', 'Fprintf', '(', 'w', ',', 'string', '(', 'response', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+117,"        url := ""https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=*****************************&text=cute+puppies&per_page=12&format=json&nojsoncallback=1""","['url', ':=', '""https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=*****************************&text=cute+puppies&per_page=12&format=json&nojsoncallback=1""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+118,"        res, err := http.Get(url)","['res', ',', 'err', ':=', 'http', '.', 'Get', '(', 'url', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+119,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+120,"            fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+121,            os.Exit(3),"['os', '.', 'Exit', '(', '3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+122,        },['}'],['OPERATOR']
+123,"        body, err := ioutil.ReadAll(res.Body)","['body', ',', 'err', ':=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+124,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+125,"            fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,            os.Exit(4),"['os', '.', 'Exit', '(', '4', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+127,        },['}'],['OPERATOR']
+128,        jsonData := &Result{},"['jsonData', ':=', '&', 'Result', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+129,"        err = json.Unmarshal(body, jsonData)","['err', '=', 'json', '.', 'Unmarshal', '(', 'body', ',', 'jsonData', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+130,        for value := range jsonData.Photos.Photo {,"['for', 'value', ':=', 'range', 'jsonData', '.', 'Photos', '.', 'Photo', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+131,"            s1 := []string{""https://farm"", "".staticflickr.com/""}","['s1', ':=', '[]', 'string', '{', '""https://farm"", "".staticflickr.com/""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+132,"            s2 := []string{strings.Join(s1, strconv.Itoa(jsonData.Photos.Photo[value].Farm)), ""/""}","['s2', ':=', '[]', 'string', '{', 'strings', '.', 'Join', '(', 's1', ',', 'strconv', '.', 'Itoa', '(', 'jsonData', '.', 'Photos', '.', 'Photo', '[', 'value', '].', 'Farm', ')),', '""/""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+133,"            s3 := []string{strings.Join(s2, jsonData.Photos.Photo[value].Server), ""_""}","['s3', ':=', '[]', 'string', '{', 'strings', '.', 'Join', '(', 's2', ',', 'jsonData', '.', 'Photos', '.', 'Photo', '[', 'value', '].', 'Server', '),', '""_""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+134,"            s4 := []string{strings.Join(s3, jsonData.Photos.Photo[value].Id), "".jpg""}","['s4', ':=', '[]', 'string', '{', 'strings', '.', 'Join', '(', 's3', ',', 'jsonData', '.', 'Photos', '.', 'Photo', '[', 'value', '].', 'Id', '),', '"".jpg""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+135,"            s := strings.Join(s4, jsonData.Photos.Photo[value].Secret)","['s', ':=', 'strings', '.', 'Join', '(', 's4', ',', 'jsonData', '.', 'Photos', '.', 'Photo', '[', 'value', '].', 'Secret', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,            singleReuslt := imageLinks{},"['singleReuslt', ':=', 'imageLinks', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,"            err = c.Find(bson.M{""link"": s}).One(&singleReuslt)","['err', '=', 'c', '.', 'Find', '(', 'bson', '.', 'M', '{', '""link""', ':', 's', '}).', 'One', '(&', 'singleReuslt', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,"                err = c.Insert(&imageLinks{Link: s, Upvote: 0, Downvote: 0})","['err', '=', 'c', '.', 'Insert', '(&', 'imageLinks', '{', 'Link', ':', 's', ',', 'Upvote', ':', '0', ',', 'Downvote', ':', '0', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+140,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+141,"                    fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+142,                    os.Exit(5),"['os', '.', 'Exit', '(', '5', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+143,                },['}'],['OPERATOR']
+144,            },['}'],['OPERATOR']
+145,        },['}'],['OPERATOR']
+146,        allResult := &imageLinks{},"['allResult', ':=', '&', 'imageLinks', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+147,        // Create a slice to begin with,"['//', 'Create', 'a', 'slice', 'to', 'begin', 'with']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'IN']"
+148,        myType := reflect.TypeOf(allResult),"['myType', ':=', 'reflect', '.', 'TypeOf', '(', 'allResult', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+149,"        slice := reflect.MakeSlice(reflect.SliceOf(myType), 10, 10)","['slice', ':=', 'reflect', '.', 'MakeSlice', '(', 'reflect', '.', 'SliceOf', '(', 'myType', '),', '10', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+150,        // Create a pointer to a slice value and set it to the slice,"['//', 'Create', 'a', 'pointer', 'to', 'a', 'slice', 'value', 'and', 'set', 'it', 'to', 'the', 'slice']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'DT', 'NN']"
+151,        x := reflect.New(slice.Type()),"['x', ':=', 'reflect', '.', 'New', '(', 'slice', '.', 'Type', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+152,        x.Elem().Set(slice),"['x', '.', 'Elem', '().', 'Set', '(', 'slice', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,        err = c.Find(bson.M{}).All(x.Interface()),"['err', '=', 'c', '.', 'Find', '(', 'bson', '.', 'M', '{}).', 'All', '(', 'x', '.', 'Interface', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+154,"        response, err := json.Marshal(x.Interface())","['response', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'x', '.', 'Interface', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+155,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+156,"            fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+157,            os.Exit(6),"['os', '.', 'Exit', '(', '6', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+158,        },['}'],['OPERATOR']
+159,"        fmt.Fprintf(w, string(response))","['fmt', '.', 'Fprintf', '(', 'w', ',', 'string', '(', 'response', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+160,    },['}'],['OPERATOR']
+161,},['}'],['OPERATOR']
+162,"
+
+Any help would be appreciated
+","['Any', 'help', 'would', 'be', 'appreciated']","['DT', 'NN', 'MD', 'VB', 'VBN']"

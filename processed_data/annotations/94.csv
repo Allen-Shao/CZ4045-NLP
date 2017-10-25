@@ -1,8 +1,220 @@
 ,text,token,annotation
-0,saveUserData : function saveUserData(data) {,"['saveUserData', ':', 'func', 'tion', 'saveUserData', '(', 'data', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-1,"  var _this = this,","['var', '_this', '=', 'this', ',']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-2,      save = this.shadowRoot.querySelector('#save-data');,"['save', '=', 'this', '.', 'shadowRoot', '.', 'querySelector', '(', 'save', '-', 'data', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-3,"  save.url=""http://galileoexp.appspot.com/saveUserData"";","['save', '.', 'url', '=', '""http://galileoexp.appspot.com/saveUserData""', ';']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-4,  save.body = JSON.stringify(data);,"['save', '.', 'body', '=', 'JSON', '.', 'stringify', '(', 'data', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-5,  save.go();,"['save', '.', 'go', '();']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-6,},['}'],['OPERATOR']
+0,"I'd like to tail -f several log files in /var/log (I thing one goroutine per log would be fine) and every goroutine will keep on ""watching"" forever on log and send every new line with kafka client sarama.
+Here is my code (does not work) :
+
+","[""I'd"", 'like', 'to', 'tail', '-f', 'several', 'log', 'files', 'in', '/var/log', '(I', 'thing', 'one', 'goroutine', 'per', 'log', 'would', 'be', 'fine)', 'and', 'every', 'goroutine', 'will', 'keep', 'on', '""watching""', 'forever', 'on', 'log', 'and', 'send', 'every', 'new', 'line', 'with', 'kafka', 'client', 'sarama.', 'Here', 'is', 'my', 'code', '(does', 'not', 'work)', ':']","['NNP', 'IN', 'TO', 'VB', 'NNP', 'JJ', 'NN', 'NNS', 'IN', 'NNP', 'NNP', 'NN', 'CD', 'NN', 'IN', 'NN', 'MD', 'VB', 'JJ', 'CC', 'DT', 'NN', 'MD', 'VB', 'IN', 'JJ', 'NN', 'IN', 'NN', 'CC', 'VB', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'NN', 'RB', 'VBZ', 'PRP$', 'NN', 'VBZ', 'RB', 'JJ', ':']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""flag""","['""flag""']",['STRING_LITERAL']
+4,"    ""github.com/Shopify/sarama""","['""github.com/Shopify/sarama""']",['STRING_LITERAL']
+5,"    ""log""","['""log""']",['STRING_LITERAL']
+6,"    ""os""","['""os""']",['STRING_LITERAL']
+7,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+8,"    ""strings""","['""strings""']",['STRING_LITERAL']
+9,"    ""github.com/hpcloud/tail""","['""github.com/hpcloud/tail""']",['STRING_LITERAL']
+10,"    ""github.com/spf13/viper""","['""github.com/spf13/viper""']",['STRING_LITERAL']
+11,"    //""io/ioutil""","['//', '""io/ioutil""']","['COMMENT', 'NN']"
+12,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
+13,),[')'],['OPERATOR']
+14,"func produce(producer sarama.SyncProducer, cfg *sarama.Config, brokers *string, topic string, logger *log.Logger, log string, t *tail.Tail){","['func', 'produce', '(', 'producer', 'sarama', '.', 'SyncProducer', ',', 'cfg', '*', 'sarama', '.', 'Config', ',', 'brokers', '*', 'string', ',', 'topic', 'string', ',', 'logger', '*', 'log', '.', 'Logger', ',', 'log', 'string', ',', 't', '*', 'tail', '.', 'Tail', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,"    logger.Printf(""Entering produce"")","['logger', '.', 'Printf', '(', '""Entering produce""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+16,"    logger.Println(strings.Split(*brokers, "",""))","['logger', '.', 'Println', '(', 'strings', '.', 'Split', '(*', 'brokers', ',', '"",""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,"    logger.Println(reflect.TypeOf(strings.Split(*brokers, "","")))","['logger', '.', 'Println', '(', 'reflect', '.', 'TypeOf', '(', 'strings', '.', 'Split', '(*', 'brokers', ',', '"",""', ')))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+18,    logger.Println(log),"['logger', '.', 'Println', '(', 'log', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,"    /*t, err := tail.TailFile(log, tail.Config{Follow: true, ReOpen: true})","['*', 't', ',', 'err', ':=', 'tail', '.', 'TailFile', '(', 'log', ',', 'tail', '.', 'Config', '{', 'Follow', ':', 'true', ',', 'ReOpen', ':', 'true', '})']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,"        fmt.Println(fmt.Errorf(""Error with tail: %v\n"", err.Error()))","['fmt', '.', 'Println', '(', 'fmt', '.', 'Errorf', '(', '""Error with tail: %v\\n""', ',', 'err', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+22,    }*/,['}*'],['OPERATOR']
+23,    for line := range t.Lines {,"['for', 'line', ':=', 'range', 't', '.', 'Lines', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,        //logger.Println(line),"['//', 'logger.Println(line)']","['COMMENT', 'NN']"
+25,        //logger.Println(line.Text),"['//', 'logger.Println(line.Text)']","['COMMENT', 'NN']"
+26,"        msg := &sarama.ProducerMessage{Topic: topic, Value: sarama.StringEncoder(line.Text)}","['msg', ':=', '&', 'sarama', '.', 'ProducerMessage', '{', 'Topic', ':', 'topic', ',', 'Value', ':', 'sarama', '.', 'StringEncoder', '(', 'line', '.', 'Text', ')}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,"        _, _, err := producer.SendMessage(msg)","['_', ',', '_', ',', 'err', ':=', 'producer', '.', 'SendMessage', '(', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+29,"            logger.Printf(""FAILED to send message: %s\n"", err)","['logger', '.', 'Printf', '(', '""FAILED to send message: %s\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,        },['}'],['OPERATOR']
+31,    },['}'],['OPERATOR']
+32,},['}'],['OPERATOR']
+33,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+34,    //Getting config file params,"['//', 'Getting', 'config', 'file', 'params']","['COMMENT', 'VBG', 'NN', 'NN', 'NNS']"
+35,"    viper.SetConfigName(""config"") ","['viper', '.', 'SetConfigName', '(', '""config""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+36,"    viper.AddConfigPath(""/root/work/src/linux2kafka/"")","['viper', '.', 'AddConfigPath', '(', '""/root/work/src/linux2kafka/""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+37,    err := viper.ReadInConfig(),"['err', ':=', 'viper', '.', 'ReadInConfig', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+38,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+39,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+40,    },['}'],['OPERATOR']
+41,    viper.WatchConfig(),"['viper', '.', 'WatchConfig', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+42,"    logList := viper.Get(""log_list"")","['logList', ':=', 'viper', '.', 'Get', '(', '""log_list""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+43,"    //logListString, err := ioutil.ReadFile(logList.(string))","['//', 'logListString,', 'err', ':=', 'ioutil.ReadFile(logList.(string))']","['COMMENT', 'NN', 'NN', 'NNP', 'NN']"
+44,    //fmt.Println(logList),"['//', 'fmt.Println(logList)']","['COMMENT', 'NN']"
+45,    //fmt.Println(reflect.TypeOf(logList)),"['//', 'fmt.Println(reflect.TypeOf(logList))']","['COMMENT', 'NN']"
+46,"    logsConfig := strings.Split(logList.(string),"","")","['logsConfig', ':=', 'strings', '.', 'Split', '(', 'logList', '.(', 'string', '),', '"",""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+47,    // print logs to watch,"['//', 'print', 'logs', 'to', 'watch']","['COMMENT', 'NN', 'NNS', 'TO', 'VB']"
+48,    /*for i := range logsConfig {,"['*', 'for', 'i', ':=', 'range', 'logsConfig', '{']","['OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+49,        fmt.Println(logsConfig[i]),"['fmt', '.', 'Println', '(', 'logsConfig', '[', 'i', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,    }*/,['}*'],['OPERATOR']
+51,"    brokerList := viper.Get(""brokerList"")","['brokerList', ':=', 'viper', '.', 'Get', '(', '""brokerList""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+52,"    brokers := flag.String(""brokers"", brokerList.(string), ""Comma separated kafka brokers list"") //must be set in config.toml","['//', 'must', 'be', 'set', 'in', 'config.toml']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'COMMENT', 'MD', 'VB', 'VBN', 'IN', 'NN']"
+53,"    topic := flag.String(""topic"", ""test0"", ""Kafka topic to send messages to"")","['topic', ':=', 'flag', '.', 'String', '(', '""topic"", ""test0"", ""Kafka topic to send messages to""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+54,    flag.Parse(),"['flag', '.', 'Parse', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+55,"    logger := log.New(os.Stdout, ""producer "", log.Lmicroseconds)","['logger', ':=', 'log', '.', 'New', '(', 'os', '.', 'Stdout', ',', '""producer ""', ',', 'log', '.', 'Lmicroseconds', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,    cfg := sarama.NewConfig(),"['cfg', ':=', 'sarama', '.', 'NewConfig', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,    //Wait for replication,"['//', 'Wait', 'for', 'replication']","['COMMENT', 'NNP', 'IN', 'NN']"
+58,    cfg.Producer.RequiredAcks = -1,"['cfg', '.', 'Producer', '.', 'RequiredAcks', '=', '-', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
+59,    cfg.Producer.Flush.Frequency = 333,"['cfg', '.', 'Producer', '.', 'Flush', '.', 'Frequency', '=', '333']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+60,    cfg.Producer.Flush.Messages = 1000,"['cfg', '.', 'Producer', '.', 'Flush', '.', 'Messages', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+61,    cfg.Producer.Flush.MaxMessages = 3000,"['cfg', '.', 'Producer', '.', 'Flush', '.', 'MaxMessages', '=', '3000']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+62,"    producer, err := sarama.NewSyncProducer(strings.Split(*brokers, "",""), cfg)","['producer', ',', 'err', ':=', 'sarama', '.', 'NewSyncProducer', '(', 'strings', '.', 'Split', '(*', 'brokers', ',', '"",""', '),', 'cfg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+63,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+64,        logger.Fatalln(err),"['logger', '.', 'Fatalln', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+65,    },['}'],['OPERATOR']
+66,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
+67,        if err := producer.Close(); err != nil {,"['if', 'err', ':=', 'producer', '.', 'Close', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,            logger.Fatalln(err),"['logger', '.', 'Fatalln', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,        },['}'],['OPERATOR']
+70,    }(),['}()'],['OPERATOR']
+71,    for i := range logsConfig {,"['for', 'i', ':=', 'range', 'logsConfig', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+72,"        fmt.Println(""go"")","['fmt', '.', 'Println', '(', '""go""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+73,"        t, err := tail.TailFile(logsConfig[i], tail.Config{Follow: true, ReOpen: true})","['t', ',', 'err', ':=', 'tail', '.', 'TailFile', '(', 'logsConfig', '[', 'i', '],', 'tail', '.', 'Config', '{', 'Follow', ':', 'true', ',', 'ReOpen', ':', 'true', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,"            fmt.Println(fmt.Errorf(""Error with tail: %v\n"", err.Error()))","['fmt', '.', 'Println', '(', 'fmt', '.', 'Errorf', '(', '""Error with tail: %v\\n""', ',', 'err', '.', 'Error', '()))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,        },['}'],['OPERATOR']
+77,"        go produce(producer, cfg, brokers, *topic, logger, logsConfig[i], t)","['go', 'produce', '(', 'producer', ',', 'cfg', ',', 'brokers', ',', '*', 'topic', ',', 'logger', ',', 'logsConfig', '[', 'i', '],', 't', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,        },['}'],['OPERATOR']
+79,},['}'],['OPERATOR']
+80,"
+
+And here are my errors (nothing is received by the consumer):
+
+","['And', 'here', 'are', 'my', 'errors', '(nothing', 'is', 'received', 'by', 'the', 'consumer):']","['CC', 'RB', 'VBP', 'PRP$', 'NNS', 'VBG', 'VBZ', 'VBN', 'IN', 'DT', 'NN']"
+81,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+82,go,['go'],['KEYWORD']
+83,producer 15:54:44.297745 Entering produce,"['producer', '15', ':', '54', ':', '44', '.', '297745', 'Entering', 'produce']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+84,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+85,go,['go'],['KEYWORD']
+86,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+87,go,['go'],['KEYWORD']
+88,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+89,go,['go'],['KEYWORD']
+90,producer 15:55:01.951155 Entering produce,"['producer', '15', ':', '55', ':', '01', '.', '951155', 'Entering', 'produce']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+91,producer 15:55:01.951193 [localhost:9092 localhost:9092],"['producer', '15', ':', '55', ':', '01', '.', '951193', '[', 'localhost', ':', '9092', 'localhost', ':', '9092', ']']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+92,producer 15:55:01.951205 []string,"['producer', '15', ':', '55', ':', '01', '.', '951205', '[]', 'string']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+93,producer 15:55:01.951214 /root/work/src/linux2kafka/test/log,"['producer', '15', ':', '55', ':', '01', '.', '951214', 'root', 'work', 'src', 'linux2kafka', 'test', 'log']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+94,panic: send on closed channel,"['panic', ':', 'send', 'on', 'closed', 'chan', 'nel']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+95,goroutine 56 [running]:,"['go', 'routine', '56', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,"panic(0x756440, 0xc820164290)","['panic', '(', '0', 'x756440', ',', '0', 'xc820164290', ')']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+97,    /usr/local/go/src/runtime/panic.go:464 +0x3e6,"['usr', 'local', 'go', 'src', 'runtime', 'panic', '.', 'go', ':', '464', '+', '0', 'x3e6']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+98,"github.com/Shopify/sarama.(*syncProducer).SendMessage(0xc8201742a0, 0xc820176300, 0x0, 0x0, 0x0, 0x0)","['github', '.', 'com', 'Shopify', 'sarama', '.(*', 'syncProducer', ').', 'SendMessage', '(', '0', 'xc8201742a0', ',', '0', 'xc820176300', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+99,    /root/work/src/github.com/Shopify/sarama/sync_producer.go:66 +0x156,"['root', 'work', 'src', 'github', '.', 'com', 'Shopify', 'sarama', 'sync_producer', '.', 'go', ':', '66', '+', '0', 'x156']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+100,"main.produce(0x7f65528661b8, 0xc8201742a0, 0xc82008ea20, 0xc82000b230, 0x8855c0, 0x5, 0xc8200789b0, 0xc820011320, 0x23, 0xc82017e000)","['main', '.', 'produce', '(', '0', 'x7f65528661b8', ',', '0', 'xc8201742a0', ',', '0', 'xc82008ea20', ',', '0', 'xc82000b230', ',', '0', 'x8855c0', ',', '0', 'x5', ',', '0', 'xc8200789b0', ',', '0', 'xc820011320', ',', '0', 'x23', ',', '0', 'xc82017e000', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+101,    /root/work/src/linux2kafka/main.go:31 +0x5d2,"['root', 'work', 'src', 'linux2kafka', 'main', '.', 'go', ':', '31', '+', '0', 'x5d2']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+102,created by main.main,"['created', 'by', 'main', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+103,    /root/work/src/linux2kafka/main.go:85 +0x9f7,"['root', 'work', 'src', 'linux2kafka', 'main', '.', 'go', ':', '85', '+', '0', 'x9f7']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+104,exit status 2,"['exit', 'status', '2']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+105,"
+
+I cannot understand what I'm doing wrong. thx
+
+Here is the modified code, is that ok ? :
+
+package main
+
+import (
+    ""flag""
+    ""github.com/Shopify/sarama""
+    ""log""
+    ""os""
+    ""fmt""
+    ""strings""
+    ""github.com/hpcloud/tail""
+    ""github.com/spf13/viper""
+    //""io/ioutil""
+    //""reflect""
+)
+
+
+
+//func produce(producer sarama.SyncProducer, cfg *sarama.Config, brokers *string, topic string, logger *log.Logger, log string, t *tail.Tail){
+func produce(cfg *sarama.Config, brokers *string, topic string, logger *log.Logger, log string, t *tail.Tail){
+    logger.Println(""Entering produce"")
+    /*logger.Println(strings.Split(*brokers, "",""))
+    logger.Println(reflect.TypeOf(strings.Split(*brokers, "","")))
+    logger.Println(log)*/
+    logger.Printf(""sarama.NewSyncProducer"")
+    producer, err := sarama.NewSyncProducer(strings.Split(*brokers, "",""), cfg)
+    if err != nil {
+        logger.Fatalln(err)
+    }
+    defer func() {
+        if err := producer.Close(); err != nil {
+            logger.Fatalln(err)
+        }
+    }()
+
+    /*t, err := tail.TailFile(log, tail.Config{Follow: true, ReOpen: true})
+    if err != nil {
+        fmt.Println(fmt.Errorf(""Error with tail: %v\n"", err.Error()))
+    }*/
+    for line := range t.Lines {
+        //logger.Println(line)
+        //logger.Println(line.Text)
+        logger.Printf(""ProduceMessage"")
+        msg := &sarama.ProducerMessage{Topic: topic, Value: sarama.StringEncoder(line.Text)}
+        _, _, err := producer.SendMessage(msg)
+        if err != nil {
+            logger.Printf(""FAILED to send message: %s\n"", err)
+        }
+    }
+
+}
+
+
+func main() {
+    //Getting config file params
+    viper.SetConfigName(""config"") 
+    viper.AddConfigPath(""/root/work/src/linux2kafka/"")
+    err := viper.ReadInConfig()
+    if err != nil {
+        panic(err)
+    }
+    viper.WatchConfig()
+    logList := viper.Get(""log_list"")
+    //logListString, err := ioutil.ReadFile(logList.(string))
+    //fmt.Println(logList)
+    //fmt.Println(reflect.TypeOf(logList))
+    logsConfig := strings.Split(logList.(string),"","")
+    // print logs to watch
+    /*for i := range logsConfig {
+        fmt.Println(logsConfig[i])
+    }*/
+    brokerList := viper.Get(""brokerList"")
+    brokers := flag.String(""brokers"", brokerList.(string), ""Comma separated kafka brokers list"") //must be set in config.toml
+    topic := flag.String(""topic"", ""test0"", ""Kafka topic to send messages to"")
+    flag.Parse()
+    logger := log.New(os.Stdout, ""producer "", log.Lmicroseconds)
+    cfg := sarama.NewConfig()
+    //Wait for replication
+    cfg.Producer.RequiredAcks = -1
+    cfg.Producer.Flush.Frequency = 333
+    cfg.Producer.Flush.Messages = 1000
+    cfg.Producer.Flush.MaxMessages = 3000
+    for i := range logsConfig {
+        fmt.Println(""go"")
+        t, err := tail.TailFile(logsConfig[i], tail.Config{Follow: true, ReOpen: true})
+        if err != nil {
+            fmt.Println(fmt.Errorf(""Error with tail: %v\n"", err.Error()))
+        }
+        go produce(cfg, brokers, *topic, logger, logsConfig[i], t)
+        }
+}
+
+
+But still not working... it's not printing the first Println 
+
+","['I', 'cannot', 'understand', 'what', ""I'm"", 'doing', 'wrong.', 'thx', 'Here', 'is', 'the', 'modified', 'code,', 'is', 'that', 'ok', '?', ':', 'package', 'main', 'import', '(', '""flag""', '""github.com/Shopify/sarama""', '""log""', '""os""', '""fmt""', '""strings""', '""github.com/hpcloud/tail""', '""github.com/spf13/viper""', '//""io/ioutil""', '//""reflect""', ')', '//func', 'produce(producer', 'sarama.SyncProducer,', 'cfg', '*sarama.Config,', 'brokers', '*string,', 'topic', 'string,', 'logger', '*log.Logger,', 'log', 'string,', 't', '*tail.Tail){', 'func', 'produce(cfg', '*sarama.Config,', 'brokers', '*string,', 'topic', 'string,', 'logger', '*log.Logger,', 'log', 'string,', 't', '*tail.Tail){', 'logger.Println(""Entering', 'produce"")', '/*logger.Println(strings.Split(*brokers,', '"",""))', 'logger.Println(reflect.TypeOf(strings.Split(*brokers,', '"","")))', 'logger.Println(log)*/', 'logger.Printf(""sarama.NewSyncProducer"")', 'producer,', 'err', ':=', 'sarama.NewSyncProducer(strings.Split(*brokers,', '"",""),', 'cfg)', 'if', 'err', '!=', 'nil', '{', 'logger.Fatalln(err)', '}', 'defer', 'func()', '{', 'if', 'err', ':=', 'producer.Close();', 'err', '!=', 'nil', '{', 'logger.Fatalln(err)', '}', '}()', '/*t,', 'err', ':=', 'tail.TailFile(log,', 'tail.Config{Follow:', 'true,', 'ReOpen:', 'true})', 'if', 'err', '!=', 'nil', '{', 'fmt.Println(fmt.Errorf(""Error', 'with', 'tail:', '%v\\n"",', 'err.Error()))', '}*/', 'for', 'line', ':=', 'range', 't.Lines', '{', '//logger.Println(line)', '//logger.Println(line.Text)', 'logger.Printf(""ProduceMessage"")', 'msg', ':=', '&sarama.ProducerMessage{Topic:', 'topic,', 'Value:', 'sarama.StringEncoder(line.Text)}', '_,', '_,', 'err', ':=', 'producer.SendMessage(msg)', 'if', 'err', '!=', 'nil', '{', 'logger.Printf(""FAILED', 'to', 'send', 'message:', '%s\\n"",', 'err)', '}', '}', '}', 'func', 'main()', '{', '//Getting', 'config', 'file', 'params', 'viper.SetConfigName(""config"")', 'viper.AddConfigPath(""/root/work/src/linux2kafka/"")', 'err', ':=', 'viper.ReadInConfig()', 'if', 'err', '!=', 'nil', '{', 'panic(err)', '}', 'viper.WatchConfig()', 'logList', ':=', 'viper.Get(""log_list"")', '//logListString,', 'err', ':=', 'ioutil.ReadFile(logList.(string))', '//fmt.Println(logList)', '//fmt.Println(reflect.TypeOf(logList))', 'logsConfig', ':=', 'strings.Split(logList.(string),"","")', '//', 'print', 'logs', 'to', 'watch', '/*for', 'i', ':=', 'range', 'logsConfig', '{', 'fmt.Println(logsConfig[i])', '}*/', 'brokerList', ':=', 'viper.Get(""brokerList"")', 'brokers', ':=', 'flag.String(""brokers"",', 'brokerList.(string),', '""Comma', 'separated', 'kafka', 'brokers', 'list"")', '//must', 'be', 'set', 'in', 'config.toml', 'topic', ':=', 'flag.String(""topic"",', '""test0"",', '""Kafka', 'topic', 'to', 'send', 'messages', 'to"")', 'flag.Parse()', 'logger', ':=', 'log.New(os.Stdout,', '""producer', '"",', 'log.Lmicroseconds)', 'cfg', ':=', 'sarama.NewConfig()', '//Wait', 'for', 'replication', 'cfg.Producer.RequiredAcks', '=', '-1', 'cfg.Producer.Flush.Frequency', '=', '333', 'cfg.Producer.Flush.Messages', '=', '1000', 'cfg.Producer.Flush.MaxMessages', '=', '3000', 'for', 'i', ':=', 'range', 'logsConfig', '{', 'fmt.Println(""go"")', 't,', 'err', ':=', 'tail.TailFile(logsConfig[i],', 'tail.Config{Follow:', 'true,', 'ReOpen:', 'true})', 'if', 'err', '!=', 'nil', '{', 'fmt.Println(fmt.Errorf(""Error', 'with', 'tail:', '%v\\n"",', 'err.Error()))', '}', 'go', 'produce(cfg,', 'brokers,', '*topic,', 'logger,', 'logsConfig[i],', 't)', '}', '}', 'But', 'still', 'not', 'working...', ""it's"", 'not', 'printing', 'the', 'first', 'Println']","['PRP', 'VBP', 'VB', 'WP', 'NNP', 'VBG', 'JJ', 'NN', 'RB', 'VBZ', 'DT', 'JJ', 'NN', 'VBZ', 'IN', 'JJ', '.', ':', 'NN', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', ')', 'VBZ', 'JJ', 'NN', 'NN', 'NN', 'NNS', 'VBP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNS', 'VBP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'VBG', 'NN', 'NNP', 'NNP', 'VBZ', 'NNP', 'NN', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'JJ', ')', 'VBP', 'JJ', '(', 'IN', 'VBN', 'NNP', 'NN', 'NN', 'NNP', 'RB', '(', 'NN', ')', 'NNP', 'NNP', 'VBZ', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'NN', 'NNP', 'NN', 'NNS', '(', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'VBZ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', 'TO', 'VB', 'NN', 'NNP', 'NN', ')', ')', ')', 'JJ', 'JJ', '(', 'VBG', 'NN', 'NN', 'NNS', 'VBP', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', ')', 'FW', 'JJ', 'NNP', 'NN', 'NNP', 'VBZ', 'NNP', 'NN', 'NNP', 'NNP', 'VBZ', 'NNP', 'NN', 'NNP', 'NN', 'NNS', 'TO', 'VB', 'NNP', 'NN', 'VBP', 'NN', 'NN', '(', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'NNS', 'VBP', 'JJ', 'NN', 'NNP', 'VBD', 'JJ', 'NNS', 'VBD', 'RB', 'VB', 'VBN', 'IN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NN', 'TO', 'VB', 'NNS', 'VBP', 'JJ', 'JJR', 'JJ', 'NN', 'NNP', 'NNP', 'VBZ', 'JJ', 'NNP', 'NN', 'NN', 'IN', 'NN', 'NNS', 'VBP', 'JJ', 'NN', 'VBD', 'CD', 'NNS', 'JJ', 'CD', 'NNS', 'VBP', 'CD', 'IN', 'NN', 'VBP', 'NN', 'NN', '(', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NN', '(', 'NN', 'IN', 'JJ', 'NNP', 'NN', ')', 'VB', 'JJ', 'NN', 'NNP', 'VBZ', 'JJ', 'NN', ')', ')', 'CC', 'RB', 'RB', 'VB', 'RB', 'RB', 'VBG', 'DT', 'JJ', 'NNP']"
+106,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+107,go,['go'],['KEYWORD']
+108,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+109,go,['go'],['KEYWORD']
+110,root@home:~/work/src/linux2kafka# go run main.go,"['root', 'home', ':', 'work', 'src', 'linux2kafka', 'go', 'run', 'main', '.', 'go']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
+111,go,['go'],['KEYWORD']

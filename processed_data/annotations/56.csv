@@ -1,161 +1,228 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-3,"    ""compress/zlib""","['""compress/zlib""']",['STRING_LITERAL']
-4,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-5,"    ""flag""","['""flag""']",['STRING_LITERAL']
-6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-7,"    ""gotwcc/mylib""","['""gotwcc/mylib""']",['STRING_LITERAL']
-8,"    ""io""","['""io""']",['STRING_LITERAL']
-9,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-10,"    ""os""","['""os""']",['STRING_LITERAL']
-11,),[')'],['OPERATOR']
-12,type Block struct {,"['type', 'Block', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-13,    data []byte,"['data', '[]', 'byte']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-14,},['}'],['OPERATOR']
-15,type Row struct {,"['type', 'Row', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-16,"    offset, len uint32","['offset', ',', 'len', 'uint32']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-17,    block       *Block,"['block', '*', 'Block']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-18,},['}'],['OPERATOR']
-19,type Cache struct {,"['type', 'Cache', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-20,    blocks          []Block,"['blocks', '[]', 'Block']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-21,    indexes         map[string]*Row,"['indexes', 'map', '[', 'string', ']*', 'Row']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-22,    enable_compress bool,"['enable_compress', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
-23,    maxRowGroup     uint,"['maxRowGroup', 'uint']","['IDENTIFIER', 'IDENTIFIER']"
-24,},['}'],['OPERATOR']
-25,func (this *Cache) dump() {,"['func', '(', 'this', '*', 'Cache', ')', 'dump', '()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-26,"    for key, value := range this.indexes {","['for', 'key', ',', 'value', ':=', 'range', 'this', '.', 'indexes', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,"        fmt.Printf(""[%s] = \""%s\""\n"", key, value.block)","['fmt', '.', 'Printf', '(', '""[%s] = \\""%s\\""\\n""', ',', 'key', ',', 'value', '.', 'block', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,    },['}'],['OPERATOR']
-29,},['}'],['OPERATOR']
-30,func (this *Cache) search(item_id string) string {,"['func', '(', 'this', '*', 'Cache', ')', 'search', '(', 'item_id', 'string', ')', 'string', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-31,    row := this.indexes[item_id],"['row', ':=', 'this', '.', 'indexes', '[', 'item_id', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,    if row == nil {,"['if', 'row', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,"        return ""(Not found)""","['return', '""(Not found)""']","['KEYWORD', 'STRING_LITERAL']"
-34,    },['}'],['OPERATOR']
-35,    block := this.uncompress(row.block.data),"['block', ':=', 'this', '.', 'uncompress', '(', 'row', '.', 'block', '.', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,    slice := block[row.offset : row.offset+row.len],"['slice', ':=', 'block', '[', 'row', '.', 'offset', ':', 'row', '.', 'offset', '+', 'row', '.', 'len', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-37,    return string(slice),"['return', 'string', '(', 'slice', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,},['}'],['OPERATOR']
-39,func (this *Cache) compress(data []byte) []byte {,"['func', '(', 'this', '*', 'Cache', ')', 'compress', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,    if !this.enable_compress {,"['if', '!', 'this', '.', 'enable_compress', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,        return data,"['return', 'data']","['KEYWORD', 'IDENTIFIER']"
-42,    },['}'],['OPERATOR']
-43,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-44,    w := zlib.NewWriter(&b),"['w', ':=', 'zlib', '.', 'NewWriter', '(&', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,    w.Write(data),"['w', '.', 'Write', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,    w.Close(),"['w', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-47,    return b.Bytes(),"['return', 'b', '.', 'Bytes', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,},['}'],['OPERATOR']
-49,func (this *Cache) uncompress(data []byte) []byte {,"['func', '(', 'this', '*', 'Cache', ')', 'uncompress', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,    if !this.enable_compress {,"['if', '!', 'this', '.', 'enable_compress', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,        return data,"['return', 'data']","['KEYWORD', 'IDENTIFIER']"
-52,    },['}'],['OPERATOR']
-53,    var res bytes.Buffer,"['var', 'res', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-54,    b := bytes.NewReader(data),"['b', ':=', 'bytes', '.', 'NewReader', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,"    r, err := zlib.NewReader(b)","['r', ',', 'err', ':=', 'zlib', '.', 'NewReader', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-58,    },['}'],['OPERATOR']
-59,"    io.Copy(&res, r)","['io', '.', 'Copy', '(&', 'res', ',', 'r', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,    r.Close(),"['r', '.', 'Close', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,    return res.Bytes(),"['return', 'res', '.', 'Bytes', '()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,},['}'],['OPERATOR']
-63,func (this *Cache) loadFile(s string) {,"['func', '(', 'this', '*', 'Cache', ')', 'loadFile', '(', 's', 'string', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-64,    type TempRowBuf struct {,"['type', 'TempRowBuf', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-65,        item_id     []byte,"['item_id', '[]', 'byte']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-66,"        offset, len uint32","['offset', ',', 'len', 'uint32']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-67,    },['}'],['OPERATOR']
-68,"    file, err := os.Open(s)","['file', ',', 'err', ':=', 'os', '.', 'Open', '(', 's', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,        panic(err.Error()),"['panic', '(', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,    },['}'],['OPERATOR']
-72,    defer file.Close(),"['defer', 'file', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,    scanner := mybufio.NewScanner(file),"['scanner', ':=', 'mybufio', '.', 'NewScanner', '(', 'file', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,    scanner.Split(mybufio.ScanLines),"['scanner', '.', 'Split', '(', 'mybufio', '.', 'ScanLines', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-75,    var tmp_buf bytes.Buffer,"['var', 'tmp_buf', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-76,    var buffer bytes.Buffer,"['var', 'buffer', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-77,    var tmp_list []TempRowBuf,"['var', 'tmp_list', '[]', 'TempRowBuf']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-78,    this.indexes = make(map[string]*Row),"['this', '.', 'indexes', '=', 'make', '(', 'map', '[', 'string', ']*', 'Row', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,    var offset uint32 = 0,"['var', 'offset', 'uint32', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-80,    nb := this.maxRowGroup,"['nb', ':=', 'this', '.', 'maxRowGroup']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-81,    for scanner.Scan() {,"['for', 'scanner', '.', 'Scan', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-82,        nb--,"['nb', '--']","['IDENTIFIER', 'OPERATOR']"
-83,        tmp_buf.Reset(),"['tmp_buf', '.', 'Reset', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-84,        tmp_buf.Write(scanner.Bytes()),"['tmp_buf', '.', 'Write', '(', 'scanner', '.', 'Bytes', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,        line := tmp_buf.Bytes(),"['line', ':=', 'tmp_buf', '.', 'Bytes', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,"        item_id, _ := tmp_buf.ReadBytes('\t')","['item_id', ',', '_', ':=', 'tmp_buf', '.', 'ReadBytes', '(', 't', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,        item_id = item_id[0 : len(item_id)-1],"['item_id', '=', 'item_id', '[', '0', ':', 'len', '(', 'item_id', ')-', '1', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-88,        size := uint32(len(line)),"['size', ':=', 'uint32', '(', 'len', '(', 'line', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-89,        buffer.Write(line),"['buffer', '.', 'Write', '(', 'line', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,"        tmp_list = append(tmp_list, TempRowBuf{item_id, offset, size})","['tmp_list', '=', 'append', '(', 'tmp_list', ',', 'TempRowBuf', '{', 'item_id', ',', 'offset', ',', 'size', '})']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,        offset += size,"['offset', '+=', 'size']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-92,        if nb <= 0 {,"['if', 'nb', '<=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-93,            compressed := this.compress(buffer.Bytes()),"['compressed', ':=', 'this', '.', 'compress', '(', 'buffer', '.', 'Bytes', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,"            buff := make([]byte, len(compressed))","['buff', ':=', 'make', '([]', 'byte', ',', 'len', '(', 'compressed', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,"            copy(buff, compressed)","['copy', '(', 'buff', ',', 'compressed', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,            var block *Block = &Block{buff},"['var', 'block', '*', 'Block', '=', '&', 'Block', '{', 'buff', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-97,"            for _, tmp := range tmp_list {","['for', '_', ',', 'tmp', ':=', 'range', 'tmp_list', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-98,"                this.indexes[string(tmp.item_id)] = &Row{tmp.offset, tmp.len, block}","['this', '.', 'indexes', '[', 'string', '(', 'tmp', '.', 'item_id', ')]', '=', '&', 'Row', '{', 'tmp', '.', 'offset', ',', 'tmp', '.', 'len', ',', 'block', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,            },['}'],['OPERATOR']
-100,            nb = this.maxRowGroup,"['nb', '=', 'this', '.', 'maxRowGroup']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-101,            offset = 0,"['offset', '=', '0']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-102,            tmp_list = nil,"['tmp_list', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-103,            buffer.Reset(),"['buffer', '.', 'Reset', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-104,        },['}'],['OPERATOR']
-105,    },['}'],['OPERATOR']
-106,    if nb > 0 {,"['if', 'nb', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-107,        compressed := this.compress(buffer.Bytes()),"['compressed', ':=', 'this', '.', 'compress', '(', 'buffer', '.', 'Bytes', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-108,"        buff := make([]byte, len(compressed))","['buff', ':=', 'make', '([]', 'byte', ',', 'len', '(', 'compressed', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-109,"        copy(buff, compressed)","['copy', '(', 'buff', ',', 'compressed', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,        var block *Block = &Block{buff},"['var', 'block', '*', 'Block', '=', '&', 'Block', '{', 'buff', '}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-111,"        for _, tmp := range tmp_list {","['for', '_', ',', 'tmp', ':=', 'range', 'tmp_list', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-112,"            this.indexes[string(tmp.item_id)] = &Row{tmp.offset, tmp.len, block}","['this', '.', 'indexes', '[', 'string', '(', 'tmp', '.', 'item_id', ')]', '=', '&', 'Row', '{', 'tmp', '.', 'offset', ',', 'tmp', '.', 'len', ',', 'block', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,        },['}'],['OPERATOR']
+0,"I have just recently started faffing with golang.
+I taught myself php & jquery pretty easily & by creating a project to do so.
+
+I am trying the same atm to teach myself golang, but I have gotten to a point
+now which either im missing the point or just searching incorrectly.
+
+....
+
+Ok so what I am trying to do is make a IRC bot.
+The one function listens to channel chatter & if certain commands are picked up
+it then will add relevant information to a sqlite3 database.
+
+The problem is that one of the commands queries the database & will return multiple rows, which then need to be passed back to the original function & outputted into the IRC channel.
+
+Where I am getting stuck is returning the queries output to the original function since it is multiple rows of data
+
+Im importing the below libraries
+fmt
+net/textproto
+regexp
+strings
+os
+database/sql
+","['I', 'have', 'just', 'recently', 'started', 'faffing', 'with', 'golang.', 'I', 'taught', 'myself', 'php', '&', 'jquery', 'pretty', 'easily', '&', 'by', 'creating', 'a', 'project', 'to', 'do', 'so.', 'I', 'am', 'trying', 'the', 'same', 'atm', 'to', 'teach', 'myself', 'golang,', 'but', 'I', 'have', 'gotten', 'to', 'a', 'point', 'now', 'which', 'either', 'im', 'missing', 'the', 'point', 'or', 'just', 'searching', 'incorrectly.', '....', 'Ok', 'so', 'what', 'I', 'am', 'trying', 'to', 'do', 'is', 'make', 'a', 'IRC', 'bot.', 'The', 'one', 'function', 'listens', 'to', 'channel', 'chatter', '&', 'if', 'certain', 'commands', 'are', 'picked', 'up', 'it', 'then', 'will', 'add', 'relevant', 'information', 'to', 'a', 'sqlite3', 'database.', 'The', 'problem', 'is', 'that', 'one', 'of', 'the', 'commands', 'queries', 'the', 'database', '&', 'will', 'return', 'multiple', 'rows,', 'which', 'then', 'need', 'to', 'be', 'passed', 'back', 'to', 'the', 'original', 'function', '&', 'outputted', 'into', 'the', 'IRC', 'channel.', 'Where', 'I', 'am', 'getting', 'stuck', 'is', 'returning', 'the', 'queries', 'output', 'to', 'the', 'original', 'function', 'since', 'it', 'is', 'multiple', 'rows', 'of', 'data', 'Im', 'importing', 'the', 'below', 'libraries', 'fmt', 'net/textproto', 'regexp', 'strings', 'os', 'database/sql']","['PRP', 'VBP', 'RB', 'RB', 'VBD', 'VBG', 'IN', 'NN', 'PRP', 'VBD', 'PRP', 'NN', 'CC', 'NN', 'RB', 'RB', 'CC', 'IN', 'VBG', 'DT', 'NN', 'TO', 'VB', 'VB', 'PRP', 'VBP', 'VBG', 'DT', 'JJ', 'NN', 'TO', 'VB', 'PRP', 'JJ', 'CC', 'PRP', 'VBP', 'VBN', 'TO', 'DT', 'NN', 'RB', 'WDT', 'CC', 'NN', 'VBG', 'DT', 'NN', 'CC', 'RB', 'VBG', 'NN', 'NNP', 'NNP', 'IN', 'WP', 'PRP', 'VBP', 'VBG', 'TO', 'VB', 'VBZ', 'VB', 'DT', 'NNP', 'IN', 'DT', 'CD', 'NN', 'VBZ', 'TO', 'VB', 'NN', 'CC', 'IN', 'JJ', 'NNS', 'VBP', 'VBN', 'IN', 'PRP', 'RB', 'MD', 'VB', 'JJ', 'NN', 'TO', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'IN', 'CD', 'IN', 'DT', 'NNS', 'VBZ', 'DT', 'NN', 'CC', 'MD', 'VB', 'JJ', 'NN', 'WDT', 'RB', 'VBP', 'TO', 'VB', 'VBN', 'RB', 'TO', 'DT', 'JJ', 'NN', 'CC', 'VBN', 'IN', 'DT', 'NNP', 'NN', 'WRB', 'PRP', 'VBP', 'VBG', 'NN', 'VBZ', 'VBG', 'DT', 'NNS', 'NN', 'TO', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'VBZ', 'JJ', 'NNS', 'IN', 'NNS', 'NNP', 'VBG', 'DT', 'NN', 'VBZ', 'VBP', 'JJ', 'NN', 'NNS', 'VBP', 'NN']"
+1,_ github.com/mattn/go-sqlite3,"['_', 'github', '.', 'com', 'mattn', 'go', '-', 'sqlite3']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER']"
+2,"
+
+",[],[]
+3,func getLineup() {,"['func', 'getLineup', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+4,    // Open Database,"['//', 'Open', 'Database']","['COMMENT', 'JJ', 'NNP']"
+5,"    db, err := sql.Open(""sqlite3"", ""./database.db"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""./database.db""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+6,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+7,            fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+8,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+9,    },['}'],['OPERATOR']
+10,    defer db.Close(),"['defer', 'db', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,    // Prepare Query,"['//', 'Prepare', 'Query']","['COMMENT', 'NNP', 'NNP']"
+12,"    statement, err := db.Prepare(""SELECT team, player FROM lineup ORDER BY team DESC;"")","['statement', ',', 'err', ':=', 'db', '.', 'Prepare', '(', '""SELECT team, player FROM lineup ORDER BY team DESC;""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+13,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,            fmt.Println(err),"['fmt', '.', 'Println', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+16,    },['}'],['OPERATOR']
+17,    // Execute Statement,"['//', 'Execute', 'Statement']","['COMMENT', 'NNP', 'NNP']"
+18,"    rows, err := statement.Query()","['rows', ',', 'err', ':=', 'statement', '.', 'Query', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+19,    defer rows.Close(),"['defer', 'rows', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+20,"    fmt.Println(""Lineup:"")","['fmt', '.', 'Println', '(', '""Lineup:""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+21,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+22,            var team string,"['var', 'team', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+23,            var player string,"['var', 'player', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+24,"            rows.Scan(&team, &player)","['rows', '.', 'Scan', '(&', 'team', ',', '&', 'player', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,"            fmt.Printf(""%v %v\n"", team, player)","['fmt', '.', 'Printf', '(', '""%v %v\\n""', ',', 'team', ',', 'player', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+26,    },['}'],['OPERATOR']
+27,},['}'],['OPERATOR']
+28,"
+
+So I can print it, but I need to pass it to another function which is where im lost
+
+","['So', 'I', 'can', 'print', 'it,', 'but', 'I', 'need', 'to', 'pass', 'it', 'to', 'another', 'function', 'which', 'is', 'where', 'im', 'lost']","['IN', 'PRP', 'MD', 'VB', 'NN', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'PRP', 'TO', 'DT', 'NN', 'WDT', 'VBZ', 'WRB', 'NN', 'VBD']"
+29,================================UPDATE====================================,"['================================', 'UPDATE', '====================================']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+30,"
+
+Ok so here is my full code...
+@evanmcdonnal With the updated code you gave above I now get the error
+","['Ok', 'so', 'here', 'is', 'my', 'full', 'code...', '@evanmcdonnal', 'With', 'the', 'updated', 'code', 'you', 'gave', 'above', 'I', 'now', 'get', 'the', 'error']","['NNP', 'RB', 'RB', 'VBZ', 'PRP$', 'JJ', 'JJ', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBD', 'IN', 'PRP', 'RB', 'VBP', 'DT', 'NN']"
+31,bot.go:70: cannot use p (type Player) as type *Player in append,"['bot', '.', 'go', ':', '70', ':', 'cannot', 'use', 'p', '(', 'type', 'Player', ')', 'as', 'type', '*', 'Player', 'in', 'append']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+32,"
+
+",[],[]
+33,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+34,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+35,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+36,"    ""net/textproto""","['""net/textproto""']",['STRING_LITERAL']
+37,"    ""regexp""","['""regexp""']",['STRING_LITERAL']
+38,"    ""log""","['""log""']",['STRING_LITERAL']
+39,"    ""strings""","['""strings""']",['STRING_LITERAL']
+40,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
+41,    // SQLite3,"['//', 'SQLite3']","['COMMENT', 'NN']"
+42,"    _ ""github.com/mattn/go-sqlite3""","['_', '""github.com/mattn/go-sqlite3""']","['IDENTIFIER', 'STRING_LITERAL']"
+43,),[')'],['OPERATOR']
+44,type PrivMsg struct {,"['type', 'PrivMsg', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+45,"    nick, channel, text string","['nick', ',', 'chan', 'nel', ',', 'text', 'string']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+46,},['}'],['OPERATOR']
+47,var (,"['var', '(']","['KEYWORD', 'OPERATOR']"
+48,    conn *textproto.Conn,"['conn', '*', 'textproto', '.', 'Conn']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+49,    err  error,"['err', 'error']","['IDENTIFIER', 'IDENTIFIER']"
+50,"    ping    = regexp.MustCompile(""^PING :([a-zA-Z0-9\\.]+)$"")","['ping', '=', 'regexp', '.', 'MustCompile', '(', '""^PING :([a-zA-Z0-9\\\\.]+)$""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+51,"    motd    = regexp.MustCompile("":End of /MOTD command\\.$"")","['motd', '=', 'regexp', '.', 'MustCompile', '(', '"":End of /MOTD command\\\\.$""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+52,"    privmsg = regexp.MustCompile(""^:([a-zA-Z0-9`_\\-]+)![a-zA-Z0-9/\\\\\\.\\-]+@[a-zA-Z0-9/\\\\\\.\\-]+ PRIVMSG (#[a-zA-Z0-9]+) :(.*)$"")","['privmsg', '=', 'regexp', '.', 'MustCompile', '(', '""^:([a-zA-Z0-9`_\\\\-]+)![a-zA-Z0-9/\\\\\\\\\\\\.\\\\-]+@[a-zA-Z0-9/\\\\\\\\\\\\.\\\\-]+ PRIVMSG (#[a-zA-Z0-9]+) :(.*)$""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+53,),[')'],['OPERATOR']
+54,"func talk(channel, msg string) {","['func', 'talk', '(', 'chan', 'nel', ',', 'msg', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+55,"    conn.Cmd(""PRIVMSG "" + channel + "" :"" + msg)","['conn', '.', 'Cmd', '(', '""PRIVMSG "" + channel + "" :""', '+', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,},['}'],['OPERATOR']
+57,func handlePing(auth string) {,"['func', 'handlePing', '(', 'auth', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+58,"    conn.Cmd(""PONG :"" + auth)","['conn', '.', 'Cmd', '(', '""PONG :""', '+', 'auth', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,"    fmt.Printf(""PONG :%s\n"", auth)","['fmt', '.', 'Printf', '(', '""PONG :%s\\n""', ',', 'auth', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+60,},['}'],['OPERATOR']
+61,type Player struct {,"['type', 'Player', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+62,    TeamName string,"['TeamName', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+63,    PlayerName string,"['PlayerName', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+64,},['}'],['OPERATOR']
+65,func getLineup() {,"['func', 'getLineup', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+66,    // Open Database,"['//', 'Open', 'Database']","['COMMENT', 'JJ', 'NNP']"
+67,"    db, err := sql.Open(""sqlite3"", ""./database.db"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""./database.db""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+68,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+70,    },['}'],['OPERATOR']
+71,    // Prepare Query,"['//', 'Prepare', 'Query']","['COMMENT', 'NNP', 'NNP']"
+72,"    statement, err := db.Prepare(""SELECT team, player FROM lineup ORDER BY team DESC;"")","['statement', ',', 'err', ':=', 'db', '.', 'Prepare', '(', '""SELECT team, player FROM lineup ORDER BY team DESC;""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+73,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+74,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,    },['}'],['OPERATOR']
+76,    // Execute Statement,"['//', 'Execute', 'Statement']","['COMMENT', 'NNP', 'NNP']"
+77,"    rows, err := statement.Query()","['rows', ',', 'err', ':=', 'statement', '.', 'Query', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+78,    defer rows.Close(),"['defer', 'rows', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+79,// Output Code,"['//', 'Output', 'Code']","['COMMENT', 'NNP', 'NNP']"
+80,    var Players []*Player,"['var', 'Players', '[]*', 'Player']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+81,    for rows.Next() {,"['for', 'rows', '.', 'Next', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+82,        p := &Player{},"['p', ':=', '&', 'Player', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,"        if err := rows.Scan(p.TeamName, p.PlayerName); err != nil{","['if', 'err', ':=', 'rows', '.', 'Scan', '(', 'p', '.', 'TeamName', ',', 'p', '.', 'PlayerName', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+84,            log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+85,        },['}'],['OPERATOR']
+86,"        //Players = append(Players, p)","['//', 'Players', '=', 'append(Players,', 'p)']","['COMMENT', 'NNS', 'VBP', 'JJ', 'NN']"
+87,"        return p.TeamName, p.PlayerName","['return', 'p', '.', 'TeamName', ',', 'p', '.', 'PlayerName']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,    },['}'],['OPERATOR']
+89,    // pass Players to next function/return it whatever,"['//', 'pass', 'Players', 'to', 'next', 'function/return', 'it', 'whatever']","['COMMENT', 'NN', 'NNS', 'TO', 'JJ', 'NN', 'PRP', 'WDT']"
+90,    fmt.Println(Players),"['fmt', '.', 'Println', '(', 'Players', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+91,},['}'],['OPERATOR']
+92,func handlePrivmsg(pm *PrivMsg) {,"['func', 'handlePrivmsg', '(', 'pm', '*', 'PrivMsg', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+93,"    if strings.Contains(pm.text, ""!add t"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!add t""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+94,"        talk(pm.channel, pm.nick + "" added to Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" added to Terrorists""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+95,"        saveLineup(""T"", pm.nick)","['saveLineup', '(', '""T""', ',', 'pm', '.', 'nick', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,    },['}'],['OPERATOR']
+97,"    if strings.Contains(pm.text, ""!add ct"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!add ct""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+98,"        talk(pm.channel, pm.nick + "" added to Counter-Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" added to Counter-Terrorists""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+99,"        saveLineup(""CT"", pm.nick)","['saveLineup', '(', '""CT""', ',', 'pm', '.', 'nick', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,    },['}'],['OPERATOR']
+101,"    if strings.Contains(pm.text, ""!rem"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!rem""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+102,"        talk(pm.channel, pm.nick + "" has been removed from the current lineup"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" has been removed from the current lineup""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+103,    },['}'],['OPERATOR']
+104,"    if strings.Contains(pm.text, ""!votemap"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!votemap""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+105,"        talk(pm.channel, pm.nick + "" map vote code"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" map vote code""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+106,    },['}'],['OPERATOR']
+107,"    if strings.Contains(pm.text, ""!moveme"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!moveme""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+108,"        talk(pm.channel, pm.nick + "" has been moved to Counter-Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" has been moved to Counter-Terrorists""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+109,    },['}'],['OPERATOR']
+110,"    if strings.Contains(pm.text, ""!teams"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!teams""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+111,        getLineup(),"['getLineup', '()']","['IDENTIFIER', 'OPERATOR']"
+112,        //fmt.Println(*tpList),"['//', 'fmt.Println(*tpList)']","['COMMENT', 'NN']"
+113,"        talk(pm.channel, pm.nick + "" will show the current teams"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" will show the current teams""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
 114,    },['}'],['OPERATOR']
-115,},['}'],['OPERATOR']
-116,"func wsCacheHandler(cache *Cache, writer http.ResponseWriter, request *http.Request) {","['func', 'wsCacheHandler', '(', 'cache', '*', 'Cache', ',', 'writer', 'http', '.', 'ResponseWriter', ',', 'request', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-117,    var value map[string]string = make(map[string]string),"['var', 'value', 'map', '[', 'string', ']', 'string', '=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-118,"    item_id := request.FormValue(""item_id"")","['item_id', ':=', 'request', '.', 'FormValue', '(', '""item_id""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-119,"    value[""item_id""] = item_id","['value', '[', '""item_id""', ']', '=', 'item_id']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-120,"    value[""raw""] = cache.search(item_id)","['value', '[', '""raw""', ']', '=', 'cache', '.', 'search', '(', 'item_id', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,"    jsonResp, err := json.Marshal(value)","['jsonResp', ',', 'err', ':=', 'json', '.', 'Marshal', '(', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,"        fmt.Println(""error:"", err)","['fmt', '.', 'Println', '(', '""error:""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-124,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-125,"        fmt.Fprintf(writer, ""%s"", string(jsonResp))","['fmt', '.', 'Fprintf', '(', 'writer', ',', '""%s""', ',', 'string', '(', 'jsonResp', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-126,    },['}'],['OPERATOR']
-127,},['}'],['OPERATOR']
-128,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-129,"    filename := flag.String(""data"", ""default.txt"", ""The data filename"")","['filename', ':=', 'flag', '.', 'String', '(', '""data"", ""default.txt"", ""The data filename""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-130,"    no_http := flag.Bool(""no-http"", false, ""Do not start an http server"")","['no_http', ':=', 'flag', '.', 'Bool', '(', '""no-http"", false, ""Do not start an http server""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-131,"    dumpMap := flag.Bool(""dump"", false, ""If we should dump the map to stdout"")","['dumpMap', ':=', 'flag', '.', 'Bool', '(', '""dump"", false, ""If we should dump the map to stdout""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-132,"    noCompression := flag.Bool(""no-compress"", false, ""Disable compression"")","['noCompression', ':=', 'flag', '.', 'Bool', '(', '""no-compress"", false, ""Disable compression""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-133,"    maxRowGroup := flag.Uint(""max-row-group"", 100, ""How much line to group when doing compression"")","['maxRowGroup', ':=', 'flag', '.', 'Uint', '(', '""max-row-group"", 100, ""How much line to group when doing compression""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-134,    flag.Parse(),"['flag', '.', 'Parse', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-135,    var cache Cache,"['var', 'cache', 'Cache']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-136,    cache.enable_compress = !*noCompression,"['cache', '.', 'enable_compress', '=', '!*', 'noCompression']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-137,    cache.maxRowGroup = *maxRowGroup,"['cache', '.', 'maxRowGroup', '=', '*', 'maxRowGroup']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-138,    cache.loadFile(*filename),"['cache', '.', 'loadFile', '(*', 'filename', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,    if *dumpMap {,"['if', '*', 'dumpMap', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-140,        cache.dump(),"['cache', '.', 'dump', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-141,"        fmt.Println(cache.search(""100001""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100001""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-142,"        fmt.Println(cache.search(""100002""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100002""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-143,"        fmt.Println(cache.search(""100003""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100003""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-144,"        fmt.Println(cache.search(""100004""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100004""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-145,"        fmt.Println(cache.search(""100005""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100005""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-146,"        fmt.Println(cache.search(""100006""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100006""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-147,"        fmt.Println(cache.search(""100007""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100007""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-148,"        fmt.Println(cache.search(""100008""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100008""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-149,"        fmt.Println(cache.search(""100009""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100009""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-150,"        fmt.Println(cache.search(""100010""))","['fmt', '.', 'Println', '(', 'cache', '.', 'search', '(', '""100010""', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-151,    },['}'],['OPERATOR']
-152,    if !*no_http {,"['if', '!*', 'no_http', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-153,"        http.HandleFunc(""/"", func(writer http.ResponseWriter, request *http.Request) {","['http', '.', 'HandleFunc', '(', '""/""', ',', 'func', '(', 'writer', 'http', '.', 'ResponseWriter', ',', 'request', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-154,"            wsCacheHandler(&cache, writer, request)","['wsCacheHandler', '(&', 'cache', ',', 'writer', ',', 'request', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-155,        }),['})'],['OPERATOR']
-156,"        fmt.Println(""Cache loaded, now listening on port 8585..."")","['fmt', '.', 'Println', '(', '""Cache loaded, now listening on port 8585...""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-157,"        http.ListenAndServe("":8585"", nil)","['http', '.', 'ListenAndServe', '(', '"":8585""', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-158,    },['}'],['OPERATOR']
-159,},['}'],['OPERATOR']
+115,"    if strings.Contains(pm.text, ""!add ct"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""!add ct""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+116,"        talk(pm.channel, pm.nick + "" added to Counter-Terrorists"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" added to Counter-Terrorists""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+117,    },['}'],['OPERATOR']
+118,"    if strings.Contains(pm.text, ""pug-bot"") {","['if', 'strings', '.', 'Contains', '(', 'pm', '.', 'text', ',', '""pug-bot""', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+119,"        talk(pm.channel, ""Hello, "" + pm.nick + ""!"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', '""Hello, "" + pm.nick + ""!""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+120,    },['}'],['OPERATOR']
+121,},['}'],['OPERATOR']
+122,"func saveLineup(Team, Player string) {","['func', 'saveLineup', '(', 'Team', ',', 'Player', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+123,    // Open Database,"['//', 'Open', 'Database']","['COMMENT', 'JJ', 'NNP']"
+124,"    db, err := sql.Open(""sqlite3"", ""./database.db"")","['db', ',', 'err', ':=', 'sql', '.', 'Open', '(', '""sqlite3"", ""./database.db""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+125,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+126,        //log.Fatal(err),"['//', 'log.Fatal(err)']","['COMMENT', 'NN']"
+127,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+128,    },['}'],['OPERATOR']
+129,    // Get Current Lineup,"['//', 'Get', 'Current', 'Lineup']","['COMMENT', 'NNP', 'NNP', 'NNP']"
+130,"    rows, err := db.Query(""SELECT team, player FROM lineup WHERE player = ?;"", Player)","['rows', ',', 'err', ':=', 'db', '.', 'Query', '(', '""SELECT team, player FROM lineup WHERE player = ?;""', ',', 'Player', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+131,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,        log.Fatal(err),"['log', '.', 'Fatal', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,    },['}'],['OPERATOR']
+134,    defer rows.Close(),"['defer', 'rows', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+135,    if Player == Player {,"['if', 'Player', '==', 'Player', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,"        fmt.Println(""You have already added yourself"")","['fmt', '.', 'Println', '(', '""You have already added yourself""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+137,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+138,        // Insert new Player,"['//', 'Insert', 'new', 'Player']","['COMMENT', 'NNP', 'JJ', 'NNP']"
+139,        db.Exec(,"['db', '.', 'Exec', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,"            ""INSERT INTO lineup (team, player) VALUES (?, ?);"",","['""INSERT INTO lineup (team, player) VALUES (?, ?);""', ',']","['STRING_LITERAL', 'OPERATOR']"
+141,"            Team,","['Team', ',']","['IDENTIFIER', 'OPERATOR']"
+142,"            Player,","['Player', ',']","['IDENTIFIER', 'OPERATOR']"
+143,        ),[')'],['OPERATOR']
+144,    },['}'],['OPERATOR']
+145,},['}'],['OPERATOR']
+146,func handleMotd() {,"['func', 'handleMotd', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+147,"    conn.Cmd(""JOIN #ircchannel"")","['conn', '.', 'Cmd', '(', '""JOIN #ircchannel""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+148,"    fmt.Println(""JOIN #ircchannel"")","['fmt', '.', 'Println', '(', '""JOIN #ircchannel""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+149,},['}'],['OPERATOR']
+150,func parseLine(line string) {,"['func', 'parseLine', '(', 'line', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+151,    // Channel activity,"['//', 'Channel', 'activity']","['COMMENT', 'NNP', 'NN']"
+152,    if match := privmsg.FindStringSubmatch(line); match != nil {,"['if', 'match', ':=', 'privmsg', '.', 'FindStringSubmatch', '(', 'line', ');', 'match', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,        pm := new(PrivMsg),"['pm', ':=', 'new', '(', 'PrivMsg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+154,"        pm.nick, pm.channel, pm.text = match[1], match[2], match[3]","['pm', '.', 'nick', ',', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'text', '=', 'match', '[', '1', '],', 'match', '[', '2', '],', 'match', '[', '3', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+155,        handlePrivmsg(pm),"['handlePrivmsg', '(', 'pm', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+156,        return,['return'],['KEYWORD']
+157,    },['}'],['OPERATOR']
+158,    // Server PING,"['//', 'Server', 'PING']","['COMMENT', 'RB', 'NN']"
+159,    if match := ping.FindStringSubmatch(line); match != nil {,"['if', 'match', ':=', 'ping', '.', 'FindStringSubmatch', '(', 'line', ');', 'match', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+160,        handlePing(match[1]),"['handlePing', '(', 'match', '[', '1', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+161,        return,['return'],['KEYWORD']
+162,    },['}'],['OPERATOR']
+163,    // End of MOTD (successful login to IRC server),"['//', 'End', 'of', 'MOTD', '(successful', 'login', 'to', 'IRC', 'server)']","['COMMENT', 'NN', 'IN', 'NNP', 'NNP', 'NN', 'TO', 'NNP', 'NN']"
+164,"    if match := motd.FindString(line); match != """" {","['if', 'match', ':=', 'motd', '.', 'FindString', '(', 'line', ');', 'match', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+165,        handleMotd(),"['handleMotd', '()']","['IDENTIFIER', 'OPERATOR']"
+166,        return,['return'],['KEYWORD']
+167,    },['}'],['OPERATOR']
+168,},['}'],['OPERATOR']
+169,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+170,"    conn, err = textproto.Dial(""tcp"", ""irc.server.org:6667"")","['conn', ',', 'err', '=', 'textproto', '.', 'Dial', '(', '""tcp"", ""irc.server.org:6667""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+171,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+172,"        fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+173,        return,['return'],['KEYWORD']
+174,    },['}'],['OPERATOR']
+175,"    conn.Cmd(""NICK pug-bot\n\rUSER pug-bot 8 * :pAsSwOrD"")","['conn', '.', 'Cmd', '(', '""NICK pug-bot\\n\\rUSER pug-bot 8 * :pAsSwOrD""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+176,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+177,"        text, err := conn.ReadLine()","['text', ',', 'err', ':=', 'conn', '.', 'ReadLine', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+178,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,"            fmt.Printf(""%s"", err)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+180,            return,['return'],['KEYWORD']
+181,        },['}'],['OPERATOR']
+182,        go parseLine(text),"['go', 'parseLine', '(', 'text', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,        fmt.Println(text),"['fmt', '.', 'Println', '(', 'text', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+184,    },['}'],['OPERATOR']
+185,},['}'],['OPERATOR']
+186,"
+
+Essentially I would like to pass the result of the sql query back into the ","['Essentially', 'I', 'would', 'like', 'to', 'pass', 'the', 'result', 'of', 'the', 'sql', 'query', 'back', 'into', 'the']","['RB', 'PRP', 'MD', 'VB', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'RB', 'IN', 'DT']"
+187,"talk(pm.channel, pm.nick + "" SQL QUERY RESULT"")","['talk', '(', 'pm', '.', 'chan', 'nel', ',', 'pm', '.', 'nick', '+', '"" SQL QUERY RESULT""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+188," irc talk section
+","['irc', 'talk', 'section']","['JJ', 'NN', 'NN']"

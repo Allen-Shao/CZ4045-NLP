@@ -1,68 +1,228 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-3,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
-4,"    ""time""","['""time""']",['STRING_LITERAL']
-5,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-6,),[')'],['OPERATOR']
-7,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-8,    NUMBER_OF_SIMULATIONS = 1000,"['NUMBER_OF_SIMULATIONS', '=', '1000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-9,    NUMBER_OF_INTERACTIONS = 1000000,"['NUMBER_OF_INTERACTIONS', '=', '1000000']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-10,    DROP_RATE = 0.0003,"['DROP_RATE', '=', '0', '.', '0003']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-11,),[')'],['OPERATOR']
-12,/**,['**'],['OPERATOR']
-13, * Simulates a single interaction with a monster,"['*', 'Simulates', 'a', 'single', 'interaction', 'with', 'a', 'monster']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-14, *,['*'],['OPERATOR']
-15, * Returns 1 if the monster dropped an item and 0 otherwise,"['*', 'Returns', '1', 'if', 'the', 'monster', 'dropped', 'an', 'item', 'and', '0', 'otherwise']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-16, */,['*'],['OPERATOR']
-17,func interaction(generator *rand.Rand) int {,"['func', 'interaction', '(', 'generator', '*', 'rand', '.', 'Rand', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-18,    if generator.Float64() <= DROP_RATE {,"['if', 'generator', '.', 'Float64', '()', '<=', 'DROP_RATE', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-19,        return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
-20,    },['}'],['OPERATOR']
-21,    return 0,"['return', '0']","['KEYWORD', 'DECIMAL_LITERAL']"
-22,},['}'],['OPERATOR']
-23,/**,['**'],['OPERATOR']
-24, * Runs several interactions and retuns a slice representing the results,"['*', 'Runs', 'several', 'interactions', 'and', 'retuns', 'a', 'slice', 'representing', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-25, */,['*'],['OPERATOR']
-26,"func simulation(n int, generator *rand.Rand) []int {","['func', 'simulation', '(', 'n', 'int', ',', 'generator', '*', 'rand', '.', 'Rand', ')', '[]', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,"    interactions := make([]int, n)","['interactions', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,    for i := range interactions {,"['for', 'i', ':=', 'range', 'interactions', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-29,        interactions[i] = interaction(generator),"['interactions', '[', 'i', ']', '=', 'interaction', '(', 'generator', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,    },['}'],['OPERATOR']
-31,    return interactions,"['return', 'interactions']","['KEYWORD', 'IDENTIFIER']"
-32,},['}'],['OPERATOR']
-33,/**,['**'],['OPERATOR']
-34, * Runs several simulations and returns the results,"['*', 'Runs', 'several', 'simulations', 'and', 'return', 's', 'the', 'results']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-35, */,['*'],['OPERATOR']
-36,"func test(n int, c chan []int) {","['func', 'test', '(', 'n', 'int', ',', 'c', 'chan', '[]', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-37,    source := rand.NewSource(time.Now().UnixNano()),"['source', ':=', 'rand', '.', 'NewSource', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,    generator := rand.New(source),"['generator', ':=', 'rand', '.', 'New', '(', 'source', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,"    simulations := make([]int, n)","['simulations', ':=', 'make', '([]', 'int', ',', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,    for i := range simulations {,"['for', 'i', ':=', 'range', 'simulations', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-41,"        for _, v := range simulation(NUMBER_OF_INTERACTIONS, generator) {","['for', '_', ',', 'v', ':=', 'range', 'simulation', '(', 'NUMBER_OF_INTERACTIONS', ',', 'generator', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-42,            simulations[i] += v,"['simulations', '[', 'i', ']', '+=', 'v']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-43,        },['}'],['OPERATOR']
-44,    },['}'],['OPERATOR']
-45,    c <- simulations,"['c', '<-', 'simulations']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-46,},['}'],['OPERATOR']
-47,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-48,    rand.Seed(time.Now().UnixNano()),"['rand', '.', 'Seed', '(', 'time', '.', 'Now', '().', 'UnixNano', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,    nCPU := runtime.NumCPU(),"['nCPU', ':=', 'runtime', '.', 'NumCPU', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,    runtime.GOMAXPROCS(nCPU),"['runtime', '.', 'GOMAXPROCS', '(', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,"    fmt.Println(""Number of CPUs: "", nCPU)","['fmt', '.', 'Println', '(', '""Number of CPUs: ""', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,"    tests := make([]chan []int, nCPU)","['tests', ':=', 'make', '([]', 'chan', '[]', 'int', ',', 'nCPU', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-53,    for i := range tests {,"['for', 'i', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-54,        c := make(chan []int),"['c', ':=', 'make', '(', 'chan', '[]', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,"        go test(NUMBER_OF_SIMULATIONS/nCPU, c)","['go', 'test', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ',', 'c', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-56,        tests[i] = c,"['tests', '[', 'i', ']', '=', 'c']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-57,    },['}'],['OPERATOR']
-58,    // Concatentate the test results,['// Concatentate the test results'],"['COMMENT', 'VB', 'DT', 'NN', 'NNS']"
-59,"    results := make([]int, NUMBER_OF_SIMULATIONS)","['results', ':=', 'make', '([]', 'int', ',', 'NUMBER_OF_SIMULATIONS', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,"    for i, c := range tests {","['for', 'i', ',', 'c', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-61,        start := (NUMBER_OF_SIMULATIONS/nCPU) * i,"['start', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', 'i']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-62,        stop := (NUMBER_OF_SIMULATIONS/nCPU) * (i+1),"['stop', ':=', '(', 'NUMBER_OF_SIMULATIONS', 'nCPU', ')', '*', '(', 'i', '+', '1', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-63,"        copy(results[start:stop], <-c)","['copy', '(', 'results', '[', 'start', ':', 'stop', '],', '<-', 'c', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-64,    },['}'],['OPERATOR']
-65,"    fmt.Println(""Successful interactions: "", results)","['fmt', '.', 'Println', '(', '""Successful interactions: ""', ',', 'results', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-66,},['}'],['OPERATOR']
+0,"I'm trying to detect sending failures by inspecting the error returned by golang TCPConn.Write, but it's nil. I also tried using TCPConn.SetWriteDeadline without success.
+
+That's how things happen:
+
+
+the server starts
+a client connects
+the server sends a message and the client receives it
+the client shuts down
+the server sends one more message: no error
+the server sends the third message: only now the error appears
+
+
+Question: why only the second message to a non-existing client results in an error? How should the case be handled properly?
+
+The code follows:
+
+","[""I'm"", 'trying', 'to', 'detect', 'sending', 'failures', 'by', 'inspecting', 'the', 'error', 'returned', 'by', 'golang', 'TCPConn.Write,', 'but', ""it's"", 'nil.', 'I', 'also', 'tried', 'using', 'TCPConn.SetWriteDeadline', 'without', 'success.', ""That's"", 'how', 'things', 'happen:', 'the', 'server', 'starts', 'a', 'client', 'connects', 'the', 'server', 'sends', 'a', 'message', 'and', 'the', 'client', 'receives', 'it', 'the', 'client', 'shuts', 'down', 'the', 'server', 'sends', 'one', 'more', 'message:', 'no', 'error', 'the', 'server', 'sends', 'the', 'third', 'message:', 'only', 'now', 'the', 'error', 'appears', 'Question:', 'why', 'only', 'the', 'second', 'message', 'to', 'a', 'non-existing', 'client', 'results', 'in', 'an', 'error?', 'How', 'should', 'the', 'case', 'be', 'handled', 'properly?', 'The', 'code', 'follows:']","['NNP', 'VBG', 'TO', 'VB', 'VBG', 'NNS', 'IN', 'VBG', 'DT', 'NN', 'VBN', 'IN', 'NN', 'NNP', 'CC', 'JJ', 'NN', 'PRP', 'RB', 'VBD', 'VBG', 'NNP', 'IN', 'NN', 'NNP', 'WRB', 'NNS', 'VBP', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'PRP', 'DT', 'NN', 'VBZ', 'RP', 'DT', 'NN', 'VBZ', 'CD', 'JJR', 'NN', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'RB', 'RB', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'RB', 'DT', 'JJ', 'NN', 'TO', 'DT', 'JJ', 'NN', 'NNS', 'IN', 'DT', 'JJ', 'WRB', 'MD', 'DT', 'NN', 'VB', 'VBN', 'IN', 'DT', 'NN', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+3,"    ""net""","['""net""']",['STRING_LITERAL']
+4,"    ""os""","['""os""']",['STRING_LITERAL']
+5,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
+6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+7,"    ""time""","['""time""']",['STRING_LITERAL']
+8,),[')'],['OPERATOR']
+9,"func AcceptConnections(listener net.Listener, console <- chan string) {","['func', 'AcceptConnections', '(', 'listener', 'net', '.', 'Listener', ',', 'console', '<-', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+10,"    msg := """"","['msg', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+11,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+12,"        conn, err := listener.Accept()","['conn', ',', 'err', ':=', 'listener', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+13,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,        },['}'],['OPERATOR']
+16,"        fmt.Printf(""client connected\n"")","['fmt', '.', 'Printf', '(', '""client connected\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+17,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+18,"            if msg == """" {","['if', 'msg', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+19,                msg = <- console,"['msg', '=', '<-', 'console']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+20,"                fmt.Printf(""read from console: %s"", msg)","['fmt', '.', 'Printf', '(', '""read from console: %s""', ',', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+21,            },['}'],['OPERATOR']
+22,            err = conn.SetWriteDeadline(time.Now().Add(time.Second)),"['err', '=', 'conn', '.', 'SetWriteDeadline', '(', 'time', '.', 'Now', '().', 'Add', '(', 'time', '.', 'Second', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+23,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+24,"                fmt.Printf(""SetWriteDeadline failed: %v\n"", err)","['fmt', '.', 'Printf', '(', '""SetWriteDeadline failed: %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+25,            },['}'],['OPERATOR']
+26,"            _, err = conn.Write([]byte(msg))","['_', ',', 'err', '=', 'conn', '.', 'Write', '([]', 'byte', '(', 'msg', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+27,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+28,                // expecting an error after sending a message,"['//', 'expecting', 'an', 'error', 'after', 'sending', 'a', 'message']","['COMMENT', 'VBG', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NN']"
+29,                // to a non-existing client endpoint,"['//', 'to', 'a', 'non-existing', 'client', 'endpoint']","['COMMENT', 'TO', 'DT', 'JJ', 'NN', 'NN']"
+30,"                fmt.Printf(""failed sending a message to network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed sending a message to network: %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+31,                break,['break'],['KEYWORD']
+32,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+33,"                fmt.Printf(""msg sent: %s"", msg)","['fmt', '.', 'Printf', '(', '""msg sent: %s""', ',', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+34,"                msg = """"","['msg', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+35,            },['}'],['OPERATOR']
+36,        },['}'],['OPERATOR']
+37,    },['}'],['OPERATOR']
+38,},['}'],['OPERATOR']
+39,func ReadConsole(network chan <- string) {,"['func', 'ReadConsole', '(', 'network', 'chan', '<-', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+40,    console := bufio.NewReader(os.Stdin),"['console', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+41,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+42,"        line, err := console.ReadString('\n')","['line', ',', 'err', ':=', 'console', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+43,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+44,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+45,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+46,            network <- line,"['network', '<-', 'line']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+47,        },['}'],['OPERATOR']
+48,    },['}'],['OPERATOR']
+49,},['}'],['OPERATOR']
+50,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+51,"    listener, err := net.Listen(""tcp"", ""localhost:6666"")","['listener', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""localhost:6666""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+52,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+53,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,    },['}'],['OPERATOR']
+55,"    println(""listening on "" + listener.Addr().String())","['println', '(', '""listening on ""', '+', 'listener', '.', 'Addr', '().', 'String', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,    consoleToNetwork := make(chan string),"['consoleToNetwork', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+57,"    go AcceptConnections(listener, consoleToNetwork)","['go', 'AcceptConnections', '(', 'listener', ',', 'consoleToNetwork', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,    ReadConsole(consoleToNetwork),"['ReadConsole', '(', 'consoleToNetwork', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,},['}'],['OPERATOR']
+60,"
+
+The server console looks like this:
+
+","['The', 'server', 'console', 'looks', 'like', 'this:']","['DT', 'NN', 'JJ', 'NNS', 'IN', 'NN']"
+61,listening on 127.0.0.1:6666,"['listening', 'on', '127', '.', '0', '.', '0', '.', '1', ':', '6666']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
+62,client connected,"['client', 'connected']","['IDENTIFIER', 'IDENTIFIER']"
+63,hi there!,"['hi', 'there', '!']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+64,read from console: hi there!,"['read', 'from', 'console', ':', 'hi', 'there', '!']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+65,msg sent: hi there!,"['msg', 'sent', ':', 'hi', 'there', '!']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+66,this one should fail,"['this', 'one', 'should', 'fail']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+67,read from console: this one should fail,"['read', 'from', 'console', ':', 'this', 'one', 'should', 'fail']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+68,msg sent: this one should fail,"['msg', 'sent', ':', 'this', 'one', 'should', 'fail']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+69,this one actually fails,"['this', 'one', 'actually', 'fails']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+70,read from console: this one actually fails,"['read', 'from', 'console', ':', 'this', 'one', 'actually', 'fails']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+71,failed sending a message to network: write tcp 127.0.0.1:51194: broken pipe,"['failed', 'sending', 'a', 'message', 'to', 'network', ':', 'write', 'tcp', '127', '.', '0', '.', '0', '.', '1', ':', '51194', ':', 'broken', 'pipe']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+72,"
+
+The client looks like this:
+
+","['The', 'client', 'looks', 'like', 'this:']","['DT', 'NN', 'VBZ', 'IN', 'NN']"
+73,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+74,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+75,"    ""net""","['""net""']",['STRING_LITERAL']
+76,"    ""os""","['""os""']",['STRING_LITERAL']
+77,"    ""io""","['""io""']",['STRING_LITERAL']
+78,"    //""bufio""","['//', '""bufio""']","['COMMENT', 'NN']"
+79,"    //""fmt""","['//', '""fmt""']","['COMMENT', 'NN']"
+80,),[')'],['OPERATOR']
+81,"func cp(dst io.Writer, src io.Reader, errc chan<- error) {","['func', 'cp', '(', 'dst', 'io', '.', 'Writer', ',', 'src', 'io', '.', 'Reader', ',', 'errc', 'chan', '<-', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+82,    // -reads from src and writes to dst,"['//', '-reads', 'from', 'src', 'and', 'writes', 'to', 'dst']","['COMMENT', 'NNS', 'IN', 'NN', 'CC', 'VBZ', 'TO', 'VB']"
+83,    // -blocks until EOF,"['//', '-blocks', 'until', 'EOF']","['COMMENT', 'NNS', 'IN', 'NNP']"
+84,    // -EOF is not an error,"['//', '-EOF', 'is', 'not', 'an', 'error']","['COMMENT', 'NN', 'VBZ', 'RB', 'DT', 'NN']"
+85,"    _, err :=  io.Copy(dst, src)","['_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'dst', ',', 'src', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+86,    // push err to the channel when io.Copy returns,"['//', 'push', 'err', 'to', 'the', 'channel', 'when', 'io.Copy', 'returns']","['COMMENT', 'NN', 'NN', 'TO', 'DT', 'NN', 'WRB', 'NN', 'NNS']"
+87,    errc <- err,"['errc', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,},['}'],['OPERATOR']
+89,func StartCommunication(conn net.Conn) {,"['func', 'StartCommunication', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+90,    //create a channel for errors,"['//', 'create', 'a', 'channel', 'for', 'errors']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS']"
+91,    errc := make(chan error),"['errc', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+92,    //read connection and print to console,"['//', 'read', 'connection', 'and', 'print', 'to', 'console']","['COMMENT', 'JJ', 'NN', 'CC', 'NN', 'TO', 'VB']"
+93,"    go cp(os.Stdout, conn, errc)","['go', 'cp', '(', 'os', '.', 'Stdout', ',', 'conn', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+94,    //read user input and write to connection,"['//', 'read', 'user', 'input', 'and', 'write', 'to', 'connection']","['COMMENT', 'VB', 'NN', 'NN', 'CC', 'NN', 'TO', 'NN']"
+95,"    go cp(conn, os.Stdin, errc)","['go', 'cp', '(', 'conn', ',', 'os', '.', 'Stdin', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+96,    //wait until nil or an error arrives,"['//', 'wait', 'until', 'nil', 'or', 'an', 'error', 'arrives']","['COMMENT', 'NN', 'IN', 'FW', 'CC', 'DT', 'NN', 'VBZ']"
+97,    err := <- errc,"['err', ':=', '<-', 'errc']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+98,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+99,"        println(""cp error: "", err.Error())","['println', '(', '""cp error: ""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,    },['}'],['OPERATOR']
+101,},['}'],['OPERATOR']
+102,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+103,"    servAddr := ""localhost:6666""","['servAddr', ':=', '""localhost:6666""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+104,"    tcpAddr, err := net.ResolveTCPAddr(""tcp"", servAddr)","['tcpAddr', ',', 'err', ':=', 'net', '.', 'ResolveTCPAddr', '(', '""tcp""', ',', 'servAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+105,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,"        println(""ResolveTCPAddr failed:"", err.Error())","['println', '(', '""ResolveTCPAddr failed:""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+108,    },['}'],['OPERATOR']
+109,"    conn, err := net.DialTCP(""tcp"", nil, tcpAddr)","['conn', ',', 'err', ':=', 'net', '.', 'DialTCP', '(', '""tcp""', ',', 'nil', ',', 'tcpAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+110,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,"        println(""net.DialTCP failed:"", err.Error())","['println', '(', '""net.DialTCP failed:""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+112,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+113,    },['}'],['OPERATOR']
+114,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+115,    StartCommunication(conn),"['StartCommunication', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+116,},['}'],['OPERATOR']
+117,"
+
+EDIT: Following JimB's suggestion I came up with a working example. Messages don't get lost any more and are re-sent in a new connection. I'm not quite sure though how safe is it to use a shared variable (connWrap.IsFaulted) between different go routines.
+
+","['EDIT:', 'Following', ""JimB's"", 'suggestion', 'I', 'came', 'up', 'with', 'a', 'working', 'example.', 'Messages', ""don't"", 'get', 'lost', 'any', 'more', 'and', 'are', 're-sent', 'in', 'a', 'new', 'connection.', ""I'm"", 'not', 'quite', 'sure', 'though', 'how', 'safe', 'is', 'it', 'to', 'use', 'a', 'shared', 'variable', '(connWrap.IsFaulted)', 'between', 'different', 'go', 'routines.']","['NNP', 'NNP', 'NNP', 'NN', 'PRP', 'VBD', 'RP', 'IN', 'DT', 'VBG', 'NN', 'NNP', 'NN', 'VB', 'VBN', 'DT', 'JJR', 'CC', 'VBP', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'WRB', 'JJ', 'VBZ', 'PRP', 'TO', 'VB', 'DT', 'VBN', 'JJ', 'NN', 'IN', 'JJ', 'VBP', 'NN']"
+118,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+119,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+120,"    ""net""","['""net""']",['STRING_LITERAL']
+121,"    ""os""","['""os""']",['STRING_LITERAL']
+122,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
+123,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+124,),[')'],['OPERATOR']
+125,type Connection struct {,"['type', 'Connection', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+126,    IsFaulted bool,"['IsFaulted', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
+127,    Conn net.Conn,"['Conn', 'net', '.', 'Conn']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+128,},['}'],['OPERATOR']
+129,"func StartWritingToNetwork(connWrap * Connection, errChannel chan <- error, msgStack chan string) {","['func', 'StartWritingToNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', ',', 'msgStack', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+130,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+131,        msg := <- msgStack,"['msg', ':=', '<-', 'msgStack']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
+132,        if connWrap.IsFaulted {,"['if', 'connWrap', '.', 'IsFaulted', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+133,            //put it back for another connection,"['//', 'put', 'it', 'back', 'for', 'another', 'connection']","['COMMENT', 'VBD', 'PRP', 'RP', 'IN', 'DT', 'NN']"
+134,            msgStack <- msg,"['msgStack', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+135,            return,['return'],['KEYWORD']
+136,        },['}'],['OPERATOR']
+137,"        _, err := connWrap.Conn.Write([]byte(msg))","['_', ',', 'err', ':=', 'connWrap', '.', 'Conn', '.', 'Write', '([]', 'byte', '(', 'msg', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+138,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+139,"            fmt.Printf(""failed sending a message to network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed sending a message to network: %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+141,            msgStack <- msg,"['msgStack', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+142,            errChannel <- err,"['errChannel', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+143,            return,['return'],['KEYWORD']
+144,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+145,"            fmt.Printf(""msg sent: %s"", msg)","['fmt', '.', 'Printf', '(', '""msg sent: %s""', ',', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+146,        },['}'],['OPERATOR']
+147,    },['}'],['OPERATOR']
+148,},['}'],['OPERATOR']
+149,"func StartReadingFromNetwork(connWrap * Connection, errChannel chan <- error){","['func', 'StartReadingFromNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,    network := bufio.NewReader(connWrap.Conn),"['network', ':=', 'bufio', '.', 'NewReader', '(', 'connWrap', '.', 'Conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+151,    for (!connWrap.IsFaulted) {,"['for', '(!', 'connWrap', '.', 'IsFaulted', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+152,"        line, err := network.ReadString('\n')","['line', ',', 'err', ':=', 'network', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+154,"            fmt.Printf(""failed reading from network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed reading from network: %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+155,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+156,            errChannel <- err,"['errChannel', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+157,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+158,"            fmt.Printf(""%s"", line)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'line', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+159,        },['}'],['OPERATOR']
+160,    },['}'],['OPERATOR']
+161,},['}'],['OPERATOR']
+162,"func AcceptConnections(listener net.Listener, console chan string) {","['func', 'AcceptConnections', '(', 'listener', 'net', '.', 'Listener', ',', 'console', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+163,    errChannel := make(chan error),"['errChannel', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+164,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+165,"        conn, err := listener.Accept()","['conn', ',', 'err', ':=', 'listener', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+166,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+167,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+168,        },['}'],['OPERATOR']
+169,"        fmt.Printf(""client connected\n"")","['fmt', '.', 'Printf', '(', '""client connected\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+170,"        connWrap := Connection{false, conn}","['connWrap', ':=', 'Connection', '{', 'false', ',', 'conn', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+171,"        go StartReadingFromNetwork(&connWrap, errChannel)","['go', 'StartReadingFromNetwork', '(&', 'connWrap', ',', 'errChannel', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+172,"        go StartWritingToNetwork(&connWrap, errChannel, console)","['go', 'StartWritingToNetwork', '(&', 'connWrap', ',', 'errChannel', ',', 'console', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+173,        //block until an error occurs,"['//', 'block', 'until', 'an', 'error', 'occurs']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NN']"
+174,        <- errChannel,"['<-', 'errChannel']","['OPERATOR', 'IDENTIFIER']"
+175,    },['}'],['OPERATOR']
+176,},['}'],['OPERATOR']
+177,func ReadConsole(network chan <- string) {,"['func', 'ReadConsole', '(', 'network', 'chan', '<-', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+178,    console := bufio.NewReader(os.Stdin),"['console', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+179,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
+180,"        line, err := console.ReadString('\n')","['line', ',', 'err', ':=', 'console', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+181,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+182,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+183,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+184,            network <- line,"['network', '<-', 'line']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+185,        },['}'],['OPERATOR']
+186,    },['}'],['OPERATOR']
+187,},['}'],['OPERATOR']
+188,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+189,"    listener, err := net.Listen(""tcp"", ""localhost:6666"")","['listener', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""localhost:6666""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+190,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+191,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+192,    },['}'],['OPERATOR']
+193,"    println(""listening on "" + listener.Addr().String())","['println', '(', '""listening on ""', '+', 'listener', '.', 'Addr', '().', 'String', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+194,    consoleToNetwork := make(chan string),"['consoleToNetwork', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+195,"    go AcceptConnections(listener, consoleToNetwork)","['go', 'AcceptConnections', '(', 'listener', ',', 'consoleToNetwork', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+196,    ReadConsole(consoleToNetwork),"['ReadConsole', '(', 'consoleToNetwork', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+197,},['}'],['OPERATOR']

@@ -1,45 +1,184 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""net""","['""net""']",['STRING_LITERAL']
-3,"    ""os""","['""os""']",['STRING_LITERAL']
-4,"    ""io""","['""io""']",['STRING_LITERAL']
-5,"    //""bufio""","['//""bufio""']","['COMMENT', '``', 'NN', ""''""]"
-6,"    //""fmt""","['//""fmt""']","['COMMENT', '``', 'NN', ""''""]"
-7,),[')'],['OPERATOR']
-8,"func cp(dst io.Writer, src io.Reader, errc chan<- error) {","['func', 'cp', '(', 'dst', 'io', '.', 'Writer', ',', 'src', 'io', '.', 'Reader', ',', 'errc', 'chan', '<-', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-9,    // -reads from src and writes to dst,['// -reads from src and writes to dst'],"['COMMENT', 'NNS', 'IN', 'NN', 'CC', 'VBZ', 'TO', 'VB']"
-10,    // -blocks until EOF,['// -blocks until EOF'],"['COMMENT', 'NNS', 'IN', 'NNP']"
-11,    // -EOF is not an error,['// -EOF is not an error'],"['COMMENT', 'NN', 'VBZ', 'RB', 'DT', 'NN']"
-12,"    _, err :=  io.Copy(dst, src)","['_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'dst', ',', 'src', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-13,    // push err to the channel when io.Copy returns,['// push err to the channel when io.Copy returns'],"['COMMENT', 'NN', 'NN', 'TO', 'DT', 'NN', 'WRB', 'NN', 'NNS']"
-14,    errc <- err,"['errc', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-15,},['}'],['OPERATOR']
-16,func StartCommunication(conn net.Conn) {,"['func', 'StartCommunication', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-17,    //create a channel for errors,['//create a channel for errors'],"['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS']"
-18,    errc := make(chan error),"['errc', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-19,    //read connection and print to console,['//read connection and print to console'],"['COMMENT', 'JJ', 'NN', 'CC', 'NN', 'TO', 'VB']"
-20,"    go cp(os.Stdout, conn, errc)","['go', 'cp', '(', 'os', '.', 'Stdout', ',', 'conn', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,    //read user input and write to connection,['//read user input and write to connection'],"['COMMENT', 'VB', 'NN', 'NN', 'CC', 'NN', 'TO', 'NN']"
-22,"    go cp(conn, os.Stdin, errc)","['go', 'cp', '(', 'conn', ',', 'os', '.', 'Stdin', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-23,    //wait until nil or an error arrives,['//wait until nil or an error arrives'],"['COMMENT', 'NN', 'IN', 'FW', 'CC', 'DT', 'NN', 'VBZ']"
-24,    err := <- errc,"['err', ':=', '<-', 'errc']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,"        println(""cp error: "", err.Error())","['println', '(', '""cp error: ""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,    },['}'],['OPERATOR']
-28,},['}'],['OPERATOR']
-29,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-30,"    servAddr := ""localhost:6666""","['servAddr', ':=', '""localhost:6666""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-31,"    tcpAddr, err := net.ResolveTCPAddr(""tcp"", servAddr)","['tcpAddr', ',', 'err', ':=', 'net', '.', 'ResolveTCPAddr', '(', '""tcp""', ',', 'servAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,"        println(""ResolveTCPAddr failed:"", err.Error())","['println', '(', '""ResolveTCPAddr failed:""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-35,    },['}'],['OPERATOR']
-36,"    conn, err := net.DialTCP(""tcp"", nil, tcpAddr)","['conn', ',', 'err', ':=', 'net', '.', 'DialTCP', '(', '""tcp""', ',', 'nil', ',', 'tcpAddr', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-38,"        println(""net.DialTCP failed:"", err.Error())","['println', '(', '""net.DialTCP failed:""', ',', 'err', '.', 'Error', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-40,    },['}'],['OPERATOR']
-41,    defer conn.Close(),"['defer', 'conn', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-42,    StartCommunication(conn),"['StartCommunication', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-43,},['}'],['OPERATOR']
+0,"When running my Go program, it panics and returns the following:
+
+","['When', 'running', 'my', 'Go', 'program,', 'it', 'panics', 'and', 'returns', 'the', 'following:']","['WRB', 'VBG', 'PRP$', 'NNP', 'NN', 'PRP', 'NNS', 'CC', 'VBZ', 'DT', 'NN']"
+1,panic: runtime error: invalid memory address or nil pointer dereference,"['panic', ':', 'runtime', 'error', ':', 'invalid', 'memory', 'address', 'or', 'nil', 'pointer', 'dereference']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+2,[signal 0xb code=0x1 addr=0x38 pc=0x26df],"['[', 'signal', '0', 'xb', 'code', '=', '0', 'x1', 'addr', '=', '0', 'x38', 'pc', '=', '0', 'x26df', ']']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+3,goroutine 1 [running]:,"['go', 'routine', '1', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+4,"main.getBody(0x1cdcd4, 0xf800000004, 0x1f2b44, 0x23, 0xf84005c800, ...)","['main', '.', 'getBody', '(', '0', 'x1cdcd4', ',', '0', 'xf800000004', ',', '0', 'x1f2b44', ',', '0', 'x23', ',', '0', 'xf84005c800', ',', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+5,        /Users/matt/Dropbox/code/go/scripts/cron/fido.go:65 +0x2bb,"['Users', 'matt', 'Dropbox', 'code', 'go', 'scripts', 'cron', 'fido', '.', 'go', ':', '65', '+', '0', 'x2bb']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+6,"main.getToken(0xf84005c7e0, 0x10)","['main', '.', 'getToken', '(', '0', 'xf84005c7e0', ',', '0', 'x10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+7,        /Users/matt/Dropbox/code/go/scripts/cron/fido.go:140 +0x156,"['Users', 'matt', 'Dropbox', 'code', 'go', 'scripts', 'cron', 'fido', '.', 'go', ':', '140', '+', '0', 'x156']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+8,main.main(),"['main', '.', 'main', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+9,        /Users/matt/Dropbox/code/go/scripts/cron/fido.go:178 +0x61,"['Users', 'matt', 'Dropbox', 'code', 'go', 'scripts', 'cron', 'fido', '.', 'go', ':', '178', '+', '0', 'x61']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+10,goroutine 2 [syscall]:,"['go', 'routine', '2', '[', 'syscall', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+11,created by runtime.main,"['created', 'by', 'runtime', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+12,        /usr/local/Cellar/go/1.0.3/src/pkg/runtime/proc.c:221,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'runtime', 'proc', '.', 'c', ':', '221']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
+13,goroutine 3 [syscall]:,"['go', 'routine', '3', '[', 'syscall', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+14,syscall.Syscall6(),"['syscall', '.', 'Syscall6', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+15,        /usr/local/Cellar/go/1.0.3/src/pkg/syscall/asm_darwin_amd64.s:38 +0x5,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'syscall', 'asm_darwin_amd64', '.', 's', ':', '38', '+', '0', 'x5']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+16,"syscall.kevent(0x6, 0x0, 0x0, 0xf840085188, 0xa, ...)","['syscall', '.', 'kevent', '(', '0', 'x6', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'xf840085188', ',', '0', 'xa', ',', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+17,        /usr/local/Cellar/go/1.0.3/src/pkg/syscall/zsyscall_darwin_amd64.go:199 +0x88,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'syscall', 'zsyscall_darwin_amd64', '.', 'go', ':', '199', '+', '0', 'x88']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+18,"syscall.Kevent(0xf800000006, 0x0, 0x0, 0xf840085188, 0xa0000000a, ...)","['syscall', '.', 'Kevent', '(', '0', 'xf800000006', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'xf840085188', ',', '0', 'xa0000000a', ',', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+19,        /usr/local/Cellar/go/1.0.3/src/pkg/syscall/syscall_bsd.go:546 +0xa4,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'syscall', 'syscall_bsd', '.', 'go', ':', '546', '+', '0', 'xa4']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+20,"net.(*pollster).WaitFD(0xf840085180, 0xf840059040, 0x0, 0x0, 0x0, ...)","['net', '.(*', 'pollster', ').', 'WaitFD', '(', '0', 'xf840085180', ',', '0', 'xf840059040', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '...)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+21,        /usr/local/Cellar/go/1.0.3/src/pkg/net/fd_darwin.go:96 +0x185,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'net', 'fd_darwin', '.', 'go', ':', '96', '+', '0', 'x185']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+22,"net.(*pollServer).Run(0xf840059040, 0x0)","['net', '.(*', 'pollServer', ').', 'Run', '(', '0', 'xf840059040', ',', '0', 'x0', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
+23,        /usr/local/Cellar/go/1.0.3/src/pkg/net/fd.go:236 +0xe4,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'net', 'fd', '.', 'go', ':', '236', '+', '0', 'xe4']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+24,created by net.newPollServer,"['created', 'by', 'net', '.', 'newPollServer']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+25,        /usr/local/Cellar/go/1.0.3/src/pkg/net/newpollserver.go:35 +0x382,"['usr', 'local', 'Cellar', 'go', '1', '.', '0', '.', '3', 'src', 'pkg', 'net', 'newpollserver', '.', 'go', ':', '35', '+', '0', 'x382']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+26,"
+
+I've looked at the responses others have had to the same exception, but can't see anything simple (i.e. an unhandled error).
+
+I am running it on a machine that does not have access to the API servers listed in the code, but I was hoping it'd return an appropriate error (as I've attempted to catch errors of that kind).
+
+","[""I've"", 'looked', 'at', 'the', 'responses', 'others', 'have', 'had', 'to', 'the', 'same', 'exception,', 'but', ""can't"", 'see', 'anything', 'simple', '(i.e.', 'an', 'unhandled', 'error).', 'I', 'am', 'running', 'it', 'on', 'a', 'machine', 'that', 'does', 'not', 'have', 'access', 'to', 'the', 'API', 'servers', 'listed', 'in', 'the', 'code,', 'but', 'I', 'was', 'hoping', ""it'd"", 'return', 'an', 'appropriate', 'error', '(as', ""I've"", 'attempted', 'to', 'catch', 'errors', 'of', 'that', 'kind).']","['NNP', 'VBD', 'IN', 'DT', 'NNS', 'NNS', 'VBP', 'VBN', 'TO', 'DT', 'JJ', 'NN', 'CC', 'NN', 'VBP', 'NN', 'JJ', 'NNP', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'VBG', 'PRP', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'RB', 'VB', 'NN', 'TO', 'DT', 'NNP', 'NNS', 'VBN', 'IN', 'DT', 'NN', 'CC', 'PRP', 'VBD', 'VBG', 'JJ', 'NN', 'DT', 'JJ', 'NN', 'NNP', 'NNP', 'VBD', 'TO', 'VB', 'NNS', 'IN', 'DT', 'NN']"
+27,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+28,/*,['*'],['OPERATOR']
+29,"Fido fetches the list of public images from the Glance server, captures the IDs of images with 'status': 'active' and then queues the images for pre-fetching with the Glance CLI utility `glance-cache-manage`. Once the images are added to the queue, `glance-cache-prefetcher` is called to actively fetch the queued images into the local compute nodes' image cache.","['Fido', 'fetches', 'the', 'list', 'of', 'public', 'images', 'from', 'the', 'Glance', 'server', ',', 'captures', 'the', 'IDs', 'of', 'images', 'with', 'status', ':', 'active', 'and', 'then', 'queues', 'the', 'images', 'for', 'pre', '-', 'fetching', 'with', 'the', 'Glance', 'CLI', 'utility', 'glance', '-', 'cache', '-', 'manage', '.', 'Once', 'the', 'images', 'are', 'added', 'to', 'the', 'queue', ',', 'glance', '-', 'cache', '-', 'prefetcher', 'is', 'called', 'to', 'actively', 'fetch', 'the', 'queued', 'images', 'into', 'the', 'local', 'compute', 'nodes', 'image', 'cache', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
+30,See http://docs.openstack.org/developer/glance/cache.html for further details on the Glance image cache.,"['//', 'docs.openstack.org/developer/glance/cache.html', 'for', 'further', 'details', 'on', 'the', 'Glance', 'image', 'cache.']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'NN', 'IN', 'JJ', 'NNS', 'IN', 'DT', 'NNP', 'NN', 'NN']"
+31,*/,['*'],['OPERATOR']
+32,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
+33,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+34,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+35,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+36,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+37,    /*,['*'],['OPERATOR']
+38,"        ""log""","['""log""']",['STRING_LITERAL']
+39,"        ""log/syslog""","['""log/syslog""']",['STRING_LITERAL']
+40,    */,['*'],['OPERATOR']
+41,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+42,"    ""os""","['""os""']",['STRING_LITERAL']
+43,"    ""os/exec""","['""os/exec""']",['STRING_LITERAL']
+44,),[')'],['OPERATOR']
+45,func prefetchImages() error {,"['func', 'prefetchImages', '()', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+46,"    cmd := exec.Command(""glance-cache-prefetcher"")","['cmd', ':=', 'exec', '.', 'Command', '(', '""glance-cache-prefetcher""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+47,    err := cmd.Run(),"['err', ':=', 'cmd', '.', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+48,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+49,"        return fmt.Errorf(""glance-cache-prefetcher failed to execute properly: %v"", err)","['return', 'fmt', '.', 'Errorf', '(', '""glance-cache-prefetcher failed to execute properly: %v""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+50,    },['}'],['OPERATOR']
+51,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+52,},['}'],['OPERATOR']
+53,"func queueImages(hostname string, imageList []string) error {","['func', 'queueImages', '(', 'hostname', 'string', ',', 'imageList', '[]', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+54,"    for _, image := range imageList {","['for', '_', ',', 'image', ':=', 'range', 'imageList', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+55,"        cmd := exec.Command(""glance-cache-manage"", ""--host="", hostname, ""queue-image"", image)","['cmd', ':=', 'exec', '.', 'Command', '(', '""glance-cache-manage"", ""--host="", hostname, ""queue-image""', ',', 'image', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+56,        err := cmd.Run(),"['err', ':=', 'cmd', '.', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+57,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+58,"            return fmt.Errorf(""glance-cache-manage failed to execute properly: %v"", err)","['return', 'fmt', '.', 'Errorf', '(', '""glance-cache-manage failed to execute properly: %v""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+59,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+60,"            fmt.Printf(""Image %s queued"", image)","['fmt', '.', 'Printf', '(', '""Image %s queued""', ',', 'image', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+61,        },['}'],['OPERATOR']
+62,    },['}'],['OPERATOR']
+63,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+64,},['}'],['OPERATOR']
+65,"func getBody(method string, url string, headers map[string]string, body []byte) ([]byte, error) {","['func', 'getBody', '(', 'method', 'string', ',', 'url', 'string', ',', 'headers', 'map', '[', 'string', ']', 'string', ',', 'body', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+66,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+67,"    req, err := http.NewRequest(method, url, bytes.NewReader(body))","['req', ',', 'err', ':=', 'http', '.', 'NewRequest', '(', 'method', ',', 'url', ',', 'bytes', '.', 'NewReader', '(', 'body', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+68,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+69,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+70,    },['}'],['OPERATOR']
+71,"    for key, value := range headers {","['for', 'key', ',', 'value', ':=', 'range', 'headers', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
+72,"        req.Header.Add(key, value)","['req', '.', 'Header', '.', 'Add', '(', 'key', ',', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+73,    },['}'],['OPERATOR']
+74,"    res, err := client.Do(req)","['res', ',', 'err', ':=', 'client', '.', 'Do', '(', 'req', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+75,    defer res.Body.Close(),"['defer', 'res', '.', 'Body', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+76,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+77,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+78,    },['}'],['OPERATOR']
+79,    var bodyBytes []byte,"['var', 'bodyBytes', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+80,    if res.StatusCode == 200 {,"['if', 'res', '.', 'StatusCode', '==', '200', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+81,"        bodyBytes, err = ioutil.ReadAll(res.Body)","['bodyBytes', ',', 'err', '=', 'ioutil', '.', 'ReadAll', '(', 'res', '.', 'Body', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+82,    } else if err != nil {,"['}', 'else', 'if', 'err', '!=', 'nil', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+83,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+84,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+85,"        return nil, fmt.Errorf(""The remote end did not return a HTTP 200 (OK) response."")","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""The remote end did not return a HTTP 200 (OK) response.""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+86,    },['}'],['OPERATOR']
+87,"    return bodyBytes, nil","['return', 'bodyBytes', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+88,},['}'],['OPERATOR']
+89,"func getImages(authToken string) ([]string, error) {","['func', 'getImages', '(', 'authToken', 'string', ')', '([]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+90,    type GlanceDetailResponse struct {,"['type', 'GlanceDetailResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+91,        Images []struct {,"['Images', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+92,"            Name   string `json:""name""`","['Name', 'string', 'json', ':', '""name""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+93,"            Status string `json:""status""`","['Status', 'string', 'json', ':', '""status""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+94,"            ID     string `json:""id""`","['ID', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+95,        },['}'],['OPERATOR']
+96,    },['}'],['OPERATOR']
+97,"    method := ""GET""","['method', ':=', '""GET""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+98,"    url := ""http://192.168.1.2:9292/v1.1/images/detail""","['url', ':=', '""http://192.168.1.2:9292/v1.1/images/detail""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+99,"    headers := map[string]string{""X-Auth-Token"": authToken}","['headers', ':=', 'map', '[', 'string', ']', 'string', '{', '""X-Auth-Token""', ':', 'authToken', '}']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+100,"    bodyBytes, err := getBody(method, url, headers, nil)","['bodyBytes', ',', 'err', ':=', 'getBody', '(', 'method', ',', 'url', ',', 'headers', ',', 'nil', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+101,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+102,"        return nil, fmt.Errorf(""unable to retrieve the response body from the Glance API server: %v"", err)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""unable to retrieve the response body from the Glance API server: %v""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+103,    },['}'],['OPERATOR']
+104,    var glance GlanceDetailResponse,"['var', 'glance', 'GlanceDetailResponse']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+105,"    err = json.Unmarshal(bodyBytes, &glance)","['err', '=', 'json', '.', 'Unmarshal', '(', 'bodyBytes', ',', '&', 'glance', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+106,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+107,"        return nil, fmt.Errorf(""unable to parse the JSON response:"", err)","['return', 'nil', ',', 'fmt', '.', 'Errorf', '(', '""unable to parse the JSON response:""', ',', 'err', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+108,    },['}'],['OPERATOR']
+109,"    imageList := make([]string, 10)","['imageList', ':=', 'make', '([]', 'string', ',', '10', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+110,"    for _, image := range glance.Images {","['for', '_', ',', 'image', ':=', 'range', 'glance', '.', 'Images', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+111,"        if image.Status == ""active"" {","['if', 'image', '.', 'Status', '==', '""active""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+112,"            imageList = append(imageList, image.ID)","['imageList', '=', 'append', '(', 'imageList', ',', 'image', '.', 'ID', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+113,        },['}'],['OPERATOR']
+114,    },['}'],['OPERATOR']
+115,"    return imageList, nil","['return', 'imageList', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+116,},['}'],['OPERATOR']
+117,"func getToken() (string, error) {","['func', 'getToken', '()', '(', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+118,    type TokenResponse struct {,"['type', 'TokenResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+119,        Auth []struct {,"['Auth', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
+120,            Token struct {,"['Token', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
+121,"                Expires string `json:""expires""`","['Expires', 'string', 'json', ':', '""expires""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+122,"                ID      string `json:""id""`","['ID', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+123,            },['}'],['OPERATOR']
+124,        },['}'],['OPERATOR']
+125,    },['}'],['OPERATOR']
+126,"    method := ""POST""","['method', ':=', '""POST""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+127,"    url := ""http://192.168.1.2:5000/v2.0/tokens""","['url', ':=', '""http://192.168.1.2:5000/v2.0/tokens""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
+128,"    headers := map[string]string{""Content-type"": ""application/json""}","['headers', ':=', 'map', '[', 'string', ']', 'string', '{', '""Content-type"": ""application/json""', '}']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+129,"    creds := []byte(`{""auth"":{""passwordCredentials"":{""username"": ""glance"", ""password"":""""}, ""tenantId"":""""}}`)","['creds', ':=', '[]', 'byte', '(', '{', '""auth"":{""passwordCredentials"":{""username"": ""glance"", ""password"":""""}, ""tenantId"":""""', '}}', ')']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
+130,"    bodyBytes, err := getBody(method, url, headers, creds)","['bodyBytes', ',', 'err', ':=', 'getBody', '(', 'method', ',', 'url', ',', 'headers', ',', 'creds', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+131,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+132,"        return """", err","['return', '""""', ',', 'err']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+133,    },['}'],['OPERATOR']
+134,    var keystone TokenResponse,"['var', 'keystone', 'TokenResponse']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+135,"    err = json.Unmarshal(bodyBytes, &keystone)","['err', '=', 'json', '.', 'Unmarshal', '(', 'bodyBytes', ',', '&', 'keystone', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+136,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+137,"        return """", err","['return', '""""', ',', 'err']","['KEYWORD', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER']"
+138,    },['}'],['OPERATOR']
+139,    authToken := string((keystone.Auth[0].Token.ID)),"['authToken', ':=', 'string', '((', 'keystone', '.', 'Auth', '[', '0', '].', 'Token', '.', 'ID', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+140,"    return authToken, nil","['return', 'authToken', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
+141,},['}'],['OPERATOR']
+142,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
+143,    /*,['*'],['OPERATOR']
+144,"        slog, err := syslog.New(syslog.LOG_ERR, ""[fido]"")","['slog', ',', 'err', ':=', 'syslog', '.', 'New', '(', 'syslog', '.', 'LOG_ERR', ',', '""[fido]""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
+145,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+146,"            log.Fatalf(""unable to connect to syslog: %v"", err)","['log', '.', 'Fatalf', '(', '""unable to connect to syslog: %v""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+147,            os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+148,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
+149,            defer slog.Close(),"['defer', 'slog', '.', 'Close', '()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+150,        },['}'],['OPERATOR']
+151,    */,['*'],['OPERATOR']
+152,"    hostname, err := os.Hostname()","['hostname', ',', 'err', ':=', 'os', '.', 'Hostname', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+153,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+154,"        // slog.Err(""Hostname not captured"")","['//', 'slog.Err(""Hostname', 'not', 'captured"")']","['COMMENT', 'NN', 'RB', 'VB']"
+155,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+156,    },['}'],['OPERATOR']
+157,"    authToken, err := getToken()","['authToken', ',', 'err', ':=', 'getToken', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+158,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+159,"        // slog.Err(""The authentication token from the Glance API server was not retrieved"")","['//', 'slog.Err(""The', 'authentication', 'token', 'from', 'the', 'Glance', 'API', 'server', 'was', 'not', 'retrieved"")']","['COMMENT', 'JJ', 'NN', 'NN', 'IN', 'DT', 'NNP', 'NNP', 'NN', 'VBD', 'RB', 'JJ']"
+160,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+161,    },['}'],['OPERATOR']
+162,"    imageList, err := getImages(authToken)","['imageList', ',', 'err', ':=', 'getImages', '(', 'authToken', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+163,"    err = queueImages(hostname, imageList)","['err', '=', 'queueImages', '(', 'hostname', ',', 'imageList', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+164,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+165,"        // slog.Err(""Could not queue the images for pre-fetching"")","['//', 'slog.Err(""Could', 'not', 'queue', 'the', 'images', 'for', 'pre-fetching"")']","['COMMENT', 'MD', 'RB', 'VB', 'DT', 'NNS', 'IN', 'NN']"
+166,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+167,    },['}'],['OPERATOR']
+168,    err = prefetchImages(),"['err', '=', 'prefetchImages', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+169,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
+170,"        // slog.Err(""Could not queue the images for pre-fetching"")","['//', 'slog.Err(""Could', 'not', 'queue', 'the', 'images', 'for', 'pre-fetching"")']","['COMMENT', 'MD', 'RB', 'VB', 'DT', 'NNS', 'IN', 'NN']"
+171,        os.Exit(1),"['os', '.', 'Exit', '(', '1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
+172,    },['}'],['OPERATOR']
+173,    return,['return'],['KEYWORD']
+174,},['}'],['OPERATOR']

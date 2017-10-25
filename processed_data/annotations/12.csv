@@ -1,81 +1,130 @@
 ,text,token,annotation
-0,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-1,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-2,"    ""net""","['""net""']",['STRING_LITERAL']
-3,"    ""os""","['""os""']",['STRING_LITERAL']
-4,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
-5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-6,),[')'],['OPERATOR']
-7,type Connection struct {,"['type', 'Connection', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-8,    IsFaulted bool,"['IsFaulted', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
-9,    Conn net.Conn,"['Conn', 'net', '.', 'Conn']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-10,},['}'],['OPERATOR']
-11,"func StartWritingToNetwork(connWrap * Connection, errChannel chan <- error, msgStack chan string) {","['func', 'StartWritingToNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', ',', 'msgStack', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-12,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-13,        msg := <- msgStack,"['msg', ':=', '<-', 'msgStack']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-14,        if connWrap.IsFaulted {,"['if', 'connWrap', '.', 'IsFaulted', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,            //put it back for another connection,['//put it back for another connection'],"['COMMENT', 'VBD', 'PRP', 'RP', 'IN', 'DT', 'NN']"
-16,            msgStack <- msg,"['msgStack', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-17,            return,['return'],['KEYWORD']
-18,        },['}'],['OPERATOR']
-19,"        _, err := connWrap.Conn.Write([]byte(msg))","['_', ',', 'err', ':=', 'connWrap', '.', 'Conn', '.', 'Write', '([]', 'byte', '(', 'msg', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-20,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,"            fmt.Printf(""failed sending a message to network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed sending a message to network: %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-23,            msgStack <- msg,"['msgStack', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-24,            errChannel <- err,"['errChannel', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-25,            return,['return'],['KEYWORD']
-26,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-27,"            fmt.Printf(""msg sent: %s"", msg)","['fmt', '.', 'Printf', '(', '""msg sent: %s""', ',', 'msg', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,        },['}'],['OPERATOR']
-29,    },['}'],['OPERATOR']
-30,},['}'],['OPERATOR']
-31,"func StartReadingFromNetwork(connWrap * Connection, errChannel chan <- error){","['func', 'StartReadingFromNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,    network := bufio.NewReader(connWrap.Conn),"['network', ':=', 'bufio', '.', 'NewReader', '(', 'connWrap', '.', 'Conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,    for (!connWrap.IsFaulted) {,"['for', '(!', 'connWrap', '.', 'IsFaulted', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-34,"        line, err := network.ReadString('\n')","['line', ',', 'err', ':=', 'network', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,"            fmt.Printf(""failed reading from network: %v\n"", err)","['fmt', '.', 'Printf', '(', '""failed reading from network: %v\\n""', ',', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-37,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-38,            errChannel <- err,"['errChannel', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-39,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-40,"            fmt.Printf(""%s"", line)","['fmt', '.', 'Printf', '(', '""%s""', ',', 'line', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,        },['}'],['OPERATOR']
-42,    },['}'],['OPERATOR']
-43,},['}'],['OPERATOR']
-44,"func AcceptConnections(listener net.Listener, console chan string) {","['func', 'AcceptConnections', '(', 'listener', 'net', '.', 'Listener', ',', 'console', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-45,    errChannel := make(chan error),"['errChannel', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-46,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-47,"        conn, err := listener.Accept()","['conn', ',', 'err', ':=', 'listener', '.', 'Accept', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-49,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,        },['}'],['OPERATOR']
-51,"        fmt.Printf(""client connected\n"")","['fmt', '.', 'Printf', '(', '""client connected\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-52,"        connWrap := Connection{false, conn}","['connWrap', ':=', 'Connection', '{', 'false', ',', 'conn', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-53,"        go StartReadingFromNetwork(&connWrap, errChannel)","['go', 'StartReadingFromNetwork', '(&', 'connWrap', ',', 'errChannel', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,"        go StartWritingToNetwork(&connWrap, errChannel, console)","['go', 'StartWritingToNetwork', '(&', 'connWrap', ',', 'errChannel', ',', 'console', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-55,        //block until an error occurs,['//block until an error occurs'],"['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NN']"
-56,        <- errChannel,"['<-', 'errChannel']","['OPERATOR', 'IDENTIFIER']"
-57,    },['}'],['OPERATOR']
-58,},['}'],['OPERATOR']
-59,func ReadConsole(network chan <- string) {,"['func', 'ReadConsole', '(', 'network', 'chan', '<-', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-60,    console := bufio.NewReader(os.Stdin),"['console', ':=', 'bufio', '.', 'NewReader', '(', 'os', '.', 'Stdin', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-61,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-62,"        line, err := console.ReadString('\n')","['line', ',', 'err', ':=', 'console', '.', 'ReadString', '(', 'n', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-64,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-65,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-66,            network <- line,"['network', '<-', 'line']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-67,        },['}'],['OPERATOR']
-68,    },['}'],['OPERATOR']
-69,},['}'],['OPERATOR']
-70,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-71,"    listener, err := net.Listen(""tcp"", ""localhost:6666"")","['listener', ',', 'err', ':=', 'net', '.', 'Listen', '(', '""tcp"", ""localhost:6666""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-72,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,    },['}'],['OPERATOR']
-75,"    println(""listening on "" + listener.Addr().String())","['println', '(', '""listening on ""', '+', 'listener', '.', 'Addr', '().', 'String', '())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,    consoleToNetwork := make(chan string),"['consoleToNetwork', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-77,"    go AcceptConnections(listener, consoleToNetwork)","['go', 'AcceptConnections', '(', 'listener', ',', 'consoleToNetwork', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-78,    ReadConsole(consoleToNetwork),"['ReadConsole', '(', 'consoleToNetwork', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,},['}'],['OPERATOR']
+0,"I'm playing around with XPC, GCD and go but I hit a quick wall when my code was failing to compile with the following error messages (which I don't understand):
+
+","[""I'm"", 'playing', 'around', 'with', 'XPC,', 'GCD', 'and', 'go', 'but', 'I', 'hit', 'a', 'quick', 'wall', 'when', 'my', 'code', 'was', 'failing', 'to', 'compile', 'with', 'the', 'following', 'error', 'messages', '(which', 'I', ""don't"", 'understand):']","['NNP', 'VBG', 'RB', 'IN', 'NNP', 'NNP', 'CC', 'VB', 'CC', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'WRB', 'PRP$', 'NN', 'VBD', 'VBG', 'TO', 'VB', 'IN', 'DT', 'VBG', 'NN', 'NNS', 'VBP', 'PRP', 'VBP', 'JJ']"
+1,main(__DATA/__const): unexpected reloc for dynamic symbol _NSConcreteGlobalBlock,"['main', '(', '__DATA', '__const', '):', 'unexpected', 'reloc', 'for', 'dynamic', 'symbol', '_NSConcreteGlobalBlock']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+2,"
+main(__DATA/__const): unhandled relocation for _NSConcreteGlobalBlock (type 28 rtype 120)
+
+I am compiling using go build the code that follows:
+
+main.go
+
+package main
+
+/*
+#include 
+#include ""wrapper.h""
+*/
+import ""C""
+
+import (
+    ""fmt""
+)
+
+//export HandleXPCEvent
+func HandleXPCEvent(event C.xpc_object_t) {
+    fmt.Println(""Event was handled"")
+}
+
+func main() {
+    name := C.CString(""com.example.xpc"")
+    queue := C.dispatch_queue_create(name, nil)
+    conn := C.xpc_connection_create(name, queue)
+    C.set_event_handler(conn)
+
+    //C.xpc_connection_resume(conn)
+}
+
+
+wrapper.h
+
+#ifndef _WRAPPER_H_
+#define _WRAPPER_H_
+
+#include 
+#include 
+#include 
+
+xpc_connection_t connect( char* name);
+void set_event_handler(xpc_connection_t connection);
+
+#endif
+
+
+wrapper.c
+
+#include ""wrapper.h""
+#include 
+
+extern void HandleXPCEvent(xpc_object_t);
+
+xpc_connection_t connect( char* name) {
+    dispatch_queue_t queue = dispatch_queue_create(name,0);
+    return xpc_connection_create(name,queue);
+}
+
+void set_event_handler(xpc_connection_t connection) {
+    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+        xpc_retain(event);
+        // Call Go function
+        HandleXPCEvent(event);
+    });
+}
+
+
+I'm I doing something wrong? Is this some kind of go bug or how can this be fixed?
+
+
+
+Update:
+
+I ran go build -x -work on my project and I got the following output:
+
+➣ go build -x -work
+WORK=/var/folders/fb/bgfqk8wx5x16w7yh2cg50vrw0000gn/T/go-build524335717
+mkdir -p $WORK/github.com/gabrielayuso/go-xpc/_obj/
+mkdir -p $WORK/github.com/gabrielayuso/go-xpc/_obj/exe/
+cd /Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc
+/usr/local/go/pkg/tool/darwin_amd64/cgo -objdir $WORK/github.com/gabrielayuso/go-xpc/_obj/ -- -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ main.go
+/usr/local/go/pkg/tool/darwin_amd64/6c -F -V -w -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -I /usr/local/go/pkg/darwin_amd64 -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6 -D GOOS_darwin -D GOARCH_amd64 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -print-libgcc-file-name
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o -c $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o -c $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o -c $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -o $WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o -c ./wrapper.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o $WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o
+/usr/local/go/pkg/tool/darwin_amd64/cgo -objdir $WORK/github.com/gabrielayuso/go-xpc/_obj/ -dynimport $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o -dynout $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c
+/usr/local/go/pkg/tool/darwin_amd64/6c -F -V -w -I $WORK/github.com/gabrielayuso/go-xpc/_obj/ -I /usr/local/go/pkg/darwin_amd64 -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6 -D GOOS_darwin -D GOARCH_amd64 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c
+gcc -I . -g -O2 -fPIC -m64 -pthread -fno-common -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o $WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o -Wl,-r -nostdlib /usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/x86_64/libgcc.a
+/usr/local/go/pkg/tool/darwin_amd64/6g -o $WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6 -p github.com/gabrielayuso/go-xpc -D _/Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc -I $WORK $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_gotypes.go $WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo1.go
+/usr/local/go/pkg/tool/darwin_amd64/pack grcP $WORK $WORK/github.com/gabrielayuso/go-xpc.a $WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6 $WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6 $WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o
+cd .
+/usr/local/go/pkg/tool/darwin_amd64/6l -o $WORK/github.com/gabrielayuso/go-xpc/_obj/exe/a.out -L $WORK $WORK/github.com/gabrielayuso/go-xpc.a
+# github.com/gabrielayuso/go-xpc
+","['main(__DATA/__const):', 'unhandled', 'relocation', 'for', '_NSConcreteGlobalBlock', '(type', '28', 'rtype', '120)', 'I', 'am', 'compiling', 'using', 'go', 'build', 'the', 'code', 'that', 'follows:', 'main.go', 'package', 'main', '/*', '#include', '#include', '""wrapper.h""', '*/', 'import', '""C""', 'import', '(', '""fmt""', ')', '//export', 'HandleXPCEvent', 'func', 'HandleXPCEvent(event', 'C.xpc_object_t)', '{', 'fmt.Println(""Event', 'was', 'handled"")', '}', 'func', 'main()', '{', 'name', ':=', 'C.CString(""com.example.xpc"")', 'queue', ':=', 'C.dispatch_queue_create(name,', 'nil)', 'conn', ':=', 'C.xpc_connection_create(name,', 'queue)', 'C.set_event_handler(conn)', '//C.xpc_connection_resume(conn)', '}', 'wrapper.h', '#ifndef', '_WRAPPER_H_', '#define', '_WRAPPER_H_', '#include', '#include', '#include', 'xpc_connection_t', 'connect(', 'char*', 'name);', 'void', 'set_event_handler(xpc_connection_t', 'connection);', '#endif', 'wrapper.c', '#include', '""wrapper.h""', '#include', 'extern', 'void', 'HandleXPCEvent(xpc_object_t);', 'xpc_connection_t', 'connect(', 'char*', 'name)', '{', 'dispatch_queue_t', 'queue', '=', 'dispatch_queue_create(name,0);', 'return', 'xpc_connection_create(name,queue);', '}', 'void', 'set_event_handler(xpc_connection_t', 'connection)', '{', 'xpc_connection_set_event_handler(connection,', '^(xpc_object_t', 'event)', '{', 'xpc_retain(event);', '//', 'Call', 'Go', 'function', 'HandleXPCEvent(event);', '});', '}', ""I'm"", 'I', 'doing', 'something', 'wrong?', 'Is', 'this', 'some', 'kind', 'of', 'go', 'bug', 'or', 'how', 'can', 'this', 'be', 'fixed?', 'Update:', 'I', 'ran', 'go', 'build', '-x', '-work', 'on', 'my', 'project', 'and', 'I', 'got', 'the', 'following', 'output:', '➣', 'go', 'build', '-x', '-work', 'WORK=/var/folders/fb/bgfqk8wx5x16w7yh2cg50vrw0000gn/T/go-build524335717', 'mkdir', '-p', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', 'mkdir', '-p', '$WORK/github.com/gabrielayuso/go-xpc/_obj/exe/', 'cd', '/Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc', '/usr/local/go/pkg/tool/darwin_amd64/cgo', '-objdir', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '--', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', 'main.go', '/usr/local/go/pkg/tool/darwin_amd64/6c', '-F', '-V', '-w', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-I', '/usr/local/go/pkg/darwin_amd64', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6', '-D', 'GOOS_darwin', '-D', 'GOARCH_amd64', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-print-libgcc-file-name', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o', '-c', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o', '-c', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o', '-c', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o', '-c', './wrapper.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_main.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o', '/usr/local/go/pkg/tool/darwin_amd64/cgo', '-objdir', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-dynimport', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_.o', '-dynout', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c', '/usr/local/go/pkg/tool/darwin_amd64/6c', '-F', '-V', '-w', '-I', '$WORK/github.com/gabrielayuso/go-xpc/_obj/', '-I', '/usr/local/go/pkg/darwin_amd64', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6', '-D', 'GOOS_darwin', '-D', 'GOARCH_amd64', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.c', 'gcc', '-I', '.', '-g', '-O2', '-fPIC', '-m64', '-pthread', '-fno-common', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_export.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo2.o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/wrapper.o', '-Wl,-r', '-nostdlib', '/usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/x86_64/libgcc.a', '/usr/local/go/pkg/tool/darwin_amd64/6g', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6', '-p', 'github.com/gabrielayuso/go-xpc', '-D', '_/Users/gabrielayuso/Documents/Workspace/Projects/go/src/github.com/gabrielayuso/go-xpc', '-I', '$WORK', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_gotypes.go', '$WORK/github.com/gabrielayuso/go-xpc/_obj/main.cgo1.go', '/usr/local/go/pkg/tool/darwin_amd64/pack', 'grcP', '$WORK', '$WORK/github.com/gabrielayuso/go-xpc.a', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_go_.6', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_import.6', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_cgo_defun.6', '$WORK/github.com/gabrielayuso/go-xpc/_obj/_all.o', 'cd', '.', '/usr/local/go/pkg/tool/darwin_amd64/6l', '-o', '$WORK/github.com/gabrielayuso/go-xpc/_obj/exe/a.out', '-L', '$WORK', '$WORK/github.com/gabrielayuso/go-xpc.a', '#', 'github.com/gabrielayuso/go-xpc']","['NN', 'JJ', 'NN', 'IN', 'NNP', 'NNP', 'CD', 'NN', 'CD', 'PRP', 'VBP', 'VBG', 'VBG', 'VB', 'VB', 'DT', 'NN', 'IN', 'NN', 'NN', 'NN', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NN', '(', 'NNP', ')', 'NN', 'NNP', 'NN', 'NNP', 'NNP', '(', 'NN', 'VBD', 'JJ', ')', 'JJ', 'JJ', '(', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', ')', 'VBP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'JJ', 'NN', 'NNP', 'NNP', 'NN', 'NN', 'RB', '(', 'JJ', 'NN', 'NNP', 'VBZ', 'VB', 'JJ', ')', 'JJ', 'JJ', 'NN', '(', 'JJ', 'NNP', 'NN', '(', 'JJ', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NNP', ')', 'NNP', 'PRP', 'VBG', 'NN', 'NN', 'VBZ', 'DT', 'DT', 'NN', 'IN', 'NN', 'NN', 'CC', 'WRB', 'MD', 'DT', 'VB', 'JJ', 'NNP', 'PRP', 'VBD', 'VB', 'JJ', 'NNP', 'NN', 'IN', 'PRP$', 'NN', 'CC', 'PRP', 'VBD', 'DT', 'JJ', 'NN', 'NNP', 'VBP', 'JJ', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'JJ', 'NN', 'NNP', 'JJ', 'NN', 'JJ', 'NNP', 'NNP', 'NNP', ':', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'JJ', 'NNP', 'NN', 'IN', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NN', 'NNP', '.', 'VB', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'JJ', 'NNP', 'NNP', 'JJ', 'JJ', 'NN', 'NN', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'JJ', 'NN', '.', 'JJ', 'JJ', 'NN', 'NNP', 'NNP', 'JJ', '#', 'NN']"
+3,main(__DATA/__const): unexpected reloc for dynamic symbol _NSConcreteGlobalBlock,"['main', '(', '__DATA', '__const', '):', 'unexpected', 'reloc', 'for', 'dynamic', 'symbol', '_NSConcreteGlobalBlock']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+4,"
+main(__DATA/__const): unhandled relocation for _NSConcreteGlobalBlock (type 28 rtype 120)
+
+
+Content of $WORK dir as generated by go build -x -work: go-xpc_work.zip
+
+I'm not very familiar with compiling and linking therefore I can't make much sense of this output. I just noticed that _cgo_import.c a file generated by cgo (with options -dynimport and -dynout) has #pragma cgo_import_dynamic _NSConcreteGlobalBlock _NSConcreteGlobalBlock """" in the first line which is related to the error message the linker gave.
+
+Hope this information can help to find out what the problem is and how to solve it.
+","['main(__DATA/__const):', 'unhandled', 'relocation', 'for', '_NSConcreteGlobalBlock', '(type', '28', 'rtype', '120)', 'Content', 'of', '$WORK', 'dir', 'as', 'generated', 'by', 'go', 'build', '-x', '-work:', 'go-xpc_work.zip', ""I'm"", 'not', 'very', 'familiar', 'with', 'compiling', 'and', 'linking', 'therefore', 'I', ""can't"", 'make', 'much', 'sense', 'of', 'this', 'output.', 'I', 'just', 'noticed', 'that', '_cgo_import.c', 'a', 'file', 'generated', 'by', 'cgo', '(with', 'options', '-dynimport', 'and', '-dynout)', 'has', '#pragma', 'cgo_import_dynamic', '_NSConcreteGlobalBlock', '_NSConcreteGlobalBlock', '""""', 'in', 'the', 'first', 'line', 'which', 'is', 'related', 'to', 'the', 'error', 'message', 'the', 'linker', 'gave.', 'Hope', 'this', 'information', 'can', 'help', 'to', 'find', 'out', 'what', 'the', 'problem', 'is', 'and', 'how', 'to', 'solve', 'it.']","['NN', 'JJ', 'NN', 'IN', 'NNP', 'NNP', 'CD', 'NN', 'CD', 'NNP', 'IN', 'NNP', 'NN', 'IN', 'VBN', 'IN', 'VBP', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'VBG', 'CC', 'VBG', 'RB', 'PRP', 'VBP', 'VB', 'JJ', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBD', 'IN', 'VBZ', 'DT', 'NN', 'VBN', 'IN', 'NN', 'NN', 'NNS', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'JJ', 'NN', 'NNP', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'VBN', 'TO', 'DT', 'NN', 'NN', 'DT', 'NN', 'VBZ', 'NNP', 'DT', 'NN', 'MD', 'VB', 'TO', 'VB', 'RP', 'WP', 'DT', 'NN', 'VBZ', 'CC', 'WRB', 'TO', 'VB', 'NN']"
+5,"
+",[],[]
+6,main(__DATA/__const): unhandled relocation for _NSConcreteGlobalBlock (type 28 rtype 120),"['main', '(', '__DATA', '__const', '):', 'unhandled', 'relocation', 'for', '_NSConcreteGlobalBlock', '(', 'type', '28', 'rtype', '120', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR']"
+7,"
+
+
+Content of $WORK dir as generated by go build -x -work: go-xpc_work.zip
+
+I'm not very familiar with compiling and linking therefore I can't make much sense of this output. I just noticed that _cgo_import.c a file generated by cgo (with options -dynimport and -dynout) has ","['Content', 'of', '$WORK', 'dir', 'as', 'generated', 'by', 'go', 'build', '-x', '-work:', 'go-xpc_work.zip', ""I'm"", 'not', 'very', 'familiar', 'with', 'compiling', 'and', 'linking', 'therefore', 'I', ""can't"", 'make', 'much', 'sense', 'of', 'this', 'output.', 'I', 'just', 'noticed', 'that', '_cgo_import.c', 'a', 'file', 'generated', 'by', 'cgo', '(with', 'options', '-dynimport', 'and', '-dynout)', 'has']","['NN', 'IN', 'JJ', 'NN', 'IN', 'VBN', 'IN', 'VBP', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'VBG', 'CC', 'VBG', 'RB', 'PRP', 'VBP', 'VB', 'JJ', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBD', 'IN', 'VBZ', 'DT', 'NN', 'VBN', 'IN', 'NN', 'NN', 'NNS', 'NN', 'CC', 'NN', 'VBZ']"
+8,"#pragma cgo_import_dynamic _NSConcreteGlobalBlock _NSConcreteGlobalBlock """"","['pragma', 'cgo_import_dynamic', '_NSConcreteGlobalBlock', '_NSConcreteGlobalBlock', '""""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+9," in the first line which is related to the error message the linker gave.
+
+Hope this information can help to find out what the problem is and how to solve it.
+","['in', 'the', 'first', 'line', 'which', 'is', 'related', 'to', 'the', 'error', 'message', 'the', 'linker', 'gave.', 'Hope', 'this', 'information', 'can', 'help', 'to', 'find', 'out', 'what', 'the', 'problem', 'is', 'and', 'how', 'to', 'solve', 'it.']","['IN', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'VBN', 'TO', 'DT', 'NN', 'NN', 'DT', 'NN', 'VBZ', 'NNP', 'DT', 'NN', 'MD', 'VB', 'TO', 'VB', 'RP', 'WP', 'DT', 'NN', 'VBZ', 'CC', 'WRB', 'TO', 'VB', 'NN']"
