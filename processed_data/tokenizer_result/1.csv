@@ -1,0 +1,131 @@
+,text,token
+0,"I'm currently porting a pretty basic gallery application from PHP to Go. This application features automatic generation of thumbnails and middle-sized version of every image.
+
+In PHP I used GD, because it ships with it and worked pretty well. (Code is at the end of the question). I thought I could just replicate that in Go and found go-gd from https://github.com/bolknote/go-gd (again, code is at the end). It works, but it is roughly 10 times slower (measured using time wget $URL). The PHP implementation takes about 1 second for generating a 1024x768 version from a 10 MP-image, while the Go-Code takes almost 10 seconds.
+
+Is there any way to speed this up or any other image-processing libary for Go, which implements scaling and convolution while being reasonably fast?
+
+PHP-Code
+
+","[""I'm"", 'currently', 'porting', 'a', 'pretty', 'basic', 'gallery', 'application', 'from', 'PHP', 'to', 'Go.', 'This', 'application', 'features', 'automatic', 'generation', 'of', 'thumbnails', 'and', 'middle-sized', 'version', 'of', 'every', 'image.', 'In', 'PHP', 'I', 'used', 'GD,', 'because', 'it', 'ships', 'with', 'it', 'and', 'worked', 'pretty', 'well.', '(Code', 'is', 'at', 'the', 'end', 'of', 'the', 'question).', 'I', 'thought', 'I', 'could', 'just', 'replicate', 'that', 'in', 'Go', 'and', 'found', 'go-gd', 'from', 'https://github.com/bolknote/go-gd', '(again,', 'code', 'is', 'at', 'the', 'end).', 'It', 'works,', 'but', 'it', 'is', 'roughly', '10', 'times', 'slower', '(measured', 'using', 'time', 'wget', '$URL).', 'The', 'PHP', 'implementation', 'takes', 'about', '1', 'second', 'for', 'generating', 'a', '1024x768', 'version', 'from', 'a', '10', 'MP-image,', 'while', 'the', 'Go-Code', 'takes', 'almost', '10', 'seconds.', 'Is', 'there', 'any', 'way', 'to', 'speed', 'this', 'up', 'or', 'any', 'other', 'image-processing', 'libary', 'for', 'Go,', 'which', 'implements', 'scaling', 'and', 'convolution', 'while', 'being', 'reasonably', 'fast?', 'PHP-Code']"
+1,"public function saveThumb($outName, $options) {","['public', 'func', 'tion', 'saveThumb', '($', 'outName', ',', '$', 'options', ')', '{']"
+2,    $this->img = imagecreatefromjpeg($filename);,"['$', 'this', '->', 'img', '=', 'imagecreatefromjpeg', '($', 'filename', ');']"
+3,    if (!is_dir(dirname($outName))) {,"['if', '(!', 'is_dir', '(', 'dirname', '($', 'outName', ')))', '{']"
+4,"        mkdir(dirname($outName), 0777, true);","['mkdir', '(', 'dirname', '($', 'outName', '),', '0777', ',', 'true', ');']"
+5,    },['}']
+6,    $width = imagesx($this->img);,"['$', 'width', '=', 'imagesx', '($', 'this', '->', 'img', ');']"
+7,    $height = imagesy($this->img);,"['$', 'height', '=', 'imagesy', '($', 'this', '->', 'img', ');']"
+8,"    if ($options[""keep_aspect""]) {","['if', '($', 'options', '[', '""keep_aspect""', '])', '{']"
+9,"        $factor = min($options[""size_x""]/$width, $options[""size_y""]/$height);","['$', 'factor', '=', 'min', '($', 'options', '[', '""size_x""]/$width, $options[""size_y""', ']', '$', 'height', ');']"
+10,        $new_width = round($factor*$width);,"['$', 'new_width', '=', 'round', '($', 'factor', '*$', 'width', ');']"
+11,        $new_height = round($factor*$height);,"['$', 'new_height', '=', 'round', '($', 'factor', '*$', 'height', ');']"
+12,    } else {,"['}', 'else', '{']"
+13,"        $new_width  = $options[""size_x""];","['$', 'new_width', '=', '$', 'options', '[', '""size_x""', '];']"
+14,"        $new_height = $options[""size_y""];","['$', 'new_height', '=', '$', 'options', '[', '""size_y""', '];']"
+15,    },['}']
+16,    // create a new temporary image,"['//', 'create', 'a', 'new', 'temporary', 'image']"
+17,"    $tmp_img = imagecreatetruecolor($new_width, $new_height);","['$', 'tmp_img', '=', 'imagecreatetruecolor', '($', 'new_width', ',', '$', 'new_height', ');']"
+18,    // copy and resize old image into new image,"['//', 'copy', 'and', 'resize', 'old', 'image', 'into', 'new', 'image']"
+19,"    imagecopyresampled($tmp_img, $this->img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);","['imagecopyresampled', '($', 'tmp_img', ',', '$', 'this', '->', 'img', ',', '0', ',', '0', ',', '0', ',', '0', ',', '$', 'new_width', ',', '$', 'new_height', ',', '$', 'width', ',', '$', 'height', ');']"
+20,"    if ($options[""sharpen""]) {","['if', '($', 'options', '[', '""sharpen""', '])', '{']"
+21,        // define the sharpen matrix,"['//', 'define', 'the', 'sharpen', 'matrix']"
+22,        $sharpen = array(,"['$', 'sharpen', '=', 'array', '(']"
+23,"            array(-1, -1.7, -1),","['array', '(-', '1', ',', '-', '1', '.', '7', ',', '-', '1', '),']"
+24,"            array(-1.7, 20, -1.7),","['array', '(-', '1', '.', '7', ',', '20', ',', '-', '1', '.', '7', '),']"
+25,"            array(-1, -1.7, -1) ","['array', '(-', '1', ',', '-', '1', '.', '7', ',', '-', '1', ')']"
+26,        );,[');']
+27,        // calculate the sharpen divisor,"['//', 'calculate', 'the', 'sharpen', 'divisor']"
+28,"        $divisor = array_sum(array_map('array_sum', $sharpen));","['$', 'divisor', '=', 'array_sum', '(', 'array_map', '(', 'array_sum', ',', '$', 'sharpen', '));']"
+29,        // apply the matrix,"['//', 'apply', 'the', 'matrix']"
+30,"        imageconvolution($tmp_img, $sharpen, $divisor, 0);","['imageconvolution', '($', 'tmp_img', ',', '$', 'sharpen', ',', '$', 'divisor', ',', '0', ');']"
+31,    },['}']
+32,    // save thumbnail into a file,"['//', 'save', 'thumbnail', 'into', 'a', 'file']"
+33,"    imagejpeg($tmp_img, $outName);     ","['imagejpeg', '($', 'tmp_img', ',', '$', 'outName', ');']"
+34,},['}']
+35,"
+
+Go-Code
+
+",['Go-Code']
+36,"func (entry *entry) GenerateThumb(options ImageType, overwrite bool) os.Error {","['func', '(', 'entry', '*', 'entry', ')', 'GenerateThumb', '(', 'options', 'ImageType', ',', 'overwrite', 'bool', ')', 'os', '.', 'Error', '{']"
+37,    targetFilename := entry.Filename(imageType),"['targetFilename', ':=', 'entry.Filename(imageType)']"
+38,    sourceFilename := entry.Filename(IMAGE_TYPE_FULL),"['sourceFilename', ':=', 'entry.Filename(IMAGE_TYPE_FULL)']"
+39,"    targetDirname, _ := filepath.Split(targetFilename)","['targetDirname', ',', '_', ':=', 'filepath.Split(targetFilename)']"
+40,"    os.MkdirAll(targetDirname, 0777)","['os.MkdirAll(targetDirname, 0777)']"
+41,"    targetFi, errT := os.Stat(targetFilename)","['targetFi', ',', 'errT', ':=', 'os.Stat(targetFilename)']"
+42,"    sourceFi, errS := os.Stat(sourceFilename)","['sourceFi', ',', 'errS', ':=', 'os.Stat(sourceFilename)']"
+43,    image := gd.CreateFromJpeg(sourceFilename),"['image', ':=', 'gd.CreateFromJpeg(sourceFilename)']"
+44,    if image == nil {,"['if', 'image', '==', 'nil', '{']"
+45,"        return os.NewError(""Image could not be loaded"")","['return', 'os.NewError(""Image could not be loaded"")']"
+46,    },['}']
+47,"    var targetX, targetY int = 0, 0","['var', 'targetX', ',', 'targetY', 'int', '=', '0', ',', '0']"
+48,    if options.KeepAspect {,"['if', 'options', '.', 'KeepAspect', '{']"
+49,"        factor := math.Fmin(float64(options.SizeX)/float64(image.Sx()), float64(options.SizeY)/float64(image.Sy()))","['factor', ':=', 'math.Fmin(float64(options.SizeX)/float64(image.Sx()), float64(options.SizeY)/float64(image.Sy()))']"
+50,        targetX = int(factor*float64(image.Sx())),"['targetX', '=', 'int', '(', 'factor', '*', 'float64', '(', 'image.Sx()))']"
+51,        targetY = int(factor*float64(image.Sy())),"['targetY', '=', 'int', '(', 'factor', '*', 'float64', '(', 'image.Sy()))']"
+52,    } else {,"['}', 'else', '{']"
+53,        targetX = options.SizeX,"['targetX', '=', 'options', '.', 'SizeX']"
+54,        targetY = options.SizeY,"['targetY', '=', 'options', '.', 'SizeY']"
+55,    },['}']
+56,"    tmpImage := gd.CreateTrueColor(targetX, targetY)","['tmpImage', ':=', 'gd.CreateTrueColor(targetX, targetY)']"
+57,"    image.CopyResampled(tmpImage, 0, 0, 0, 0, tmpImage.Sx(), tmpImage.Sy(), image.Sx(), image.Sy())","['image.CopyResampled(tmpImage, 0, 0, 0, 0, tmpImage.Sx(), tmpImage.Sy(), image.Sx(), image.Sy())']"
+58,    if options.Sharpen {,"['if', 'options', '.', 'Sharpen', '{']"
+59,        sharpenMatrix := [3][3]float32{,"['sharpenMatrix', ':=', '[', '3', '][', '3', ']', 'float32', '{']"
+60,"        {-1, -1.7, -1},","['{-', '1', ',', '-', '1', '.', '7', ',', '-', '1', '},']"
+61,"        {-1.7, 20, -1.7},","['{-', '1', '.', '7', ',', '20', ',', '-', '1', '.', '7', '},']"
+62,"        {-1, -1.7, -1} }","['{-', '1', ',', '-', '1', '.', '7', ',', '-', '1', '}', '}']"
+63,"        tmpImage.Convolution(sharpenMatrix, 9.2, 0)","['tmpImage.Convolution(sharpenMatrix, 9.2, 0)']"
+64,    },['}']
+65,"    tmpImage.Jpeg(targetFilename, 90)","['tmpImage.Jpeg(targetFilename, 90)']"
+66,    return nil,"['return', 'nil']"
+67,},['}']
+68,"
+
+EDIT: Go-Code using resize.go (see answer)
+
+","['EDIT:', 'Go-Code', 'using', 'resize.go', '(see', 'answer)']"
+69,"func (entry *entry) GenerateThumb(options ImageType, overwrite bool) os.Error {","['func', '(', 'entry', '*', 'entry', ')', 'GenerateThumb', '(', 'options', 'ImageType', ',', 'overwrite', 'bool', ')', 'os', '.', 'Error', '{']"
+70,    targetFilename := entry.Filename(imageType),"['targetFilename', ':=', 'entry.Filename(imageType)']"
+71,    sourceFilename := entry.Filename(IMAGE_TYPE_FULL),"['sourceFilename', ':=', 'entry.Filename(IMAGE_TYPE_FULL)']"
+72,"    targetDirname, _ := filepath.Split(targetFilename)","['targetDirname', ',', '_', ':=', 'filepath.Split(targetFilename)']"
+73,"    os.MkdirAll(targetDirname, 0777)","['os.MkdirAll(targetDirname, 0777)']"
+74,"    targetFi, errT := os.Stat(targetFilename)","['targetFi', ',', 'errT', ':=', 'os.Stat(targetFilename)']"
+75,"    sourceFi, errS := os.Stat(sourceFilename)","['sourceFi', ',', 'errS', ':=', 'os.Stat(sourceFilename)']"
+76,    if errT == nil && errS == nil {,"['if', 'errT', '==', 'nil', '&&', 'errS', '==', 'nil', '{']"
+77,        if targetFi.Mtime_ns > sourceFi.Mtime_ns && !overwrite {,"['if', 'targetFi', '.', 'Mtime_ns', '>', 'sourceFi', '.', 'Mtime_ns', '&&', '!', 'overwrite', '{']"
+78,"            // already up-to-date, nothing to do","['//', 'already', 'up-to-date,', 'nothing', 'to', 'do']"
+79,            return nil,"['return', 'nil']"
+80,        },['}']
+81,    },['}']
+82,"    log.Printf(""Generate(\""%v\"", %v)\n"", imageType, overwrite)","['log.Printf(""Generate(\\""%v\\"", %v)\\n"", imageType, overwrite)']"
+83,"    inFile, fErr := os.Open(sourceFilename)","['inFile', ',', 'fErr', ':=', 'os.Open(sourceFilename)']"
+84,    if fErr != nil {,"['if', 'fErr', '!=', 'nil', '{']"
+85,        log.Fatal(fErr),['log.Fatal(fErr)']
+86,    },['}']
+87,    defer inFile.Close(),"['defer', 'inFile.Close()']"
+88,"    img, _, err := image.Decode(inFile)","['img', ',', '_', ',', 'err', ':=', 'image.Decode(inFile)']"
+89,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+90,        log.Fatal(err),['log.Fatal(err)']
+91,    },['}']
+92,"    var targetX, targetY int","['var', 'targetX', ',', 'targetY', 'int']"
+93,    if options.KeepAspect {,"['if', 'options', '.', 'KeepAspect', '{']"
+94,"        factor := math.Fmin(float64(options.SizeX)/float64(img.Bounds().Max.X), float64(options.SizeY)/float64(img.Bounds().Max.Y))","['factor', ':=', 'math.Fmin(float64(options.SizeX)/float64(img.Bounds().Max.X), float64(options.SizeY)/float64(img.Bounds().Max.Y))']"
+95,        targetX = int(factor*float64(img.Bounds().Max.X)),"['targetX', '=', 'int', '(', 'factor', '*', 'float64', '(', 'img.Bounds().Max.X))']"
+96,        targetY = int(factor*float64(img.Bounds().Max.Y)),"['targetY', '=', 'int', '(', 'factor', '*', 'float64', '(', 'img.Bounds().Max.Y))']"
+97,    } else {,"['}', 'else', '{']"
+98,        targetX = curType.SizeX,"['targetX', '=', 'curType', '.', 'SizeX']"
+99,        targetY = curType.SizeY,"['targetY', '=', 'curType', '.', 'SizeY']"
+100,    },['}']
+101,"    newImg := resize.Resample(img, image.Rect(0, 0, img.Bounds().Max.X, img.Bounds().Max.Y), targetX, targetY)","['newImg', ':=', 'resize.Resample(img, image.Rect(0, 0, img.Bounds().Max.X, img.Bounds().Max.Y), targetX, targetY)']"
+102,    var outFile *os.File,"['var', 'outFile', '*', 'os', '.', 'File']"
+103,"    outFile, fErr = os.Create(targetFilename)","['outFile', ',', 'fErr', '=', 'os.Create(targetFilename)']"
+104,    if fErr != nil {,"['if', 'fErr', '!=', 'nil', '{']"
+105,        log.Fatal(fErr),['log.Fatal(fErr)']
+106,    },['}']
+107,    defer outFile.Close(),"['defer', 'outFile.Close()']"
+108,"    err = jpeg.Encode(outFile, newImg, &jpeg.Options{90})","['err', '=', 'jpeg.Encode(outFile, newImg, &jpeg.Options{90})']"
+109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+110,        log.Fatal(err),['log.Fatal(err)']
+111,    },['}']
+112,    return nil,"['return', 'nil']"
+113,},['}']
