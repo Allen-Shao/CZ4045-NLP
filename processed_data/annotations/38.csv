@@ -1,198 +1,22 @@
 ,text,token,annotation
-0,"I need to validate a google id_token and one step involves to check the token signature. 
+0,"If you need to import  different packages of the same name in Golang, this is the way(just name it):
 
-First I obtain the certificate from: https://www.googleapis.com/oauth2/v2/certs and extract the modulus (n) and exponent (e) part from the certificate and generate a public key, then I take apart the token (header, payload and digest), after then I send the decoded header.payload together with the Google pKey + digest to the rsa function rsa.VerifyPKCS1v15. 
+","['If', 'you', 'need', 'to', 'import', 'different', 'packages', 'of', 'the', 'same', 'name', 'in', 'Golang,', 'this', 'is', 'the', 'way(just', 'name', 'it):']","['IN', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NNP', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'NN']"
+1,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+2,"    ""text/template""","['""text/template""']",['STRING_LITERAL']
+3,"    ht ""html/template""","['ht', '""html/template""']","['IDENTIFIER', 'STRING_LITERAL']"
+4,),[')'],['PUNCTUATION']
+5,"
 
-I am stuck with this verification error: ","['I', 'need', 'to', 'validate', 'a', 'google', 'id_token', 'and', 'one', 'step', 'involves', 'to', 'check', 'the', 'token', 'signature.', 'First', 'I', 'obtain', 'the', 'certificate', 'from:', 'https://www.googleapis.com/oauth2/v2/certs', 'and', 'extract', 'the', 'modulus', '(n)', 'and', 'exponent', '(e)', 'part', 'from', 'the', 'certificate', 'and', 'generate', 'a', 'public', 'key,', 'then', 'I', 'take', 'apart', 'the', 'token', '(header,', 'payload', 'and', 'digest),', 'after', 'then', 'I', 'send', 'the', 'decoded', 'header.payload', 'together', 'with', 'the', 'Google', 'pKey', '+', 'digest', 'to', 'the', 'rsa', 'function', 'rsa.VerifyPKCS1v15.', 'I', 'am', 'stuck', 'with', 'this', 'verification', 'error:']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'NN', 'CC', 'CD', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'NN', 'NNP', 'PRP', 'VB', 'DT', 'NN', 'NN', 'NNS', 'CC', 'VB', 'DT', 'NN', 'NNP', 'CC', 'JJ', 'NNP', 'NN', 'IN', 'DT', 'NN', 'CC', 'VB', 'DT', 'JJ', 'NN', 'RB', 'PRP', 'VBP', 'RB', 'DT', 'JJ', 'NNP', 'NN', 'CC', 'NN', 'IN', 'RB', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'RB', 'IN', 'DT', 'NNP', 'NN', 'NNP', 'NN', 'TO', 'DT', 'NN', 'NN', 'NN', 'PRP', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'NN']"
-1,crypto/rsa: verification error,"['crypto/rsa:', 'verification', 'error']","['DIRECTORY', 'IDENTIFIER', 'IDENTIFIER']"
-2,"
+but in case of ""golang.org/x/tools/cmd/oracle""
+it is not a package , it has just main.go and you need to build/install it. it   is a command line tool:
 
-Here's the code (I commented part of code which fails with ","[""Here's"", 'the', 'code', '(I', 'commented', 'part', 'of', 'code', 'which', 'fails', 'with']","['NNP', 'DT', 'NN', 'NNP', 'VBD', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'IN']"
-3,// validation here fails,"['//', 'validation', 'here', 'fails']","['COMMENT', 'NN', 'RB', 'VBZ']"
-4,"):
-
-",['):'],['NN']
-5,func ValidateIDToken(auth_token string) (err error){    ,"['func', 'ValidateIDToken', '(', 'auth_token', 'string', ')', '(', 'err', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-6,"    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")","['res', ',', 'err', ':=', 'http.Get(""https://www.googleapis.com/oauth2/v2/certs"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-7,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-8,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-9,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-10,    },['}'],['PUNCTUATION']
-11,"    certs, err := ioutil.ReadAll(res.Body)","['certs', ',', 'err', ':=', 'ioutil.ReadAll(res.Body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-12,    res.Body.Close(),"['res', '.', 'Body.Close()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-13,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-14,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-15,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-16,    },['}'],['PUNCTUATION']
-17,    //get modulus and exponent from the cert,"['//', 'get', 'modulus', 'and', 'exponent', 'from', 'the', 'cert']","['COMMENT', 'VB', 'JJ', 'CC', 'NN', 'IN', 'DT', 'NN']"
-18,    var goCertificate interface{},"['var', 'go', 'Certificate', 'interface', '{}']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-19,"    err = json.Unmarshal(certs, &goCertificate)    ","['err', '=', 'json.Unmarshal(certs, &goCertificate)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-20,"    k := goCertificate.(map[string]interface{})[""keys""]","['k', ':=', 'go', 'Certificate', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""keys""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-21,    j := k.([]interface{}),"['j', ':=', 'k', '.([]', 'interface', '{})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-22,    x := j[1],"['x', ':=', 'j', '[', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-23,"    h := x.(map[string]interface{})[""n""]","['h', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""n""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-24,"    g := x.(map[string]interface{})[""e""]","['g', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""e""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-25,    e64 := base64.StdEncoding,"['e64', ':=', 'base64', '.', 'StdEncoding']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-26,    //build the google pub key,"['//', 'build', 'the', 'google', 'pub', 'key']","['COMMENT', 'VB', 'DT', 'NN', 'NN', 'NN']"
-27,    nStr := h.(string),"['nStr', ':=', 'h', '.(', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-28,"    decN, err := base64.StdEncoding.DecodeString(nStr)","['decN', ',', 'err', ':=', 'base64', '.', 'StdEncoding.DecodeString(nStr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-29,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-30,        log.Println(err),['log.Println(err)'],['FUNCTION_CALL']
-31,        return,['return'],['KEYWORD']
-32,    },['}'],['PUNCTUATION']
-33,    n := big.NewInt(0),"['n', ':=', 'big.NewInt(0)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-34,    n.SetBytes(decN),['n.SetBytes(decN)'],['FUNCTION_CALL']
-35,    eStr := g.(string),"['eStr', ':=', 'g', '.(', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-36,"    decE, err := base64.StdEncoding.DecodeString(eStr)","['decE', ',', 'err', ':=', 'base64', '.', 'StdEncoding.DecodeString(eStr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-38,        log.Println(err),['log.Println(err)'],['FUNCTION_CALL']
-39,        return,['return'],['KEYWORD']
-40,    },['}'],['PUNCTUATION']
-41,    var eBytes []byte,"['var', 'eBytes', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-42,    if len(decE) < 8 {,"['if', 'len', '(', 'decE', ')', '<', '8', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-43,"        eBytes = make([]byte, 8-len(decE), 8)","['eBytes', '=', 'make', '([]', 'byte', ',', '8', '-', 'len', '(', 'decE', '),', '8', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-44,"        eBytes = append(eBytes, decE...)","['eBytes', '=', 'append', '(', 'eBytes', ',', 'decE', '...)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-45,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-46,        eBytes = decE,"['eBytes', '=', 'decE']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-47,    },['}'],['PUNCTUATION']
-48,    eReader := bytes.NewReader(eBytes),"['eReader', ':=', 'bytes.NewReader(eBytes)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-49,    var e uint64,"['var', 'e', 'uint64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-50,"    err = binary.Read(eReader, binary.BigEndian, &e)","['err', '=', 'binary.Read(eReader, binary.BigEndian, &e)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-51,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-52,        log.Println(err),['log.Println(err)'],['FUNCTION_CALL']
-53,        return,['return'],['KEYWORD']
-54,    },['}'],['PUNCTUATION']
-55,"    pKey := rsa.PublicKey{N: n, E: int(e)}","['pKey', ':=', 'rsa', '.', 'PublicKey', '{', 'N', ':', 'n', ',', 'E', ':', 'int', '(', 'e', ')}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-56,"    w := strings.SplitAfter(auth_token, ""."")    ","['w', ':=', 'strings.SplitAfter(auth_token, ""."")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-57,"    for i, val := range w {","['for', 'i', ',', 'val', ':=', 'range', 'w', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-58,"        w[i] = strings.Trim(val, ""."")","['w', '[', 'i', ']', '=', 'strings.Trim(val, ""."")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-59,    },['}'],['PUNCTUATION']
-60,    y := w[0:2],"['y', ':=', 'w', '[', '0', ':', '2', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-61,"    //Join just the first two parts, the header and the payload without the signature","['//', 'Join', 'just', 'the', 'first', 'two', 'parts,', 'the', 'header', 'and', 'the', 'payload', 'without', 'the', 'signature']","['COMMENT', 'NNP', 'RB', 'DT', 'JJ', 'CD', 'VBP', 'DT', 'NN', 'CC', 'DT', 'NN', 'IN', 'DT', 'NN']"
-62,"    o := strings.Join(y, ""."")   ","['o', ':=', 'strings.Join(y, ""."")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-63,"    headerOauth := DecodeB64(nil,[]byte(w[0]),e64)","['headerOauth', ':=', 'DecodeB64', '(', 'nil', ',[]', 'byte', '(', 'w', '[', '0', ']),', 'e64', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-64,"    inblockOauth := DecodeB64(nil,[]byte(w[1]),e64)","['inblockOauth', ':=', 'DecodeB64', '(', 'nil', ',[]', 'byte', '(', 'w', '[', '1', ']),', 'e64', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-65,"    toHash := string(headerOauth) + ""}."" + string(inblockOauth)","['toHash', ':=', 'string', '(', 'headerOauth', ')', '+', '""}.""', '+', 'string', '(', 'inblockOauth', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-66,"    digestOauth := DecodeB64(nil, []byte(w[2]),e64)","['digestOauth', ':=', 'DecodeB64', '(', 'nil', ',', '[]', 'byte', '(', 'w', '[', '2', ']),', 'e64', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-67,    hasherOauth := sha256.New(),"['hasherOauth', ':=', 'sha256.New()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-68,    hasherOauth.Write([]byte(toHash)),['hasherOauth.Write([]byte(toHash))'],['FUNCTION_CALL']
-69,    // validation here fails,"['//', 'validation', 'here', 'fails']","['COMMENT', 'NN', 'RB', 'VBZ']"
-70,"    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)","['err', '=', 'rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-71,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-72,"        log.Printf(""Error verifying key %s"",err.Error())","['log.Printf(""Error verifying key %s"",err.Error())']",['FUNCTION_CALL']
-73,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-74,    },['}'],['PUNCTUATION']
-75,    return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-76,},['}'],['PUNCTUATION']
-77,"
-
-UPDATE 1:
-Here is toHash var which contains header and payload:
-
-","['UPDATE', '1:', 'Here', 'is', 'toHash', 'var', 'which', 'contains', 'header', 'and', 'payload:']","['NN', 'CD', 'RB', 'VBZ', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'CC', 'NN']"
-78,"{""alg"":""RS256"",""kid"":""d91c503452d0f8849200a321ffbf7dea76f9371d""}.{""iss"":""accounts.google.com"",""sub"":""104869993929250743503"",""azp"":""client_email_till_@.apps.googleusercontent.com"",""email"":""test@test.hr"",""at_hash"":""KAm1M0g-ssMkdjds7jkbVQ"",""email_verified"":true,""aud"":client_email_till_@.apps.googleusercontent.com"",""hd"":""test.hr"",""iat"":1412246551,""exp"":1412250451}","['{', '""alg""', ':', '""RS256""', ',', '""kid""', ':', '""d91c503452d0f8849200a321ffbf7dea76f9371d""', '}.{', '""iss""', ':', '""accounts.google.com""', ',', '""sub""', ':', '""104869993929250743503""', ',', '""azp""', ':', '""client_email_till_@.apps.googleusercontent.com""', ',', '""email""', ':', '""test@test.hr""', ',', '""at_hash""', ':', '""KAm1M0g-ssMkdjds7jkbVQ""', ',', '""email_verified""', ':', 'true', ',', '""aud""', ':', 'client_email_till_', '.', 'apps', '.', 'go', 'ogleusercontent', '.', 'com', '"",""', 'hd', '"":""', 'test', '.', 'hr', '"",""', 'iat', '"":1412246551,""', 'exp', ':', '1412250451', '}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-79,"
-
-UPDATE 2:
-Thanks for the reply @Florent Morselli, I tried it again and it failed, I B64decoded this time only the third part (signature) but the error was still there, could someone test it with their
-auth_token, just put the ID token in auth_token variable below in the code, and let me know if it worked, thank You.
-
-","['UPDATE', '2:', 'Thanks', 'for', 'the', 'reply', '@Florent', 'Morselli,', 'I', 'tried', 'it', 'again', 'and', 'it', 'failed,', 'I', 'B64decoded', 'this', 'time', 'only', 'the', 'third', 'part', '(signature)', 'but', 'the', 'error', 'was', 'still', 'there,', 'could', 'someone', 'test', 'it', 'with', 'their', 'auth_token,', 'just', 'put', 'the', 'ID', 'token', 'in', 'auth_token', 'variable', 'below', 'in', 'the', 'code,', 'and', 'let', 'me', 'know', 'if', 'it', 'worked,', 'thank', 'You.']","['RB', 'CD', 'NNS', 'IN', 'DT', 'NN', 'JJ', 'NNP', 'PRP', 'VBD', 'PRP', 'RB', 'CC', 'PRP', 'VBD', 'PRP', 'VBD', 'DT', 'NN', 'RB', 'DT', 'JJ', 'NN', 'NN', 'CC', 'DT', 'NN', 'VBD', 'RB', 'VBN', 'MD', 'NN', 'VB', 'PRP', 'IN', 'PRP$', 'NN', 'RB', 'VBD', 'DT', 'NNP', 'NN', 'IN', 'JJ', 'JJ', 'IN', 'IN', 'DT', 'NN', 'CC', 'VB', 'PRP', 'VB', 'IN', 'PRP', 'VBD', 'JJ', 'NN']"
-80,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-81,import(,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-82,"    ""strings""","['""strings""']",['STRING_LITERAL']
-83,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
-84,"    ""errors""","['""errors""']",['STRING_LITERAL']
-85,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-86,"    ""log""","['""log""']",['STRING_LITERAL']
-87,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
-88,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-89,"    ""crypto""    ","['""crypto""']",['STRING_LITERAL']
-90,"    ""crypto/sha256""","['""crypto/sha256""']",['STRING_LITERAL']
-91,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
-92,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-93,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-94,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-95,"    ""math/big""  ","['""math/big""']",['STRING_LITERAL']
-96,),[')'],['PUNCTUATION']
-97,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-98,"    auth_token := """"","['auth_token', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-99,"    w := strings.SplitAfter(auth_token, ""."")    ","['w', ':=', 'strings.SplitAfter(auth_token, ""."")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-100,"    for i, val := range w {","['for', 'i', ',', 'val', ':=', 'range', 'w', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-101,"        w[i] = strings.Trim(val, ""."")","['w', '[', 'i', ']', '=', 'strings.Trim(val, ""."")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-102,    },['}'],['PUNCTUATION']
-103,"    headerOauth, err := base64.URLEncoding.DecodeString(w[0])","['headerOauth', ',', 'err', ':=', 'base64', '.', 'URLEncoding.DecodeString(w[0])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-104,"    res, err := http.Get(""https://www.googleapis.com/oauth2/v2/certs"")","['res', ',', 'err', ':=', 'http.Get(""https://www.googleapis.com/oauth2/v2/certs"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-105,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-106,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-107,    },['}'],['PUNCTUATION']
-108,"    certs, err := ioutil.ReadAll(res.Body)","['certs', ',', 'err', ':=', 'ioutil.ReadAll(res.Body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-109,    res.Body.Close(),"['res', '.', 'Body.Close()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-110,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-111,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-112,    },['}'],['PUNCTUATION']
-113,    //extract kid from token header,"['//', 'extract', 'kid', 'from', 'token', 'header']","['COMMENT', 'JJ', 'NN', 'IN', 'JJ', 'NN']"
-114,    var header interface{},"['var', 'header', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-115,"    err = json.Unmarshal([]byte(string(headerOauth)+""}""), &header)","['err', '=', 'json.Unmarshal([]byte(string(headerOauth)+""}""), &header)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-116,"    token_kid := header.(map[string]interface{})[""kid""]","['token_kid', ':=', 'header', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-117,"    fmt.Println(""By 1"")","['fmt.Println(""By 1"")']",['FUNCTION_CALL']
-118,    //get modulus and exponent from the cert,"['//', 'get', 'modulus', 'and', 'exponent', 'from', 'the', 'cert']","['COMMENT', 'VB', 'JJ', 'CC', 'NN', 'IN', 'DT', 'NN']"
-119,    var goCertificate interface{},"['var', 'go', 'Certificate', 'interface', '{}']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-120,"    err = json.Unmarshal(certs, &goCertificate)    ","['err', '=', 'json.Unmarshal(certs, &goCertificate)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-121,    //k := goCertificate.(map[string]interface{})[token_kid.(string)],"['//', 'k', ':=', 'goCertificate.(map[string]interface{})[token_kid.(string)]']","['COMMENT', 'NN', 'NNP', 'NN']"
-122,"    k := goCertificate.(map[string]interface{})[""keys""]","['k', ':=', 'go', 'Certificate', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""keys""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-123,    ///*mod & exp part,"['//', '/*mod', '&', 'exp', 'part']","['COMMENT', 'NN', 'CC', 'JJ', 'NN']"
-124,    j := k.([]interface{}),"['j', ':=', 'k', '.([]', 'interface', '{})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-125,    x := j[0],"['x', ':=', 'j', '[', '0', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-126,"    if j[0].(map[string]interface{})[""kid""] == token_kid {","['if', 'j', '[', '0', '].(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']', '==', 'token_kid', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-127,        x = j[0],"['x', '=', 'j', '[', '0', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-128,    }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-129,"        if j[1].(map[string]interface{})[""kid""] == token_kid {","['if', 'j', '[', '1', '].(', 'map', '[', 'string', ']', 'interface', '{})[', '""kid""', ']', '==', 'token_kid', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-130,            x = j[1],"['x', '=', 'j', '[', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-131,        }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-132,"            errors.New(""Token is not valid, kid from token and certificate don't match"")","['errors.New(""Token is not valid, kid from token and certificate don\'t match"")']",['FUNCTION_CALL']
-133,        },['}'],['PUNCTUATION']
-134,    },['}'],['PUNCTUATION']
-135,"    h := x.(map[string]interface{})[""n""]","['h', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""n""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-136,"    g := x.(map[string]interface{})[""e""]","['g', ':=', 'x', '.(', 'map', '[', 'string', ']', 'interface', '{})[', '""e""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-137,    //build the google pub key,"['//', 'build', 'the', 'google', 'pub', 'key']","['COMMENT', 'VB', 'DT', 'NN', 'NN', 'NN']"
-138,    nStr := h.(string),"['nStr', ':=', 'h', '.(', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-139,"    decN, err := base64.URLEncoding.DecodeString(nStr)","['decN', ',', 'err', ':=', 'base64', '.', 'URLEncoding.DecodeString(nStr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-140,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-141,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-142,        return,['return'],['KEYWORD']
-143,    },['}'],['PUNCTUATION']
-144,    n := big.NewInt(0),"['n', ':=', 'big.NewInt(0)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-145,    n.SetBytes(decN),['n.SetBytes(decN)'],['FUNCTION_CALL']
-146,    eStr := g.(string),"['eStr', ':=', 'g', '.(', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-147,"    decE, err := base64.URLEncoding.DecodeString(eStr)","['decE', ',', 'err', ':=', 'base64', '.', 'URLEncoding.DecodeString(eStr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-148,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-149,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-150,        return,['return'],['KEYWORD']
-151,    },['}'],['PUNCTUATION']
-152,    var eBytes []byte,"['var', 'eBytes', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-153,    if len(decE) < 8 {,"['if', 'len', '(', 'decE', ')', '<', '8', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-154,"        eBytes = make([]byte, 8-len(decE), 8)","['eBytes', '=', 'make', '([]', 'byte', ',', '8', '-', 'len', '(', 'decE', '),', '8', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-155,"        eBytes = append(eBytes, decE...)","['eBytes', '=', 'append', '(', 'eBytes', ',', 'decE', '...)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-156,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-157,        eBytes = decE,"['eBytes', '=', 'decE']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-158,    },['}'],['PUNCTUATION']
-159,    eReader := bytes.NewReader(eBytes),"['eReader', ':=', 'bytes.NewReader(eBytes)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-160,    var e uint64,"['var', 'e', 'uint64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-161,"    err = binary.Read(eReader, binary.BigEndian, &e)","['err', '=', 'binary.Read(eReader, binary.BigEndian, &e)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-162,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-163,        log.Println(err),['log.Println(err)'],['FUNCTION_CALL']
-164,        return,['return'],['KEYWORD']
-165,    },['}'],['PUNCTUATION']
-166,"    pKey := rsa.PublicKey{N: n, E: int(e)}","['pKey', ':=', 'rsa', '.', 'PublicKey', '{', 'N', ':', 'n', ',', 'E', ':', 'int', '(', 'e', ')}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-167,        //inblockOauth := base64.URLEncoding.DecodeString(w[1]),"['//', 'inblockOauth', ':=', 'base64.URLEncoding.DecodeString(w[1])']","['COMMENT', 'NN', 'CD', 'NN']"
-168,"    toHash := w[0] + ""."" + w[1]","['toHash', ':=', 'w', '[', '0', ']', '+', '"".""', '+', 'w', '[', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-169,"    digestOauth, err := base64.URLEncoding.DecodeString(w[2])","['digestOauth', ',', 'err', ':=', 'base64', '.', 'URLEncoding.DecodeString(w[2])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-170,    hasherOauth := sha256.New(),"['hasherOauth', ':=', 'sha256.New()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-171,    hasherOauth.Write([]byte(toHash)),['hasherOauth.Write([]byte(toHash))'],['FUNCTION_CALL']
-172,    // verification here fails,"['//', 'verification', 'here', 'fails']","['COMMENT', 'NN', 'RB', 'VBZ']"
-173,"    err = rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)","['err', '=', 'rsa.VerifyPKCS1v15(&pKey,crypto.SHA256,hasherOauth.Sum(nil),digestOauth)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-174,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-175,"        fmt.Printf(""Error verifying key %s"",err.Error())","['fmt.Printf(""Error verifying key %s"",err.Error())']",['FUNCTION_CALL']
-176,    },['}'],['PUNCTUATION']
-177,},['}'],['PUNCTUATION']
+","['but', 'in', 'case', 'of', '""golang.org/x/tools/cmd/oracle""', 'it', 'is', 'not', 'a', 'package', ',', 'it', 'has', 'just', 'main.go', 'and', 'you', 'need', 'to', 'build/install', 'it.', 'it', 'is', 'a', 'command', 'line', 'tool:']","['CC', 'IN', 'NN', 'IN', 'NN', 'PRP', 'VBZ', 'RB', 'DT', 'NN', ',', 'PRP', 'VBZ', 'RB', 'VBN', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'NN', 'PRP', 'VBZ', 'DT', 'NN', 'NN', 'NN']"
+6,Run 'oracle -help' for more information.,"['Run', ""'oracle -help'"", 'for', 'more', 'information', '.']","['IDENTIFIER', 'STRING_LITERAL', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+7,Go source code oracle.,"['Go', 'source', 'code', 'oracle', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+8,Usage: oracle [ ...]   ...,"['Usage', ':', 'oracle', '[', '...]', '...']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'PUNCTUATION']"
+9,The -format flag controls the output format:,"['The', '-', 'for', 'mat', 'flag', 'controls', 'the', 'output', 'for', 'mat', ':']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+10,        plain   an editor-friendly format in which every line of output,"['plain', 'an', 'editor', '-', 'friendly', 'for', 'mat', 'in', 'which', 'every', 'line', 'of', 'output']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+11,"                is of the form ""pos: text"", where pos is ""-"" if unknown.","['is', 'of', 'the', 'for', 'm', '""pos: text""', ',', 'where', 'pos', 'is', '""-""', 'if', 'unknown', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+12,        json    structured data in JSON syntax.,"['json', 'struct', 'ured', 'data', 'in', 'JSON', 'syntax', '.']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+13,        xml     structured data in XML syntax.,"['xml', 'struct', 'ured', 'data', 'in', 'XML', 'syntax', '.']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"

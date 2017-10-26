@@ -1,177 +1,119 @@
 ,text,token,annotation
-0,"I'm trying to sign a string and later on verifying it with the public key. My verified result is empty. What am I doing wrong?
+0,"I am making a captcha and am following the example given here. I need to modify the example to use gorilla mux's routing as the rest of my app uses that. For the life of me I can't figure out how to correctly route the path for line 47 of that example. What I have below results in no captcha generated...(the example itself works fine). For shits & giggles I've even tried ""http.HandleFunc(""/captcha/"", captchaHandler)"" but that doesn't work either. Any suggestions?  
 
-","[""I'm"", 'trying', 'to', 'sign', 'a', 'string', 'and', 'later', 'on', 'verifying', 'it', 'with', 'the', 'public', 'key.', 'My', 'verified', 'result', 'is', 'empty.', 'What', 'am', 'I', 'doing', 'wrong?']","['NNP', 'VBG', 'TO', 'VB', 'DT', 'NN', 'CC', 'RB', 'IN', 'VBG', 'PRP', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'VBD', 'NN', 'VBZ', 'JJ', 'WP', 'VBP', 'PRP', 'VBG', 'NN']"
-1,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+","['I', 'am', 'making', 'a', 'captcha', 'and', 'am', 'following', 'the', 'example', 'given', 'here.', 'I', 'need', 'to', 'modify', 'the', 'example', 'to', 'use', 'gorilla', ""mux's"", 'routing', 'as', 'the', 'rest', 'of', 'my', 'app', 'uses', 'that.', 'For', 'the', 'life', 'of', 'me', 'I', ""can't"", 'figure', 'out', 'how', 'to', 'correctly', 'route', 'the', 'path', 'for', 'line', '47', 'of', 'that', 'example.', 'What', 'I', 'have', 'below', 'results', 'in', 'no', 'captcha', 'generated...(the', 'example', 'itself', 'works', 'fine).', 'For', 'shits', '&', 'giggles', ""I've"", 'even', 'tried', '""http.HandleFunc(""/captcha/"",', 'captchaHandler)""', 'but', 'that', ""doesn't"", 'work', 'either.', 'Any', 'suggestions?']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'CC', 'VBP', 'VBG', 'DT', 'NN', 'VBN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'TO', 'VB', 'NN', 'NN', 'VBG', 'IN', 'DT', 'NN', 'IN', 'PRP$', 'JJ', 'NNS', 'NN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'PRP', 'VBP', 'VB', 'RP', 'WRB', 'TO', 'VB', 'VB', 'DT', 'NN', 'IN', 'NN', 'CD', 'IN', 'DT', 'VBZ', 'WP', 'PRP', 'VBP', 'JJ', 'NNS', 'IN', 'DT', 'NN', 'NN', 'NN', 'PRP', 'VBZ', 'RB', 'IN', 'NNS', 'CC', 'NNS', 'NNP', 'RB', 'VBD', 'JJ', 'NN', 'CC', 'IN', 'JJ', 'NN', 'RB', 'NNP', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""crypto""","['""crypto""']",['STRING_LITERAL']
-4,"    ""crypto/rand""","['""crypto/rand""']",['STRING_LITERAL']
-5,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
-6,"    ""crypto/sha256""","['""crypto/sha256""']",['STRING_LITERAL']
-7,"    ""crypto/x509""","['""crypto/x509""']",['STRING_LITERAL']
-8,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
-9,"    ""encoding/pem""","['""encoding/pem""']",['STRING_LITERAL']
-10,"    ""errors""","['""errors""']",['STRING_LITERAL']
-11,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-12,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-13,),[')'],['PUNCTUATION']
-14,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-15,"    signer, err := loadPrivateKey(""private.pem"");","['signer', ',', 'err', ':=', 'loadPrivateKey', '(', '""private.pem""', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-16,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-17,"        fmt.Errorf(""signer is damaged: %v"", err)","['fmt.Errorf(""signer is damaged: %v"", err)']",['FUNCTION_CALL']
-18,    },['}'],['PUNCTUATION']
-19,"    toSign := ""date: Thu, 05 Jan 2012 21:31:40 GMT"";","['toSign', ':=', '""date: Thu, 05 Jan 2012 21:31:40 GMT""', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-20,"    signed, err := signer.Sign([]byte(toSign))","['signed', ',', 'err', ':=', 'signer.Sign([]byte(toSign))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-21,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-22,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt.Errorf(""could not sign request: %v"", err)']",['FUNCTION_CALL']
+3,"    ""github.com/dchest/captcha""","['""github.com/dchest/captcha""']",['STRING_LITERAL']
+4,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
+5,"    ""io""","['""io""']",['STRING_LITERAL']
+6,"    ""log""","['""log""']",['STRING_LITERAL']
+7,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+8,"    ""text/template""","['""text/template""']",['STRING_LITERAL']
+9,),[')'],['PUNCTUATION']
+10,"var formTemplate = template.Must(template.New(""example"").Parse(formTemplateSrc))","['var', 'for', 'mTemplate', '=', 'template.Must(template.New(""example"").Parse(formTemplateSrc))']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+11,"func showFormHandler(w http.ResponseWriter, r *http.Request) {","['func', 'showFormHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+12,"    if r.URL.Path != ""/"" {","['if', 'r', '.', 'URL', '.', 'Path', '!=', '""/""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+13,"        http.NotFound(w, r)","['http.NotFound(w, r)']",['FUNCTION_CALL']
+14,        return,['return'],['KEYWORD']
+15,    },['}'],['PUNCTUATION']
+16,    d := struct {,"['d', ':=', 'struct', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION']"
+17,        CaptchaId string,"['CaptchaId', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+18,    }{,['}{'],['PUNCTUATION']
+19,"        captcha.New(),","['captcha.New()', ',']","['FUNCTION_CALL', 'PUNCTUATION']"
+20,    },['}'],['PUNCTUATION']
+21,"    if err := formTemplate.Execute(w, &d); err != nil {","['if', 'err', ':=', 'for', 'mTemplate.Execute(w, &d)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+22,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
 23,    },['}'],['PUNCTUATION']
-24,    sig := base64.StdEncoding.EncodeToString(signed),"['sig', ':=', 'base64', '.', 'StdEncoding.EncodeToString(signed)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-25,"    fmt.Printf(""Encoded: %v\n"", sig)","['fmt.Printf(""Encoded: %v\\n"", sig)']",['FUNCTION_CALL']
-26,"    parser, perr := loadPublicKey(""public.pem"");","['parser', ',', 'perr', ':=', 'loadPublicKey', '(', '""public.pem""', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-27,    if perr != nil {,"['if', 'perr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-28,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt.Errorf(""could not sign request: %v"", err)']",['FUNCTION_CALL']
-29,    },['}'],['PUNCTUATION']
-30,"    unsigned, err := parser.Unsign(signed);","['unsigned', ',', 'err', ':=', 'parser.Unsign(signed)', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-31,     if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-32,"        fmt.Errorf(""could not sign request: %v"", err)","['fmt.Errorf(""could not sign request: %v"", err)']",['FUNCTION_CALL']
-33,    },['}'],['PUNCTUATION']
-34,"    fmt.Printf(""Decrypted: %v\n"", base64.StdEncoding.EncodeToString(unsigned))    ","['fmt.Printf(""Decrypted: %v\\n"", base64.StdEncoding.EncodeToString(unsigned))']",['FUNCTION_CALL']
-35,},['}'],['PUNCTUATION']
-36,// loadPrivateKey loads an parses a PEM encoded private key file.,"['//', 'loadPrivateKey', 'loads', 'an', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', 'file.']","['COMMENT', 'NN', 'VBZ', 'DT', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', 'NN']"
-37,"func loadPublicKey(path string) (Unsigner, error) {","['func', 'loadPublicKey', '(', 'path', 'string', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-38,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil.ReadFile(path)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-39,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-40,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-41,        },['}'],['PUNCTUATION']
-42,        return parsePublicKey(data),"['return', 'parsePublicKey', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-43,},['}'],['PUNCTUATION']
-44,// parsePublicKey parses a PEM encoded private key.,"['//', 'parsePublicKey', 'parses', 'a', 'PEM', 'encoded', 'private', 'key.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'JJ', 'JJ', 'NN']"
-45,"func parsePublicKey(pemBytes []byte) (Unsigner, error) {","['func', 'parsePublicKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-46,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem.Decode(pemBytes)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-47,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-48,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors.New(""ssh: no key found"")']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-49,        },['}'],['PUNCTUATION']
-50,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-51,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-52,"        case ""PUBLIC KEY"":","['case', '""PUBLIC KEY""', ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-53,"                rsa, err := x509.ParsePKIXPublicKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509.ParsePKIXPublicKey(block.Bytes)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-54,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-55,"                        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-56,                },['}'],['PUNCTUATION']
-57,                rawkey = rsa,"['rawkey', '=', 'rsa']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-58,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-59,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt.Errorf(""ssh: unsupported key type %q"", block.Type)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-60,        },['}'],['PUNCTUATION']
-61,        return newUnsignerFromKey(rawkey),"['return', 'newUnsignerFromKey', '(', 'rawkey', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,},['}'],['PUNCTUATION']
-63,// loadPrivateKey loads an parses a PEM encoded private key file.,"['//', 'loadPrivateKey', 'loads', 'an', 'parses', 'a', 'PEM', 'encoded', 'private', 'key', 'file.']","['COMMENT', 'NN', 'VBZ', 'DT', 'VBZ', 'DT', 'NNP', 'VBD', 'JJ', 'NN', 'NN']"
-64,"func loadPrivateKey(path string) (Signer, error) {","['func', 'loadPrivateKey', '(', 'path', 'string', ')', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-65,"        data, err := ioutil.ReadFile(path)","['data', ',', 'err', ':=', 'ioutil.ReadFile(path)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-66,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-67,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-68,        },['}'],['PUNCTUATION']
-69,        return parsePrivateKey(data),"['return', 'parsePrivateKey', '(', 'data', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-70,},['}'],['PUNCTUATION']
-71,// parsePublicKey parses a PEM encoded private key.,"['//', 'parsePublicKey', 'parses', 'a', 'PEM', 'encoded', 'private', 'key.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NNP', 'JJ', 'JJ', 'NN']"
-72,"func parsePrivateKey(pemBytes []byte) (Signer, error) {","['func', 'parsePrivateKey', '(', 'pemBytes', '[]', 'byte', ')', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-73,"        block, _ := pem.Decode(pemBytes)","['block', ',', '_', ':=', 'pem.Decode(pemBytes)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-74,        if block == nil {,"['if', 'block', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-75,"                return nil, errors.New(""ssh: no key found"")","['return', 'nil', ',', 'errors.New(""ssh: no key found"")']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-76,        },['}'],['PUNCTUATION']
-77,        var rawkey interface{},"['var', 'rawkey', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-78,        switch block.Type {,"['switch', 'block', '.', 'Type', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-79,"        case ""RSA PRIVATE KEY"":","['case', '""RSA PRIVATE KEY""', ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-80,"                rsa, err := x509.ParsePKCS1PrivateKey(block.Bytes)","['rsa', ',', 'err', ':=', 'x509.ParsePKCS1PrivateKey(block.Bytes)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-81,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-82,"                        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-83,                },['}'],['PUNCTUATION']
-84,                rawkey = rsa,"['rawkey', '=', 'rsa']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-85,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-86,"                return nil, fmt.Errorf(""ssh: unsupported key type %q"", block.Type)","['return', 'nil', ',', 'fmt.Errorf(""ssh: unsupported key type %q"", block.Type)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-87,        },['}'],['PUNCTUATION']
-88,        return newSignerFromKey(rawkey),"['return', 'newSignerFromKey', '(', 'rawkey', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-89,},['}'],['PUNCTUATION']
-90,// A Signer is can create signatures that verify against a public key.,"['//', 'A', 'Signer', 'is', 'can', 'create', 'signatures', 'that', 'verify', 'against', 'a', 'public', 'key.']","['COMMENT', 'DT', 'NNP', 'VBZ', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'JJ', 'NN']"
-91,type Signer interface {,"['type', 'Signer', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-92,        // Sign returns raw signature for the given data. This method,"['//', 'Sign', 'returns', 'raw', 'signature', 'for', 'the', 'given', 'data.', 'This', 'method']","['COMMENT', 'NNP', 'VBZ', 'JJ', 'NN', 'IN', 'DT', 'VBN', 'NN', 'DT', 'NN']"
-93,        // will apply the hash specified for the keytype to the data.,"['//', 'will', 'apply', 'the', 'hash', 'specified', 'for', 'the', 'keytype', 'to', 'the', 'data.']","['COMMENT', 'MD', 'VB', 'DT', 'NN', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN']"
-94,"        Sign(data []byte) ([]byte, error)","['Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-95,},['}'],['PUNCTUATION']
-96,// A Signer is can create signatures that verify against a public key.,"['//', 'A', 'Signer', 'is', 'can', 'create', 'signatures', 'that', 'verify', 'against', 'a', 'public', 'key.']","['COMMENT', 'DT', 'NNP', 'VBZ', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'JJ', 'NN']"
-97,type Unsigner interface {,"['type', 'Unsigner', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-98,        // Sign returns raw signature for the given data. This method,"['//', 'Sign', 'returns', 'raw', 'signature', 'for', 'the', 'given', 'data.', 'This', 'method']","['COMMENT', 'NNP', 'VBZ', 'JJ', 'NN', 'IN', 'DT', 'VBN', 'NN', 'DT', 'NN']"
-99,        // will apply the hash specified for the keytype to the data.,"['//', 'will', 'apply', 'the', 'hash', 'specified', 'for', 'the', 'keytype', 'to', 'the', 'data.']","['COMMENT', 'MD', 'VB', 'DT', 'NN', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN']"
-100,"        Unsign(data []byte) ([]byte, error)","['Unsign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-101,},['}'],['PUNCTUATION']
-102,"func newSignerFromKey(k interface{}) (Signer, error) {","['func', 'newSignerFromKey', '(', 'k', 'interface', '{})', '(', 'Signer', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-103,        var sshKey Signer,"['var', 'sshKey', 'Signer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-104,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-105,        case *rsa.PrivateKey:,"['case', '*', 'rsa', '.', 'PrivateKey', ':']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-106,                sshKey = &rsaPrivateKey{t},"['sshKey', '=', '&', 'rsaPrivateKey', '{', 't', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-107,        default: ,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-108,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt.Errorf(""ssh: unsupported key type %T"", k)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-109,        },['}'],['PUNCTUATION']
-110,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-111,},['}'],['PUNCTUATION']
-112,"func newUnsignerFromKey(k interface{}) (Unsigner, error) {","['func', 'newUnsignerFromKey', '(', 'k', 'interface', '{})', '(', 'Unsigner', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-113,        var sshKey Unsigner,"['var', 'sshKey', 'Unsigner']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-114,        switch t := k.(type) {,"['switch', 't', ':=', 'k', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-115,        case *rsa.PublicKey:,"['case', '*', 'rsa', '.', 'PublicKey', ':']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-116,                sshKey = &rsaPublicKey{t},"['sshKey', '=', '&', 'rsaPublicKey', '{', 't', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-117,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-118,"                return nil, fmt.Errorf(""ssh: unsupported key type %T"", k)","['return', 'nil', ',', 'fmt.Errorf(""ssh: unsupported key type %T"", k)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-119,        },['}'],['PUNCTUATION']
-120,"        return sshKey, nil","['return', 'sshKey', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-121,},['}'],['PUNCTUATION']
-122,type rsaPublicKey struct {,"['type', 'rsaPublicKey', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-123,    *rsa.PublicKey,"['*', 'rsa', '.', 'PublicKey']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-124,},['}'],['PUNCTUATION']
-125,type rsaPrivateKey struct {,"['type', 'rsaPrivateKey', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-126,        *rsa.PrivateKey,"['*', 'rsa', '.', 'PrivateKey']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-127,},['}'],['PUNCTUATION']
-128,// Sign signs data with rsa-sha256,"['//', 'Sign', 'signs', 'data', 'with', 'rsa-sha256']","['COMMENT', 'NNP', 'NNS', 'NNS', 'IN', 'NN']"
-129,"func (r *rsaPrivateKey) Sign(data []byte) ([]byte, error) {","['func', '(', 'r', '*', 'rsaPrivateKey', ')', 'Sign', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-130,        h := sha256.New(),"['h', ':=', 'sha256.New()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-131,        h.Write(data),['h.Write(data)'],['FUNCTION_CALL']
-132,        d := h.Sum(nil),"['d', ':=', 'h.Sum(nil)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-133,"        return rsa.SignPKCS1v15(rand.Reader, r.PrivateKey, crypto.SHA256, d)","['return', 'rsa.SignPKCS1v15(rand.Reader, r.PrivateKey, crypto.SHA256, d)']","['KEYWORD', 'FUNCTION_CALL']"
-134,},['}'],['PUNCTUATION']
-135,// Unsign encrypts data with rsa-sha256,"['//', 'Unsign', 'encrypts', 'data', 'with', 'rsa-sha256']","['COMMENT', 'NNP', 'VBZ', 'NNS', 'IN', 'NN']"
-136,"func (r *rsaPublicKey) Unsign(message []byte) ([]byte, error) {  ","['func', '(', 'r', '*', 'rsaPublicKey', ')', 'Unsign', '(', 'message', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-137,"        return rsa.EncryptPKCS1v15(rand.Reader, r.PublicKey, message)        ","['return', 'rsa.EncryptPKCS1v15(rand.Reader, r.PublicKey, message)']","['KEYWORD', 'FUNCTION_CALL']"
-138,},['}'],['PUNCTUATION']
-139,"
+24,},['}'],['PUNCTUATION']
+25,"func processFormHandler(w http.ResponseWriter, r *http.Request) {","['func', 'processFormHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+26,"    w.Header().Set(""Content-Type"", ""text/html; charset=utf-8"")","['w.Header().Set(""Content-Type"", ""text/html; charset=utf-8"")']",['FUNCTION_CALL']
+27,"    if !captcha.VerifyString(r.FormValue(""captchaId""), r.FormValue(""captchaSolution"")) {","['if', '!', 'captcha.VerifyString(r.FormValue(""captchaId""), r.FormValue(""captchaSolution""))', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+28,"        io.WriteString(w, ""Wrong captcha solution! No robots allowed!\n"")","['io.WriteString(w, ""Wrong captcha solution! No robots allowed!\\n"")']",['FUNCTION_CALL']
+29,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+30,"        io.WriteString(w, ""Great job, human! You solved the captcha.\n"")","['io.WriteString(w, ""Great job, human! You solved the captcha.\\n"")']",['FUNCTION_CALL']
+31,    },['}'],['PUNCTUATION']
+32,"    io.WriteString(w, ""Try another one"")","['io.WriteString(w, ""Try another one"")']",['FUNCTION_CALL']
+33,},['}'],['PUNCTUATION']
+34,"func captchaHandler(w http.ResponseWriter, r *http.Request) {","['func', 'captchaHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+35,"    captcha.Server(captcha.StdWidth, captcha.StdHeight)","['captcha.Server(captcha.StdWidth, captcha.StdHeight)']",['FUNCTION_CALL']
+36,},['}'],['PUNCTUATION']
+37,type Routes []Route,"['type', 'Routes', '[]', 'Route']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+38,type Route struct {,"['type', 'Route', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+39,    Method      string,"['Method', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+40,    Pattern     string,"['Pattern', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+41,    HandlerFunc http.HandlerFunc,"['HandlerFunc', 'http', '.', 'HandlerFunc']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+42,},['}'],['PUNCTUATION']
+43,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+44,    /*,['/*'],['PUNCTUATION']
+45,"        http.HandleFunc(""/"", showFormHandler)","['http.HandleFunc(""/"", showFormHandler)']",['FUNCTION_CALL']
+46,"        http.HandleFunc(""/process"", processFormHandler)","['http.HandleFunc(""/process"", processFormHandler)']",['FUNCTION_CALL']
+47,"        //http.HandleFunc(""/captcha/"", captchaHandler) // doesn't work","['//', 'http.HandleFunc(""/captcha/"",', 'captchaHandler)', ""doesn't"", 'work']","['COMMENT', 'NN', 'NN', 'NN', 'NN']"
+48,"        http.Handle(""/captcha/"", captcha.Server(captcha.StdWidth, captcha.StdHeight))","['http.Handle(""/captcha/"", captcha.Server(captcha.StdWidth, captcha.StdHeight))']",['FUNCTION_CALL']
+49,"        fmt.Println(""Server is at localhost:8666"")","['fmt.Println(""Server is at localhost:8666"")']",['FUNCTION_CALL']
+50,"        if err := http.ListenAndServe("":8666"", nil); err != nil {","['if', 'err', ':=', 'http.ListenAndServe("":8666"", nil)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+51,            log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+52,        },['}'],['PUNCTUATION']
+53,    */,['*/'],['PUNCTUATION']
+54,    var routes = Routes{,"['var', 'routes', '=', 'Routes', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+55,"        Route{""GET"", ""/"", showFormHandler},","['Route', '{', '""GET""', ',', '""/""', ',', 'showFormHandler', '},']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+56,"        Route{""POST"", ""/process"", processFormHandler},","['Route', '{', '""POST""', ',', '""/process""', ',', 'processFormHandler', '},']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+57,"        Route{""GET"", ""/captcha/"", captchaHandler},","['Route', '{', '""GET""', ',', '""/captcha/""', ',', 'captchaHandler', '},']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+58,    },['}'],['PUNCTUATION']
+59,    router := mux.NewRouter().StrictSlash(true),"['router', ':=', 'mux.NewRouter().StrictSlash(true)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+60,"    for _, route := range routes {","['for', '_', ',', 'route', ':=', 'range', 'routes', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+61,        var handler http.Handler,"['var', 'handler', 'http', '.', 'Handler']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+62,        handler = route.HandlerFunc,"['handler', '=', 'route', '.', 'HandlerFunc']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+63,        router.Methods(route.Method).Path(route.Pattern).Handler(handler),['router.Methods(route.Method).Path(route.Pattern).Handler(handler)'],['FUNCTION_CALL']
+64,    },['}'],['PUNCTUATION']
+65,"    //router.Methods(""GET"").Path(""/captcha/"").HandlerFunc(captcha.Server(captcha.StdWidth, captcha.StdHeight))","['//', 'router.Methods(""GET"").Path(""/captcha/"").HandlerFunc(captcha.Server(captcha.StdWidth,', 'captcha.StdHeight))']","['COMMENT', 'NN', 'NN']"
+66,"    port := "":8666""","['port', ':=', '"":8666""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+67,"    log.Println(""Listening at"", port)","['log.Println(""Listening at"", port)']",['FUNCTION_CALL']
+68,"    log.Fatal(http.ListenAndServe(port, router))","['log.Fatal(http.ListenAndServe(port, router))']",['FUNCTION_CALL']
+69,},['}'],['PUNCTUATION']
+70,const formTemplateSrc = `,"['const', 'for', 'mTemplateSrc', '=']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR']"
+71,Captcha Example,"['Captcha', 'Example']","['IDENTIFIER', 'IDENTIFIER']"
+72,"function setSrcQuery(e, q) {","['func', 'tion', 'setSrcQuery', '(', 'e', ',', 'q', ')', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+73,    var src  = e.src;,"['var', 'src', '=', 'e', '.', 'src', ';']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+74,    var p = src.indexOf('?');,"['var', 'p', '=', ""src.indexOf('?')"", ';']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+75,    if (p >= 0) {,"['if', '(', 'p', '>=', '0', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+76,"        src = src.substr(0, p);","['src', '=', 'src.substr(0, p)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+77,    },['}'],['PUNCTUATION']
+78,"    e.src = src + ""?"" + q","['e', '.', 'src', '=', 'src', '+', '""?""', '+', 'q']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+79,},['}'],['PUNCTUATION']
+80,function playAudio() {,"['func', 'tion', 'playAudio', '()', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+81,"    var le = document.getElementById(""lang"");","['var', 'le', '=', 'document.getElementById(""lang"")', ';']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+82,    var lang = le.options[le.selectedIndex].value;,"['var', 'lang', '=', 'le', '.', 'options', '[', 'le', '.', 'select', 'edIndex', '].', 'value', ';']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+83,    var e = document.getElementById('audio'),"['var', 'e', '=', ""document.getElementById('audio')""]","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+84,"    setSrcQuery(e, ""lang="" + lang)","['setSrcQuery', '(', 'e', ',', '""lang=""', '+', 'lang', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+85,    e.style.display = 'block';,"['e', '.', 'style', '.', 'display', '=', ""'block'"", ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+86,    e.autoplay = 'true';,"['e', '.', 'autoplay', '=', ""'true'"", ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+87,    return false;,"['return', 'false', ';']","['KEYWORD', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+88,},['}'],['PUNCTUATION']
+89,function changeLang() {,"['func', 'tion', 'chan', 'geLang', '()', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+90,    var e = document.getElementById('audio'),"['var', 'e', '=', ""document.getElementById('audio')""]","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+91,    if (e.style.display == 'block') {,"['if', '(', 'e', '.', 'style', '.', 'display', '==', ""'block'"", ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+92,        playAudio();,"['playAudio', '();']","['IDENTIFIER', 'PUNCTUATION']"
+93,    },['}'],['PUNCTUATION']
+94,},['}'],['PUNCTUATION']
+95,function reload() {,"['func', 'tion', 'reload', '()', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+96,"    setSrcQuery(document.getElementById('image'), ""reload="" + (new Date()).getTime());","['setSrcQuery', '(', 'document.getElementById(\'image\'), ""reload="" + (new Date()).getTime())', ';']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+97,"    setSrcQuery(document.getElementById('audio'), (new Date()).getTime());","['setSrcQuery', '(', ""document.getElementById('audio'), (new Date()).getTime())"", ';']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+98,    return false;,"['return', 'false', ';']","['KEYWORD', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+99,},['}'],['PUNCTUATION']
+100,    English,['English'],['IDENTIFIER']
+101,    Russian,['Russian'],['IDENTIFIER']
+102,    Chinese,['Chinese'],['IDENTIFIER']
+103,Type the numbers you see in the picture below:,"['Type', 'the', 'numbers', 'you', 'see', 'in', 'the', 'picture', 'below', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+104,Reload | Play Audio,"['Reload', '|', 'Play', 'Audio']","['IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+105,  You browser doesn't support audio.,"['You', 'browser', 'doesn', 't', 'support', 'audio', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+106,  Download file to play it in the external player.,"['Download', 'file', 'to', 'play', 'it', 'in', 'the', 'external', 'player', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+107,`,[],[]
+108,"
 
-private.pem looks like this:
+EDIT #1:
+To be clearer ""doesn't work"" isn't helpful. It returns a 404 error.
 
-","['private.pem', 'looks', 'like', 'this:']","['JJ', 'NNS', 'IN', 'NN']"
-140,-----BEGIN RSA PRIVATE KEY-----,"['-----', 'BEGIN', 'RSA', 'PRIVATE', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-141,MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF,"['MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj', '+', 'CvfSC8', '+', 'q28hxA161QF']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-142,NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F,['NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F'],['DIRECTORY']
-143,UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB,"['UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc', '+', '2', 'xjJwoYi', '+', '1', 'hqp1fIekaxsyQIDAQAB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-144,AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA,"['AoGBAJR8ZkCUvx5kzv', '+', 'utdl7T5MnordT1TvoXXJGXK7ZZ', '+', 'UuvMNUCdN2QPc4sBiA']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-145,QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK,"['QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9', '+', 'xEpubyeW2oH4Zx71wqBtOK']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-146,kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg,['kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg'],['DIRECTORY']
-147,f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u,['f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u'],['DIRECTORY']
-148,412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc,['412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc'],['DIRECTORY']
-149,mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7,['mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7'],['DIRECTORY']
-150,kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA,['kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA'],['DIRECTORY']
-151,gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW,['gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW'],['IDENTIFIER']
-152,G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI,['G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI'],['DIRECTORY']
-153,7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==,"['7', 'U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA', '==']","['DECIMAL_LITERAL', 'IDENTIFIER', 'RELATION_OPERATOR']"
-154,-----END RSA PRIVATE KEY-----,"['-----', 'END', 'RSA', 'PRIVATE', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-155,"
-
-And public.pem:
-
-","['And', 'public.pem:']","['CC', 'NN']"
-156,-----BEGIN PUBLIC KEY-----,"['-----', 'BEGIN', 'PUBLIC', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-157,MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3,['MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3'],['IDENTIFIER']
-158,6rPJj+CvfSC8+q28hxA161QFNUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6,['6rPJj+CvfSC8+q28hxA161QFNUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6'],['DIRECTORY']
-159,Z4UMR7EOcpfdUE9Hf3m/hs+FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJw,['Z4UMR7EOcpfdUE9Hf3m/hs+FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJw'],['DIRECTORY']
-160,oYi+1hqp1fIekaxsyQIDAQAB,"['oYi', '+', '1', 'hqp1fIekaxsyQIDAQAB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-161,-----END PUBLIC KEY-----,"['-----', 'END', 'PUBLIC', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-162,"
-
-Thanks. 
-",['Thanks.'],['NN']
+EDIT #2:
+The example on github works fine....its only when I modify the route that it returns a 404 when I try to generate a captcha.
+","['EDIT', '#1:', 'To', 'be', 'clearer', '""doesn\'t', 'work""', ""isn't"", 'helpful.', 'It', 'returns', 'a', '404', 'error.', 'EDIT', '#2:', 'The', 'example', 'on', 'github', 'works', 'fine....its', 'only', 'when', 'I', 'modify', 'the', 'route', 'that', 'it', 'returns', 'a', '404', 'when', 'I', 'try', 'to', 'generate', 'a', 'captcha.']","['NNP', 'NN', 'TO', 'VB', 'JJR', 'NNP', 'VBD', 'JJ', 'NN', 'PRP', 'VBZ', 'DT', 'CD', 'NN', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'VBZ', 'NNS', 'RB', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'DT', 'CD', 'WRB', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN']"

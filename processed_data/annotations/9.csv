@@ -1,351 +1,157 @@
 ,text,token,annotation
-0,"My golang program (url monitor) has a memory leak, it finially killed by kernel (oom).
-the env:
+0,"I'm trying to retrieve a record from mysql table and marshal it to json.
+But i gotted the error that says : "".\main.go:67: no new variables on left sife of :=""
+I'm new in Golang Plz! help me to solve out this error!
+My Code is :
 
-","['My', 'golang', 'program', '(url', 'monitor)', 'has', 'a', 'memory', 'leak,', 'it', 'finially', 'killed', 'by', 'kernel', '(oom).', 'the', 'env:']","['PRP$', 'NN', 'NN', 'NNP', 'NN', 'VBZ', 'DT', 'NN', 'NN', 'PRP', 'RB', 'VBN', 'IN', 'NNS', 'IN', 'DT', 'NN']"
-1,$ go version,"['$', 'go', 'version']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER']"
-2,go version go1.0.3,"['go', 'version', 'go', '1', '.', '0', '.', '3']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-3,$ go env,"['$', 'go', 'env']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER']"
-4,"GOARCH=""amd64""","['GOARCH', '=', '""amd64""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-5,"GOBIN=""""","['GOBIN', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-6,"GOCHAR=""6""","['GOCHAR', '=', '""6""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-7,"GOEXE=""""","['GOEXE', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-8,"GOGCCFLAGS=""-g -O2 -fPIC -m64 -pthread""","['GOGCCFLAGS', '=', '""-g -O2 -fPIC -m64 -pthread""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-9,"GOHOSTARCH=""amd64""","['GOHOSTARCH', '=', '""amd64""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-10,"GOHOSTOS=""linux""","['GOHOSTOS', '=', '""linux""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-11,"GOOS=""linux""","['GOOS', '=', '""linux""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-12,"GOPATH=""/data/apps/go""","['GOPATH=""/data/apps/go""']",['DIRECTORY']
-13,"GOROOT=""/usr/local/go""","['GOROOT=""/usr/local/go""']",['DIRECTORY']
-14,"GOTOOLDIR=""/usr/local/go/pkg/tool/linux_amd64""","['GOTOOLDIR=""/usr/local/go/pkg/tool/linux_amd64""']",['DIRECTORY']
-15,"CGO_ENABLED=""1""","['CGO_ENABLED', '=', '""1""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-16,"
+","[""I'm"", 'trying', 'to', 'retrieve', 'a', 'record', 'from', 'mysql', 'table', 'and', 'marshal', 'it', 'to', 'json.', 'But', 'i', 'gotted', 'the', 'error', 'that', 'says', ':', '"".\\main.go:67:', 'no', 'new', 'variables', 'on', 'left', 'sife', 'of', ':=""', ""I'm"", 'new', 'in', 'Golang', 'Plz!', 'help', 'me', 'to', 'solve', 'out', 'this', 'error!', 'My', 'Code', 'is', ':']","['NNP', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'VB', 'CC', 'VB', 'VBD', 'DT', 'NN', 'WDT', 'VBZ', ':', 'NN', 'DT', 'JJ', 'NNS', 'IN', 'JJ', 'NN', 'IN', 'NNP', 'NNP', 'JJ', 'IN', 'NNP', 'NNP', 'VB', 'PRP', 'TO', 'VB', 'RP', 'DT', 'NN', 'NNP', 'NNP', 'VBZ', ':']"
+1,"func GetUser(w http.ResponseWriter, r *http.Request) {","['func', 'GetUser', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+2,  urlParams   := mux.Vars(r),"['urlParams', ':=', 'mux.Vars(r)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+3,"  id       := urlParams[""id""]","['id', ':=', 'urlParams', '[', '""id""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+4,  ReadUser := User{},"['ReadUser', ':=', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+5,"  con, err := sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")","['con', ',', 'err', ':=', 'sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+6,"  err := con.QueryRow(""select * from users where user_id=?"",id).Scan(&ReadUser.ID, &ReadUser.Name, &ReadUser.First, &ReadUser.Last, &ReadUser.Email )","['err', ':=', 'con.QueryRow(""select * from users where user_id=?"",id).Scan(&ReadUser.ID, &ReadUser.Name, &ReadUser.First, &ReadUser.Last, &ReadUser.Email )']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+7,  switch {,"['switch', '{']","['IDENTIFIER', 'PUNCTUATION']"
+8,      case err == sql.ErrNoRows:,"['case', 'err', '==', 'sql', '.', 'ErrNoRows', ':']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+9,"              fmt.Fprintf(w,""No such user"")","['fmt.Fprintf(w,""No such user"")']",['FUNCTION_CALL']
+10,      case err != nil:,"['case', 'err', '!=', 'nil', ':']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+11,              log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+12,      default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
+13,"        output, _ := json.Marshal(ReadUser)","['output', ',', '_', ':=', 'json.Marshal(ReadUser)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+14,"        fmt.Fprintf(w,string(output))","['fmt.Fprintf(w,string(output))']",['FUNCTION_CALL']
+15,  },['}'],['PUNCTUATION']
+16,},['}'],['PUNCTUATION']
+17,"
 
-code:
+and Routes in main:
 
-",['code:'],['NN']
-17,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-18,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-19,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-20,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
-21,"    ""flag""","['""flag""']",['STRING_LITERAL']
-22,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-23,"    _ ""github.com/Go-SQL-Driver/MySQL""","['_', '""github.com/Go-SQL-Driver/MySQL""']","['IDENTIFIER', 'STRING_LITERAL']"
-24,"    ""ijinshan.com/cfg""","['""ijinshan.com/cfg""']",['STRING_LITERAL']
-25,"    ""log""","['""log""']",['STRING_LITERAL']
-26,"    ""net""","['""net""']",['STRING_LITERAL']
-27,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-28,"    ""net/smtp""","['""net/smtp""']",['STRING_LITERAL']
-29,"    ""os""","['""os""']",['STRING_LITERAL']
-30,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-31,"    ""strings""","['""strings""']",['STRING_LITERAL']
-32,"    ""sync""","['""sync""']",['STRING_LITERAL']
-33,"    ""time""","['""time""']",['STRING_LITERAL']
+","['and', 'Routes', 'in', 'main:']","['CC', 'NNP', 'IN', 'NN']"
+18,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+19,  gorillaRoute := mux.NewRouter(),"['go', 'rillaRoute', ':=', 'mux.NewRouter()']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+20,"  gorillaRoute.HandleFunc(""/api/user/create"", CreateUser)","['go', 'rillaRoute.HandleFunc(""/api/user/create"", CreateUser)']","['KEYWORD', 'FUNCTION_CALL']"
+21,"  gorillaRoute.HandleFunc(""/api/user/read/:id"", GetUser)","['go', 'rillaRoute.HandleFunc(""/api/user/read/:id"", GetUser)']","['KEYWORD', 'FUNCTION_CALL']"
+22,"  http.Handle(""/"", gorillaRoute)","['http.Handle(""/"", gorillaRoute)']",['FUNCTION_CALL']
+23,"  http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
+24,},['}'],['PUNCTUATION']
+25,"
+
+Here is my new Code , but again not able to get record from database table, plz help me to figure out the error OR what things i do wrong?
+package main
+
+","['Here', 'is', 'my', 'new', 'Code', ',', 'but', 'again', 'not', 'able', 'to', 'get', 'record', 'from', 'database', 'table,', 'plz', 'help', 'me', 'to', 'figure', 'out', 'the', 'error', 'OR', 'what', 'things', 'i', 'do', 'wrong?', 'package', 'main']","['RB', 'VBZ', 'PRP$', 'JJ', 'NNP', ',', 'CC', 'RB', 'RB', 'JJ', 'TO', 'VB', 'NN', 'IN', 'NN', 'NN', 'NN', 'VB', 'PRP', 'TO', 'VB', 'RP', 'DT', 'NN', 'NNP', 'WP', 'NNS', 'VBP', 'VBP', 'JJ', 'NN', 'JJ']"
+26,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+27,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
+28,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+29,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+30,"    ""log""","['""log""']",['STRING_LITERAL']
+31,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+32,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
+33,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
 34,),[')'],['PUNCTUATION']
-35,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-36,    Log           *log.Logger,"['Log', '*', 'log', '.', 'Logger']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-37,    Conf          cfg.KVConfig,"['Conf', 'cfg', '.', 'KVConfig']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-38,    Debug         bool,"['Debug', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
-39,    CpuCore       int,"['CpuCore', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-40,    HttpTransport = &http.Transport{,"['HttpTransport', '=', '&', 'http', '.', 'Transport', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-41,"        Dial: func(netw, addr string) (net.Conn, error) {","['Dial', ':', 'func', '(', 'netw', ',', 'addr', 'string', ')', '(', 'net', '.', 'Conn', ',', 'error', ')', '{']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-42,            deadline := time.Now().Add(30 * time.Second),"['deadline', ':=', 'time.Now().Add(30 * time.Second)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-43,"            c, err := net.DialTimeout(netw, addr, 20*time.Second)","['c', ',', 'err', ':=', 'net.DialTimeout(netw, addr, 20*time.Second)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-44,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-45,"                return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-46,            },['}'],['PUNCTUATION']
-47,            c.SetDeadline(deadline),['c.SetDeadline(deadline)'],['FUNCTION_CALL']
-48,"            return c, nil","['return', 'c', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-49,"        },","['},']",['PUNCTUATION']
-50,"        DisableKeepAlives: true,","['DisableKeepAlives', ':', 'true', ',']","['IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-51,    },['}'],['PUNCTUATION']
-52,    HttpClient = &http.Client{,"['HttpClient', '=', '&', 'http', '.', 'Client', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-53,"        Transport: HttpTransport,","['Transport', ':', 'HttpTransport', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-54,    },['}'],['PUNCTUATION']
-55,    WG            sync.WaitGroup,"['WG', 'sync', '.', 'WaitGroup']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-56,),[')'],['PUNCTUATION']
-57,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
-58,    LogFileFlag   = os.O_WRONLY | os.O_CREATE | os.O_APPEND,"['LogFileFlag', '=', 'os', '.', 'O_WRONLY', '|', 'os', '.', 'O_CREATE', '|', 'os', '.', 'O_APPEND']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-59,    LogFileMode   = 0644,"['LogFileMode', '=', '0644']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-60,    LogFlag       = log.LstdFlags | log.Lshortfile,"['LogFlag', '=', 'log', '.', 'LstdFlags', '|', 'log', '.', 'Lshortfile']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-61,"    GET_VIDEO_SQL = `SELECT B.Name, A.TSID, A.Chapter, A.ChapterNum, ","['GET_VIDEO_SQL', '=', 'SELECT', 'B', '.', 'Name', ',', 'A', '.', 'TSID', ',', 'A', '.', 'Chapter', ',', 'A', '.', 'ChapterNum', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,"    IFNULL(A.Website, ''), IFNULL(A.Descr, ''), ","['IFNULL', '(', 'A', '.', 'Website', ',', ""''"", '),', 'IFNULL', '(', 'A', '.', 'Descr', ',', ""''"", '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-63,"    IFNULL(A.VideoId, ''), IFNULL(AndroidWebURL, ''), IFNULL(IOSWebURL, ''), ","['IFNULL', '(', 'A', '.', 'VideoId', ',', ""''"", '),', 'IFNULL', '(', 'AndroidWebURL', ',', ""''"", '),', 'IFNULL', '(', 'IOSWebURL', ',', ""''"", '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-64,"    IFNULL(AndroidURL, ''), IFNULL(AndroidURL2, ''), IFNULL(IOSURL, '')","['IFNULL', '(', 'AndroidURL', ',', ""''"", '),', 'IFNULL', '(', 'AndroidURL2', ',', ""''"", '),', 'IFNULL', '(', 'IOSURL', ',', ""''"", ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-65,    FROM Video A INNER JOIN TVS B ON A.TSID = B.ID LIMIT 200`,"['FROM', 'Video', 'A', 'INNER', 'JOIN', 'TVS', 'B', 'ON', 'A', '.', 'TSID', '=', 'B', '.', 'ID', 'LIMIT', '200']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
-66,    HtmlHead = `节目名,"['HtmlHead', '=']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR']"
-67,    tsid章节章节号描述,['tsid章节章节号描述'],['IDENTIFIER']
-68,    videoid网站地址`,['videoid网站地址'],['IDENTIFIER']
-69,"    HtmlTail = """"","['HtmlTail', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-70,),[')'],['PUNCTUATION']
-71,type videoInfo struct {,"['type', 'videoInfo', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-72,    name          string,"['name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-73,    tsid          uint,"['tsid', 'uint']","['IDENTIFIER', 'IDENTIFIER']"
-74,    chapter       string,"['chapter', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-75,    chapterNum    uint,"['chapterNum', 'uint']","['IDENTIFIER', 'IDENTIFIER']"
-76,    descr         string,"['descr', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-77,    videoId       string,"['videoId', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-78,    website       string,"['website', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-79,    androidWebUrl string,"['androidWebUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-80,    iosWebUrl     string,"['iosWebUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-81,    androidUrl    string,"['androidUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-82,    androidUrl2   string,"['androidUrl2', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-83,    iosUrl        string,"['iosUrl', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-84,},['}'],['PUNCTUATION']
-85,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-86,    var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-87,        confFile string,"['confFile', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-88,        err      error,"['err', 'error']","['IDENTIFIER', 'IDENTIFIER']"
-89,    ),[')'],['PUNCTUATION']
-90,    // parse command argument:w,"['//', 'parse', 'command', 'argument:w']","['COMMENT', 'NN', 'NN', 'NN']"
-91,"    flag.StringVar(&confFile, ""c"", ""./vsmonitor.conf"", "" set config file path"")","['flag.StringVar(&confFile, ""c"", ""./vsmonitor.conf"", "" set config file path"")']",['FUNCTION_CALL']
-92,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-93,    // read config,"['//', 'read', 'config']","['COMMENT', 'NN', 'NN']"
-94,"    if Conf, err = cfg.Read(confFile); err != nil {","['if', 'Conf', ',', 'err', '=', 'cfg.Read(confFile)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-95,"        panic(fmt.Sprintf(""Read config file \""%s\"" failed (%s)"",","['panic', '(', 'fmt.Sprintf(""Read config file \\""%s\\"" failed (%s)', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-96,"            confFile, err.Error()))","['confFile', ',', 'err.Error()))']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-97,    },['}'],['PUNCTUATION']
-98,    // open log file,"['//', 'open', 'log', 'file']","['COMMENT', 'JJ', 'NN', 'NN']"
-99,"    file, err := os.OpenFile(Conf[""log.file""], LogFileFlag, LogFileMode)","['file', ',', 'err', ':=', 'os.OpenFile(Conf[""log.file""], LogFileFlag, LogFileMode)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-100,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-101,"        panic(fmt.Sprintf(""OpenFile \""%s\"" failed (%s)"", Conf[""log.file""],","['panic', '(', 'fmt.Sprintf(""OpenFile \\""%s\\"" failed (%s)', '"", Conf[""', 'log', '.', 'file', '],']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-102,            err.Error())),['err.Error()))'],['FUNCTION_CALL']
-103,    },['}'],['PUNCTUATION']
-104,    // init LOG,"['//', 'init', 'LOG']","['COMMENT', 'NN', 'NNP']"
-105,"    Log = log.New(file, """", LogFlag)","['Log', '=', 'log.New(file, """", LogFlag)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-106,    Debug = false,"['Debug', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-107,"    i, err := strconv.ParseInt(Conf[""cpucore.num""], 10, 32)","['i', ',', 'err', ':=', 'strconv.ParseInt(Conf[""cpucore.num""], 10, 32)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-108,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-109,"        panic(fmt.Sprintf(""ParseInt \""%s\"" failed (%s)"", Conf[""cpucore.num""],","['panic', '(', 'fmt.Sprintf(""ParseInt \\""%s\\"" failed (%s)', '"", Conf[""', 'cpucore', '.', 'num', '],']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-110,            err.Error())),['err.Error()))'],['FUNCTION_CALL']
-111,    },['}'],['PUNCTUATION']
-112,    CpuCore = int(i),"['CpuCore', '=', 'int', '(', 'i', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-113,},['}'],['PUNCTUATION']
-114,func getHttpStatusCode(url string) int {,"['func', 'getHttpStatusCode', '(', 'url', 'string', ')', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-115,"    if url == """" {","['if', 'url', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-116,        return 200,"['return', '200']","['KEYWORD', 'DECIMAL_LITERAL']"
-117,    },['}'],['PUNCTUATION']
-118,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http.NewRequest(""GET"", url, nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-119,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-120,        return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-121,    },['}'],['PUNCTUATION']
-122,"    req.Header.Add(""User-Agent"", ""Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17"")","['req', '.', 'Header.Add(""User-Agent"", ""Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-123,"    req.Header.Add(""Connection"", ""close"")","['req', '.', 'Header.Add(""Connection"", ""close"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-124,"    resp, err := HttpClient.Do(req)","['resp', ',', 'err', ':=', 'HttpClient.Do(req)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-125,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-126,        return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-127,    },['}'],['PUNCTUATION']
-128,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body.Close()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-129,    return resp.StatusCode,"['return', 'resp', '.', 'StatusCode']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-130,},['}'],['PUNCTUATION']
-131,"func sendMail(host, user, pwd, from, to, subject, body, mailType string) error {","['func', 'sendMail', '(', 'host', ',', 'user', ',', 'pwd', ',', 'from', ',', 'to', ',', 'subject', ',', 'body', ',', 'mailType', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-132,"    auth := smtp.PlainAuth("""", user, pwd, strings.Split(host, "":"")[0])","['auth', ':=', 'smtp.PlainAuth("""", user, pwd, strings.Split(host, "":"")[0])']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-133,"    cntType := fmt.Sprintf(""Content-Type: text/%s;charset=UTF-8"", mailType)","['cntType', ':=', 'fmt.Sprintf(""Content-Type: text/%s;charset=UTF-8"", mailType)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-134,"    msg := fmt.Sprintf(""To: %s\r\nFrom: %s\r\nSubject: %s\r\n%s\r\n\r\n%s"",","['msg', ':=', 'fmt', '.', 'Sprintf', '(', '""To: %s\\r\\nFrom: %s\\r\\nSubject: %s\\r\\n%s\\r\\n\\r\\n%s""', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-135,"        to, from, user, subject, cntType, body)","['to', ',', 'from', ',', 'user', ',', 'subject', ',', 'cntType', ',', 'body', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-136,"    return smtp.SendMail(host, auth, user, strings.Split(to, "",""), []byte(msg))","['return', 'smtp.SendMail(host, auth, user, strings.Split(to, "",""), []byte(msg))']","['KEYWORD', 'FUNCTION_CALL']"
-137,},['}'],['PUNCTUATION']
-138,"func getVideos(videoChan chan *videoInfo, htmlBuf *bytes.Buffer) error {","['func', 'getVideos', '(', 'videoChan', 'chan', '*', 'videoInfo', ',', 'htmlBuf', '*', 'bytes', '.', 'Buffer', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-139,    defer HttpTransport.CloseIdleConnections(),"['defer', 'HttpTransport.CloseIdleConnections()']","['IDENTIFIER', 'FUNCTION_CALL']"
-140,"    db, err := sql.Open(""mysql"", Conf[""weikan.mysql""])","['db', ',', 'err', ':=', 'sql.Open(""mysql"", Conf[""weikan.mysql""])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-141,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-142,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-143,    },['}'],['PUNCTUATION']
-144,"    rows, err := db.Query(GET_VIDEO_SQL)","['rows', ',', 'err', ':=', 'db.Query(GET_VIDEO_SQL)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-145,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-146,        db.Close(),['db.Close()'],['FUNCTION_CALL']
-147,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-148,    },['}'],['PUNCTUATION']
-149,    for rows.Next() {,"['for', 'rows.Next()', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-150,        video := &videoInfo{},"['video', ':=', '&', 'videoInfo', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-151,"        err = rows.Scan(&video.name, &video.tsid, &video.chapter,","['err', '=', 'rows', '.', 'Scan', '(&', 'video', '.', 'name', ',', '&', 'video', '.', 'tsid', ',', '&', 'video', '.', 'chapter', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-152,"            &video.chapterNum,","['&', 'video', '.', 'chapterNum', ',']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-153,"            &video.website, &video.descr, &video.videoId, &video.androidWebUrl,","['&', 'video', '.', 'website', ',', '&', 'video', '.', 'descr', ',', '&', 'video', '.', 'videoId', ',', '&', 'video', '.', 'androidWebUrl', ',']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-154,"            &video.iosWebUrl, &video.androidUrl, &video.androidUrl2,","['&', 'video', '.', 'iosWebUrl', ',', '&', 'video', '.', 'androidUrl', ',', '&', 'video', '.', 'androidUrl2', ',']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-155,            &video.iosUrl),"['&', 'video', '.', 'iosUrl', ')']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-156,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-157,            db.Close(),['db.Close()'],['FUNCTION_CALL']
-158,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-159,        },['}'],['PUNCTUATION']
-160,        videoChan <- video,"['videoChan', '<-', 'video']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-161,        WG.Add(1),['WG.Add(1)'],['FUNCTION_CALL']
-162,    },['}'],['PUNCTUATION']
-163,    db.Close(),['db.Close()'],['FUNCTION_CALL']
-164,    // wait check url finish,"['//', 'wait', 'check', 'url', 'finish']","['COMMENT', 'NN', 'NN', 'JJ', 'NN']"
-165,    WG.Wait(),['WG.Wait()'],['FUNCTION_CALL']
-166,    // send mail,"['//', 'send', 'mail']","['COMMENT', 'JJ', 'NN']"
-167,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-168,        if htmlBuf.Len() == 0 {,"['if', 'htmlBuf.Len()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-169,"            Log.Print(""no error found!!!!!!!!"")","['Log.Print(""no error found!!!!!!!!"")']",['FUNCTION_CALL']
-170,            break,['break'],['KEYWORD']
-171,        },['}'],['PUNCTUATION']
-172,"        Log.Print(""found error !!!!!!!!"")","['Log.Print(""found error !!!!!!!!"")']",['FUNCTION_CALL']
-173,        /*,['/*'],['PUNCTUATION']
-174,"        err := sendMail(""smtp.gmail.com:587"", ""xxxx"",","['err', ':=', 'sendMail', '(', '""smtp.gmail.com:587""', ',', '""xxxx""', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-175,"            ""xxx"", ""xxx "",","['""xxx""', ',', '""xxx ""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-176,"            Conf[""mail.to""], ""xxxxx"",","['Conf', '[', '""mail.to""', '],', '""xxxxx""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-177,"            HtmlHead+htmlBuf.String()+HtmlTail, ""html"")","['HtmlHead', '+', 'htmlBuf.String()+HtmlTail, ""html"")']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
-178,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-179,"            Log.Printf(""sendMail failed (%s)"", err.Error())","['Log.Printf(""sendMail failed (%s)"", err.Error())']",['FUNCTION_CALL']
-180,            time.Sleep(10 * time.Second),['time.Sleep(10 * time.Second)'],['FUNCTION_CALL']
-181,            continue,['continue'],['KEYWORD']
-182,        },['}'],['PUNCTUATION']
-183,        */,['*/'],['PUNCTUATION']
-184,"        Log.Print(""send mail"")","['Log.Print(""send mail"")']",['FUNCTION_CALL']
-185,        break,['break'],['KEYWORD']
-186,    },['}'],['PUNCTUATION']
-187,"    Log.Print(""reset buf"")","['Log.Print(""reset buf"")']",['FUNCTION_CALL']
-188,    htmlBuf.Reset(),['htmlBuf.Reset()'],['FUNCTION_CALL']
-189,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-190,},['}'],['PUNCTUATION']
-191,"func checkUrl(videoChan chan *videoInfo, errChan chan string) {","['func', 'checkUrl', '(', 'videoChan', 'chan', '*', 'videoInfo', ',', 'errChan', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-192,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-193,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-194,"            Log.Print(""rouintes failed : "", err)","['Log.Print(""rouintes failed : "", err)']",['FUNCTION_CALL']
-195,        },['}'],['PUNCTUATION']
-196,    }(),['}()'],['PUNCTUATION']
-197,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-198,        video := <-videoChan,"['video', ':=', '<-', 'videoChan']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-199,        ok := true,"['ok', ':=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-200,"        errUrl := """"","['errUrl', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-201,        if code := getHttpStatusCode(video.androidWebUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidWebUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-202,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt.Sprintf(""%s (%d)', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-203,"                video.androidWebUrl, code)","['video', '.', 'androidWebUrl', ',', 'code', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-204,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-205,        },['}'],['PUNCTUATION']
-206,        if code := getHttpStatusCode(video.iosWebUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'iosWebUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-207,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt.Sprintf(""%s (%d)', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-208,"                video.iosWebUrl, code)","['video', '.', 'iosWebUrl', ',', 'code', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-209,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-210,        },['}'],['PUNCTUATION']
-211,        if code := getHttpStatusCode(video.androidUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-212,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt.Sprintf(""%s (%d)', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-213,"                video.androidUrl, code)","['video', '.', 'androidUrl', ',', 'code', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-214,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-215,        },['}'],['PUNCTUATION']
-216,        if code := getHttpStatusCode(video.androidUrl2); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'androidUrl2', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-217,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt.Sprintf(""%s (%d)', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-218,"                video.androidUrl2, code)","['video', '.', 'androidUrl2', ',', 'code', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-219,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-220,        },['}'],['PUNCTUATION']
-221,        if code := getHttpStatusCode(video.iosUrl); code >= 400 {,"['if', 'code', ':=', 'getHttpStatusCode', '(', 'video', '.', 'iosUrl', ');', 'code', '>=', '400', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-222,"            errUrl += fmt.Sprintf(""%s (%d)"",","['errUrl', '+=', 'fmt.Sprintf(""%s (%d)', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-223,"                video.iosUrl, code)","['video', '.', 'iosUrl', ',', 'code', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-224,            ok = false,"['ok', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-225,        },['}'],['PUNCTUATION']
-226,        if !ok {,"['if', '!', 'ok', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-227,            errChan %s%d%s,"['errChan', '%', 's', '%', 'd', '%', 's']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-228,"            %d%s%s%s%s`,","['%', 'd', '%', 's', '%', 's', '%', 's', '%', 's', ',']","['ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-229,"                video.name, video.tsid, video.chapter, video.chapterNum,","['video', '.', 'name', ',', 'video', '.', 'tsid', ',', 'video', '.', 'chapter', ',', 'video', '.', 'chapterNum', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-230,"                video.descr, video.videoId,","['video', '.', 'descr', ',', 'video', '.', 'videoId', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-231,"                video.website, errUrl)","['video', '.', 'website', ',', 'errUrl', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-232,"            Log.Printf(""\""%s\"" (%s) —— \""%s\"" checkurl err"", video.name,","['Log.Printf(""\\""%s\\"" (%s)', '""%s\\""', 'checkurl', 'err', ',', 'video', '.', 'name', ',']","['FUNCTION_CALL', 'STRING_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-233,"                video.chapter, video.descr)","['video', '.', 'chapter', ',', 'video', '.', 'descr', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-234,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-235,"            Log.Printf(""\""%s\"" (%s) —— \""%s\"" checkurl ok"", video.name,","['Log.Printf(""\\""%s\\"" (%s)', '""%s\\""', 'checkurl', 'ok', ',', 'video', '.', 'name', ',']","['FUNCTION_CALL', 'STRING_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-236,"                video.chapter, video.descr)","['video', '.', 'chapter', ',', 'video', '.', 'descr', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-237,            WG.Done(),['WG.Done()'],['FUNCTION_CALL']
-238,        },['}'],['PUNCTUATION']
-239,    },['}'],['PUNCTUATION']
-240,},['}'],['PUNCTUATION']
-241,"func mergeErr(errChan chan string, htmlBuf *bytes.Buffer) {","['func', 'mergeErr', '(', 'errChan', 'chan', 'string', ',', 'htmlBuf', '*', 'bytes', '.', 'Buffer', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-242,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-243,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-244,"            Log.Print(""rouintes failed : "", err)","['Log.Print(""rouintes failed : "", err)']",['FUNCTION_CALL']
-245,        },['}'],['PUNCTUATION']
-246,    }(),['}()'],['PUNCTUATION']
-247,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-248,        html := <-errChan,"['html', ':=', '<-', 'errChan']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-249,"        _, err := htmlBuf.WriteString(html)","['_', ',', 'err', ':=', 'htmlBuf.WriteString(html)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-250,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-251,"            Log.Printf(""htmlBuf WriteString \""%s\"" failed (%s)"", html,","['Log.Printf(""htmlBuf WriteString \\""%s\\"" failed (%s)', ',', 'html', ',']","['FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-252,                err.Error()),['err.Error())'],['FUNCTION_CALL']
-253,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-254,        },['}'],['PUNCTUATION']
-255,        WG.Done(),['WG.Done()'],['FUNCTION_CALL']
-256,    },['}'],['PUNCTUATION']
-257,},['}'],['PUNCTUATION']
-258,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-259,"    videoChan := make(chan *videoInfo, 100000)","['videoChan', ':=', 'make', '(', 'chan', '*', 'videoInfo', ',', '100000', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-260,"    errChan := make(chan string, 100000)","['errChan', ':=', 'make', '(', 'chan', 'string', ',', '100000', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-261,    htmlBuf := &bytes.Buffer{},"['htmlBuf', ':=', '&', 'bytes', '.', 'Buffer', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-262,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-263,        if err := recover(); err != nil {,"['if', 'err', ':=', 'recover', '();', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-264,"            Log.Print(""rouintes failed : "", err)","['Log.Print(""rouintes failed : "", err)']",['FUNCTION_CALL']
-265,        },['}'],['PUNCTUATION']
-266,    }(),['}()'],['PUNCTUATION']
-267,    // check url,"['//', 'check', 'url']","['COMMENT', 'NN', 'NN']"
-268,    for i := 0; i < CpuCore; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'CpuCore', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-269,"        go checkUrl(videoChan, errChan)","['go', 'checkUrl', '(', 'videoChan', ',', 'errChan', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-270,    },['}'],['PUNCTUATION']
-271,    // merge error string then send mail,"['//', 'merge', 'error', 'string', 'then', 'send', 'mail']","['COMMENT', 'NN', 'NN', 'VBG', 'RB', 'VB', 'NN']"
-272,"    go mergeErr(errChan, htmlBuf)","['go', 'mergeErr', '(', 'errChan', ',', 'htmlBuf', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-273,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-274,        // get Video and LiveSrc video source,"['//', 'get', 'Video', 'and', 'LiveSrc', 'video', 'source']","['COMMENT', 'VB', 'NNP', 'CC', 'NNP', 'NNP', 'NN']"
-275,"        if err := getVideos(videoChan, htmlBuf); err != nil {","['if', 'err', ':=', 'getVideos', '(', 'videoChan', ',', 'htmlBuf', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-276,"            Log.Printf(""getVideos failed (%s)"", err.Error())","['Log.Printf(""getVideos failed (%s)"", err.Error())']",['FUNCTION_CALL']
-277,            time.Sleep(10 * time.Second),['time.Sleep(10 * time.Second)'],['FUNCTION_CALL']
-278,            continue,['continue'],['KEYWORD']
-279,        },['}'],['PUNCTUATION']
-280,        // time.Sleep(1 * time.Hour),"['//', 'time.Sleep(1', '*', 'time.Hour)']","['COMMENT', 'NN', 'CD', 'NN']"
-281,    },['}'],['PUNCTUATION']
-282,"    Log.Print(""exit..."")","['Log.Print(""exit..."")']",['FUNCTION_CALL']
-283,},['}'],['PUNCTUATION']
-284,"
-
-the code has four funcs:
-
-
-  getHttpStatusCode
-
-
-free resource use resp.Body.Close()
-
-
-  sendMail
-
-
-I don't need to free the resource manually
-
-
-  mergeErr
-
-
-concat the err string by using a htmlBuf(*bytes.Buffer)
-
-
-  getVideos
-
-
-First it gets the Video urls and then sends them to videoChan then it waits all the routines finish their check jobs.
-then sendmail and reset htmlBuf.
-
-I don't find any resource that needs free, but.
-
-
-  $ top
-
-
-shows:
-
-","['the', 'code', 'has', 'four', 'funcs:', 'getHttpStatusCode', 'free', 'resource', 'use', 'resp.Body.Close()', 'sendMail', 'I', ""don't"", 'need', 'to', 'free', 'the', 'resource', 'manually', 'mergeErr', 'concat', 'the', 'err', 'string', 'by', 'using', 'a', 'htmlBuf(*bytes.Buffer)', 'getVideos', 'First', 'it', 'gets', 'the', 'Video', 'urls', 'and', 'then', 'sends', 'them', 'to', 'videoChan', 'then', 'it', 'waits', 'all', 'the', 'routines', 'finish', 'their', 'check', 'jobs.', 'then', 'sendmail', 'and', 'reset', 'htmlBuf.', 'I', ""don't"", 'find', 'any', 'resource', 'that', 'needs', 'free,', 'but.', '$', 'top', 'shows:']","['DT', 'NN', 'VBZ', 'CD', 'NN', 'NN', 'JJ', 'NN', 'NN', 'NN', 'NN', 'PRP', 'VBP', 'VB', 'TO', 'VB', 'DT', 'NN', 'RB', 'JJ', 'VBP', 'DT', 'NN', 'NN', 'IN', 'VBG', 'DT', 'NN', 'NN', 'NNP', 'PRP', 'VBZ', 'DT', 'NNP', 'NNS', 'CC', 'RB', 'VBZ', 'PRP', 'TO', 'VB', 'RB', 'PRP', 'VBZ', 'PDT', 'DT', 'NNS', 'VBP', 'PRP$', 'NN', 'NN', 'RB', 'NN', 'CC', 'VB', 'NN', 'PRP', 'VBP', 'VB', 'DT', 'NN', 'WDT', 'VBZ', 'JJ', 'IN', '$', 'JJ', 'NN']"
-285,PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND                                                                                                                      ,"['PID', 'USER', 'PR', 'NI', 'VIRT', 'RES', 'SHR', 'S', '%', 'CPU', '%', 'MEM', 'TIME', '+', 'COMMAND']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-286,6451 root      20   0 3946m 115m 2808 S  0.7  0.2   6:11.20 vsmonitor,"['6451', 'root', '20', '0', '3946', 'm', '115', 'm', '2808', 'S', '0', '.', '7', '0', '.', '2', '6', ':', '11', '.', '20', 'vsmonitor']","['DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-287,"
-
-the VIRT and RES will grow ...
-
-memory profiling:
-
-","['the', 'VIRT', 'and', 'RES', 'will', 'grow', '...', 'memory', 'profiling:']","['DT', 'NNP', 'CC', 'NNP', 'MD', 'VB', ':', 'NN', 'NN']"
-288,(pprof) top,"['(', 'pprof', ')', 'top']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-289,Total: 10.8 MB,"['Total', ':', '10', '.', '8', 'MB']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-290,2.3  21.2%  21.2%      2.3  21.2% main.main,"['2', '.', '3', '21', '.', '2', '%', '21', '.', '2', '%', '2', '.', '3', '21', '.', '2', '%', 'main', '.', 'main']","['DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-291,2.0  18.5%  39.8%      2.0  18.5% bufio.NewWriterSize,"['2', '.', '0', '18', '.', '5', '%', '39', '.', '8', '%', '2', '.', '0', '18', '.', '5', '%', 'bufio', '.', 'NewWriterSize']","['DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-292,1.5  13.9%  53.7%      1.5  13.9% bufio.NewReaderSize,"['1', '.', '5', '13', '.', '9', '%', '53', '.', '7', '%', '1', '.', '5', '13', '.', '9', '%', 'bufio', '.', 'NewReaderSize']","['DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-293,1.5  13.9%  67.6%      1.5  13.9% compress/flate.NewReader,"['1', '.', '5', '13', '.', '9', '%', '67', '.', '6', '%', '1', '.', '5', '13', '.', '9', '%', 'compress/flate.NewReader']","['DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
-294,0.5   4.6%  72.2%      0.5   4.6% net.newFD,"['0', '.', '5', '4', '.', '6', '%', '72', '.', '2', '%', '0', '.', '5', '4', '.', '6', '%', 'net', '.', 'newFD']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-295,0.5   4.6%  76.8%      0.5   4.6% net.sockaddrToTCP,"['0', '.', '5', '4', '.', '6', '%', '76', '.', '8', '%', '0', '.', '5', '4', '.', '6', '%', 'net', '.', 'sockaddrToTCP']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-296,0.5   4.6%  81.5%      4.5  41.7% net/http.(*Transport).getConn,"['0', '.', '5', '4', '.', '6', '%', '81', '.', '5', '%', '4', '.', '5', '41', '.', '7', '%', 'net/http.(*Transport).getConn']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
-297,0.5   4.6%  86.1%      2.5  23.2% net/http.(*persistConn).readLoop,"['0', '.', '5', '4', '.', '6', '%', '86', '.', '1', '%', '2', '.', '5', '23', '.', '2', '%', 'net/http.(*persistConn).readLoop']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
-298,0.5   4.6%  90.7%      0.5   4.6% net/textproto.(*Reader).ReadMIMEHeader,"['0', '.', '5', '4', '.', '6', '%', '90', '.', '7', '%', '0', '.', '5', '4', '.', '6', '%', 'net/textproto.(*Reader).ReadMIMEHeader']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
-299,0.5   4.6%  95.4%      0.5   4.6% net/url.(*URL).ResolveReference,"['0', '.', '5', '4', '.', '6', '%', '95', '.', '4', '%', '0', '.', '5', '4', '.', '6', '%', 'net/url.(*URL).ResolveReference']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
+35,type API struct {,"['type', 'API', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+36,"    Message string ""json:message""","['Message', 'string', '""json:message""']","['IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+37,},['}'],['PUNCTUATION']
+38,type User struct {,"['type', 'User', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+39,"    ID    int    ""json:id""","['ID', 'int', '""json:id""']","['IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+40,"    Name  string ""json:username""","['Name', 'string', '""json:username""']","['IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+41,"    Email string ""json:email""","['Email', 'string', '""json:email""']","['IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+42,"    First string ""json:first""","['First', 'string', '""json:first""']","['IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+43,"    Last  string ""json:last""","['Last', 'string', '""json:last""']","['IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL']"
+44,},['}'],['PUNCTUATION']
+45,"func Hello(w http.ResponseWriter, r *http.Request) {","['func', 'Hello', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+46,    // urlParams := mux.Vars(r),"['//', 'urlParams', ':=', 'mux.Vars(r)']","['COMMENT', 'JJ', 'NNP', 'NN']"
+47,"    // name := urlParams[""user""]","['//', 'name', ':=', 'urlParams[""user""]']","['COMMENT', 'NN', 'NNP', 'NN']"
+48,"    HelloMessage := ""User Creation page""","['HelloMessage', ':=', '""User Creation page""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+49,    message := API{HelloMessage},"['message', ':=', 'API', '{', 'HelloMessage', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+50,"    output, err := json.Marshal(message)","['output', ',', 'err', ':=', 'json.Marshal(message)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+51,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+52,"        fmt.Println(""Something went wrong!"")","['fmt.Println(""Something went wrong!"")']",['FUNCTION_CALL']
+53,    },['}'],['PUNCTUATION']
+54,"    fmt.Fprintf(w, string(output))","['fmt.Fprintf(w, string(output))']",['FUNCTION_CALL']
+55,},['}'],['PUNCTUATION']
+56,//POST A USER INTO DB,"['//', 'POST', 'A', 'USER', 'INTO', 'DB']","['COMMENT', 'VB', 'DT', 'NNP', 'NNP', 'NNP']"
+57,"func CreateUser(w http.ResponseWriter, r *http.Request) {","['func', 'CreateUser', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+58,    NewUser := User{},"['NewUser', ':=', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+59,"    NewUser.Name = r.FormValue(""user"")","['NewUser', '.', 'Name', '=', 'r.FormValue(""user"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+60,"    NewUser.Email = r.FormValue(""email"")","['NewUser', '.', 'Email', '=', 'r.FormValue(""email"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+61,"    NewUser.First = r.FormValue(""first"")","['NewUser', '.', 'First', '=', 'r.FormValue(""first"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+62,"    NewUser.Last = r.FormValue(""last"")","['NewUser', '.', 'Last', '=', 'r.FormValue(""last"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+63,"    output, err := json.Marshal(NewUser)","['output', ',', 'err', ':=', 'json.Marshal(NewUser)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+64,    fmt.Println(string(output)),['fmt.Println(string(output))'],['FUNCTION_CALL']
+65,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+66,"        fmt.Println(""Something went wrong!"")","['fmt.Println(""Something went wrong!"")']",['FUNCTION_CALL']
+67,    },['}'],['PUNCTUATION']
+68,"    con, err := sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")","['con', ',', 'err', ':=', 'sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+69,"    sqlQuery := ""INSERT INTO users set user_nickname='"" + NewUser.Name + ""', user_first='"" + NewUser.First + ""', user_last='"" + NewUser.Last + ""', user_email='"" + NewUser.Email + ""'""","['sqlQuery', ':=', '""INSERT INTO users set user_nickname=\'""', '+', 'NewUser', '.', 'Name', '+', '""\', user_first=\'""', '+', 'NewUser', '.', 'First', '+', '""\', user_last=\'""', '+', 'NewUser', '.', 'Last', '+', '""\', user_email=\'""', '+', 'NewUser', '.', 'Email', '+', '""\'""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+70,"    q, err := con.Exec(sqlQuery)","['q', ',', 'err', ':=', 'con.Exec(sqlQuery)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+71,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+72,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+73,    },['}'],['PUNCTUATION']
+74,    fmt.Println(q),['fmt.Println(q)'],['FUNCTION_CALL']
+75,},['}'],['PUNCTUATION']
+76,//GET USERS FROM DB,"['//', 'GET', 'USERS', 'FROM', 'DB']","['COMMENT', 'NNP', 'NNP', 'NNP', 'NNP']"
+77,"func GetUsers(w http.ResponseWriter, r *http.Request) {","['func', 'GetUsers', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+78,"    db, err := sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")","['db', ',', 'err', ':=', 'sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+79,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+80,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+81,    },['}'],['PUNCTUATION']
+82,    err = db.Ping(),"['err', '=', 'db.Ping()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+83,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+84,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+85,    },['}'],['PUNCTUATION']
+86,    defer db.Close(),"['defer', 'db.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+87,"    rows, err := db.Query(""select * from users "")","['rows', ',', 'err', ':=', 'db.Query(""select * from users "")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+88,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+89,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+90,    },['}'],['PUNCTUATION']
+91,    defer rows.Close(),"['defer', 'rows.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+92,"    var rowBuf, _ = rows.Columns()","['var', 'rowBuf', ',', '_', '=', 'rows.Columns()']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+93,"    var cols = make([]string, len(rowBuf))","['var', 'cols', '=', 'make', '([]', 'string', ',', 'len', '(', 'rowBuf', '))']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+94,"    copy(cols, rowBuf)","['copy', '(', 'cols', ',', 'rowBuf', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+95,    fmt.Println(rowBuf),['fmt.Println(rowBuf)'],['FUNCTION_CALL']
+96,"    var vals = make([]interface{}, len(rowBuf))","['var', 'vals', '=', 'make', '([]', 'interface', '{},', 'len', '(', 'rowBuf', '))']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+97,"    for i, _ := range rowBuf {","['for', 'i', ',', '_', ':=', 'range', 'rowBuf', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+98,        vals[i] = &rowBuf[i],"['vals', '[', 'i', ']', '=', '&', 'rowBuf', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+99,    },['}'],['PUNCTUATION']
+100,    for rows.Next() {,"['for', 'rows.Next()', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
+101,        err := rows.Scan(vals...),"['err', ':=', 'rows.Scan(vals...)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+102,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+103,            log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+104,        },['}'],['PUNCTUATION']
+105,        var m = map[string]interface{}{},"['var', 'm', '=', 'map', '[', 'string', ']', 'interface', '{}{}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+106,"        for i, col := range cols {","['for', 'i', ',', 'col', ':=', 'range', 'cols', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+107,            m[col] = vals[i],"['m', '[', 'col', ']', '=', 'vals', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+108,        },['}'],['PUNCTUATION']
+109,"        obj, _ := json.Marshal(m)","['obj', ',', '_', ':=', 'json.Marshal(m)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+110,        //,['//'],['COMMENT']
+111,"        fmt.Fprintf(w, string(obj))","['fmt.Fprintf(w, string(obj))']",['FUNCTION_CALL']
+112,    },['}'],['PUNCTUATION']
+113,    err = rows.Err(),"['err', '=', 'rows.Err()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+114,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+115,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+116,    },['}'],['PUNCTUATION']
+117,},['}'],['PUNCTUATION']
+118,"func GetUser(w http.ResponseWriter, r *http.Request) {","['func', 'GetUser', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+119,    urlParams := mux.Vars(r),"['urlParams', ':=', 'mux.Vars(r)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+120,"    id := urlParams[""id""]","['id', ':=', 'urlParams', '[', '""id""', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+121,    ReadUser := User{},"['ReadUser', ':=', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+122,"    db, err := sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")","['db', ',', 'err', ':=', 'sql.Open(""mysql"", ""root:YES@/social_network?charset=utf8"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+123,"    stmt := db.QueryRow(""select * from users where id = ?"", id)","['stmt', ':=', 'db.QueryRow(""select * from users where id = ?"", id)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+124,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+125,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+126,    },['}'],['PUNCTUATION']
+127,"    err = stmt.Scan(&ReadUser.ID, &ReadUser.Name, &ReadUser.First, &ReadUser.Last, &ReadUser.Email)","['err', '=', 'stmt.Scan(&ReadUser.ID, &ReadUser.Name, &ReadUser.First, &ReadUser.Last, &ReadUser.Email)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+128,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+129,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+130,    },['}'],['PUNCTUATION']
+131,"    result, err := json.Marshal(ReadUser)","['result', ',', 'err', ':=', 'json.Marshal(ReadUser)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+132,"    fmt.Fprintf(w, string(result))","['fmt.Fprintf(w, string(result))']",['FUNCTION_CALL']
+133,},['}'],['PUNCTUATION']
+134,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+135,    gorillaRoute := mux.NewRouter(),"['go', 'rillaRoute', ':=', 'mux.NewRouter()']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+136,"    gorillaRoute.HandleFunc(""/api/user/create"", CreateUser)","['go', 'rillaRoute.HandleFunc(""/api/user/create"", CreateUser)']","['KEYWORD', 'FUNCTION_CALL']"
+137,"    gorillaRoute.HandleFunc(""/api/user/read"", GetUsers)","['go', 'rillaRoute.HandleFunc(""/api/user/read"", GetUsers)']","['KEYWORD', 'FUNCTION_CALL']"
+138,"    gorillaRoute.HandleFunc(""/api/user/:id"", GetUser)","['go', 'rillaRoute.HandleFunc(""/api/user/:id"", GetUser)']","['KEYWORD', 'FUNCTION_CALL']"
+139,"    http.Handle(""/"", gorillaRoute)","['http.Handle(""/"", gorillaRoute)']",['FUNCTION_CALL']
+140,"    http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
+141,},['}'],['PUNCTUATION']

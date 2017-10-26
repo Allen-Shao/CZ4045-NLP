@@ -1,254 +1,221 @@
 ,text,token,annotation
-0,"UTF16, UTF8, and Byte Order Marks are defined by the Unicode Consortium: UTF-16 FAQ, UTF-8 FAQ, and Byte Order Mark (BOM) FAQ.
+0,"Using Windows DLLs is (in my opinion) the best way to directly use the Win32 API.
+
+If you look in the src/syscall directory of your Go installation, you can find a file called mksyscall_windows.go. This seems to be how the Go team manages all their DLL wrappers.
+
+Use go generate to generate your code
+
+Take a look at how syscall_windows.go uses it. Specifically it has the following go generate command:
 
 
+  //go:generate go run mksyscall_windows.go -output zsyscall_windows.go syscall_windows.go security_windows.go
 
 
-  Issue 4802: bufio: reading lines is too cumbersome
-  
-  Reading lines from a file is too cumbersome in Go.
-  
-  People are often drawn to bufio.Reader.ReadLine because of its name,
-  but it has a weird signature, returning (line []byte, isPrefix bool,
-  err error), and requires a lot of work.
-  
-  ReadSlice and ReadString require a delimiter byte, which is almost
-  always the obvious and unsightly '\n', and also can return both a line
-  and an EOF
+Define the Win32 API types
+
+They then define their types. You will need to do this yourself manually.
+
+It is a challenge sometimes because it is vital you preserve the size and alignment of the struct fields. I use Visual Studio Community Edition to poke around at the plethora of Microsoft's defined basic types in an effort to determine their Go equivalents.
+
+Windows uses UTF16 for strings. So you will be representing these as a *uint16. Use ","['Using', 'Windows', 'DLLs', 'is', '(in', 'my', 'opinion)', 'the', 'best', 'way', 'to', 'directly', 'use', 'the', 'Win32', 'API.', 'If', 'you', 'look', 'in', 'the', 'src/syscall', 'directory', 'of', 'your', 'Go', 'installation,', 'you', 'can', 'find', 'a', 'file', 'called', 'mksyscall_windows.go.', 'This', 'seems', 'to', 'be', 'how', 'the', 'Go', 'team', 'manages', 'all', 'their', 'DLL', 'wrappers.', 'Use', 'go', 'generate', 'to', 'generate', 'your', 'code', 'Take', 'a', 'look', 'at', 'how', 'syscall_windows.go', 'uses', 'it.', 'Specifically', 'it', 'has', 'the', 'following', 'go', 'generate', 'command:', '//go:generate', 'go', 'run', 'mksyscall_windows.go', '-output', 'zsyscall_windows.go', 'syscall_windows.go', 'security_windows.go', 'Define', 'the', 'Win32', 'API', 'types', 'They', 'then', 'define', 'their', 'types.', 'You', 'will', 'need', 'to', 'do', 'this', 'yourself', 'manually.', 'It', 'is', 'a', 'challenge', 'sometimes', 'because', 'it', 'is', 'vital', 'you', 'preserve', 'the', 'size', 'and', 'alignment', 'of', 'the', 'struct', 'fields.', 'I', 'use', 'Visual', 'Studio', 'Community', 'Edition', 'to', 'poke', 'around', 'at', 'the', 'plethora', 'of', ""Microsoft's"", 'defined', 'basic', 'types', 'in', 'an', 'effort', 'to', 'determine', 'their', 'Go', 'equivalents.', 'Windows', 'uses', 'UTF16', 'for', 'strings.', 'So', 'you', 'will', 'be', 'representing', 'these', 'as', 'a', '*uint16.', 'Use']","['VBG', 'NNP', 'NNP', 'VBZ', 'JJ', 'PRP$', 'IN', 'DT', 'JJS', 'NN', 'TO', 'RB', 'VB', 'DT', 'NNP', 'NNP', 'IN', 'PRP', 'VBP', 'IN', 'DT', 'JJ', 'NN', 'IN', 'PRP$', 'NNP', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'VBN', 'NN', 'DT', 'VBZ', 'TO', 'VB', 'WRB', 'DT', 'NNP', 'NN', 'VBZ', 'DT', 'PRP$', 'NNP', 'NN', 'NNP', 'VBP', 'NN', 'TO', 'VB', 'PRP$', 'NNS', 'VBP', 'DT', 'NN', 'IN', 'WRB', 'JJ', 'VBZ', 'VBP', 'NNP', 'PRP', 'VBZ', 'DT', 'VBG', 'VB', 'JJ', 'NN', 'NNP', 'VBP', 'VB', 'RB', 'NNP', 'NNP', 'VBD', 'JJ', 'NNP', 'DT', 'NNP', 'NNP', 'VBZ', 'PRP', 'RB', 'VBP', 'PRP$', 'NN', 'PRP', 'MD', 'VB', 'TO', 'VB', 'DT', 'PRP', 'VB', 'PRP', 'VBZ', 'DT', 'NN', 'RB', 'IN', 'PRP', 'VBZ', 'JJ', 'PRP', 'VBP', 'DT', 'NN', 'CC', 'NN', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'JJ', 'NNP', 'NNP', 'NNP', 'TO', 'VB', 'RP', 'IN', 'DT', 'NN', 'IN', 'NNP', 'VBD', 'JJ', 'NNS', 'IN', 'DT', 'NN', 'TO', 'VB', 'PRP$', 'NNP', 'NN', 'NNP', 'VBZ', 'NNP', 'IN', 'NN', 'NNP', 'PRP', 'MD', 'VB', 'VBG', 'DT', 'IN', 'DT', 'NN', 'NN']"
+1,syscall.UTF16PtrFromString,"['syscall', '.', 'UTF16PtrFromString']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+2," to generate one from a Go string.
+
+Annotate Win32 API functions to export
+
+The whole point of mksyscall_windows.go is to generate all the boilerplate code so you end up with a Go function that calls the DLL for you.
+
+This is accomplished by adding annotations (Go comments).
+
+For example, in syscall_windows.go you have these annotations:
+
+","['to', 'generate', 'one', 'from', 'a', 'Go', 'string.', 'Annotate', 'Win32', 'API', 'functions', 'to', 'export', 'The', 'whole', 'point', 'of', 'mksyscall_windows.go', 'is', 'to', 'generate', 'all', 'the', 'boilerplate', 'code', 'so', 'you', 'end', 'up', 'with', 'a', 'Go', 'function', 'that', 'calls', 'the', 'DLL', 'for', 'you.', 'This', 'is', 'accomplished', 'by', 'adding', 'annotations', '(Go', 'comments).', 'For', 'example,', 'in', 'syscall_windows.go', 'you', 'have', 'these', 'annotations:']","['TO', 'VB', 'CD', 'IN', 'DT', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNS', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN', 'VBZ', 'TO', 'VB', 'PDT', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'RP', 'IN', 'DT', 'NNP', 'NN', 'WDT', 'VBZ', 'DT', 'NNP', 'IN', 'NN', 'DT', 'VBZ', 'VBN', 'IN', 'VBG', 'NNS', 'VBP', 'NN', 'IN', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NNS']"
+3,//sys   GetLastError() (lasterr error),"['//', 'sys', 'GetLastError()', '(lasterr', 'error)']","['COMMENT', 'NN', 'NNP', 'NNP', 'NN']"
+4,//...,"['//', '...']","['COMMENT', ':']"
+5,"//sys   CreateHardLink(filename *uint16, existingfilename *uint16, reserved uintptr) (err error) [failretval&0xff==0] = CreateHardLinkW","['//', 'sys', 'CreateHardLink(filename', '*uint16,', 'existingfilename', '*uint16,', 'reserved', 'uintptr)', '(err', 'error)', '[failretval&0xff==0]', '=', 'CreateHardLinkW']","['COMMENT', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'VBD', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP']"
+6,"
+
+mksyscall_windows.go has doc comments to help you figure out how this works. You can also look at the go-generated code in zsyscall_windows.go.
+
+Run go generate
+
+Its easy, just run:
+
+go generate
 
 
+Example:
 
+For your example, create a file called win32_windows.go:
 
+","['mksyscall_windows.go', 'has', 'doc', 'comments', 'to', 'help', 'you', 'figure', 'out', 'how', 'this', 'works.', 'You', 'can', 'also', 'look', 'at', 'the', 'go-generated', 'code', 'in', 'zsyscall_windows.go.', 'Run', 'go', 'generate', 'Its', 'easy,', 'just', 'run:', 'go', 'generate', 'Example:', 'For', 'your', 'example,', 'create', 'a', 'file', 'called', 'win32_windows.go:']","['NN', 'VBZ', 'VBN', 'NNS', 'TO', 'VB', 'PRP', 'VB', 'RP', 'WRB', 'DT', 'NN', 'PRP', 'MD', 'RB', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'NNP', 'VBP', 'VB', 'PRP$', 'NN', 'RB', 'VB', 'VB', 'JJ', 'NNP', 'IN', 'PRP$', 'NN', 'VB', 'DT', 'NN', 'VBN', 'NN']"
+7,package win32,"['package', 'win32']","['KEYWORD', 'IDENTIFIER']"
+8,//go generate go run mksyscall_windows.go -output zwin32_windows.go win32_windows.go,"['//', 'go', 'generate', 'go', 'run', 'mksyscall_windows.go', '-output', 'zwin32_windows.go', 'win32_windows.go']","['COMMENT', 'VB', 'NN', 'VB', 'VBN', 'RB', 'JJ', 'CD', 'NN']"
+9,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+10,    LPVOID         uintptr,"['LPVOID', 'uintptr']","['IDENTIFIER', 'IDENTIFIER']"
+11,    LMSTR          *uint16,"['LMSTR', '*', 'uint16']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+12,    DWORD          uint32,"['DWORD', 'uint32']","['IDENTIFIER', 'IDENTIFIER']"
+13,    LPBYTE         *byte,"['LPBYTE', '*', 'byte']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+14,    LPDWORD        *uint32,"['LPDWORD', '*', 'uint32']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+15,    LPWSTR         *uint16,"['LPWSTR', '*', 'uint16']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+16,    NET_API_STATUS DWORD,"['NET_API_STATUS', 'DWORD']","['IDENTIFIER', 'IDENTIFIER']"
+17,    USER_INFO_1 struct {,"['USER_INFO_1', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+18,        Usri1_name         LPWSTR,"['Usri1_name', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+19,        Usri1_password     LPWSTR,"['Usri1_password', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+20,        Usri1_password_age DWORD,"['Usri1_password_age', 'DWORD']","['IDENTIFIER', 'IDENTIFIER']"
+21,        Usri1_priv         DWORD,"['Usri1_priv', 'DWORD']","['IDENTIFIER', 'IDENTIFIER']"
+22,        Usri1_home_dir     LPWSTR,"['Usri1_home_dir', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+23,        Usri1_comment      LPWSTR,"['Usri1_comment', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+24,        Usri1_flags        DWORD,"['Usri1_flags', 'DWORD']","['IDENTIFIER', 'IDENTIFIER']"
+25,        Usri1_script_path  LPWSTR,"['Usri1_script_path', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+26,    },['}'],['PUNCTUATION']
+27,    GROUP_USERS_INFO_0 struct {,"['GROUP_USERS_INFO_0', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+28,        Grui0_name LPWSTR,"['Grui0_name', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+29,    },['}'],['PUNCTUATION']
+30,    USER_INFO_1003 struct {,"['USER_INFO_1003', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+31,        Usri1003_password LPWSTR,"['Usri1003_password', 'LPWSTR']","['IDENTIFIER', 'IDENTIFIER']"
+32,    },['}'],['PUNCTUATION']
+33,),[')'],['PUNCTUATION']
+34,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+35,    // from LMaccess.h,"['//', 'from', 'LMaccess.h']","['COMMENT', 'IN', 'NNP']"
+36,    USER_PRIV_GUEST = 0,"['USER_PRIV_GUEST', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+37,    USER_PRIV_USER  = 1,"['USER_PRIV_USER', '=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+38,    USER_PRIV_ADMIN = 2,"['USER_PRIV_ADMIN', '=', '2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+39,    UF_SCRIPT                          = 0x0001,"['UF_SCRIPT', '=', '0', 'x0001']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+40,    UF_ACCOUNTDISABLE                  = 0x0002,"['UF_ACCOUNTDISABLE', '=', '0', 'x0002']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+41,    UF_HOMEDIR_REQUIRED                = 0x0008,"['UF_HOMEDIR_REQUIRED', '=', '0', 'x0008']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+42,    UF_LOCKOUT                         = 0x0010,"['UF_LOCKOUT', '=', '0', 'x0010']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+43,    UF_PASSWD_NOTREQD                  = 0x0020,"['UF_PASSWD_NOTREQD', '=', '0', 'x0020']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+44,    UF_PASSWD_CANT_CHANGE              = 0x0040,"['UF_PASSWD_CANT_CHANGE', '=', '0', 'x0040']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+45,    UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED = 0x0080,"['UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED', '=', '0', 'x0080']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+46,    UF_TEMP_DUPLICATE_ACCOUNT    = 0x0100,"['UF_TEMP_DUPLICATE_ACCOUNT', '=', '0', 'x0100']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+47,    UF_NORMAL_ACCOUNT            = 0x0200,"['UF_NORMAL_ACCOUNT', '=', '0', 'x0200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+48,    UF_INTERDOMAIN_TRUST_ACCOUNT = 0x0800,"['UF_INTERDOMAIN_TRUST_ACCOUNT', '=', '0', 'x0800']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
+49,    UF_WORKSTATION_TRUST_ACCOUNT = 0x1000,"['UF_WORKSTATION_TRUST_ACCOUNT', '=', '0x1', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+50,    UF_SERVER_TRUST_ACCOUNT      = 0x2000,"['UF_SERVER_TRUST_ACCOUNT', '=', '0x2', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+51,    UF_ACCOUNT_TYPE_MASK = UF_TEMP_DUPLICATE_ACCOUNT |,"['UF_ACCOUNT_TYPE_MASK', '=', 'UF_TEMP_DUPLICATE_ACCOUNT', '|']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+52,        UF_NORMAL_ACCOUNT |,"['UF_NORMAL_ACCOUNT', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+53,        UF_INTERDOMAIN_TRUST_ACCOUNT |,"['UF_INTERDOMAIN_TRUST_ACCOUNT', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+54,        UF_WORKSTATION_TRUST_ACCOUNT |,"['UF_WORKSTATION_TRUST_ACCOUNT', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+55,        UF_SERVER_TRUST_ACCOUNT,['UF_SERVER_TRUST_ACCOUNT'],['IDENTIFIER']
+56,    UF_DONT_EXPIRE_PASSWD                     = 0x10000,"['UF_DONT_EXPIRE_PASSWD', '=', '0x1', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+57,    UF_MNS_LOGON_ACCOUNT                      = 0x20000,"['UF_MNS_LOGON_ACCOUNT', '=', '0x2', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+58,    UF_SMARTCARD_REQUIRED                     = 0x40000,"['UF_SMARTCARD_REQUIRED', '=', '0x4', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+59,    UF_TRUSTED_FOR_DELEGATION                 = 0x80000,"['UF_TRUSTED_FOR_DELEGATION', '=', '0x8', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+60,    UF_NOT_DELEGATED                          = 0x100000,"['UF_NOT_DELEGATED', '=', '0x1', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+61,    UF_USE_DES_KEY_ONLY                       = 0x200000,"['UF_USE_DES_KEY_ONLY', '=', '0x2', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+62,    UF_DONT_REQUIRE_PREAUTH                   = 0x400000,"['UF_DONT_REQUIRE_PREAUTH', '=', '0x4', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+63,    UF_PASSWORD_EXPIRED                       = 0x800000,"['UF_PASSWORD_EXPIRED', '=', '0x8', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+64,    UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION = 0x1000000,"['UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION', '=', '0x1', '0', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+65,    UF_NO_AUTH_DATA_REQUIRED                  = 0x2000000,"['UF_NO_AUTH_DATA_REQUIRED', '=', '0x2', '0', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+66,    UF_PARTIAL_SECRETS_ACCOUNT                = 0x4000000,"['UF_PARTIAL_SECRETS_ACCOUNT', '=', '0x4', '0', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+67,    UF_USE_AES_KEYS                           = 0x8000000,"['UF_USE_AES_KEYS', '=', '0x8', '0', '0', '0', '0', '0', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+68,    UF_SETTABLE_BITS = UF_SCRIPT |,"['UF_SETTABLE_BITS', '=', 'UF_SCRIPT', '|']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+69,        UF_ACCOUNTDISABLE |,"['UF_ACCOUNTDISABLE', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+70,        UF_LOCKOUT |,"['UF_LOCKOUT', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+71,        UF_HOMEDIR_REQUIRED |,"['UF_HOMEDIR_REQUIRED', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+72,        UF_PASSWD_NOTREQD |,"['UF_PASSWD_NOTREQD', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+73,        UF_PASSWD_CANT_CHANGE |,"['UF_PASSWD_CANT_CHANGE', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+74,        UF_ACCOUNT_TYPE_MASK |,"['UF_ACCOUNT_TYPE_MASK', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+75,        UF_DONT_EXPIRE_PASSWD |,"['UF_DONT_EXPIRE_PASSWD', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+76,        UF_MNS_LOGON_ACCOUNT |,"['UF_MNS_LOGON_ACCOUNT', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+77,        UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED |,"['UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+78,        UF_SMARTCARD_REQUIRED |,"['UF_SMARTCARD_REQUIRED', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+79,        UF_TRUSTED_FOR_DELEGATION |,"['UF_TRUSTED_FOR_DELEGATION', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+80,        UF_NOT_DELEGATED |,"['UF_NOT_DELEGATED', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+81,        UF_USE_DES_KEY_ONLY |,"['UF_USE_DES_KEY_ONLY', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+82,        UF_DONT_REQUIRE_PREAUTH |,"['UF_DONT_REQUIRE_PREAUTH', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+83,        UF_PASSWORD_EXPIRED |,"['UF_PASSWORD_EXPIRED', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+84,        UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION |,"['UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+85,        UF_NO_AUTH_DATA_REQUIRED |,"['UF_NO_AUTH_DATA_REQUIRED', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+86,        UF_USE_AES_KEYS |,"['UF_USE_AES_KEYS', '|']","['IDENTIFIER', 'BITWISE_OPERATOR']"
+87,        UF_PARTIAL_SECRETS_ACCOUNT,['UF_PARTIAL_SECRETS_ACCOUNT'],['IDENTIFIER']
+88,    FILTER_TEMP_DUPLICATE_ACCOUNT    = (0x0001),"['FILTER_TEMP_DUPLICATE_ACCOUNT', '=', '(', '0', 'x0001', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+89,    FILTER_NORMAL_ACCOUNT            = (0x0002),"['FILTER_NORMAL_ACCOUNT', '=', '(', '0', 'x0002', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+90,    FILTER_INTERDOMAIN_TRUST_ACCOUNT = (0x0008),"['FILTER_INTERDOMAIN_TRUST_ACCOUNT', '=', '(', '0', 'x0008', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+91,    FILTER_WORKSTATION_TRUST_ACCOUNT = (0x0010),"['FILTER_WORKSTATION_TRUST_ACCOUNT', '=', '(', '0', 'x0010', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+92,    FILTER_SERVER_TRUST_ACCOUNT      = (0x0020),"['FILTER_SERVER_TRUST_ACCOUNT', '=', '(', '0', 'x0020', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+93,    LG_INCLUDE_INDIRECT = (0x0001),"['LG_INCLUDE_INDIRECT', '=', '(', '0', 'x0001', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+94,    // etc...,"['//', 'etc...']","['COMMENT', 'NN']"
+95,),[')'],['PUNCTUATION']
+96,//sys NetApiBufferFree(Buffer LPVOID) (status NET_API_STATUS) = netapi32.NetApiBufferFree,"['//', 'sys', 'NetApiBufferFree(Buffer', 'LPVOID)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetApiBufferFree']","['COMMENT', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+97,"//sys NetUserAdd(servername LMSTR, level DWORD, buf LPBYTE, parm_err LPDWORD) (status NET_API_STATUS) = netapi32.NetUserAdd","['//', 'sys', 'NetUserAdd(servername', 'LMSTR,', 'level', 'DWORD,', 'buf', 'LPBYTE,', 'parm_err', 'LPDWORD)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserAdd']","['COMMENT', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+98,"//sys NetUserChangePassword(domainname LPCWSTR, username LPCWSTR, oldpassword LPCWSTR, newpassword LPCWSTR) (status NET_API_STATUS) = netapi32.NetUserChangePassword","['//', 'sys', 'NetUserChangePassword(domainname', 'LPCWSTR,', 'username', 'LPCWSTR,', 'oldpassword', 'LPCWSTR,', 'newpassword', 'LPCWSTR)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserChangePassword']","['COMMENT', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+99,"//sys NetUserDel(servername LPCWSTR, username LPCWSTR) (status NET_API_STATUS) = netapi32.NetUserDel","['//', 'sys', 'NetUserDel(servername', 'LPCWSTR,', 'username', 'LPCWSTR)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserDel']","['COMMENT', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+100,"//sys NetUserEnum(servername LPCWSTR, level DWORD, filter DWORD, bufptr *LPBYTE, prefmaxlen DWORD, entriesread LPDWORD, totalentries LPDWORD, resume_handle LPDWORD) (status NET_API_STATUS) = netapi32.NetUserEnum","['//', 'sys', 'NetUserEnum(servername', 'LPCWSTR,', 'level', 'DWORD,', 'filter', 'DWORD,', 'bufptr', '*LPBYTE,', 'prefmaxlen', 'DWORD,', 'entriesread', 'LPDWORD,', 'totalentries', 'LPDWORD,', 'resume_handle', 'LPDWORD)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserEnum']","['COMMENT', 'NN', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNS', 'NNP', 'VBP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+101,"//sys NetUserGetGroups(servername LPCWSTR, username LPCWSTR, level DWORD, bufptr *LPBYTE, prefmaxlen DWORD, entriesread LPDWORD, totalentries LPDWORD) (status NET_API_STATUS) = netapi32.NetUserGetGroups","['//', 'sys', 'NetUserGetGroups(servername', 'LPCWSTR,', 'username', 'LPCWSTR,', 'level', 'DWORD,', 'bufptr', '*LPBYTE,', 'prefmaxlen', 'DWORD,', 'entriesread', 'LPDWORD,', 'totalentries', 'LPDWORD)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserGetGroups']","['COMMENT', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNS', 'NNP', 'NNP', 'NNP', 'NNP', 'NNS']"
+102,"//sys NetUserSetGroups(servername LPCWSTR, username LPCWSTR, level DWORD, buf LPBYTE, num_entries DWORD) (status NET_API_STATUS) = netapi32.NetUserSetGroups","['//', 'sys', 'NetUserSetGroups(servername', 'LPCWSTR,', 'username', 'LPCWSTR,', 'level', 'DWORD,', 'buf', 'LPBYTE,', 'num_entries', 'DWORD)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserSetGroups']","['COMMENT', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNS', 'NNP', 'NNP', 'NNP', 'NNP', 'NNS']"
+103,"//sys NetUserSetInfo(servername LPCWSTR, username LPCWSTR, level DWORD, buf LPBYTE, parm_err LPDWORD) (status NET_API_STATUS) = netapi32.NetUserSetInfo","['//', 'sys', 'NetUserSetInfo(servername', 'LPCWSTR,', 'username', 'LPCWSTR,', 'level', 'DWORD,', 'buf', 'LPBYTE,', 'parm_err', 'LPDWORD)', '(status', 'NET_API_STATUS)', '=', 'netapi32.NetUserSetInfo']","['COMMENT', 'NN', 'NNP', 'NNP', 'JJ', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+104,"
 
-  Revision: f685026a2d38
-  
-  bufio: new Scanner interface
-  
-  Add a new, simple interface for scanning (probably textual) data,
-  based on a new type called Scanner. It does its own internal
-  buffering, so should be plausibly efficient even without injecting a
-  bufio.Reader. The format of the input is defined by a ""split
-  function"", by default splitting into lines.
+After running go generate (so long as you copied mksyscall_windows.go to the same directory) you will have a file called ""zwin32_windows.go"" (something like this):
 
+","['After', 'running', 'go', 'generate', '(so', 'long', 'as', 'you', 'copied', 'mksyscall_windows.go', 'to', 'the', 'same', 'directory)', 'you', 'will', 'have', 'a', 'file', 'called', '""zwin32_windows.go""', '(something', 'like', 'this):']","['IN', 'VBG', 'VB', 'JJ', 'NN', 'RB', 'IN', 'PRP', 'VBD', 'NN', 'TO', 'DT', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'VBN', 'CD', 'VBG', 'IN', 'NN']"
+105,// MACHINE GENERATED BY 'go generate' COMMAND; DO NOT EDIT,"['//', 'MACHINE', 'GENERATED', 'BY', ""'go"", ""generate'"", 'COMMAND;', 'DO', 'NOT', 'EDIT']","['COMMENT', 'NN', 'NNP', 'NNP', 'POS', 'NN', 'NNP', 'NNP', 'NNP', 'NNP']"
+106,package win32,"['package', 'win32']","['KEYWORD', 'IDENTIFIER']"
+107,"import ""unsafe""","['import', '""unsafe""']","['KEYWORD', 'STRING_LITERAL']"
+108,"import ""syscall""","['import', '""syscall""']","['KEYWORD', 'STRING_LITERAL']"
+109,var _ unsafe.Pointer,"['var', '_', 'unsafe', '.', 'Pointer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+110,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
+111,"    modnetapi32 = syscall.NewLazyDLL(""netapi32.dll"")","['modnetapi32', '=', 'syscall.NewLazyDLL(""netapi32.dll"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+112,"    procNetApiBufferFree      = modnetapi32.NewProc(""NetApiBufferFree"")","['procNetApiBufferFree', '=', 'modnetapi32.NewProc(""NetApiBufferFree"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+113,"    procNetUserAdd            = modnetapi32.NewProc(""NetUserAdd"")","['procNetUserAdd', '=', 'modnetapi32.NewProc(""NetUserAdd"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+114,"    procNetUserChangePassword = modnetapi32.NewProc(""NetUserChangePassword"")","['procNetUserChangePassword', '=', 'modnetapi32.NewProc(""NetUserChangePassword"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+115,"    procNetUserDel            = modnetapi32.NewProc(""NetUserDel"")","['procNetUserDel', '=', 'modnetapi32.NewProc(""NetUserDel"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+116,"    procNetUserEnum           = modnetapi32.NewProc(""NetUserEnum"")","['procNetUserEnum', '=', 'modnetapi32.NewProc(""NetUserEnum"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+117,"    procNetUserGetGroups      = modnetapi32.NewProc(""NetUserGetGroups"")","['procNetUserGetGroups', '=', 'modnetapi32.NewProc(""NetUserGetGroups"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+118,"    procNetUserSetGroups      = modnetapi32.NewProc(""NetUserSetGroups"")","['procNetUserSetGroups', '=', 'modnetapi32.NewProc(""NetUserSetGroups"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+119,"    procNetUserSetInfo        = modnetapi32.NewProc(""NetUserSetInfo"")","['procNetUserSetInfo', '=', 'modnetapi32.NewProc(""NetUserSetInfo"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+120,),[')'],['PUNCTUATION']
+121,func NetApiBufferFree(Buffer LPVOID) (status NET_API_STATUS) {,"['func', 'NetApiBufferFree', '(', 'Buffer', 'LPVOID', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+122,"    r0, _, _ := syscall.Syscall(procNetApiBufferFree.Addr(), 1, uintptr(Buffer), 0, 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall(procNetApiBufferFree.Addr(), 1, uintptr(Buffer), 0, 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+123,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+124,    return,['return'],['KEYWORD']
+125,},['}'],['PUNCTUATION']
+126,"func NetUserAdd(servername LMSTR, level DWORD, buf LPBYTE, parm_err LPDWORD) (status NET_API_STATUS) {","['func', 'NetUserAdd', '(', 'servername', 'LMSTR', ',', 'level', 'DWORD', ',', 'buf', 'LPBYTE', ',', 'parm_err', 'LPDWORD', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+127,"    r0, _, _ := syscall.Syscall6(procNetUserAdd.Addr(), 4, uintptr(servername), uintptr(level), uintptr(buf), uintptr(parm_err), 0, 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall6(procNetUserAdd.Addr(), 4, uintptr(servername), uintptr(level), uintptr(buf), uintptr(parm_err), 0, 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+128,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+129,    return,['return'],['KEYWORD']
+130,},['}'],['PUNCTUATION']
+131,"func NetUserChangePassword(domainname LPCWSTR, username LPCWSTR, oldpassword LPCWSTR, newpassword LPCWSTR) (status NET_API_STATUS) {","['func', 'NetUserChangePassword', '(', 'domainname', 'LPCWSTR', ',', 'username', 'LPCWSTR', ',', 'oldpassword', 'LPCWSTR', ',', 'newpassword', 'LPCWSTR', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+132,"    r0, _, _ := syscall.Syscall6(procNetUserChangePassword.Addr(), 4, uintptr(domainname), uintptr(username), uintptr(oldpassword), uintptr(newpassword), 0, 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall6(procNetUserChangePassword.Addr(), 4, uintptr(domainname), uintptr(username), uintptr(oldpassword), uintptr(newpassword), 0, 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+133,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+134,    return,['return'],['KEYWORD']
+135,},['}'],['PUNCTUATION']
+136,"func NetUserDel(servername LPCWSTR, username LPCWSTR) (status NET_API_STATUS) {","['func', 'NetUserDel', '(', 'servername', 'LPCWSTR', ',', 'username', 'LPCWSTR', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+137,"    r0, _, _ := syscall.Syscall(procNetUserDel.Addr(), 2, uintptr(servername), uintptr(username), 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall(procNetUserDel.Addr(), 2, uintptr(servername), uintptr(username), 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+138,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+139,    return,['return'],['KEYWORD']
+140,},['}'],['PUNCTUATION']
+141,"func NetUserEnum(servername LPCWSTR, level DWORD, filter DWORD, bufptr *LPBYTE, prefmaxlen DWORD, entriesread LPDWORD, totalentries LPDWORD, resume_handle LPDWORD) (status NET_API_STATUS) {","['func', 'NetUserEnum', '(', 'servername', 'LPCWSTR', ',', 'level', 'DWORD', ',', 'filter', 'DWORD', ',', 'bufptr', '*', 'LPBYTE', ',', 'prefmaxlen', 'DWORD', ',', 'entriesread', 'LPDWORD', ',', 'totalentries', 'LPDWORD', ',', 'resume_handle', 'LPDWORD', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+142,"    r0, _, _ := syscall.Syscall9(procNetUserEnum.Addr(), 8, uintptr(servername), uintptr(level), uintptr(filter), uintptr(unsafe.Pointer(bufptr)), uintptr(prefmaxlen), uintptr(entriesread), uintptr(totalentries), uintptr(resume_handle), 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall9(procNetUserEnum.Addr(), 8, uintptr(servername), uintptr(level), uintptr(filter), uintptr(unsafe.Pointer(bufptr)), uintptr(prefmaxlen), uintptr(entriesread), uintptr(totalentries), uintptr(resume_handle), 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+143,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+144,    return,['return'],['KEYWORD']
+145,},['}'],['PUNCTUATION']
+146,"func NetUserGetGroups(servername LPCWSTR, username LPCWSTR, level DWORD, bufptr *LPBYTE, prefmaxlen DWORD, entriesread LPDWORD, totalentries LPDWORD) (status NET_API_STATUS) {","['func', 'NetUserGetGroups', '(', 'servername', 'LPCWSTR', ',', 'username', 'LPCWSTR', ',', 'level', 'DWORD', ',', 'bufptr', '*', 'LPBYTE', ',', 'prefmaxlen', 'DWORD', ',', 'entriesread', 'LPDWORD', ',', 'totalentries', 'LPDWORD', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+147,"    r0, _, _ := syscall.Syscall9(procNetUserGetGroups.Addr(), 7, uintptr(servername), uintptr(username), uintptr(level), uintptr(unsafe.Pointer(bufptr)), uintptr(prefmaxlen), uintptr(entriesread), uintptr(totalentries), 0, 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall9(procNetUserGetGroups.Addr(), 7, uintptr(servername), uintptr(username), uintptr(level), uintptr(unsafe.Pointer(bufptr)), uintptr(prefmaxlen), uintptr(entriesread), uintptr(totalentries), 0, 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+148,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+149,    return,['return'],['KEYWORD']
+150,},['}'],['PUNCTUATION']
+151,"func NetUserSetGroups(servername LPCWSTR, username LPCWSTR, level DWORD, buf LPBYTE, num_entries DWORD) (status NET_API_STATUS) {","['func', 'NetUserSetGroups', '(', 'servername', 'LPCWSTR', ',', 'username', 'LPCWSTR', ',', 'level', 'DWORD', ',', 'buf', 'LPBYTE', ',', 'num_entries', 'DWORD', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+152,"    r0, _, _ := syscall.Syscall6(procNetUserSetGroups.Addr(), 5, uintptr(servername), uintptr(username), uintptr(level), uintptr(buf), uintptr(num_entries), 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall6(procNetUserSetGroups.Addr(), 5, uintptr(servername), uintptr(username), uintptr(level), uintptr(buf), uintptr(num_entries), 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+153,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+154,    return,['return'],['KEYWORD']
+155,},['}'],['PUNCTUATION']
+156,"func NetUserSetInfo(servername LPCWSTR, username LPCWSTR, level DWORD, buf LPBYTE, parm_err LPDWORD) (status NET_API_STATUS) {","['func', 'NetUserSetInfo', '(', 'servername', 'LPCWSTR', ',', 'username', 'LPCWSTR', ',', 'level', 'DWORD', ',', 'buf', 'LPBYTE', ',', 'parm_err', 'LPDWORD', ')', '(', 'status', 'NET_API_STATUS', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+157,"    r0, _, _ := syscall.Syscall6(procNetUserSetInfo.Addr(), 5, uintptr(servername), uintptr(username), uintptr(level), uintptr(buf), uintptr(parm_err), 0)","['r0', ',', '_', ',', '_', ':=', 'syscall.Syscall6(procNetUserSetInfo.Addr(), 5, uintptr(servername), uintptr(username), uintptr(level), uintptr(buf), uintptr(parm_err), 0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+158,    status = NET_API_STATUS(r0),"['status', '=', 'NET_API_STATUS', '(', 'r0', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+159,    return,['return'],['KEYWORD']
+160,},['}'],['PUNCTUATION']
+161,"
 
+Obviously most of the work is in translating the Win32 types to their Go equivalents.
 
+Feel free to poke around in the syscall package - they often have already defined structs you may be interested in.
 
+ZOMG sriously??1! 2 much work!
 
-  go1.1beta1 released
-  
-  You can download binary and source distributions from the usual place:
-      https://code.google.com/p/go/downloads/list?q=go1.1beta1
+Its better than writing that code by hand. And no CGo required!
 
-
-
-
-Here's a program which uses the Unicode rules to convert UTF16 text file lines to Go UTF8 encoded strings. The code has been revised to take advantage of the new bufio.Scanner interface in Go 1.1.
-
-","['UTF16,', 'UTF8,', 'and', 'Byte', 'Order', 'Marks', 'are', 'defined', 'by', 'the', 'Unicode', 'Consortium:', 'UTF-16', 'FAQ,', 'UTF-8', 'FAQ,', 'and', 'Byte', 'Order', 'Mark', '(BOM)', 'FAQ.', 'Issue', '4802:', 'bufio:', 'reading', 'lines', 'is', 'too', 'cumbersome', 'Reading', 'lines', 'from', 'a', 'file', 'is', 'too', 'cumbersome', 'in', 'Go.', 'People', 'are', 'often', 'drawn', 'to', 'bufio.Reader.ReadLine', 'because', 'of', 'its', 'name,', 'but', 'it', 'has', 'a', 'weird', 'signature,', 'returning', '(line', '[]byte,', 'isPrefix', 'bool,', 'err', 'error),', 'and', 'requires', 'a', 'lot', 'of', 'work.', 'ReadSlice', 'and', 'ReadString', 'require', 'a', 'delimiter', 'byte,', 'which', 'is', 'almost', 'always', 'the', 'obvious', 'and', 'unsightly', ""'\\n',"", 'and', 'also', 'can', 'return', 'both', 'a', 'line', 'and', 'an', 'EOF', 'Revision:', 'f685026a2d38', 'bufio:', 'new', 'Scanner', 'interface', 'Add', 'a', 'new,', 'simple', 'interface', 'for', 'scanning', '(probably', 'textual)', 'data,', 'based', 'on', 'a', 'new', 'type', 'called', 'Scanner.', 'It', 'does', 'its', 'own', 'internal', 'buffering,', 'so', 'should', 'be', 'plausibly', 'efficient', 'even', 'without', 'injecting', 'a', 'bufio.Reader.', 'The', 'format', 'of', 'the', 'input', 'is', 'defined', 'by', 'a', '""split', 'function"",', 'by', 'default', 'splitting', 'into', 'lines.', 'go1.1beta1', 'released', 'You', 'can', 'download', 'binary', 'and', 'source', 'distributions', 'from', 'the', 'usual', 'place:', 'https://code.google.com/p/go/downloads/list?q=go1.1beta1', ""Here's"", 'a', 'program', 'which', 'uses', 'the', 'Unicode', 'rules', 'to', 'convert', 'UTF16', 'text', 'file', 'lines', 'to', 'Go', 'UTF8', 'encoded', 'strings.', 'The', 'code', 'has', 'been', 'revised', 'to', 'take', 'advantage', 'of', 'the', 'new', 'bufio.Scanner', 'interface', 'in', 'Go', '1.1.']","['NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNS', 'VBP', 'VBN', 'IN', 'DT', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CD', 'NN', 'NN', 'NNS', 'VBZ', 'RB', 'JJ', 'NNP', 'NNS', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'JJ', 'IN', 'NNP', 'NNP', 'VBP', 'RB', 'VBN', 'TO', 'VB', 'IN', 'IN', 'PRP$', 'NN', 'CC', 'PRP', 'VBZ', 'DT', 'JJ', 'NN', 'VBG', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'NN', 'CC', 'VBZ', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'CC', 'NNP', 'VBP', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'RB', 'RB', 'DT', 'JJ', 'CC', 'RB', 'NNS', 'CC', 'RB', 'MD', 'VB', 'DT', 'DT', 'NN', 'CC', 'DT', 'NNP', 'NNP', 'VBD', 'JJ', 'JJ', 'NNP', 'NN', 'NNP', 'DT', 'JJ', 'JJ', 'NN', 'IN', 'VBG', 'RB', 'VB', 'NNS', 'VBN', 'IN', 'DT', 'JJ', 'NN', 'VBN', 'NNP', 'PRP', 'VBZ', 'PRP$', 'JJ', 'JJ', 'NN', 'RB', 'MD', 'VB', 'RB', 'JJ', 'RB', 'IN', 'VBG', 'DT', 'NN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'VBG', 'IN', 'JJ', 'NN', 'VBN', 'PRP', 'MD', 'VB', 'JJ', 'CC', 'NN', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'NN', 'NNP', 'DT', 'NN', 'WDT', 'VBZ', 'DT', 'NNP', 'NNS', 'TO', 'VB', 'NNP', 'NN', 'NN', 'NNS', 'TO', 'VB', 'NNP', 'VBD', 'PDT', 'DT', 'NN', 'VBZ', 'VBN', 'VBN', 'TO', 'VB', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNP', 'CD']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-3,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
-4,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-5,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
-6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-7,"    ""os""","['""os""']",['STRING_LITERAL']
-8,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-9,"    ""unicode/utf16""","['""unicode/utf16""']",['STRING_LITERAL']
-10,"    ""unicode/utf8""","['""unicode/utf8""']",['STRING_LITERAL']
-11,),[')'],['OPERATOR']
-12,"// UTF16BytesToString converts UTF-16 encoded bytes, in big or little endian byte order,","['//', 'UTF16BytesToString', 'converts', 'UTF-16', 'encoded', 'bytes,', 'in', 'big', 'or', 'little', 'endian', 'byte', 'order,']","['COMMENT', 'VBG', 'NNS', 'NNP', 'VBD', 'NN', 'IN', 'JJ', 'CC', 'JJ', 'JJ', 'NN', 'NN']"
-13,// to a UTF-8 encoded string.,"['//', 'to', 'a', 'UTF-8', 'encoded', 'string.']","['COMMENT', 'TO', 'DT', 'NNP', 'VBD', 'NN']"
-14,"func UTF16BytesToString(b []byte, o binary.ByteOrder) string {","['func', 'UTF16BytesToString', '(', 'b', '[]', 'byte', ',', 'o', 'binary', '.', 'ByteOrder', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,"    utf := make([]uint16, (len(b)+(2-1))/2)","['utf', ':=', 'make', '([]', 'uint16', ',', '(len(b)+(2-1))/2)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DIRECTORY']"
-16,    for i := 0; i+(2-1) < len(b); i += 2 {,"['for', 'i', ':=', '0', ';', 'i', '+(', '2', '-', '1', ')', '<', 'len', '(', 'b', ');', 'i', '+=', '2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-17,        utf[i/2] = o.Uint16(b[i:]),"['utf[i/2]', '=', 'o.Uint16(b[i:])']","['DIRECTORY', 'OPERATOR', 'FUNCTION_CALL']"
-18,    },['}'],['OPERATOR']
-19,    if len(b)/2 < len(utf) {,"['if', 'len(b)/2', '<', 'len', '(', 'utf', ')', '{']","['KEYWORD', 'DIRECTORY', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-20,        utf[len(utf)-1] = utf8.RuneError,"['utf', '[', 'len', '(', 'utf', ')-', '1', ']', '=', 'utf8', '.', 'RuneError']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-21,    },['}'],['OPERATOR']
-22,    return string(utf16.Decode(utf)),"['return', 'string', '(', 'utf16.Decode(utf))']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-23,},['}'],['OPERATOR']
-24,// UTF-16 endian byte order,"['//', 'UTF-16', 'endian', 'byte', 'order']","['COMMENT', 'JJ', 'JJ', 'NN', 'NN']"
-25,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-26,    unknownEndian = iota,"['unknownEndian', '=', 'iota']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-27,    bigEndian,['bigEndian'],['IDENTIFIER']
-28,    littleEndian,['littleEndian'],['IDENTIFIER']
-29,),[')'],['OPERATOR']
-30,// dropCREndian drops a terminal \r from the endian data.,"['//', 'dropCREndian', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'endian', 'data.']","['COMMENT', 'JJ', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN']"
-31,"func dropCREndian(data []byte, t1, t2 byte) []byte {","['func', 'dropCREndian', '(', 'data', '[]', 'byte', ',', 't1', ',', 't2', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-32,    if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-33,        if data[len(data)-2] == t1 && data[len(data)-1] == t2 {,"['if', 'data', '[', 'len', '(', 'data', ')-', '2', ']', '==', 't1', '&&', 'data', '[', 'len', '(', 'data', ')-', '1', ']', '==', 't2', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-34,            return data[0 : len(data)-2],"['return', 'data', '[', '0', ':', 'len', '(', 'data', ')-', '2', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-35,        },['}'],['OPERATOR']
-36,    },['}'],['OPERATOR']
-37,    return data,"['return', 'data']","['KEYWORD', 'IDENTIFIER']"
-38,},['}'],['OPERATOR']
-39,// dropCRBE drops a terminal \r from the big endian data.,"['//', 'dropCRBE', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'big', 'endian', 'data.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', 'NN']"
-40,func dropCRBE(data []byte) []byte {,"['func', 'dropCRBE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,"    return dropCREndian(data, '\x00', '\r')","['return', 'dropCREndian', '(', 'data', ',', ""'\\x00'"", ',', ""'\\r'"", ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-42,},['}'],['OPERATOR']
-43,// dropCRLE drops a terminal \r from the little endian data.,"['//', 'dropCRLE', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'little', 'endian', 'data.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'JJ', 'NN']"
-44,func dropCRLE(data []byte) []byte {,"['func', 'dropCRLE', '(', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,"    return dropCREndian(data, '\r', '\x00')","['return', 'dropCREndian', '(', 'data', ',', ""'\\r'"", ',', ""'\\x00'"", ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-46,},['}'],['OPERATOR']
-47,// dropCR drops a terminal \r from the data.,"['//', 'dropCR', 'drops', 'a', 'terminal', '\\r', 'from', 'the', 'data.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN']"
-48,"func dropCR(data []byte) ([]byte, int) {","['func', 'dropCR', '(', 'data', '[]', 'byte', ')', '([]', 'byte', ',', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-49,    var endian = unknownEndian,"['var', 'endian', '=', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-50,    switch ld := len(data); {,"['switch', 'ld', ':=', 'len', '(', 'data', ');', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-51,    case ld != len(dropCRLE(data)):,"['case', 'ld', '!=', 'len', '(', 'dropCRLE', '(', 'data', ')):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-52,        endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-53,    case ld != len(dropCRBE(data)):,"['case', 'ld', '!=', 'len', '(', 'dropCRBE', '(', 'data', ')):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,        endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-55,    },['}'],['OPERATOR']
-56,"    return data, endian","['return', 'data', ',', 'endian']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-57,},['}'],['OPERATOR']
-58,// SplitFunc is a split function for a Scanner that returns each line of,"['//', 'SplitFunc', 'is', 'a', 'split', 'function', 'for', 'a', 'Scanner', 'that', 'returns', 'each', 'line', 'of']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'NN', 'IN', 'DT', 'NNP', 'IN', 'VBZ', 'DT', 'NN', 'IN']"
-59,"// text, stripped of any trailing end-of-line marker. The returned line may","['//', 'text,', 'stripped', 'of', 'any', 'trailing', 'end-of-line', 'marker.', 'The', 'returned', 'line', 'may']","['COMMENT', 'NN', 'VBD', 'IN', 'DT', 'VBG', 'JJ', 'NN', 'DT', 'VBN', 'NN', 'MD']"
-60,// be empty. The end-of-line marker is one optional carriage return followed,"['//', 'be', 'empty.', 'The', 'end-of-line', 'marker', 'is', 'one', 'optional', 'carriage', 'return', 'followed']","['COMMENT', 'VB', 'VBN', 'DT', 'JJ', 'NN', 'VBZ', 'CD', 'JJ', 'NN', 'NN', 'VBD']"
-61,"// by one mandatory newline. In regular expression notation, it is `\r?\n`.","['//', 'by', 'one', 'mandatory', 'newline.', 'In', 'regular', 'expression', 'notation,', 'it', 'is', '`\\r?\\n`.']","['COMMENT', 'IN', 'CD', 'NN', 'NN', 'IN', 'JJ', 'NN', 'IN', 'PRP', 'VBZ', 'JJ']"
-62,// The last non-empty line of input will be returned even if it has no,"['//', 'The', 'last', 'non-empty', 'line', 'of', 'input', 'will', 'be', 'returned', 'even', 'if', 'it', 'has', 'no']","['COMMENT', 'DT', 'JJ', 'JJ', 'NN', 'IN', 'NN', 'MD', 'VB', 'VBN', 'RB', 'IN', 'PRP', 'VBZ', 'DT']"
-63,// newline.,"['//', 'newline.']","['COMMENT', 'NN']"
-64,"func ScanUTF16LinesFunc(byteOrder binary.ByteOrder) (bufio.SplitFunc, func() binary.ByteOrder) {","['func', 'ScanUTF16LinesFunc', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '(', 'bufio', '.', 'SplitFunc', ',', 'func', '()', 'binary', '.', 'ByteOrder', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-65,    // Function closure variables,"['//', 'Function', 'closure', 'variables']","['COMMENT', 'NNP', 'NN', 'NNS']"
-66,    var endian = unknownEndian,"['var', 'endian', '=', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-67,    switch byteOrder {,"['switch', 'byteOrder', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-68,    case binary.BigEndian:,"['case', 'binary', '.', 'BigEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,        endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-70,    case binary.LittleEndian:,"['case', 'binary', '.', 'LittleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-71,        endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-72,    },['}'],['OPERATOR']
-73,    const bom = 0xFEFF,"['const', 'bom', '=', '0xFEFF']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL']"
-74,    var checkBOM bool = endian == unknownEndian,"['var', 'checkBOM', 'bool', '=', 'endian', '==', 'unknownEndian']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-75,    // Scanner split function,"['//', 'Scanner', 'split', 'function']","['COMMENT', 'NNP', 'NN', 'NN']"
-76,"    splitFunc := func(data []byte, atEOF bool) (advance int, token []byte, err error) {","['splitFunc', ':=', 'func', '(', 'data', '[]', 'byte', ',', 'atEOF', 'bool', ')', '(', 'advance', 'int', ',', 'token', '[]', 'byte', ',', 'err', 'error', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-77,        if atEOF && len(data) == 0 {,"['if', 'atEOF', '&&', 'len', '(', 'data', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-78,"            return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-79,        },['}'],['OPERATOR']
-80,        if checkBOM {,"['if', 'checkBOM', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-81,            checkBOM = false,"['checkBOM', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-82,            if len(data) > 1 {,"['if', 'len', '(', 'data', ')', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-83,                switch uint16(bom) {,"['switch', 'uint16', '(', 'bom', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-84,                case uint16(data[0])<<8 | uint16(data[1]):,"['case', 'uint16', '(', 'data', '[', '0', '])<<', '8', '|', 'uint16', '(', 'data', '[', '1', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-85,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-86,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-87,                case uint16(data[1])<<8 | uint16(data[0]):,"['case', 'uint16', '(', 'data', '[', '1', '])<<', '8', '|', 'uint16', '(', 'data', '[', '0', ']):']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-88,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-89,"                    return 2, nil, nil","['return', '2', ',', 'nil', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-90,                },['}'],['OPERATOR']
-91,            },['}'],['OPERATOR']
-92,        },['}'],['OPERATOR']
-93,        // Scan for newline-terminated lines.,"['//', 'Scan', 'for', 'newline-terminated', 'lines.']","['COMMENT', 'JJ', 'IN', 'JJ', 'NN']"
-94,        i := 0,"['i', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-95,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-96,"            j := bytes.IndexByte(data[i:], '\n')","['j', ':=', ""bytes.IndexByte(data[i:], '\\n')""]","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-97,            if j < 0 {,"['if', 'j', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-98,                break,['break'],['KEYWORD']
-99,            },['}'],['OPERATOR']
-100,            i += j,"['i', '+=', 'j']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-101,            switch e := i % 2; e {,"['switch', 'e', ':=', 'i', '2', ';', 'e', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,            case 1: // UTF-16BE,"['case', '1', ':', '//', 'UTF-16BE']","['KEYWORD', 'DECIMAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
-103,                if endian != littleEndian {,"['if', 'endian', '!=', 'littleEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-104,                    if i > 1 {,"['if', 'i', '>', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-105,                        if data[i-1] == '\x00' {,"['if', 'data', '[', 'i', '-', '1', ']', '==', ""'\\x00'"", '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-106,                            endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-107,                            // We have a full newline-terminated line.,"['//', 'We', 'have', 'a', 'full', 'newline-terminated', 'line.']","['COMMENT', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN']"
-108,"                            return i + 1, dropCRBE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRBE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-109,                        },['}'],['OPERATOR']
-110,                    },['}'],['OPERATOR']
-111,                },['}'],['OPERATOR']
-112,            case 0: // UTF-16LE,"['case', '0', ':', '//', 'UTF-16LE']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR', 'COMMENT', 'JJ']"
-113,                if endian != bigEndian {,"['if', 'endian', '!=', 'bigEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-114,                    if i+1 < len(data) {,"['if', 'i', '+', '1', '<', 'len', '(', 'data', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-115,                        i++,"['i', '++']","['IDENTIFIER', 'OPERATOR']"
-116,                        if data[i] == '\x00' {,"['if', 'data', '[', 'i', ']', '==', ""'\\x00'"", '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-117,                            endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-118,                            // We have a full newline-terminated line.,"['//', 'We', 'have', 'a', 'full', 'newline-terminated', 'line.']","['COMMENT', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN']"
-119,"                            return i + 1, dropCRLE(data[0 : i-1]), nil","['return', 'i', '+', '1', ',', 'dropCRLE', '(', 'data', '[', '0', ':', 'i', '-', '1', ']),', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-120,                        },['}'],['OPERATOR']
-121,                    },['}'],['OPERATOR']
-122,                },['}'],['OPERATOR']
-123,            },['}'],['OPERATOR']
-124,            i++,"['i', '++']","['IDENTIFIER', 'OPERATOR']"
-125,        },['}'],['OPERATOR']
-126,"        // If we're at EOF, we have a final, non-terminated line. Return it.","['//', 'If', ""we're"", 'at', 'EOF,', 'we', 'have', 'a', 'final,', 'non-terminated', 'line.', 'Return', 'it.']","['COMMENT', 'IN', 'VBN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'JJ', 'JJ', 'NN', 'NNP', 'NN']"
-127,        if atEOF {,"['if', 'atEOF', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-128,            // drop CR.,"['//', 'drop', 'CR.']","['COMMENT', 'NN', 'NNP']"
-129,            advance = len(data),"['advance', '=', 'len', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-130,            switch endian {,"['switch', 'endian', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-131,            case bigEndian:,"['case', 'bigEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-132,                data = dropCRBE(data),"['data', '=', 'dropCRBE', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-133,            case littleEndian:,"['case', 'littleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-134,                data = dropCRLE(data),"['data', '=', 'dropCRLE', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-135,            default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-136,"                data, endian = dropCR(data)","['data', ',', 'endian', '=', 'dropCR', '(', 'data', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,            },['}'],['OPERATOR']
-138,            if endian == unknownEndian {,"['if', 'endian', '==', 'unknownEndian', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,"                if runtime.GOOS == ""windows"" {","['if', 'runtime', '.', 'GOOS', '==', '""windows""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-140,                    endian = littleEndian,"['endian', '=', 'littleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-141,                } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-142,                    endian = bigEndian,"['endian', '=', 'bigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-143,                },['}'],['OPERATOR']
-144,            },['}'],['OPERATOR']
-145,"            return advance, data, nil","['return', 'advance', ',', 'data', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-146,        },['}'],['OPERATOR']
-147,        // Request more data.,"['//', 'Request', 'more', 'data.']","['COMMENT', 'NNP', 'JJR', 'NN']"
-148,"        return 0, nil, nil","['return', '0', ',', 'nil', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-149,    },['}'],['OPERATOR']
-150,    // Endian byte order function,"['//', 'Endian', 'byte', 'order', 'function']","['COMMENT', 'JJ', 'NN', 'NN', 'NN']"
-151,    orderFunc := func() (byteOrder binary.ByteOrder) {,"['orderFunc', ':=', 'func', '()', '(', 'byteOrder', 'binary', '.', 'ByteOrder', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-152,        switch endian {,"['switch', 'endian', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-153,        case bigEndian:,"['case', 'bigEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-154,            byteOrder = binary.BigEndian,"['byteOrder', '=', 'binary', '.', 'BigEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-155,        case littleEndian:,"['case', 'littleEndian', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-156,            byteOrder = binary.LittleEndian,"['byteOrder', '=', 'binary', '.', 'LittleEndian']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,        },['}'],['OPERATOR']
-158,        return byteOrder,"['return', 'byteOrder']","['KEYWORD', 'IDENTIFIER']"
-159,    },['}'],['OPERATOR']
-160,"    return splitFunc, orderFunc","['return', 'splitFunc', ',', 'orderFunc']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-161,},['}'],['OPERATOR']
-162,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-163,"    file, err := os.Open(""utf16.le.txt"")","['file', ',', 'err', ':=', 'os.Open(""utf16.le.txt"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-164,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-165,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-166,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-167,    },['}'],['OPERATOR']
-168,    defer file.Close(),"['defer', 'file.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-169,    fmt.Println(file.Name()),['fmt.Println(file.Name())'],['FUNCTION_CALL']
-170,    rdr := bufio.NewReader(file),"['rdr', ':=', 'bufio.NewReader(file)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-171,    scanner := bufio.NewScanner(rdr),"['scanner', ':=', 'bufio.NewScanner(rdr)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-172,"    var bo binary.ByteOrder // unknown, infer from data","['var', 'bo', 'binary', '.', 'ByteOrder', '//', 'unknown,', 'infer', 'from', 'data']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'JJ', 'NN', 'IN', 'NNS']"
-173,    // bo = binary.LittleEndian // windows,"['//', 'bo', '=', 'binary.LittleEndian', 'windows']","['COMMENT', 'NN', 'NN', 'JJ', 'NNS']"
-174,"    splitFunc, orderFunc := ScanUTF16LinesFunc(bo)","['splitFunc', ',', 'orderFunc', ':=', 'ScanUTF16LinesFunc', '(', 'bo', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-175,    scanner.Split(splitFunc),['scanner.Split(splitFunc)'],['FUNCTION_CALL']
-176,    for scanner.Scan() {,"['for', 'scanner.Scan()', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR']"
-177,        b := scanner.Bytes(),"['b', ':=', 'scanner.Bytes()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-178,"        s := UTF16BytesToString(b, orderFunc())","['s', ':=', 'UTF16BytesToString', '(', 'b', ',', 'orderFunc', '())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-179,"        fmt.Println(len(s), s)","['fmt.Println(len(s), s)']",['FUNCTION_CALL']
-180,"        fmt.Println(len(b), b)","['fmt.Println(len(b), b)']",['FUNCTION_CALL']
-181,    },['}'],['OPERATOR']
-182,    fmt.Println(orderFunc()),['fmt.Println(orderFunc())'],['FUNCTION_CALL']
-183,    if err := scanner.Err(); err != nil {,"['if', 'err', ':=', 'scanner.Err()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-184,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-185,    },['}'],['OPERATOR']
-186,},['}'],['OPERATOR']
-187,"
-
-Output:
-
-",['Output:'],['NN']
-188,utf16.le.txt,"['utf16', '.', 'le', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-189,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-190,22 [34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 0 22 78 76 117 34 0],"['22', '[', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '0', '22', '78', '76', '117', '34', '0', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR']"
-191,0 ,['0'],['OCTAL_LITERAL']
-192,0 [],"['0', '[]']","['OCTAL_LITERAL', 'OPERATOR']"
-193,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-194,22 [34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 0 22 78 76 117 34 0],"['22', '[', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '0', '22', '78', '76', '117', '34', '0', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR']"
-195,LittleEndian,['LittleEndian'],['IDENTIFIER']
-196,utf16.be.txt,"['utf16', '.', 'be', '.', 'txt']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-197,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-198,22 [0 34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 78 22 117 76 0 34],"['22', '[', '0', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '78', '22', '117', '76', '0', '34', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
-199,0 ,['0'],['OCTAL_LITERAL']
-200,0 [],"['0', '[]']","['OCTAL_LITERAL', 'OPERATOR']"
-201,"15 ""Hello, 世界""","['15', '""Hello, 世界""']","['DECIMAL_LITERAL', 'STRING_LITERAL']"
-202,22 [0 34 0 72 0 101 0 108 0 108 0 111 0 44 0 32 78 22 117 76 0 34],"['22', '[', '0', '34', '0', '72', '0', '101', '0', '108', '0', '108', '0', '111', '0', '44', '0', '32', '78', '22', '117', '76', '0', '34', ']']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR']"
-203,BigEndian,['BigEndian'],['IDENTIFIER']
+Disclamer: I have not tested the above code to verify it actually does what you want. Working with the Win32 API is its own barrel of fun.
+","['Obviously', 'most', 'of', 'the', 'work', 'is', 'in', 'translating', 'the', 'Win32', 'types', 'to', 'their', 'Go', 'equivalents.', 'Feel', 'free', 'to', 'poke', 'around', 'in', 'the', 'syscall', 'package', '-', 'they', 'often', 'have', 'already', 'defined', 'structs', 'you', 'may', 'be', 'interested', 'in.', 'ZOMG', 'sriously??1!', '2', 'much', 'work!', 'Its', 'better', 'than', 'writing', 'that', 'code', 'by', 'hand.', 'And', 'no', 'CGo', 'required!', 'Disclamer:', 'I', 'have', 'not', 'tested', 'the', 'above', 'code', 'to', 'verify', 'it', 'actually', 'does', 'what', 'you', 'want.', 'Working', 'with', 'the', 'Win32', 'API', 'is', 'its', 'own', 'barrel', 'of', 'fun.']","['RB', 'JJS', 'IN', 'DT', 'NN', 'VBZ', 'IN', 'VBG', 'DT', 'NNP', 'NNS', 'TO', 'PRP$', 'NNP', 'NN', 'NNP', 'JJ', 'TO', 'VB', 'RP', 'IN', 'DT', 'NN', 'NN', ':', 'PRP', 'RB', 'VBP', 'RB', 'VBN', 'NNS', 'PRP', 'MD', 'VB', 'JJ', 'JJ', 'NNP', 'VBD', 'CD', 'JJ', 'NN', 'PRP$', 'JJR', 'IN', 'VBG', 'IN', 'NN', 'IN', 'NN', 'CC', 'DT', 'NNP', 'VBZ', 'NNP', 'PRP', 'VBP', 'RB', 'VBN', 'DT', 'JJ', 'NN', 'TO', 'VB', 'PRP', 'RB', 'VBZ', 'WP', 'PRP', 'VBP', 'VBG', 'IN', 'DT', 'NNP', 'NNP', 'VBZ', 'PRP$', 'JJ', 'NN', 'IN', 'NN']"

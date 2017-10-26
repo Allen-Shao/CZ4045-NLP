@@ -1,167 +1,25 @@
 ,text,token,annotation
-0,"The goji microframework for Go has a fully functional example app with three files, ","['The', 'goji', 'microframework', 'for', 'Go', 'has', 'a', 'fully', 'functional', 'example', 'app', 'with', 'three', 'files,']","['DT', 'NN', 'NN', 'IN', 'NNP', 'VBZ', 'DT', 'RB', 'JJ', 'NN', 'NN', 'IN', 'CD', 'NNS']"
-1,"main.go, models.go and middleware.go","['main', '.', 'go', ',', 'models', '.', 'go', 'and', 'middleware', '.', 'go']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD']"
-2,". I installed the framework using the go get command
+0,"That exception is only triggered in one place, which is during a Get Index API call.  Which means your vehicle ID must be null here:
 
-","['.', 'I', 'installed', 'the', 'framework', 'using', 'the', 'go', 'get', 'command']","['.', 'PRP', 'VBD', 'DT', 'NN', 'VBG', 'DT', 'NN', 'NN', 'NN']"
-3,go get github.com/zenazn/goji,"['go', 'get', 'github.com/zenazn/goji']","['KEYWORD', 'IDENTIFIER', 'DIRECTORY']"
-4,"
-
-and therefore have the example app availabl in my GOPATH like this
-
-","['and', 'therefore', 'have', 'the', 'example', 'app', 'availabl', 'in', 'my', 'GOPATH', 'like', 'this']","['CC', 'RB', 'VBP', 'DT', 'NN', 'NN', 'NN', 'IN', 'PRP$', 'NNP', 'IN', 'DT']"
-5,src/github.com/zenazn/goji/example,['src/github.com/zenazn/goji/example'],['DIRECTORY']
+","['That', 'exception', 'is', 'only', 'triggered', 'in', 'one', 'place,', 'which', 'is', 'during', 'a', 'Get', 'Index', 'API', 'call.', 'Which', 'means', 'your', 'vehicle', 'ID', 'must', 'be', 'null', 'here:']","['DT', 'NN', 'VBZ', 'RB', 'VBN', 'IN', 'CD', 'NN', 'WDT', 'VBZ', 'IN', 'DT', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'VBZ', 'PRP$', 'NN', 'NNP', 'MD', 'VB', 'JJ', 'NN']"
+1,"fetch, err := client.Get().","['fetch', ',', 'err', ':=', 'client.Get()', '.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+2,        Index(vehicleIndex).,"['Index', '(', 'vehicleIndex', ').']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+3,"        Type(""vehicle"").","['Type', '(', '""vehicle""', ').']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+4,        Id(vehicle.Id).       //<-- this,"['Id', '(', 'vehicle', '.', 'Id', ').', '//', '<--', 'this']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'DT']"
+5,        Do(),"['Do', '()']","['IDENTIFIER', 'PUNCTUATION']"
 6,"
 
-if I navigate to /example/ and run go run main.go, it gives me errors which indicate that the main.go file is isn't accessing the objects from the middleware.go and models.go files, like this
+You are trying to do a Get Document API, which follows the format of ","['You', 'are', 'trying', 'to', 'do', 'a', 'Get', 'Document', 'API,', 'which', 'follows', 'the', 'format', 'of']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'DT', 'NNP', 'NNP', 'NNP', 'WDT', 'VBZ', 'DT', 'NN', 'IN']"
+7,GET /{index}/{type}/{id},"['GET', '/{', 'index', '}/{', 'type', '}/{', 'id', '}']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+8,".  However, your client doesn't make a distinction between Get Document and Get Index API calls...and it doesn't validate that your parameters are non-null.
 
-","['if', 'I', 'navigate', 'to', '/example/', 'and', 'run', 'go', 'run', 'main.go,', 'it', 'gives', 'me', 'errors', 'which', 'indicate', 'that', 'the', 'main.go', 'file', 'is', ""isn't"", 'accessing', 'the', 'objects', 'from', 'the', 'middleware.go', 'and', 'models.go', 'files,', 'like', 'this']","['IN', 'PRP', 'VBP', 'TO', 'VB', 'CC', 'VB', 'VB', 'RB', 'RB', 'PRP', 'VBZ', 'PRP', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'JJ', 'VBG', 'DT', 'NNS', 'IN', 'DT', 'NN', 'CC', 'JJ', 'NN', 'IN', 'DT']"
-7,./main.go:39: undefined: PlainText,"['./main.go:39:', 'undefined', ':', 'PlainText']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-8,./main.go:47: undefined: SuperSecure,"['./main.go:47:', 'undefined', ':', 'SuperSecure']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-9,./main.go:73: undefined: Greets,"['./main.go:73:', 'undefined', ':', 'Greets']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-10,./main.go:74: undefined: Greets,"['./main.go:74:', 'undefined', ':', 'Greets']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-11,./main.go:85: undefined: Greet,"['./main.go:85:', 'undefined', ':', 'Greet']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-12,./main.go:98: undefined: Greets,"['./main.go:98:', 'undefined', ':', 'Greets']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-13,./main.go:99: undefined: Greets,"['./main.go:99:', 'undefined', ':', 'Greets']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-14,./main.go:107: undefined: Users,"['./main.go:107:', 'undefined', ':', 'Users']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-15,./main.go:116: undefined: Greets,"['./main.go:116:', 'undefined', ':', 'Greets']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-16,./main.go:116: too many errors,"['./main.go:116:', 'too', 'many', 'errors']","['DIRECTORY', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-17,"
+So if a null vehicle.Id is passed to the Get method, your final URL will actually be GET /{index}/{type}/
 
-There is no code in main.go that imports middleware.go or models.go, only the regular import statements for libraries. 
+From Elasticsearch's point of view, this is no longer a Get Document API call...it's actually a Get Index call, which has the following format:  ","['.', 'However,', 'your', 'client', ""doesn't"", 'make', 'a', 'distinction', 'between', 'Get', 'Document', 'and', 'Get', 'Index', 'API', 'calls...and', 'it', ""doesn't"", 'validate', 'that', 'your', 'parameters', 'are', 'non-null.', 'So', 'if', 'a', 'null', 'vehicle.Id', 'is', 'passed', 'to', 'the', 'Get', 'method,', 'your', 'final', 'URL', 'will', 'actually', 'be', 'GET', '/{index}/{type}/', 'From', ""Elasticsearch's"", 'point', 'of', 'view,', 'this', 'is', 'no', 'longer', 'a', 'Get', 'Document', 'API', ""call...it's"", 'actually', 'a', 'Get', 'Index', 'call,', 'which', 'has', 'the', 'following', 'format:']","['.', 'VB', 'PRP$', 'NN', 'NNS', 'VBP', 'DT', 'NN', 'IN', 'NNP', 'NNP', 'CC', 'NNP', 'NNP', 'NNP', 'VBP', 'PRP', 'JJ', 'VB', 'IN', 'PRP$', 'NNS', 'VBP', 'JJ', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'VBN', 'TO', 'DT', 'NNP', 'VB', 'PRP$', 'JJ', 'NNP', 'MD', 'RB', 'VB', 'NNP', 'NNP', 'NNP', 'NNP', 'NN', 'IN', 'NN', 'DT', 'VBZ', 'RB', 'RBR', 'DT', 'NNP', 'NNP', 'NNP', 'VBZ', 'RB', 'DT', 'NNP', 'NNP', 'NN', 'WDT', 'VBZ', 'DT', 'JJ', 'NN']"
+9,GET /{index}/{feature},"['GET', '/{', 'index', '}/{', 'feature', '}']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+10,".  Feature can be one of: _settings, _mappings, _aliases or _warmers.  
 
-How are these files supposed to be tied together so that the objects from one are available in the other?
+Because vehicle is not one of those features, ES is throwing an exception and spewing.  You can verify this from the console:
 
-from main.go
-
-","['There', 'is', 'no', 'code', 'in', 'main.go', 'that', 'imports', 'middleware.go', 'or', 'models.go,', 'only', 'the', 'regular', 'import', 'statements', 'for', 'libraries.', 'How', 'are', 'these', 'files', 'supposed', 'to', 'be', 'tied', 'together', 'so', 'that', 'the', 'objects', 'from', 'one', 'are', 'available', 'in', 'the', 'other?', 'from', 'main.go']","['EX', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'IN', 'VBZ', 'NN', 'CC', 'NN', 'RB', 'DT', 'JJ', 'NN', 'NNS', 'IN', 'JJ', 'NNP', 'VBP', 'DT', 'NNS', 'VBD', 'TO', 'VB', 'VBN', 'RB', 'RB', 'IN', 'DT', 'NNS', 'IN', 'CD', 'VBP', 'JJ', 'IN', 'DT', 'NN', 'IN', 'NN']"
-18,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-19,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-20,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-21,"    ""io""","['""io""']",['STRING_LITERAL']
-22,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-23,"    ""regexp""","['""regexp""']",['STRING_LITERAL']
-24,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-25,"    ""github.com/zenazn/goji""","['""github.com/zenazn/goji""']",['STRING_LITERAL']
-26,"    ""github.com/zenazn/goji/param""","['""github.com/zenazn/goji/param""']",['STRING_LITERAL']
-27,"    ""github.com/zenazn/goji/web""","['""github.com/zenazn/goji/web""']",['STRING_LITERAL']
-28,),[')'],['OPERATOR']
-29,// Note: the code below cuts a lot of corners to make the example app simple.,"['//', 'Note:', 'the', 'code', 'below', 'cuts', 'a', 'lot', 'of', 'corners', 'to', 'make', 'the', 'example', 'app', 'simple.']","['COMMENT', 'NNP', 'DT', 'NN', 'IN', 'NNS', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'DT', 'NN', 'NN', 'NN']"
-30,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-31,    // Add routes to the global handler,"['//', 'Add', 'routes', 'to', 'the', 'global', 'handler']","['COMMENT', 'NNP', 'VBZ', 'TO', 'DT', 'JJ', 'NN']"
-32,"    goji.Get(""/"", Root)","['go', 'ji.Get(""/"", Root)']","['KEYWORD', 'FUNCTION_CALL']"
-33,    // Fully backwards compatible with net/http's Handlers,"['//', 'Fully', 'backwards', 'compatible', 'with', ""net/http's"", 'Handlers']","['COMMENT', 'RB', 'NNS', 'JJ', 'IN', 'JJ', 'NNS']"
-34,"    goji.Get(""/greets"", http.RedirectHandler(""/"", 301))","['go', 'ji.Get(""/greets"", http.RedirectHandler(""/"", 301))']","['KEYWORD', 'FUNCTION_CALL']"
-35,    // Use your favorite HTTP verbs,"['//', 'Use', 'your', 'favorite', 'HTTP', 'verbs']","['COMMENT', 'VB', 'PRP$', 'JJ', 'NNP', 'NN']"
-36,"    goji.Post(""/greets"", NewGreet)","['go', 'ji.Post(""/greets"", NewGreet)']","['KEYWORD', 'FUNCTION_CALL']"
-37,    // Use Sinatra-style patterns in your URLs,"['//', 'Use', 'Sinatra-style', 'patterns', 'in', 'your', 'URLs']","['COMMENT', 'NNP', 'JJ', 'NNS', 'IN', 'PRP$', 'NN']"
-38,"    goji.Get(""/users/:name"", GetUser)","['go', 'ji.Get(""/users/:name"", GetUser)']","['KEYWORD', 'FUNCTION_CALL']"
-39,    // Goji also supports regular expressions with named capture groups.,"['//', 'Goji', 'also', 'supports', 'regular', 'expressions', 'with', 'named', 'capture', 'groups.']","['COMMENT', 'NNP', 'RB', 'VBZ', 'JJ', 'NNS', 'IN', 'JJ', 'NN', 'NN']"
-40,"    goji.Get(regexp.MustCompile(`^/greets/(?P\d+)$`), GetGreet)","['go', 'ji.Get(regexp.MustCompile(`^/greets/(?P\\d+)$`), GetGreet)']","['KEYWORD', 'FUNCTION_CALL']"
-41,    // Middleware can be used to inject behavior into your app. The,"['//', 'Middleware', 'can', 'be', 'used', 'to', 'inject', 'behavior', 'into', 'your', 'app.', 'The']","['COMMENT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'JJ', 'IN', 'PRP$', 'IN', 'DT']"
-42,"    // middleware for this application are defined in middleware.go, but you","['//', 'middleware', 'for', 'this', 'application', 'are', 'defined', 'in', 'middleware.go,', 'but', 'you']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'VBP', 'VBN', 'IN', 'NN', 'CC', 'PRP']"
-43,    // can put them wherever you like.,"['//', 'can', 'put', 'them', 'wherever', 'you', 'like.']","['COMMENT', 'MD', 'VB', 'PRP', 'WDT', 'PRP', 'VBP']"
-44,    goji.Use(PlainText),"['go', 'ji.Use(PlainText)']","['KEYWORD', 'FUNCTION_CALL']"
-45,    admin := web.New(),"['admin', ':=', 'web.New()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-46,"    goji.Handle(""/admin/*"", admin)","['go', 'ji.Handle(""/admin/*"", admin)']","['KEYWORD', 'FUNCTION_CALL']"
-47,    admin.Use(SuperSecure),['admin.Use(SuperSecure)'],['FUNCTION_CALL']
-48,"    // Goji's routing, like Sinatra's, is exact: no effort is made to","['//', ""Goji's"", 'routing,', 'like', ""Sinatra's,"", 'is', 'exact:', 'no', 'effort', 'is', 'made', 'to']","['COMMENT', 'NNP', 'NN', 'IN', 'NNP', 'VBZ', 'JJ', 'DT', 'NN', 'VBZ', 'VBN', 'TO']"
-49,    // normalize trailing slashes.,"['//', 'normalize', 'trailing', 'slashes.']","['COMMENT', 'RB', 'VBG', 'NN']"
-50,"    goji.Get(""/admin"", http.RedirectHandler(""/admin/"", 301))","['go', 'ji.Get(""/admin"", http.RedirectHandler(""/admin/"", 301))']","['KEYWORD', 'FUNCTION_CALL']"
-51,"    admin.Get(""/admin/"", AdminRoot)","['admin.Get(""/admin/"", AdminRoot)']",['FUNCTION_CALL']
-52,"    admin.Get(""/admin/finances"", AdminFinances)","['admin.Get(""/admin/finances"", AdminFinances)']",['FUNCTION_CALL']
-53,    // Use a custom 404 handler,"['//', 'Use', 'a', 'custom', '404', 'handler']","['COMMENT', 'VB', 'DT', 'NN', 'CD', 'NN']"
-54,    goji.NotFound(NotFound),"['go', 'ji.NotFound(NotFound)']","['KEYWORD', 'FUNCTION_CALL']"
-55,    goji.Serve(),"['go', 'ji.Serve()']","['KEYWORD', 'FUNCTION_CALL']"
-56,},['}'],['OPERATOR']
-57,"
-
-middleware.go
-
-",['middleware.go'],['NN']
-58,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-59,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-60,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
-61,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-62,"    ""strings""","['""strings""']",['STRING_LITERAL']
-63,"    ""github.com/zenazn/goji/web""","['""github.com/zenazn/goji/web""']",['STRING_LITERAL']
-64,),[')'],['OPERATOR']
-65,// PlainText sets the content-type of responses to text/plain.,"['//', 'PlainText', 'sets', 'the', 'content-type', 'of', 'responses', 'to', 'text/plain.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB']"
-66,func PlainText(h http.Handler) http.Handler {,"['func', 'PlainText', '(', 'h', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,"    fn := func(w http.ResponseWriter, r *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-68,"        w.Header().Set(""Content-Type"", ""text/plain"")","['w.Header().Set(""Content-Type"", ""text/plain"")']",['FUNCTION_CALL']
-69,"        h.ServeHTTP(w, r)","['h.ServeHTTP(w, r)']",['FUNCTION_CALL']
-70,    },['}'],['OPERATOR']
-71,    return http.HandlerFunc(fn),"['return', 'http.HandlerFunc(fn)']","['KEYWORD', 'FUNCTION_CALL']"
-72,},['}'],['OPERATOR']
-73,// Nobody will ever guess this!,"['//', 'Nobody', 'will', 'ever', 'guess', 'this!']","['COMMENT', 'NN', 'MD', 'RB', 'VB', 'NN']"
-74,"const Password = ""admin:admin""","['const', 'Password', '=', '""admin:admin""']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-75,// SuperSecure is HTTP Basic Auth middleware for super-secret admin page. Shhhh!,"['//', 'SuperSecure', 'is', 'HTTP', 'Basic', 'Auth', 'middleware', 'for', 'super-secret', 'admin', 'page.', 'Shhhh!']","['COMMENT', 'NN', 'VBZ', 'NNP', 'NNP', 'NNP', 'NN', 'IN', 'JJ', 'NN', 'NN', 'NNP']"
-76,"func SuperSecure(c *web.C, h http.Handler) http.Handler {","['func', 'SuperSecure', '(', 'c', '*', 'web', '.', 'C', ',', 'h', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-77,"    fn := func(w http.ResponseWriter, r *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-78,"        auth := r.Header.Get(""Authorization"")","['auth', ':=', 'r', '.', 'Header.Get(""Authorization"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-79,"        if !strings.HasPrefix(auth, ""Basic "") {","['if', '!', 'strings.HasPrefix(auth, ""Basic "")', '{']","['KEYWORD', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-80,            pleaseAuth(w),"['pleaseAuth', '(', 'w', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-81,            return,['return'],['KEYWORD']
-82,        },['}'],['OPERATOR']
-83,"        password, err := base64.StdEncoding.DecodeString(auth[6:])","['password', ',', 'err', ':=', 'base64', '.', 'StdEncoding.DecodeString(auth[6:])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-84,        if err != nil || string(password) != Password {,"['if', 'err', '!=', 'nil', '||', 'string', '(', 'password', ')', '!=', 'Password', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,            pleaseAuth(w),"['pleaseAuth', '(', 'w', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-86,            return,['return'],['KEYWORD']
-87,        },['}'],['OPERATOR']
-88,"        h.ServeHTTP(w, r)","['h.ServeHTTP(w, r)']",['FUNCTION_CALL']
-89,    },['}'],['OPERATOR']
-90,    return http.HandlerFunc(fn),"['return', 'http.HandlerFunc(fn)']","['KEYWORD', 'FUNCTION_CALL']"
-91,},['}'],['OPERATOR']
-92,func pleaseAuth(w http.ResponseWriter) {,"['func', 'pleaseAuth', '(', 'w', 'http', '.', 'ResponseWriter', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-93,"    w.Header().Set(""WWW-Authenticate"", `Basic realm=""Gritter""`)","['w.Header().Set(""WWW-Authenticate"", `Basic realm=""Gritter""`)']",['FUNCTION_CALL']
-94,    w.WriteHeader(http.StatusUnauthorized),['w.WriteHeader(http.StatusUnauthorized)'],['FUNCTION_CALL']
-95,"    w.Write([]byte(""Go away!\n""))","['w.Write([]byte(""Go away!\\n""))']",['FUNCTION_CALL']
-96,},['}'],['OPERATOR']
-97,"
-
-models.go
-
-",['models.go'],['NN']
-98,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-99,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-100,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-101,"    ""io""","['""io""']",['STRING_LITERAL']
-102,"    ""time""","['""time""']",['STRING_LITERAL']
-103,),[')'],['OPERATOR']
-104,// A Greet is a 140-character micro-blogpost that has no resemblance whatsoever,"['//', 'A', 'Greet', 'is', 'a', '140-character', 'micro-blogpost', 'that', 'has', 'no', 'resemblance', 'whatsoever']","['COMMENT', 'DT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'RB']"
-105,// to the noise a bird makes.,"['//', 'to', 'the', 'noise', 'a', 'bird', 'makes.']","['COMMENT', 'TO', 'DT', 'NN', 'DT', 'NN', 'NN']"
-106,type Greet struct {,"['type', 'Greet', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-107,"    User    string    `param:""user""`","['User', 'string', 'param', ':', '""user""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-108,"    Message string    `param:""message""`","['Message', 'string', 'param', ':', '""message""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-109,"    Time    time.Time `param:""time""`","['Time', 'time', '.', 'Time', 'param', ':', '""time""']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-110,},['}'],['OPERATOR']
-111,"// Store all our greets in a big list in memory, because, let's be honest, who's","['//', 'Store', 'all', 'our', 'greets', 'in', 'a', 'big', 'list', 'in', 'memory,', 'because,', ""let's"", 'be', 'honest,', ""who's""]","['COMMENT', 'RB', 'DT', 'PRP$', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'NN', 'VB', 'VBN', 'NN']"
-112,// actually going to use a service that only allows you to post 140-character,"['//', 'actually', 'going', 'to', 'use', 'a', 'service', 'that', 'only', 'allows', 'you', 'to', 'post', '140-character']","['COMMENT', 'RB', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'RB', 'VBZ', 'PRP', 'TO', 'VB', 'JJ']"
-113,// messages?,"['//', 'messages?']","['COMMENT', 'NN']"
-114,var Greets = []Greet{,"['var', 'Greets', '=', '[]', 'Greet', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,"    {""carl"", ""Welcome to Gritter!"", time.Now()},","['{', '""carl""', ',', '""Welcome to Gritter!""', ',', 'time.Now()', '},']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-116,"    {""alice"", ""Wanna know a secret?"", time.Now()},","['{', '""alice""', ',', '""Wanna know a secret?""', ',', 'time.Now()', '},']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-117,"    {""bob"", ""Okay!"", time.Now()},","['{', '""bob""', ',', '""Okay!""', ',', 'time.Now()', '},']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-118,"    {""eve"", ""I'm listening..."", time.Now()},","['{', '""eve""', ',', '""I\'m listening...""', ',', 'time.Now()', '},']","['OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-119,},['}'],['OPERATOR']
-120,// Write out a representation of the greet,"['//', 'Write', 'out', 'a', 'representation', 'of', 'the', 'greet']","['COMMENT', 'VB', 'RP', 'DT', 'NN', 'IN', 'DT', 'NN']"
-121,func (g Greet) Write(w io.Writer) {,"['func', '(', 'g', 'Greet', ')', 'Write', '(', 'w', 'io', '.', 'Writer', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-122,"    fmt.Fprintf(w, ""%s\n@%s at %s\n---\n"", g.Message, g.User,","['fmt', '.', 'Fprintf', '(', 'w', ',', '""%s\\n@%s at %s\\n---\\n""', ',', 'g', '.', 'Message', ',', 'g', '.', 'User', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-123,        g.Time.Format(time.UnixDate)),"['g', '.', 'Time.Format(time.UnixDate))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-124,},['}'],['OPERATOR']
-125,// A User is a person. It may even be someone you know. Or a rabbit. Hard to say,"['//', 'A', 'User', 'is', 'a', 'person.', 'It', 'may', 'even', 'be', 'someone', 'you', 'know.', 'Or', 'a', 'rabbit.', 'Hard', 'to', 'say']","['COMMENT', 'DT', 'NNP', 'VBZ', 'DT', 'NN', 'PRP', 'MD', 'RB', 'VB', 'NN', 'PRP', 'VBP', 'CC', 'DT', 'JJ', 'NNP', 'TO', 'VB']"
-126,// from here.,"['//', 'from', 'here.']","['COMMENT', 'IN', 'NN']"
-127,type User struct {,"['type', 'User', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-128,"    Name, Bio string","['Name', ',', 'Bio', 'string']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-129,},['}'],['OPERATOR']
-130,// All the users we know about! There aren't very many...,"['//', 'All', 'the', 'users', 'we', 'know', 'about!', 'There', ""aren't"", 'very', 'many...']","['COMMENT', 'PDT', 'DT', 'NNS', 'PRP', 'VBP', 'RB', 'EX', 'JJ', 'RB', 'JJ']"
-131,var Users = map[string]User{,"['var', 'Users', '=', 'map', '[', 'string', ']', 'User', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,"    ""alice"": {""Alice in Wonderland"", ""Eating mushrooms""},","['""alice""', ':', '{', '""Alice in Wonderland""', ',', '""Eating mushrooms""', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-133,"    ""bob"":   {""Bob the Builder"", ""Making children dumber""},","['""bob""', ':', '{', '""Bob the Builder""', ',', '""Making children dumber""', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-134,"    ""carl"":  {""Carl Jackson"", ""Duct tape aficionado""},","['""carl""', ':', '{', '""Carl Jackson""', ',', '""Duct tape aficionado""', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-135,},['}'],['OPERATOR']
-136,// Write out the user,"['//', 'Write', 'out', 'the', 'user']","['COMMENT', 'VB', 'RP', 'DT', 'NN']"
-137,"func (u User) Write(w io.Writer, handle string) {","['func', '(', 'u', 'User', ')', 'Write', '(', 'w', 'io', '.', 'Writer', ',', 'handle', 'string', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-138,"    fmt.Fprintf(w, ""%s (@%s)\n%s\n"", u.Name, handle, u.Bio)","['fmt.Fprintf(w, ""%s (@%s)\\n%s\\n"", u.Name, handle, u.Bio)']",['FUNCTION_CALL']
-139,},['}'],['OPERATOR']
+","['.', 'Feature', 'can', 'be', 'one', 'of:', '_settings,', '_mappings,', '_aliases', 'or', '_warmers.', 'Because', 'vehicle', 'is', 'not', 'one', 'of', 'those', 'features,', 'ES', 'is', 'throwing', 'an', 'exception', 'and', 'spewing.', 'You', 'can', 'verify', 'this', 'from', 'the', 'console:']","['.', 'NN', 'MD', 'VB', 'CD', 'JJ', 'NNP', 'NNP', 'VBZ', 'CC', 'NN', 'IN', 'NN', 'VBZ', 'RB', 'CD', 'IN', 'DT', 'JJ', 'NNP', 'VBZ', 'VBG', 'DT', 'NN', 'CC', 'NN', 'PRP', 'MD', 'VB', 'DT', 'IN', 'DT', 'NN']"
+11,curl -XGET localhost:9200/my_index/vehicle/,"['curl', '-', 'XGET', 'localhost', ':', '9200/my_index/vehicle/']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"

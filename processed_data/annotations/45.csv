@@ -1,184 +1,108 @@
 ,text,token,annotation
-0,"I am writing a web application. Incoming requests will pass through middlewares first. At the moment, I've added two middlwares session and security.
-After walked through middlwares, it will execute the handler for the request.
-Session and security middlwares will execute in their own goroutine.
+0,"I'm using two structs to hold user's info
 
-When I am testing I've got a lot of data race, specially in middlware section
+","[""I'm"", 'using', 'two', 'structs', 'to', 'hold', ""user's"", 'info']","['NNP', 'VBG', 'CD', 'NNS', 'TO', 'VB', 'JJ', 'NN']"
+1,// SecureDevice holds a user's device's infos,"['//', 'SecureDevice', 'holds', 'a', ""user's"", ""device's"", 'infos']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN']"
+2,type SecureDevice struct {,"['type', 'SecureDevice', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+3,    Name     string // Defined by the user,"['Name', 'string', '//', 'Defined', 'by', 'the', 'user']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'VBN', 'IN', 'DT', 'NN']"
+4,    DeviceIP string,"['DeviceIP', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+5,    Token    struct {,"['Token', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+6,        Token        string,"['Token', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+7,        StartingDate time.Time // The token is supposed to last only a week before becoming invalid,"['StartingDate', 'time', '.', 'Time', '//', 'The', 'token', 'is', 'supposed', 'to', 'last', 'only', 'a', 'week', 'before', 'becoming', 'invalid']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'DT', 'NN', 'VBZ', 'VBN', 'TO', 'JJ', 'RB', 'DT', 'NN', 'IN', 'VBG', 'JJ']"
+8,    },['}'],['PUNCTUATION']
+9,},['}'],['PUNCTUATION']
+10,// GlobalUser is a struct defining all user's infos registered inside the server,"['//', 'GlobalUser', 'is', 'a', 'struct', 'defining', 'all', ""user's"", 'infos', 'registered', 'inside', 'the', 'server']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'VBG', 'DT', 'JJ', 'NN', 'VBD', 'IN', 'DT', 'NN']"
+11,type GlobalUser struct {,"['type', 'GlobalUser', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+12,    Username          string,"['Username', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+13,    Password          string,"['Password', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+14,    Salt              string,"['Salt', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+15,    Mail              string,"['Mail', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+16,    ValidationToken   string // Used to validate the user's mail adress,"['ValidationToken', 'string', '//', 'Used', 'to', 'validate', 'the', ""user's"", 'mail', 'adress']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'VBN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'NN']"
+17,    Lang              string,"['Lang', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+18,    ConversationsID   []int // The private messages the user has part in,"['ConversationsID', '[]', 'int', '//', 'The', 'private', 'messages', 'the', 'user', 'has', 'part', 'in']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'DT', 'JJ', 'NNS', 'DT', 'NN', 'VBZ', 'NN', 'IN']"
+19,    SecureDevicesList []SecureDevice,"['SecureDevicesList', '[]', 'SecureDevice']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+20,},['}'],['PUNCTUATION']
+21,"
 
-","['I', 'am', 'writing', 'a', 'web', 'application.', 'Incoming', 'requests', 'will', 'pass', 'through', 'middlewares', 'first.', 'At', 'the', 'moment,', ""I've"", 'added', 'two', 'middlwares', 'session', 'and', 'security.', 'After', 'walked', 'through', 'middlwares,', 'it', 'will', 'execute', 'the', 'handler', 'for', 'the', 'request.', 'Session', 'and', 'security', 'middlwares', 'will', 'execute', 'in', 'their', 'own', 'goroutine.', 'When', 'I', 'am', 'testing', ""I've"", 'got', 'a', 'lot', 'of', 'data', 'race,', 'specially', 'in', 'middlware', 'section']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'NN', 'NNP', 'NNS', 'MD', 'VB', 'IN', 'NNS', 'VBP', 'IN', 'DT', 'NN', 'NNP', 'VBD', 'CD', 'NNS', 'NN', 'CC', 'NN', 'IN', 'VBN', 'IN', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'CC', 'NN', 'NNS', 'MD', 'VB', 'IN', 'PRP$', 'JJ', 'NN', 'WRB', 'PRP', 'VBP', 'VBG', 'NNP', 'VBD', 'DT', 'NN', 'IN', 'NNS', 'NNS', 'RB', 'IN', 'NN', 'NN']"
-1,WARNING: DATA RACE,"['WARNING', ':', 'DATA', 'RACE']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-2,Write by goroutine 18:,"['Write', 'by', 'go', 'routine', '18', ':']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-3,  runtime.mapassign1(),['runtime.mapassign1()'],['FUNCTION_CALL']
-4,      c:/go/src/runtime/hashmap.go:383 +0x0,"['c:/go/src/runtime/hashmap.go:383', '+', '0', 'x0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-5,  net/textproto.MIMEHeader.Set(),['net/textproto.MIMEHeader.Set()'],['DIRECTORY']
-6,      c:/go/src/net/textproto/header.go:22 +0xf4,"['c:/go/src/net/textproto/header.go:22', '+', '0xf4']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-7,  net/http.Header.Set(),['net/http.Header.Set()'],['DIRECTORY']
-8,      c:/go/src/net/http/header.go:31 +0x64,"['c:/go/src/net/http/header.go:31', '+', '0x64']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-9,  project/middlewares/session.(*ctrl).setHttpHeader(),['project/middlewares/session.(*ctrl).setHttpHeader()'],['DIRECTORY']
-10,      D:/gocode/src/project/middlewares/session/ctrl.go:76 +0x9d,"['D:/gocode/src/project/middlewares/session/ctrl.go:76', '+', '0x9d']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-11,  project/middlewares/session.(*ctrl).evaluateJwt(),['project/middlewares/session.(*ctrl).evaluateJwt()'],['DIRECTORY']
-12,      D:/gocode/src/project/middlewares/session/ctrl.go:56 +0x31a,"['D:/gocode/src/project/middlewares/session/ctrl.go:56', '+', '0x31a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-13,  project/middlewares/session.(*ctrl).serveHttp(),['project/middlewares/session.(*ctrl).serveHttp()'],['DIRECTORY']
-14,      D:/gocode/src/project/middlewares/session/ctrl.go:94 +0x8a,"['D:/gocode/src/project/middlewares/session/ctrl.go:94', '+', '0x8a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-15,  project/middlewares/session.func┬À006(),['project/middlewares/session.func┬À006()'],['DIRECTORY']
-16,      D:/gocode/src/project/middlewares/session/serve_http.go:23 +0x,"['D:/gocode/src/project/middlewares/session/serve_http.go:23', '+', '0', 'x']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-17,Previous write by goroutine 17:,"['Previous', 'write', 'by', 'go', 'routine', '17', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-18,  runtime.mapassign1(),['runtime.mapassign1()'],['FUNCTION_CALL']
-19,      c:/go/src/runtime/hashmap.go:383 +0x0,"['c:/go/src/runtime/hashmap.go:383', '+', '0', 'x0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-20,  net/textproto.MIMEHeader.Add(),['net/textproto.MIMEHeader.Add()'],['DIRECTORY']
-21,      c:/go/src/net/textproto/header.go:15 +0x212,"['c:/go/src/net/textproto/header.go:15', '+', '0x212']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-22,  net/http.Header.Add(),['net/http.Header.Add()'],['DIRECTORY']
-23,      c:/go/src/net/http/header.go:24 +0x64,"['c:/go/src/net/http/header.go:24', '+', '0x64']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-24,  github.com/unrolled/secure.(*Secure).Process(),['github.com/unrolled/secure.(*Secure).Process()'],['DIRECTORY']
-25,      D:/gocode/src/github.com/unrolled/secure/secure.go:177 +0xe5b,"['D:/gocode/src/github.com/unrolled/secure/secure.go:177', '+', '0xe5b']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-26,  project/middlewares/security.func┬À001(),['project/middlewares/security.func┬À001()'],['DIRECTORY']
-27,      D:/gocode/src/project/middlewares/security/serve_http.go:33 +0,"['D:/gocode/src/project/middlewares/security/serve_http.go:33', '+', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL']"
-28,Goroutine 18 (running) created at:,"['Goroutine', '18', '(', 'running', ')', 'created', 'at', ':']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-29,  project/middlewares/session.ServeHttp(),['project/middlewares/session.ServeHttp()'],['DIRECTORY']
-30,      D:/gocode/src/project/middlewares/session/serve_http.go:29 +0x,"['D:/gocode/src/project/middlewares/session/serve_http.go:29', '+', '0', 'x']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-31,  project/middlewares.New(),['project/middlewares.New()'],['DIRECTORY']
-32,      D:/gocode/src/project/middlewares/ctrl.go:12 +0x99,"['D:/gocode/src/project/middlewares/ctrl.go:12', '+', '0x99']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-33,  github.com/codegangsta/negroni.HandlerFunc.ServeHTTP(),['github.com/codegangsta/negroni.HandlerFunc.ServeHTTP()'],['DIRECTORY']
-34,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:24 +0x5f,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:24', '+', '0x5f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-35,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-36,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-37,  github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm(),['github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm()'],['DIRECTORY']
-38,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x84,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x84']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-39,  github.com/codegangsta/negroni.(*Static).ServeHTTP(),['github.com/codegangsta/negroni.(*Static).ServeHTTP()'],['DIRECTORY']
-40,      D:/gocode/src/github.com/codegangsta/negroni/static.go:30 +0xb71,"['D:/gocode/src/github.com/codegangsta/negroni/static.go:30', '+', '0xb71']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-41,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-42,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-43,  github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm(),['github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm()'],['DIRECTORY']
-44,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x84,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x84']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-45,  github.com/codegangsta/negroni.(*Logger).ServeHTTP(),['github.com/codegangsta/negroni.(*Logger).ServeHTTP()'],['DIRECTORY']
-46,      D:/gocode/src/github.com/codegangsta/negroni/logger.go:25 +0x249,"['D:/gocode/src/github.com/codegangsta/negroni/logger.go:25', '+', '0x249']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-47,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-48,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-49,  github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm(),['github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm()'],['DIRECTORY']
-50,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x84,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x84']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-51,  github.com/codegangsta/negroni.(*Recovery).ServeHTTP(),['github.com/codegangsta/negroni.(*Recovery).ServeHTTP()'],['DIRECTORY']
-52,      D:/gocode/src/github.com/codegangsta/negroni/recovery.go:45 +0xd9,"['D:/gocode/src/github.com/codegangsta/negroni/recovery.go:45', '+', '0xd9']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-53,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-54,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-55,  github.com/codegangsta/negroni.(*Negroni).ServeHTTP(),['github.com/codegangsta/negroni.(*Negroni).ServeHTTP()'],['DIRECTORY']
-56,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:73 +0x1c7,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:73', '+', '0x1c7']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-57,  net/http/httptest.(*waitGroupHandler).ServeHTTP(),['net/http/httptest.(*waitGroupHandler).ServeHTTP()'],['DIRECTORY']
-58,      c:/go/src/net/http/httptest/server.go:200 +0xfe,"['c:/go/src/net/http/httptest/server.go:200', '+', '0xfe']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-59,  net/http.serverHandler.ServeHTTP(),['net/http.serverHandler.ServeHTTP()'],['DIRECTORY']
-60,      c:/go/src/net/http/server.go:1703 +0x1fd,"['c:/go/src/net/http/server.go:1703', '+', '0x1fd']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-61,  net/http.(*conn).serve(),['net/http.(*conn).serve()'],['DIRECTORY']
-62,      c:/go/src/net/http/server.go:1204 +0x108e,"['c:/go/src/net/http/server.go:1204', '+', '0x1', '0', '8', 'e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-63,Goroutine 17 (finished) created at:,"['Goroutine', '17', '(', 'finished', ')', 'created', 'at', ':']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-64,  project/middlewares/security.ServeHttp(),['project/middlewares/security.ServeHttp()'],['DIRECTORY']
-65,      D:/gocode/src/project/middlewares/security/serve_http.go:37 +0,"['D:/gocode/src/project/middlewares/security/serve_http.go:37', '+', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL']"
-66,  project/middlewares.New(),['project/middlewares.New()'],['DIRECTORY']
-67,      D:/gocode/src/project/middlewares/ctrl.go:12 +0x64,"['D:/gocode/src/project/middlewares/ctrl.go:12', '+', '0x64']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-68,  github.com/codegangsta/negroni.HandlerFunc.ServeHTTP(),['github.com/codegangsta/negroni.HandlerFunc.ServeHTTP()'],['DIRECTORY']
-69,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:24 +0x5f,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:24', '+', '0x5f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-70,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-71,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-72,  github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm(),['github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm()'],['DIRECTORY']
-73,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x84,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x84']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-74,  github.com/codegangsta/negroni.(*Static).ServeHTTP(),['github.com/codegangsta/negroni.(*Static).ServeHTTP()'],['DIRECTORY']
-75,      D:/gocode/src/github.com/codegangsta/negroni/static.go:30 +0xb71,"['D:/gocode/src/github.com/codegangsta/negroni/static.go:30', '+', '0xb71']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-76,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-77,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-78,  github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm(),['github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm()'],['DIRECTORY']
-79,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x84,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x84']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-80,  github.com/codegangsta/negroni.(*Logger).ServeHTTP(),['github.com/codegangsta/negroni.(*Logger).ServeHTTP()'],['DIRECTORY']
-81,      D:/gocode/src/github.com/codegangsta/negroni/logger.go:25 +0x249,"['D:/gocode/src/github.com/codegangsta/negroni/logger.go:25', '+', '0x249']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-82,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-83,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-84,  github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm(),['github.com/codegangsta/negroni.middleware.ServeHTTP┬Àfm()'],['DIRECTORY']
-85,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x84,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x84']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-86,  github.com/codegangsta/negroni.(*Recovery).ServeHTTP(),['github.com/codegangsta/negroni.(*Recovery).ServeHTTP()'],['DIRECTORY']
-87,      D:/gocode/src/github.com/codegangsta/negroni/recovery.go:45 +0xd9,"['D:/gocode/src/github.com/codegangsta/negroni/recovery.go:45', '+', '0xd9']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-88,  github.com/codegangsta/negroni.middleware.ServeHTTP(),['github.com/codegangsta/negroni.middleware.ServeHTTP()'],['DIRECTORY']
-89,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33 +0x114,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:33', '+', '0x114']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-90,  github.com/codegangsta/negroni.(*Negroni).ServeHTTP(),['github.com/codegangsta/negroni.(*Negroni).ServeHTTP()'],['DIRECTORY']
-91,      D:/gocode/src/github.com/codegangsta/negroni/negroni.go:73 +0x1c7,"['D:/gocode/src/github.com/codegangsta/negroni/negroni.go:73', '+', '0x1c7']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-92,  net/http/httptest.(*waitGroupHandler).ServeHTTP(),['net/http/httptest.(*waitGroupHandler).ServeHTTP()'],['DIRECTORY']
-93,      c:/go/src/net/http/httptest/server.go:200 +0xfe,"['c:/go/src/net/http/httptest/server.go:200', '+', '0xfe']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-94,  net/http.serverHandler.ServeHTTP(),['net/http.serverHandler.ServeHTTP()'],['DIRECTORY']
-95,      c:/go/src/net/http/server.go:1703 +0x1fd,"['c:/go/src/net/http/server.go:1703', '+', '0x1fd']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-96,  net/http.(*conn).serve(),['net/http.(*conn).serve()'],['DIRECTORY']
-97,      c:/go/src/net/http/server.go:1204 +0x108e,"['c:/go/src/net/http/server.go:1204', '+', '0x1', '0', '8', 'e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-98,==================,['=================='],['PUNCTUATION']
-99,2015/02/03 15:05:31 ctrl.go:17: End of process middlewares,"['2015/02/03', '15', ':', '05', ':', '31', 'ctrl', '.', 'go', ':', '17', ':', 'End', 'of', 'process', 'middlewares']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-100,2015/02/03 15:05:31 funcs.go:10: Create new user,"['2015/02/03', '15', ':', '05', ':', '31', 'func', 's', '.', 'go', ':', '10', ':', 'Create', 'new', 'user']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-101,2015/02/03 15:05:31 validate.go:14: Validate email thompson@example.com,"['2015/02/03', '15', ':', '05', ':', '31', 'validate', '.', 'go', ':', '14', ':', 'Validate', 'email', 'thompson', 'example', '.', 'com']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-102,2015/02/03 15:05:31 validate.go:100: Validate password Test!1234,"['2015/02/03', '15', ':', '05', ':', '31', 'validate', '.', 'go', ':', '100', ':', 'Validate', 'password', 'Test', '!', '1234']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'LOGICAL_OPERATOR', 'DECIMAL_LITERAL']"
-103,2015/02/03 15:05:31 validate.go:52: Validate name:  ValidName,"['2015/02/03', '15', ':', '05', ':', '31', 'validate', '.', 'go', ':', '52', ':', 'Validate', 'name', ':', 'ValidName']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-104,2015/02/03 15:05:31 create.go:120: Done,"['2015/02/03', '15', ':', '05', ':', '31', 'create', '.', 'go', ':', '120', ':', 'Done']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-105,[negroni] Completed 0  in 197ms,"['[', 'negroni', ']', 'Completed', '0', 'in', '197', 'ms']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-106,PASS,['PASS'],['IDENTIFIER']
-107,ok      project/testing/account_test 0.664s,"['ok', 'project/testing/account_test', '0', '.', '664', 's']","['IDENTIFIER', 'DIRECTORY', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-108,PS D:\gocode\src\project\testing\account_test> go test -race,"['PS', 'D', ':', 'go', 'code', 'src', 'project', 'testing', 'account_test', '>', 'go', 'test', '-', 'race']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-109,2015/02/03 15:08:10 vs.go:50: Connect to neo4j db.,"['2015/02/03', '15', ':', '0', '8', ':', '10', 'vs', '.', 'go', ':', '50', ':', 'Connect', 'to', 'neo4j', 'db', '.']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-110,[negroni] Started POST /user,"['[', 'negroni', ']', 'Started', 'POST', '/', 'user']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-111,==================,['=================='],['PUNCTUATION']
-112,WARNING: DATA RACE,"['WARNING', ':', 'DATA', 'RACE']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-113,Write by goroutine 18:,"['Write', 'by', 'go', 'routine', '18', ':']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-114,  net/http.(*response).Header(),['net/http.(*response).Header()'],['DIRECTORY']
-115,      c:/go/src/net/http/server.go:615 +0x11a,"['c:/go/src/net/http/server.go:615', '+', '0x11a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-116,  github.com/codegangsta/negroni.(*responseWriter).Header(),['github.com/codegangsta/negroni.(*responseWriter).Header()'],['DIRECTORY']
-117,      :42 +0x78,"[':', '42', '+', '0x78']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-118,  project/middlewares/session.(*ctrl).setHttpHeader(),['project/middlewares/session.(*ctrl).setHttpHeader()'],['DIRECTORY']
-119,      D:/gocode/src/project/middlewares/session/ctrl.go:76 +0x68,"['D:/gocode/src/project/middlewares/session/ctrl.go:76', '+', '0x68']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-120,  project/middlewares/session.(*ctrl).evaluateJwt(),['project/middlewares/session.(*ctrl).evaluateJwt()'],['DIRECTORY']
-121,      D:/gocode/src/project/middlewares/session/ctrl.go:56 +0x31a,"['D:/gocode/src/project/middlewares/session/ctrl.go:56', '+', '0x31a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-122,  project/middlewares/session.(*ctrl).serveHttp(),['project/middlewares/session.(*ctrl).serveHttp()'],['DIRECTORY']
-123,      D:/gocode/src/project/middlewares/session/ctrl.go:94 +0x8a,"['D:/gocode/src/project/middlewares/session/ctrl.go:94', '+', '0x8a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-124,  project/middlewares/session.func┬À006(),['project/middlewares/session.func┬À006()'],['DIRECTORY']
-125,      D:/gocode/src/project/middlewares/session/serve_http.go:23 +0x,"['D:/gocode/src/project/middlewares/session/serve_http.go:23', '+', '0', 'x']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-126,Previous write by goroutine 17:,"['Previous', 'write', 'by', 'go', 'routine', '17', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-127,  net/http.(*response).Header(),['net/http.(*response).Header()'],['DIRECTORY']
-128,      c:/go/src/net/http/server.go:615 +0x11a,"['c:/go/src/net/http/server.go:615', '+', '0x11a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-129,  github.com/codegangsta/negroni.(*responseWriter).Header(),['github.com/codegangsta/negroni.(*responseWriter).Header()'],['DIRECTORY']
-130,      :42 +0x78,"[':', '42', '+', '0x78']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-131,  github.com/unrolled/secure.(*Secure).Process(),['github.com/unrolled/secure.(*Secure).Process()'],['DIRECTORY']
-132,      D:/gocode/src/github.com/unrolled/secure/secure.go:177 +0xe24,"['D:/gocode/src/github.com/unrolled/secure/secure.go:177', '+', '0xe24']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-133,  project/middlewares/security.func┬À001(),['project/middlewares/security.func┬À001()'],['DIRECTORY']
-134,      D:/gocode/src/project/middlewares/security/serve_http.go:33 +0,"['D:/gocode/src/project/middlewares/security/serve_http.go:33', '+', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL']"
-135,"
+And I'm using a function to check if the user is logged in
 
-I use negroni to process middlwares works. 
+","['And', ""I'm"", 'using', 'a', 'function', 'to', 'check', 'if', 'the', 'user', 'is', 'logged', 'in']","['CC', 'NNP', 'VBG', 'DT', 'NN', 'TO', 'VB', 'IN', 'DT', 'NN', 'VBZ', 'VBN', 'IN']"
+22,// IsLoggedIn checks if client's token is valid,"['//', 'IsLoggedIn', 'checks', 'if', ""client's"", 'token', 'is', 'valid']","['COMMENT', 'NNP', 'NNS', 'IN', 'JJ', 'NN', 'VBZ', 'JJ']"
+23,func IsLoggedIn(r *http.Request) string {,"['func', 'IsLoggedIn', '(', 'r', '*', 'http', '.', 'Request', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+24,"    ips := strings.Split(r.Header.Get(""X-Forwarded-For""), "", "")","['ips', ':=', 'strings.Split(r.Header.Get(""X-Forwarded-For""), "", "")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+25,    ip := ips[0],"['ip', ':=', 'ips', '[', '0', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+26,"    cookie, err := r.Cookie(""auth"")","['cookie', ',', 'err', ':=', 'r.Cookie(""auth"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+27,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+28,"        return ""ERR$"" + ""not_connected""","['return', '""ERR$""', '+', '""not_connected""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+29,    },['}'],['PUNCTUATION']
+30,"    cookieValue := strings.Split(cookie.Value, ""$"")","['cookieValue', ':=', 'strings.Split(cookie.Value, ""$"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+31,    println(cookie.Value),"['println', '(', 'cookie', '.', 'Value', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+32,    user := GetUser(cookieValue[0]),"['user', ':=', 'GetUser', '(', 'cookieValue', '[', '0', '])']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+33,    userToken := cookieValue[1],"['userToken', ':=', 'cookieValue', '[', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+34,"    if user.Username == """" {","['if', 'user', '.', 'Username', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+35,"        return ""ERR$"" + ""error""","['return', '""ERR$""', '+', '""error""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+36,    },['}'],['PUNCTUATION']
+37,"    for _, SecureDevice := range user.SecureDevicesList {","['for', '_', ',', 'SecureDevice', ':=', 'range', 'user', '.', 'SecureDevicesList', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+38,        if SecureDevice.DeviceIP == ip && SecureDevice.Token.Token == userToken { // We make sure that the token provided is actually the user's token,"['if', 'SecureDevice', '.', 'DeviceIP', '==', 'ip', '&&', 'SecureDevice', '.', 'Token', '.', 'Token', '==', 'userToken', '{', '//', 'We', 'make', 'sure', 'that', 'the', 'token', 'provided', 'is', 'actually', 'the', ""user's"", 'token']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'PRP', 'VBP', 'JJ', 'IN', 'DT', 'NN', 'VBD', 'VBZ', 'RB', 'DT', 'JJ', 'NN']"
+39,"            if time.Since(SecureDevice.Token.StartingDate)*time.Hour >= 168 { // If token is older than 1 week, we throw it away","['if', 'time.Since(SecureDevice.Token.StartingDate)', '*', 'time', '.', 'Hour', '>=', '168', '{', '//', 'If', 'token', 'is', 'older', 'than', '1', 'week,', 'we', 'throw', 'it', 'away']","['KEYWORD', 'FUNCTION_CALL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'IN', 'VBN', 'VBZ', 'JJR', 'IN', 'CD', 'NN', 'PRP', 'VBP', 'PRP', 'RB']"
+40,"                return ""ERR$"" + ""error_token_expired""","['return', '""ERR$""', '+', '""error_token_expired""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+41,"            } else if time.Since(SecureDevice.Token.StartingDate)*time.Second >= 30 { // If it's age is between 1 hour and one week, we renew it","['}', 'else', 'if', 'time.Since(SecureDevice.Token.StartingDate)', '*', 'time', '.', 'Second', '>=', '30', '{', '//', 'If', ""it's"", 'age', 'is', 'between', '1', 'hour', 'and', 'one', 'week,', 'we', 'renew', 'it']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'FUNCTION_CALL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'IN', 'CD', 'NN', 'CC', 'CD', 'NN', 'PRP', 'VBD', 'PRP']"
+42,"                db, err := scribble.New(""./brony/db"", nil)","['db', ',', 'err', ':=', 'scribble.New(""./brony/db"", nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+43,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+44,"                    return ""ERR$"" + ""error_internal""","['return', '""ERR$""', '+', '""error_internal""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+45,                },['}'],['PUNCTUATION']
+46,"                tokenBytes, err := GenerateRandomBytes(64) // Generates a salt","['tokenBytes', ',', 'err', ':=', 'GenerateRandomBytes', '(', '64', ')', '//', 'Generates', 'a', 'salt']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'VBZ', 'DT', 'NN']"
+47,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+48,"                    return ""ERR$"" + ""error_internal""","['return', '""ERR$""', '+', '""error_internal""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+49,                },['}'],['PUNCTUATION']
+50,                token := base64.URLEncoding.EncodeToString(tokenBytes),"['token', ':=', 'base64', '.', 'URLEncoding.EncodeToString(tokenBytes)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+51,                SecureDevice.Token.Token = token,"['SecureDevice', '.', 'Token', '.', 'Token', '=', 'token']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+52,                SecureDevice.Token.StartingDate = time.Now(),"['SecureDevice', '.', 'Token', '.', 'StartingDate', '=', 'time.Now()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+53,"                errr := db.Write(""users"", user.Username, user)","['errr', ':=', 'db.Write(""users"", user.Username, user)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+54,                if errr != nil {,"['if', 'errr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+55,"                    return ""ERR$"" + ""error_internal""","['return', '""ERR$""', '+', '""error_internal""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+56,                },['}'],['PUNCTUATION']
+57,"                return ""TOK$"" + user.Username + ""$"" + SecureDevice.Token.Token","['return', '""TOK$""', '+', 'user', '.', 'Username', '+', '""$""', '+', 'SecureDevice', '.', 'Token', '.', 'Token']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+58,            } else if time.Since(SecureDevice.Token.StartingDate)*time.Hour <= 1 {,"['}', 'else', 'if', 'time.Since(SecureDevice.Token.StartingDate)', '*', 'time', '.', 'Hour', '<=', '1', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'FUNCTION_CALL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+59,"                return ""NIL$""","['return', '""NIL$""']","['KEYWORD', 'STRING_LITERAL']"
+60,            },['}'],['PUNCTUATION']
+61,        } else if SecureDevice.DeviceIP == ip {,"['}', 'else', 'if', 'SecureDevice', '.', 'DeviceIP', '==', 'ip', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+62,"            return ""ERR$"" + ""error_bad_token""","['return', '""ERR$""', '+', '""error_bad_token""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+63,        },['}'],['PUNCTUATION']
+64,    },['}'],['PUNCTUATION']
+65,"    return ""ERR$"" + ""error_device_not_registered""","['return', '""ERR$""', '+', '""error_device_not_registered""']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+66,},['}'],['PUNCTUATION']
+67,"
 
-The way, how I process middlwares
+But almost always when I load the page with
 
-","['I', 'use', 'negroni', 'to', 'process', 'middlwares', 'works.', 'The', 'way,', 'how', 'I', 'process', 'middlwares']","['PRP', 'VBP', 'JJ', 'TO', 'VB', 'NNS', 'VBP', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'NNS']"
-136,"func New(res http.ResponseWriter, req *http.Request, next http.HandlerFunc) {","['func', 'New', '(', 'res', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ',', 'next', 'http', '.', 'HandlerFunc', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-137,"    if err := process(security.ServeHttp(res, req), session.ServeHttp(res, req)); err != nil {","['if', 'err', ':=', 'process', '(', 'security.ServeHttp(res, req), session.ServeHttp(res, req))', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-138,        res.WriteHeader(http.StatusInternalServerError),['res.WriteHeader(http.StatusInternalServerError)'],['FUNCTION_CALL']
-139,        return,['return'],['KEYWORD']
-140,    },['}'],['PUNCTUATION']
-141,"    log.Println(""End of process middlewares"")","['log.Println(""End of process middlewares"")']",['FUNCTION_CALL']
-142,"    next(res, req)","['next', '(', 'res', ',', 'req', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-143,},['}'],['PUNCTUATION']
-144,// Process all middlewares,"['//', 'Process', 'all', 'middlewares']","['COMMENT', 'NNP', 'DT', 'NNS']"
-145,func process(chErrs ...<-chan error) error {,"['func', 'process', '(', 'chErrs', '...<-', 'chan', 'error', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-146,"    for _, chErr := range chErrs {","['for', '_', ',', 'chErr', ':=', 'range', 'chErrs', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-147,"        // Will abort the loop, when error occurs","['//', 'Will', 'abort', 'the', 'loop,', 'when', 'error', 'occurs']","['COMMENT', 'MD', 'VB', 'DT', 'NN', 'WRB', 'NN', 'VBZ']"
-148,        if err := <-chErr; err != nil {,"['if', 'err', ':=', '<-', 'chErr', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-149,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-150,        },['}'],['PUNCTUATION']
-151,    },['}'],['PUNCTUATION']
-152,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-153,},['}'],['PUNCTUATION']
-154,"
+","['But', 'almost', 'always', 'when', 'I', 'load', 'the', 'page', 'with']","['CC', 'RB', 'RB', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'IN']"
+68,status := IsLoggedIn(r),"['status', ':=', 'IsLoggedIn', '(', 'r', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+69,println(status),"['println', '(', 'status', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+70,"
 
-As you can see, every middlware have they own channel. The for statement will loop until the error channel is closed or error send.
+It often gives me an error, since I'm printing ""IsLoggedIn"" to understand where the problem comes from
 
-The server configuration
+","['It', 'often', 'gives', 'me', 'an', 'error,', 'since', ""I'm"", 'printing', '""IsLoggedIn""', 'to', 'understand', 'where', 'the', 'problem', 'comes', 'from']","['PRP', 'RB', 'VBZ', 'PRP', 'DT', 'NN', 'IN', 'NNP', 'VBG', 'NN', 'TO', 'VB', 'WRB', 'DT', 'NN', 'VBZ', 'IN']"
+71,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+72,NIL$,"['NIL', '$']","['IDENTIFIER', 'PUNCTUATION']"
+73,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+74,ERR$error_token_expired,"['ERR', '$', 'error_token_expired']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+75,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+76,NIL$,"['NIL', '$']","['IDENTIFIER', 'PUNCTUATION']"
+77,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+78,ERR$error_token_expired,"['ERR', '$', 'error_token_expired']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+79,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+80,ERR$error_token_expired,"['ERR', '$', 'error_token_expired']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+81,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+82,ERR$error_token_expired,"['ERR', '$', 'error_token_expired']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+83,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+84,ERR$error_token_expired,"['ERR', '$', 'error_token_expired']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+85,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+86,ERR$error_token_expired,"['ERR', '$', 'error_token_expired']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+87,test$ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq-_3zlWyvgNgA7AZcSpasJ_YnXZvoG                                                                                                                                                             qlz1syF9X8g==,"['test', '$', 'ppDXRggtztyA9OBbdZh1t1ESqRo2XvuOBt4xlDai9kVxwq', '-', '_3zlWyvgNgA7AZcSpasJ_YnXZvoG', 'qlz1syF9X8g', '==']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR']"
+88,NIL$,"['NIL', '$']","['IDENTIFIER', 'PUNCTUATION']"
+89,"
 
-","['As', 'you', 'can', 'see,', 'every', 'middlware', 'have', 'they', 'own', 'channel.', 'The', 'for', 'statement', 'will', 'loop', 'until', 'the', 'error', 'channel', 'is', 'closed', 'or', 'error', 'send.', 'The', 'server', 'configuration']","['IN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'VBP', 'PRP', 'JJ', 'VBP', 'DT', 'IN', 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'VBN', 'CC', 'NN', 'VBP', 'DT', 'NN', 'NN']"
-155,func Config() *negroni.Negroni {,"['func', 'Config', '()', '*', 'negroni', '.', 'Negroni', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-156,    n := negroni.Classic(),"['n', ':=', 'negroni.Classic()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-157,    n.Use(negroni.HandlerFunc(middlewares.New)),['n.Use(negroni.HandlerFunc(middlewares.New))'],['FUNCTION_CALL']
-158,    n.UseHandler(routes.Set()),['n.UseHandler(routes.Set())'],['FUNCTION_CALL']
-159,    return n,"['return', 'n']","['KEYWORD', 'IDENTIFIER']"
-160,},['}'],['PUNCTUATION']
-161,"
-
-My question is, are the middlewares the reason, why I've got the data race?
-","['My', 'question', 'is,', 'are', 'the', 'middlewares', 'the', 'reason,', 'why', ""I've"", 'got', 'the', 'data', 'race?']","['PRP$', 'NN', 'NN', 'VBP', 'DT', 'NNS', 'DT', 'NN', 'WRB', 'NNP', 'VBD', 'DT', 'NNS', 'NN']"
+At first I thought it was my token's renewal code which was faulty, but while beeing faulty and unfinished, it doesn't seem to be it's fault since after a few f5, it said that the cookie was ok. I really don't understand where the fault is, and it's starting to get really annoying, as I can't just let it be, it would be very annoying to say the least for a user to do f5 everytime and hope that when the page will refresh, it will miraculously work. The code runs on a debian server
+","['At', 'first', 'I', 'thought', 'it', 'was', 'my', ""token's"", 'renewal', 'code', 'which', 'was', 'faulty,', 'but', 'while', 'beeing', 'faulty', 'and', 'unfinished,', 'it', ""doesn't"", 'seem', 'to', 'be', ""it's"", 'fault', 'since', 'after', 'a', 'few', 'f5,', 'it', 'said', 'that', 'the', 'cookie', 'was', 'ok.', 'I', 'really', ""don't"", 'understand', 'where', 'the', 'fault', 'is,', 'and', ""it's"", 'starting', 'to', 'get', 'really', 'annoying,', 'as', 'I', ""can't"", 'just', 'let', 'it', 'be,', 'it', 'would', 'be', 'very', 'annoying', 'to', 'say', 'the', 'least', 'for', 'a', 'user', 'to', 'do', 'f5', 'everytime', 'and', 'hope', 'that', 'when', 'the', 'page', 'will', 'refresh,', 'it', 'will', 'miraculously', 'work.', 'The', 'code', 'runs', 'on', 'a', 'debian', 'server']","['IN', 'JJ', 'PRP', 'VBD', 'PRP', 'VBD', 'PRP$', 'JJ', 'NN', 'NN', 'WDT', 'VBD', 'NNS', 'CC', 'IN', 'VBG', 'NN', 'CC', 'VB', 'PRP', 'VB', 'VB', 'TO', 'VB', 'JJ', 'NN', 'IN', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBD', 'IN', 'DT', 'NN', 'VBD', 'JJ', 'PRP', 'RB', 'VB', 'NN', 'WRB', 'DT', 'NN', 'NN', 'CC', 'NN', 'VBG', 'TO', 'VB', 'RB', 'JJ', 'IN', 'PRP', 'VBP', 'RB', 'VB', 'PRP', 'VB', 'PRP', 'MD', 'VB', 'RB', 'VBG', 'TO', 'VB', 'DT', 'JJS', 'IN', 'DT', 'NN', 'TO', 'VB', 'VB', 'NN', 'CC', 'NN', 'IN', 'WRB', 'DT', 'NN', 'MD', 'VB', 'PRP', 'MD', 'RB', 'VB', 'DT', 'NN', 'VBZ', 'IN', 'DT', 'JJ', 'NN']"

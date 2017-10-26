@@ -1,211 +1,102 @@
 ,text,token,annotation
-0,"Perhaps I am missing something, but is this what you are looking for?
+0,"I'm currently attempting to debug an issue with issuing a HTTP POST via GoLang 1.6.
 
-I started off with the same idea as @Manawasp (using a map[string]interface{}) but decided to try to get the name from the struct tag like you asked about... here's what I came up with (*note: there may be unhandled error cases, and this may overcomplicate something that can be handled pretty easily with the other solution)
+The connection is failing with an 'EOF' error. 
 
-http://play.golang.org/p/qO6tDZjtXA
+The test client code: https://gist.github.com/fatmcgav/35d1a4fbd74c7208f445c487f756a5e1
 
-","['Perhaps', 'I', 'am', 'missing', 'something,', 'but', 'is', 'this', 'what', 'you', 'are', 'looking', 'for?', 'I', 'started', 'off', 'with', 'the', 'same', 'idea', 'as', '@Manawasp', '(using', 'a', 'map[string]interface{})', 'but', 'decided', 'to', 'try', 'to', 'get', 'the', 'name', 'from', 'the', 'struct', 'tag', 'like', 'you', 'asked', 'about...', ""here's"", 'what', 'I', 'came', 'up', 'with', '(*note:', 'there', 'may', 'be', 'unhandled', 'error', 'cases,', 'and', 'this', 'may', 'overcomplicate', 'something', 'that', 'can', 'be', 'handled', 'pretty', 'easily', 'with', 'the', 'other', 'solution)', 'http://play.golang.org/p/qO6tDZjtXA']","['RB', 'PRP', 'VBP', 'VBG', 'NN', 'CC', 'VBZ', 'DT', 'WP', 'PRP', 'VBP', 'VBG', 'NN', 'PRP', 'VBD', 'RP', 'IN', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'VBG', 'DT', 'NN', 'CC', 'VBD', 'TO', 'VB', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBD', 'JJ', 'NN', 'WP', 'PRP', 'VBD', 'RP', 'IN', 'NNP', 'EX', 'MD', 'VB', 'JJ', 'NN', 'NN', 'CC', 'DT', 'MD', 'VB', 'NN', 'WDT', 'MD', 'VB', 'VBN', 'RB', 'RB', 'IN', 'DT', 'JJ', 'NN', 'NN']"
+","[""I'm"", 'currently', 'attempting', 'to', 'debug', 'an', 'issue', 'with', 'issuing', 'a', 'HTTP', 'POST', 'via', 'GoLang', '1.6.', 'The', 'connection', 'is', 'failing', 'with', 'an', ""'EOF'"", 'error.', 'The', 'test', 'client', 'code:', 'https://gist.github.com/fatmcgav/35d1a4fbd74c7208f445c487f756a5e1']","['NNP', 'RB', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NNP', 'NNP', 'IN', 'NNP', 'CD', 'DT', 'NN', 'VBZ', 'VBG', 'IN', 'DT', 'JJ', 'NN', 'DT', 'NN', 'NN', 'NN', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-4,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
-5,"    ""strings""","['""strings""']",['STRING_LITERAL']
-6,),[')'],['PUNCTUATION']
-7,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-8,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-9,"    ""encoding/xml""","['""encoding/xml""']",['STRING_LITERAL']
-10,"    ""errors""","['""errors""']",['STRING_LITERAL']
-11,),[')'],['PUNCTUATION']
-12,type Query struct {,"['type', 'Query', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-13,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
-14,    Field1  string,"['Field1', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-15,    Field2  int64,"['Field2', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
-16,},['}'],['PUNCTUATION']
-17,type TermQuery struct {,"['type', 'TermQuery', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-18,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'term', '-', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
-19,    Field3  string,"['Field3', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-20,    Field4  int64,"['Field4', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
-21,},['}'],['PUNCTUATION']
-22,"func getXmlName(d interface{}, label string) (string, bool) {","['func', 'getXmlName', '(', 'd', 'interface', '{},', 'label', 'string', ')', '(', 'string', ',', 'bool', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-23,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect.TypeOf(d).Kind()', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'PUNCTUATION']"
-24,    case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-25,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect.TypeOf(d).FieldByName(label)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-26,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings.Split(v.Tag.Get(""xml""), "" "")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-27,"        return parts[1], true","['return', 'parts', '[', '1', '],', 'true']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL']"
-28,    },['}'],['PUNCTUATION']
-29,"    return """", false","['return', '""""', ',', 'false']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL']"
-30,},['}'],['PUNCTUATION']
-31,"func wrapJson(item interface{}) ([]byte, error) {","['func', 'wrapJson', '(', 'item', 'interface', '{})', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-32,"    if n, ok := getXmlName(item, ""XMLName""); ok {","['if', 'n', ',', 'ok', ':=', 'getXmlName', '(', 'item', ',', '""XMLName""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-33,"        b, err := json.Marshal(map[string]interface{}{n: item})","['b', ',', 'err', ':=', 'json.Marshal(map[string]interface{}{n: item})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-34,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-35,"            return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-36,        },['}'],['PUNCTUATION']
-37,"        return b, nil","['return', 'b', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-38,    },['}'],['PUNCTUATION']
-39,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors.New(""You failed"")']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-40,},['}'],['PUNCTUATION']
-41,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-42,"    // create a Query and encode it as {""query"": {struct}}","['//', 'create', 'a', 'Query', 'and', 'encode', 'it', 'as', '{""query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'NNP', 'NN']"
-43,"    q := Query{Field1: ""hello"", Field2: 42}","['q', ':=', 'Query', '{', 'Field1', ':', '""hello""', ',', 'Field2', ':', '42', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-44,"    wrappedQ, err := wrapJson(q)","['wrappedQ', ',', 'err', ':=', 'wrapJson', '(', 'q', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-46,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-47,        return,['return'],['KEYWORD']
-48,    },['}'],['PUNCTUATION']
-49,    fmt.Println(string(wrappedQ)),['fmt.Println(string(wrappedQ))'],['FUNCTION_CALL']
-50,"    // create a TermQuery and encode it as {""term-query"": {struct}}","['//', 'create', 'a', 'TermQuery', 'and', 'encode', 'it', 'as', '{""term-query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'JJ', 'NN']"
-51,"    tq := TermQuery{Field3: ""world"", Field4: 99}","['tq', ':=', 'TermQuery', '{', 'Field3', ':', '""world""', ',', 'Field4', ':', '99', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-52,"    wrappedTQ, err := wrapJson(tq)","['wrappedTQ', ',', 'err', ':=', 'wrapJson', '(', 'tq', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-53,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-54,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-55,        return,['return'],['KEYWORD']
-56,    },['}'],['PUNCTUATION']
-57,    fmt.Println(string(wrappedTQ)),['fmt.Println(string(wrappedTQ))'],['FUNCTION_CALL']
-58,},['}'],['PUNCTUATION']
-59,"
+3,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+4,"    ""crypto/tls""","['""crypto/tls""']",['STRING_LITERAL']
+5,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+7,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+8,"    ""net/http/httputil""","['""net/http/httputil""']",['STRING_LITERAL']
+9,"    ""os""","['""os""']",['STRING_LITERAL']
+10,),[')'],['PUNCTUATION']
+11,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+12,"    const body = ""{\""auth\"":"" +","['const', 'body', '=', '""{\\""', 'auth', '"":""', '+']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+13,"        ""{\""identity\"":"" +","['""{\\""', 'identity', '"":""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+14,"        ""{\""methods\"":[\""password\""],"" +","['""{\\""', 'methods', '"":[\\""', 'password', '""],""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+15,"        ""\""password\"":"" +","['""\\""', 'password', '"":""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+16,"        ""{\""user\"":{\""name\"":\""xxx\"","" +","['""{\\""', 'user', '"":{\\""', 'name', '"":\\""', 'xxx', '"",""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+17,"        ""\""password\"":\""xxx\"","" +","['""\\""', 'password', '"":\\""', 'xxx', '"",""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+18,"        ""\""domain\"":{\""name\"":\""xxx_domain\""}"" +","['""\\""', 'domain', '"":{\\""', 'name', '"":\\""', 'xxx_domain', '""}""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+19,"        ""}"" +","['""}""', '+']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+20,"        ""}"" +","['""}""', '+']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+21,"        ""},\""scope\"":{\""project\"":"" +","['""},\\""', 'scope', '"":{\\""', 'project', '"":""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+22,"        ""{\""domain\"": "" +","['""{\\""', 'domain', '"": ""', '+']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+23,"        ""{\""name\"":\""xxx_domain\""},\""name\"":\""xxx\""}}}}""","['""{\\""', 'name', '"":\\""', 'xxx_domain', '""},\\""', 'name', '"":\\""', 'xxx', '""}}}}""']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL']"
+24,    // Unmarshall JSON,"['//', 'Unmarshall', 'JSON']","['COMMENT', 'DT', 'NNP']"
+25,    var m map[string]interface{},"['var', 'm', 'map', '[', 'string', ']', 'interface', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+26,"    json.Unmarshal([]byte(body), &m)","['json.Unmarshal([]byte(body), &m)']",['FUNCTION_CALL']
+27,"    // fmt.Println(""%v"", m)","['//', 'fmt.Println(""%v"",', 'm)']","['COMMENT', 'NN', 'NN']"
+28,    var req *http.Request,"['var', 'req', '*', 'http', '.', 'Request']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+29,    var resp *http.Response,"['var', 'resp', '*', 'http', '.', 'Response']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+30,    var dump []byte,"['var', 'dump', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+31,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+32,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+33,"    url := ""https://identity.xxx/v3/auth/tokens""","['url', ':=', '""https://identity.xxx/v3/auth/tokens""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+34,"    fmt.Println(""Requesting auth token against URL: %s"", url)","['fmt.Println(""Requesting auth token against URL: %s"", url)']",['FUNCTION_CALL']
+35,"    rendered, err := json.Marshal(m)","['rendered', ',', 'err', ':=', 'json.Marshal(m)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+36,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+37,"        fmt.Println(""Error marshalling body: %q"", err)","['fmt.Println(""Error marshalling body: %q"", err)']",['FUNCTION_CALL']
+38,        os.Exit(2),['os.Exit(2)'],['FUNCTION_CALL']
+39,    },['}'],['PUNCTUATION']
+40,"    req, err = http.NewRequest(""POST"", url, bytes.NewReader(rendered))","['req', ',', 'err', '=', 'http.NewRequest(""POST"", url, bytes.NewReader(rendered))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+41,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+42,"        fmt.Println(""Got an error: %q"", err)","['fmt.Println(""Got an error: %q"", err)']",['FUNCTION_CALL']
+43,        os.Exit(2),['os.Exit(2)'],['FUNCTION_CALL']
+44,    },['}'],['PUNCTUATION']
+45,    // Need to Close connection,"['//', 'Need', 'to', 'Close', 'connection']","['COMMENT', 'NN', 'TO', 'VB', 'NN']"
+46,    req.Close = true,"['req', '.', 'Close', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+47,"    fmt.Println(""Setting Insecure TLS mode"")","['fmt.Println(""Setting Insecure TLS mode"")']",['FUNCTION_CALL']
+48,    // Configure custom TLS settings.,"['//', 'Configure', 'custom', 'TLS', 'settings.']","['COMMENT', 'NN', 'NN', 'NNP', 'NN']"
+49,    config := &tls.Config{InsecureSkipVerify: true},"['config', ':=', '&', 'tls', '.', 'Config', '{', 'InsecureSkipVerify', ':', 'true', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+50,"    transport := &http.Transport{TLSClientConfig: config,","['transport', ':=', '&', 'http', '.', 'Transport', '{', 'TLSClientConfig', ':', 'config', ',']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+51,"        DisableKeepAlives:  true,","['DisableKeepAlives', ':', 'true', ',']","['IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+52,"        DisableCompression: true,","['DisableCompression', ':', 'true', ',']","['IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+53,    },['}'],['PUNCTUATION']
+54,    client.Transport = transport,"['client', '.', 'Transport', '=', 'transport']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+55,"    req.Header.Set(""Content-Type"", ""application/json"")","['req', '.', 'Header.Set(""Content-Type"", ""application/json"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+56,"    req.Header.Set(""Accept"", ""application/json"")","['req', '.', 'Header.Set(""Accept"", ""application/json"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+57,"    dump, err = httputil.DumpRequestOut(req, true)","['dump', ',', 'err', '=', 'httputil.DumpRequestOut(req, true)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+58,"    fmt.Printf(""Outgoing requst = \n%q\n"", dump)","['fmt.Printf(""Outgoing requst = \\n%q\\n"", dump)']",['FUNCTION_CALL']
+59,"    resp, err = client.Do(req)","['resp', ',', 'err', '=', 'client.Do(req)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+60,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+61,"        fmt.Println(""Error encountered: %q"", err)","['fmt.Println(""Error encountered: %q"", err)']",['FUNCTION_CALL']
+62,    },['}'],['PUNCTUATION']
+63,"    dump, err = httputil.DumpResponse(resp, true)","['dump', ',', 'err', '=', 'httputil.DumpResponse(resp, true)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+64,"    fmt.Printf(""Response = \n%q\n"", dump)","['fmt.Printf(""Response = \\n%q\\n"", dump)']",['FUNCTION_CALL']
+65,},['}'],['PUNCTUATION']
+66,"
 
-OUTPUT
+and resultant output is here:
 
-",['OUTPUT'],['NN']
-60,"{""query"":{""Field1"":""hello"",""Field2"":42}}","['{', '""query""', ':{', '""Field1""', ':', '""hello""', ',', '""Field2""', ':', '42', '}}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-61,"{""term-query"":{""Field3"":""world"",""Field4"":99}}","['{', '""term-query""', ':{', '""Field3""', ':', '""world""', ',', '""Field4""', ':', '99', '}}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-62,"
+","['and', 'resultant', 'output', 'is', 'here:']","['CC', 'JJ', 'NN', 'VBZ', 'JJ']"
+67, ~/golang/scripts  go build req-test.go && ./req-test,['/golang/scripts \ue0b0 go build req-test.go && ./req-test'],['DIRECTORY']
+68,Requesting auth token against URL: %s https://identity.xxx/v3/auth/tokens,"['Requesting', 'auth', 'token', 'against', 'URL', ':', '%', 's', 'https', '://', 'identity', '.', 'xxx/v3/auth/tokens']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+69,Setting Insecure TLS mode,"['Setting', 'Insecure', 'TLS', 'mode']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+70,Outgoing requst =,"['Outgoing', 'requst', '=']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR']"
+71,"""POST /v3/auth/tokens HTTP/1.1\r\nHost: identity.xxx\r\nUser-Agent: Go-http-client/1.1\r\nConnection: close\r\nContent-Length: 262\r\nAccept: application/json\r\nContent-Type: application/json\r\nAccept-Encoding: gzip\r\n\r\n{\""auth\"":{\""identity\"":{\""methods\"":[\""password\""],\""password\"":{\""user\"":{\""domain\"":{\""name\"":\""BusinessSupport_domain\""},\""name\"":\""xxx\"",\""password\"":\""xxx\""}}},\""scope\"":{\""project\"":{\""domain\"":{\""name\"":\""xxx_domain\""},\""name\"":\""xxx\""}}}}""","['""POST /v3/auth/tokens HTTP/1.1\\r\\nHost: identity.xxx\\r\\nUser-Agent: Go-http-client/1.1\\r\\nConnection: close\\r\\nContent-Length: 262\\r\\nAccept: application/json\\r\\nContent-Type: application/json\\r\\nAccept-Encoding: gzip\\r\\n\\r\\n{\\""', 'auth', '"":{\\""', 'identity', '"":{\\""', 'methods', '"":[\\""', 'password', '""],\\""', 'password', '"":{\\""', 'user', '"":{\\""', 'domain', '"":{\\""', 'name', '"":\\""', 'BusinessSupport_domain', '""},\\""', 'name', '"":\\""', 'xxx', '"",\\""', 'password', '"":\\""', 'xxx', '""}}},\\""', 'scope', '"":{\\""', 'project', '"":{\\""', 'domain', '"":{\\""', 'name', '"":\\""', 'xxx_domain', '""},\\""', 'name', '"":\\""', 'xxx', '""}}}}""']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL']"
+72,Error encountered: %q Post https://identity.xxx/v3/auth/tokens: EOF,"['Error', 'encountered', ':', '%', 'q', 'Post', 'https', '://', 'identity', '.', 'xxx/v3/auth/tokens:', 'EOF']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY', 'IDENTIFIER']"
+73,panic: runtime error: invalid memory address or nil pointer dereference,"['panic', ':', 'runtime', 'error', ':', 'invalid', 'memory', 'address', 'or', 'nil', 'pointer', 'dereference']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+74,[signal 0xb code=0x1 addr=0x0 pc=0x13659e],"['[', 'signal', '0xb', 'code', '=', '0x1', 'addr', '=', '0', 'x0', 'pc', '=', '0x13659e', ']']","['PUNCTUATION', 'IDENTIFIER', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'PUNCTUATION']"
+75,goroutine 1 [running]:,"['go', 'routine', '1', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+76,"panic(0x338980, 0xc82000a170)","['panic', '(', '0x33898', '0', ',', '0xc82', '0', '0', '0', 'a170', ')']","['IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+77,        /usr/local/opt/go/libexec/src/runtime/panic.go:464 +0x3e6,"['/usr/local/opt/go/libexec/src/runtime/panic.go:464', '+', '0x3e6']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+78,"net/http/httputil.DumpResponse(0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)","['net/http/httputil.DumpResponse(0x0,', '0x1', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+79,        /usr/local/opt/go/libexec/src/net/http/httputil/dump.go:285 +0x42e,"['/usr/local/opt/go/libexec/src/net/http/httputil/dump.go:285', '+', '0x42e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+80,main.main(),['main.main()'],['FUNCTION_CALL']
+81,        /Users/gavinw/golang/scripts/req-test.go:77 +0xdc,"['/Users/gavinw/golang/scripts/req-test.go:77', '+', '0xdc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+82,"
 
-EDIT
-Ok, here is an update now that I can see what your issue is.  It might be ugly, and it might not be bullet-proof (error handling, etc)... but for my test it seems to do what you want.
+For obvious reasons, I've anonymised some of the details.. 
 
-http://play.golang.org/p/8MloLP3X4H
+Any pointers on what I'm doing wrong.. 
 
-","['EDIT', 'Ok,', 'here', 'is', 'an', 'update', 'now', 'that', 'I', 'can', 'see', 'what', 'your', 'issue', 'is.', 'It', 'might', 'be', 'ugly,', 'and', 'it', 'might', 'not', 'be', 'bullet-proof', '(error', 'handling,', 'etc)...', 'but', 'for', 'my', 'test', 'it', 'seems', 'to', 'do', 'what', 'you', 'want.', 'http://play.golang.org/p/8MloLP3X4H']","['NNP', 'NNP', 'RB', 'VBZ', 'DT', 'NN', 'RB', 'IN', 'PRP', 'MD', 'VB', 'WP', 'PRP$', 'NN', 'VBZ', 'PRP', 'MD', 'VB', 'JJ', 'CC', 'PRP', 'MD', 'RB', 'VB', 'JJ', 'NNP', 'NN', 'NN', 'CC', 'IN', 'PRP$', 'NN', 'PRP', 'VBZ', 'TO', 'VB', 'WP', 'PRP', 'VBP', 'VB']"
-63,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-64,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-65,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-66,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
-67,"    ""strings""","['""strings""']",['STRING_LITERAL']
-68,),[')'],['PUNCTUATION']
-69,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-70,"    //""encoding/json""","['//', '""encoding/json""']","['COMMENT', 'NN']"
-71,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-72,"    ""encoding/xml""","['""encoding/xml""']",['STRING_LITERAL']
-73,"    ""errors""","['""errors""']",['STRING_LITERAL']
-74,),[')'],['PUNCTUATION']
-75,type Query struct {,"['type', 'Query', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-76,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
-77,    Field1  string,"['Field1', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-78,    Field2  int64,"['Field2', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
-79,"    Queries []interface{} `xml:"",any"" json:""queries""`","['Queries', '[]', 'interface', '{}', 'xml', ':', '"",any""', 'json', ':', '""queries""']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
-80,},['}'],['PUNCTUATION']
-81,type TermQuery struct {,"['type', 'TermQuery', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-82,"    XMLName xml.Name `xml:""http://marklogic.com/appservices/search term-query"" json:""-""`","['XMLName', 'xml', '.', 'Name', '`xml:""http://marklogic.com/appservices/search', 'term', '-', 'query', '"" json:""', '-']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
-83,    Field3  string,"['Field3', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-84,    Field4  int64,"['Field4', 'int64']","['IDENTIFIER', 'IDENTIFIER']"
-85,},['}'],['PUNCTUATION']
-86,"func getXmlName(d interface{}, label string) (string, bool) {","['func', 'getXmlName', '(', 'd', 'interface', '{},', 'label', 'string', ')', '(', 'string', ',', 'bool', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-87,    switch reflect.TypeOf(d).Kind() {,"['switch', 'reflect.TypeOf(d).Kind()', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'PUNCTUATION']"
-88,    case reflect.Struct:,"['case', 'reflect', '.', 'Struct', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-89,"        v, _ := reflect.TypeOf(d).FieldByName(label)","['v', ',', '_', ':=', 'reflect.TypeOf(d).FieldByName(label)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-90,"        parts := strings.Split(v.Tag.Get(""xml""), "" "")","['parts', ':=', 'strings.Split(v.Tag.Get(""xml""), "" "")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-91,"        return parts[1], true","['return', 'parts', '[', '1', '],', 'true']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL']"
-92,    default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-93,        fmt.Println(reflect.TypeOf(d).Kind()),['fmt.Println(reflect.TypeOf(d).Kind())'],['FUNCTION_CALL']
-94,    },['}'],['PUNCTUATION']
-95,"    return """", false","['return', '""""', ',', 'false']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL']"
-96,},['}'],['PUNCTUATION']
-97,"func wrapJson(item interface{}) (map[string]interface{}, error) {","['func', 'wrapJson', '(', 'item', 'interface', '{})', '(', 'map', '[', 'string', ']', 'interface', '{},', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-98,"    if n, ok := getXmlName(item, ""XMLName""); ok {","['if', 'n', ',', 'ok', ':=', 'getXmlName', '(', 'item', ',', '""XMLName""', ');', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-99,"        if k := reflect.ValueOf(item).FieldByName(""Queries""); k.IsValid() {","['if', 'k', ':=', 'reflect.ValueOf(item).FieldByName(""Queries""); k.IsValid()', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-100,            for i := 0; i < k.Len(); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'k.Len()', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-101,"                b, err1 := wrapJson(k.Index(i).Interface())","['b', ',', 'err1', ':=', 'wrapJson', '(', 'k.Index(i).Interface())']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-102,                if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-103,                    continue,['continue'],['KEYWORD']
-104,                },['}'],['PUNCTUATION']
-105,                k.Index(i).Set(reflect.ValueOf(b)),['k.Index(i).Set(reflect.ValueOf(b))'],['FUNCTION_CALL']
-106,            },['}'],['PUNCTUATION']
-107,        },['}'],['PUNCTUATION']
-108,"        return map[string]interface{}{n: item}, nil","['return', 'map', '[', 'string', ']', 'interface', '{}{', 'n', ':', 'item', '},', 'nil']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-109,    },['}'],['PUNCTUATION']
-110,"    return nil, errors.New(""You failed"")","['return', 'nil', ',', 'errors.New(""You failed"")']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-111,},['}'],['PUNCTUATION']
-112,func asJson(i interface{}) []byte {,"['func', 'asJson', '(', 'i', 'interface', '{})', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-113,"    b, err := json.Marshal(i)","['b', ',', 'err', ':=', 'json.Marshal(i)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-114,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-115,"        return []byte(`{""error"": ""too bad""}`)","['return', '[]', 'byte', '(', '{', '""error""', ':', '""too bad""', '}', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-116,    },['}'],['PUNCTUATION']
-117,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
-118,},['}'],['PUNCTUATION']
-119,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-120,"    // create a TermQuery and encode it as {""term-query"": {struct}}","['//', 'create', 'a', 'TermQuery', 'and', 'encode', 'it', 'as', '{""term-query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'JJ', 'NN']"
-121,"    tq := TermQuery{Field3: ""world"", Field4: 99}","['tq', ':=', 'TermQuery', '{', 'Field3', ':', '""world""', ',', 'Field4', ':', '99', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-122,"    wrappedTQ, err := wrapJson(tq)","['wrappedTQ', ',', 'err', ':=', 'wrapJson', '(', 'tq', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-123,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-124,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-125,        return,['return'],['KEYWORD']
-126,    },['}'],['PUNCTUATION']
-127,    fmt.Println(string(asJson(wrappedTQ))),['fmt.Println(string(asJson(wrappedTQ)))'],['FUNCTION_CALL']
-128,"    // create a Query and encode it as {""query"": {struct}}","['//', 'create', 'a', 'Query', 'and', 'encode', 'it', 'as', '{""query"":', '{struct}}']","['COMMENT', 'VB', 'DT', 'NNP', 'CC', 'VB', 'PRP', 'IN', 'NNP', 'NN']"
-129,    q := Query{,"['q', ':=', 'Query', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-130,"        Field1: ""hello"", ","['Field1', ':', '""hello""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-131,"        Field2: 42, ","['Field2', ':', '42', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-132,        Queries: []interface{}{,"['Queries', ':', '[]', 'interface', '{}{']","['IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-133,"            TermQuery{Field3: ""world"", Field4: 99},","['TermQuery', '{', 'Field3', ':', '""world""', ',', 'Field4', ':', '99', '},']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-134,"            TermQuery{Field3: ""yay, it works!"", Field4: 666},","['TermQuery', '{', 'Field3', ':', '""yay, it works!""', ',', 'Field4', ':', '666', '},']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-135,            Query{,"['Query', '{']","['IDENTIFIER', 'PUNCTUATION']"
-136,"                Field1: ""Hi"",","['Field1', ':', '""Hi""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-137,"                Field2: 21,","['Field2', ':', '21', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-138,                Queries: []interface{}{,"['Queries', ':', '[]', 'interface', '{}{']","['IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-139,                    TermQuery{,"['TermQuery', '{']","['IDENTIFIER', 'PUNCTUATION']"
-140,"                        Field3: ""omg"",","['Field3', ':', '""omg""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-141,"                        Field4: 1,","['Field4', ':', '1', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-142,"                    },","['},']",['PUNCTUATION']
-143,"                },","['},']",['PUNCTUATION']
-144,"            },","['},']",['PUNCTUATION']
-145,"        },","['},']",['PUNCTUATION']
-146,    },['}'],['PUNCTUATION']
-147,"    wrappedQ, err := wrapJson(q)","['wrappedQ', ',', 'err', ':=', 'wrapJson', '(', 'q', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-148,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-149,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-150,        return,['return'],['KEYWORD']
-151,    },['}'],['PUNCTUATION']
-152,    fmt.Println(string(asJson(wrappedQ))),['fmt.Println(string(asJson(wrappedQ)))'],['FUNCTION_CALL']
-153,},['}'],['PUNCTUATION']
-154,"
-
-PRETTY-PRINTED OUTOUT
-
-","['PRETTY-PRINTED', 'OUTOUT']","['NN', 'NNP']"
-155,{,['{'],['PUNCTUATION']
-156,"    ""query"": {","['""query""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-157,"        ""Field1"": ""hello"",","['""Field1""', ':', '""hello""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-158,"        ""Field2"": 42,","['""Field2""', ':', '42', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-159,"        ""queries"": [","['""queries""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-160,            {,['{'],['PUNCTUATION']
-161,"                ""term-query"": {","['""term-query""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-162,"                    ""Field3"": ""world"",","['""Field3""', ':', '""world""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-163,"                    ""Field4"": 99","['""Field4""', ':', '99']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-164,                },['}'],['PUNCTUATION']
-165,"            },","['},']",['PUNCTUATION']
-166,            {,['{'],['PUNCTUATION']
-167,"                ""term-query"": {","['""term-query""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-168,"                    ""Field3"": ""yay, it works!"",","['""Field3""', ':', '""yay, it works!""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-169,"                    ""Field4"": 666","['""Field4""', ':', '666']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-170,                },['}'],['PUNCTUATION']
-171,"            },","['},']",['PUNCTUATION']
-172,            {,['{'],['PUNCTUATION']
-173,"                ""query"": {","['""query""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-174,"                    ""Field1"": ""Hi"",","['""Field1""', ':', '""Hi""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-175,"                    ""Field2"": 21,","['""Field2""', ':', '21', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-176,"                    ""queries"": [","['""queries""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-177,                        {,['{'],['PUNCTUATION']
-178,"                            ""term-query"": {","['""term-query""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-179,"                                ""Field3"": ""omg"",","['""Field3""', ':', '""omg""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-180,"                                ""Field4"": 1","['""Field4""', ':', '1']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-181,                            },['}'],['PUNCTUATION']
-182,                        },['}'],['PUNCTUATION']
-183,                    ],[']'],['PUNCTUATION']
-184,                },['}'],['PUNCTUATION']
-185,            },['}'],['PUNCTUATION']
-186,        ],[']'],['PUNCTUATION']
-187,    },['}'],['PUNCTUATION']
-188,},['}'],['PUNCTUATION']
+Cheers
+Gavin
+","['For', 'obvious', 'reasons,', ""I've"", 'anonymised', 'some', 'of', 'the', 'details..', 'Any', 'pointers', 'on', 'what', ""I'm"", 'doing', 'wrong..', 'Cheers', 'Gavin']","['IN', 'JJ', 'NN', 'NNP', 'VBD', 'DT', 'IN', 'DT', 'NN', 'NNP', 'NNS', 'IN', 'WP', 'NNP', 'VBG', 'JJ', 'NNP', 'NNP']"

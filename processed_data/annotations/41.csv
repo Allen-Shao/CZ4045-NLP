@@ -1,160 +1,97 @@
 ,text,token,annotation
-0,"It turned out that I had to restart the listener not only to close the connection. I've modified the broker function to reset the destNet listener if it can't write (i.e. writes 0 bytes) to src. I'm still not sure if this is the right way to do it (i.e. closing the listener seems bad in a multi-connections scenario as I guess I reset all the client connections dialing on that address) but so far this is the best I could do to fix it.
+0,"This has really stumped me...I'm just trying to setup a basic server using Cobra and the standard http package. I've followed the golang example here for how to create a certificate and key, but no matter what I throw at it, I'm not getting it to go through and keep getting this error: 
 
-","['It', 'turned', 'out', 'that', 'I', 'had', 'to', 'restart', 'the', 'listener', 'not', 'only', 'to', 'close', 'the', 'connection.', ""I've"", 'modified', 'the', 'broker', 'function', 'to', 'reset', 'the', 'destNet', 'listener', 'if', 'it', ""can't"", 'write', '(i.e.', 'writes', '0', 'bytes)', 'to', 'src.', ""I'm"", 'still', 'not', 'sure', 'if', 'this', 'is', 'the', 'right', 'way', 'to', 'do', 'it', '(i.e.', 'closing', 'the', 'listener', 'seems', 'bad', 'in', 'a', 'multi-connections', 'scenario', 'as', 'I', 'guess', 'I', 'reset', 'all', 'the', 'client', 'connections', 'dialing', 'on', 'that', 'address)', 'but', 'so', 'far', 'this', 'is', 'the', 'best', 'I', 'could', 'do', 'to', 'fix', 'it.']","['PRP', 'VBD', 'RP', 'IN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'RB', 'RB', 'TO', 'VB', 'DT', 'NN', 'NNP', 'VBD', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', 'VBZ', 'CD', 'NN', 'TO', 'VB', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'TO', 'VB', 'PRP', 'VB', 'VBG', 'DT', 'NN', 'VBZ', 'JJ', 'IN', 'DT', 'NNS', 'NN', 'IN', 'PRP', 'VBP', 'PRP', 'VBP', 'PDT', 'DT', 'NN', 'NNS', 'VBG', 'IN', 'DT', 'NN', 'CC', 'RB', 'RB', 'DT', 'VBZ', 'DT', 'JJS', 'PRP', 'MD', 'VB', 'TO', 'VB', 'NN']"
-1, if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-2,        lrNewCh <- 1,"['lrNewCh', '<-', '1']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'DECIMAL_LITERAL']"
-3,    },['}'],['PUNCTUATION']
-4,"
 
-Here is all the code. All the credit goes to @JimB
+  Cannot serve on http port: crypto/tls: failed to find certificate PEM data in certificate input, but did find a private key; PEM inputs may have been switched
 
-","['Here', 'is', 'all', 'the', 'code.', 'All', 'the', 'credit', 'goes', 'to', '@JimB']","['RB', 'VBZ', 'PDT', 'DT', 'NN', 'PDT', 'DT', 'NN', 'VBZ', 'TO', 'VB']"
-5,// Make a bridge between dstNet which is,"['//', 'Make', 'a', 'bridge', 'between', 'dstNet', 'which', 'is']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NN', 'WDT', 'VBZ']"
-6,// usually behind NAT and srcNet which is usually a client,"['//', 'usually', 'behind', 'NAT', 'and', 'srcNet', 'which', 'is', 'usually', 'a', 'client']","['COMMENT', 'RB', 'IN', 'NNP', 'CC', 'NN', 'WDT', 'VBZ', 'RB', 'DT', 'NN']"
-7,// which wants to route the traffic though the NAT machine.,"['//', 'which', 'wants', 'to', 'route', 'the', 'traffic', 'though', 'the', 'NAT', 'machine.']","['COMMENT', 'WDT', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN']"
-8,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-9,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-10,"    log ""github.com/golang/glog""","['log', '""github.com/golang/glog""']","['IDENTIFIER', 'STRING_LITERAL']"
-11,"    ""io""","['""io""']",['STRING_LITERAL']
-12,"    ""net""","['""net""']",['STRING_LITERAL']
-13,),[')'],['PUNCTUATION']
-14,// listen on the dstNet so that we can,"['//', 'listen', 'on', 'the', 'dstNet', 'so', 'that', 'we', 'can']","['COMMENT', 'VBN', 'IN', 'DT', 'NN', 'RB', 'IN', 'PRP', 'MD']"
-15,// create a connection with the NAT client,"['//', 'create', 'a', 'connection', 'with', 'the', 'NAT', 'client']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN']"
-16,"var dstNet *net.TCPAddr = &net.TCPAddr{IP: net.ParseIP(""0.0.0.0""), Port: 9000}","['var', 'dstNet', '*', 'net', '.', 'TCPAddr', '=', '&', 'net', '.', 'TCPAddr', '{', 'IP', ':', 'net.ParseIP(""0.0.0.0"")', ',', 'Port', ':', '9000', '}']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-17,// listen on srcNet so that we can get traffic,"['//', 'listen', 'on', 'srcNet', 'so', 'that', 'we', 'can', 'get', 'traffic']","['COMMENT', 'VBN', 'IN', 'NN', 'RB', 'IN', 'PRP', 'MD', 'VB', 'NN']"
-18,// to forward to dstNet,"['//', 'to', 'forward', 'to', 'dstNet']","['COMMENT', 'TO', 'VB', 'TO', 'VB']"
-19,"var srcNet *net.TCPAddr = &net.TCPAddr{IP: net.ParseIP(""0.0.0.0""), Port: 9001}","['var', 'srcNet', '*', 'net', '.', 'TCPAddr', '=', '&', 'net', '.', 'TCPAddr', '{', 'IP', ':', 'net.ParseIP(""0.0.0.0"")', ',', 'Port', ':', '9001', '}']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-20,"var errCh = make(chan error, 1)","['var', 'errCh', '=', 'make', '(', 'chan', 'error', ',', '1', ')']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-21,// make a channel to send the reverse connections,"['//', 'make', 'a', 'channel', 'to', 'send', 'the', 'reverse', 'connections']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'NNS']"
-22,"var lrCh = make(chan *net.TCPConn, 1)","['var', 'lrCh', '=', 'make', '(', 'chan', '*', 'net', '.', 'TCPConn', ',', '1', ')']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-23,"var lrNewCh = make(chan int, 1)","['var', 'lrNewCh', '=', 'make', '(', 'chan', 'int', ',', '1', ')']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-24,func listenDst() {,"['func', 'listenDst', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-25,    // Listen on the dstNet,"['//', 'Listen', 'on', 'the', 'dstNet']","['COMMENT', 'VBN', 'IN', 'DT', 'NN']"
-26,"    lr, err := net.ListenTCP(""tcp"", dstNet)","['lr', ',', 'err', ':=', 'net.ListenTCP(""tcp"", dstNet)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-27,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-28,        log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-29,        errCh <- err,"['errCh', '<-', 'err']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-30,        return,['return'],['KEYWORD']
-31,    },['}'],['PUNCTUATION']
-32,    // accept the connection,"['//', 'accept', 'the', 'connection']","['COMMENT', 'IN', 'DT', 'NN']"
-33,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-34,"        lrConn, err := lr.AcceptTCP()","['lrConn', ',', 'err', ':=', 'lr.AcceptTCP()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-35,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-36,                log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-37,                //errCh <- err,"['//', 'errCh', '<-', 'err']","['COMMENT', 'JJ', 'JJ', 'NN']"
-38,                //return,"['//', 'return']","['COMMENT', 'NN']"
-39,        },['}'],['PUNCTUATION']
-40,        status := <-lrNewCh,"['status', ':=', '<-', 'lrNewCh']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-41,"            log.Errorf(""status request is %v"", status)","['log.Errorf(""status request is %v"", status)']",['FUNCTION_CALL']
-42,            if status == 1{,"['if', 'status', '==', '1', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-43,"                log.Errorf(""we close and restart the listener and the connection"")","['log.Errorf(""we close and restart the listener and the connection"")']",['FUNCTION_CALL']
-44,                if err =  lrConn.Close(); err !=nil{,"['if', 'err', '=', 'lrConn.Close()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-45,                    log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-46,                },['}'],['PUNCTUATION']
-47,                if err =  lr.Close(); err !=nil{,"['if', 'err', '=', 'lr.Close()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-48,                    log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-49,                },['}'],['PUNCTUATION']
-50,"                    lr, err = net.ListenTCP(""tcp"", dstNet)","['lr', ',', 'err', '=', 'net.ListenTCP(""tcp"", dstNet)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-51,                    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-52,                        log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-53,                        errCh <- err,"['errCh', '<-', 'err']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-54,                        return,['return'],['KEYWORD']
-55,                    },['}'],['PUNCTUATION']
-56,"                lrConn, err = lr.AcceptTCP()","['lrConn', ',', 'err', '=', 'lr.AcceptTCP()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-57,                if err !=nil{,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-58,                    log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-59,                    errCh <- err,"['errCh', '<-', 'err']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-60,                },['}'],['PUNCTUATION']
-61,            }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-62,"                log.Errorf(""new connection on its way"")","['log.Errorf(""new connection on its way"")']",['FUNCTION_CALL']
-63,                lrCh <- lrConn,"['lrCh', '<-', 'lrConn']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-64,            },['}'],['PUNCTUATION']
-65,    //  default:,"['//', 'default:']","['COMMENT', 'NN']"
-66,"            // log.Errorf(""accepting new connections"")","['//', 'log.Errorf(""accepting', 'new', 'connections"")']","['COMMENT', 'VBG', 'JJ', 'NN']"
-67,    },['}'],['PUNCTUATION']
-68,},['}'],['PUNCTUATION']
-69,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-70,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-71,        for err := range errCh {,"['for', 'err', ':=', 'range', 'errCh', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-72,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-73,                panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-74,            },['}'],['PUNCTUATION']
+
+so I am left with the belief that it must be something wrong with my program that won't let me process certificates.
+
+This is what I use to parse my flags to start the server: 
+
+","['This', 'has', 'really', 'stumped', ""me...I'm"", 'just', 'trying', 'to', 'setup', 'a', 'basic', 'server', 'using', 'Cobra', 'and', 'the', 'standard', 'http', 'package.', ""I've"", 'followed', 'the', 'golang', 'example', 'here', 'for', 'how', 'to', 'create', 'a', 'certificate', 'and', 'key,', 'but', 'no', 'matter', 'what', 'I', 'throw', 'at', 'it,', ""I'm"", 'not', 'getting', 'it', 'to', 'go', 'through', 'and', 'keep', 'getting', 'this', 'error:', 'Cannot', 'serve', 'on', 'http', 'port:', 'crypto/tls:', 'failed', 'to', 'find', 'certificate', 'PEM', 'data', 'in', 'certificate', 'input,', 'but', 'did', 'find', 'a', 'private', 'key;', 'PEM', 'inputs', 'may', 'have', 'been', 'switched', 'so', 'I', 'am', 'left', 'with', 'the', 'belief', 'that', 'it', 'must', 'be', 'something', 'wrong', 'with', 'my', 'program', 'that', ""won't"", 'let', 'me', 'process', 'certificates.', 'This', 'is', 'what', 'I', 'use', 'to', 'parse', 'my', 'flags', 'to', 'start', 'the', 'server:']","['DT', 'VBZ', 'RB', 'VBN', 'NN', 'RB', 'VBG', 'TO', 'VB', 'DT', 'JJ', 'NN', 'VBG', 'NNP', 'CC', 'DT', 'JJ', 'NN', 'NN', 'NNP', 'VBD', 'DT', 'NN', 'NN', 'RB', 'IN', 'WRB', 'TO', 'VB', 'DT', 'NN', 'CC', 'NN', 'CC', 'DT', 'NN', 'WP', 'PRP', 'VBP', 'IN', 'NN', 'NNP', 'RB', 'VBG', 'PRP', 'TO', 'VB', 'IN', 'CC', 'VB', 'VBG', 'DT', 'NN', 'NNP', 'NN', 'IN', 'NN', 'NN', 'NN', 'VBD', 'TO', 'VB', 'JJ', 'NNP', 'NN', 'IN', 'NN', 'NN', 'CC', 'VBD', 'VB', 'DT', 'JJ', 'NN', 'NNP', 'NNS', 'MD', 'VB', 'VBN', 'VBN', 'RB', 'PRP', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'MD', 'VB', 'NN', 'JJ', 'IN', 'PRP$', 'NN', 'IN', 'VBZ', 'VB', 'PRP', 'VB', 'NN', 'DT', 'VBZ', 'WP', 'PRP', 'VBP', 'TO', 'VB', 'PRP$', 'NNS', 'TO', 'VB', 'DT', 'NN']"
+1,var serverCmd = &cobra.Command{,"['var', 'serverCmd', '=', '&', 'cobra', '.', 'Command', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+2,"    Use:   ""server"",","['Use', ':', '""server""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+3,"    Short: ""start a compiler server"",","['Short', ':', '""start a compiler server""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+4,"    Run: func(cmd *cobra.Command, args []string) {","['Run', ':', 'func', '(', 'cmd', '*', 'cobra', '.', 'Command', ',', 'args', '[]', 'string', ')', '{']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+5,"        addrUnsecure := """"","['addrUnsecure', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+6,"        addrSecure := """"","['addrSecure', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+7,"        addrUnsecure += "":"" + strconv.FormatUint(serverPort, 10)","['addrUnsecure', '+=', '"":""', '+', 'strconv.FormatUint(serverPort, 10)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
+8,"        addrSecure += "":"" + strconv.FormatUint(securePort, 10)","['addrSecure', '+=', '"":""', '+', 'strconv.FormatUint(securePort, 10)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
+9,        if noSSL {,"['if', 'noSSL', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+10,"            addrSecure = """"","['addrSecure', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+11,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+12,            if secureOnly {,"['if', 'secureOnly', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+13,"                addrUnsecure = """"","['addrUnsecure', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+14,            },['}'],['PUNCTUATION']
+15,"            if _, err := os.Stat(serverKey); os.IsNotExist(err) {","['if', '_', ',', 'err', ':=', 'os.Stat(serverKey); os.IsNotExist(err)', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+16,"                log.Error(""Can't find ssl key %s. Use --no-ssl flag to disable"", serverKey)","['log.Error(""Can\'t find ssl key %s. Use --no-ssl flag to disable"", serverKey)']",['FUNCTION_CALL']
+17,                os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
+18,            },['}'],['PUNCTUATION']
+19,"            if _, err := os.Stat(serverCert); os.IsNotExist(err) {","['if', '_', ',', 'err', ':=', 'os.Stat(serverCert); os.IsNotExist(err)', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+20,"                log.Error(""Can't find ssl cert %s. Use --no-ssl flag to disable"", serverCert)","['log.Error(""Can\'t find ssl cert %s. Use --no-ssl flag to disable"", serverCert)']",['FUNCTION_CALL']
+21,                os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
+22,            },['}'],['PUNCTUATION']
+23,        },['}'],['PUNCTUATION']
+24,"        server.StartServer(addrUnsecure, addrSecure, serverCert, serverKey)","['server.StartServer(addrUnsecure, addrSecure, serverCert, serverKey)']",['FUNCTION_CALL']
+25,"    },","['},']",['PUNCTUATION']
+26,},['}'],['PUNCTUATION']
+27,func addServerFlags() {,"['func', 'addServerFlags', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+28,"    serverCmd.Flags().Uint64VarP(&serverPort, ""port"", ""p"", setServerPort(), ""set the listening port for http"")","['serverCmd.Flags().Uint64VarP(&serverPort, ""port"", ""p"", setServerPort(), ""set the listening port for http"")']",['FUNCTION_CALL']
+29,"    serverCmd.Flags().Uint64VarP(&securePort, ""secure-port"", ""s"", setSecurePort(), ""set the listening port for https"")","['serverCmd.Flags().Uint64VarP(&securePort, ""secure-port"", ""s"", setSecurePort(), ""set the listening port for https"")']",['FUNCTION_CALL']
+30,"    serverCmd.Flags().BoolVarP(&noSSL, ""no-ssl"", ""n"", setSSL(), ""use only http"")","['serverCmd.Flags().BoolVarP(&noSSL, ""no-ssl"", ""n"", setSSL(), ""use only http"")']",['FUNCTION_CALL']
+31,"    serverCmd.Flags().BoolVarP(&secureOnly, ""secure-only"", ""o"", setSecureOnly(), ""use only https"")","['serverCmd.Flags().BoolVarP(&secureOnly, ""secure-only"", ""o"", setSecureOnly(), ""use only https"")']",['FUNCTION_CALL']
+32,"    serverCmd.Flags().StringVarP(&serverCert, ""cert"", ""c"", setDefaultServerCert(), ""set the https certificate"")","['serverCmd.Flags().StringVarP(&serverCert, ""cert"", ""c"", setDefaultServerCert(), ""set the https certificate"")']",['FUNCTION_CALL']
+33,"    serverCmd.Flags().StringVarP(&serverKey, ""key"", ""k"", setDefaultServerKey(), ""set the key to interact with the https certificate"")","['serverCmd.Flags().StringVarP(&serverKey, ""key"", ""k"", setDefaultServerKey(), ""set the key to interact with the https certificate"")']",['FUNCTION_CALL']
+34,},['}'],['PUNCTUATION']
+35,func setServerPort() uint64 {,"['func', 'setServerPort', '()', 'uint64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+36,    return 9099,"['return', '9099']","['KEYWORD', 'DECIMAL_LITERAL']"
+37,},['}'],['PUNCTUATION']
+38,func setSecurePort() uint64 {,"['func', 'setSecurePort', '()', 'uint64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+39,    return 9098,"['return', '9098']","['KEYWORD', 'DECIMAL_LITERAL']"
+40,},['}'],['PUNCTUATION']
+41,func setSSL() bool {,"['func', 'setSSL', '()', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+42,    return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
+43,},['}'],['PUNCTUATION']
+44,func setSecureOnly() bool {,"['func', 'setSecureOnly', '()', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+45,    return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
+46,},['}'],['PUNCTUATION']
+47,func setDefaultServerCert() string {,"['func', 'setDefaultServerCert', '()', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+48,"    return """"","['return', '""""']","['KEYWORD', 'STRING_LITERAL']"
+49,},['}'],['PUNCTUATION']
+50,func setDefaultServerKey() string {,"['func', 'setDefaultServerKey', '()', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+51,"    return """"","['return', '""""']","['KEYWORD', 'STRING_LITERAL']"
+52,},['}'],['PUNCTUATION']
+53,"
+
+and this is the function where the actual server is started:
+
+","['and', 'this', 'is', 'the', 'function', 'where', 'the', 'actual', 'server', 'is', 'started:']","['CC', 'DT', 'VBZ', 'DT', 'NN', 'WRB', 'DT', 'JJ', 'NN', 'VBZ', 'JJ']"
+54,"func StartServer(addrUnsecure, addrSecure, key, cert string) {","['func', 'StartServer', '(', 'addrUnsecure', ',', 'addrSecure', ',', 'key', ',', 'cert', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+55,"    log.Warn(""Hello I'm the marmots' compilers server"")","['log.Warn(""Hello I\'m the marmots\' compilers server"")']",['FUNCTION_CALL']
+56,    common.InitErisDir(),['common.InitErisDir()'],['FUNCTION_CALL']
+57,    // Routes,"['//', 'Routes']","['COMMENT', 'NNS']"
+58,"    http.HandleFunc(""/"", CompileHandler)","['http.HandleFunc(""/"", CompileHandler)']",['FUNCTION_CALL']
+59,    // Use SSL ?,"['//', 'Use', 'SSL', '?']","['COMMENT', 'NNP', 'NNP', '.']"
+60,    log.Debug(cert),['log.Debug(cert)'],['FUNCTION_CALL']
+61,"    if addrSecure != """" {","['if', 'addrSecure', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+62,"        log.Debug(""Using HTTPS"")","['log.Debug(""Using HTTPS"")']",['FUNCTION_CALL']
+63,"        log.WithField(""=>"", addrSecure).Debug(""Listening on..."")","['log.WithField(""=>"", addrSecure).Debug(""Listening on..."")']",['FUNCTION_CALL']
+64,"        if err := http.ListenAndServeTLS(addrUnsecure, cert, key, nil); err != nil {","['if', 'err', ':=', 'http.ListenAndServeTLS(addrUnsecure, cert, key, nil)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+65,"            log.Error(""Cannot serve on http port: "", err)","['log.Error(""Cannot serve on http port: "", err)']",['FUNCTION_CALL']
+66,            os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
+67,        },['}'],['PUNCTUATION']
+68,    },['}'],['PUNCTUATION']
+69,"    if addrUnsecure != """" {","['if', 'addrUnsecure', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+70,"        log.Debug(""Using HTTP"")","['log.Debug(""Using HTTP"")']",['FUNCTION_CALL']
+71,"        log.WithField(""=>"", addrUnsecure).Debug(""Listening on..."")","['log.WithField(""=>"", addrUnsecure).Debug(""Listening on..."")']",['FUNCTION_CALL']
+72,"        if err := http.ListenAndServe(addrUnsecure, nil); err != nil {","['if', 'err', ':=', 'http.ListenAndServe(addrUnsecure, nil)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+73,"            log.Error(""Cannot serve on http port: "", err)","['log.Error(""Cannot serve on http port: "", err)']",['FUNCTION_CALL']
+74,            os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
 75,        },['}'],['PUNCTUATION']
-76,    }(),['}()'],['PUNCTUATION']
-77,    // listen for the nat server,"['//', 'listen', 'for', 'the', 'nat', 'server']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NN']"
-78,    go listenDst(),"['go', 'listenDst', '()']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-79,    // listen for clients to connect,"['//', 'listen', 'for', 'clients', 'to', 'connect']","['COMMENT', 'NN', 'IN', 'NNS', 'TO', 'VB']"
-80,"    l, err := net.ListenTCP(""tcp"", srcNet)","['l', ',', 'err', ':=', 'net.ListenTCP(""tcp"", srcNet)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-81,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-82,        log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-83,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-84,    },['}'],['PUNCTUATION']
-85,    // accept the connection,"['//', 'accept', 'the', 'connection']","['COMMENT', 'IN', 'DT', 'NN']"
-86,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-87,"        conn, err := l.AcceptTCP()","['conn', ',', 'err', ':=', 'l.AcceptTCP()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-88,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-89,            log.Error(err),['log.Error(err)'],['FUNCTION_CALL']
-90,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,        },['}'],['PUNCTUATION']
-92,        // serve the connection,"['//', 'serve', 'the', 'connection']","['COMMENT', 'VB', 'DT', 'NN']"
-93,        go func(conn *net.TCPConn) {,"['go', 'func', '(', 'conn', '*', 'net', '.', 'TCPConn', ')', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-94,            defer conn.Close(),"['defer', 'conn.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-95,            lrNewCh <- 0,"['lrNewCh', '<-', '0']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'OCTAL_LITERAL']"
-96,            dst := <-lrCh,"['dst', ':=', '<-', 'lrCh']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-97,            defer dst.Close(),"['defer', 'dst.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-98,"            proxy(dst, conn)","['proxy', '(', 'dst', ',', 'conn', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-99,        }(conn),"['}(', 'conn', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-100,    },['}'],['PUNCTUATION']
-101,},['}'],['PUNCTUATION']
-102,"func proxy(srvConn, cliConn *net.TCPConn) {","['func', 'proxy', '(', 'srvConn', ',', 'cliConn', '*', 'net', '.', 'TCPConn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-103,    // channels to wait on the close event for each connection,"['//', 'channels', 'to', 'wait', 'on', 'the', 'close', 'event', 'for', 'each', 'connection']","['COMMENT', 'NNS', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN']"
-104,"    serverClosed := make(chan struct{}, 1)","['serverClosed', ':=', 'make', '(', 'chan', 'struct', '{},', '1', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-105,"    clientClosed := make(chan struct{}, 1)","['clientClosed', ':=', 'make', '(', 'chan', 'struct', '{},', '1', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-106,"    go broker(srvConn, cliConn, clientClosed)","['go', 'broker', '(', 'srvConn', ',', 'cliConn', ',', 'clientClosed', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-107,"    go broker(cliConn, srvConn, serverClosed)","['go', 'broker', '(', 'cliConn', ',', 'srvConn', ',', 'serverClosed', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-108,"    // wait for one half of the proxy to exit, then trigger a shutdown of the","['//', 'wait', 'for', 'one', 'half', 'of', 'the', 'proxy', 'to', 'exit,', 'then', 'trigger', 'a', 'shutdown', 'of', 'the']","['COMMENT', 'NN', 'IN', 'CD', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'RB', 'VB', 'DT', 'NN', 'IN', 'DT']"
-109,    // other half by calling CloseRead(). This will break the read loop in the,"['//', 'other', 'half', 'by', 'calling', 'CloseRead().', 'This', 'will', 'break', 'the', 'read', 'loop', 'in', 'the']","['COMMENT', 'JJ', 'NN', 'IN', 'VBG', 'NNP', 'DT', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'DT']"
-110,    // broker and allow us to fully close the connection cleanly without a,"['//', 'broker', 'and', 'allow', 'us', 'to', 'fully', 'close', 'the', 'connection', 'cleanly', 'without', 'a']","['COMMENT', 'NN', 'CC', 'VB', 'PRP', 'TO', 'RB', 'VB', 'DT', 'NN', 'RB', 'IN', 'DT']"
-111,"    // ""use of closed network connection"" error.","['//', '""use', 'of', 'closed', 'network', 'connection""', 'error.']","['COMMENT', 'NN', 'IN', 'JJ', 'NN', 'NN', 'NN']"
-112,    var waitFor chan struct{},"['var', 'waitFor', 'chan', 'struct', '{}']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'KEYWORD', 'PUNCTUATION']"
-113,    select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
-114,    case <-clientClosed:,"['case', '<-', 'clientClosed', ':']","['KEYWORD', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-115,        // the client closed first and any more packets from the server aren't,"['//', 'the', 'client', 'closed', 'first', 'and', 'any', 'more', 'packets', 'from', 'the', 'server', ""aren't""]","['COMMENT', 'DT', 'NN', 'VBD', 'RB', 'CC', 'DT', 'JJR', 'NNS', 'IN', 'DT', 'NN', 'NN']"
-116,"        // useful, so we can optionally SetLinger(0) here to recycle the port","['//', 'useful,', 'so', 'we', 'can', 'optionally', 'SetLinger(0)', 'here', 'to', 'recycle', 'the', 'port']","['COMMENT', 'RB', 'IN', 'PRP', 'MD', 'RB', 'VB', 'RB', 'TO', 'VB', 'DT', 'NN']"
-117,        // faster.,"['//', 'faster.']","['COMMENT', 'NN']"
-118,        srvConn.SetLinger(0),['srvConn.SetLinger(0)'],['FUNCTION_CALL']
-119,        srvConn.CloseRead(),['srvConn.CloseRead()'],['FUNCTION_CALL']
-120,        waitFor = serverClosed,"['waitFor', '=', 'serverClosed']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-121,    case <-serverClosed:,"['case', '<-', 'serverClosed', ':']","['KEYWORD', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-122,        cliConn.CloseRead(),['cliConn.CloseRead()'],['FUNCTION_CALL']
-123,        waitFor = clientClosed,"['waitFor', '=', 'clientClosed']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-124,    },['}'],['PUNCTUATION']
-125,    // Wait for the other connection to close.,"['//', 'Wait', 'for', 'the', 'other', 'connection', 'to', 'close.']","['COMMENT', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'TO', 'VB']"
-126,"    // This ""waitFor"" pattern isn't required, but gives us a way to track the","['//', 'This', '""waitFor""', 'pattern', ""isn't"", 'required,', 'but', 'gives', 'us', 'a', 'way', 'to', 'track', 'the']","['COMMENT', 'DT', 'JJ', 'NN', 'NN', 'NN', 'CC', 'VBZ', 'PRP', 'DT', 'NN', 'TO', 'VB', 'DT']"
-127,    // connection and ensure all copies terminate correctly; we can trigger,"['//', 'connection', 'and', 'ensure', 'all', 'copies', 'terminate', 'correctly;', 'we', 'can', 'trigger']","['COMMENT', 'NN', 'CC', 'VB', 'DT', 'NNS', 'VBP', 'NN', 'PRP', 'MD', 'VB']"
-128,    // stats on entry and deferred exit of this function.,"['//', 'stats', 'on', 'entry', 'and', 'deferred', 'exit', 'of', 'this', 'function.']","['COMMENT', 'NNS', 'IN', 'NN', 'CC', 'JJ', 'NN', 'IN', 'DT', 'NN']"
-129,    <-waitFor,"['<-', 'waitFor']","['CHANNEL_OPERATOR', 'IDENTIFIER']"
-130,},['}'],['PUNCTUATION']
-131,// This does the actual data transfer.,"['//', 'This', 'does', 'the', 'actual', 'data', 'transfer.']","['COMMENT', 'DT', 'VBZ', 'DT', 'JJ', 'NNS', 'NN']"
-132,// The broker only closes the Read side.,"['//', 'The', 'broker', 'only', 'closes', 'the', 'Read', 'side.']","['COMMENT', 'DT', 'NN', 'RB', 'VBZ', 'DT', 'NNP', 'NN']"
-133,"func broker(dst, src net.Conn, srcClosed chan struct{}) {","['func', 'broker', '(', 'dst', ',', 'src', 'net', '.', 'Conn', ',', 'srcClosed', 'chan', 'struct', '{})', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-134,    // We can handle errors in a finer-grained manner by inlining io.Copy (it's,"['//', 'We', 'can', 'handle', 'errors', 'in', 'a', 'finer-grained', 'manner', 'by', 'inlining', 'io.Copy', ""(it's""]","['COMMENT', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'IN', 'VBG', 'NN', 'NN']"
-135,"    // simple, and we drop the ReaderFrom or WriterTo checks for","['//', 'simple,', 'and', 'we', 'drop', 'the', 'ReaderFrom', 'or', 'WriterTo', 'checks', 'for']","['COMMENT', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'NNP', 'CC', 'NNP', 'NNS', 'IN']"
-136,"    // net.Conn->net.Conn transfers, which aren't needed). This would also let","['//', 'net.Conn->net.Conn', 'transfers,', 'which', ""aren't"", 'needed).', 'This', 'would', 'also', 'let']","['COMMENT', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'DT', 'MD', 'RB', 'VB']"
-137,    // us adjust buffersize.,"['//', 'us', 'adjust', 'buffersize.']","['COMMENT', 'PRP', 'VBP', 'VB']"
-138,"    n, err := io.Copy(dst, src)","['n', ',', 'err', ':=', 'io.Copy(dst, src)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-139,"    log.Errorf("" %v bytes copied"", n)","['log.Errorf("" %v bytes copied"", n)']",['FUNCTION_CALL']
-140,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-141,"        log.Errorf(""Copy error: %s"", err)","['log.Errorf(""Copy error: %s"", err)']",['FUNCTION_CALL']
-142,        // errCh <- err,"['//', 'errCh', '<-', 'err']","['COMMENT', 'JJ', 'JJ', 'NN']"
-143,    },['}'],['PUNCTUATION']
-144,    if err := src.Close(); err != nil {,"['if', 'err', ':=', 'src.Close()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-145,"        log.Errorf(""Close error: %s"", err)","['log.Errorf(""Close error: %s"", err)']",['FUNCTION_CALL']
-146,        errCh <- err,"['errCh', '<-', 'err']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
-147,    },['}'],['PUNCTUATION']
-148,    if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-149,        lrNewCh <- 1,"['lrNewCh', '<-', '1']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'DECIMAL_LITERAL']"
-150,    },['}'],['PUNCTUATION']
-151,    srcClosed <- struct{}{},"['srcClosed', '<-', 'struct', '{}{}']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'KEYWORD', 'PUNCTUATION']"
-152,},['}'],['PUNCTUATION']
+76,    },['}'],['PUNCTUATION']
+77,},['}'],['PUNCTUATION']
+78,"
+
+I've gotten this in both Docker running Ubuntu 14.04 and OS X locally on my machine. Thanks in advance to whoever can help me out. It's kind of embarassing because this seems like it should be a really simple thing to do and I'm willing to bet it's going to be something dumb that's got me here. 
+","[""I've"", 'gotten', 'this', 'in', 'both', 'Docker', 'running', 'Ubuntu', '14.04', 'and', 'OS', 'X', 'locally', 'on', 'my', 'machine.', 'Thanks', 'in', 'advance', 'to', 'whoever', 'can', 'help', 'me', 'out.', ""It's"", 'kind', 'of', 'embarassing', 'because', 'this', 'seems', 'like', 'it', 'should', 'be', 'a', 'really', 'simple', 'thing', 'to', 'do', 'and', ""I'm"", 'willing', 'to', 'bet', ""it's"", 'going', 'to', 'be', 'something', 'dumb', ""that's"", 'got', 'me', 'here.']","['NNP', 'VBZ', 'DT', 'IN', 'DT', 'NNP', 'VBG', 'NNP', 'CD', 'CC', 'NNP', 'NNP', 'RB', 'IN', 'PRP$', 'JJ', 'NNS', 'IN', 'NN', 'TO', 'WP', 'MD', 'VB', 'PRP', 'JJ', 'NNP', 'NN', 'IN', 'NN', 'IN', 'DT', 'VBZ', 'IN', 'PRP', 'MD', 'VB', 'DT', 'RB', 'JJ', 'NN', 'TO', 'VB', 'CC', 'NNP', 'JJ', 'TO', 'VB', 'NN', 'VBG', 'TO', 'VB', 'NN', 'JJ', 'NN', 'VBD', 'PRP', 'VB']"

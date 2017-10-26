@@ -1,230 +1,80 @@
 ,text,token,annotation
-0,"I want to keep an asio connection responsive, that I mean to check the server every second till it become alive and then send and receive. Here is my code
+0,"Currently trying out Google Cloud with Go, and I'm having the most bizarre issue I have ever seen.
 
----irunnable.h---
+I have made an ultra simple ""hello world"" app that just prints out some text to the browser. It compiles perfectly with ""go build"", and even deploys to Google Cloud and runs there just fine, but when I use ""goapp serve"" to run it locally it randomly crashes when I start it, with a huge stack trace and the message:
 
-","['I', 'want', 'to', 'keep', 'an', 'asio', 'connection', 'responsive,', 'that', 'I', 'mean', 'to', 'check', 'the', 'server', 'every', 'second', 'till', 'it', 'become', 'alive', 'and', 'then', 'send', 'and', 'receive.', 'Here', 'is', 'my', 'code', '---irunnable.h---']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'DT', 'JJ', 'NN', 'PRP', 'VBD', 'JJ', 'CC', 'RB', 'VB', 'CC', 'VB', 'RB', 'VBZ', 'PRP$', 'NN', 'NN']"
-1,#ifndef IRUNNABLE_H,"['if', 'ndef', 'IRUNNABLE_H']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-2,#define IRUNNABLE_H,"['define', 'IRUNNABLE_H']","['IDENTIFIER', 'IDENTIFIER']"
-3,#include ,['include'],['IDENTIFIER']
-4,#include ,['include'],['IDENTIFIER']
-5,#include ,['include'],['IDENTIFIER']
-6,class IRunnable,"['class', 'IRunnable']","['IDENTIFIER', 'IDENTIFIER']"
-7,{,['{'],['PUNCTUATION']
-8,public:,"['public', ':']","['IDENTIFIER', 'PUNCTUATION']"
-9,    IRunnable(): mThread(nullptr) {,"['IRunnable', '():', 'mThread', '(', 'nullptr', ')', '{']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-10,        mRunning.store(false);,"['mRunning.store(false)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-11,    },['}'],['PUNCTUATION']
-12,    virtual ~IRunnable() {,"['virtual', 'IRunnable', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-13,        if (mRunning.load()),"['if', '(', 'mRunning.load())']","['KEYWORD', 'PUNCTUATION', 'FUNCTION_CALL']"
-14,            Stop();,"['Stop', '();']","['IDENTIFIER', 'PUNCTUATION']"
-15,        delete mThread;,"['delete', 'mThread', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-16,    },['}'],['PUNCTUATION']
-17,    virtual void Start() {,"['virtual', 'void', 'Start', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-18,        mRunning.store(true);,"['mRunning.store(true)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-19,"        mThread = new std::thread(&IRunnable::Run, this);","['mThread', '=', 'new', 'std', '::', 'thread', '(&', 'IRunnable', '::', 'Run', ',', 'this', ');']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-20,    },['}'],['PUNCTUATION']
-21,    virtual void Stop() {,"['virtual', 'void', 'Stop', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-22,        mRunning.store(false);,"['mRunning.store(false)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-23,        if (mThread && mThread->joinable()),"['if', '(', 'mThread', '&&', 'mThread', '->', 'joinable', '())']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-24,            mThread->join();,"['mThread', '->', 'join', '();']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-25,    },['}'],['PUNCTUATION']
-26,    virtual bool IsRunning() {return mRunning.load();},"['virtual', 'bool', 'IsRunning', '()', '{', 'return', 'mRunning.load()', ';}']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-27,protected:,"['protected', ':']","['IDENTIFIER', 'PUNCTUATION']"
-28,    virtual void Run() = 0;,"['virtual', 'void', 'Run', '()', '=', '0', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-29,    std::atomic mRunning;,"['std', '::', 'atomic', 'mRunning', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-30,private:,"['private', ':']","['IDENTIFIER', 'PUNCTUATION']"
-31,    std::thread *mThread;,"['std', '::', 'thread', '*', 'mThread', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-32,};,['};'],['PUNCTUATION']
-33,#endif // IRUNNABLE_H,"['endif', '//', 'IRUNNABLE_H']","['IDENTIFIER', 'COMMENT', 'NN']"
-34,"
+","['Currently', 'trying', 'out', 'Google', 'Cloud', 'with', 'Go,', 'and', ""I'm"", 'having', 'the', 'most', 'bizarre', 'issue', 'I', 'have', 'ever', 'seen.', 'I', 'have', 'made', 'an', 'ultra', 'simple', '""hello', 'world""', 'app', 'that', 'just', 'prints', 'out', 'some', 'text', 'to', 'the', 'browser.', 'It', 'compiles', 'perfectly', 'with', '""go', 'build"",', 'and', 'even', 'deploys', 'to', 'Google', 'Cloud', 'and', 'runs', 'there', 'just', 'fine,', 'but', 'when', 'I', 'use', '""goapp', 'serve""', 'to', 'run', 'it', 'locally', 'it', 'randomly', 'crashes', 'when', 'I', 'start', 'it,', 'with', 'a', 'huge', 'stack', 'trace', 'and', 'the', 'message:']","['RB', 'VBG', 'RP', 'NNP', 'NNP', 'IN', 'NNP', 'CC', 'NNP', 'VBG', 'DT', 'RBS', 'JJ', 'NN', 'PRP', 'VBP', 'RB', 'VBN', 'PRP', 'VBP', 'VBN', 'DT', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'WDT', 'RB', 'VBZ', 'RP', 'DT', 'NN', 'TO', 'DT', 'NN', 'PRP', 'VBZ', 'RB', 'IN', 'NNP', 'NN', 'CC', 'RB', 'VBZ', 'TO', 'NNP', 'NNP', 'CC', 'VB', 'RB', 'RB', 'NN', 'CC', 'WRB', 'PRP', 'VBP', 'JJ', 'NN', 'TO', 'VB', 'PRP', 'RB', 'PRP', 'RB', 'VBZ', 'WRB', 'PRP', 'VBP', 'VB', 'IN', 'DT', 'JJ', 'NN', 'NN', 'CC', 'DT', 'NN']"
+1,fatal error: unexpected signal during runtime execution,"['fatal', 'error', ':', 'unexpected', 'signal', 'during', 'runtime', 'execution']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+2,[signal 0xb code=0x1 addr=0xb01dfacedebac1e pc=0xf47b],"['[', 'signal', '0xb', 'code', '=', '0x1', 'addr', '=', '0xb', '01', 'dfacedebac1e', 'pc', '=', '0xf47b', ']']","['PUNCTUATION', 'IDENTIFIER', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'PUNCTUATION']"
+3,"
 
----mytcpconnection.h---
+When I get the error, I simply run ""goapp serve"" again, and after a few tries it somehow magically decides to work. Other times, if I can't get it to run after 10-20 tries, I simply make a micro change in the code somewhere, like editing a string, changing a single character, and then it runs just fine locally. Whaaaaat!?!?!?
 
-",['---mytcpconnection.h---'],['NN']
-35,#ifndef MYTCPCONNECTION_H,"['if', 'ndef', 'MYTCPCONNECTION_H']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-36,#define MYTCPCONNECTION_H,"['define', 'MYTCPCONNECTION_H']","['IDENTIFIER', 'IDENTIFIER']"
-37,#include ,['include'],['IDENTIFIER']
-38,#include ,['include'],['IDENTIFIER']
-39,"#include ""irunnable.h""","['include', '""irunnable.h""']","['IDENTIFIER', 'STRING_LITERAL']"
-40,class MyTCPConnection : public IRunnable,"['class', 'MyTCPConnection', ':', 'public', 'IRunnable']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-41,{,['{'],['PUNCTUATION']
-42,public:,"['public', ':']","['IDENTIFIER', 'PUNCTUATION']"
-43,"    MyTCPConnection(const std::string &ip, const std::string &port);","['MyTCPConnection', '(', 'const', 'std', '::', 'string', '&', 'ip', ',', 'const', 'std', '::', 'string', '&', 'port', ');']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-44,    ~MyTCPConnection();,"['MyTCPConnection', '();']","['IDENTIFIER', 'PUNCTUATION']"
-45,    void Stop();,"['void', 'Stop', '();']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-46,    void Write(const std::string &msg);,"['void', 'Write', '(', 'const', 'std', '::', 'string', '&', 'msg', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-47,    void Connect();,"['void', 'Connect', '();']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-48,protected:,"['protected', ':']","['IDENTIFIER', 'PUNCTUATION']"
-49,    void Run();,"['void', 'Run', '();']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-50,private:,"['private', ':']","['IDENTIFIER', 'PUNCTUATION']"
-51,    void readHeader();,"['void', 'readHeader', '();']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-52,private:,"['private', ':']","['IDENTIFIER', 'PUNCTUATION']"
-53,    std::string mIP;,"['std', '::', 'string', 'mIP', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-54,    std::string mPort;,"['std', '::', 'string', 'mPort', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-55,    asio::io_service mIOService;,"['asio', '::', 'io_service', 'mIOService', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-56,    asio::ip::tcp::socket mSocket;,"['asio', '::', 'ip', '::', 'tcp', '::', 'socket', 'mSocket', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-57,};,['};'],['PUNCTUATION']
-58,#endif // MYTCPCONNECTION_H,"['endif', '//', 'MYTCPCONNECTION_H']","['IDENTIFIER', 'COMMENT', 'NN']"
-59,"
+I'm so baffled how this is even possible. I seems that ""goapp serve"" is extremely fragile. It's Google official local development server, so I would expect it to be a little more stable, or at least give some more human readable clues.
 
----mytcpconnection.cpp
+I have searched all over and can't find anything related to this.
 
-",['---mytcpconnection.cpp'],['NN']
-60,"#include ""mytcpconnection.h""","['include', '""mytcpconnection.h""']","['IDENTIFIER', 'STRING_LITERAL']"
-61,#include ,['include'],['IDENTIFIER']
-62,#include ,['include'],['IDENTIFIER']
-63,#include ,['include'],['IDENTIFIER']
-64,#include ,['include'],['IDENTIFIER']
-65,"MyTCPConnection::MyTCPConnection(const std::string &ip, const std::string &port):","['MyTCPConnection', '::', 'MyTCPConnection', '(', 'const', 'std', '::', 'string', '&', 'ip', ',', 'const', 'std', '::', 'string', '&', 'port', '):']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-66,"    mIP(ip),","['mIP', '(', 'ip', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-67,"    mPort(port),","['mPort', '(', 'port', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-68,    mSocket(mIOService),"['mSocket', '(', 'mIOService', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-69,{,['{'],['PUNCTUATION']
-70,    Connect();,"['Connect', '();']","['IDENTIFIER', 'PUNCTUATION']"
-71,},['}'],['PUNCTUATION']
-72,MyTCPConnection::~MyTCPConnection(),"['MyTCPConnection', '::', 'MyTCPConnection', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-73,{,['{'],['PUNCTUATION']
-74,    Stop();,"['Stop', '();']","['IDENTIFIER', 'PUNCTUATION']"
-75,},['}'],['PUNCTUATION']
-76,void MyTCPConnection::Stop(),"['void', 'MyTCPConnection', '::', 'Stop', '()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-77,{,['{'],['PUNCTUATION']
-78,    mIOService.stop();,"['mIOService.stop()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-79,    mSocket.close();,"['mSocket.close()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-80,    IRunnable::Stop();,"['IRunnable', '::', 'Stop', '();']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-81,},['}'],['PUNCTUATION']
-82,void MyTCPConnection::Write(const std::string &msg),"['void', 'MyTCPConnection', '::', 'Write', '(', 'const', 'std', '::', 'string', '&', 'msg', ')']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-83,{,['{'],['PUNCTUATION']
-84,"    asio::async_write(mSocket,","['asio', '::', 'async_write', '(', 'mSocket', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-85,"                    asio::buffer(msg.c_str(),","['asio', '::', 'buffer', '(', 'msg.c_str()', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-86,"                                msg.length()),","['msg.length())', ',']","['FUNCTION_CALL', 'PUNCTUATION']"
-87,"                    [this, msg](std::error_code ec, std::size_t /*length*/)","['[', 'this', ',', 'msg', '](', 'std', '::', 'error_code', 'ec', ',', 'std', '::', 'size_t', '/*length*/)']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DIRECTORY']"
-88,    {,['{'],['PUNCTUATION']
-89,        if (!ec),"['if', '(!', 'ec', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-90,        {,['{'],['PUNCTUATION']
-91,            std::cout <<  msg << std::endl;,"['std', '::', 'cout', '<<', 'msg', '<<', 'std', '::', 'endl', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-92,        },['}'],['PUNCTUATION']
-93,        else,['else'],['KEYWORD']
-94,        {,['{'],['PUNCTUATION']
-95,            mSocket.close();,"['mSocket.close()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-96,        },['}'],['PUNCTUATION']
-97,    });,['});'],['PUNCTUATION']
-98,},['}'],['PUNCTUATION']
-99,void MyTCPConnection::Run(),"['void', 'MyTCPConnection', '::', 'Run', '()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-100,{,['{'],['PUNCTUATION']
-101,    while (mRunning.load()) {,"['while', '(', 'mRunning.load())', '{']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-102,        sleep(1);,"['sleep', '(', '1', ');']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-103,//        Connect();,"['//', 'Connect();']","['COMMENT', 'NN']"
-104,"        std::cout << ""before run\n"";","['std', '::', 'cout', '<<', '""before run\\n""', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-105,        mIOService.run();,"['mIOService.run()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-106,"        std::cout << ""after run\n"";","['std', '::', 'cout', '<<', '""after run\\n""', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-107,    },['}'],['PUNCTUATION']
-108,},['}'],['PUNCTUATION']
-109,void MyTCPConnection::Connect(),"['void', 'MyTCPConnection', '::', 'Connect', '()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-110,{,['{'],['PUNCTUATION']
-111,    asio::ip::tcp::resolver resolver(mIOService);,"['asio', '::', 'ip', '::', 'tcp', '::', 'resolver', 'resolver', '(', 'mIOService', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-112,"    asio::async_connect(mSocket, resolver.resolve({mIP, mPort}),","['asio', '::', 'async_connect', '(', 'mSocket', ',', 'resolver.resolve({mIP, mPort})', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-113,"                        [this](std::error_code ec, asio::ip::tcp::resolver::iterator)","['[', 'this', '](', 'std', '::', 'error_code', 'ec', ',', 'asio', '::', 'ip', '::', 'tcp', '::', 'resolver', '::', 'iterator', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-114,    {,['{'],['PUNCTUATION']
-115,        if (!ec),"['if', '(!', 'ec', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-116,        {,['{'],['PUNCTUATION']
-117,"            std::cout << ""readHeader called\n"";","['std', '::', 'cout', '<<', '""readHeader called\\n""', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-118,            readHeader();,"['readHeader', '();']","['IDENTIFIER', 'PUNCTUATION']"
-119,        },['}'],['PUNCTUATION']
-120,        else {,"['else', '{']","['KEYWORD', 'PUNCTUATION']"
-121,"            std::cout << ""can not connect\n"";","['std', '::', 'cout', '<<', '""can not connect\\n""', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-122,            mSocket.close();,"['mSocket.close()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-123,            mIOService.reset();,"['mIOService.reset()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-124,"            std::cout << ""after stopping io_service\n"";","['std', '::', 'cout', '<<', '""after stopping io_service\\n""', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-125,        },['}'],['PUNCTUATION']
-126,    });,['});'],['PUNCTUATION']
-127,},['}'],['PUNCTUATION']
-128,void MyTCPConnection::readHeader(),"['void', 'MyTCPConnection', '::', 'readHeader', '()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-129,{,['{'],['PUNCTUATION']
-130,    const int header_length = 16;,"['const', 'int', 'header_length', '=', '16', ';']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-131,"    std::shared_ptr msg(new char[header_length]{0},","['std', '::', 'shared_ptr', 'msg', '(', 'new', 'char', '[', 'header_length', ']{', '0', '},']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-132,        [](char *c) {,"['[](', 'char', '*', 'c', ')', '{']","['PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-133,            delete[] c;,"['delete', '[]', 'c', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-134,    });,['});'],['PUNCTUATION']
-135,"    asio::async_read(mSocket,","['asio', '::', 'async_read', '(', 'mSocket', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-136,"                    asio::buffer(msg.get(), header_length),","['asio', '::', 'buffer', '(', 'msg.get(), header_length)', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-137,"                    [this, msg](std::error_code ec, std::size_t s/*length*/)","['[', 'this', ',', 'msg', '](', 'std', '::', 'error_code', 'ec', ',', 'std', '::', 'size_t', 's/*length*/)']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DIRECTORY']"
-138,    {,['{'],['PUNCTUATION']
-139,        if (!ec),"['if', '(!', 'ec', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-140,        {,['{'],['PUNCTUATION']
-141,"            std::cout << ""Message read "" << s << std::endl;","['std', '::', 'cout', '<<', '""Message read ""', '<<', 's', '<<', 'std', '::', 'endl', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-142,            readHeader();,"['readHeader', '();']","['IDENTIFIER', 'PUNCTUATION']"
-143,        },['}'],['PUNCTUATION']
-144,        else,['else'],['KEYWORD']
-145,        {,['{'],['PUNCTUATION']
-146,"            std::cout << ""closing socket\n"";","['std', '::', 'cout', '<<', '""closing socket\\n""', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-147,            mSocket.close();,"['mSocket.close()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-148,            mIOService.stop();,"['mIOService.stop()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-149,        },['}'],['PUNCTUATION']
-150,    });,['});'],['PUNCTUATION']
-151,},['}'],['PUNCTUATION']
-152,"
+Any ideas how or what is causing this?
 
----main.cpp---
+Here is the stack trace:
 
-",['---main.cpp---'],['NN']
-153,#include ,['include'],['IDENTIFIER']
-154,"#include ""mytcpconnection.h""","['include', '""mytcpconnection.h""']","['IDENTIFIER', 'STRING_LITERAL']"
-155,using namespace std;,"['using', 'namespace', 'std', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-156,int main(),"['int', 'main', '()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-157,{,['{'],['PUNCTUATION']
-158,"    MyTCPConnection conn(""127.0.0.1"", ""12345"");","['MyTCPConnection', 'conn', '(', '""127.0.0.1""', ',', '""12345""', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-159,    conn.Start();,"['conn.Start()', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-160,    while (true),"['while', '(', 'true', ')']","['IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-161,    {,['{'],['PUNCTUATION']
-162,"        conn.Write(""Hello server"");","['conn.Write(""Hello server"")', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
-163,        sleep(1);,"['sleep', '(', '1', ');']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-164,    },['}'],['PUNCTUATION']
-165,    return 0;,"['return', '0', ';']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION']"
-166,},['}'],['PUNCTUATION']
-167,"
-
----server.go---
-
-",['---server.go---'],['NN']
-168,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-169,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-170,"        ""time""","['""time""']",['STRING_LITERAL']
-171,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
-172,"        ""net""","['""net""']",['STRING_LITERAL']
-173,),[')'],['PUNCTUATION']
-174,func handle_conn(conn net.Conn) {,"['func', 'handle_conn', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-175,"    b := make([]byte, 1028)","['b', ':=', 'make', '([]', 'byte', ',', '1028', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-176,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-177,"        n, err:= conn.Read(b)","['n', ',', 'err', ':=', 'conn.Read(b)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-178,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-179,            fmt.Println(err.Error()),['fmt.Println(err.Error())'],['FUNCTION_CALL']
-180,            break,['break'],['KEYWORD']
-181,        },['}'],['PUNCTUATION']
-182,        fmt.Println(string(b[:n])),['fmt.Println(string(b[:n]))'],['FUNCTION_CALL']
-183,"        _, _ = conn.Write([]byte(""hellohellohello1""))","['_', ',', '_', '=', 'conn.Write([]byte(""hellohellohello1""))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-184,        time.Sleep(time.Second*1),['time.Sleep(time.Second*1)'],['FUNCTION_CALL']
-185,    },['}'],['PUNCTUATION']
-186,},['}'],['PUNCTUATION']
-187,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-188,"        ln, err := net.Listen(""tcp"", "":12345"")","['ln', ',', 'err', ':=', 'net.Listen(""tcp"", "":12345"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-189,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-190,                fmt.Println(err.Error()),['fmt.Println(err.Error())'],['FUNCTION_CALL']
-191,        },['}'],['PUNCTUATION']
-192,"        fmt.Println(""server started"")","['fmt.Println(""server started"")']",['FUNCTION_CALL']
-193,        for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-194,"                conn, err := ln.Accept()","['conn', ',', 'err', ':=', 'ln.Accept()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-195,"        fmt.Println(""connection from"", conn.RemoteAddr())","['fmt.Println(""connection from"", conn.RemoteAddr())']",['FUNCTION_CALL']
-196,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-197,                        fmt.Println(err.Error()),['fmt.Println(err.Error())'],['FUNCTION_CALL']
-198,                        continue,['continue'],['KEYWORD']
-199,                },['}'],['PUNCTUATION']
-200,                go handle_conn(conn),"['go', 'handle_conn', '(', 'conn', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-201,        },['}'],['PUNCTUATION']
-202,},['}'],['PUNCTUATION']
-203,"
-
-In this form, the client connects to the server (when the server is running) and keeps reading and writing. If I move the Connect() method in the mytcpconnection constructor to the Run() function (where it is commented now), the connection is not able to connect to the server. 
-
-How can I fix this problem?
-","['In', 'this', 'form,', 'the', 'client', 'connects', 'to', 'the', 'server', '(when', 'the', 'server', 'is', 'running)', 'and', 'keeps', 'reading', 'and', 'writing.', 'If', 'I', 'move', 'the', 'Connect()', 'method', 'in', 'the', 'mytcpconnection', 'constructor', 'to', 'the', 'Run()', 'function', '(where', 'it', 'is', 'commented', 'now),', 'the', 'connection', 'is', 'not', 'able', 'to', 'connect', 'to', 'the', 'server.', 'How', 'can', 'I', 'fix', 'this', 'problem?']","['IN', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'VBZ', 'NN', 'CC', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'NNP', 'NN', 'IN', 'DT', 'NN', 'NN', 'TO', 'DT', 'NNP', 'NN', 'WRB', 'PRP', 'VBZ', 'VBN', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'JJ', 'TO', 'VB', 'TO', 'DT', 'JJ', 'NNP', 'MD', 'PRP', 'VB', 'DT', 'NN']"
+","['When', 'I', 'get', 'the', 'error,', 'I', 'simply', 'run', '""goapp', 'serve""', 'again,', 'and', 'after', 'a', 'few', 'tries', 'it', 'somehow', 'magically', 'decides', 'to', 'work.', 'Other', 'times,', 'if', 'I', ""can't"", 'get', 'it', 'to', 'run', 'after', '10-20', 'tries,', 'I', 'simply', 'make', 'a', 'micro', 'change', 'in', 'the', 'code', 'somewhere,', 'like', 'editing', 'a', 'string,', 'changing', 'a', 'single', 'character,', 'and', 'then', 'it', 'runs', 'just', 'fine', 'locally.', 'Whaaaaat!?!?!?', ""I'm"", 'so', 'baffled', 'how', 'this', 'is', 'even', 'possible.', 'I', 'seems', 'that', '""goapp', 'serve""', 'is', 'extremely', 'fragile.', ""It's"", 'Google', 'official', 'local', 'development', 'server,', 'so', 'I', 'would', 'expect', 'it', 'to', 'be', 'a', 'little', 'more', 'stable,', 'or', 'at', 'least', 'give', 'some', 'more', 'human', 'readable', 'clues.', 'I', 'have', 'searched', 'all', 'over', 'and', ""can't"", 'find', 'anything', 'related', 'to', 'this.', 'Any', 'ideas', 'how', 'or', 'what', 'is', 'causing', 'this?', 'Here', 'is', 'the', 'stack', 'trace:']","['WRB', 'PRP', 'VBP', 'DT', 'NN', 'PRP', 'RB', 'VB', 'NNP', 'NN', 'NN', 'CC', 'IN', 'DT', 'JJ', 'NNS', 'PRP', 'RB', 'RB', 'VBZ', 'TO', 'VB', 'JJ', 'NN', 'IN', 'PRP', 'VBP', 'VB', 'PRP', 'TO', 'VB', 'IN', 'JJ', 'NN', 'PRP', 'RB', 'VB', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'VBG', 'DT', 'NN', 'VBG', 'DT', 'JJ', 'NN', 'CC', 'RB', 'PRP', 'VBZ', 'RB', 'JJ', 'JJ', 'NNP', 'NNP', 'RB', 'VBD', 'WRB', 'DT', 'VBZ', 'RB', 'JJ', 'PRP', 'VBZ', 'IN', 'NN', 'NN', 'VBZ', 'RB', 'JJ', 'NNP', 'NNP', 'NN', 'JJ', 'NN', 'NN', 'IN', 'PRP', 'MD', 'VB', 'PRP', 'TO', 'VB', 'DT', 'JJ', 'JJR', 'NN', 'CC', 'IN', 'JJS', 'VB', 'DT', 'JJR', 'JJ', 'JJ', 'NN', 'PRP', 'VBP', 'VBN', 'DT', 'IN', 'CC', 'JJ', 'VB', 'NN', 'VBN', 'TO', 'VB', 'NNP', 'VB', 'WRB', 'CC', 'WP', 'VBZ', 'VBG', 'NN', 'RB', 'VBZ', 'DT', 'NN', 'NN']"
+4,"ERROR   go_runtime.py:181] Failed to build Go application: (Executed command: /usr/local/go_appengine/goroot/bin/go-app-builder -app_base /Users/kieran/Go/src/hello/main -arch 6 -dynamic -goroot /usr/local/go_appengine/goroot -nobuild_files ^^$ -unsafe -gopath /Users/kieran/Go -binary_name _go_app -extra_imports appengine_internal/init -work_dir /var/folders/w3/wrcy8wfn3gzbnphs0cq6yw9r0000gn/T/tmpf_Nrsvappengine-go-bin -gcflags -I,/usr/local/go_appengine/goroot/pkg/darwin_amd64_appengine -ldflags -L,/usr/local/go_appengine/goroot/pkg/darwin_amd64_appengine main.go)","['ERROR', 'go', '_runtime', '.', 'py', ':', '181', ']', 'Failed', 'to', 'build', 'Go', 'application', ':', '(', 'Executed', 'command', ':', '/usr/local/go_appengine/goroot/bin/go-app-builder -app_base /Users/kieran/Go/src/hello/main -arch 6 -dynamic -goroot /usr/local/go_appengine/goroot -nobuild_files ^^$ -unsafe -gopath /Users/kieran/Go -binary_name _go_app -extra_imports appengine_internal/init -work_dir /var/folders/w3/wrcy8wfn3gzbnphs0cq6yw9r0000gn/T/tmpf_Nrsvappengine-go-bin -gcflags -I,/usr/local/go_appengine/goroot/pkg/darwin_amd64_appengine -ldflags -L,/usr/local/go_appengine/goroot/pkg/darwin_amd64_appengine', 'main', '.', 'go', ')']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+5,fatal error: unexpected signal during runtime execution,"['fatal', 'error', ':', 'unexpected', 'signal', 'during', 'runtime', 'execution']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+6,[signal 0xb code=0x1 addr=0xb01dfacedebac1e pc=0xf47b],"['[', 'signal', '0xb', 'code', '=', '0x1', 'addr', '=', '0xb', '01', 'dfacedebac1e', 'pc', '=', '0xf47b', ']']","['PUNCTUATION', 'IDENTIFIER', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'PUNCTUATION']"
+7,runtime stack:,"['runtime', 'stack', ':']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+8,"runtime.throw(0x2c4ac0, 0x2a)","['runtime.throw(0x2c4ac0, 0x2a)']",['FUNCTION_CALL']
+9,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/panic.go:547 +0x90,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/panic.go:547', '+', '0x9', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
+10,runtime.sigpanic(),['runtime.sigpanic()'],['FUNCTION_CALL']
+11,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/sigpanic_unix.go:12 +0x5a,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/sigpanic_unix.go:12', '+', '0x5a']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+12,runtime.unlock(0x3aa0c0),['runtime.unlock(0x3aa0c0)'],['FUNCTION_CALL']
+13,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/lock_sema.go:107 +0x14b,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/lock_sema.go:107', '+', '0x14b']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+14,"runtime.(*mheap).alloc_m(0x3aa0c0, 0x1, 0x20000000020, 0x8a5178)","['runtime', '.(*', 'mheap', ').', 'alloc_m', '(', '0x3aa', '0', 'c0', ',', '0x1', ',', '0x2', '0', '0', '0', '0', '0', '0', '0', '02', '0', ',', '0x8a5178', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
+15,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mheap.go:492 +0x314,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mheap.go:492', '+', '0x314']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+16,runtime.(*mheap).alloc.func1(),"['runtime', '.(*', 'mheap', ').', 'alloc.func1()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+17,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mheap.go:502 +0x41,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mheap.go:502', '+', '0x41']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+18,runtime.systemstack(0xc820039e58),['runtime.systemstack(0xc820039e58)'],['FUNCTION_CALL']
+19,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:307 +0xab,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:307', '+', '0xab']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+20,"runtime.(*mheap).alloc(0x3aa0c0, 0x1, 0x10000000020, 0xf11f)","['runtime', '.(*', 'mheap', ').', 'alloc', '(', '0x3aa', '0', 'c0', ',', '0x1', ',', '0x1', '0', '0', '0', '0', '0', '0', '0', '02', '0', ',', '0xf11f', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
+21,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mheap.go:503 +0x63,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mheap.go:503', '+', '0x63']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+22,"runtime.(*mcentral).grow(0x3ac190, 0x0)","['runtime', '.(*', 'mcentral', ').', 'grow', '(', '0x3ac19', '0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+23,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mcentral.go:209 +0x93,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mcentral.go:209', '+', '0x93']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+24,"runtime.(*mcentral).cacheSpan(0x3ac190, 0x8a5178)","['runtime', '.(*', 'mcentral', ').', 'cacheSpan', '(', '0x3ac19', '0', ',', '0x8a5178', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
+25,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mcentral.go:89 +0x47d,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mcentral.go:89', '+', '0x47d']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+26,"runtime.(*mcache).refill(0x406c20, 0x20, 0x8a5178)","['runtime', '.(*', 'mcache', ').', 'refill', '(', '0x4', '06', 'c20', ',', '0x2', '0', ',', '0x8a5178', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
+27,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mcache.go:119 +0xcc,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/mcache.go:119', '+', '0xcc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+28,runtime.mallocgc.func2(),"['runtime', '.', 'mallocgc.func2()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+29,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/malloc.go:642 +0x2b,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/malloc.go:642', '+', '0x2b']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+30,runtime.systemstack(0xc820012000),['runtime.systemstack(0xc820012000)'],['FUNCTION_CALL']
+31,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:291 +0x79,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:291', '+', '0x79']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+32,runtime.mstart(),['runtime.mstart()'],['FUNCTION_CALL']
+33,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/proc.go:1051,['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/proc.go:1051'],['DIRECTORY']
+34,goroutine 1 [running]:,"['go', 'routine', '1', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+35,runtime.systemstack_switch(),['runtime.systemstack_switch()'],['FUNCTION_CALL']
+36,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:245 fp=0xc8200329d0 sp=0xc8200329c8,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:245', 'fp', '=', '0xc82', '0', '032', '9', 'd0', 'sp', '=', '0xc82', '0', '032', '9', 'c8']","['DIRECTORY', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+37,"runtime.mallocgc(0x480, 0x25c640, 0xc800000000, 0xc820074240)","['runtime.mallocgc(0x480, 0x25c640, 0xc800000000, 0xc820074240)']",['FUNCTION_CALL']
+38,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/malloc.go:643 +0x869 fp=0xc820032aa8 sp=0xc8200329d0,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/malloc.go:643', '+', '0x869', 'fp', '=', '0xc82', '0', '032', 'aa8', 'sp', '=', '0xc82', '0', '032', '9', 'd0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+39,"runtime.newarray(0x25c640, 0x18, 0x152be8)","['runtime.newarray(0x25c640, 0x18, 0x152be8)']",['FUNCTION_CALL']
+40,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/malloc.go:798 +0xc9 fp=0xc820032ae8 sp=0xc820032aa8,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/malloc.go:798', '+', '0xc9', 'fp', '=', '0xc82', '0', '032', 'ae8', 'sp', '=', '0xc82', '0', '032', 'aa8']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+41,"runtime.makeslice(0x1e6920, 0x18, 0x18, 0x0, 0x0, 0x0)","['runtime.makeslice(0x1e6920, 0x18, 0x18, 0x0, 0x0, 0x0)']",['FUNCTION_CALL']
+42,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/slice.go:32 +0x165 fp=0xc820032b38 sp=0xc820032ae8,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/slice.go:32', '+', '0x165', 'fp', '=', '0xc82', '0', '032', 'b38', 'sp', '=', '0xc82', '0', '032', 'ae8']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+43,"cmd/link/internal/ld.readsym(0xc820074240, 0xc825a9e1a0, 0xc821107850, 0x8, 0xc821ecb360, 0x4c)","['cmd/link/internal/ld.readsym(0xc820074240,', '0xc825a9e1a', '0', ',', '0xc8211', '07', '850', ',', '0x8', ',', '0xc821ecb36', '0', ',', '0x4c', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
+44,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/objfile.go:239 +0xba6 fp=0xc820032f80 sp=0xc820032b38,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/objfile.go:239', '+', '0xba6', 'fp', '=', '0xc82', '0', '032', 'f80', 'sp', '=', '0xc82', '0', '032', 'b38']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+45,"cmd/link/internal/ld.ldobjfile(0xc820074240, 0xc825a9e1a0, 0xc821107850, 0x8, 0xbf902, 0xc821ecb360, 0x4c)","['cmd/link/internal/ld.ldobjfile(0xc820074240,', '0xc825a9e1a', '0', ',', '0xc8211', '07', '850', ',', '0x8', ',', '0xbf9', '02', ',', '0xc821ecb36', '0', ',', '0x4c', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
+46,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/objfile.go:147 +0xa62 fp=0xc820033190 sp=0xc820032f80,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/objfile.go:147', '+', '0xa62', 'fp', '=', '0xc82', '0', '0331', '90', 'sp', '=', '0xc82', '0', '032', 'f80']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+47,"cmd/link/internal/ld.ldobj(0xc825a9e1a0, 0xc821107850, 0x8, 0xbf93e, 0xc821ecb360, 0x4c, 0xc82326a050, 0x44, 0x1, 0x0)","['cmd/link/internal/ld.ldobj(0xc825a9e1a0,', '0xc8211', '07', '850', ',', '0x8', ',', '0xbf93e', ',', '0xc821ecb36', '0', ',', '0x4c', ',', '0xc82326a', '05', '0', ',', '0x44', ',', '0x1', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+48,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/lib.go:1351 +0x1569 fp=0xc820033400 sp=0xc820033190,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/lib.go:1351', '+', '0x1569', 'fp', '=', '0xc82', '0', '0334', '0', '0', 'sp', '=', '0xc82', '0', '0331', '90']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL']"
+49,cmd/link/internal/ld.objfile(0xc82409ce70),['cmd/link/internal/ld.objfile(0xc82409ce70)'],['DIRECTORY']
+50,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/lib.go:847 +0x10d9 fp=0xc820033710 sp=0xc820033400,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/lib.go:847', '+', '0x1', '0', 'd9', 'fp', '=', '0xc82', '0', '03371', '0', 'sp', '=', '0xc82', '0', '0334', '0', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+51,cmd/link/internal/ld.loadlib(),['cmd/link/internal/ld.loadlib()'],['DIRECTORY']
+52,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/lib.go:513 +0x5ce fp=0xc8200339f0 sp=0xc820033710,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/lib.go:513', '+', '0x5ce', 'fp', '=', '0xc82', '0', '033', '9', 'f0', 'sp', '=', '0xc82', '0', '03371', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
+53,cmd/link/internal/ld.Ldmain(),['cmd/link/internal/ld.Ldmain()'],['DIRECTORY']
+54,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/pobj.go:214 +0x1cd3 fp=0xc820033e70 sp=0xc8200339f0,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/ld/pobj.go:214', '+', '0x1cd3', 'fp', '=', '0xc82', '0', '033', 'e70', 'sp', '=', '0xc82', '0', '033', '9', 'f0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+55,cmd/link/internal/amd64.Main(),['cmd/link/internal/amd64.Main()'],['DIRECTORY']
+56,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/amd64/obj.go:44 +0x19 fp=0xc820033e78 sp=0xc820033e70,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/internal/amd64/obj.go:44', '+', '0x19', 'fp', '=', '0xc82', '0', '033', 'e78', 'sp', '=', '0xc82', '0', '033', 'e70']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+57,main.main(),['main.main()'],['FUNCTION_CALL']
+58,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/main.go:27 +0x36f fp=0xc820033f50 sp=0xc820033e78,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/cmd/link/main.go:27', '+', '0x36f', 'fp', '=', '0xc82', '0', '033', 'f50', 'sp', '=', '0xc82', '0', '033', 'e78']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+59,runtime.main(),['runtime.main()'],['FUNCTION_CALL']
+60,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/proc.go:188 +0x2b0 fp=0xc820033fa0 sp=0xc820033f50,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/proc.go:188', '+', '0x2b', '0', 'fp', '=', '0xc82', '0', '033', 'fa0', 'sp', '=', '0xc82', '0', '033', 'f50']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+61,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
+62,    /private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:1998 +0x1 fp=0xc820033fa8 sp=0xc820033fa0,"['/private/var/folders/9y/ppk2fnqj5lscwqw_l6lhdrx8005bt1/T/appengine/go_appengine/goroot/src/runtime/asm_amd64.s:1998', '+', '0x1', 'fp', '=', '0xc82', '0', '033', 'fa8', 'sp', '=', '0xc82', '0', '033', 'fa0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"

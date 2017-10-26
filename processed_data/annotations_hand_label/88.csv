@@ -1,303 +1,151 @@
 ,text,token,annotation
-0,"I have cluster of 4nodes 2001,2002,2003 & 2004.
-They are bind using goraft.
-Supppose 2001 is master server.
-Now when it fails, another node becomes the server.
-Now what I want is that, the node which becomes the current server should send message that I am the new LEADER.
-So how to achieve that?
-I am using GORAFT with GORAFD implementation.
-I am here attaching the source code.
+0,"I have a go program which connects to a tcp server and publishes that message to web service. the application works fine in the first go and it panics after a week or so. I am not sure why. the stack trace isn't helpful either.
+(I cross compile from mac os to linux; env GOOS=linux GOARCH=386  go build)
+could some one give pointers on what might be the issue?
 
-main.go - For CLient
+the tcp server connection might go off once in a while; I have build the reconnection logic by hand. 
+the error condition would be applicable to posting as well. the internet connection might break at any time; so ""dns"" resolver which go uses by default ""cgo"" was panicking. I had recompile with the ""netgo"" to use pure go network implementation.
 
-","['I', 'have', 'cluster', 'of', '4nodes', '2001,2002,2003', '&', '2004.', 'They', 'are', 'bind', 'using', 'goraft.', 'Supppose', '2001', 'is', 'master', 'server.', 'Now', 'when', 'it', 'fails,', 'another', 'node', 'becomes', 'the', 'server.', 'Now', 'what', 'I', 'want', 'is', 'that,', 'the', 'node', 'which', 'becomes', 'the', 'current', 'server', 'should', 'send', 'message', 'that', 'I', 'am', 'the', 'new', 'LEADER.', 'So', 'how', 'to', 'achieve', 'that?', 'I', 'am', 'using', 'GORAFT', 'with', 'GORAFD', 'implementation.', 'I', 'am', 'here', 'attaching', 'the', 'source', 'code.', 'main.go', '-', 'For', 'CLient']","['PRP', 'VBP', 'NN', 'IN', 'CD', 'CD', 'CC', 'CD', 'PRP', 'VBP', 'IN', 'VBG', 'NN', 'NNP', 'CD', 'VBZ', 'RBR', 'RB', 'RB', 'WRB', 'PRP', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'RB', 'WP', 'PRP', 'VBP', 'VBZ', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'DT', 'JJ', 'NN', 'MD', 'VB', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'JJ', 'NNP', 'NNP', 'WRB', 'TO', 'VB', 'NN', 'PRP', 'VBP', 'VBG', 'NNP', 'IN', 'NNP', 'NN', 'PRP', 'VBP', 'RB', 'VBG', 'DT', 'NN', 'NN', 'SYM', ':', 'IN', 'NN']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-3,"    ""flag""","['""flag""']",['STRING_LITERAL']
-4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-5,"    ""github.com/goraft/raft""","['""github.com/goraft/raft""']",['STRING_LITERAL']
-6,"    ""github.com/goraft/raftd/command""","['""github.com/goraft/raftd/command""']",['STRING_LITERAL']
-7,"    ""github.com/goraft/raftd/server""","['""github.com/goraft/raftd/server""']",['STRING_LITERAL']
-8,"    ""log""","['""log""']",['STRING_LITERAL']
-9,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
-10,"    ""os""","['""os""']",['STRING_LITERAL']
-11,"    ""time""","['""time""']",['STRING_LITERAL']
-12,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-13,),[')'],['OPERATOR']
-14,var verbose bool,"['var', 'verbose', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-15,var trace bool,"['var', 'trace', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-16,var debug bool,"['var', 'debug', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-17,var host string,"['var', 'host', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-18,var port int,"['var', 'port', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-19,var join string,"['var', 'join', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-20,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-21,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-22,"    flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")","['flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")']",['FUNCTION_CALL']
-23,"    flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")","['flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")']",['FUNCTION_CALL']
-24,"    flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")","['flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")']",['FUNCTION_CALL']
-25,"    flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")","['flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")']",['FUNCTION_CALL']
-26,"    p,_:=strconv.Atoi(flag.Arg(1))","['p', ',', '_', ':=', 'strconv.Atoi(flag.Arg(1))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-27,"    flag.IntVar(&port, ""p"", p, ""port"")","['flag.IntVar(&port, ""p"", p, ""port"")']",['FUNCTION_CALL']
-28,"    flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")","['flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")']",['FUNCTION_CALL']
-29,    flag.Usage = func() {,"['flag', '.', 'Usage', '=', 'func', '()', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-30,"        fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \n"", os.Args[0])","['fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \\n"", os.Args[0])']",['FUNCTION_CALL']
-31,        flag.PrintDefaults(),['flag.PrintDefaults()'],['FUNCTION_CALL']
-32,    },['}'],['OPERATOR']
-33,},['}'],['OPERATOR']
-34,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-35,    log.SetFlags(0),['log.SetFlags(0)'],['FUNCTION_CALL']
-36,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-37,    if verbose {,"['if', 'verbose', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-38,"        log.Print(""Verbose logging enabled."")","['log.Print(""Verbose logging enabled."")']",['FUNCTION_CALL']
-39,    },['}'],['OPERATOR']
-40,    if trace {,"['if', 'trace', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-41,        raft.SetLogLevel(raft.Trace),['raft.SetLogLevel(raft.Trace)'],['FUNCTION_CALL']
-42,"        log.Print(""Raft trace debugging enabled."")","['log.Print(""Raft trace debugging enabled."")']",['FUNCTION_CALL']
-43,    } else if debug {,"['}', 'else', 'if', 'debug', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-44,        raft.SetLogLevel(raft.Debug),['raft.SetLogLevel(raft.Debug)'],['FUNCTION_CALL']
-45,"        log.Print(""Raft debugging enabled."")","['log.Print(""Raft debugging enabled."")']",['FUNCTION_CALL']
-46,    },['}'],['OPERATOR']
-47,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
-48,    // Setup commands.,"['//', 'Setup', 'commands.']","['COMMENT', 'NNP', 'NN']"
-49,    raft.RegisterCommand(&command.WriteCommand{}),['raft.RegisterCommand(&command.WriteCommand{})'],['FUNCTION_CALL']
-50,    // Set the data directory.,"['//', 'Set', 'the', 'data', 'directory.']","['COMMENT', 'VB', 'DT', 'NNS', 'NN']"
-51,    if flag.NArg() == 0 {,"['if', 'flag.NArg()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-52,        flag.Usage(),['flag.Usage()'],['FUNCTION_CALL']
-53,"        log.Fatal(""Data path argument required"")","['log.Fatal(""Data path argument required"")']",['FUNCTION_CALL']
-54,    },['}'],['OPERATOR']
-55,    path := flag.Arg(0),"['path', ':=', 'flag.Arg(0)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-56,"    if err := os.MkdirAll(path, 0744); err != nil {","['if', 'err', ':=', 'os.MkdirAll(path, 0744)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,"        log.Fatalf(""Unable to create path: %v"", err)","['log.Fatalf(""Unable to create path: %v"", err)']",['FUNCTION_CALL']
-58,    },['}'],['OPERATOR']
-59,    log.SetFlags(log.LstdFlags),['log.SetFlags(log.LstdFlags)'],['FUNCTION_CALL']
-60,"    s := server.New(path, host, port)","['s', ':=', 'server.New(path, host, port)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-61,"    log.Fatal(s.ListenAndServe(""localhost:2001""))","['log.Fatal(s.ListenAndServe(""localhost:2001""))']",['FUNCTION_CALL']
-62,"    fmt.Println(""I am changing my status"");","['fmt.Println(""I am changing my status"")', ';']","['FUNCTION_CALL', 'OPERATOR']"
-63,},['}'],['OPERATOR']
-64,"
+Stack trace
 
-Main.go - for Server i.e 2001
+","['I', 'have', 'a', 'go', 'program', 'which', 'connects', 'to', 'a', 'tcp', 'server', 'and', 'publishes', 'that', 'message', 'to', 'web', 'service.', 'the', 'application', 'works', 'fine', 'in', 'the', 'first', 'go', 'and', 'it', 'panics', 'after', 'a', 'week', 'or', 'so.', 'I', 'am', 'not', 'sure', 'why.', 'the', 'stack', 'trace', ""isn't"", 'helpful', 'either.', '(I', 'cross', 'compile', 'from', 'mac', 'os', 'to', 'linux;', 'env', 'GOOS=linux', 'GOARCH=386', 'go', 'build)', 'could', 'some', 'one', 'give', 'pointers', 'on', 'what', 'might', 'be', 'the', 'issue?', 'the', 'tcp', 'server', 'connection', 'might', 'go', 'off', 'once', 'in', 'a', 'while;', 'I', 'have', 'build', 'the', 'reconnection', 'logic', 'by', 'hand.', 'the', 'error', 'condition', 'would', 'be', 'applicable', 'to', 'posting', 'as', 'well.', 'the', 'internet', 'connection', 'might', 'break', 'at', 'any', 'time;', 'so', '""dns""', 'resolver', 'which', 'go', 'uses', 'by', 'default', '""cgo""', 'was', 'panicking.', 'I', 'had', 'recompile', 'with', 'the', '""netgo""', 'to', 'use', 'pure', 'go', 'network', 'implementation.', 'Stack', 'trace']","['PRP', 'VBP', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'TO', 'DT', 'NN', 'NN', 'CC', 'NNS', 'WDT', 'VBP', 'TO', 'VB', 'PDT', 'DT', 'NN', 'VBZ', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'CC', 'PRP', 'NNS', 'IN', 'DT', 'NN', 'CC', 'NN', 'PRP', 'VBP', 'RB', 'JJ', 'IN', 'DT', 'NN', 'NN', 'NN', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'IN', 'NN', 'NN', 'TO', 'VB', 'JJ', 'NNP', 'NNP', 'VBP', 'NN', 'MD', 'DT', 'CD', 'JJ', 'NNS', 'IN', 'WP', 'MD', 'VB', 'DT', 'NN', 'DT', 'NN', 'NN', 'NN', 'MD', 'VB', 'RP', 'RB', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'VBN', 'DT', 'NN', 'NN', 'IN', 'VBG', 'DT', 'NN', 'NN', 'MD', 'VB', 'JJ', 'TO', 'VBG', 'IN', 'NN', 'DT', 'NN', 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', 'RB', 'NNP', 'NN', 'WDT', 'VBP', 'NNS', 'IN', 'NN', 'NN', 'VBD', 'JJ', 'PRP', 'VBD', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN', 'VBP', 'NN', 'NN', 'NNP', 'NN']"
+1,"net.runtime_pollWait(0xf75c12d8, 0x72, 0x18690000)","['net.runtime_pollWait(0xf75c12d8, 0x72, 0x18690000)']",['FUNCTION_CALL']
+2,"    /usr/local/go/src/runtime/netpoll.go:157 +0x55 net.(*pollDesc).Wait(0x18a6bb38, 0x72, 0x0, 0x0)/usr/local/go/src/net/fd_poll_runtime.go:73 +0x35","['/usr/local/go/src/runtime/netpoll.go:157 +0x55 net.(*pollDesc).Wait(0x18a6bb38, 0x72, 0x0, 0x0)/usr/local/go/src/net/fd_poll_runtime.go:73', '+', '0x35']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+3,"    net.(*pollDesc).WaitRead(0x18a6bb38, 0x0, 0x0) _poll_runtime.go:78 +0x33","['net', '.(*', 'pollDesc', ').', 'WaitRead', '(', '0x18a6bb38', ',', '0', 'x0', ',', '0', 'x0', ')', '_poll_runtime', '.', 'go', ':', '78', '+', '0x33']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+4,"    net.(*netFD).Read(0x18a6bb00, 0x18cd6000, 0x1000, 0x1000, 0x0, 0xf75bc018, 0x18690000)/usr/local/go/src/net/fd_unix.go:232 +0x19anet.(*conn).Read(0x18cd4d78, 0x18cd6000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['net', '.(*', 'netFD', ').', 'Read', '(', '0x18a6bb', '0', '0', ',', '0x18cd6', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0xf75bc', '01', '8', ',', '0x1869', '0', '0', '0', '0', ')/', 'usr/local/go/src/net/fd_unix.go:232', '+', '0x19a', 'net', '.(*', 'conn', ').', 'Read', '(', '0x18cd4d78', ',', '0x18cd6', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+5,    /usr/local/go/src/net/net.go:172 +0xb9,"['/usr/local/go/src/net/net.go:172', '+', '0xb9']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+6,"    net/http.noteEOFReader.Read(0xf75fc018, 0x18cd4d78, 0x1889770c, 0x18cd6000, 0x1000, 0x1000, 0x2c3620, 0x0, 0x0)","['net/http.noteEOFReader.Read(0xf75fc018,', '0x18cd4d78', ',', '0x188977', '0', 'c', ',', '0x18cd6', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x2c362', '0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+7,    /usr/local/go/src/net/http/transport.go:1370 +0x55,"['/usr/local/go/src/net/http/transport.go:1370', '+', '0x55']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+8,"    net/http.(*noteEOFReader).Read(0x18cd29e0, 0x18cd6000, 0x1000, 0x1000, 0x8056f0c, 0x0, 0x0)","['net/http.(*noteEOFReader).Read(0x18cd29e0,', '0x18cd6', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x8', '056', 'f0c', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+9,    :126 +0xae,"[':', '126', '+', '0xae']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+10,    bufio.(*Reader).fill(0x1881b7d0),"['bufio', '.(*', 'Reader', ').', 'fill', '(', '0x1881b7d', '0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION']"
+11,    /usr/local/go/src/bufio/bufio.go:97 +0x172,"['/usr/local/go/src/bufio/bufio.go:97', '+', '0x172']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+12,"    bufio.(*Reader).Peek(0x1881b7d0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)","['bufio', '.(*', 'Reader', ').', 'Peek', '(', '0x1881b7d', '0', ',', '0x1', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+13,    /usr/local/go/src/bufio/bufio.go:132 +0xad,"['/usr/local/go/src/bufio/bufio.go:132', '+', '0xad']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+14,    net/http.(*persistConn).readLoop(0x188976e0),['net/http.(*persistConn).readLoop(0x188976e0)'],['DIRECTORY']
+15,    /usr/local/go/src/net/http/transport.go:876 +0xe3,"['/usr/local/go/src/net/http/transport.go:876', '+', '0xe3']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+16,    created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
+17,    /usr/local/go/src/net/http/transport.go:685 +0xabc,"['/usr/local/go/src/net/http/transport.go:685', '+', '0xabc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+18,"
 
-","['Main.go', '-', 'for', 'Server', 'i.e', '2001']","['NNP', ':', 'IN', 'NNP', 'NN', 'CD']"
-65,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-66,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-67,"    ""flag""","['""flag""']",['STRING_LITERAL']
-68,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-69,"    ""github.com/goraft/raft""","['""github.com/goraft/raft""']",['STRING_LITERAL']
-70,"    ""github.com/goraft/raftd/command""","['""github.com/goraft/raftd/command""']",['STRING_LITERAL']
-71,"    ""github.com/goraft/raftd/server""","['""github.com/goraft/raftd/server""']",['STRING_LITERAL']
-72,"    ""log""","['""log""']",['STRING_LITERAL']
-73,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
-74,"    ""os""","['""os""']",['STRING_LITERAL']
-75,"    ""time""","['""time""']",['STRING_LITERAL']
-76,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-77,),[')'],['OPERATOR']
-78,var verbose bool,"['var', 'verbose', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-79,var trace bool,"['var', 'trace', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-80,var debug bool,"['var', 'debug', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-81,var host string,"['var', 'host', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-82,var port int,"['var', 'port', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-83,var join string,"['var', 'join', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-84,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-85,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-86,"    flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")","['flag.BoolVar(&verbose, ""v"", false, ""verbose logging"")']",['FUNCTION_CALL']
-87,"    flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")","['flag.BoolVar(&trace, ""trace"", false, ""Raft trace debugging"")']",['FUNCTION_CALL']
-88,"    flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")","['flag.BoolVar(&debug, ""debug"", false, ""Raft debugging"")']",['FUNCTION_CALL']
-89,"    flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")","['flag.StringVar(&host, ""h"", ""localhost"", ""hostname"")']",['FUNCTION_CALL']
-90,"    p,_:=strconv.Atoi(flag.Arg(1))","['p', ',', '_', ':=', 'strconv.Atoi(flag.Arg(1))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-91,"    flag.IntVar(&port, ""p"", p, ""port"")","['flag.IntVar(&port, ""p"", p, ""port"")']",['FUNCTION_CALL']
-92,"    flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")","['flag.StringVar(&join, ""join"", """", ""host:port of leader to join"")']",['FUNCTION_CALL']
-93,    flag.Usage = func() {,"['flag', '.', 'Usage', '=', 'func', '()', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-94,"        fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \n"", os.Args[0])","['fmt.Fprintf(os.Stderr, ""Usage: %s [arguments]  \\n"", os.Args[0])']",['FUNCTION_CALL']
-95,        flag.PrintDefaults(),['flag.PrintDefaults()'],['FUNCTION_CALL']
-96,    },['}'],['OPERATOR']
-97,},['}'],['OPERATOR']
-98,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-99,    log.SetFlags(0),['log.SetFlags(0)'],['FUNCTION_CALL']
-100,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-101,    if verbose {,"['if', 'verbose', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-102,"        log.Print(""Verbose logging enabled."")","['log.Print(""Verbose logging enabled."")']",['FUNCTION_CALL']
-103,    },['}'],['OPERATOR']
-104,    if trace {,"['if', 'trace', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-105,        raft.SetLogLevel(raft.Trace),['raft.SetLogLevel(raft.Trace)'],['FUNCTION_CALL']
-106,"        log.Print(""Raft trace debugging enabled."")","['log.Print(""Raft trace debugging enabled."")']",['FUNCTION_CALL']
-107,    } else if debug {,"['}', 'else', 'if', 'debug', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-108,        raft.SetLogLevel(raft.Debug),['raft.SetLogLevel(raft.Debug)'],['FUNCTION_CALL']
-109,"        log.Print(""Raft debugging enabled."")","['log.Print(""Raft debugging enabled."")']",['FUNCTION_CALL']
-110,    },['}'],['OPERATOR']
-111,    rand.Seed(time.Now().UnixNano()),['rand.Seed(time.Now().UnixNano())'],['FUNCTION_CALL']
-112,    // Setup commands.,"['//', 'Setup', 'commands.']","['COMMENT', 'NNP', 'NN']"
-113,    raft.RegisterCommand(&command.WriteCommand{}),['raft.RegisterCommand(&command.WriteCommand{})'],['FUNCTION_CALL']
-114,    // Set the data directory.,"['//', 'Set', 'the', 'data', 'directory.']","['COMMENT', 'VB', 'DT', 'NNS', 'NN']"
-115,    if flag.NArg() == 0 {,"['if', 'flag.NArg()', '==', '0', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-116,        flag.Usage(),['flag.Usage()'],['FUNCTION_CALL']
-117,"        log.Fatal(""Data path argument required"")","['log.Fatal(""Data path argument required"")']",['FUNCTION_CALL']
-118,    },['}'],['OPERATOR']
-119,    path := flag.Arg(0),"['path', ':=', 'flag.Arg(0)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-120,"    if err := os.MkdirAll(path, 0744); err != nil {","['if', 'err', ':=', 'os.MkdirAll(path, 0744)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,"        log.Fatalf(""Unable to create path: %v"", err)","['log.Fatalf(""Unable to create path: %v"", err)']",['FUNCTION_CALL']
-122,    },['}'],['OPERATOR']
-123,    log.SetFlags(log.LstdFlags),['log.SetFlags(log.LstdFlags)'],['FUNCTION_CALL']
-124,"    s := server.New(path, host, port)","['s', ':=', 'server.New(path, host, port)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-125,    log.Fatal(s.ListenAndServe(join)),['log.Fatal(s.ListenAndServe(join))'],['FUNCTION_CALL']
-126,},['}'],['OPERATOR']
-127,"
+GO program go program
 
-Common Server.go code
-
-","['Common', 'Server.go', 'code']","['JJ', 'NNP', 'NN']"
-128,package server,"['package', 'server']","['KEYWORD', 'IDENTIFIER']"
-129,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-130,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-131,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-132,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-133,"    ""github.com/goraft/raft""","['""github.com/goraft/raft""']",['STRING_LITERAL']
-134,"    ""github.com/goraft/raftd/command""","['""github.com/goraft/raftd/command""']",['STRING_LITERAL']
-135,"    ""github.com/goraft/raftd/db""","['""github.com/goraft/raftd/db""']",['STRING_LITERAL']
-136,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
-137,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-138,"    ""log""","['""log""']",['STRING_LITERAL']
-139,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
-140,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-141,"    ""path/filepath""","['""path/filepath""']",['STRING_LITERAL']
-142,"    ""sync""","['""sync""']",['STRING_LITERAL']
-143,"    ""time""","['""time""']",['STRING_LITERAL']
-144,),[')'],['OPERATOR']
-145,// The raftd server is a combination of the Raft server and an HTTP,"['//', 'The', 'raftd', 'server', 'is', 'a', 'combination', 'of', 'the', 'Raft', 'server', 'and', 'an', 'HTTP']","['COMMENT', 'DT', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'CC', 'DT', 'NNP']"
-146,// server which acts as the transport.,"['//', 'server', 'which', 'acts', 'as', 'the', 'transport.']","['COMMENT', 'NN', 'WDT', 'VBZ', 'IN', 'DT', 'NN']"
-147,type Server struct {,"['type', 'Server', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-148,    name       string,"['name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-149,    host       string,"['host', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-150,    port       int,"['port', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-151,    path       string,"['path', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-152,    router     *mux.Router,"['router', '*', 'mux', '.', 'Router']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-153,    raftServer raft.Server,"['raftServer', 'raft', '.', 'Server']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-154,    httpServer *http.Server,"['httpServer', '*', 'http', '.', 'Server']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-155,    db         *db.DB,"['db', '*', 'db', '.', 'DB']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-156,    mutex      sync.RWMutex,"['mutex', 'sync', '.', 'RWMutex']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,},['}'],['OPERATOR']
-158,// Creates a new server.,"['//', 'Creates', 'a', 'new', 'server.']","['COMMENT', 'VBZ', 'DT', 'JJ', 'NN']"
-159,"func New(path string, host string, port int) *Server {","['func', 'New', '(', 'path', 'string', ',', 'host', 'string', ',', 'port', 'int', ')', '*', 'Server', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-160,    s := &Server{,"['s', ':=', '&', 'Server', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-161,"        host:   host,","['host', ':', 'host', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-162,"        port:   port,","['port', ':', 'port', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-163,"        path:   path,","['path', ':', 'path', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-164,"        db:     db.New(),","['db', ':', 'db.New()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-165,"        router: mux.NewRouter(),","['router', ':', 'mux.NewRouter()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-166,    },['}'],['OPERATOR']
-167,    // Read existing name or generate a new one.,"['//', 'Read', 'existing', 'name', 'or', 'generate', 'a', 'new', 'one.']","['COMMENT', 'NNP', 'VBG', 'NN', 'CC', 'VB', 'DT', 'JJ', 'NN']"
-168,"    if b, err := ioutil.ReadFile(filepath.Join(path, ""name"")); err == nil {","['if', 'b', ',', 'err', ':=', 'ioutil.ReadFile(filepath.Join(path, ""name""))', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-169,        s.name = string(b),"['s', '.', 'name', '=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-170,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-171,"        s.name = fmt.Sprintf(""%07x"", rand.Int())[0:7]","['s', '.', 'name', '=', 'fmt.Sprintf(""%07x"", rand.Int())', '[', '0', ':', '7', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-172,"        if err = ioutil.WriteFile(filepath.Join(path, ""name""), []byte(s.name), 0644); err != nil {","['if', 'err', '=', 'ioutil.WriteFile(filepath.Join(path, ""name""), []byte(s.name), 0644)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-173,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-174,        },['}'],['OPERATOR']
-175,    },['}'],['OPERATOR']
-176,    return s,"['return', 's']","['KEYWORD', 'IDENTIFIER']"
-177,},['}'],['OPERATOR']
-178,// Returns the connection string.,"['//', 'Returns', 'the', 'connection', 'string.']","['COMMENT', 'VBZ', 'DT', 'NN', 'NN']"
-179,func (s *Server) connectionString() string {,"['func', '(', 's', '*', 'Server', ')', 'connectionString', '()', 'string', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-180,"    return fmt.Sprintf(""http://%s:%d"", s.host, s.port)","['return', 'fmt.Sprintf(""http://%s:%d"", s.host, s.port)']","['KEYWORD', 'FUNCTION_CALL']"
-181,},['}'],['OPERATOR']
-182,// Starts the server.,"['//', 'Starts', 'the', 'server.']","['COMMENT', 'VBZ', 'DT', 'NN']"
-183,func (s *Server) ListenAndServe(leader string) error {,"['func', '(', 's', '*', 'Server', ')', 'ListenAndServe', '(', 'leader', 'string', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-184,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-185,"    log.Printf(""Initializing Raft Server: %s"", s.path)","['log.Printf(""Initializing Raft Server: %s"", s.path)']",['FUNCTION_CALL']
-186,    // Initialize and start Raft server.,"['//', 'Initialize', 'and', 'start', 'Raft', 'server.']","['COMMENT', 'NNP', 'CC', 'VB', 'NNP', 'NN']"
-187,"    transporter := raft.NewHTTPTransporter(""/raft"", 200*time.Millisecond)","['transporter', ':=', 'raft.NewHTTPTransporter(""/raft"", 200*time.Millisecond)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-188,"    s.raftServer, err = raft.NewServer(s.name, s.path, transporter, nil, s.db, """")","['s', '.', 'raftServer', ',', 'err', '=', 'raft.NewServer(s.name, s.path, transporter, nil, s.db, """")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-189,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-190,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-191,    },['}'],['OPERATOR']
-192,"    transporter.Install(s.raftServer, s)","['transporter.Install(s.raftServer, s)']",['FUNCTION_CALL']
-193,    s.raftServer.Start(),"['s', '.', 'raftServer.Start()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-194,"    if leader != """" {","['if', 'leader', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-195,        // Join to leader if specified.,"['//', 'Join', 'to', 'leader', 'if', 'specified.']","['COMMENT', 'NN', 'TO', 'NN', 'IN', 'NN']"
-196,"        log.Println(""Attempting to join leader:"", leader)","['log.Println(""Attempting to join leader:"", leader)']",['FUNCTION_CALL']
-197,        if !s.raftServer.IsLogEmpty() {,"['if', '!', 's', '.', 'raftServer.IsLogEmpty()', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-198,"            log.Fatal(""Cannot join with an existing log"")","['log.Fatal(""Cannot join with an existing log"")']",['FUNCTION_CALL']
-199,        },['}'],['OPERATOR']
-200,        if err := s.Join(leader); err != nil {,"['if', 'err', ':=', 's.Join(leader)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-201,            log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-202,        },['}'],['OPERATOR']
-203,    } else if s.raftServer.IsLogEmpty() {,"['}', 'else', 'if', 's', '.', 'raftServer.IsLogEmpty()', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-204,        // Initialize the server by joining itself.,"['//', 'Initialize', 'the', 'server', 'by', 'joining', 'itself.']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'VBG', 'NN']"
-205,"        log.Println(""Initializing new cluster"")","['log.Println(""Initializing new cluster"")']",['FUNCTION_CALL']
-206,"        _, err := s.raftServer.Do(&raft.DefaultJoinCommand{","['_', ',', 'err', ':=', 's', '.', 'raftServer', '.', 'Do', '(&', 'raft', '.', 'DefaultJoinCommand', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-207,"            Name:             s.raftServer.Name(),","['Name', ':', 's', '.', 'raftServer.Name()', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-208,"            ConnectionString: s.connectionString(),","['ConnectionString', ':', 's.connectionString()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-209,        }),['})'],['OPERATOR']
-210,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-211,            log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-212,        },['}'],['OPERATOR']
-213,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-214,"        log.Println(""Recovered from log"")","['log.Println(""Recovered from log"")']",['FUNCTION_CALL']
-215,    },['}'],['OPERATOR']
-216,"    log.Println(""Initializing HTTP server"")","['log.Println(""Initializing HTTP server"")']",['FUNCTION_CALL']
-217,    // Initialize and start HTTP server.,"['//', 'Initialize', 'and', 'start', 'HTTP', 'server.']","['COMMENT', 'NNP', 'CC', 'VB', 'NNP', 'NN']"
-218,    s.httpServer = &http.Server{,"['s', '.', 'httpServer', '=', '&', 'http', '.', 'Server', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-219,"        Addr:    fmt.Sprintf("":%d"", s.port),","['Addr', ':', 'fmt.Sprintf("":%d"", s.port)', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-220,"        Handler: s.router,","['Handler', ':', 's', '.', 'router', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,    },['}'],['OPERATOR']
-222,"    s.router.HandleFunc(""/db/{key}"", s.readHandler).Methods(""GET"")","['s.router.HandleFunc(""/db/{key}"",', 's', '.', 'readHandler', ').', 'Methods', '(', '""GET""', ')']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-223,"    s.router.HandleFunc(""/db/{key}"", s.writeHandler).Methods(""POST"")","['s.router.HandleFunc(""/db/{key}"",', 's', '.', 'writeHandler', ').', 'Methods', '(', '""POST""', ')']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-224,"    s.router.HandleFunc(""/join"", s.joinHandler).Methods(""POST"")","['s.router.HandleFunc(""/join"",', 's', '.', 'joinHandler', ').', 'Methods', '(', '""POST""', ')']","['DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-225,"    log.Println(""Listening at:"", s.connectionString())","['log.Println(""Listening at:"", s.connectionString())']",['FUNCTION_CALL']
-226,    return s.httpServer.ListenAndServe(),"['return', 's', '.', 'httpServer.ListenAndServe()']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-227,},['}'],['OPERATOR']
-228,// This is a hack around Gorilla mux not providing the correct net/http,"['//', 'This', 'is', 'a', 'hack', 'around', 'Gorilla', 'mux', 'not', 'providing', 'the', 'correct', 'net/http']","['COMMENT', 'DT', 'VBZ', 'DT', 'NN', 'IN', 'NNP', 'MD', 'RB', 'VBG', 'DT', 'JJ', 'NN']"
-229,// HandleFunc() interface.,"['//', 'HandleFunc()', 'interface.']","['COMMENT', 'NNP', 'NN']"
-230,"func (s *Server) HandleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {","['func', '(', 's', '*', 'Server', ')', 'HandleFunc', '(', 'pattern', 'string', ',', 'handler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', '))', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-231,"    s.router.HandleFunc(pattern, handler)","['s', '.', 'router.HandleFunc(pattern, handler)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-232,},['}'],['OPERATOR']
-233,// Joins to the leader of an existing cluster.,"['//', 'Joins', 'to', 'the', 'leader', 'of', 'an', 'existing', 'cluster.']","['COMMENT', 'NNS', 'TO', 'DT', 'NN', 'IN', 'DT', 'VBG', 'NN']"
-234,func (s *Server) Join(leader string) error {,"['func', '(', 's', '*', 'Server', ')', 'Join', '(', 'leader', 'string', ')', 'error', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-235,    command := &raft.DefaultJoinCommand{,"['command', ':=', '&', 'raft', '.', 'DefaultJoinCommand', '{']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-236,"        Name:     s.raftServer.Name(),","['Name', ':', 's', '.', 'raftServer.Name()', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-237,"        ConnectionString: s.connectionString(),","['ConnectionString', ':', 's.connectionString()', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-238,    },['}'],['OPERATOR']
-239,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-240,    json.NewEncoder(&b).Encode(command),['json.NewEncoder(&b).Encode(command)'],['FUNCTION_CALL']
-241,"    resp, err := http.Post(fmt.Sprintf(""http://%s/join"", leader), ""application/json"", &b)","['resp', ',', 'err', ':=', 'http.Post(fmt.Sprintf(""http://%s/join"", leader), ""application/json"", &b)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-242,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-243,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-244,    },['}'],['OPERATOR']
-245,    resp.Body.Close(),"['resp', '.', 'Body.Close()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-246,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-247,},['}'],['OPERATOR']
-248,"func (s *Server) joinHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'joinHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-249,    command := &raft.DefaultJoinCommand{},"['command', ':=', '&', 'raft', '.', 'DefaultJoinCommand', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-250,    if err := json.NewDecoder(req.Body).Decode(&command); err != nil {,"['if', 'err', ':=', 'json.NewDecoder(req.Body).Decode(&command)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-251,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
-252,        return,['return'],['KEYWORD']
-253,    },['}'],['OPERATOR']
-254,"    if _, err := s.raftServer.Do(command); err != nil {","['if', '_', ',', 'err', ':=', 's', '.', 'raftServer.Do(command)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-255,"        http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
-256,        return,['return'],['KEYWORD']
-257,    },['}'],['OPERATOR']
-258,},['}'],['OPERATOR']
-259,"func (s *Server) readHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'readHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-260,    vars := mux.Vars(req),"['var', 's', ':=', 'mux.Vars(req)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-261,"    value := s.db.Get(vars[""key""])","['value', ':=', 's', '.', 'db.Get(vars[""key""])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-262,    w.Write([]byte(value)),['w.Write([]byte(value))'],['FUNCTION_CALL']
-263,},['}'],['OPERATOR']
-264,"func (s *Server) writeHandler(w http.ResponseWriter, req *http.Request) {","['func', '(', 's', '*', 'Server', ')', 'writeHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-265,    vars := mux.Vars(req),"['var', 's', ':=', 'mux.Vars(req)']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-266,    // Read the value from the POST body.,"['//', 'Read', 'the', 'value', 'from', 'the', 'POST', 'body.']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN']"
-267,"    b, err := ioutil.ReadAll(req.Body)","['b', ',', 'err', ':=', 'ioutil.ReadAll(req.Body)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-268,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-269,        w.WriteHeader(http.StatusBadRequest),['w.WriteHeader(http.StatusBadRequest)'],['FUNCTION_CALL']
-270,        return,['return'],['KEYWORD']
-271,    },['}'],['OPERATOR']
-272,    value := string(b),"['value', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-273,    // Execute the command against the Raft server.,"['//', 'Execute', 'the', 'command', 'against', 'the', 'Raft', 'server.']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN']"
-274,"    _, err = s.raftServer.Do(command.NewWriteCommand(vars[""key""], value))","['_', ',', 'err', '=', 's', '.', 'raftServer.Do(command.NewWriteCommand(vars[""key""], value))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-275,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-276,"        http.Error(w, err.Error(), http.StatusBadRequest)","['http.Error(w, err.Error(), http.StatusBadRequest)']",['FUNCTION_CALL']
-277,    },['}'],['OPERATOR']
-278,},['}'],['OPERATOR']
-279,"
-
-Please give some solutions.
-","['Please', 'give', 'some', 'solutions.']","['NNP', 'VB', 'DT', 'NN']"
+","['GO', 'program', 'go', 'program']","['VB', 'NN', 'VBP', 'NN']"
+19,  package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+20, import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+21,"  ""bufio""","['""bufio""']",['STRING_LITERAL']
+22,"  ""bytes""","['""bytes""']",['STRING_LITERAL']
+23,"  ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+24,"  ""flag""","['""flag""']",['STRING_LITERAL']
+25,"  ""fmt""","['""fmt""']",['STRING_LITERAL']
+26,"  ""net""","['""net""']",['STRING_LITERAL']
+27,"  ""net/http""","['""net/http""']",['STRING_LITERAL']
+28,"  ""time""","['""time""']",['STRING_LITERAL']
+29,  ),[')'],['PUNCTUATION']
+30,  var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
+31,"    server             = flag.String(""deamon"", ""127.0.0.1:7070"", ""AMQP URI"")","['server', '=', 'flag.String(""deamon"", ""127.0.0.1:7070"", ""AMQP URI"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+32,"    msgRoutingKey      = flag.String(""routingKey"", ""routingKey"", "" routing key"")","['msgRoutingKey', '=', 'flag.String(""routingKey"", ""routingKey"", "" routing key"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+33,"    msgexchange        = flag.String(""exchange"", ""exchange"", "" excahnge "")","['msgexchange', '=', 'flag.String(""exchange"", ""exchange"", "" excahnge "")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+34,"    mywebserviceServer = flag.String(""mywebservice-server"", ""127.0.0.1:8080"",      ""mywebserviceServer:port "")","['mywebserviceServer', '=', 'flag.String(""mywebservice-server"", ""127.0.0.1:8080"",      ""mywebserviceServer:port "")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+35,  ),[')'],['PUNCTUATION']
+36,   func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+37,     flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
+38,   },['}'],['PUNCTUATION']
+39,   type TcpConnector struct {,"['type', 'TcpConnector', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+40,    Outbound      chan string,"['Outbound', 'chan', 'string']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+41,    Inbound       chan string,"['Inbound', 'chan', 'string']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+42,    Addr          string,"['Addr', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+43,    ReconnectTime time.Duration,"['ReconnectTime', 'time', '.', 'Duration']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+44,   },['}'],['PUNCTUATION']
+45,type Message struct {,"['type', 'Message', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+46,"  RoutingKey string `json:""routingKey""`","['RoutingKey', 'string', 'json', ':', '""routingKey""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+47,"  Exchange   string `json:""exchange""`","['Exchange', 'string', 'json', ':', '""exchange""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+48,"  Data       string `json:""data""`","['Data', 'string', 'json', ':', '""data""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+49,},['}'],['PUNCTUATION']
+50,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+51,  start := time.Now(),"['start', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+52,  tcpClient := NewTcpConnector(*server),"['tcpClient', ':=', 'NewTcpConnector', '(*', 'server', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+53,  elapsed := time.Since(start),"['elapsed', ':=', 'time.Since(start)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+54,"  fmt.Println(""the connecting params are  %s"", *server, *msgexchange, *msgRoutingKey, *mywebserviceServer)","['fmt.Println(""the connecting params are  %s"", *server, *msgexchange, *msgRoutingKey, *mywebserviceServer)']",['FUNCTION_CALL']
+55,"  fmt.Println(""connecting to daemon took %s"", elapsed)","['fmt.Println(""connecting to daemon took %s"", elapsed)']",['FUNCTION_CALL']
+56,   go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+57,    for msg := range tcpClient.Inbound {,"['for', 'msg', ':=', 'range', 'tcpClient', '.', 'Inbound', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+58,        fmt.Println(msg),['fmt.Println(msg)'],['FUNCTION_CALL']
+59,        rabbitMessage := Message{,"['rabbitMessage', ':=', 'Message', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+60,"            RoutingKey: *msgRoutingKey,","['RoutingKey', ':', '*', 'msgRoutingKey', ',']","['IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+61,"            Exchange:   *msgexchange,","['Exchange', ':', '*', 'msgexchange', ',']","['IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+62,"            Data:       msg,","['Data', ':', 'msg', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+63,        },['}'],['PUNCTUATION']
+64,"        mywebserviceMessageEndpoint :=    fmt.Sprintf(""http://%s/v1/messages/publish"", *mywebserviceServer)","['mywebserviceMessageEndpoint', ':=', 'fmt.Sprintf(""http://%s/v1/messages/publish"", *mywebserviceServer)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+65,"        doPut(mywebserviceMessageEndpoint, &rabbitMessage)","['doPut', '(', 'mywebserviceMessageEndpoint', ',', '&', 'rabbitMessage', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+66,      },['}'],['PUNCTUATION']
+67,    }(),['}()'],['PUNCTUATION']
+68,   select {},"['select', '{}']","['KEYWORD', 'PUNCTUATION']"
+69, },['}'],['PUNCTUATION']
+70,"func doPut(url string, rabbitMessage *Message) {","['func', 'doPut', '(', 'url', 'string', ',', 'rabbitMessage', '*', 'Message', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+71, start := time.Now(),"['start', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+72," b, err := json.Marshal(rabbitMessage)","['b', ',', 'err', ':=', 'json.Marshal(rabbitMessage)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+73, client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+74," request, err := http.NewRequest(""PUT"", url, bytes.NewBuffer(b))","['request', ',', 'err', ':=', 'http.NewRequest(""PUT"", url, bytes.NewBuffer(b))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+75," request.Header.Add(""Content-Type"", ""application/json"")","['request', '.', 'Header.Add(""Content-Type"", ""application/json"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+76," request.Header.Add(""accept"", ""application/json"")","['request', '.', 'Header.Add(""accept"", ""application/json"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+77," response, err := client.Do(request)","['response', ',', 'err', ':=', 'client.Do(request)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+78, if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+79,    fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+80, } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+81,    defer response.Body.Close(),"['defer', 'response', '.', 'Body.Close()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+82,"    fmt.Println(""   "", response.StatusCode)","['fmt.Println(""   "", response.StatusCode)']",['FUNCTION_CALL']
+83,    hdr := response.Header,"['hdr', ':=', 'response', '.', 'Header']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+84,"    for key, value := range hdr {","['for', 'key', ',', 'value', ':=', 'range', 'hdr', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+85,"        fmt.Println(""   "", key, "":"", value)","['fmt.Println(""   "", key, "":"", value)']",['FUNCTION_CALL']
+86,    },['}'],['PUNCTUATION']
+87, },['}'],['PUNCTUATION']
+88, elapsed := time.Since(start),"['elapsed', ':=', 'time.Since(start)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+89," fmt.Println(""posting to mywebservice took %s"", elapsed)","['fmt.Println(""posting to mywebservice took %s"", elapsed)']",['FUNCTION_CALL']
+90,},['}'],['PUNCTUATION']
+91,func NewTcpConnector(addr string) *TcpConnector {,"['func', 'NewTcpConnector', '(', 'addr', 'string', ')', '*', 'TcpConnector', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+92, tcpConnector := &TcpConnector{,"['tcpConnector', ':=', '&', 'TcpConnector', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+93,"    Addr:          addr,","['Addr', ':', 'addr', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+94,"    Outbound:      make(chan string, 100),","['Outbound', ':', 'make', '(', 'chan', 'string', ',', '100', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+95,"    Inbound:       make(chan string, 100),","['Inbound', ':', 'make', '(', 'chan', 'string', ',', '100', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+96,"    ReconnectTime: 30 * time.Second,","['ReconnectTime', ':', '30', '*', 'time', '.', 'Second', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+97, },['}'],['PUNCTUATION']
+98, tcpConnector.connect(),['tcpConnector.connect()'],['FUNCTION_CALL']
+99, return tcpConnector,"['return', 'tcpConnector']","['KEYWORD', 'IDENTIFIER']"
+100,},['}'],['PUNCTUATION']
+101,"//keep connect private, will be in trouble if got called twice","['//', 'keep', 'connect', 'private,', 'will', 'be', 'in', 'trouble', 'if', 'got', 'called', 'twice']","['COMMENT', 'VB', 'NN', 'NN', 'MD', 'VB', 'IN', 'NN', 'IN', 'VBD', 'VBN', 'RB']"
+102,func (tcpConnector *TcpConnector) connect() {,"['func', '(', 'tcpConnector', '*', 'TcpConnector', ')', 'connect', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+103," conn, err := net.Dial(""tcp"", tcpConnector.Addr)","['conn', ',', 'err', ':=', 'net.Dial(""tcp"", tcpConnector.Addr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+104, if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+105,"    fmt.Println(""Failed to make a connection"", err)","['fmt.Println(""Failed to make a connection"", err)']",['FUNCTION_CALL']
+106,    time.Sleep(tcpConnector.ReconnectTime),['time.Sleep(tcpConnector.ReconnectTime)'],['FUNCTION_CALL']
+107,    tcpConnector.connect(),['tcpConnector.connect()'],['FUNCTION_CALL']
+108,    return,['return'],['KEYWORD']
+109, },['}'],['PUNCTUATION']
+110,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+111,    for msg := range tcpConnector.Outbound {,"['for', 'msg', ':=', 'range', 'tcpConnector', '.', 'Outbound', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+112,"        _, err = fmt.Fprintf(conn, msg+""\n"")","['_', ',', 'err', '=', 'fmt.Fprintf(conn, msg+""\\n"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+113,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+114,"            fmt.Println(""Failed sending event"", err)","['fmt.Println(""Failed sending event"", err)']",['FUNCTION_CALL']
+115,            time.Sleep(tcpConnector.ReconnectTime),['time.Sleep(tcpConnector.ReconnectTime)'],['FUNCTION_CALL']
+116,            tcpConnector.connect(),['tcpConnector.connect()'],['FUNCTION_CALL']
+117,            break,['break'],['KEYWORD']
+118,        },['}'],['PUNCTUATION']
+119,    },['}'],['PUNCTUATION']
+120,}(),['}()'],['PUNCTUATION']
+121,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+122,"    reader := bufio.NewReaderSize(conn, 1024*1024)","['reader', ':=', 'bufio.NewReaderSize(conn, 1024*1024)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+123,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+124,"        message, err := reader.ReadBytes('\n')","['message', ',', 'err', ':=', ""reader.ReadBytes('\\n')""]","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+125,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+126,            break,['break'],['KEYWORD']
+127,        },['}'],['PUNCTUATION']
+128,"        fmt.Println(""Message Received: %s"", message)","['fmt.Println(""Message Received: %s"", message)']",['FUNCTION_CALL']
+129,        tcpConnector.Inbound <- string(message),"['tcpConnector', '.', 'Inbound', '<-', 'string', '(', 'message', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+130,"        fmt.Println(""Message sent to chan"")","['fmt.Println(""Message sent to chan"")']",['FUNCTION_CALL']
+131,    },['}'],['PUNCTUATION']
+132,"    fmt.Println(""reconnecting..."")","['fmt.Println(""reconnecting..."")']",['FUNCTION_CALL']
+133,    tcpConnector.connect(),['tcpConnector.connect()'],['FUNCTION_CALL']
+134,}(),['}()'],['PUNCTUATION']
+135,"fmt.Println(""Connected tcp"")","['fmt.Println(""Connected tcp"")']",['FUNCTION_CALL']
+136,},['}'],['PUNCTUATION']

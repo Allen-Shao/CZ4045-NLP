@@ -1,292 +1,111 @@
 ,text,token,annotation
-0,"I can do a POST request with string data, using POSTMAN chrome extension.
+0,"I'm working with Go in an API for the bus frequency of my city, but i'm a little bit stuck on the threads when i try to make HTTP Get to many urls.
+Without concurrency, the programs takes over 16 minutes to complete the 1500 url calls to take the HTTP status code, and i was trying to use the concurrency, but after reading many posts i don't understand how goroutines work... 
 
+The idea is to make ONE function and change the number of requests, like here:
 
+","[""I'm"", 'working', 'with', 'Go', 'in', 'an', 'API', 'for', 'the', 'bus', 'frequency', 'of', 'my', 'city,', 'but', ""i'm"", 'a', 'little', 'bit', 'stuck', 'on', 'the', 'threads', 'when', 'i', 'try', 'to', 'make', 'HTTP', 'Get', 'to', 'many', 'urls.', 'Without', 'concurrency,', 'the', 'programs', 'takes', 'over', '16', 'minutes', 'to', 'complete', 'the', '1500', 'url', 'calls', 'to', 'take', 'the', 'HTTP', 'status', 'code,', 'and', 'i', 'was', 'trying', 'to', 'use', 'the', 'concurrency,', 'but', 'after', 'reading', 'many', 'posts', 'i', ""don't"", 'understand', 'how', 'goroutines', 'work...', 'The', 'idea', 'is', 'to', 'make', 'ONE', 'function', 'and', 'change', 'the', 'number', 'of', 'requests,', 'like', 'here:']","['NNP', 'VBG', 'IN', 'NNP', 'IN', 'DT', 'NNP', 'IN', 'DT', 'NN', 'NN', 'IN', 'PRP$', 'NN', 'CC', 'VBZ', 'DT', 'JJ', 'NN', 'VBN', 'IN', 'DT', 'NNS', 'WRB', 'NN', 'VBP', 'TO', 'VB', 'NNP', 'NNP', 'TO', 'JJ', 'JJ', 'IN', 'VBP', 'DT', 'NNS', 'VBZ', 'IN', 'CD', 'NNS', 'TO', 'VB', 'DT', 'CD', 'JJ', 'VBZ', 'TO', 'VB', 'DT', 'NNP', 'NN', 'NN', 'CC', 'NN', 'VBD', 'VBG', 'TO', 'VB', 'DT', 'NN', 'CC', 'IN', 'VBG', 'JJ', 'NNS', 'VBP', 'VBP', 'VB', 'WRB', 'NNS', 'VBP', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'CD', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'NNS', 'IN', 'NN']"
+1," go getBusPostStatus(600, 800)","['go', 'getBusPostStatus', '(', '600', ',', '800', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+2,"
 
-I need to do the same using golang code. 
+But i'm completely stucked on that...
 
-But my Go code loses string ","['I', 'can', 'do', 'a', 'POST', 'request', 'with', 'string', 'data,', 'using', 'POSTMAN', 'chrome', 'extension.', 'I', 'need', 'to', 'do', 'the', 'same', 'using', 'golang', 'code.', 'But', 'my', 'Go', 'code', 'loses', 'string']","['PRP', 'MD', 'VB', 'DT', 'NNP', 'NN', 'IN', 'NN', 'NN', 'VBG', 'NNP', 'NN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'VBG', 'NN', 'NN', 'CC', 'PRP$', 'NNP', 'NN', 'VBZ', 'VBG']"
-1,"INSERT INTO V SET name = 'jack', boss = #11:19","['INSERT', 'INTO', 'V', 'SET', 'name', '=', ""'jack'"", ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-2," and posts empty data to the server. 
+Here is the code:
 
-","['and', 'posts', 'empty', 'data', 'to', 'the', 'server.']","['CC', 'NNS', 'VBP', 'NNS', 'TO', 'DT', 'NN']"
+","['But', ""i'm"", 'completely', 'stucked', 'on', 'that...', 'Here', 'is', 'the', 'code:']","['CC', 'VB', 'RB', 'VBN', 'IN', 'NN', 'RB', 'VBZ', 'DT', 'NN']"
 3,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 4,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-5,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-6,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-7,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-8,"    ""log""","['""log""']",['STRING_LITERAL']
-9,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-10,),[')'],['PUNCTUATION']
-11,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-12,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-13,    // Why this stringData is lost and was not send with POST request?,"['//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'was', 'not', 'send', 'with', 'POST', 'request?']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBD', 'RB', 'JJ', 'IN', 'NNP', 'NN']"
-14,"    stringData := `INSERT INTO V SET name = 'jack', boss = #11:19`","['stringData', ':=', 'INSERT', 'INTO', 'V', 'SET', 'name', '=', ""'jack'"", ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-15,"    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))","['req', ',', 'err', ':=', 'http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-16,"    req.SetBasicAuth(""root"", ""1"")","['req.SetBasicAuth(""root"", ""1"")']",['FUNCTION_CALL']
-17,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client.Do(req)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-18,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-19,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-20,    },['}'],['PUNCTUATION']
-21,"    fmt.Println(""resp"")","['fmt.Println(""resp"")']",['FUNCTION_CALL']
-22,    fmt.Println(ToJson(resp)),['fmt.Println(ToJson(resp))'],['FUNCTION_CALL']
-23,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-24,"    _, err = b.ReadFrom(resp.Body)","['_', ',', 'err', '=', 'b.ReadFrom(resp.Body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-26,"        log.Fatal(""Error : %s"", err)","['log.Fatal(""Error : %s"", err)']",['FUNCTION_CALL']
+5,"""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"""net/http""","['""net/http""']",['STRING_LITERAL']
+7,"""strconv""","['""strconv""']",['STRING_LITERAL']
+8,"""time""","['""time""']",['STRING_LITERAL']
+9,),[')'],['PUNCTUATION']
+10,var i int = 0,"['var', 'i', 'int', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+11,var convStr string,"['var', 'convStr', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+12,var message = make(chan string),"['var', 'message', '=', 'make', '(', 'chan', 'string', ')']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+13,/*func main(){,"['/*', 'func', 'main', '(){']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+14,    for i = 0; i < 1500; i++ {,"['for', 'i', '=', '0', ';', 'i', '<', '1500', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+15,        z = strconv.Itoa(i),"['z', '=', 'strconv.Itoa(i)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+16,"        url := ""http://www.urbanosdezaragoza.es/frm_esquemaparadatime.php?poste="" + z","['url', ':=', '""http://www.urbanosdezaragoza.es/frm_esquemaparadatime.php?poste=""', '+', 'z']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+17,"        resp, err := http.Get(url)","['resp', ',', 'err', ':=', 'http.Get(url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+18,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+19,"            fmt.Println(""Houston, we've got problems"")","['fmt.Println(""Houston, we\'ve got problems"")']",['FUNCTION_CALL']
+20,        }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+21,            if resp.StatusCode == 200{,"['if', 'resp', '.', 'StatusCode', '==', '200', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+22,"                fmt.Println(""OK: El poste ""+z+"" existe"")","['fmt.Println(""OK: El poste ""+z+"" existe"")']",['FUNCTION_CALL']
+23,            }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+24,"                fmt.Println(""WARN: El poste ""+z+"" NO existe"")","['fmt.Println(""WARN: El poste ""+z+"" NO existe"")']",['FUNCTION_CALL']
+25,            },['}'],['PUNCTUATION']
+26,        },['}'],['PUNCTUATION']
 27,    },['}'],['PUNCTUATION']
-28,    fmt.Println(b.String()),['fmt.Println(b.String())'],['FUNCTION_CALL']
-29,},['}'],['PUNCTUATION']
-30,func ToJson(obj interface{}) string {,"['func', 'ToJson', '(', 'obj', 'interface', '{})', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-31,"    b, err := json.MarshalIndent(&obj, """", ""   "")","['b', ',', 'err', ':=', 'json.MarshalIndent(&obj, """", ""   "")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-33,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-34,    },['}'],['PUNCTUATION']
-35,    strJson := string(b),"['strJson', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-36,    return strJson,"['return', 'strJson']","['KEYWORD', 'IDENTIFIER']"
-37,},['}'],['PUNCTUATION']
-38,"
+28,}*/,['}*/'],['PUNCTUATION']
+29,//Return 2 houndred posts,"['//', 'Return', '2', 'houndred', 'posts']","['COMMENT', 'NNP', 'CD', 'VBD', 'NNS']"
+30,func returnTH(c chan string){,"['func', 'return', 'TH', '(', 'c', 'chan', 'string', '){']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+31, for i = 0; i < 200; i++ {  ,"['for', 'i', '=', '0', ';', 'i', '<', '200', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+32,    convStr = strconv.Itoa(i),"['convStr', '=', 'strconv.Itoa(i)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+33,"    url := ""http://www.urbanosdezaragoza.es/frm_esquemaparadatime.php?poste="" + convStr","['url', ':=', '""http://www.urbanosdezaragoza.es/frm_esquemaparadatime.php?poste=""', '+', 'convStr']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+34,"    resp, err := http.Get(url)","['resp', ',', 'err', ':=', 'http.Get(url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+36,"        fmt.Println(""Houston, we've got problems"")","['fmt.Println(""Houston, we\'ve got problems"")']",['FUNCTION_CALL']
+37,    }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+38,        if resp.StatusCode == 200{,"['if', 'resp', '.', 'StatusCode', '==', '200', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+39,"            //fmt.Println(""OK: El poste ""+z+"" existe"")","['//', 'fmt.Println(""OK:', 'El', 'poste', '""+z+""', 'existe"")']","['COMMENT', 'NN', 'NNP', 'NN', 'NNP', 'NN']"
+40,"            c <- ""OK: The bus post ""+convStr+"" exists""","['c', '<-', '""OK: The bus post ""', '+', 'convStr', '+', '"" exists""']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+41,        }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+42,"            //fmt.Println(""WARN: El poste ""+z+"" NO existe"")","['//', 'fmt.Println(""WARN:', 'El', 'poste', '""+z+""', 'NO', 'existe"")']","['COMMENT', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NN']"
+43,"            c <- ""WARN: The bus post ""+convStr+"" does not exist""","['c', '<-', '""WARN: The bus post ""', '+', 'convStr', '+', '"" does not exist""']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+44,        }   ,['}'],['PUNCTUATION']
+45,    },['}'],['PUNCTUATION']
+46,  },['}'],['PUNCTUATION']
+47,},['}'],['PUNCTUATION']
+48,func returnFH(z chan string){,"['func', 'return', 'FH', '(', 'z', 'chan', 'string', '){']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+49,  for i = 201; i < 400; i++ {   ,"['for', 'i', '=', '201', ';', 'i', '<', '400', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+50,   convStr = strconv.Itoa(i),"['convStr', '=', 'strconv.Itoa(i)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+51,"   url := ""http://www.urbanosdezaragoza.es/frm_esquemaparadatime.php?poste="" + convStr","['url', ':=', '""http://www.urbanosdezaragoza.es/frm_esquemaparadatime.php?poste=""', '+', 'convStr']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+52,"    resp, err := http.Get(url)","['resp', ',', 'err', ':=', 'http.Get(url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+53,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+54,"        fmt.Println(""Houston, we've got problems"")","['fmt.Println(""Houston, we\'ve got problems"")']",['FUNCTION_CALL']
+55,    }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+56,        if resp.StatusCode == 200{,"['if', 'resp', '.', 'StatusCode', '==', '200', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+57,"            //fmt.Println(""OK: El poste ""+z+"" existe"")","['//', 'fmt.Println(""OK:', 'El', 'poste', '""+z+""', 'existe"")']","['COMMENT', 'NN', 'NNP', 'NN', 'NNP', 'NN']"
+58,"            z <- ""OK: The bus post ""+convStr+"" exists""","['z', '<-', '""OK: The bus post ""', '+', 'convStr', '+', '"" exists""']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+59,        }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+60,"            //fmt.Println(""WARN: El poste ""+z+"" NO existe"")","['//', 'fmt.Println(""WARN:', 'El', 'poste', '""+z+""', 'NO', 'existe"")']","['COMMENT', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NN']"
+61,"            z <- ""WARN: The bus post ""+convStr+"" does not exist""","['z', '<-', '""WARN: The bus post ""', '+', 'convStr', '+', '"" does not exist""']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+62,        }   ,['}'],['PUNCTUATION']
+63,    } ,['}'],['PUNCTUATION']
+64,  },['}'],['PUNCTUATION']
+65,},['}'],['PUNCTUATION']
+66,"func threadPrint(c, z chan string){","['func', 'threadPrint', '(', 'c', ',', 'z', 'chan', 'string', '){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+67,   for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+68,       threadOne := <- c,"['threadOne', ':=', '<-', 'c']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+69,       threadTwo := <- z,"['threadTwo', ':=', '<-', 'z']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+70,       fmt.Println(threadOne),['fmt.Println(threadOne)'],['FUNCTION_CALL']
+71,       fmt.Println(threadTwo),['fmt.Println(threadTwo)'],['FUNCTION_CALL']
+72,   },['}'],['PUNCTUATION']
+73,},['}'],['PUNCTUATION']
+74,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+75,    start := time.Now(),"['start', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+76,    var c chan string = make(chan string),"['var', 'c', 'chan', 'string', '=', 'make', '(', 'chan', 'string', ')']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+77,    var z chan string = make(chan string),"['var', 'z', 'chan', 'string', '=', 'make', '(', 'chan', 'string', ')']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+78,    //for i = 0; i < 1500; i++{,"['//', 'for', 'i', '=', '0;', 'i', '<', '1500;', 'i++{']","['COMMENT', 'IN', 'JJ', 'VBP', 'CD', 'JJ', 'VBP', 'CD', 'NN']"
+79,    go returnTH(c),"['go', 'return', 'TH', '(', 'c', ')']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+80,    go returnFH(z),"['go', 'return', 'FH', '(', 'z', ')']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+81,"    go threadPrint(c,z)","['go', 'threadPrint', '(', 'c', ',', 'z', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+82,"    /*go getBusPostStatus(400, 600)","['/*', 'go', 'getBusPostStatus', '(', '400', ',', '600', ')']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+83,"    go getBusPostStatus(600, 800)","['go', 'getBusPostStatus', '(', '600', ',', '800', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+84,"    go getBusPostStatus(800, 1000)","['go', 'getBusPostStatus', '(', '800', ',', '1000', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+85,"    go getBusPostStatus(1000, 1200)","['go', 'getBusPostStatus', '(', '1000', ',', '1200', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+86,"    go getBusPostStatus(1200, 1400)","['go', 'getBusPostStatus', '(', '1200', ',', '1400', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+87,"    go getBusPostStatus(1400, 1500)*/","['go', 'getBusPostStatus', '(', '1400', ',', '1500', ')*/']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+88,    //},"['//', '}']","['COMMENT', ')']"
+89,    timeExec:= time.Since(start),"['timeExec', ':=', 'time.Since(start)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+90,"    fmt.Println(""Time to exec code = "", timeExec)","['fmt.Println(""Time to exec code = "", timeExec)']",['FUNCTION_CALL']
+91,    /*var input string,"['/*', 'var', 'input', 'string']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+92,    fmt.Scanln(&input),['fmt.Scanln(&input)'],['FUNCTION_CALL']
+93,"    fmt.Println(""done"")*/","['fmt.Println(""done"")', '*/']","['FUNCTION_CALL', 'PUNCTUATION']"
+94,},['}'],['PUNCTUATION']
+95,"
 
-It gives output:
-
-","['It', 'gives', 'output:']","['PRP', 'VBZ', 'JJ']"
-39,resp,['resp'],['IDENTIFIER']
-40,{,['{'],['PUNCTUATION']
-41,"   ""Status"": ""500 Internal Server Error"",","['""Status""', ':', '""500 Internal Server Error""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-42,"   ""StatusCode"": 500,","['""StatusCode""', ':', '500', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-43,"   ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-44,"   ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-45,"   ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-46,"   ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-47,"      ""Cache-Control"": [","['""Cache-Control""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-48,"         ""no-cache, no-store, max-age=0, must-revalidate""","['""no-cache, no-store, max-age=0, must-revalidate""']",['STRING_LITERAL']
-49,"      ],","['],']",['PUNCTUATION']
-50,"      ""Connection"": [","['""Connection""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-51,"         ""Keep-Alive""","['""Keep-Alive""']",['STRING_LITERAL']
-52,"      ],","['],']",['PUNCTUATION']
-53,"      ""Content-Length"": [","['""Content-Length""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-54,"         ""55""","['""55""']",['STRING_LITERAL']
-55,"      ],","['],']",['PUNCTUATION']
-56,"      ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-57,"         ""text/plain; charset=utf-8""","['""text/plain; charset=utf-8""']",['STRING_LITERAL']
-58,"      ],","['],']",['PUNCTUATION']
-59,"      ""Date"": [","['""Date""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-60,"         ""Mon Jun 08 10:47:46 MSK 2015""","['""Mon Jun 08 10:47:46 MSK 2015""']",['STRING_LITERAL']
-61,"      ],","['],']",['PUNCTUATION']
-62,"      ""Pragma"": [","['""Pragma""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-63,"         ""no-cache""","['""no-cache""']",['STRING_LITERAL']
-64,"      ],","['],']",['PUNCTUATION']
-65,"      ""Server"": [","['""Server""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-66,"         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""","['""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""']",['STRING_LITERAL']
-67,      ],[']'],['PUNCTUATION']
-68,"   },","['},']",['PUNCTUATION']
-69,"   ""Body"": {},","['""Body""', ':', '{},']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-70,"   ""ContentLength"": 55,","['""ContentLength""', ':', '55', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-71,"   ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-72,"   ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-73,"   ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-74,"   ""Request"": {","['""Request""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-75,"      ""Method"": ""POST"",","['""Method""', ':', '""POST""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-76,"      ""URL"": {","['""URL""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-77,"         ""Scheme"": ""http"",","['""Scheme""', ':', '""http""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-78,"         ""Opaque"": """",","['""Opaque""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-79,"         ""User"": null,","['""User""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-80,"         ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-81,"         ""Path"": ""/command/GratefulDeadConcerts/sql"",","['""Path""', ':', '""/command/GratefulDeadConcerts/sql""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-82,"         ""RawQuery"": """",","['""RawQuery""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-83,"         ""Fragment"": """"","['""Fragment""', ':', '""""']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL']"
-84,"      },","['},']",['PUNCTUATION']
-85,"      ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-86,"      ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-87,"      ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-88,"      ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-89,"         ""Authorization"": [","['""Authorization""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-90,"            ""Basic cm9vdDox""","['""Basic cm9vdDox""']",['STRING_LITERAL']
-91,         ],[']'],['PUNCTUATION']
-92,"      },","['},']",['PUNCTUATION']
-93,"      ""Body"": {","['""Body""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-94,"         ""Reader"": {}","['""Reader""', ':', '{}']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-95,"      },","['},']",['PUNCTUATION']
-96,"      ""ContentLength"": 46,","['""ContentLength""', ':', '46', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-97,"      ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-98,"      ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-99,"      ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-100,"      ""Form"": null,","['""Form""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-101,"      ""PostForm"": null,","['""PostForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-102,"      ""MultipartForm"": null,","['""MultipartForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-103,"      ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-104,"      ""RemoteAddr"": """",","['""RemoteAddr""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-105,"      ""RequestURI"": """",","['""RequestURI""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-106,"      ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-107,"   },","['},']",['PUNCTUATION']
-108,"   ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-109,},['}'],['PUNCTUATION']
-110,java.lang.IllegalArgumentException: text cannot be null,"['java', '.', 'lang', '.', 'IllegalArgumentException', ':', 'text', 'cannot', 'be', 'null']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-111,"
-
-How to make this POST request work successfully, using GoLang, as I can do with POSTMAN chrome extension?
-
-Update
-
-I made the same POST request successfully, using curl.
-
-","['How', 'to', 'make', 'this', 'POST', 'request', 'work', 'successfully,', 'using', 'GoLang,', 'as', 'I', 'can', 'do', 'with', 'POSTMAN', 'chrome', 'extension?', 'Update', 'I', 'made', 'the', 'same', 'POST', 'request', 'successfully,', 'using', 'curl.']","['WRB', 'TO', 'VB', 'DT', 'NNP', 'NN', 'NN', 'NN', 'VBG', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'IN', 'NNP', 'VBP', 'JJ', 'NNP', 'PRP', 'VBD', 'DT', 'JJ', 'NNP', 'NN', 'NN', 'VBG', 'NN']"
-112,"curl -X POST -u root:1 -H ""Content-Type: application/json"" --data-urlencode ""INSERT INTO V SET name = 'jack', boss = #11:19""  http://localhost:2480/command/GratefulDeadConcerts/sql ","['curl', '-', 'X', 'POST', '-', 'u', 'root', ':', '1', '-', 'H', '""Content-Type: application/json""', '--', 'data', '-', 'urlencode', '""INSERT INTO V SET name = \'jack\', boss = #11:19""', 'http://localhost:2480/command/GratefulDeadConcerts/sql']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'DIRECTORY']"
-113,"
-
-It outputs:
-
-","['It', 'outputs:']","['PRP', 'RP']"
-114,"{""result"":[{""@type"":""d"",""@rid"":""#9:822"",""@version"":1,""@class"":""V"",""name"":null}]}","['{', '""result""', ':[{', '""@type""', ':', '""d""', ',', '""@rid""', ':', '""#9:822""', ',', '""@version""', ':', '1', ',', '""@class""', ':', '""V""', ',', '""name""', ':', 'null', '}]}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-115,"
-
-Update 2
-
-Of course, I should not use --data-urlencode for curl command. 
-The valid curl command is 
-
-","['Update', '2', 'Of', 'course,', 'I', 'should', 'not', 'use', '--data-urlencode', 'for', 'curl', 'command.', 'The', 'valid', 'curl', 'command', 'is']","['NNP', 'CD', 'IN', 'NN', 'PRP', 'MD', 'RB', 'VB', 'NN', 'IN', 'NN', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'VBZ']"
-116,"curl -X POST -u root:1 -H ""Content-Type: application/json"" -d ""INSERT INTO V SET name = 'jack', boss = #11:19""  http://localhost:2480/command/GratefulDeadConcerts/sql","['curl', '-', 'X', 'POST', '-', 'u', 'root', ':', '1', '-', 'H', '""Content-Type: application/json""', '-', 'd', '""INSERT INTO V SET name = \'jack\', boss = #11:19""', 'http://localhost:2480/command/GratefulDeadConcerts/sql']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'DIRECTORY']"
-117,"{""result"":[{""@type"":""d"",""@rid"":""#9:848"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}","['{', '""result""', ':[{', '""@type""', ':', '""d""', ',', '""@rid""', ':', '""#9:848""', ',', '""@version""', ':', '1', ',', '""@class""', ':', '""V""', ',', '""name""', ':', '""jack""', ',', '""boss""', ':', '""#11:19""', ',', '""@fieldTypes""', ':', '""boss=x""', '}]}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-118,"
-
-I still have no clue how to make the similar GoLang POST request.
-
-Update 3
-
-url.QueryEscape did not help me.
-
-","['I', 'still', 'have', 'no', 'clue', 'how', 'to', 'make', 'the', 'similar', 'GoLang', 'POST', 'request.', 'Update', '3', 'url.QueryEscape', 'did', 'not', 'help', 'me.']","['PRP', 'RB', 'VBP', 'DT', 'NN', 'WRB', 'TO', 'VB', 'DT', 'JJ', 'NNP', 'NNP', 'NN', 'NNP', 'CD', 'NN', 'VBD', 'RB', 'VB', 'VB']"
-119,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-120,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-121,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-122,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-123,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-124,"    ""log""","['""log""']",['STRING_LITERAL']
-125,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-126,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-127,),[')'],['PUNCTUATION']
-128,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-129,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-130,    // Why this stringData is lost and do not pass thgouht POST request?,"['//', 'Why', 'this', 'stringData', 'is', 'lost', 'and', 'do', 'not', 'pass', 'thgouht', 'POST', 'request?']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'CC', 'VBP', 'RB', 'VB', 'NN', 'NNP', 'NN']"
-131,"    stringData := `INSERT INTO V SET name = 'jack', boss = #11:19`","['stringData', ':=', 'INSERT', 'INTO', 'V', 'SET', 'name', '=', ""'jack'"", ',', 'boss', '=', '11', ':', '19']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-132,    stringData = url.QueryEscape(stringData),"['stringData', '=', 'url.QueryEscape(stringData)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-133,"    req, err := http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))","['req', ',', 'err', ':=', 'http.NewRequest(""POST"", ""http://localhost:2480/command/GratefulDeadConcerts/sql"", bytes.NewBufferString(stringData))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-134,"    req.SetBasicAuth(""root"", ""1"")","['req.SetBasicAuth(""root"", ""1"")']",['FUNCTION_CALL']
-135,"    req.Header.Set(""Content-Type"", ""Content-Type: text/plain"")","['req', '.', 'Header.Set(""Content-Type"", ""Content-Type: text/plain"")']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-136,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client.Do(req)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-137,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-138,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-139,    },['}'],['PUNCTUATION']
-140,"    fmt.Println(""resp"")","['fmt.Println(""resp"")']",['FUNCTION_CALL']
-141,    fmt.Println(ToJson(resp)),['fmt.Println(ToJson(resp))'],['FUNCTION_CALL']
-142,    var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-143,"    _, err = b.ReadFrom(resp.Body)","['_', ',', 'err', '=', 'b.ReadFrom(resp.Body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-144,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-145,"        log.Fatal(""Error : %s"", err)","['log.Fatal(""Error : %s"", err)']",['FUNCTION_CALL']
-146,    },['}'],['PUNCTUATION']
-147,    fmt.Println(b.String()),['fmt.Println(b.String())'],['FUNCTION_CALL']
-148,},['}'],['PUNCTUATION']
-149,func ToJson(obj interface{}) string {,"['func', 'ToJson', '(', 'obj', 'interface', '{})', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-150,"    b, err := json.MarshalIndent(&obj, """", ""   "")","['b', ',', 'err', ':=', 'json.MarshalIndent(&obj, """", ""   "")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-151,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-152,"        fmt.Printf(""Error : %s"", err)","['fmt.Printf(""Error : %s"", err)']",['FUNCTION_CALL']
-153,    },['}'],['PUNCTUATION']
-154,    strJson := string(b),"['strJson', ':=', 'string', '(', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-155,    return strJson,"['return', 'strJson']","['KEYWORD', 'IDENTIFIER']"
-156,},['}'],['PUNCTUATION']
-157,"
-
-The result is the same:
-
-","['The', 'result', 'is', 'the', 'same:']","['DT', 'NN', 'VBZ', 'DT', 'NN']"
-158,resp,['resp'],['IDENTIFIER']
-159,{,['{'],['PUNCTUATION']
-160,"   ""Status"": ""500 Internal Server Error"",","['""Status""', ':', '""500 Internal Server Error""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-161,"   ""StatusCode"": 500,","['""StatusCode""', ':', '500', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-162,"   ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-163,"   ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-164,"   ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-165,"   ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-166,"      ""Cache-Control"": [","['""Cache-Control""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-167,"         ""no-cache, no-store, max-age=0, must-revalidate""","['""no-cache, no-store, max-age=0, must-revalidate""']",['STRING_LITERAL']
-168,"      ],","['],']",['PUNCTUATION']
-169,"      ""Connection"": [","['""Connection""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-170,"         ""Keep-Alive""","['""Keep-Alive""']",['STRING_LITERAL']
-171,"      ],","['],']",['PUNCTUATION']
-172,"      ""Content-Length"": [","['""Content-Length""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-173,"         ""55""","['""55""']",['STRING_LITERAL']
-174,"      ],","['],']",['PUNCTUATION']
-175,"      ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-176,"         ""text/plain; charset=utf-8""","['""text/plain; charset=utf-8""']",['STRING_LITERAL']
-177,"      ],","['],']",['PUNCTUATION']
-178,"      ""Date"": [","['""Date""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-179,"         ""Mon Jun 08 19:39:12 MSK 2015""","['""Mon Jun 08 19:39:12 MSK 2015""']",['STRING_LITERAL']
-180,"      ],","['],']",['PUNCTUATION']
-181,"      ""Pragma"": [","['""Pragma""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-182,"         ""no-cache""","['""no-cache""']",['STRING_LITERAL']
-183,"      ],","['],']",['PUNCTUATION']
-184,"      ""Server"": [","['""Server""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-185,"         ""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""","['""OrientDB Server v.2.0.10 (build UNKNOWN@r; 2015-05-25 16:48:43+0000)""']",['STRING_LITERAL']
-186,      ],[']'],['PUNCTUATION']
-187,"   },","['},']",['PUNCTUATION']
-188,"   ""Body"": {},","['""Body""', ':', '{},']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-189,"   ""ContentLength"": 55,","['""ContentLength""', ':', '55', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-190,"   ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-191,"   ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-192,"   ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-193,"   ""Request"": {","['""Request""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-194,"      ""Method"": ""POST"",","['""Method""', ':', '""POST""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-195,"      ""URL"": {","['""URL""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-196,"         ""Scheme"": ""http"",","['""Scheme""', ':', '""http""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-197,"         ""Opaque"": """",","['""Opaque""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-198,"         ""User"": null,","['""User""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-199,"         ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-200,"         ""Path"": ""/command/GratefulDeadConcerts/sql"",","['""Path""', ':', '""/command/GratefulDeadConcerts/sql""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-201,"         ""RawQuery"": """",","['""RawQuery""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-202,"         ""Fragment"": """"","['""Fragment""', ':', '""""']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL']"
-203,"      },","['},']",['PUNCTUATION']
-204,"      ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-205,"      ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-206,"      ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-207,"      ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-208,"         ""Authorization"": [","['""Authorization""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-209,"            ""Basic cm9vdDox""","['""Basic cm9vdDox""']",['STRING_LITERAL']
-210,"         ],","['],']",['PUNCTUATION']
-211,"         ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-212,"            ""Content-Type: text/plain""","['""Content-Type: text/plain""']",['STRING_LITERAL']
-213,         ],[']'],['PUNCTUATION']
-214,"      },","['},']",['PUNCTUATION']
-215,"      ""Body"": {","['""Body""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-216,"         ""Reader"": {}","['""Reader""', ':', '{}']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-217,"      },","['},']",['PUNCTUATION']
-218,"      ""ContentLength"": 60,","['""ContentLength""', ':', '60', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-219,"      ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-220,"      ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-221,"      ""Host"": ""localhost:2480"",","['""Host""', ':', '""localhost:2480""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-222,"      ""Form"": null,","['""Form""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-223,"      ""PostForm"": null,","['""PostForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-224,"      ""MultipartForm"": null,","['""MultipartForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-225,"      ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-226,"      ""RemoteAddr"": """",","['""RemoteAddr""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-227,"      ""RequestURI"": """",","['""RequestURI""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-228,"      ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-229,"   },","['},']",['PUNCTUATION']
-230,"   ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-231,},['}'],['PUNCTUATION']
-232,java.lang.IllegalArgumentException: text cannot be null,"['java', '.', 'lang', '.', 'IllegalArgumentException', ':', 'text', 'cannot', 'be', 'null']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-233,"
-
-Also, I changed content-type to text/plain in curl command. 
-
-","['Also,', 'I', 'changed', 'content-type', 'to', 'text/plain', 'in', 'curl', 'command.']","['NNP', 'PRP', 'VBD', 'NN', 'TO', 'VB', 'IN', 'NN', 'NN']"
-234,"curl -X POST -u root:1 -H ""Content-Type: text/plain"" -d ""INSERT INTO V SET name = 'jack', boss = #11:19""  http://localhost:2480/command/GratefulDeadConcerts/sql","['curl', '-', 'X', 'POST', '-', 'u', 'root', ':', '1', '-', 'H', '""Content-Type: text/plain""', '-', 'd', '""INSERT INTO V SET name = \'jack\', boss = #11:19""', 'http://localhost:2480/command/GratefulDeadConcerts/sql']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'DIRECTORY']"
-235,"{""result"":[{""@type"":""d"",""@rid"":""#9:858"",""@version"":1,""@class"":""V"",""name"":""jack"",""boss"":""#11:19"",""@fieldTypes"":""boss=x""}]}","['{', '""result""', ':[{', '""@type""', ':', '""d""', ',', '""@rid""', ':', '""#9:858""', ',', '""@version""', ':', '1', ',', '""@class""', ':', '""V""', ',', '""name""', ':', '""jack""', ',', '""boss""', ':', '""#11:19""', ',', '""@fieldTypes""', ':', '""boss=x""', '}]}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-236,"
-
-The result is the same, it's ok with curl, but not ok with golang POST. 
-
-Update 4
-
-What am I trying to do? I am implementing OrientDB REST-interface for executing queries from a GO application.
-","['The', 'result', 'is', 'the', 'same,', ""it's"", 'ok', 'with', 'curl,', 'but', 'not', 'ok', 'with', 'golang', 'POST.', 'Update', '4', 'What', 'am', 'I', 'trying', 'to', 'do?', 'I', 'am', 'implementing', 'OrientDB', 'REST-interface', 'for', 'executing', 'queries', 'from', 'a', 'GO', 'application.']","['DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNS', 'CC', 'RB', 'JJ', 'IN', 'JJ', 'NNP', 'NNP', 'CD', 'WP', 'VBP', 'PRP', 'VBG', 'TO', 'VB', 'PRP', 'VBP', 'VBG', 'NNP', 'NNP', 'IN', 'VBG', 'NNS', 'IN', 'DT', 'NNP', 'NN']"
+Many thanks in advance!! 
+","['Many', 'thanks', 'in', 'advance!!']","['JJ', 'NNS', 'IN', 'NN']"

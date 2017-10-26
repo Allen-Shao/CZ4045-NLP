@@ -1,187 +1,161 @@
 ,text,token,annotation
-0,"I am trying to emulate multiple requests from http.HandleFunc to function which makes changes to sqlite database. I assume that function which is called by http.HandleFunc is actually goroutine. See code below:
+0,"I am working with Redigo Redis library and trying to json.Marshal the result I get from a sorted set but I get results such as this:
 
-","['I', 'am', 'trying', 'to', 'emulate', 'multiple', 'requests', 'from', 'http.HandleFunc', 'to', 'function', 'which', 'makes', 'changes', 'to', 'sqlite', 'database.', 'I', 'assume', 'that', 'function', 'which', 'is', 'called', 'by', 'http.HandleFunc', 'is', 'actually', 'goroutine.', 'See', 'code', 'below:']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'NN', 'TO', 'NN', 'WDT', 'VBZ', 'NNS', 'TO', 'VB', 'NN', 'PRP', 'VBP', 'IN', 'NN', 'WDT', 'VBZ', 'VBN', 'IN', 'NN', 'VBZ', 'RB', 'JJ', 'NNP', 'NN', 'NN']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,"import ""fmt""","['import', '""fmt""']","['KEYWORD', 'STRING_LITERAL']"
-3,"import ""time""","['import', '""time""']","['KEYWORD', 'STRING_LITERAL']"
-4,"import ""code.google.com/p/go-sqlite/go1/sqlite3""","['import', '""code.google.com/p/go-sqlite/go1/sqlite3""']","['KEYWORD', 'STRING_LITERAL']"
-5,"import ""crypto/rand""","['import', '""crypto/rand""']","['KEYWORD', 'STRING_LITERAL']"
-6,"import ""encoding/base64"" ","['import', '""encoding/base64""']","['KEYWORD', 'STRING_LITERAL']"
-7,func getrandomtext() (string) {,"['func', 'getrandomtext', '()', '(', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-8,"    b := make([]byte, 12)","['b', ':=', 'make', '([]', 'byte', ',', '12', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-9,    rand.Read(b),['rand.Read(b)'],['FUNCTION_CALL']
-10,    en := base64.StdEncoding // or URLEncoding,"['en', ':=', 'base64', '.', 'StdEncoding', '//', 'or', 'URLEncoding']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'CC', 'VBG']"
-11,    enclen := en.EncodedLen(len(b)),"['enclen', ':=', 'en.EncodedLen(len(b))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-12,"    d := make([]byte, enclen)","['d', ':=', 'make', '([]', 'byte', ',', 'enclen', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-13,"    en.Encode(d, b)","['en.Encode(d, b)']",['FUNCTION_CALL']
-14,    returntext := string(d[:enclen]),"['return', 'text', ':=', 'string', '(', 'd', '[:', 'enclen', '])']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-15,"    //fmt.Printf(""getrandomtext() : '""+returntext+""'\n"")","['//', 'fmt.Printf(""getrandomtext()', ':', '\'""+returntext+""\'\\n"")']","['COMMENT', 'NN', ':', 'NN']"
-16,    return returntext,"['return', 'return', 'text']","['KEYWORD', 'KEYWORD', 'IDENTIFIER']"
-17,},['}'],['PUNCTUATION']
-18,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-19,"    dbname := ""multitasking.db""","['dbname', ':=', '""multitasking.db""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-20,"    tablename := ""multiwrite""","['tablename', ':=', '""multiwrite""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-21,    defer time.Sleep(5000 * time.Millisecond),"['defer', 'time.Sleep(5000 * time.Millisecond)']","['IDENTIFIER', 'FUNCTION_CALL']"
-22,"    db, err := sqlite3.Open(""file:""+dbname+""?file:locked.sqlite?cache=shared&mode=rwc"")","['db', ',', 'err', ':=', 'sqlite3.Open(""file:""+dbname+""?file:locked.sqlite?cache=shared&mode=rwc"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-23,    defer db.Close(),"['defer', 'db.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-24,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-25,"        fmt.Printf(""failed to open database, error: "" + err.Error() + ""\n"") ","['fmt.Printf(""failed to open database, error: "" + err.Error() + ""\\n"")']",['FUNCTION_CALL']
-26,        return,['return'],['KEYWORD']
-27,    } ,['}'],['PUNCTUATION']
-28,"    err = db.Exec(""DROP TABLE IF EXISTS ""+tablename+"";"")","['err', '=', 'db.Exec(""DROP TABLE IF EXISTS ""+tablename+"";"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-29,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-30,"        fmt.Printf(""error dropping table ""+tablename+"": ""+err.Error()+""\n"")","['fmt.Printf(""error dropping table ""+tablename+"": ""+err.Error()+""\\n"")']",['FUNCTION_CALL']
-31,    },['}'],['PUNCTUATION']
-32,"    err = db.Exec(""CREATE TABLE ""+tablename+"" (id INTEGER PRIMARY KEY AUTOINCREMENT, text VARCHAR(200));"")","['err', '=', 'db.Exec(""CREATE TABLE ""+tablename+"" (id INTEGER PRIMARY KEY AUTOINCREMENT, text VARCHAR(200));"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-33,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-34,"        fmt.Printf(""error creating table ""+tablename+"": ""+err.Error()+""\n"") ","['fmt.Printf(""error creating table ""+tablename+"": ""+err.Error()+""\\n"")']",['FUNCTION_CALL']
-35,        return,['return'],['KEYWORD']
-36,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-37,"        fmt.Printf(""successfully created table ""+tablename+""!\n"") ","['fmt.Printf(""successfully created table ""+tablename+""!\\n"")']",['FUNCTION_CALL']
-38,    },['}'],['PUNCTUATION']
-39,    var insertcount int = 128,"['var', 'insertcount', 'int', '=', '128']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-40,"    fmt.Printf(""inserting %d random text rows ...\n"", insertcount) ","['fmt.Printf(""inserting %d random text rows ...\\n"", insertcount)']",['FUNCTION_CALL']
-41,    var counter int = 0,"['var', 'counter', 'int', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-42,    insertloop:,"['insertloop', ':']","['IDENTIFIER', 'PUNCTUATION']"
-43,    if counter < insertcount {,"['if', 'counter', '<', 'insertcount', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-44,        counter++,"['counter', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-45,        go func(count int) {,"['go', 'func', '(', 'count', 'int', ')', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-46,"            if db.Exec(""INSERT INTO ""+tablename+""(text) VALUES(\""""+getrandomtext()+""\"");"") !=nil {","['if', 'db.Exec(""INSERT INTO ""+tablename+""(text) VALUES(\\""""+getrandomtext()+""\\"");"")', '!=', 'nil', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-47,"                fmt.Printf("" -%d"", count)","['fmt.Printf("" -%d"", count)']",['FUNCTION_CALL']
-48,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-49,"                fmt.Printf("" +%d"", count)","['fmt.Printf("" +%d"", count)']",['FUNCTION_CALL']
-50,            },['}'],['PUNCTUATION']
-51,        }(counter),"['}(', 'counter', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-52,        goto insertloop,"['go', 'to', 'insertloop']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-53,    },['}'],['PUNCTUATION']
-54,"    fmt.Printf(""\nExecuted! Waiting some seconds...\n"")","['fmt.Printf(""\\nExecuted! Waiting some seconds...\\n"")']",['FUNCTION_CALL']
-55,    time.Sleep(3000 * time.Millisecond)         ,['time.Sleep(3000 * time.Millisecond)'],['FUNCTION_CALL']
-56,"    fmt.Printf(""\nRequesting...\n"")","['fmt.Printf(""\\nRequesting...\\n"")']",['FUNCTION_CALL']
-57,"    ReadTable, err := db.Prepare(""SELECT id, text FROM ""+tablename+"";"")","['ReadTable', ',', 'err', ':=', 'db.Prepare(""SELECT id, text FROM ""+tablename+"";"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-58,    err = ReadTable.Query(),"['err', '=', 'ReadTable.Query()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-59,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-60,"        fmt.Printf(""failed to read '""+tablename+""' table, error: "" + err.Error() + ""\n"")","['fmt.Printf(""failed to read \'""+tablename+""\' table, error: "" + err.Error() + ""\\n"")']",['FUNCTION_CALL']
-61,        return,['return'],['KEYWORD']
-62,    } ,['}'],['PUNCTUATION']
-63,    Readloop:,"['Readloop', ':']","['IDENTIFIER', 'PUNCTUATION']"
-64,    var RowId int,"['var', 'RowId', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-65,    var RowText string,"['var', 'RowText', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-66,"    err = ReadTable.Scan(&RowId, &RowText)","['err', '=', 'ReadTable.Scan(&RowId, &RowText)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-67,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-68,"        fmt.Printf(""> %d | %s\n"", RowId, RowText)","['fmt.Printf(""> %d | %s\\n"", RowId, RowText)']",['FUNCTION_CALL']
-69,        ReadTable.Next() ,['ReadTable.Next()'],['FUNCTION_CALL']
-70,        goto Readloop,"['go', 'to', 'Readloop']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-71,    },['}'],['PUNCTUATION']
-72,"    fmt.Printf(""Sqlite3 test done! :)\n"")","['fmt.Printf(""Sqlite3 test done! :)\\n"")']",['FUNCTION_CALL']
-73,},['}'],['PUNCTUATION']
-74,"
+","['I', 'am', 'working', 'with', 'Redigo', 'Redis', 'library', 'and', 'trying', 'to', 'json.Marshal', 'the', 'result', 'I', 'get', 'from', 'a', 'sorted', 'set', 'but', 'I', 'get', 'results', 'such', 'as', 'this:']","['PRP', 'VBP', 'VBG', 'IN', 'NNP', 'NNP', 'NN', 'CC', 'VBG', 'TO', 'VB', 'DT', 'NN', 'PRP', 'VBP', 'IN', 'DT', 'JJ', 'NN', 'CC', 'PRP', 'VBP', 'NNS', 'JJ', 'IN', 'NN']"
+1,"""eyJmcm9tSWQiOjEsInRvSWQiOjUsInR5cGUiOjMsInBvc3RJZCI6MSwiY29tbWVudElkIjo0NCwiY3JlYXRlZFRpbWUiOjE0NjMxNTY0ODQsImlzVmlld2VkIjpmYWxzZSwidXNlcm5hbWUiOiJBZG1pbiIsImltYWdlIjoiaHc2ZE5EQlQtMzZ4MzYuanBnIn0=""","['""eyJmcm9tSWQiOjEsInRvSWQiOjUsInR5cGUiOjMsInBvc3RJZCI6MSwiY29tbWVudElkIjo0NCwiY3JlYXRlZFRpbWUiOjE0NjMxNTY0ODQsImlzVmlld2VkIjpmYWxzZSwidXNlcm5hbWUiOiJBZG1pbiIsImltYWdlIjoiaHc2ZE5EQlQtMzZ4MzYuanBnIn0=""']",['STRING_LITERAL']
+2,"
 
-When multitasking.db does not exists all works fine:
+When I should be getting this:
 
-","['When', 'multitasking.db', 'does', 'not', 'exists', 'all', 'works', 'fine:']","['WRB', 'NN', 'VBZ', 'RB', 'VB', 'DT', 'NNS', 'VBP']"
-75,C:\Documents and Settings\JekabsR>multitaskingdb,"['C', ':', 'Documents', 'and', 'Settings', 'JekabsR', '>', 'multitaskingdb']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER']"
-76,successfully created table multiwrite!,"['successfully', 'created', 'table', 'multiwrite', '!']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
-77,inserting 128 random text rows ...,"['inserting', '128', 'random', 'text', 'rows', '...']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-78,Executed! Waiting some seconds...,"['Executed', '!', 'Waiting', 'some', 'seconds', '...']","['IDENTIFIER', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-79, +2 +3 +4 +5 +6 +7 +8 +9 +10 +11 +57 +58 +59 +60 +61 +62 +63 +64 +65 +66 +67 +68,"['+', '2', '+', '3', '+', '4', '+', '5', '+', '6', '+', '7', '+', '8', '+', '9', '+', '10', '+', '11', '+', '57', '+', '58', '+', '59', '+', '60', '+', '61', '+', '62', '+', '63', '+', '64', '+', '65', '+', '66', '+', '67', '+', '68']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-80, +69 +70 +71 +72 +73 +74 +75 +76 +77 +78 +79 +80 +81 +82 +83 +84 +85 +86 +87 +88,"['+', '69', '+', '70', '+', '71', '+', '72', '+', '73', '+', '74', '+', '75', '+', '76', '+', '77', '+', '78', '+', '79', '+', '80', '+', '81', '+', '82', '+', '83', '+', '84', '+', '85', '+', '86', '+', '87', '+', '88']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-81, +89 +90 +91 +92 +93 +94 +95 +96 +97 +98 +117 +118 +119 +120 +121 +122 +123 +124,"['+', '89', '+', '90', '+', '91', '+', '92', '+', '93', '+', '94', '+', '95', '+', '96', '+', '97', '+', '98', '+', '117', '+', '118', '+', '119', '+', '120', '+', '121', '+', '122', '+', '123', '+', '124']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-82, +125 +126 +127 +128 +12 +13 +14 +15 +16 +17 +18 +19 +20 +21 +22 +23 +24 +25 +26,"['+', '125', '+', '126', '+', '127', '+', '128', '+', '12', '+', '13', '+', '14', '+', '15', '+', '16', '+', '17', '+', '18', '+', '19', '+', '20', '+', '21', '+', '22', '+', '23', '+', '24', '+', '25', '+', '26']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-83, +27 +28 +29 +30 +31 +32 +33 +34 +35 +36 +37 +38 +39 +40 +41 +42 +43 +44 +45 +46,"['+', '27', '+', '28', '+', '29', '+', '30', '+', '31', '+', '32', '+', '33', '+', '34', '+', '35', '+', '36', '+', '37', '+', '38', '+', '39', '+', '40', '+', '41', '+', '42', '+', '43', '+', '44', '+', '45', '+', '46']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-84, +47 +48 +49 +50 +51 +52 +53 +54 +55 +56 +99 +100 +101 +102 +103 +104 +105 +106,"['+', '47', '+', '48', '+', '49', '+', '50', '+', '51', '+', '52', '+', '53', '+', '54', '+', '55', '+', '56', '+', '99', '+', '100', '+', '101', '+', '102', '+', '103', '+', '104', '+', '105', '+', '106']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-85,+107 +108 +109 +110 +111 +112 +113 +114 +115 +116 +1,"['+', '107', '+', '108', '+', '109', '+', '110', '+', '111', '+', '112', '+', '113', '+', '114', '+', '115', '+', '116', '+', '1']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-86,Requesting...,"['Requesting', '...']","['IDENTIFIER', 'PUNCTUATION']"
-87,> 1 | ScnK0DScszFPtNgY,"['>', '1', '|', 'ScnK0DScszFPtNgY']","['RELATION_OPERATOR', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER']"
-88,> 2 | 8ALa+Dyk48PpJ4em,"['>', '2', '|', '8', 'ALa', '+', 'Dyk48PpJ4em']","['RELATION_OPERATOR', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-89,> 3 | hmEF4yINhg9SxlNy,"['>', '3', '|', 'hmEF4yINhg9SxlNy']","['RELATION_OPERATOR', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER']"
-90,...,['...'],['PUNCTUATION']
-91,> 127 | AAAAwNCvV/wd0/MR,"['>', '127', '|', 'AAAAwNCvV/wd0/MR']","['RELATION_OPERATOR', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'DIRECTORY']"
-92,> 128 | SEbPfK/XuVfgnxPj,"['>', '128', '|', 'SEbPfK/XuVfgnxPj']","['RELATION_OPERATOR', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'DIRECTORY']"
-93,Sqlite3 test done! :),"['Sqlite3', 'test', 'done', '!', ':)']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'LOGICAL_OPERATOR', 'PUNCTUATION']"
-94,"
+","['When', 'I', 'should', 'be', 'getting', 'this:']","['WRB', 'PRP', 'MD', 'VB', 'VBG', 'JJ']"
+3,"""{""fromId"":5,""toId"":1,""type"":3,""postId"":4,""commentId"":49,""createdTime"":1463161736,""isViewed"":false,""username"":""Alexander"",""image"":""JZIfHp8i-36x36.png""}""","['""{""', 'fromId', '"":5,""', 'toId', '"":1,""', 'type', '"":3,""', 'postId', '"":4,""', 'commentId', '"":49,""', 'createdTime', '"":1463161736,""', 'isViewed', '"":false,""', 'username', '"":""', 'Alexander', '"",""', 'image', '"":""', 'JZIfHp8i', '-', '36', 'x36', '.', 'png', '""}""']","['STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'KEYWORD', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL']"
+4,"
 
-When i hit multitaskingdb again, this causes panic:
+I have a Notification struct
 
-","['When', 'i', 'hit', 'multitaskingdb', 'again,', 'this', 'causes', 'panic:']","['WRB', 'NN', 'VBD', 'JJ', 'NN', 'DT', 'VBZ', 'NN']"
-95,C:\Documents and Settings\JekabsR>multitaskingdb,"['C', ':', 'Documents', 'and', 'Settings', 'JekabsR', '>', 'multitaskingdb']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER']"
-96,successfully created table multiwrite!,"['successfully', 'created', 'table', 'multiwrite', '!']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
-97,inserting 128 random text rows ...,"['inserting', '128', 'random', 'text', 'rows', '...']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-98,Executed! Waiting some seconds...,"['Executed', '!', 'Waiting', 'some', 'seconds', '...']","['IDENTIFIER', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-99, +2 +3 +4 +5 +6 +7 +8 +9 +10panic: invalid memory address or nil pointer derefer,"['+', '2', '+', '3', '+', '4', '+', '5', '+', '6', '+', '7', '+', '8', '+', '9', '+', '10', 'panic', ':', 'invalid', 'memory', 'address', 'or', 'nil', 'pointer', 'derefer']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-100,ence,['ence'],['IDENTIFIER']
-101,fatal error: panic during malloc,"['fatal', 'error', ':', 'panic', 'during', 'malloc']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-102,[signal 0xc0000005 code=0x0 addr=0x20 pc=0x41b60a],"['[', 'signal', '0xc', '0', '0', '0', '0', '0', '05', 'code', '=', '0', 'x0', 'addr', '=', '0x2', '0', 'pc', '=', '0x41b6', '0', 'a', ']']","['PUNCTUATION', 'IDENTIFIER', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-103,runtime stack:,"['runtime', 'stack', ':']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-104,runtime.panic(panic: invalid memory address or nil pointer dereference,"['runtime', '.', 'panic', '(', 'panic', ':', 'invalid', 'memory', 'address', 'or', 'nil', 'pointer', 'dereference']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-105," +11 -57 -58 -59 -60 -61 -62 -63 -64 -65 -66 -67 -68 -69 -700x520a80, 0x673aaf)","['+', '11', '-', '57', '-', '58', '-', '59', '-', '60', '-', '61', '-', '62', '-', '63', '-', '64', '-', '65', '-', '66', '-', '67', '-', '68', '-', '69', '-', '700', 'x520a80', ',', '0x673aaf', ')']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-106,        C:/Program Files/Go/src/pkg/runtime/panic.c:233 +0x2b,"['C:/Program', 'Files/Go/src/pkg/runtime/panic.c:233', '+', '0x2b']","['DIRECTORY', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-107,invalid spdelta 363589 -1,"['invalid', 'spdelta', '363589', '-', '1']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-108,runtime: unexpected return pc for  -71 -72 -73 -74 -75 -76 -77 -78 -79 -80 -81 -,"['runtime', ':', 'unexpected', 'return', 'pc', 'for', '-', '71', '-', '72', '-', '73', '-', '74', '-', '75', '-', '76', '-', '77', '-', '78', '-', '79', '-', '80', '-', '81', '-']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR']"
-109,82 -83 -84 -85 -86 -87 -88balance called from 0x200,"['82', '-', '83', '-', '84', '-', '85', '-', '86', '-', '87', '-', '88', 'balance', 'called', 'from', '0x2', '0', '0']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
-110,goroutine 48 [syscall]:,"['go', 'routine', '48', '[', 'syscall', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-111,"runtime.cgocall(0x492817, 0x314476e8)","['runtime.cgocall(0x492817, 0x314476e8)']",['FUNCTION_CALL']
-112,        C:/Program Files/Go/src/pkg/runtime/cgocall.c -89 -90 -91 -92 -93 -94 -9,"['C:/Program', 'Files/Go/src/pkg/runtime/cgocall.c', '-', '89', '-', '90', '-', '91', '-', '92', '-', '93', '-', '94', '-', '9']","['DIRECTORY', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-113,5 -96 -97 -98 -99 -100 -101 -102 -103 -104 -105 -106:149 +0x10c fp=0x314476dc,"['5', '-', '96', '-', '97', '-', '98', '-', '99', '-', '100', '-', '101', '-', '102', '-', '103', '-', '104', '-', '105', '-', '106', ':', '149', '+', '0x1', '0', 'c', 'fp', '=', '0x314476dc']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL']"
-114,"code.google.com/p/go-sqlite/go1/sqlite3._Cfunc_sqlite3_exec(0x3d4258, 0x10f47480","['code.google.com/p/go-sqlite/go1/sqlite3._Cfunc_sqlite3_exec(0x3d4258,', '0x1', '0', 'f47480']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-115,", 0x0, 0x0, 0x0, ...)","[',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '...)']","['PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-116,        C:/DOCUME~1/JekabsR/LOCALS~1/Temp/go-build368528647/code.google.com/p/go,['C:/DOCUME~1/JekabsR/LOCALS~1/Temp/go-build368528647/code.google.com/p/go'],['DIRECTORY']
-117,-sqlite/go1/sqlite3/_obj/_cgo_defun.c:456 +0x33 fp=0x314476e8,"['-sqlite/go1/sqlite3/_obj/_cgo_defun.c:456', '+', '0x33', 'fp', '=', '0x314476e8']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL']"
-118,"code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).exec(0x10f2d6c0, 0x10f47480, 0x3","['code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).exec(0x10f2d6c0,', '0x1', '0', 'f47480', ',', '0x3']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL']"
-119,"8 +13 +14 +15 +16 +17 +18 +19 +20 +21 +22 +23 +24 +25 +26 +27 +28 +29, 0x52f578)","['8', '+', '13', '+', '14', '+', '15', '+', '16', '+', '17', '+', '18', '+', '19', '+', '20', '+', '21', '+', '22', '+', '23', '+', '24', '+', '25', '+', '26', '+', '27', '+', '28', '+', '29', ',', '0x52f578', ')']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-120,        C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit,['C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit'],['DIRECTORY']
-121,e3.go:545 +0x4c fp=0x31447704,"['e3', '.', 'go', ':', '545', '+', '0x4c', 'fp', '=', '0x314477', '04']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-122,"code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).Exec(0x10f2d6c0, 0x10f47480,  +3","['code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).Exec(0x10f2d6c0,', '0x1', '0', 'f47480', ',', '+', '3']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-123,"0 +31 +32 +33 +34 +35 +36 +37 +38 +39 +40 +41 +42 +43 +44 +47 -48 -490x39, 0x0,","['0', '+', '31', '+', '32', '+', '33', '+', '34', '+', '35', '+', '36', '+', '37', '+', '38', '+', '39', '+', '40', '+', '41', '+', '42', '+', '43', '+', '44', '+', '47', '-', '48', '-', '490', 'x39', ',', '0', 'x0', ',']","['OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-124,"0x0, ...)","['0', 'x0', ',', '...)']","['OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-125,        C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit,['C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit'],['DIRECTORY']
-126,e3.go:231 +0xd2 fp=0x31447764,"['e3', '.', 'go', ':', '231', '+', '0xd2', 'fp', '=', '0x31447764']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL']"
-127,main.func┬Ę001( -50 -51 -52 -53 -54 -55 -56 +1 -107 -108 -109 -110 -111 -112 -11,"['main', '.', 'func', '0', '01', '(', '-', '50', '-', '51', '-', '52', '-', '53', '-', '54', '-', '55', '-', '56', '+', '1', '-', '107', '-', '108', '-', '109', '-', '110', '-', '111', '-', '112', '-', '11']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-128,3 -114 -115 -1160x2d),"['3', '-', '114', '-', '115', '-', '1160', 'x2d', ')']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-129,        C:/Program Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go,"['C:/Program', 'Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go']","['DIRECTORY', 'DIRECTORY']"
-130,:52 +0xa2 fp=0x314477c4,"[':', '52', '+', '0xa2', 'fp', '=', '0x314477c4']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL']"
-131,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
-132,        C:/Program Files/Go/src/pkg/runtime/proc.c:1394 -117 -118 -119 -120 -121,"['C:/Program', 'Files/Go/src/pkg/runtime/proc.c:1394', '-', '117', '-', '118', '-', '119', '-', '120', '-', '121']","['DIRECTORY', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-133, -122 -123 -124 -125 -126 -127 -128 +12 fp=0x314477c8,"['-', '122', '-', '123', '-', '124', '-', '125', '-', '126', '-', '127', '-', '128', '+', '12', 'fp', '=', '0x314477c8']","['ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL']"
-134,created by main.main,"['created', 'by', 'main', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-135,        C:/Program Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go,"['C:/Program', 'Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go']","['DIRECTORY', 'DIRECTORY']"
-136,:57 +0x417,"[':', '57', '+', '0x417']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-137,goroutine 1 [sleep]:,"['go', 'routine', '1', '[', 'sleep', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-138,"time.Sleep(0xb2d05e00, 0x0)","['time.Sleep(0xb2d05e00, 0x0)']",['FUNCTION_CALL']
-139,        C:/Program Files/Go/src/pkg/runtime/time.goc:31 +0x3b,"['C:/Program', 'Files/Go/src/pkg/runtime/time.goc:31', '+', '0x3b']","['DIRECTORY', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-140,main.main(),['main.main()'],['FUNCTION_CALL']
-141,        C:/Program Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go,"['C:/Program', 'Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go']","['DIRECTORY', 'DIRECTORY']"
-142,:61 +0x453,"[':', '61', '+', '0x453']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-143,goroutine 3 [syscall]:,"['go', 'routine', '3', '[', 'syscall', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-144,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
-145,        C:/Program Files/Go/src/pkg/runtime/proc.c:1394,"['C:/Program', 'Files/Go/src/pkg/runtime/proc.c:1394']","['DIRECTORY', 'DIRECTORY']"
-146,goroutine 49 [syscall]:,"['go', 'routine', '49', '[', 'syscall', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-147,"code.google.com/p/go-sqlite/go1/sqlite3._Cfunc_sqlite3_exec(0x3d4258, 0x10f47500","['code.google.com/p/go-sqlite/go1/sqlite3._Cfunc_sqlite3_exec(0x3d4258,', '0x1', '0', 'f47500']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-148,", 0x0, 0x0, 0x0, ...)","[',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '...)']","['PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-149,        C:/DOCUME~1/JekabsR/LOCALS~1/Temp/go-build368528647/code.google.com/p/go,['C:/DOCUME~1/JekabsR/LOCALS~1/Temp/go-build368528647/code.google.com/p/go'],['DIRECTORY']
-150,-sqlite/go1/sqlite3/_obj/_cgo_defun.c:456 +0x33,"['-sqlite/go1/sqlite3/_obj/_cgo_defun.c:456', '+', '0x33']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-151,"code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).exec(0x10f2d6c0, 0x10f47500, 0x3","['code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).exec(0x10f2d6c0,', '0x1', '0', 'f47500', ',', '0x3']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL']"
-152,"8, 0x52f578)","['8', ',', '0x52f578', ')']","['DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-153,        C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit,['C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit'],['DIRECTORY']
-154,e3.go:545 +0x4c,"['e3', '.', 'go', ':', '545', '+', '0x4c']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-155,"code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).Exec(0x10f2d6c0, 0x10f47500, 0x3","['code.google.com/p/go-sqlite/go1/sqlite3.(*Conn).Exec(0x10f2d6c0,', '0x1', '0', 'f47500', ',', '0x3']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL']"
-156,"9, 0x0, 0x0, ...)","['9', ',', '0', 'x0', ',', '0', 'x0', ',', '...)']","['DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-157,        C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit,['C:/ProgramFiles/Go/src/pkg/code.google.com/p/go-sqlite/go1/sqlite3/sqlit'],['DIRECTORY']
-158,e3.go:231 +0xd2,"['e3', '.', 'go', ':', '231', '+', '0xd2']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-159,main.func┬Ę001(0x2e),"['main', '.', 'func', '0', '01', '(', '0x2e', ')']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-160,        C:/Program Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go,"['C:/Program', 'Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go']","['DIRECTORY', 'DIRECTORY']"
-161,:52 +0xa2,"[':', '52', '+', '0xa2']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-162,created by main.main,"['created', 'by', 'main', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-163,        C:/Program Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go,"['C:/Program', 'Files/Go/src/pkg/development/multitaskingdb/multitaskingdb.go']","['DIRECTORY', 'DIRECTORY']"
-164,:57 +0x417,"[':', '57', '+', '0x417']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-165,fatal error: panic during malloc,"['fatal', 'error', ':', 'panic', 'during', 'malloc']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-166,[signal 0xc0000005 code=0x0 addr=0x20 pc=0x41b60a],"['[', 'signal', '0xc', '0', '0', '0', '0', '0', '05', 'code', '=', '0', 'x0', 'addr', '=', '0x2', '0', 'pc', '=', '0x41b6', '0', 'a', ']']","['PUNCTUATION', 'IDENTIFIER', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-167,runtime stack:,"['runtime', 'stack', ':']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-168,"runtime.panic(0x520a80, 0x673aaf)","['runtime.panic(0x520a80, 0x673aaf)']",['FUNCTION_CALL']
-169,        C:/Program Files/Go/src/pkg/runtime/panic.c:233 +0x2b,"['C:/Program', 'Files/Go/src/pkg/runtime/panic.c:233', '+', '0x2b']","['DIRECTORY', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-170,invalid spdelta 364736 -1,"['invalid', 'spdelta', '364736', '-', '1']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-171,runtime: unexpected return pc for sqlite3BtreeInsert called from 0x1500,"['runtime', ':', 'unexpected', 'return', 'pc', 'for', 'sqlite3BtreeInsert', 'called', 'from', '0x15', '0', '0']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL']"
-172,"
+","['I', 'have', 'a', 'Notification', 'struct']","['PRP', 'VBP', 'DT', 'NNP', 'NN']"
+5,type Notification struct {,"['type', 'Notification', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+6,"    FromId int64 `json:""fromId""`","['FromId', 'int64', 'json', ':', '""fromId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+7,"    ToId   int64 `json:""toId""`","['ToId', 'int64', 'json', ':', '""toId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+8,"    OfType int64 `json:""type""`","['OfType', 'int64', 'json', ':', '""type""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+9,"    PostId       int64  `json:""postId""`","['PostId', 'int64', 'json', ':', '""postId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+10,"    CommentId    int64  `json:""commentId""`","['CommentId', 'int64', 'json', ':', '""commentId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+11,"    CreatedTime  int64  `json:""createdTime""`","['CreatedTime', 'int64', 'json', ':', '""createdTime""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+12,"    IsViewed     bool   `json:""isViewed""`","['IsViewed', 'bool', 'json', ':', '""isViewed""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+13,"    FromUsername string `json:""username""`","['FromUsername', 'string', 'json', ':', '""username""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+14,"    FromImage    string `json:""image""`","['FromImage', 'string', 'json', ':', '""image""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+15,},['}'],['PUNCTUATION']
+16,func New() *Notification {,"['func', 'New', '()', '*', 'Notification', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+17,    return &Notification{,"['return', '&', 'Notification', '{']","['KEYWORD', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+18,"        CreatedTime: time.Now().Unix(),","['CreatedTime', ':', 'time.Now().Unix()', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+19,    },['}'],['PUNCTUATION']
+20,},['}'],['PUNCTUATION']
+21,"
 
-Where is the problem?
-","['Where', 'is', 'the', 'problem?']","['WRB', 'VBZ', 'DT', 'NN']"
+It has a method that saves a string of json into a Redis sorted set.
+
+","['It', 'has', 'a', 'method', 'that', 'saves', 'a', 'string', 'of', 'json', 'into', 'a', 'Redis', 'sorted', 'set.']","['PRP', 'VBZ', 'DT', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'IN', 'DT', 'NNP', 'VBD', 'NN']"
+22,"func (n *Notification) Create(pool *redis.Pool, multicast chan<- []byte) error {","['func', '(', 'n', '*', 'Notification', ')', 'Create', '(', 'pool', '*', 'redis', '.', 'Pool', ',', 'multicast', 'chan', '<-', '[]', 'byte', ')', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'CHANNEL_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+23,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+24,"    n.FromUsername, err = validation.FilterUsername(n.FromUsername)","['n', '.', 'FromUsername', ',', 'err', '=', 'validation.FilterUsername(n.FromUsername)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+25,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+26,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+27,    },['}'],['PUNCTUATION']
+28,    // We can use the same validation as for a username here.,"['//', 'We', 'can', 'use', 'the', 'same', 'validation', 'as', 'for', 'a', 'username', 'here.']","['COMMENT', 'PRP', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'IN', 'DT', 'JJ', 'NN']"
+29,"    n.FromImage, err = validation.FilterUsername(n.FromImage)","['n', '.', 'FromImage', ',', 'err', '=', 'validation.FilterUsername(n.FromImage)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+30,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+31,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+32,    },['}'],['PUNCTUATION']
+33,"    key := fmt.Sprintf(""user:%d:notification"", n.ToId)","['key', ':=', 'fmt.Sprintf(""user:%d:notification"", n.ToId)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+34,"    b, err := json.Marshal(n)","['b', ',', 'err', ':=', 'json.Marshal(n)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+36,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+37,    },['}'],['PUNCTUATION']
+38,    c := pool.Get(),"['c', ':=', 'pool.Get()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+39,    defer c.Close(),"['defer', 'c.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+40,"    c.Send(""ZADD"", key, n.CreatedTime, string(b))","['c.Send(""ZADD"", key, n.CreatedTime, string(b))']",['FUNCTION_CALL']
+41,    // Limiting to the top ranked 50 items.,"['//', 'Limiting', 'to', 'the', 'top', 'ranked', '50', 'items.']","['COMMENT', 'VBG', 'TO', 'DT', 'JJ', 'VBD', 'CD', 'NN']"
+42,"    c.Send(""ZREMRANGEBYRANK"", key, 0, -50)","['c.Send(""ZREMRANGEBYRANK"", key, 0, -50)']",['FUNCTION_CALL']
+43,    if err := c.Flush(); err != nil {,"['if', 'err', ':=', 'c.Flush()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+44,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+45,    },['}'],['PUNCTUATION']
+46,    multicast <- b,"['multicast', '<-', 'b']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+47,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+48,},['}'],['PUNCTUATION']
+49,"
+
+This works all good. But then I want to fetch those results and send then to the client side as an array of json formatted strings. The same json formatted strings that I save in the sorted set.
+
+I am doing something simple like this.
+
+","['This', 'works', 'all', 'good.', 'But', 'then', 'I', 'want', 'to', 'fetch', 'those', 'results', 'and', 'send', 'then', 'to', 'the', 'client', 'side', 'as', 'an', 'array', 'of', 'json', 'formatted', 'strings.', 'The', 'same', 'json', 'formatted', 'strings', 'that', 'I', 'save', 'in', 'the', 'sorted', 'set.', 'I', 'am', 'doing', 'something', 'simple', 'like', 'this.']","['DT', 'VBZ', 'DT', 'NNS', 'CC', 'RB', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NNS', 'CC', 'VBP', 'RB', 'TO', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'NN', 'VBN', 'PDT', 'DT', 'JJ', 'NN', 'VBD', 'NNS', 'IN', 'PRP', 'VBP', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'VBG', 'NN', 'NNS', 'IN', 'NN']"
+50,"func ByUserId(userId int64, pool *redis.Pool) (interface{}, error) {","['func', 'ByUserId', '(', 'userId', 'int64', ',', 'pool', '*', 'redis', '.', 'Pool', ')', '(', 'interface', '{},', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+51,"    key := fmt.Sprintf(""user:%d:notification"", userId)","['key', ':=', 'fmt.Sprintf(""user:%d:notification"", userId)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+52,    c := pool.Get(),"['c', ':=', 'pool.Get()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+53,    defer c.Close(),"['defer', 'c.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+54,"    c.Send(""ZREVRANGE"", key, 0, -1)","['c.Send(""ZREVRANGE"", key, 0, -1)']",['FUNCTION_CALL']
+55,    c.Flush(),['c.Flush()'],['FUNCTION_CALL']
+56,    return c.Receive(),"['return', 'c.Receive()']","['KEYWORD', 'FUNCTION_CALL']"
+57,},['}'],['PUNCTUATION']
+58,"
+
+But it does not work.
+
+When I json.Marshal the result I get an array of strings like this:
+
+""eyJmcm9tSWQiOjEsInRvSWQiOjUsInR5cGUiOjMsInBvc3RJZCI6MSwiY29tbWVudElkIjo0NCwiY3JlYXRlZFRpbWUiOjE0NjMxNTY0ODQsImlzVmlld2VkIjpmYWxzZSwidXNlcm5hbWUiOiJBZG1pbiIsImltYWdlIjoiaHc2ZE5EQlQtMzZ4MzYuanBnIn0=""
+
+
+If I spew.Dump() the results I get this output:
+
+","['But', 'it', 'does', 'not', 'work.', 'When', 'I', 'json.Marshal', 'the', 'result', 'I', 'get', 'an', 'array', 'of', 'strings', 'like', 'this:', '""eyJmcm9tSWQiOjEsInRvSWQiOjUsInR5cGUiOjMsInBvc3RJZCI6MSwiY29tbWVudElkIjo0NCwiY3JlYXRlZFRpbWUiOjE0NjMxNTY0ODQsImlzVmlld2VkIjpmYWxzZSwidXNlcm5hbWUiOiJBZG1pbiIsImltYWdlIjoiaHc2ZE5EQlQtMzZ4MzYuanBnIn0=""', 'If', 'I', 'spew.Dump()', 'the', 'results', 'I', 'get', 'this', 'output:']","['CC', 'PRP', 'VBZ', 'RB', 'VB', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'NNS', 'IN', 'NN', 'VBP', 'IN', 'PRP', 'VBP', 'DT', 'NNS', 'PRP', 'VBP', 'DT', 'NN']"
+59,([]interface {}) (len=1 cap=1) {,"['([]', 'interface', '{})', '(', 'len', '=', '1', 'cap', '=', '1', ')', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+60, ([]uint8) (len=149 cap=149) {,"['([]', 'uint8', ')', '(', 'len', '=', '149', 'cap', '=', '149', ')', '{']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+61,"  00000000  7b 22 66 72 6f 6d 49 64  22 3a 35 2c 22 74 6f 49  |{""fromId"":5,""toI|","['0', '0', '0', '0', '0', '0', '0', '0', '7', 'b', '22', '66', '72', '6', 'f', '6', 'd', '49', '64', '22', '3', 'a', '35', '2', 'c', '22', '74', '6', 'f', '49', '|{', '""fromId""', ':', '5', ',', 'toI', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+62,"  00000010  64 22 3a 31 2c 22 74 79  70 65 22 3a 33 2c 22 70  |d"":1,""type"":3,""p|","['0', '0', '0', '0', '0', '01', '0', '64', '22', '3', 'a', '31', '2', 'c', '22', '74', '79', '70', '65', '22', '3', 'a', '33', '2', 'c', '22', '70', '|', 'd', '"":1,""', 'type', '"":3,""', 'p', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'KEYWORD', 'STRING_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+63,"  00000020  6f 73 74 49 64 22 3a 34  2c 22 63 6f 6d 6d 65 6e  |ostId"":4,""commen|","['0', '0', '0', '0', '0', '02', '0', '6', 'f', '73', '74', '49', '64', '22', '3', 'a', '34', '2', 'c', '22', '63', '6', 'f', '6', 'd', '6', 'd', '65', '6', 'e', '|', 'ostId', '"":4,""', 'commen', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+64,"  00000030  74 49 64 22 3a 34 39 2c  22 63 72 65 61 74 65 64  |tId"":49,""created|","['0', '0', '0', '0', '0', '03', '0', '74', '49', '64', '22', '3', 'a', '34', '39', '2', 'c', '22', '63', '72', '65', '61', '74', '65', '64', '|', 'tId', '"":49,""', 'created', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+65,"  00000040  54 69 6d 65 22 3a 31 34  36 33 31 36 31 37 33 36  |Time"":1463161736|","['0', '0', '0', '0', '0', '04', '0', '54', '69', '6', 'd', '65', '22', '3', 'a', '31', '34', '36', '33', '31', '36', '31', '37', '33', '36', '|', 'Time', ':', '1463161736', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR']"
+66,"  00000050  2c 22 69 73 56 69 65 77  65 64 22 3a 66 61 6c 73  |,""isViewed"":fals|","['0', '0', '0', '0', '0', '05', '0', '2', 'c', '22', '69', '73', '56', '69', '65', '77', '65', '64', '22', '3', 'a', '66', '61', '6', 'c', '73', '|,', '""isViewed""', ':', 'fals', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+67,"  00000060  65 2c 22 75 73 65 72 6e  61 6d 65 22 3a 22 53 74  |e,""username"":""Al|","['0', '0', '0', '0', '0', '06', '0', '65', '2', 'c', '22', '75', '73', '65', '72', '6', 'e', '61', '6', 'd', '65', '22', '3', 'a', '22', '53', '74', '|', 'e', ',', '""username""', ':', 'Al', '|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR']"
+68,"  00000070  61 72 64 75 73 6b 22 2c  22 69 6d 61 67 65 22 3a  |exander"",""image"":|","['0', '0', '0', '0', '0', '07', '0', '61', '72', '64', '75', '73', '6', 'b', '22', '2', 'c', '22', '69', '6', 'd', '61', '67', '65', '22', '3', 'a', '|', 'exander', '"",""', 'image', ':|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+69,"  00000080  22 4a 5a 49 66 48 70 38  69 2d 33 36 78 33 36 2e  |""JZIfHp8i-36x36.|","['0', '0', '0', '0', '0', '0', '80', '22', '4', 'a', '5', 'a', '49', '66', '48', '70', '38', '69', '2', 'd', '33', '36', '78', '33', '36', '2', 'e', '|', 'JZIfHp8i', '-', '36', 'x36', '.|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+70,"  00000090  70 6e 67 22 7d                                    |png""}|","['0', '0', '0', '0', '0', '0', '90', '70', '6', 'e', '67', '22', '7', 'd', '|', 'png', '}|']","['OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+71, },['}'],['PUNCTUATION']
+72,},['}'],['PUNCTUATION']
+73,"
+
+What can I do?
+
+EDIT:
+
+This is what I did in the end but it feels like alot of unnecessary conversion.
+
+","['What', 'can', 'I', 'do?', 'EDIT:', 'This', 'is', 'what', 'I', 'did', 'in', 'the', 'end', 'but', 'it', 'feels', 'like', 'alot', 'of', 'unnecessary', 'conversion.']","['WP', 'MD', 'PRP', 'VB', 'NNP', 'DT', 'VBZ', 'WP', 'PRP', 'VBD', 'IN', 'DT', 'NN', 'CC', 'PRP', 'VBZ', 'IN', 'NN', 'IN', 'JJ', 'NN']"
+74,"func ByUserId(userId int64, pool *redis.Pool) ([]string, error) {","['func', 'ByUserId', '(', 'userId', 'int64', ',', 'pool', '*', 'redis', '.', 'Pool', ')', '([]', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+75,"    key := fmt.Sprintf(""user:%d:notification"", userId)","['key', ':=', 'fmt.Sprintf(""user:%d:notification"", userId)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+76,    c := pool.Get(),"['c', ':=', 'pool.Get()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+77,    defer c.Close(),"['defer', 'c.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+78,"    c.Send(""ZREVRANGE"", key, 0, -1)","['c.Send(""ZREVRANGE"", key, 0, -1)']",['FUNCTION_CALL']
+79,    c.Flush(),['c.Flush()'],['FUNCTION_CALL']
+80,"    reply, err := c.Receive()","['reply', ',', 'err', ':=', 'c.Receive()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+81,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+82,"        return nil, nil","['return', 'nil', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+83,    },['}'],['PUNCTUATION']
+84,"    arr, ok := reply.([]interface{})","['arr', ',', 'ok', ':=', 'reply', '.([]', 'interface', '{})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+85,    if !ok {,"['if', '!', 'ok', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+86,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+87,    },['}'],['PUNCTUATION']
+88,    ss := []string{},"['ss', ':=', '[]', 'string', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+89,"    for _, v := range arr {","['for', '_', ',', 'v', ':=', 'range', 'arr', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+90,"        b, ok := v.([]byte)","['b', ',', 'ok', ':=', 'v', '.([]', 'byte', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+91,        if !ok {,"['if', '!', 'ok', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+92,"            return nil, nil","['return', 'nil', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+93,        },['}'],['PUNCTUATION']
+94,"        ss = append(ss, string(b))","['ss', '=', 'append', '(', 'ss', ',', 'string', '(', 'b', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+95,    },['}'],['PUNCTUATION']
+96,"    return ss, nil","['return', 'ss', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+97,},['}'],['PUNCTUATION']
+98,"
+
+And on the handle:
+
+","['And', 'on', 'the', 'handle:']","['CC', 'IN', 'DT', 'NN']"
+99,"func notifications(w http.ResponseWriter, r *http.Request, _ httprouter.Params) error {","['func', 'notifications', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', '_', 'httprouter', '.', 'Params', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+100,"    userId, err := user.LoggedIn(r)","['userId', ',', 'err', ':=', 'user.LoggedIn(r)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+101,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+102,        return unauthorized,"['return', 'unauthorized']","['KEYWORD', 'IDENTIFIER']"
+103,    },['}'],['PUNCTUATION']
+104,    jsonResp := make(map[string]interface{}),"['jsonResp', ':=', 'make', '(', 'map', '[', 'string', ']', 'interface', '{})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+105,"    jsonResp[""notifications""], err = notification.ByUserId(userId, redisPool)","['jsonResp', '[', '""notifications""', '],', 'err', '=', 'notification.ByUserId(userId, redisPool)']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+106,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+107,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+108,    },['}'],['PUNCTUATION']
+109,"    jsonResp[""success""] = true","['jsonResp', '[', '""success""', ']', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+110,"    b, err := json.Marshal(jsonResp)","['b', ',', 'err', ':=', 'json.Marshal(jsonResp)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+111,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+112,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+113,    },['}'],['PUNCTUATION']
+114,    w.Write(b),['w.Write(b)'],['FUNCTION_CALL']
+115,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+116,},['}'],['PUNCTUATION']

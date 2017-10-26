@@ -1,133 +1,271 @@
 ,text,token,annotation
-0,"I'm trying to implement a very simple test function to verify results coming from my solutions for Euler problems.
+0,"I want to write three concurrent go routines that sends integers to each other. Now, my code is compiled properly, however after first execution it gives error ""throw: all goroutines are asleep - deadlock!"". I tried to find the error but I could not able to find any error in code logic.Can anybody help me to find the mistake with my code. My code is given below. 
 
-In the following code I've created a map of slices where on the index 0, I call the function which return a integer and on the index 1, the result I expect from that function.
-
-","[""I'm"", 'trying', 'to', 'implement', 'a', 'very', 'simple', 'test', 'function', 'to', 'verify', 'results', 'coming', 'from', 'my', 'solutions', 'for', 'Euler', 'problems.', 'In', 'the', 'following', 'code', ""I've"", 'created', 'a', 'map', 'of', 'slices', 'where', 'on', 'the', 'index', '0,', 'I', 'call', 'the', 'function', 'which', 'return', 'a', 'integer', 'and', 'on', 'the', 'index', '1,', 'the', 'result', 'I', 'expect', 'from', 'that', 'function.']","['NNP', 'VBG', 'TO', 'VB', 'DT', 'RB', 'JJ', 'NN', 'NN', 'TO', 'VB', 'NNS', 'VBG', 'IN', 'PRP$', 'NNS', 'IN', 'NNP', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'VBD', 'DT', 'NN', 'IN', 'NNS', 'WRB', 'IN', 'DT', 'NN', 'CD', 'PRP', 'VBP', 'DT', 'NN', 'WDT', 'VBP', 'DT', 'NN', 'CC', 'IN', 'DT', 'NN', 'CD', 'DT', 'NN', 'PRP', 'VBP', 'IN', 'DT', 'NN']"
-1,package euler,"['package', 'euler']","['KEYWORD', 'IDENTIFIER']"
-2,"import ""testing""","['import', '""testing""']","['KEYWORD', 'STRING_LITERAL']"
-3,func TestEulers(t *testing.T) {,"['func', 'TestEulers', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-4,    tests := map[string][]int{,"['tests', ':=', 'map', '[', 'string', '][]', 'int', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-5,"        ""Euler1"": {Euler1(), 233168},","['""Euler1""', ':', '{', 'Euler1', '(),', '233168', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-6,"        ""Euler2"": {Euler2(), 4613732},","['""Euler2""', ':', '{', 'Euler2', '(),', '4613732', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-7,"        ""Euler3"": {Euler3(), 6857},","['""Euler3""', ':', '{', 'Euler3', '(),', '6857', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-8,"        ""Euler4"": {Euler4(), 906609},","['""Euler4""', ':', '{', 'Euler4', '(),', '906609', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-9,"        ""Euler5"": {Euler5(), 232792560},","['""Euler5""', ':', '{', 'Euler5', '(),', '232792560', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-10,"        ""Euler6"": {Euler6(), 25164150},","['""Euler6""', ':', '{', 'Euler6', '(),', '25164150', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-11,    },['}'],['OPERATOR']
-12,"    for key, value := range tests {","['for', 'key', ',', 'value', ':=', 'range', 'tests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-13,        if value[0] != value[1] {,"['if', 'value', '[', '0', ']', '!=', 'value', '[', '1', ']', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR']"
-14,"            t.Errorf(""%s\nExpected: %d\nGot:%d"",","['t', '.', 'Errorf', '(', '""%s\\nExpected: %d\\nGot:%d""', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-15,"                key, value[0], value[1])","['key', ',', 'value', '[', '0', '],', 'value', '[', '1', '])']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-16,        },['}'],['OPERATOR']
-17,    },['}'],['OPERATOR']
-18,},['}'],['OPERATOR']
-19,"
-
-For that map, every function works fine and return the result I expect if I run one by one or if I comment, let's say, half part of those keys/values.
-
-For example, if I call the the function above with these lines commented the test will PASS.
-
-","['For', 'that', 'map,', 'every', 'function', 'works', 'fine', 'and', 'return', 'the', 'result', 'I', 'expect', 'if', 'I', 'run', 'one', 'by', 'one', 'or', 'if', 'I', 'comment,', ""let's"", 'say,', 'half', 'part', 'of', 'those', 'keys/values.', 'For', 'example,', 'if', 'I', 'call', 'the', 'the', 'function', 'above', 'with', 'these', 'lines', 'commented', 'the', 'test', 'will', 'PASS.']","['IN', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'VB', 'DT', 'NN', 'PRP', 'VBP', 'IN', 'PRP', 'VBP', 'CD', 'IN', 'CD', 'CC', 'IN', 'PRP', 'VBP', 'JJ', 'NN', 'JJ', 'NN', 'IN', 'DT', 'NNS', 'IN', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'DT', 'NN', 'IN', 'IN', 'DT', 'NNS', 'VBD', 'DT', 'NN', 'MD', 'VB']"
-20,tests := map[string][]int{,"['tests', ':=', 'map', '[', 'string', '][]', 'int', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,"    ""Euler1"": {Euler1(), 233168},","['""Euler1""', ':', '{', 'Euler1', '(),', '233168', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-22,"    // ""Euler2"": {Euler2(), 4613732},","['//', '""Euler2"":', '{Euler2(),', '4613732},']","['COMMENT', 'JJ', 'CD', 'CD']"
-23,"    ""Euler3"": {Euler3(), 6857},","['""Euler3""', ':', '{', 'Euler3', '(),', '6857', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-24,"    ""Euler4"": {Euler4(), 906609},","['""Euler4""', ':', '{', 'Euler4', '(),', '906609', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-25,"    // ""Euler5"": {Euler5(), 232792560},","['//', '""Euler5"":', '{Euler5(),', '232792560},']","['COMMENT', 'JJ', 'CD', 'CD']"
-26,"    // ""Euler6"": {Euler6(), 25164150},","['//', '""Euler6"":', '{Euler6(),', '25164150},']","['COMMENT', 'JJ', 'CD', 'CD']"
-27,} ,['}'],['OPERATOR']
-28,"
-
-But if I arrange the comments on that next way, for example, the test wouldn't.
-
-","['But', 'if', 'I', 'arrange', 'the', 'comments', 'on', 'that', 'next', 'way,', 'for', 'example,', 'the', 'test', ""wouldn't.""]","['CC', 'IN', 'PRP', 'VBP', 'DT', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'IN', 'WP', 'DT', 'NN', 'NN']"
-29,tests := map[string][]int{,"['tests', ':=', 'map', '[', 'string', '][]', 'int', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,"        //""Euler1"": {Euler1(), 233168},","['//', '""Euler1"":', '{Euler1(),', '233168},']","['COMMENT', 'JJ', 'CD', 'CD']"
-31,"        ""Euler2"": {Euler2(), 4613732},","['""Euler2""', ':', '{', 'Euler2', '(),', '4613732', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-32,"        ""Euler3"": {Euler3(), 6857},","['""Euler3""', ':', '{', 'Euler3', '(),', '6857', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-33,"        ""Euler4"": {Euler4(), 906609},","['""Euler4""', ':', '{', 'Euler4', '(),', '906609', '},']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-34,"        //""Euler5"": {Euler5(), 232792560},","['//', '""Euler5"":', '{Euler5(),', '232792560},']","['COMMENT', 'JJ', 'CD', 'CD']"
-35,"        // ""Euler6"": {Euler6(), 25164150},","['//', '""Euler6"":', '{Euler6(),', '25164150},']","['COMMENT', 'JJ', 'CD', 'CD']"
-36,    },['}'],['OPERATOR']
-37,"
-
-The test will give me an error:
-
-","['The', 'test', 'will', 'give', 'me', 'an', 'error:']","['DT', 'NN', 'MD', 'VB', 'PRP', 'DT', 'NN']"
-38,    WARNING: DATA RACE,"['WARNING', ':', 'DATA', 'RACE']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-39,Write by goroutine 6:,"['Write', 'by', 'go', 'routine', '6', ':']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR']"
-40,  runtime.closechan(),['runtime.closechan()'],['FUNCTION_CALL']
-41,      /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/runtime/chan.go:295 +0x0,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/runtime/chan.go:295', '+', '0', 'x0']","['DIRECTORY', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-42,  github.com/alesr/project-euler.Euler2(),['github.com/alesr/project-euler.Euler2()'],['DIRECTORY']
-43,      /Users/Alessandro/GO/src/github.com/alesr/project-euler/euler.go:40 +0xd7,"['/Users/Alessandro/GO/src/github.com/alesr/project-euler/euler.go:40', '+', '0xd7']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-44,  github.com/alesr/project-euler.TestEulers(),['github.com/alesr/project-euler.TestEulers()'],['DIRECTORY']
-45,      /Users/Alessandro/GO/src/github.com/alesr/project-euler/euler_test.go:9 +0x46,"['/Users/Alessandro/GO/src/github.com/alesr/project-euler/euler_test.go:9', '+', '0x46']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-46,  testing.tRunner(),['testing.tRunner()'],['FUNCTION_CALL']
-47,      /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:456 +0xdc,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:456', '+', '0xdc']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-48,Previous read by goroutine 7:,"['Previous', 'read', 'by', 'go', 'routine', '7', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR']"
-49,  runtime.chansend(),['runtime.chansend()'],['FUNCTION_CALL']
-50,      /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/runtime/chan.go:107 +0x0,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/runtime/chan.go:107', '+', '0', 'x0']","['DIRECTORY', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-51,  github.com/alesr/numbers.FibonacciGen.func1(),['github.com/alesr/numbers.FibonacciGen.func1()'],['DIRECTORY']
-52,      /Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:103 +0x59,"['/Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:103', '+', '0x59']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-53,Goroutine 6 (running) created at:,"['Goroutine', '6', '(', 'running', ')', 'created', 'at', ':']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-54,  testing.RunTests(),['testing.RunTests()'],['FUNCTION_CALL']
-55,      /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:561 +0xaa3,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:561', '+', '0xaa3']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-56,  testing.(*M).Run(),"['testing', '.(*', 'M', ').', 'Run', '()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,      /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:494 +0xe4,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:494', '+', '0xe4']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-58,  main.main(),['main.main()'],['FUNCTION_CALL']
-59,      github.com/alesr/project-euler/_test/_testmain.go:54 +0x20f,"['github.com/alesr/project-euler/_test/_testmain.go:54', '+', '0x2', '0', 'f']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-60,Goroutine 7 (running) created at:,"['Goroutine', '7', '(', 'running', ')', 'created', 'at', ':']","['IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-61,  github.com/alesr/numbers.FibonacciGen(),['github.com/alesr/numbers.FibonacciGen()'],['DIRECTORY']
-62,      /Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:105 +0x60,"['/Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:105', '+', '0x6', '0']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-63,  github.com/alesr/project-euler.Euler2(),['github.com/alesr/project-euler.Euler2()'],['DIRECTORY']
-64,      /Users/Alessandro/GO/src/github.com/alesr/project-euler/euler.go:27 +0x32,"['/Users/Alessandro/GO/src/github.com/alesr/project-euler/euler.go:27', '+', '0x32']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-65,  github.com/alesr/project-euler.TestEulers(),['github.com/alesr/project-euler.TestEulers()'],['DIRECTORY']
-66,      /Users/Alessandro/GO/src/github.com/alesr/project-euler/euler_test.go:9 +0x46,"['/Users/Alessandro/GO/src/github.com/alesr/project-euler/euler_test.go:9', '+', '0x46']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-67,  testing.tRunner(),['testing.tRunner()'],['FUNCTION_CALL']
-68,      /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:456 +0xdc,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:456', '+', '0xdc']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-69,==================,['=================='],['OPERATOR']
-70,panic: send on closed channel,"['panic', ':', 'send', 'on', 'closed', 'chan', 'nel']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-71,goroutine 36 [running]:,"['go', 'routine', '36', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-72,github.com/alesr/numbers.FibonacciGen.func1(0xc8200a01e0),['github.com/alesr/numbers.FibonacciGen.func1(0xc8200a01e0)'],['DIRECTORY']
-73,    /Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:103 +0x5a,"['/Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:103', '+', '0x5a']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-74,created by github.com/alesr/numbers.FibonacciGen,"['created', 'by', 'github.com/alesr/numbers.FibonacciGen']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-75,    /Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:105 +0x61,"['/Users/Alessandro/GO/src/github.com/alesr/numbers/numbers.go:105', '+', '0x61']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-76,goroutine 1 [chan receive]:,"['go', 'routine', '1', '[', 'chan', 'receive', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-77,"testing.RunTests(0x24d038, 0x2f7340, 0x1, 0x1, 0xf78401)","['testing.RunTests(0x24d038, 0x2f7340, 0x1, 0x1, 0xf78401)']",['FUNCTION_CALL']
-78,    /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:562 +0xafa,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:562', '+', '0xafa']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-79,"testing.(*M).Run(0xc82004df00, 0x1ff0e8)","['testing', '.(*', 'M', ').', 'Run', '(', '0xc82', '0', '04', 'df00', ',', '0x1ff', '0', 'e8', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-80,    /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:494 +0xe5,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:494', '+', '0xe5']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-81,main.main(),['main.main()'],['FUNCTION_CALL']
-82,    github.com/alesr/project-euler/_test/_testmain.go:54 +0x210,"['github.com/alesr/project-euler/_test/_testmain.go:54', '+', '0x21', '0']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-83,"goroutine 17 [syscall, locked to thread]:","['go', 'routine', '17', '[', 'syscall', ',', 'locked', 'to', 'thread', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-84,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
-85,    /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/runtime/asm_amd64.s:1696 +0x1,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/runtime/asm_amd64.s:1696', '+', '0x1']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-86,goroutine 35 [runnable]:,"['go', 'routine', '35', '[', 'runnable', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"github.com/alesr/strings.Flip(0xc8200727a0, 0x6, 0x0, 0x0)","['github.com/alesr/strings.Flip(0xc8200727a0,', '0x6', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-88,    /Users/Alessandro/GO/src/github.com/alesr/strings/strings.go:33 +0x17e,"['/Users/Alessandro/GO/src/github.com/alesr/strings/strings.go:33', '+', '0x17e']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-89,github.com/alesr/project-euler.Euler4(0x1ac9),['github.com/alesr/project-euler.Euler4(0x1ac9)'],['DIRECTORY']
-90,    /Users/Alessandro/GO/src/github.com/alesr/project-euler/euler.go:73 +0x95,"['/Users/Alessandro/GO/src/github.com/alesr/project-euler/euler.go:73', '+', '0x95']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-91,github.com/alesr/project-euler.TestEulers(0xc8200b6000),['github.com/alesr/project-euler.TestEulers(0xc8200b6000)'],['DIRECTORY']
-92,    /Users/Alessandro/GO/src/github.com/alesr/project-euler/euler_test.go:11 +0x63,"['/Users/Alessandro/GO/src/github.com/alesr/project-euler/euler_test.go:11', '+', '0x63']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-93,"testing.tRunner(0xc8200b6000, 0x2f7340)","['testing.tRunner(0xc8200b6000, 0x2f7340)']",['FUNCTION_CALL']
-94,    /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:456 +0xdd,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:456', '+', '0xdd']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-95,created by testing.RunTests,"['created', 'by', 'testing', '.', 'RunTests']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-96,    /private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:561 +0xaa4,"['/private/var/folders/q8/bf_4b1ts2zj0l7b0p1dv36lr0000gp/T/workdir/go/src/testing/testing.go:561', '+', '0xaa4']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-97,exit status 2,"['exit', 'status', '2']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
-98,FAIL    github.com/alesr/project-euler  0.022s,"['FAIL', 'github.com/alesr/project-euler', '0', '.', '022', 's']","['IDENTIFIER', 'DIRECTORY', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER']"
-99,"
-
-But still, I checked every single function and they work just as expected.
-You can access the Euler source code or the packages numbers and strings if you want.
-
-At Euler2 function I have a defer statement to close the channel which is receiving from FibonacciGen.
-
-And on FibonacciGen I do have another defer statement to close the same channel.
-
-It seems that's the my first error. I should have just one and not two statements to close the channel, since they are trying to close the same thing. Is that correct?
-
-Second (and here I'm even a little more unsure), the defer statement will prevent the function to be called until the main goroutine returns, right? Independently if I call it on the package main or not? 
-
-Plus, since the data is flowing through the channel from FibonacciGen to the main function. It seems for me, that if I close the channel at FibonacciGen I don't need to notify the main function. But If I close the channel on the main function I do have to notify FibonacciGen to stop trying to send to this channel.
-","['But', 'still,', 'I', 'checked', 'every', 'single', 'function', 'and', 'they', 'work', 'just', 'as', 'expected.', 'You', 'can', 'access', 'the', 'Euler', 'source', 'code', 'or', 'the', 'packages', 'numbers', 'and', 'strings', 'if', 'you', 'want.', 'At', 'Euler2', 'function', 'I', 'have', 'a', 'defer', 'statement', 'to', 'close', 'the', 'channel', 'which', 'is', 'receiving', 'from', 'FibonacciGen.', 'And', 'on', 'FibonacciGen', 'I', 'do', 'have', 'another', 'defer', 'statement', 'to', 'close', 'the', 'same', 'channel.', 'It', 'seems', ""that's"", 'the', 'my', 'first', 'error.', 'I', 'should', 'have', 'just', 'one', 'and', 'not', 'two', 'statements', 'to', 'close', 'the', 'channel,', 'since', 'they', 'are', 'trying', 'to', 'close', 'the', 'same', 'thing.', 'Is', 'that', 'correct?', 'Second', '(and', 'here', ""I'm"", 'even', 'a', 'little', 'more', 'unsure),', 'the', 'defer', 'statement', 'will', 'prevent', 'the', 'function', 'to', 'be', 'called', 'until', 'the', 'main', 'goroutine', 'returns,', 'right?', 'Independently', 'if', 'I', 'call', 'it', 'on', 'the', 'package', 'main', 'or', 'not?', 'Plus,', 'since', 'the', 'data', 'is', 'flowing', 'through', 'the', 'channel', 'from', 'FibonacciGen', 'to', 'the', 'main', 'function.', 'It', 'seems', 'for', 'me,', 'that', 'if', 'I', 'close', 'the', 'channel', 'at', 'FibonacciGen', 'I', ""don't"", 'need', 'to', 'notify', 'the', 'main', 'function.', 'But', 'If', 'I', 'close', 'the', 'channel', 'on', 'the', 'main', 'function', 'I', 'do', 'have', 'to', 'notify', 'FibonacciGen', 'to', 'stop', 'trying', 'to', 'send', 'to', 'this', 'channel.']","['CC', 'NN', 'PRP', 'VBD', 'DT', 'JJ', 'NN', 'CC', 'PRP', 'VBP', 'RB', 'IN', 'NN', 'PRP', 'MD', 'NN', 'DT', 'NNP', 'NN', 'NN', 'CC', 'DT', 'NNS', 'NNS', 'CC', 'NNS', 'IN', 'PRP', 'VBP', 'IN', 'NNP', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN', 'WDT', 'VBZ', 'VBG', 'IN', 'NNP', 'CC', 'IN', 'NNP', 'PRP', 'VBP', 'VB', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'PRP', 'VBZ', 'IN', 'DT', 'PRP$', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'RB', 'CD', 'CC', 'RB', 'CD', 'NNS', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP', 'VBP', 'VBG', 'TO', 'VB', 'DT', 'JJ', 'NN', 'VBZ', 'IN', 'JJ', 'NNP', 'NNP', 'RB', 'NNP', 'RB', 'DT', 'RB', 'RBR', 'JJ', 'DT', 'NN', 'NN', 'MD', 'VB', 'DT', 'NN', 'TO', 'VB', 'VBN', 'IN', 'DT', 'JJ', 'NN', 'NN', 'NN', 'NNP', 'IN', 'PRP', 'VBP', 'PRP', 'IN', 'DT', 'NN', 'JJ', 'CC', 'JJ', 'NNP', 'IN', 'DT', 'NN', 'VBZ', 'VBG', 'IN', 'DT', 'NN', 'IN', 'NNP', 'TO', 'DT', 'JJ', 'NN', 'PRP', 'VBZ', 'IN', 'NN', 'IN', 'IN', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'NNP', 'PRP', 'VBP', 'VB', 'TO', 'VB', 'DT', 'JJ', 'NN', 'CC', 'IN', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'VB', 'TO', 'VB', 'NNP', 'TO', 'VB', 'VBG', 'TO', 'VB', 'TO', 'DT', 'NN']"
+","['I', 'want', 'to', 'write', 'three', 'concurrent', 'go', 'routines', 'that', 'sends', 'integers', 'to', 'each', 'other.', 'Now,', 'my', 'code', 'is', 'compiled', 'properly,', 'however', 'after', 'first', 'execution', 'it', 'gives', 'error', '""throw:', 'all', 'goroutines', 'are', 'asleep', '-', 'deadlock!"".', 'I', 'tried', 'to', 'find', 'the', 'error', 'but', 'I', 'could', 'not', 'able', 'to', 'find', 'any', 'error', 'in', 'code', 'logic.Can', 'anybody', 'help', 'me', 'to', 'find', 'the', 'mistake', 'with', 'my', 'code.', 'My', 'code', 'is', 'given', 'below.']","['PRP', 'VBP', 'TO', 'VB', 'CD', 'NN', 'VB', 'NNS', 'WDT', 'VBZ', 'NNS', 'TO', 'DT', 'NN', 'NNP', 'PRP$', 'NN', 'VBZ', 'VBN', 'NN', 'RB', 'IN', 'JJ', 'NN', 'PRP', 'VBZ', 'JJ', 'IN', 'DT', 'NNS', 'VBP', 'JJ', ':', 'NN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'CC', 'PRP', 'MD', 'RB', 'JJ', 'TO', 'VB', 'DT', 'NN', 'IN', 'JJ', 'NN', 'NN', 'VB', 'PRP', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP$', 'NN', 'PRP$', 'NN', 'VBZ', 'VBN', 'NNS']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,"import ""rand""","['import', '""rand""']","['KEYWORD', 'STRING_LITERAL']"
+3,"func Routine1(command12 chan int, response12 chan int, command13 chan int, response13 chan int) {","['func', 'Routine1', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+4,    // z12 is a variable which stores the value comming from channel 2 and z13 is a variable which stores the value comming from channel 3.,"['//', 'z12', 'is', 'a', 'variable', 'which', 'stores', 'the', 'value', 'comming', 'from', 'channel', '2', 'and', 'z13', 'is', 'a', 'variable', 'which', 'stores', 'the', 'value', 'comming', 'from', 'channel', '3.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD', 'CC', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD']"
+5,    z12 := 200,"['z12', ':=', '200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+6,    z13 := 200,"['z13', ':=', '200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+7,    m12 := false,"['m12', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+8,    m13 := false,"['m13', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+9,    y := 0,"['y', ':=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+10,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+11,        y = rand.Intn(100),"['y', '=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+12,        // If y's value is not 0 then the value will be sent to routine 2 or 3 according to   prime or not.,"['//', 'If', ""y's"", 'value', 'is', 'not', '0', 'then', 'the', 'value', 'will', 'be', 'sent', 'to', 'routine', '2', 'or', '3', 'according', 'to', 'prime', 'or', 'not.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', 'RB', 'DT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'CD', 'CC', 'CD', 'VBG', 'TO', 'JJ', 'CC', 'JJ']"
+13,"        // If y's value is 0 then process state (the varibles used by it means z12, z13) and channel state will be saved.[routine 1 is initiator]","['//', 'If', ""y's"", 'value', 'is', '0', 'then', 'process', 'state', '(the', 'varibles', 'used', 'by', 'it', 'means', 'z12,', 'z13)', 'and', 'channel', 'state', 'will', 'be', 'saved.[routine', '1', 'is', 'initiator]']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'CD', 'RB', 'NN', 'NN', 'NN', 'NNS', 'VBN', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', 'CC', 'NN', 'NN', 'MD', 'VB', 'JJ', 'CD', 'VBZ', 'JJ']"
+14,        if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+15,"            print(z12, ""    z12 STATE SAVED\n"")","['print', '(', 'z12', ',', '""    z12 STATE SAVED\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+16,"            print(z13, ""    z13 STATE SAVED\n"")","['print', '(', 'z13', ',', '""    z13 STATE SAVED\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+17,"            // Routine 1 is initiator,  it sends 0 to make other process to save the state.","['//', 'Routine', '1', 'is', 'initiator,', 'it', 'sends', '0', 'to', 'make', 'other', 'process', 'to', 'save', 'the', 'state.']","['COMMENT', 'JJ', 'CD', 'VBZ', 'JJ', 'PRP', 'VBZ', 'CD', 'TO', 'VB', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN']"
+18,            y = 0,"['y', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+19,            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+20,            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+21,"            // Untill routine 2 and 3 does not send 0, process 1 is on channel saving state (it's process state is already saved).","['//', 'Untill', 'routine', '2', 'and', '3', 'does', 'not', 'send', '0,', 'process', '1', 'is', 'on', 'channel', 'saving', 'state', ""(it's"", 'process', 'state', 'is', 'already', 'saved).']","['COMMENT', 'NNP', 'VBZ', 'CD', 'CC', 'CD', 'VBZ', 'RB', 'VB', 'CD', 'NN', 'CD', 'VBZ', 'IN', 'NN', 'VBG', 'NN', 'NN', 'NN', 'NN', 'VBZ', 'RB', 'JJ']"
+22,"            // When routine 1 recives 0 from both other processes, channel is saved and routine 1 retuns to it's common routine procedure.","['//', 'When', 'routine', '1', 'recives', '0', 'from', 'both', 'other', 'processes,', 'channel', 'is', 'saved', 'and', 'routine', '1', 'retuns', 'to', ""it's"", 'common', 'routine', 'procedure.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBZ', 'VBN', 'CC', 'JJ', 'CD', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NN']"
+23,"            // When routine 1 recives 0 from any other processes, saving channel bettwen them is stopped.","['//', 'When', 'routine', '1', 'recives', '0', 'from', 'any', 'other', 'processes,', 'saving', 'channel', 'bettwen', 'them', 'is', 'stopped.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NN', 'VBG', 'NNS', 'IN', 'PRP', 'VBZ', 'JJ']"
+24,"            // m12, m13 is used to mark whether 0 recived or not.","['//', 'm12,', 'm13', 'is', 'used', 'to', 'mark', 'whether', '0', 'recived', 'or', 'not.']","['COMMENT', 'NN', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'IN', 'CD', 'VBD', 'CC', 'NNS']"
+25,            for m12 != true || m13 != true {,"['for', 'm12', '!=', 'true', '||', 'm13', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+26,                select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
+27,                case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+28,                    {,['{'],['PUNCTUATION']
+29,                        z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+30,                        if z12 != 0 {,"['if', 'z12', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+31,"                            print(z12, ""    z12  Channel Saving.... \n"")","['print', '(', 'z12', ',', '""    z12  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+32,                            y = rand.Intn(100),"['y', '=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+33,                            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+34,                        },['}'],['PUNCTUATION']
+35,                        if z12 == 0 {,"['if', 'z12', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+36,                            m12 = true,"['m12', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+37,"                            print("" z12  Channel Saving Stopped \n"")","['print', '(', '"" z12  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+38,                        },['}'],['PUNCTUATION']
+39,                    },['}'],['PUNCTUATION']
+40,                case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+41,                    {,['{'],['PUNCTUATION']
+42,                        z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+43,                        if z13 != 0 {,"['if', 'z13', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+44,"                            print(z13, ""    z13  Channel Saving.... \n"")","['print', '(', 'z13', ',', '""    z13  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+45,                            y = rand.Intn(100),"['y', '=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+46,                            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+47,                        },['}'],['PUNCTUATION']
+48,                        if z13 == 0 {,"['if', 'z13', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+49,                            m13 = true,"['m13', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+50,"                            print(""    z13  Channel Saving Stopped \n"")","['print', '(', '""    z13  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+51,                        },['}'],['PUNCTUATION']
+52,                    },['}'],['PUNCTUATION']
+53,                },['}'],['PUNCTUATION']
+54,            },['}'],['PUNCTUATION']
+55,            // After saving process state it retuns to it's normal behaviour.,"['//', 'After', 'saving', 'process', 'state', 'it', 'retuns', 'to', ""it's"", 'normal', 'behaviour.']","['COMMENT', 'IN', 'VBG', 'NN', 'NN', 'PRP', 'VBZ', 'TO', 'VB', 'JJ', 'NN']"
+56,            m12 = false,"['m12', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+57,            m13 = false,"['m13', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+58,        },['}'],['PUNCTUATION']
+59,        if y != 0 {,"['if', 'y', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+60,"            // If y value is not 0, routine 1 just sends int to other process according to prime or not and recives int accordingly.","['//', 'If', 'y', 'value', 'is', 'not', '0,', 'routine', '1', 'just', 'sends', 'int', 'to', 'other', 'process', 'according', 'to', 'prime', 'or', 'not', 'and', 'recives', 'int', 'accordingly.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', 'JJ', 'CD', 'RB', 'NNS', 'VBP', 'TO', 'JJ', 'NN', 'VBG', 'TO', 'JJ', 'CC', 'RB', 'CC', 'VBZ', 'NN', 'NN']"
+61,            if y%2 == 0 {,"['if', 'y', '%', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+62,                command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+63,            },['}'],['PUNCTUATION']
+64,            if y%2 != 0 {,"['if', 'y', '%', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+65,                command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+66,            },['}'],['PUNCTUATION']
+67,            select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
+68,            case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+69,                {,['{'],['PUNCTUATION']
+70,                    z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+71,"                    print(z12, ""    z12\n"")","['print', '(', 'z12', ',', '""    z12\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+72,                },['}'],['PUNCTUATION']
+73,            case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+74,                {,['{'],['PUNCTUATION']
+75,                    z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+76,"                    print(z13, ""   z13\n"")","['print', '(', 'z13', ',', '""   z13\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+77,                },['}'],['PUNCTUATION']
+78,            },['}'],['PUNCTUATION']
+79,        },['}'],['PUNCTUATION']
+80,    },['}'],['PUNCTUATION']
+81,    close(command12),"['close', '(', 'command12', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+82,    close(command13),"['close', '(', 'command13', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+83,},['}'],['PUNCTUATION']
+84,//Routine 2 (or 3) is not an initiator (means it can't send 0). When it recives 0 (from routine 1 or 3) it save the state of process and the state of the channel from which it recived).,"['//', 'Routine', '2', '(or', '3)', 'is', 'not', 'an', 'initiator', '(means', 'it', ""can't"", 'send', '0).', 'When', 'it', 'recives', '0', '(from', 'routine', '1', 'or', '3)', 'it', 'save', 'the', 'state', 'of', 'process', 'and', 'the', 'state', 'of', 'the', 'channel', 'from', 'which', 'it', 'recived).']","['COMMENT', 'JJ', 'CD', 'JJ', 'CD', 'VBZ', 'RB', 'DT', 'NN', 'VBZ', 'PRP', 'JJ', 'VB', 'CD', 'WRB', 'PRP', 'VBZ', 'CD', 'NN', 'JJ', 'CD', 'CC', 'CD', 'PRP', 'VBD', 'DT', 'NN', 'IN', 'NN', 'CC', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'WDT', 'PRP', 'VBD']"
+85,"// When it recives 0 from both other two routine, it saves all channel state and returns to it's common behaviour. [same in routine 3]","['//', 'When', 'it', 'recives', '0', 'from', 'both', 'other', 'two', 'routine,', 'it', 'saves', 'all', 'channel', 'state', 'and', 'returns', 'to', ""it's"", 'common', 'behaviour.', '[same', 'in', 'routine', '3]']","['COMMENT', 'WRB', 'PRP', 'VBZ', 'CD', 'IN', 'DT', 'JJ', 'CD', 'VBP', 'PRP', 'VBZ', 'DT', 'NN', 'NN', 'CC', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NN', 'IN', 'JJ', 'CD']"
+86,"func Routine2(command12 chan int, response12 chan int, command23 chan int, response23 chan int) {","['func', 'Routine2', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+87,    z21 := 200,"['z21', ':=', '200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+88,    z23 := 200,"['z23', ':=', '200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+89,    m21 := false,"['m21', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+90,    m23 := false,"['m23', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+91,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+92,        select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
+93,"        case x, open := <-command12:","['case', 'x', ',', 'open', ':=', '<-', 'command12', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+94,            {,['{'],['PUNCTUATION']
+95,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+96,                    return,['return'],['KEYWORD']
+97,                },['}'],['PUNCTUATION']
+98,                if x != 0 && m23 != true {,"['if', 'x', '!=', '0', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+99,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+100,"                    print(z21, ""   z21\n"")","['print', '(', 'z21', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+101,                },['}'],['PUNCTUATION']
+102,                if x != 0 && m23 == true {,"['if', 'x', '!=', '0', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+103,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+104,"                    print(z21, ""   z21 Channel Saving \n"")","['print', '(', 'z21', ',', '""   z21 Channel Saving \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+105,                },['}'],['PUNCTUATION']
+106,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+107,                    m21 = true,"['m21', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+108,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+109,"                        print("" z21 and z23 Channel Saving Stopped \n"")","['print', '(', '"" z21 and z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+110,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+111,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+112,                    },['}'],['PUNCTUATION']
+113,                    if m21 == true && m23 != true {,"['if', 'm21', '==', 'true', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+114,                        z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+115,"                        print(z21, ""   z21  Channel Saved \n"")","['print', '(', 'z21', ',', '""   z21  Channel Saved \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+116,                    },['}'],['PUNCTUATION']
+117,                },['}'],['PUNCTUATION']
+118,            },['}'],['PUNCTUATION']
+119,"        case x, open := <-response23:","['case', 'x', ',', 'open', ':=', '<-', 'response23', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+120,            {,['{'],['PUNCTUATION']
+121,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+122,                    return,['return'],['KEYWORD']
+123,                },['}'],['PUNCTUATION']
+124,                if x != 0 && m21 != true {,"['if', 'x', '!=', '0', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+125,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+126,"                    print(z23, ""   z21\n"")","['print', '(', 'z23', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+127,                },['}'],['PUNCTUATION']
+128,                if x != 0 && m21 == true {,"['if', 'x', '!=', '0', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+129,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+130,"                    print(z23, ""   z23 Channel Saving \n"")","['print', '(', 'z23', ',', '""   z23 Channel Saving \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+131,                },['}'],['PUNCTUATION']
+132,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+133,                    m23 = true,"['m23', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+134,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+135,"                        print("" z23 Channel Saving Stopped \n"")","['print', '(', '"" z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+136,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+137,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+138,                    },['}'],['PUNCTUATION']
+139,                    if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+140,                        z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+141,"                        print(z23, ""   z23  Channel Saved \n"")","['print', '(', 'z23', ',', '""   z23  Channel Saved \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+142,                    },['}'],['PUNCTUATION']
+143,                },['}'],['PUNCTUATION']
+144,            },['}'],['PUNCTUATION']
+145,        },['}'],['PUNCTUATION']
+146,        if m23 == false && m21 == false {,"['if', 'm23', '==', 'false', '&&', 'm21', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+147,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+148,            if y%2 == 0 {,"['if', 'y', '%', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+149,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+150,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+151,                    response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+152,                },['}'],['PUNCTUATION']
+153,            },['}'],['PUNCTUATION']
+154,            if y%2 != 0 {,"['if', 'y', '%', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+155,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+156,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+157,                    response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+158,                },['}'],['PUNCTUATION']
+159,            },['}'],['PUNCTUATION']
+160,        },['}'],['PUNCTUATION']
+161,        if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+162,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+163,            response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+164,        },['}'],['PUNCTUATION']
+165,        if m23 != true && m21 == true {,"['if', 'm23', '!=', 'true', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+166,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+167,            command23 <- y,"['command23', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+168,        },['}'],['PUNCTUATION']
+169,    },['}'],['PUNCTUATION']
+170,    close(response12),"['close', '(', 'response12', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+171,    close(command23),"['close', '(', 'command23', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+172,},['}'],['PUNCTUATION']
+173,"func Routine3(command13 chan int, response13 chan int, command23 chan int, response23 chan int) {","['func', 'Routine3', '(', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+174,    z31 := 200,"['z31', ':=', '200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+175,    z32 := 200,"['z32', ':=', '200']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+176,    m31 := false,"['m31', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+177,    m32 := false,"['m32', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+178,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+179,        select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
+180,"        case x, open := <-command13:","['case', 'x', ',', 'open', ':=', '<-', 'command13', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+181,            {,['{'],['PUNCTUATION']
+182,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+183,                    return,['return'],['KEYWORD']
+184,                },['}'],['PUNCTUATION']
+185,                if x != 0 && m32 != true {,"['if', 'x', '!=', '0', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+186,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+187,"                    print(z31, ""   z21\n"")","['print', '(', 'z31', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+188,                },['}'],['PUNCTUATION']
+189,                if x != 0 && m32 == true {,"['if', 'x', '!=', '0', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+190,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+191,"                    print(z31, ""   z31 Channel Saving \n"")","['print', '(', 'z31', ',', '""   z31 Channel Saving \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+192,                },['}'],['PUNCTUATION']
+193,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+194,                    m31 = true,"['m31', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+195,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+196,"                        print("" z21 Channel Saving Stopped \n"")","['print', '(', '"" z21 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+197,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+198,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+199,                    },['}'],['PUNCTUATION']
+200,                    if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+201,                        z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+202,"                        print(z31, ""   z31  Channel Saved \n"")","['print', '(', 'z31', ',', '""   z31  Channel Saved \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+203,                    },['}'],['PUNCTUATION']
+204,                },['}'],['PUNCTUATION']
+205,            },['}'],['PUNCTUATION']
+206,"        case x, open := <-command23:","['case', 'x', ',', 'open', ':=', '<-', 'command23', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+207,            {,['{'],['PUNCTUATION']
+208,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+209,                    return,['return'],['KEYWORD']
+210,                },['}'],['PUNCTUATION']
+211,                if x != 0 && m31 != true {,"['if', 'x', '!=', '0', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+212,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+213,"                    print(z32, ""   z32\n"")","['print', '(', 'z32', ',', '""   z32\\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+214,                },['}'],['PUNCTUATION']
+215,                if x != 0 && m31 == true {,"['if', 'x', '!=', '0', '&&', 'm31', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+216,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+217,"                    print(z32, ""   z32 Channel Saving \n"")","['print', '(', 'z32', ',', '""   z32 Channel Saving \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+218,                },['}'],['PUNCTUATION']
+219,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+220,                    m32 = true,"['m32', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+221,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+222,"                        print("" z32 Channel Saving Stopped \n"")","['print', '(', '"" z32 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+223,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+224,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+225,                    },['}'],['PUNCTUATION']
+226,                    if m32 == true && m31 != true {,"['if', 'm32', '==', 'true', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+227,                        z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+228,"                        print(z32, ""   z32  Channel Saved \n"")","['print', '(', 'z32', ',', '""   z32  Channel Saved \\n""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+229,                    },['}'],['PUNCTUATION']
+230,                },['}'],['PUNCTUATION']
+231,            },['}'],['PUNCTUATION']
+232,        },['}'],['PUNCTUATION']
+233,        if m31 == false && m32 == false {,"['if', 'm31', '==', 'false', '&&', 'm32', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+234,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+235,            if y%2 == 0 {,"['if', 'y', '%', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+236,                response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+237,            },['}'],['PUNCTUATION']
+238,            if y%2 != 0 {,"['if', 'y', '%', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+239,                response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+240,            },['}'],['PUNCTUATION']
+241,        },['}'],['PUNCTUATION']
+242,        if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+243,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+244,            response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+245,        },['}'],['PUNCTUATION']
+246,        if m31 != true && m32 == true {,"['if', 'm31', '!=', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+247,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+248,            response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+249,        },['}'],['PUNCTUATION']
+250,    },['}'],['PUNCTUATION']
+251,    close(response13),"['close', '(', 'response13', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+252,    close(response23),"['close', '(', 'response23', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+253,},['}'],['PUNCTUATION']
+254,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+255,    // Three concurrent channels are created to pass integers to each other.,"['//', 'Three', 'concurrent', 'channels', 'are', 'created', 'to', 'pass', 'integers', 'to', 'each', 'other.']","['COMMENT', 'CD', 'NN', 'NNS', 'VBP', 'VBN', 'TO', 'VB', 'NNS', 'TO', 'DT', 'NN']"
+256,    // command 12 used to send int and response12 is used to receive int from routine 1 to routine 2.,"['//', 'command', '12', 'used', 'to', 'send', 'int', 'and', 'response12', 'is', 'used', 'to', 'receive', 'int', 'from', 'routine', '1', 'to', 'routine', '2.']","['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD']"
+257,    // response 12 used to send int and command 12 is used to receive int from routine 2 to routine 1. {so as for others},"['//', 'response', '12', 'used', 'to', 'send', 'int', 'and', 'command', '12', 'is', 'used', 'to', 'receive', 'int', 'from', 'routine', '2', 'to', 'routine', '1.', '{so', 'as', 'for', 'others}']","['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'CD', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD', 'NN', 'IN', 'IN', 'NN']"
+258,    command12 := make(chan int),"['command12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+259,    response12 := make(chan int),"['response12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+260,    command13 := make(chan int),"['command13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+261,    response13 := make(chan int),"['response13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+262,    command23 := make(chan int),"['command23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+263,    response23 := make(chan int),"['response23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+264,"    go Routine1(command12, response12, command13, response13)","['go', 'Routine1', '(', 'command12', ',', 'response12', ',', 'command13', ',', 'response13', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+265,"    go Routine2(command12, response12, command23, response23)","['go', 'Routine2', '(', 'command12', ',', 'response12', ',', 'command23', ',', 'response23', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+266,"    Routine3(command13, response13, command23, response23)","['Routine3', '(', 'command13', ',', 'response13', ',', 'command23', ',', 'response23', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+267,},['}'],['PUNCTUATION']

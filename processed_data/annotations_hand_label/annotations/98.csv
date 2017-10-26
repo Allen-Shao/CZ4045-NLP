@@ -1,182 +1,120 @@
 ,text,token,annotation
-0,"It seems the use case is not as common as I thought. I implemented a custom ""parser"". Hopefully this doesn't violate any RFC. Any patch is welcome!
+0,"I am trying to communicate with a USB device (cottonwood RFID reader) with golang under Linux.
 
-","['It', 'seems', 'the', 'use', 'case', 'is', 'not', 'as', 'common', 'as', 'I', 'thought.', 'I', 'implemented', 'a', 'custom', '""parser"".', 'Hopefully', 'this', ""doesn't"", 'violate', 'any', 'RFC.', 'Any', 'patch', 'is', 'welcome!']","['PRP', 'VBZ', 'DT', 'NN', 'NN', 'VBZ', 'RB', 'RB', 'JJ', 'IN', 'PRP', 'VBP', 'PRP', 'VBD', 'DT', 'NN', 'NNP', 'NNP', 'DT', 'JJ', 'NN', 'DT', 'NNP', 'NNP', 'NN', 'VBZ', 'JJ']"
-1,package query,"['package', 'query']","['KEYWORD', 'IDENTIFIER']"
-2,import(,"['import', '(']","['KEYWORD', 'OPERATOR']"
-3,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-4,"    ""strings""","['""strings""']",['STRING_LITERAL']
-5,),[')'],['OPERATOR']
-6,//ParseQueryOp parses the URL-encoded query string and returns a map ,"['//', 'ParseQueryOp', 'parses', 'the', 'URL-encoded', 'query', 'string', 'and', 'returns', 'a', 'map']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'CC', 'VBZ', 'DT', 'NN']"
-7,// listing the values specified for each key. ParseQueryOp always returns ,"['//', 'listing', 'the', 'values', 'specified', 'for', 'each', 'key.', 'ParseQueryOp', 'always', 'returns']","['COMMENT', 'VBG', 'DT', 'NNS', 'VBN', 'IN', 'DT', 'NN', 'NNP', 'RB', 'NNS']"
-8,// a non-nil map containing all the valid query parameters found;,"['//', 'a', 'non-nil', 'map', 'containing', 'all', 'the', 'valid', 'query', 'parameters', 'found;']","['COMMENT', 'DT', 'JJ', 'NN', 'VBG', 'PDT', 'DT', 'JJ', 'NN', 'NNS', 'VBP']"
-9,"// err describes the first decoding error encountered, if any.","['//', 'err', 'describes', 'the', 'first', 'decoding', 'error', 'encountered,', 'if', 'any.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'NN', 'IN', 'NN']"
-10,// If the query has operators (e.g. &amount>300) it is Add-ed in the map,"['//', 'If', 'the', 'query', 'has', 'operators', '(e.g.', '&amount>300)', 'it', 'is', 'Add-ed', 'in', 'the', 'map']","['COMMENT', 'IN', 'DT', 'NN', 'VBZ', 'NNS', 'VBP', 'IN', 'PRP', 'VBZ', 'JJ', 'IN', 'DT', 'NN']"
-11,// with a prefixed key ( {{prefix}}key ).,"['//', 'with', 'a', 'prefixed', 'key', '(', '{{prefix}}key', ').']","['COMMENT', 'IN', 'DT', 'JJ', 'NN', '(', 'JJ', 'NN']"
-12,/*,['*'],['OPERATOR']
-13," e.g. for a query &Amount>300 the operator("">"") is returnd","['e', '.', 'g', '.', 'for', 'a', 'query', '&', 'Amount', '>', '300', 'the', 'operator', '(', '"">""', ')', 'is', 'return', 'd']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-14,"    s := ""query &Amount>300""","['s', ':=', '""query &Amount>300""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-15,"    q, _ := ParseQueryOp(s, ""_op_"")","['q', ',', '_', ':=', 'ParseQueryOp', '(', 's', ',', '""_op_""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-16,"    print(q.Get(""_op_Amount"")) // prints `>`","['print', '(', 'q.Get(""_op_Amount""))', '//', 'prints', '`>`']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'NNS', 'VBP']"
-17,"    print(q.Get(""Amount"")) // prints 300","['print', '(', 'q.Get(""Amount""))', '//', 'prints', '300']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'NNS', 'CD']"
-18,*/,['*'],['OPERATOR']
-19,"func ParseQueryOp(query, prefix string) (m url.Values, err error){","['func', 'ParseQueryOp', '(', 'query', ',', 'prefix', 'string', ')', '(', 'm', 'url', '.', 'Values', ',', 'err', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-20,    m = make(url.Values),"['m', '=', 'make', '(', 'url', '.', 'Values', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-21,"    for query != """" {","['for', 'query', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-22,        var opKey string,"['var', 'opKey', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-23,        key := query,"['key', ':=', 'query']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-24,"        if i := strings.IndexAny(key, ""&;""); i >= 0 {","['if', 'i', ':=', 'strings.IndexAny(key, ""&;"")', ';', 'i', '>=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-25,"            key, query = key[:i], key[i+1:]","['key', ',', 'query', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-26,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-27,"            query = """"","['query', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-28,        },['}'],['OPERATOR']
-29,"        if key == """" {","['if', 'key', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-30,            continue,['continue'],['KEYWORD']
-31,        },['}'],['OPERATOR']
-32,"        value := """"","['value', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-33,        var err1 error,"['var', 'err1', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-34,"        if i := strings.Index(key, "">=""); i >= 0{","['if', 'i', ':=', 'strings.Index(key, "">="")', ';', 'i', '>=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-35,"            key, value = key[:i], key[i+2:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '2', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-36,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-37,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url.QueryUnescape(opKey)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-38,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-39,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-40,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-41,                },['}'],['OPERATOR']
-42,                continue,['continue'],['KEYWORD']
-43,            },['}'],['OPERATOR']
-44,"            m[opKey] = append(m[opKey], "">="")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '"">=""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-45,"        }else if i = strings.Index(key, ""= 0{","['}', 'else', 'if', 'i', '=', 'strings', '.', 'Index', '(', 'key', ',', '=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-46,"            key, value = key[:i], key[i+2:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '2', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-47,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-48,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url.QueryUnescape(opKey)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-49,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-52,                },['}'],['OPERATOR']
-53,                continue,['continue'],['KEYWORD']
-54,            },['}'],['OPERATOR']
-55,"            m[opKey] = append(m[opKey], ""<="")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '""<=""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-56,"        }else if i = strings.Index(key, ""="");  i >= 0{","['}', 'else', 'if', 'i', '=', 'strings.Index(key, ""="")', ';', 'i', '>=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-57,"            key, value = key[:i], key[i+1:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-58,"        }else if i = strings.Index(key, "">"");  i >= 0{","['}', 'else', 'if', 'i', '=', 'strings.Index(key, "">"")', ';', 'i', '>=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-59,"            key, value = key[:i], key[i+1:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-60,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-61,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url.QueryUnescape(opKey)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-62,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-64,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-65,                },['}'],['OPERATOR']
-66,                continue,['continue'],['KEYWORD']
-67,            },['}'],['OPERATOR']
-68,"            m[opKey] = append(m[opKey], "">"")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '"">""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-69,"        }else if i = strings.Index(key, ""= 0{","['}', 'else', 'if', 'i', '=', 'strings', '.', 'Index', '(', 'key', ',', '=', '0', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-70,"            key, value = key[:i], key[i+1:]","['key', ',', 'value', '=', 'key', '[:', 'i', '],', 'key', '[', 'i', '+', '1', ':]']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-71,            opKey = prefix + key ,"['opKey', '=', 'prefix', '+', 'key']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-72,"            opKey, err1 = url.QueryUnescape(opKey)","['opKey', ',', 'err1', '=', 'url.QueryUnescape(opKey)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-73,            if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,                if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-75,                    err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-76,                },['}'],['OPERATOR']
-77,                continue,['continue'],['KEYWORD']
-78,            },['}'],['OPERATOR']
-79,"            m[opKey] = append(m[opKey], ""<"")","['m', '[', 'opKey', ']', '=', 'append', '(', 'm', '[', 'opKey', '],', '""<""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-80,        },['}'],['OPERATOR']
-81,"        key, err1 = url.QueryUnescape(key)","['key', ',', 'err1', '=', 'url.QueryUnescape(key)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-82,        if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-83,            if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-84,                err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-85,            },['}'],['OPERATOR']
-86,            continue,['continue'],['KEYWORD']
-87,        },['}'],['OPERATOR']
-88,"        value, err1 = url.QueryUnescape(value)","['value', ',', 'err1', '=', 'url.QueryUnescape(value)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-89,        if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,            if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,                err = err1,"['err', '=', 'err1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-92,            },['}'],['OPERATOR']
-93,            continue,['continue'],['KEYWORD']
-94,        },['}'],['OPERATOR']
-95,"        m[key] = append(m[key], value)","['m', '[', 'key', ']', '=', 'append', '(', 'm', '[', 'key', '],', 'value', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,    },['}'],['OPERATOR']
-97,"    return m, err","['return', 'm', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-98,},['}'],['OPERATOR']
-99,"
+Here is where I am so far:
 
-And some tests
 
-","['And', 'some', 'tests']","['CC', 'DT', 'NNS']"
-100,package query,"['package', 'query']","['KEYWORD', 'IDENTIFIER']"
-101,import(,"['import', '(']","['KEYWORD', 'OPERATOR']"
-102,"    ""testing""","['""testing""']",['STRING_LITERAL']
-103,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-104,),[')'],['OPERATOR']
-105,type parseTest struct {,"['type', 'parseTest', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-106,    query string,"['query', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-107,    out   url.Values,"['out', 'url', '.', 'Values']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-108,},['}'],['OPERATOR']
-109,var parseTests = []parseTest{,"['var', 'parseTests', '=', '[]', 'parseTest', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,    {,['{'],['OPERATOR']
-111,"        query: ""a=1&b=2"",","['query', ':', '""a=1&b=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-112,"        out:   url.Values{""a"": []string{""1""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', '},', '""b""', ':', '[]', 'string', '{', '""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-113,"    },","['},']",['OPERATOR']
-114,    {,['{'],['OPERATOR']
-115,"        query: ""a=1&a=2&a=banana"",","['query', ':', '""a=1&a=2&a=banana""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-116,"        out:   url.Values{""a"": []string{""1"", ""2"", ""banana""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', ',', '""2""', ',', '""banana""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-117,"    },","['},']",['OPERATOR']
-118,    {,['{'],['OPERATOR']
-119,"        query: ""ascii=%3Ckey%3A+0x90%3E"",","['query', ':', '""ascii=%3Ckey%3A+0x90%3E""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-120,"        out:   url.Values{""ascii"": []string{""""}},","['out', ':', 'url', '.', 'Values', '{', '""ascii""', ':', '[]', 'string', '{', '""""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-121,"    },","['},']",['OPERATOR']
-122,    {,['{'],['OPERATOR']
-123,"        query: ""a=1;b=2"",","['query', ':', '""a=1;b=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-124,"        out:   url.Values{""a"": []string{""1""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', '},', '""b""', ':', '[]', 'string', '{', '""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-125,"    },","['},']",['OPERATOR']
-126,    {,['{'],['OPERATOR']
-127,"        query: ""a=1&a=2;a=banana"",","['query', ':', '""a=1&a=2;a=banana""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-128,"        out:   url.Values{""a"": []string{""1"", ""2"", ""banana""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', ',', '""2""', ',', '""banana""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-129,"    },","['},']",['OPERATOR']
-130,    {,['{'],['OPERATOR']
-131,"        query: ""a=1&b>2"",","['query', ':', '""a=1&b>2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-132,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{"">""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', '},', '""_op_b""', ':', '[]', 'string', '{', '"">""', '},', '""b""', ':', '[]', 'string', '{', '""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-133,"    },","['},']",['OPERATOR']
-134,    {,['{'],['OPERATOR']
-135,"        query: ""a=1&b<2"",","['query', ':', '""a=1&b<2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-136,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{""<""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', '},', '""_op_b""', ':', '[]', 'string', '{', '""<""', '},', '""b""', ':', '[]', 'string', '{', '""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-137,"    },","['},']",['OPERATOR']
-138,    {,['{'],['OPERATOR']
-139,"        query: ""a=1&b>=2"",","['query', ':', '""a=1&b>=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-140,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{"">=""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', '},', '""_op_b""', ':', '[]', 'string', '{', '"">=""', '},', '""b""', ':', '[]', 'string', '{', '""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-141,"    },","['},']",['OPERATOR']
-142,    {,['{'],['OPERATOR']
-143,"        query: ""a=1&b<=2"",","['query', ':', '""a=1&b<=2""', ',']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-144,"        out:   url.Values{""a"": []string{""1""}, ""_op_b"": []string{""<=""}, ""b"": []string{""2""}},","['out', ':', 'url', '.', 'Values', '{', '""a""', ':', '[]', 'string', '{', '""1""', '},', '""_op_b""', ':', '[]', 'string', '{', '""<=""', '},', '""b""', ':', '[]', 'string', '{', '""2""', '}},']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-145,"    },","['},']",['OPERATOR']
-146,},['}'],['OPERATOR']
-147,func TestParseQueryOut(t *testing.T) {,"['func', 'TestParseQueryOut', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-148,"    for i, test := range parseTests {","['for', 'i', ',', 'test', ':=', 'range', 'parseTests', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-149,"        form, err := ParseQueryOp(test.query, ""_op_"")","['for', 'm', ',', 'err', ':=', 'ParseQueryOp', '(', 'test', '.', 'query', ',', '""_op_""', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-150,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-151,"            t.Errorf(""test %d: Unexpected error: %v"", i, err)","['t.Errorf(""test %d: Unexpected error: %v"", i, err)']",['FUNCTION_CALL']
-152,            continue,['continue'],['KEYWORD']
-153,        },['}'],['OPERATOR']
-154,        if len(form) != len(test.out) {,"['if', 'len', '(', 'for', 'm', ')', '!=', 'len', '(', 'test', '.', 'out', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-155,"            t.Errorf(""test %d: len(form) = %d, want %d"", i, len(form), len(test.out))","['t.Errorf(""test %d: len(form) = %d, want %d"", i, len(form), len(test.out))']",['FUNCTION_CALL']
-156,        },['}'],['OPERATOR']
-157,"        for k, evs := range test.out {","['for', 'k', ',', 'evs', ':=', 'range', 'test', '.', 'out', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-158,"            vs, ok := form[k]","['vs', ',', 'ok', ':=', 'for', 'm', '[', 'k', ']']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-159,            if !ok {,"['if', '!', 'ok', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-160,"                t.Errorf(""test %d: Missing key %q"", i, k)","['t.Errorf(""test %d: Missing key %q"", i, k)']",['FUNCTION_CALL']
-161,                continue,['continue'],['KEYWORD']
-162,            },['}'],['OPERATOR']
-163,            if len(vs) != len(evs) {,"['if', 'len', '(', 'vs', ')', '!=', 'len', '(', 'evs', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-164,"                t.Errorf(""test %d: len(form[%q]) = %d, want %d"", i, k, len(vs), len(evs))","['t.Errorf(""test %d: len(form[%q]) = %d, want %d"", i, k, len(vs), len(evs))']",['FUNCTION_CALL']
-165,                continue,['continue'],['KEYWORD']
-166,            },['}'],['OPERATOR']
-167,"            for j, ev := range evs {","['for', 'j', ',', 'ev', ':=', 'range', 'evs', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-168,                if v := vs[j]; v != ev {,"['if', 'v', ':=', 'vs', '[', 'j', '];', 'v', '!=', 'ev', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-169,"                    t.Errorf(""test %d: form[%q][%d] = %q, want %q"", i, k, j, v, ev)","['t.Errorf(""test %d: form[%q][%d] = %q, want %q"", i, k, j, v, ev)']",['FUNCTION_CALL']
-170,                },['}'],['OPERATOR']
-171,            },['}'],['OPERATOR']
-172,        },['}'],['OPERATOR']
-173,    },['}'],['OPERATOR']
-174,},['}'],['OPERATOR']
+My computer sees the hardware: I see the device in my /dev/bus/usb
+The hardware works fine: the demo software they provide works seemlessly (under windows, they don't have a Linux version)
+It seems I can open the endpoints
+It seems I can write to the device
+
+
+Now, when I try to read from thehardware, I always get a timeout. I'm a total beginner on hardware, any help would be greatly appreciated, maybe the issue is actually very basic.
+
+My very simple codebase is here: 
+
+","['I', 'am', 'trying', 'to', 'communicate', 'with', 'a', 'USB', 'device', '(cottonwood', 'RFID', 'reader)', 'with', 'golang', 'under', 'Linux.', 'Here', 'is', 'where', 'I', 'am', 'so', 'far:', 'My', 'computer', 'sees', 'the', 'hardware:', 'I', 'see', 'the', 'device', 'in', 'my', '/dev/bus/usb', 'The', 'hardware', 'works', 'fine:', 'the', 'demo', 'software', 'they', 'provide', 'works', 'seemlessly', '(under', 'windows,', 'they', ""don't"", 'have', 'a', 'Linux', 'version)', 'It', 'seems', 'I', 'can', 'open', 'the', 'endpoints', 'It', 'seems', 'I', 'can', 'write', 'to', 'the', 'device', 'Now,', 'when', 'I', 'try', 'to', 'read', 'from', 'thehardware,', 'I', 'always', 'get', 'a', 'timeout.', ""I'm"", 'a', 'total', 'beginner', 'on', 'hardware,', 'any', 'help', 'would', 'be', 'greatly', 'appreciated,', 'maybe', 'the', 'issue', 'is', 'actually', 'very', 'basic.', 'My', 'very', 'simple', 'codebase', 'is', 'here:']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'IN', 'DT', 'NNP', 'NN', 'NN', 'NNP', 'NN', 'IN', 'NN', 'IN', 'NNP', 'RB', 'VBZ', 'WRB', 'PRP', 'VBP', 'RB', 'JJ', 'NNP', 'NN', 'VBZ', 'DT', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'PRP$', 'NN', 'DT', 'NN', 'VBZ', 'VBP', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'VBZ', 'RB', 'VBN', 'NN', 'PRP', 'VBP', 'VBP', 'DT', 'NNP', 'NN', 'PRP', 'VBZ', 'PRP', 'MD', 'VB', 'DT', 'NNS', 'PRP', 'VBZ', 'PRP', 'MD', 'VB', 'TO', 'DT', 'NN', 'NNP', 'WRB', 'PRP', 'VBP', 'TO', 'VB', 'IN', 'NN', 'PRP', 'RB', 'VBP', 'DT', 'NN', 'NNP', 'DT', 'JJ', 'NN', 'IN', 'NN', 'DT', 'NN', 'MD', 'VB', 'RB', 'JJ', 'RB', 'DT', 'NN', 'VBZ', 'RB', 'RB', 'JJ', 'NNP', 'RB', 'JJ', 'NN', 'VBZ', 'JJ']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+4,"    ""log""","['""log""']",['STRING_LITERAL']
+5,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+6,"    ""github.com/jpoirier/gousb/usb""","['""github.com/jpoirier/gousb/usb""']",['STRING_LITERAL']
+7,),[')'],['PUNCTUATION']
+8,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+9,    // Only one context should be needed for an application.  It should always be closed.,"['//', 'Only', 'one', 'context', 'should', 'be', 'needed', 'for', 'an', 'application.', 'It', 'should', 'always', 'be', 'closed.']","['COMMENT', 'RB', 'CD', 'NN', 'MD', 'VB', 'VBN', 'IN', 'DT', 'NN', 'PRP', 'MD', 'RB', 'VB', 'JJ']"
+10,    ctx := usb.NewContext(),"['ctx', ':=', 'usb.NewContext()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+11,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+12,        errCl := ctx.Close(),"['errCl', ':=', 'ctx.Close()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+13,        if errCl != nil {,"['if', 'errCl', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+14,            log.Fatal(errCl),['log.Fatal(errCl)'],['FUNCTION_CALL']
+15,        },['}'],['PUNCTUATION']
+16,    }(),['}()'],['PUNCTUATION']
+17,    ctx.Debug(1),['ctx.Debug(1)'],['FUNCTION_CALL']
+18,    // ListDevices is used to find the devices to open.,"['//', 'ListDevices', 'is', 'used', 'to', 'find', 'the', 'devices', 'to', 'open.']","['COMMENT', 'NNS', 'VBZ', 'VBN', 'TO', 'VB', 'DT', 'NNS', 'TO', 'VB']"
+19,"    devs, err := ctx.ListDevices(","['devs', ',', 'err', ':=', 'ctx', '.', 'ListDevices', '(']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+20,        func(desc *usb.Descriptor) bool {,"['func', '(', 'desc', '*', 'usb', '.', 'Descriptor', ')', 'bool', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+21,            if desc.Vendor == GetCottonwoodVendor() && desc.Product == GetCottonwoodProduct() {,"['if', 'desc', '.', 'Vendor', '==', 'GetCottonwoodVendor', '()', '&&', 'desc', '.', 'Product', '==', 'GetCottonwoodProduct', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+22,                return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
+23,            },['}'],['PUNCTUATION']
+24,            return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
+25,        }),['})'],['PUNCTUATION']
+26,    // All Devices returned from ListDevices must be closed.,"['//', 'All', 'Devices', 'returned', 'from', 'ListDevices', 'must', 'be', 'closed.']","['COMMENT', 'DT', 'NNS', 'VBN', 'IN', 'NNS', 'MD', 'VB', 'NN']"
+27,    defer func() {,"['defer', 'func', '()', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+28,"        for _, dev := range devs {","['for', '_', ',', 'dev', ':=', 'range', 'devs', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+29,            errCl := dev.Close(),"['errCl', ':=', 'dev.Close()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+30,            if errCl != nil {,"['if', 'errCl', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+31,                log.Fatal(errCl),['log.Fatal(errCl)'],['FUNCTION_CALL']
+32,            },['}'],['PUNCTUATION']
+33,        },['}'],['PUNCTUATION']
+34,    }(),['}()'],['PUNCTUATION']
+35,"    // ListDevices can occasionally  fail, so be sure to check its return value.","['//', 'ListDevices', 'can', 'occasionally', 'fail,', 'so', 'be', 'sure', 'to', 'check', 'its', 'return', 'value.']","['COMMENT', 'NNS', 'MD', 'RB', 'VB', 'RB', 'VB', 'JJ', 'TO', 'VB', 'PRP$', 'NN', 'NN']"
+36,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+37,"        log.Fatalf(""list: %s"", err)","['log.Fatalf(""list: %s"", err)']",['FUNCTION_CALL']
+38,    },['}'],['PUNCTUATION']
+39,"for _, dev := range devs {","['for', '_', ',', 'dev', ':=', 'range', 'devs', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+40,"    // Once the device has been selected from ListDevices, it is opened","['//', 'Once', 'the', 'device', 'has', 'been', 'selected', 'from', 'ListDevices,', 'it', 'is', 'opened']","['COMMENT', 'RB', 'DT', 'NN', 'VBZ', 'VBN', 'VBN', 'IN', 'NNP', 'PRP', 'VBZ', 'VBN']"
+41,    // and can be interacted with.,"['//', 'and', 'can', 'be', 'interacted', 'with.']","['COMMENT', 'CC', 'MD', 'VB', 'VBN', 'NN']"
+42,    // Open up two ep for read and write,"['//', 'Open', 'up', 'two', 'ep', 'for', 'read', 'and', 'write']","['COMMENT', 'VB', 'RP', 'CD', 'NN', 'IN', 'NN', 'CC', 'VB']"
+43,"    epBulkWrite, err := dev.OpenEndpoint(1, 0, 0, 2|uint8(usb.ENDPOINT_DIR_OUT))","['epBulkWrite', ',', 'err', ':=', 'dev.OpenEndpoint(1, 0, 0, 2|uint8(usb.ENDPOINT_DIR_OUT))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+44,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+45,"        log.Fatalf(""OpenEndpoint Write error for %v: %v"", dev.Address, err)","['log.Fatalf(""OpenEndpoint Write error for %v: %v"", dev.Address, err)']",['FUNCTION_CALL']
+46,    },['}'],['PUNCTUATION']
+47,    // Poll Firmware/Hardware Version ID,"['//', 'Poll', 'Firmware/Hardware', 'Version', 'ID']","['COMMENT', 'NNP', 'NNP', 'NNP', 'NNP']"
+48,    // AntennaOn,"['//', 'AntennaOn']","['COMMENT', 'NN']"
+49,"    // outAntennaPowerOnCmd := []byte{0x18, 0x03, 0xFF}","['//', 'outAntennaPowerOnCmd', ':=', '[]byte{0x18,', '0x03,', '0xFF}']","['COMMENT', 'JJ', 'NNP', 'NNP', 'CD', 'CD']"
+50,"    outFirmIdCmd := []byte{0x10, 0x03, 0x00}","['outFirmIdCmd', ':=', '[]', 'byte', '{', '0x1', '0', ',', '0', 'x03', ',', '0', 'x00', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+51,"    // outHardIdCmd := []byte{0x10, 0x03, 0x01}","['//', 'outHardIdCmd', ':=', '[]byte{0x10,', '0x03,', '0x01}']","['COMMENT', 'JJ', 'NNP', 'NNP', 'CD', 'CD']"
+52,"    i, err := epBulkWrite.Write(outFirmIdCmd)","['i', ',', 'err', ':=', 'epBulkWrite.Write(outFirmIdCmd)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+53,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+54,"        log.Fatalf(""Cannot write command: %v\n"", err)","['log.Fatalf(""Cannot write command: %v\\n"", err)']",['FUNCTION_CALL']
+55,    },['}'],['PUNCTUATION']
+56,"    log.Printf(""%v bytes sent"", i)","['log.Printf(""%v bytes sent"", i)']",['FUNCTION_CALL']
+57,    time.Sleep(1 * time.Second),['time.Sleep(1 * time.Second)'],['FUNCTION_CALL']
+58,"    epBulkRead, err := dev.OpenEndpoint(1, 0, 0, 1|uint8(usb.ENDPOINT_DIR_IN))","['epBulkRead', ',', 'err', ':=', 'dev.OpenEndpoint(1, 0, 0, 1|uint8(usb.ENDPOINT_DIR_IN))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+59,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+60,"        log.Fatalf(""OpenEndpoint Read error for %v: %v"", dev.Address, err)","['log.Fatalf(""OpenEndpoint Read error for %v: %v"", dev.Address, err)']",['FUNCTION_CALL']
+61,    },['}'],['PUNCTUATION']
+62,"    readBuffer := make([]byte, 64)","['readBuffer', ':=', 'make', '([]', 'byte', ',', '64', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+63,"    n, errRead := epBulkRead.Read(readBuffer)","['n', ',', 'errRead', ':=', 'epBulkRead.Read(readBuffer)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+64,"    log.Printf(""read %d bytes: %v"", n, readBuffer)","['log.Printf(""read %d bytes: %v"", n, readBuffer)']",['FUNCTION_CALL']
+65,    if errRead != nil {,"['if', 'errRead', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+66,"        log.Printf(""error reading: %v"", errRead)","['log.Printf(""error reading: %v"", errRead)']",['FUNCTION_CALL']
+67,        break,['break'],['KEYWORD']
+68,    },['}'],['PUNCTUATION']
+69,},['}'],['PUNCTUATION']
+70,// GetCottonwoodVendor returns the vendor ID of cottonwood UHF reader,"['//', 'GetCottonwoodVendor', 'returns', 'the', 'vendor', 'ID', 'of', 'cottonwood', 'UHF', 'reader']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'NNP', 'IN', 'NN', 'NNP', 'NN']"
+71,func GetCottonwoodVendor() usb.ID {,"['func', 'GetCottonwoodVendor', '()', 'usb', '.', 'ID', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+72,"    value, err := strconv.ParseUint(""1325"", 16, 16)","['value', ',', 'err', ':=', 'strconv.ParseUint(""1325"", 16, 16)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+73,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+74,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+75,    },['}'],['PUNCTUATION']
+76,    return usb.ID(value),"['return', 'usb.ID(value)']","['KEYWORD', 'FUNCTION_CALL']"
+77,},['}'],['PUNCTUATION']
+78,// GetCottonwoodProduct returns the product ID of cottonwood UHF reader,"['//', 'GetCottonwoodProduct', 'returns', 'the', 'product', 'ID', 'of', 'cottonwood', 'UHF', 'reader']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'NNP', 'IN', 'NN', 'NNP', 'NN']"
+79,func GetCottonwoodProduct() usb.ID {,"['func', 'GetCottonwoodProduct', '()', 'usb', '.', 'ID', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+80,"    value, err := strconv.ParseUint(""c029"", 16, 16)","['value', ',', 'err', ':=', 'strconv.ParseUint(""c029"", 16, 16)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+81,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+82,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
+83,    },['}'],['PUNCTUATION']
+84,    return usb.ID(value),"['return', 'usb.ID(value)']","['KEYWORD', 'FUNCTION_CALL']"
+85,},['}'],['PUNCTUATION']
+86,"
+
+First time I launch it, I get:
+
+","['First', 'time', 'I', 'launch', 'it,', 'I', 'get:']","['JJ', 'NN', 'PRP', 'VBP', 'JJ', 'PRP', 'VBP']"
+87,2016/12/14 19:19:18 3 bytes sent,"['2016/12/14', '19', ':', '19', ':', '18', '3', 'bytes', 'sent']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+88,2016/12/14 19:19:20 read 0 bytes: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0],"['2016/12/14', '19', ':', '19', ':', '20', 'read', '0', 'bytes', ':', '[', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', ']']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION']"
+89,2016/12/14 19:19:20 error reading: libusb: timeout [code -7],"['2016/12/14', '19', ':', '19', ':', '20', 'error', 'reading', ':', 'libusb', ':', 'timeout', '[', 'code', '-', '7', ']']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+90,"
+
+Second time and all after:
+
+","['Second', 'time', 'and', 'all', 'after:']","['JJ', 'NN', 'CC', 'DT', 'NN']"
+91,2016/12/14 19:21:21 Cannot write command: libusb: timeout [code -7],"['2016/12/14', '19', ':', '21', ':', '21', 'Cannot', 'write', 'command', ':', 'libusb', ':', 'timeout', '[', 'code', '-', '7', ']']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+92,"
+
+I tried with another library using hidraw, but it seems not to work either (probably detach usb device issue).
+","['I', 'tried', 'with', 'another', 'library', 'using', 'hidraw,', 'but', 'it', 'seems', 'not', 'to', 'work', 'either', '(probably', 'detach', 'usb', 'device', 'issue).']","['PRP', 'VBD', 'IN', 'DT', 'NN', 'VBG', 'NN', 'CC', 'PRP', 'VBZ', 'RB', 'TO', 'VB', 'RB', 'RB', 'NN', 'JJ', 'NN', 'NN']"

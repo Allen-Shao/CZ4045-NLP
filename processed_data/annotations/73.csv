@@ -1,235 +1,35 @@
 ,text,token,annotation
-0,"Here's an implementation of escape and unescape (ripped from go source):
+0,"Ok, the problem was not with the code, but has something to do with http://golang.org/ and they way they execute web code. Locally it did seem to be faster to use the string constants:
 
-","[""Here's"", 'an', 'implementation', 'of', 'escape', 'and', 'unescape', '(ripped', 'from', 'go', 'source):']","['NNP', 'DT', 'NN', 'IN', 'NN', 'CC', 'NN', 'VBD', 'IN', 'VB', 'NN']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (  ,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-4,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-5,),[')'],['PUNCTUATION']
-6,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
-7,    encodePath encoding = 1 + iota,"['encodePath', 'encoding', '=', '1', '+', 'iota']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-8,    encodeHost,['encodeHost'],['IDENTIFIER']
-9,    encodeUserPassword,['encodeUserPassword'],['IDENTIFIER']
-10,    encodeQueryComponent,['encodeQueryComponent'],['IDENTIFIER']
-11,    encodeFragment,['encodeFragment'],['IDENTIFIER']
-12,),[')'],['PUNCTUATION']
-13,type encoding int,"['type', 'encoding', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-14,type EscapeError string,"['type', 'EscapeError', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-15,func (e EscapeError) Error() string {,"['func', '(', 'e', 'EscapeError', ')', 'Error', '()', 'string', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-16,"    return ""invalid URL escape "" + strconv.Quote(string(e))","['return', '""invalid URL escape ""', '+', 'strconv.Quote(string(e))']","['KEYWORD', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
-17,},['}'],['PUNCTUATION']
-18,func ishex(c byte) bool {,"['func', 'ishex', '(', 'c', 'byte', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-19,    switch {,"['switch', '{']","['IDENTIFIER', 'PUNCTUATION']"
-20,    case '0' <= c && c <= '9':,"['case', ""'0'"", '<=', 'c', '&&', 'c', '<=', ""'9'"", ':']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-21,        return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
-22,    case 'a' <= c && c <= 'f':,"['case', ""'a'"", '<=', 'c', '&&', 'c', '<=', ""'f'"", ':']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-23,        return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
-24,    case 'A' <= c && c <= 'F':,"['case', ""'A'"", '<=', 'c', '&&', 'c', '<=', ""'F'"", ':']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-25,        return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
-26,    },['}'],['PUNCTUATION']
-27,    return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-28,},['}'],['PUNCTUATION']
-29,func unhex(c byte) byte {,"['func', 'unhex', '(', 'c', 'byte', ')', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-30,    switch {,"['switch', '{']","['IDENTIFIER', 'PUNCTUATION']"
-31,    case '0' <= c && c <= '9':,"['case', ""'0'"", '<=', 'c', '&&', 'c', '<=', ""'9'"", ':']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-32,        return c - '0',"['return', 'c', '-', ""'0'""]","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
-33,    case 'a' <= c && c <= 'f':,"['case', ""'a'"", '<=', 'c', '&&', 'c', '<=', ""'f'"", ':']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-34,        return c - 'a' + 10,"['return', 'c', '-', ""'a'"", '+', '10']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-35,    case 'A' <= c && c <= 'F':,"['case', ""'A'"", '<=', 'c', '&&', 'c', '<=', ""'F'"", ':']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-36,        return c - 'A' + 10,"['return', 'c', '-', ""'A'"", '+', '10']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-37,    },['}'],['PUNCTUATION']
-38,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-39,},['}'],['PUNCTUATION']
-40,// Return true if the specified character should be escaped when,"['//', 'Return', 'true', 'if', 'the', 'specified', 'character', 'should', 'be', 'escaped', 'when']","['COMMENT', 'NNP', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'MD', 'VB', 'VBN', 'WRB']"
-41,"// appearing in a URL string, according to RFC 3986.","['//', 'appearing', 'in', 'a', 'URL', 'string,', 'according', 'to', 'RFC', '3986.']","['COMMENT', 'VBG', 'IN', 'DT', 'NNP', 'NN', 'VBG', 'TO', 'NNP', 'CD']"
-42,//,['//'],['COMMENT']
-43,// Please be informed that for now shouldEscape does not check all,"['//', 'Please', 'be', 'informed', 'that', 'for', 'now', 'shouldEscape', 'does', 'not', 'check', 'all']","['COMMENT', 'NNP', 'VB', 'VBN', 'IN', 'IN', 'RB', 'NN', 'VBZ', 'RB', 'VB', 'DT']"
-44,// reserved characters correctly. See golang.org/issue/5684.,"['//', 'reserved', 'characters', 'correctly.', 'See', 'golang.org/issue/5684.']","['COMMENT', 'VBN', 'NNS', 'VBP', 'NNP', 'NN']"
-45,"func shouldEscape(c byte, mode encoding) bool {","['func', 'shouldEscape', '(', 'c', 'byte', ',', 'mode', 'encoding', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-46,    // §2.3 Unreserved characters (alphanum),"['//', '§2.3', 'Unreserved', 'characters', '(alphanum)']","['COMMENT', 'NN', 'VBD', 'NNS', 'VBP']"
-47,    if 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || '0' <= c && c <= '9' {,"['if', ""'A'"", '<=', 'c', '&&', 'c', '<=', ""'Z'"", '||', ""'a'"", '<=', 'c', '&&', 'c', '<=', ""'z'"", '||', ""'0'"", '<=', 'c', '&&', 'c', '<=', ""'9'"", '{']","['KEYWORD', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'STRING_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-48,        return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-49,    },['}'],['PUNCTUATION']
-50,    if mode == encodeHost {,"['if', 'mode', '==', 'encodeHost', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-51,        // §3.2.2 Host allows,"['//', '§3.2.2', 'Host', 'allows']","['COMMENT', 'NN', 'NNP', 'NNS']"
-52,"        //  sub-delims = ""!"" / ""$"" / ""&"" / ""'"" / ""("" / "")"" / ""*"" / ""+"" / "","" / "";"" / ""=""","['//', 'sub-delims', '=', '""!""', '/', '""$""', '/', '""&""', '/', '""\'""', '/', '""(""', '/', '"")""', '/', '""*""', '/', '""+""', '/', '"",""', '/', '"";""', '/', '""=""']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
-53,        // as part of reg-name.,"['//', 'as', 'part', 'of', 'reg-name.']","['COMMENT', 'IN', 'NN', 'IN', 'NN']"
-54,        // We add : because we include :port as part of host.,"['//', 'We', 'add', ':', 'because', 'we', 'include', ':port', 'as', 'part', 'of', 'host.']","['COMMENT', 'PRP', 'VBP', ':', 'IN', 'PRP', 'VBP', 'JJ', 'IN', 'NN', 'IN', 'NN']"
-55,        // We add [ ] because we include [ipv6]:port as part of host,"['//', 'We', 'add', '[', ']', 'because', 'we', 'include', '[ipv6]:port', 'as', 'part', 'of', 'host']","['COMMENT', 'PRP', 'VBP', 'JJ', 'NN', 'IN', 'PRP', 'VBP', 'JJ', 'IN', 'NN', 'IN', 'NN']"
-56,        switch c {,"['switch', 'c', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-57,"        case '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=', ':', '[', ']':","['case', ""'!'"", ',', ""'$'"", ',', ""'&'"", ',', ""'\\'"", ""', '"", '(', ""', '"", ')', ""', '"", '*', ""', '"", '+', ""', '"", ',', ""', '"", ';', ""', '"", '=', ""', '"", ':', ""', '"", '[', ""', '"", ']', ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-58,            return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-59,        },['}'],['PUNCTUATION']
-60,    },['}'],['PUNCTUATION']
-61,    switch c {,"['switch', 'c', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-62,"    case '-', '_', '.', '~': // §2.3 Unreserved characters (mark)","['case', ""'-'"", ',', ""'_'"", ',', ""'.'"", ',', ""'~'"", ':', '//', '§2.3', 'Unreserved', 'characters', '(mark)']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'VBD', 'NNS', 'VBP']"
-63,        return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-64,"    case '$', '&', '+', ',', '/', ':', ';', '=', '?', '@': // §2.2 Reserved characters (reserved)","['case', ""'$'"", ',', ""'&'"", ',', ""'+'"", ',', ""','"", ',', ""'/'"", ',', ""':'"", ',', ""';'"", ',', ""'='"", ',', ""'?'"", ',', ""'@'"", ':', '//', '§2.2', 'Reserved', 'characters', '(reserved)']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'VBD', 'NNS', 'VBP']"
-65,        // Different sections of the URL allow a few of,"['//', 'Different', 'sections', 'of', 'the', 'URL', 'allow', 'a', 'few', 'of']","['COMMENT', 'JJ', 'NNS', 'IN', 'DT', 'NNP', 'VB', 'DT', 'JJ', 'IN']"
-66,        // the reserved characters to appear unescaped.,"['//', 'the', 'reserved', 'characters', 'to', 'appear', 'unescaped.']","['COMMENT', 'DT', 'JJ', 'NNS', 'TO', 'VB', 'JJ']"
-67,        switch mode {,"['switch', 'mode', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-68,        case encodePath: // §3.3,"['case', 'encodePath', ':', '//', '§3.3']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN']"
-69,"            // The RFC allows : @ & = + $ but saves / ; , for assigning","['//', 'The', 'RFC', 'allows', ':', '@', '&', '=', '+', '$', 'but', 'saves', '/', ';', ',', 'for', 'assigning']","['COMMENT', 'DT', 'NNP', 'VBZ', ':', 'NN', 'CC', 'NNP', 'NNP', '$', 'CC', 'VBZ', 'NNP', ':', ',', 'IN', 'VBG']"
-70,            // meaning to individual path segments. This package,"['//', 'meaning', 'to', 'individual', 'path', 'segments.', 'This', 'package']","['COMMENT', 'NN', 'TO', 'JJ', 'NN', 'NN', 'DT', 'NN']"
-71,"            // only manipulates the path as a whole, so we allow those","['//', 'only', 'manipulates', 'the', 'path', 'as', 'a', 'whole,', 'so', 'we', 'allow', 'those']","['COMMENT', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'VBP', 'DT']"
-72,            // last two as well. That leaves only ? to escape.,"['//', 'last', 'two', 'as', 'well.', 'That', 'leaves', 'only', '?', 'to', 'escape.']","['COMMENT', 'JJ', 'CD', 'IN', 'NN', 'WDT', 'VBZ', 'RB', '.', 'TO', 'VB']"
-73,            return c == '?',"['return', 'c', '==', ""'?'""]","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL']"
-74,        case encodeUserPassword: // §3.2.1,"['case', 'encodeUserPassword', ':', '//', '§3.2.1']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN']"
-75,"            // The RFC allows ';', ':', '&', '=', '+', '$', and ',' in","['//', 'The', 'RFC', 'allows', ""';',"", ""':',"", ""'&',"", ""'=',"", ""'+',"", ""'$',"", 'and', ""','"", 'in']","['COMMENT', 'DT', 'NNP', 'VBZ', 'POS', ""''"", 'POS', 'POS', 'POS', 'NNS', 'CC', 'NNS', 'IN']"
-76,"            // userinfo, so we must escape only '@', '/', and '?'.","['//', 'userinfo,', 'so', 'we', 'must', 'escape', 'only', ""'@',"", ""'/',"", 'and', ""'?'.""]","['COMMENT', 'RB', 'IN', 'PRP', 'MD', 'VB', 'RB', 'POS', 'NNS', 'CC', 'VB']"
-77,            // The parsing of userinfo treats ':' as special so we must escape,"['//', 'The', 'parsing', 'of', 'userinfo', 'treats', ""':'"", 'as', 'special', 'so', 'we', 'must', 'escape']","['COMMENT', 'DT', 'NN', 'IN', 'JJ', 'NNS', 'POS', 'IN', 'JJ', 'IN', 'PRP', 'MD', 'VB']"
-78,            // that too.,"['//', 'that', 'too.']","['COMMENT', 'DT', 'NN']"
-79,            return c == '@' || c == '/' || c == '?' || c == ':',"['return', 'c', '==', ""'@'"", '||', 'c', '==', ""'/'"", '||', 'c', '==', ""'?'"", '||', 'c', '==', ""':'""]","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL']"
-80,        case encodeQueryComponent: // §3.4,"['case', 'encodeQueryComponent', ':', '//', '§3.4']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN']"
-81,            // The RFC reserves (so we must escape) everything.,"['//', 'The', 'RFC', 'reserves', '(so', 'we', 'must', 'escape)', 'everything.']","['COMMENT', 'DT', 'NNP', 'NNS', 'VBP', 'PRP', 'MD', 'VB', 'NN']"
-82,            return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
-83,        case encodeFragment: // §4.1,"['case', 'encodeFragment', ':', '//', '§4.1']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN']"
-84,            // The RFC text is silent but the grammar allows,"['//', 'The', 'RFC', 'text', 'is', 'silent', 'but', 'the', 'grammar', 'allows']","['COMMENT', 'DT', 'NNP', 'NN', 'VBZ', 'JJ', 'CC', 'DT', 'NN', 'VBZ']"
-85,"            // everything, so escape nothing.","['//', 'everything,', 'so', 'escape', 'nothing.']","['COMMENT', 'NNS', 'RB', 'JJ', 'NN']"
-86,            return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-87,        },['}'],['PUNCTUATION']
-88,    },['}'],['PUNCTUATION']
-89,    // Everything else must be escaped.,"['//', 'Everything', 'else', 'must', 'be', 'escaped.']","['COMMENT', 'NN', 'RB', 'MD', 'VB', 'JJ']"
-90,    return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
-91,},['}'],['PUNCTUATION']
-92,"func escape(s string, mode encoding) string {","['func', 'escape', '(', 's', 'string', ',', 'mode', 'encoding', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-93,"    spaceCount, hexCount := 0, 0","['spaceCount', ',', 'hexCount', ':=', '0', ',', '0']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL']"
-94,    for i := 0; i < len(s); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-95,        c := s[i],"['c', ':=', 's', '[', 'i', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-96,"        if shouldEscape(c, mode) {","['if', 'shouldEscape', '(', 'c', ',', 'mode', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-97,            if c == ' ' && mode == encodeQueryComponent {,"['if', 'c', '==', ""' '"", '&&', 'mode', '==', 'encodeQueryComponent', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-98,                spaceCount++,"['spaceCount', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-99,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-100,                hexCount++,"['hexCount', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-101,            },['}'],['PUNCTUATION']
-102,        },['}'],['PUNCTUATION']
-103,    },['}'],['PUNCTUATION']
-104,    if spaceCount == 0 && hexCount == 0 {,"['if', 'spaceCount', '==', '0', '&&', 'hexCount', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-105,        return s,"['return', 's']","['KEYWORD', 'IDENTIFIER']"
-106,    },['}'],['PUNCTUATION']
-107,"    t := make([]byte, len(s)+2*hexCount)","['t', ':=', 'make', '([]', 'byte', ',', 'len', '(', 's', ')+', '2', '*', 'hexCount', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-108,    j := 0,"['j', ':=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-109,    for i := 0; i < len(s); i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-110,        switch c := s[i]; {,"['switch', 'c', ':=', 's', '[', 'i', '];', '{']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-111,        case c == ' ' && mode == encodeQueryComponent:,"['case', 'c', '==', ""' '"", '&&', 'mode', '==', 'encodeQueryComponent', ':']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-112,            t[j] = '+',"['t', '[', 'j', ']', '=', ""'+'""]","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-113,            j++,"['j', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-114,"        case shouldEscape(c, mode):","['case', 'shouldEscape', '(', 'c', ',', 'mode', '):']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-115,            t[j] = '%',"['t', '[', 'j', ']', '=', ""'%'""]","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-116,"            t[j+1] = ""0123456789ABCDEF""[c>>4]","['t', '[', 'j', '+', '1', ']', '=', '""0123456789ABCDEF""', '[', 'c', '>>', '4', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-117,"            t[j+2] = ""0123456789ABCDEF""[c&15]","['t', '[', 'j', '+', '2', ']', '=', '""0123456789ABCDEF""', '[', 'c', '&', '15', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-118,            j += 3,"['j', '+=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-119,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-120,            t[j] = s[i],"['t', '[', 'j', ']', '=', 's', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-121,            j++,"['j', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-122,        },['}'],['PUNCTUATION']
-123,    },['}'],['PUNCTUATION']
-124,    return string(t),"['return', 'string', '(', 't', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-125,},['}'],['PUNCTUATION']
-126,// unescape unescapes a string; the mode specifies,"['//', 'unescape', 'unescapes', 'a', 'string;', 'the', 'mode', 'specifies']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'DT', 'NN', 'NNS']"
-127,// which section of the URL string is being unescaped.,"['//', 'which', 'section', 'of', 'the', 'URL', 'string', 'is', 'being', 'unescaped.']","['COMMENT', 'WDT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'VBZ', 'VBG', 'JJ']"
-128,"func unescape(s string, mode encoding) (string, error) {","['func', 'unescape', '(', 's', 'string', ',', 'mode', 'encoding', ')', '(', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-129,"    // Count %, check that they're well-formed.","['//', 'Count', '%,', 'check', 'that', ""they're"", 'well-formed.']","['COMMENT', 'NNP', 'NNP', 'NN', 'WDT', 'VBZ', 'NN']"
-130,    n := 0,"['n', ':=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-131,    hasPlus := false,"['hasPlus', ':=', 'false']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-132,    for i := 0; i < len(s); {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-133,        switch s[i] {,"['switch', 's', '[', 'i', ']', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-134,        case '%':,"['case', ""'%'"", ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-135,            n++,"['n', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-136,            if i+2 >= len(s) || !ishex(s[i+1]) || !ishex(s[i+2]) {,"['if', 'i', '+', '2', '>=', 'len', '(', 's', ')', '||', '!', 'ishex', '(', 's', '[', 'i', '+', '1', '])', '||', '!', 'ishex', '(', 's', '[', 'i', '+', '2', '])', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-137,                s = s[i:],"['s', '=', 's', '[', 'i', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-138,                if len(s) > 3 {,"['if', 'len', '(', 's', ')', '>', '3', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-139,                    s = s[:3],"['s', '=', 's', '[:', '3', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-140,                },['}'],['PUNCTUATION']
-141,"                return """", EscapeError(s)","['return', '""""', ',', 'EscapeError', '(', 's', ')']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-142,            },['}'],['PUNCTUATION']
-143,            i += 3,"['i', '+=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-144,        case '+':,"['case', ""'+'"", ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-145,            hasPlus = mode == encodeQueryComponent,"['hasPlus', '=', 'mode', '==', 'encodeQueryComponent']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER']"
-146,            i++,"['i', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-147,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-148,            i++,"['i', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-149,        },['}'],['PUNCTUATION']
-150,    },['}'],['PUNCTUATION']
-151,    if n == 0 && !hasPlus {,"['if', 'n', '==', '0', '&&', '!', 'hasPlus', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-152,"        return s, nil","['return', 's', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-153,    },['}'],['PUNCTUATION']
-154,"    t := make([]byte, len(s)-2*n)","['t', ':=', 'make', '([]', 'byte', ',', 'len', '(', 's', ')-', '2', '*', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-155,    j := 0,"['j', ':=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-156,    for i := 0; i < len(s); {,"['for', 'i', ':=', '0', ';', 'i', '<', 'len', '(', 's', ');', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-157,        switch s[i] {,"['switch', 's', '[', 'i', ']', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-158,        case '%':,"['case', ""'%'"", ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-159,            t[j] = unhex(s[i+1])<<4 | unhex(s[i+2]),"['t', '[', 'j', ']', '=', 'unhex', '(', 's', '[', 'i', '+', '1', '])<<', '4', '|', 'unhex', '(', 's', '[', 'i', '+', '2', '])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-160,            j++,"['j', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-161,            i += 3,"['i', '+=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-162,        case '+':,"['case', ""'+'"", ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-163,            if mode == encodeQueryComponent {,"['if', 'mode', '==', 'encodeQueryComponent', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-164,                t[j] = ' ',"['t', '[', 'j', ']', '=', ""' '""]","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-165,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-166,                t[j] = '+',"['t', '[', 'j', ']', '=', ""'+'""]","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-167,            },['}'],['PUNCTUATION']
-168,            j++,"['j', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-169,            i++,"['i', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-170,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-171,            t[j] = s[i],"['t', '[', 'j', ']', '=', 's', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-172,            j++,"['j', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-173,            i++,"['i', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-174,        },['}'],['PUNCTUATION']
-175,    },['}'],['PUNCTUATION']
-176,"    return string(t), nil","['return', 'string', '(', 't', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-177,},['}'],['PUNCTUATION']
-178,func EncodeUriComponent(rawString string) string{,"['func', 'EncodeUriComponent', '(', 'rawString', 'string', ')', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-179,"    return escape(rawString, encodeFragment)","['return', 'escape', '(', 'rawString', ',', 'encodeFragment', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-180,},['}'],['PUNCTUATION']
-181,"func DecodeUriCompontent(encoded string) (string, error){","['func', 'DecodeUriCompontent', '(', 'encoded', 'string', ')', '(', 'string', ',', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-182,"    return unescape(encoded, encodeQueryComponent)","['return', 'unescape', '(', 'encoded', ',', 'encodeQueryComponent', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-183,},['}'],['PUNCTUATION']
-184,// https://golang.org/src/net/url/url.go,"['//', 'https:golang.org/src/net/url/url.go']","['COMMENT', 'NN']"
-185,// http://remove-line-numbers.ruurtjan.com/,"['//', 'http:remove-line-numbers.ruurtjan.com/']","['COMMENT', 'NN']"
-186,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-187,    // http://www.url-encode-decode.com/,"['//', 'http:www.url-encode-decode.com/']","['COMMENT', 'NN']"
-188,"    origin := ""äöüHel/lo world""","['origin', ':=', '""äöüHel/lo world""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-189,    encoded := EncodeUriComponent(origin),"['encoded', ':=', 'EncodeUriComponent', '(', 'origin', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-190,    fmt.Println(encoded),['fmt.Println(encoded)'],['FUNCTION_CALL']
-191,"    s, _ := DecodeUriCompontent(encoded)","['s', ',', '_', ':=', 'DecodeUriCompontent', '(', 'encoded', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-192,    fmt.Println(s),['fmt.Println(s)'],['FUNCTION_CALL']
-193,},['}'],['PUNCTUATION']
-194,"
-
- 
-
-",[],[]
-195,// -------------------------------------------------------,"['//', '-------------------------------------------------------']","['COMMENT', 'NN']"
-196,/*,['/*'],['PUNCTUATION']
-197,"func UrlEncoded(str string) (string, error) {","['func', 'UrlEncoded', '(', 'str', 'string', ')', '(', 'string', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-198,"    u, err := url.Parse(str)","['u', ',', 'err', ':=', 'url.Parse(str)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-199,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-200,"        return """", err","['return', '""""', ',', 'err']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-201,    },['}'],['PUNCTUATION']
-202,"    return u.String(), nil","['return', 'u.String()', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-203,},['}'],['PUNCTUATION']
-204,// http://stackoverflow.com/questions/13820280/encode-decode-urls,"['//', 'http:stackoverflow.com/questions/13820280/encode-decode-urls']","['COMMENT', 'NN']"
-205,"// import ""net/url""","['//', 'import', '""net/url""']","['COMMENT', 'NN', 'NN']"
-206,func old_main() {,"['func', 'old_main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-207,"    a,err := UrlEncoded(""hello world"")","['a', ',', 'err', ':=', 'UrlEncoded', '(', '""hello world""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-208,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-209,           fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-210,    },['}'],['PUNCTUATION']
-211,    fmt.Println(a),['fmt.Println(a)'],['FUNCTION_CALL']
-212,    // https://gobyexample.com/url-parsing,"['//', 'https:gobyexample.com/url-parsing']","['COMMENT', 'NN']"
-213,"    //s := ""postgres://user:pass@host.com:5432/path?k=v#f""","['//', 's', ':=', '""postgres:user:pass@host.com:5432/path?k=v#f""']","['COMMENT', 'NN', 'CD', 'NN']"
-214,"    s := ""postgres://user:pass@host.com:5432/path?k=vbla%23fooa#f""","['s', ':=', '""postgres://user:pass@host.com:5432/path?k=vbla%23fooa#f""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-215,"    u, err := url.Parse(s)","['u', ',', 'err', ':=', 'url.Parse(s)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-216,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-217,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-218,    },['}'],['PUNCTUATION']
-219,    fmt.Println(u.RawQuery),['fmt.Println(u.RawQuery)'],['FUNCTION_CALL']
-220,    fmt.Println(u.Fragment),['fmt.Println(u.Fragment)'],['FUNCTION_CALL']
-221,    fmt.Println(u.String()),['fmt.Println(u.String())'],['FUNCTION_CALL']
-222,"    m, _ := url.ParseQuery(u.RawQuery)","['m', ',', '_', ':=', 'url.ParseQuery(u.RawQuery)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-223,    fmt.Println(m),['fmt.Println(m)'],['FUNCTION_CALL']
-224,"    fmt.Println(m[""k""][0])","['fmt.Println(m[""k""][0])']",['FUNCTION_CALL']
-225,},['}'],['PUNCTUATION']
-226,*/,['*/'],['PUNCTUATION']
-227,// -------------------------------------------------------,"['//', '-------------------------------------------------------']","['COMMENT', 'NN']"
+","['Ok,', 'the', 'problem', 'was', 'not', 'with', 'the', 'code,', 'but', 'has', 'something', 'to', 'do', 'with', 'http://golang.org/', 'and', 'they', 'way', 'they', 'execute', 'web', 'code.', 'Locally', 'it', 'did', 'seem', 'to', 'be', 'faster', 'to', 'use', 'the', 'string', 'constants:']","['IN', 'DT', 'NN', 'VBD', 'RB', 'IN', 'DT', 'NN', 'CC', 'VBZ', 'NN', 'TO', 'VB', 'IN', 'NN', 'CC', 'PRP', 'NN', 'PRP', 'VBP', 'JJ', 'NN', 'NNP', 'PRP', 'VBD', 'VB', 'TO', 'VB', 'JJR', 'TO', 'VB', 'DT', 'NN', 'NN']"
+1,> go run bench_string_constant_golang.go,"['>', 'go', 'run', 'bench_string_constant_golang', '.', 'go']","['RELATION_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD']"
+2,My StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy Strin,"['My', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'Strin']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+3,gMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy Stri,"['gMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'Stri']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+4,ngMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy Str,"['ngMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'Str']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+5,ingMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy St,"['ingMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'St']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+6,ringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy S,"['ringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'S']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+7,tringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy,"['tringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+8,StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy,"['StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+9, StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringM,"['StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringM']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+10,y StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy String,"['y', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'String']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+11,My StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy Strin,"['My', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'Strin']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+12,gMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy StringMy Stri,"['gMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'StringMy', 'Stri']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+13,ngMy StringMy String2014/02/12 12:07:21,"['ngMy', 'StringMy', 'String2014/02/12', '12', ':', '07', ':', '21']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+14,Took 1.6400938s,"['Took', '1', '.', '6400938', 's']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+15,My String 2My String 2My String 2My String 2My String 2My String 2My String 2My,"['My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+16,String 2My String 2My String 2My String 2My String 2My String 2My String 2My Str,"['String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'Str']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+17,ing 2My String 2My String 2My String 2My String 2My String 2My String 2My String,"['ing', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+18, 2My String 2My String 2My String 2My String 2My String 2My String 2My String 2M,"['2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'M']","['DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+19,y String 2My String 2My String 2My String 2My String 2My String 2My String 2My S,"['y', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'S']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+20,tring 2My String 2My String 2My String 2My String 2My String 2My String 2My Stri,"['tring', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'Stri']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+21,ng 2My String 2My String 2My String 2My String 2My String 2My String 2My String,"['ng', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+22,2My String 2My String 2My String 2My String 2My String 2My String 2My String 2My,"['2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My']","['DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+23, String 2My String 2My String 2My String 2My String 2My String 2My String 2My St,"['String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'St']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+24,ring 2My String 2My String 2My String 2My String 2My String 2My String 2My Strin,"['ring', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'Strin']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+25,g 2My String 2My String 2My String 2My String 2My String 2My String 2My String 2,"['g', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+26,My String 2My String 2My String 2My String 2My String 2My String 2My String 2My,"['My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+27,String 2My String 2My String 2My String 2My String 2My String 2My String 2My Str,"['String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'Str']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+28,ing 2My String 2My String 2My String 2My String 2My String 22014/02/12 12:07:23,"['ing', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '2', 'My', 'String', '22014/02/12', '12', ':', '07', ':', '23']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+29,Took 1.6220928s,"['Took', '1', '.', '6220928', 's']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+30,2014/02/12 12:07:23,"['2014/02/12', '12', ':', '07', ':', '23']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+31,Took 100.0057ms,"['Took', '100', '.', '0', '057', 'ms']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"

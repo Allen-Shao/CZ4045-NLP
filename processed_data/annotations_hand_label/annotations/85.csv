@@ -1,161 +1,66 @@
 ,text,token,annotation
-0,"My program is having issues with the printRecipeOfTheDay function. Say for example 0 is randomly selected by the program and gets assigned to the Monday variable I created, when I pass ""recipe1"" to the function ""printRecipeOfTheDay"" I get no output or a null value. Any idea on what I may have messed up?
+0,"Thanks for answer,
+I added example @qwertmax and fixed bug for parse fragment of url. Please update package and see example.
 
-","['My', 'program', 'is', 'having', 'issues', 'with', 'the', 'printRecipeOfTheDay', 'function.', 'Say', 'for', 'example', '0', 'is', 'randomly', 'selected', 'by', 'the', 'program', 'and', 'gets', 'assigned', 'to', 'the', 'Monday', 'variable', 'I', 'created,', 'when', 'I', 'pass', '""recipe1""', 'to', 'the', 'function', '""printRecipeOfTheDay""', 'I', 'get', 'no', 'output', 'or', 'a', 'null', 'value.', 'Any', 'idea', 'on', 'what', 'I', 'may', 'have', 'messed', 'up?']","['PRP$', 'NN', 'VBZ', 'VBG', 'NNS', 'IN', 'DT', 'NN', 'NNS', 'NNP', 'IN', 'NN', 'CD', 'VBZ', 'RB', 'VBN', 'IN', 'DT', 'NN', 'CC', 'VBZ', 'VBN', 'TO', 'DT', 'NNP', 'JJ', 'PRP', 'VBP', 'WRB', 'PRP', 'VBP', 'UH', 'TO', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'CC', 'DT', 'JJ', 'NN', 'NNP', 'NN', 'IN', 'WP', 'PRP', 'MD', 'VB', 'VBN', 'JJ']"
-1,        if monday == 0 {,"['if', 'monday', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-2,            fmt.Println(0),['fmt.Println(0)'],['FUNCTION_CALL']
-3,            printRecipeOfTheDay(recipe1),"['printRecipeOfTheDay', '(', 'recipe1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-4,        } else if monday == 1 {,"['}', 'else', 'if', 'monday', '==', '1', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-5,            fmt.Println(1),['fmt.Println(1)'],['FUNCTION_CALL']
-6,"
+","['Thanks', 'for', 'answer,', 'I', 'added', 'example', '@qwertmax', 'and', 'fixed', 'bug', 'for', 'parse', 'fragment', 'of', 'url.', 'Please', 'update', 'package', 'and', 'see', 'example.']","['NNS', 'IN', 'NN', 'PRP', 'VBD', 'NN', 'NNP', 'CC', 'VBN', 'NN', 'IN', 'JJ', 'NN', 'IN', 'JJ', 'NNP', 'JJ', 'NN', 'CC', 'VB', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,// Thanks @qwertmax for this example,"['//', 'Thanks', '@qwertmax', 'for', 'this', 'example']","['COMMENT', 'NNS', 'VBP', 'IN', 'DT', 'NN']"
+3,// (http://stackoverflow.com/questions/29359907/social-network-vk-auth-with-martini),"['//', '(http:stackoverflow.com/questions/29359907/social-network-vk-auth-with-martini)']","['COMMENT', 'NN']"
+4,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+5,"    ""log""","['""log""']",['STRING_LITERAL']
+6,"    ""github.com/go-martini/martini""","['""github.com/go-martini/martini""']",['STRING_LITERAL']
+7,"    ""github.com/yanple/vk_api""","['""github.com/yanple/vk_api""']",['STRING_LITERAL']
+8,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+9,),[')'],['PUNCTUATION']
+10,var api vk_api.Api,"['var', 'api', 'vk_api', '.', 'Api']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+11,func prepareMartini() *martini.ClassicMartini {,"['func', 'prepareMartini', '()', '*', 'martini', '.', 'ClassicMartini', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+12,    m := martini.Classic(),"['m', ':=', 'martini.Classic()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+13,"    m.Get(""/vk/auth"", func(w http.ResponseWriter, r *http.Request) {","['m.Get(""/vk/auth"", func(w http.ResponseWriter, r *http.Request)', '{']","['FUNCTION_CALL', 'PUNCTUATION']"
+14,"        authUrl, err := api.GetAuthUrl(","['authUrl', ',', 'err', ':=', 'api', '.', 'GetAuthUrl', '(']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+15,"        ""http://localhost:3000/vk/token"",","['""http://localhost:3000/vk/token""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+16,"        ""app client id"",","['""app client id""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+17,"        ""wall,offline"")","['""wall,offline""', ')']","['STRING_LITERAL', 'PUNCTUATION']"
+18,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+19,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+20,        },['}'],['PUNCTUATION']
+21,"        http.Redirect(w, r, authUrl, http.StatusFound)","['http.Redirect(w, r, authUrl, http.StatusFound)']",['FUNCTION_CALL']
+22,    }),['})'],['PUNCTUATION']
+23,"    m.Get(""/vk/token"", func(w http.ResponseWriter, r *http.Request) {","['m.Get(""/vk/token"", func(w http.ResponseWriter, r *http.Request)', '{']","['FUNCTION_CALL', 'PUNCTUATION']"
+24,"        code := r.URL.Query().Get(""code"")","['code', ':=', 'r', '.', 'URL.Query().Get(""code"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+25,        err := api.OAuth(,"['err', ':=', 'api', '.', 'OAuth', '(']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+26,"        ""http://localhost:3000/vk/token"", // redirect uri","['""http://localhost:3000/vk/token""', ',', '//', 'redirect', 'uri']","['STRING_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'NN']"
+27,"        ""app secret key"",","['""app secret key""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+28,"        ""app client id"",","['""app client id""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+29,        code),"['code', ')']","['IDENTIFIER', 'PUNCTUATION']"
+30,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+31,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+32,        },['}'],['PUNCTUATION']
+33,"        http.Redirect(w, r, ""/"", http.StatusFound)","['http.Redirect(w, r, ""/"", http.StatusFound)']",['FUNCTION_CALL']
+34,    }),['})'],['PUNCTUATION']
+35,"    m.Get(""/"", func(w http.ResponseWriter, r *http.Request) string {","['m.Get(""/"", func(w http.ResponseWriter, r *http.Request)', 'string', '{']","['FUNCTION_CALL', 'IDENTIFIER', 'PUNCTUATION']"
+36,"        if api.AccessToken == """" {","['if', 'api', '.', 'AccessToken', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+37,"            return ""Авторизоваться""","['return', '""Авторизоваться""']","['KEYWORD', 'STRING_LITERAL']"
+38,        },['}'],['PUNCTUATION']
+39,"        // Api have: AccessToken, UserId, ExpiresIn","['//', 'Api', 'have:', 'AccessToken,', 'UserId,', 'ExpiresIn']","['COMMENT', 'NNP', 'NN', 'NNP', 'NNP', 'NNP']"
+40,"        log.Println(""[LOG] martini.go:48 ->"", api.AccessToken)","['log.Println(""[LOG] martini.go:48 ->"", api.AccessToken)']",['FUNCTION_CALL']
+41,        // Make query,"['//', 'Make', 'query']","['COMMENT', 'NNP', 'NN']"
+42,        params := make(map[string]string),"['params', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+43,"        params[""domain""] = ""yanple""","['params', '[', '""domain""', ']', '=', '""yanple""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+44,"        params[""count""] = ""1""","['params', '[', '""count""', ']', '=', '""1""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+45,"        strResp, err := api.Request(""wall.get"", params)","['strResp', ',', 'err', ':=', 'api.Request(""wall.get"", params)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+46,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+47,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+48,        },['}'],['PUNCTUATION']
+49,        return strResp,"['return', 'strResp']","['KEYWORD', 'IDENTIFIER']"
+50,    }),['})'],['PUNCTUATION']
+51,    return m,"['return', 'm']","['KEYWORD', 'IDENTIFIER']"
+52,},['}'],['PUNCTUATION']
+53,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+54,    prepareMartini().Run(),"['prepareMartini', '().', 'Run', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+55,},['}'],['PUNCTUATION']
+56,"
 
-The entire program is below:
-
-","['The', 'entire', 'program', 'is', 'below:']","['DT', 'JJ', 'NN', 'VBZ', 'JJ']"
-7,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-8,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-9,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-10,"    ""math/rand""","['""math/rand""']",['STRING_LITERAL']
-11,"    ""time""","['""time""']",['STRING_LITERAL']
-12,),[')'],['OPERATOR']
-13,//Struct for Recipe below,"['//', 'Struct', 'for', 'Recipe', 'below']","['COMMENT', 'NN', 'IN', 'NNP', 'IN']"
-14,type Recipe struct { //Struct for recipe information,"['type', 'Recipe', 'struct', '{', '//', 'Struct', 'for', 'recipe', 'information']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'COMMENT', 'NN', 'IN', 'NN', 'NN']"
-15,    name        string,"['name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-16,    prepTime    int,"['prepTime', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-17,    cookTime    int,"['cookTime', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-18,    Ingredients []string //this is now a slice that will accept multiple elements,"['Ingredients', '[]', 'string', '//', 'this', 'is', 'now', 'a', 'slice', 'that', 'will', 'accept', 'multiple', 'elements']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'COMMENT', 'DT', 'VBZ', 'RB', 'DT', 'NN', 'WDT', 'MD', 'VB', 'JJ', 'NNS']"
-19,    ID          int,"['ID', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-20,    Yield       int,"['Yield', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-21,},['}'],['OPERATOR']
-22,//function to print Recipe,"['//', 'function', 'to', 'print', 'Recipe']","['COMMENT', 'NN', 'TO', 'VB', 'NNP']"
-23,func printRecipe(recipe Recipe) {,"['func', 'printRecipe', '(', 'recipe', 'Recipe', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-24,"    fmt.Printf(""Recipe Name : %s\n"", recipe.name)","['fmt.Printf(""Recipe Name : %s\\n"", recipe.name)']",['FUNCTION_CALL']
-25,"    fmt.Printf(""Prep Time : %d\n"", recipe.prepTime)","['fmt.Printf(""Prep Time : %d\\n"", recipe.prepTime)']",['FUNCTION_CALL']
-26,"    fmt.Printf(""Cook Time : %d\n"", recipe.cookTime)","['fmt.Printf(""Cook Time : %d\\n"", recipe.cookTime)']",['FUNCTION_CALL']
-27,"    fmt.Printf(""Ingredients : %s\n"", recipe.Ingredients)","['fmt.Printf(""Ingredients : %s\\n"", recipe.Ingredients)']",['FUNCTION_CALL']
-28,"    fmt.Printf(""Recipe ID : %d\n"", recipe.ID)","['fmt.Printf(""Recipe ID : %d\\n"", recipe.ID)']",['FUNCTION_CALL']
-29,},['}'],['OPERATOR']
-30,//Returns total time by addings cookTime and prepTime,"['//', 'Returns', 'total', 'time', 'by', 'addings', 'cookTime', 'and', 'prepTime']","['COMMENT', 'NNP', 'JJ', 'NN', 'IN', 'NNS', 'NN', 'CC', 'NN']"
-31,func totalTime(recipe Recipe) {,"['func', 'totalTime', '(', 'recipe', 'Recipe', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-32,"    fmt.Printf(""The total time for this recipe is %d\n"", recipe.cookTime+recipe.prepTime)","['fmt.Printf(""The total time for this recipe is %d\\n"", recipe.cookTime+recipe.prepTime)']",['FUNCTION_CALL']
-33,},['}'],['OPERATOR']
-34,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-35,    var recipe1 Recipe //Declare recipe1 of Type Recipe,"['var', 'recipe1', 'Recipe', '//', 'Declare', 'recipe1', 'of', 'Type', 'Recipe']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NNP', 'NN', 'IN', 'NNP', 'NNP']"
-36,    var recipe2 Recipe,"['var', 'recipe2', 'Recipe']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-37,    var recipe3 Recipe,"['var', 'recipe3', 'Recipe']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-38,    //choose random number for recipe,"['//', 'choose', 'random', 'number', 'for', 'recipe']","['COMMENT', 'JJ', 'JJ', 'NN', 'IN', 'NN']"
-39,    r := rand.New(rand.NewSource(time.Now().UnixNano())),"['r', ':=', 'rand.New(rand.NewSource(time.Now().UnixNano()))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-40,    i := r.Perm(5),"['i', ':=', 'r.Perm(5)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-41,"    fmt.Printf(""%v\n"", i)","['fmt.Printf(""%v\\n"", i)']",['FUNCTION_CALL']
-42,"    fmt.Printf(""%d\n"", i[0])","['fmt.Printf(""%d\\n"", i[0])']",['FUNCTION_CALL']
-43,    //assign slices of int from Perm to variables assigned days of the week,"['//', 'assign', 'slices', 'of', 'int', 'from', 'Perm', 'to', 'variables', 'assigned', 'days', 'of', 'the', 'week']","['COMMENT', 'JJ', 'NNS', 'IN', 'NN', 'IN', 'NNP', 'TO', 'NNS', 'VBN', 'NNS', 'IN', 'DT', 'NN']"
-44,    var monday = i[0],"['var', 'monday', '=', 'i', '[', '0', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-45,    var tuesday = i[1],"['var', 'tuesday', '=', 'i', '[', '1', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-46,    var wednesday = i[2],"['var', 'wednesday', '=', 'i', '[', '2', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-47,    var thursday = i[3],"['var', 'thursday', '=', 'i', '[', '3', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-48,    var friday = i[4],"['var', 'friday', '=', 'i', '[', '4', ']']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-49,    //testing printing of variables assigned to days,"['//', 'testing', 'printing', 'of', 'variables', 'assigned', 'to', 'days']","['COMMENT', 'VBG', 'NN', 'IN', 'NNS', 'VBN', 'TO', 'NNS']"
-50,"    fmt.Printf(""This is for the day Monday %d\n"", monday)","['fmt.Printf(""This is for the day Monday %d\\n"", monday)']",['FUNCTION_CALL']
-51,"    fmt.Printf(""%d\n"", tuesday)","['fmt.Printf(""%d\\n"", tuesday)']",['FUNCTION_CALL']
-52,"    fmt.Printf(""%d\n"", wednesday)","['fmt.Printf(""%d\\n"", wednesday)']",['FUNCTION_CALL']
-53,"    fmt.Printf(""%d\n"", thursday)","['fmt.Printf(""%d\\n"", thursday)']",['FUNCTION_CALL']
-54,"    fmt.Printf(""%d\n"", friday)","['fmt.Printf(""%d\\n"", friday)']",['FUNCTION_CALL']
-55,    //logic for Mondays Recipe,"['//', 'logic', 'for', 'Mondays', 'Recipe']","['COMMENT', 'NN', 'IN', 'NNP', 'NNP']"
-56,    if monday == 0 {,"['if', 'monday', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-57,        fmt.Println(0),['fmt.Println(0)'],['FUNCTION_CALL']
-58,        printRecipeOfTheDay(recipe1),"['printRecipeOfTheDay', '(', 'recipe1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-59,    } else if monday == 1 {,"['}', 'else', 'if', 'monday', '==', '1', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-60,        fmt.Println(1),['fmt.Println(1)'],['FUNCTION_CALL']
-61,        printRecipeOfTheDay(recipe2),"['printRecipeOfTheDay', '(', 'recipe2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,    } else if monday == 2 {,"['}', 'else', 'if', 'monday', '==', '2', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-63,        fmt.Println(2),['fmt.Println(2)'],['FUNCTION_CALL']
-64,        printRecipeOfTheDay(recipe3),"['printRecipeOfTheDay', '(', 'recipe3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-65,    } else if monday == 3 {,"['}', 'else', 'if', 'monday', '==', '3', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-66,        fmt.Println(3),['fmt.Println(3)'],['FUNCTION_CALL']
-67,    },['}'],['OPERATOR']
-68,    /* recipe1 specifications */,"['*', 'recipe1', 'specifications', '*']","['OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-69,"    recipe1.name = ""BBQ Pulled Chicken""","['recipe1', '.', 'name', '=', '""BBQ Pulled Chicken""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-70,    recipe1.prepTime = 25,"['recipe1', '.', 'prepTime', '=', '25']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-71,    recipe1.cookTime = 5,"['recipe1', '.', 'cookTime', '=', '5']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-72,    recipe1.Ingredients = append(,"['recipe1', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"        recipe1.Ingredients,","['recipe1', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,"        ""1 8-ounce can reduced-sodium tomato sauce"",","['""1 8-ounce can reduced-sodium tomato sauce""', ',']","['STRING_LITERAL', 'OPERATOR']"
-75,    ),[')'],['OPERATOR']
-76,    recipe1.Ingredients = append(,"['recipe1', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-77,"        recipe1.Ingredients,","['recipe1', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-78,"        ""1/2 medium onion (grated),"",","['""1/2 medium onion (grated),""', ',']","['STRING_LITERAL', 'OPERATOR']"
-79,    ),[')'],['OPERATOR']
-80,    recipe1.ID = 1,"['recipe1', '.', 'ID', '=', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-81,    recipe1.Yield = 8,"['recipe1', '.', 'Yield', '=', '8']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-82,    /* Recipe 2 specifications */,"['*', 'Recipe', '2', 'specifications', '*']","['OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-83,"    recipe2.name = ""Steak Tacos with Pineapple""","['recipe2', '.', 'name', '=', '""Steak Tacos with Pineapple""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-84,    recipe2.prepTime = 45,"['recipe2', '.', 'prepTime', '=', '45']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-85,    recipe2.cookTime = 45,"['recipe2', '.', 'cookTime', '=', '45']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-86,    recipe2.Ingredients = append(,"['recipe2', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"        recipe2.Ingredients,","['recipe2', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-88,"        ""3 tablespoons soy sauce,"",","['""3 tablespoons soy sauce,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-89,    ),[')'],['OPERATOR']
-90,    recipe2.Ingredients = append(,"['recipe2', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-91,"        recipe2.Ingredients,","['recipe2', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-92,"        ""1 tablespoon finely grated garlic,"",","['""1 tablespoon finely grated garlic,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-93,    ),[')'],['OPERATOR']
-94,    recipe2.Ingredients = append(,"['recipe2', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,"        recipe2.Ingredients,","['recipe2', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,"        ""1 tablespoon finely grated peeled fresh ginger,"",","['""1 tablespoon finely grated peeled fresh ginger,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-97,    ),[')'],['OPERATOR']
-98,    recipe2.Ingredients = append(,"['recipe2', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,"        recipe2.Ingredients,","['recipe2', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-100,"        ""1 1/2 pounds skirt steak, cut into 5-inch lengths,"",","['""1 1/2 pounds skirt steak, cut into 5-inch lengths,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-101,    ),[')'],['OPERATOR']
-102,    recipe2.Ingredients = append(,"['recipe2', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,"        recipe2.Ingredients,","['recipe2', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-104,"        ""Salt"",","['""Salt""', ',']","['STRING_LITERAL', 'OPERATOR']"
-105,    ),[')'],['OPERATOR']
-106,    recipe2.Ingredients = append(,"['recipe2', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-107,"        recipe2.Ingredients,","['recipe2', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-108,"        ""Pepper"",","['""Pepper""', ',']","['STRING_LITERAL', 'OPERATOR']"
-109,    ),[')'],['OPERATOR']
-110,    recipe2.ID = 2,"['recipe2', '.', 'ID', '=', '2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-111,    recipe2.Yield = 4,"['recipe2', '.', 'Yield', '=', '4']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-112,"    recipe3.name = ""Simple Lemon Herb Chicken""","['recipe3', '.', 'name', '=', '""Simple Lemon Herb Chicken""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-113,    recipe3.prepTime = 10,"['recipe3', '.', 'prepTime', '=', '10']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-114,    recipe3.cookTime = 15,"['recipe3', '.', 'cookTime', '=', '15']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-115,    recipe3.Ingredients = append(,"['recipe3', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,"        recipe3.Ingredients,","['recipe3', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-117,"        ""2 skinless boneless chicken breast halves,"",","['""2 skinless boneless chicken breast halves,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-118,    ),[')'],['OPERATOR']
-119,    recipe3.Ingredients = append(,"['recipe3', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,"        recipe3.Ingredients,","['recipe3', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,"        ""1 Lemon,"",","['""1 Lemon,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-122,    ),[')'],['OPERATOR']
-123,    recipe3.Ingredients = append(,"['recipe3', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-124,"        recipe3.Ingredients,","['recipe3', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-125,"        ""Salt and Pepper to taste,"",","['""Salt and Pepper to taste,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-126,    ),[')'],['OPERATOR']
-127,    recipe3.Ingredients = append(,"['recipe3', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-128,"        recipe3.Ingredients,","['recipe3', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-129,"        ""1 tablespoon olive oil,"",","['""1 tablespoon olive oil,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-130,    ),[')'],['OPERATOR']
-131,    recipe3.Ingredients = append(,"['recipe3', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-132,"        recipe3.Ingredients,","['recipe3', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-133,"        ""2 sprigs fresh parsley (for garnish),"",","['""2 sprigs fresh parsley (for garnish),""', ',']","['STRING_LITERAL', 'OPERATOR']"
-134,    ),[')'],['OPERATOR']
-135,    recipe3.Ingredients = append(,"['recipe3', '.', 'Ingredients', '=', 'append', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,"        recipe3.Ingredients,","['recipe3', '.', 'Ingredients', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,"        ""1 pinch dried oregano,"",","['""1 pinch dried oregano,""', ',']","['STRING_LITERAL', 'OPERATOR']"
-138,    ),[')'],['OPERATOR']
-139,    recipe3.ID = 3,"['recipe3', '.', 'ID', '=', '3']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-140,    recipe3.Yield = 2,"['recipe3', '.', 'Yield', '=', '2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-141,    //call to printRecipe function below,"['//', 'call', 'to', 'printRecipe', 'function', 'below']","['COMMENT', 'NN', 'TO', 'VB', 'NN', 'IN']"
-142,    printRecipe(recipe1),"['printRecipe', '(', 'recipe1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-143,    totalTime(recipe1),"['totalTime', '(', 'recipe1', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-144,    printRecipe(recipe2),"['printRecipe', '(', 'recipe2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-145,    totalTime(recipe2),"['totalTime', '(', 'recipe2', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-146,    printRecipe(recipe3),"['printRecipe', '(', 'recipe3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-147,    totalTime(recipe3),"['totalTime', '(', 'recipe3', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-148,},['}'],['OPERATOR']
-149,//function to print the winner for recipe of the day to use,"['//', 'function', 'to', 'print', 'the', 'winner', 'for', 'recipe', 'of', 'the', 'day', 'to', 'use']","['COMMENT', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB']"
-150,//for either lunch or dinner,"['//', 'for', 'either', 'lunch', 'or', 'dinner']","['COMMENT', 'IN', 'DT', 'NN', 'CC', 'NN']"
-151,func printRecipeOfTheDay(recipe Recipe) {,"['func', 'printRecipeOfTheDay', '(', 'recipe', 'Recipe', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-152,"    fmt.Printf(""The recipe of the day is : %s\n"", recipe.name)","['fmt.Printf(""The recipe of the day is : %s\\n"", recipe.name)']",['FUNCTION_CALL']
-153,},['}'],['OPERATOR']
+Update 1:
+  Update your package with command: go get -u github.com/yanple/vk_api
+  Thanks for the comment.
+","['Update', '1:', 'Update', 'your', 'package', 'with', 'command:', 'go', 'get', '-u', 'github.com/yanple/vk_api', 'Thanks', 'for', 'the', 'comment.']","['VB', 'CD', 'NNP', 'PRP$', 'NN', 'IN', 'NN', 'VBP', 'VB', 'JJ', 'NN', 'NNP', 'IN', 'DT', 'NN']"

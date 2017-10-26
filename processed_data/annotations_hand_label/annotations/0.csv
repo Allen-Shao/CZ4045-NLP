@@ -1,271 +1,123 @@
 ,text,token,annotation
-0,"I want to write three concurrent go routines that sends integers to each other. Now, my code is compiled properly, however after first execution it gives error ""throw: all goroutines are asleep - deadlock!"". I tried to find the error but I could not able to find any error in code logic.Can anybody help me to find the mistake with my code. My code is given below. 
+0,"Recently I started writing some tests for sending emails in my Google App Engine Go application. Part of the email sending process is saving the email in the datastore with this function:
 
-","['I', 'want', 'to', 'write', 'three', 'concurrent', 'go', 'routines', 'that', 'sends', 'integers', 'to', 'each', 'other.', 'Now,', 'my', 'code', 'is', 'compiled', 'properly,', 'however', 'after', 'first', 'execution', 'it', 'gives', 'error', '""throw:', 'all', 'goroutines', 'are', 'asleep', '-', 'deadlock!"".', 'I', 'tried', 'to', 'find', 'the', 'error', 'but', 'I', 'could', 'not', 'able', 'to', 'find', 'any', 'error', 'in', 'code', 'logic.Can', 'anybody', 'help', 'me', 'to', 'find', 'the', 'mistake', 'with', 'my', 'code.', 'My', 'code', 'is', 'given', 'below.']","['PRP', 'VBP', 'TO', 'VB', 'CD', 'NN', 'VB', 'NNS', 'WDT', 'VBZ', 'NNS', 'TO', 'DT', 'NN', 'NNP', 'PRP$', 'NN', 'VBZ', 'VBN', 'NN', 'RB', 'IN', 'JJ', 'NN', 'PRP', 'VBZ', 'JJ', 'IN', 'DT', 'NNS', 'VBP', 'JJ', ':', 'NN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'CC', 'PRP', 'MD', 'RB', 'JJ', 'TO', 'VB', 'DT', 'NN', 'IN', 'JJ', 'NN', 'NN', 'VB', 'PRP', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP$', 'NN', 'PRP$', 'NN', 'VBZ', 'VBN', 'NNS']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,"import ""rand""","['import', '""rand""']","['KEYWORD', 'STRING_LITERAL']"
-3,"func Routine1(command12 chan int, response12 chan int, command13 chan int, response13 chan int) {","['func', 'Routine1', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-4,    // z12 is a variable which stores the value comming from channel 2 and z13 is a variable which stores the value comming from channel 3.,"['//', 'z12', 'is', 'a', 'variable', 'which', 'stores', 'the', 'value', 'comming', 'from', 'channel', '2', 'and', 'z13', 'is', 'a', 'variable', 'which', 'stores', 'the', 'value', 'comming', 'from', 'channel', '3.']","['COMMENT', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD', 'CC', 'NN', 'VBZ', 'DT', 'JJ', 'WDT', 'NNS', 'DT', 'NN', 'VBG', 'IN', 'NN', 'CD']"
-5,    z12 := 200,"['z12', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-6,    z13 := 200,"['z13', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-7,    m12 := false,"['m12', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-8,    m13 := false,"['m13', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-9,    y := 0,"['y', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-10,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-11,        y = rand.Intn(100),"['y', '=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-12,        // If y's value is not 0 then the value will be sent to routine 2 or 3 according to   prime or not.,"['//', 'If', ""y's"", 'value', 'is', 'not', '0', 'then', 'the', 'value', 'will', 'be', 'sent', 'to', 'routine', '2', 'or', '3', 'according', 'to', 'prime', 'or', 'not.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', 'RB', 'DT', 'NN', 'MD', 'VB', 'VBN', 'TO', 'VB', 'CD', 'CC', 'CD', 'VBG', 'TO', 'JJ', 'CC', 'JJ']"
-13,"        // If y's value is 0 then process state (the varibles used by it means z12, z13) and channel state will be saved.[routine 1 is initiator]","['//', 'If', ""y's"", 'value', 'is', '0', 'then', 'process', 'state', '(the', 'varibles', 'used', 'by', 'it', 'means', 'z12,', 'z13)', 'and', 'channel', 'state', 'will', 'be', 'saved.[routine', '1', 'is', 'initiator]']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'CD', 'RB', 'NN', 'NN', 'NN', 'NNS', 'VBN', 'IN', 'PRP', 'VBZ', 'JJ', 'NN', 'CC', 'NN', 'NN', 'MD', 'VB', 'JJ', 'CD', 'VBZ', 'JJ']"
-14,        if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-15,"            print(z12, ""    z12 STATE SAVED\n"")","['print', '(', 'z12', ',', '""    z12 STATE SAVED\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-16,"            print(z13, ""    z13 STATE SAVED\n"")","['print', '(', 'z13', ',', '""    z13 STATE SAVED\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-17,"            // Routine 1 is initiator,  it sends 0 to make other process to save the state.","['//', 'Routine', '1', 'is', 'initiator,', 'it', 'sends', '0', 'to', 'make', 'other', 'process', 'to', 'save', 'the', 'state.']","['COMMENT', 'JJ', 'CD', 'VBZ', 'JJ', 'PRP', 'VBZ', 'CD', 'TO', 'VB', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN']"
-18,            y = 0,"['y', '=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-19,            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-20,            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-21,"            // Untill routine 2 and 3 does not send 0, process 1 is on channel saving state (it's process state is already saved).","['//', 'Untill', 'routine', '2', 'and', '3', 'does', 'not', 'send', '0,', 'process', '1', 'is', 'on', 'channel', 'saving', 'state', ""(it's"", 'process', 'state', 'is', 'already', 'saved).']","['COMMENT', 'NNP', 'VBZ', 'CD', 'CC', 'CD', 'VBZ', 'RB', 'VB', 'CD', 'NN', 'CD', 'VBZ', 'IN', 'NN', 'VBG', 'NN', 'NN', 'NN', 'NN', 'VBZ', 'RB', 'JJ']"
-22,"            // When routine 1 recives 0 from both other processes, channel is saved and routine 1 retuns to it's common routine procedure.","['//', 'When', 'routine', '1', 'recives', '0', 'from', 'both', 'other', 'processes,', 'channel', 'is', 'saved', 'and', 'routine', '1', 'retuns', 'to', ""it's"", 'common', 'routine', 'procedure.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NN', 'NN', 'VBZ', 'VBN', 'CC', 'JJ', 'CD', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NN']"
-23,"            // When routine 1 recives 0 from any other processes, saving channel bettwen them is stopped.","['//', 'When', 'routine', '1', 'recives', '0', 'from', 'any', 'other', 'processes,', 'saving', 'channel', 'bettwen', 'them', 'is', 'stopped.']","['COMMENT', 'WRB', 'JJ', 'CD', 'NNS', 'CD', 'IN', 'DT', 'JJ', 'NN', 'VBG', 'NNS', 'IN', 'PRP', 'VBZ', 'JJ']"
-24,"            // m12, m13 is used to mark whether 0 recived or not.","['//', 'm12,', 'm13', 'is', 'used', 'to', 'mark', 'whether', '0', 'recived', 'or', 'not.']","['COMMENT', 'NN', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'IN', 'CD', 'VBD', 'CC', 'NNS']"
-25,            for m12 != true || m13 != true {,"['for', 'm12', '!=', 'true', '||', 'm13', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,                select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-27,                case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,                    {,['{'],['OPERATOR']
-29,                        z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-30,                        if z12 != 0 {,"['if', 'z12', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-31,"                            print(z12, ""    z12  Channel Saving.... \n"")","['print', '(', 'z12', ',', '""    z12  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-32,                            y = rand.Intn(100),"['y', '=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-33,                            command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-34,                        },['}'],['OPERATOR']
-35,                        if z12 == 0 {,"['if', 'z12', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-36,                            m12 = true,"['m12', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-37,"                            print("" z12  Channel Saving Stopped \n"")","['print', '(', '"" z12  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-38,                        },['}'],['OPERATOR']
-39,                    },['}'],['OPERATOR']
-40,                case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,                    {,['{'],['OPERATOR']
-42,                        z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-43,                        if z13 != 0 {,"['if', 'z13', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-44,"                            print(z13, ""    z13  Channel Saving.... \n"")","['print', '(', 'z13', ',', '""    z13  Channel Saving.... \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-45,                            y = rand.Intn(100),"['y', '=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-46,                            command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-47,                        },['}'],['OPERATOR']
-48,                        if z13 == 0 {,"['if', 'z13', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-49,                            m13 = true,"['m13', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-50,"                            print(""    z13  Channel Saving Stopped \n"")","['print', '(', '""    z13  Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-51,                        },['}'],['OPERATOR']
-52,                    },['}'],['OPERATOR']
-53,                },['}'],['OPERATOR']
-54,            },['}'],['OPERATOR']
-55,            // After saving process state it retuns to it's normal behaviour.,"['//', 'After', 'saving', 'process', 'state', 'it', 'retuns', 'to', ""it's"", 'normal', 'behaviour.']","['COMMENT', 'IN', 'VBG', 'NN', 'NN', 'PRP', 'VBZ', 'TO', 'VB', 'JJ', 'NN']"
-56,            m12 = false,"['m12', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-57,            m13 = false,"['m13', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-58,        },['}'],['OPERATOR']
-59,        if y != 0 {,"['if', 'y', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-60,"            // If y value is not 0, routine 1 just sends int to other process according to prime or not and recives int accordingly.","['//', 'If', 'y', 'value', 'is', 'not', '0,', 'routine', '1', 'just', 'sends', 'int', 'to', 'other', 'process', 'according', 'to', 'prime', 'or', 'not', 'and', 'recives', 'int', 'accordingly.']","['COMMENT', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'CD', 'JJ', 'CD', 'RB', 'NNS', 'VBP', 'TO', 'JJ', 'NN', 'VBG', 'TO', 'JJ', 'CC', 'RB', 'CC', 'VBZ', 'NN', 'NN']"
-61,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-62,                command12 <- y,"['command12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-63,            },['}'],['OPERATOR']
-64,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-65,                command13 <- y,"['command13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-66,            },['}'],['OPERATOR']
-67,            select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-68,            case cmd1 := <-response12:,"['case', 'cmd1', ':=', '<-', 'response12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-69,                {,['{'],['OPERATOR']
-70,                    z12 = cmd1,"['z12', '=', 'cmd1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-71,"                    print(z12, ""    z12\n"")","['print', '(', 'z12', ',', '""    z12\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-72,                },['}'],['OPERATOR']
-73,            case cmd2 := <-response13:,"['case', 'cmd2', ':=', '<-', 'response13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,                {,['{'],['OPERATOR']
-75,                    z13 = cmd2,"['z13', '=', 'cmd2']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-76,"                    print(z13, ""   z13\n"")","['print', '(', 'z13', ',', '""   z13\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-77,                },['}'],['OPERATOR']
-78,            },['}'],['OPERATOR']
-79,        },['}'],['OPERATOR']
-80,    },['}'],['OPERATOR']
-81,    close(command12),"['close', '(', 'command12', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-82,    close(command13),"['close', '(', 'command13', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-83,},['}'],['OPERATOR']
-84,//Routine 2 (or 3) is not an initiator (means it can't send 0). When it recives 0 (from routine 1 or 3) it save the state of process and the state of the channel from which it recived).,"['//', 'Routine', '2', '(or', '3)', 'is', 'not', 'an', 'initiator', '(means', 'it', ""can't"", 'send', '0).', 'When', 'it', 'recives', '0', '(from', 'routine', '1', 'or', '3)', 'it', 'save', 'the', 'state', 'of', 'process', 'and', 'the', 'state', 'of', 'the', 'channel', 'from', 'which', 'it', 'recived).']","['COMMENT', 'JJ', 'CD', 'JJ', 'CD', 'VBZ', 'RB', 'DT', 'NN', 'VBZ', 'PRP', 'JJ', 'VB', 'CD', 'WRB', 'PRP', 'VBZ', 'CD', 'NN', 'JJ', 'CD', 'CC', 'CD', 'PRP', 'VBD', 'DT', 'NN', 'IN', 'NN', 'CC', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'WDT', 'PRP', 'VBD']"
-85,"// When it recives 0 from both other two routine, it saves all channel state and returns to it's common behaviour. [same in routine 3]","['//', 'When', 'it', 'recives', '0', 'from', 'both', 'other', 'two', 'routine,', 'it', 'saves', 'all', 'channel', 'state', 'and', 'returns', 'to', ""it's"", 'common', 'behaviour.', '[same', 'in', 'routine', '3]']","['COMMENT', 'WRB', 'PRP', 'VBZ', 'CD', 'IN', 'DT', 'JJ', 'CD', 'VBP', 'PRP', 'VBZ', 'DT', 'NN', 'NN', 'CC', 'NNS', 'TO', 'VB', 'JJ', 'NN', 'NN', 'IN', 'JJ', 'CD']"
-86,"func Routine2(command12 chan int, response12 chan int, command23 chan int, response23 chan int) {","['func', 'Routine2', '(', 'command12', 'chan', 'int', ',', 'response12', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-87,    z21 := 200,"['z21', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-88,    z23 := 200,"['z23', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-89,    m21 := false,"['m21', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-90,    m23 := false,"['m23', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-91,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-92,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-93,"        case x, open := <-command12:","['case', 'x', ',', 'open', ':=', '<-', 'command12', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,            {,['{'],['OPERATOR']
-95,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,                    return,['return'],['KEYWORD']
-97,                },['}'],['OPERATOR']
-98,                if x != 0 && m23 != true {,"['if', 'x', '!=', '0', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-100,"                    print(z21, ""   z21\n"")","['print', '(', 'z21', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-101,                },['}'],['OPERATOR']
-102,                if x != 0 && m23 == true {,"['if', 'x', '!=', '0', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,                    z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-104,"                    print(z21, ""   z21 Channel Saving \n"")","['print', '(', 'z21', ',', '""   z21 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-105,                },['}'],['OPERATOR']
-106,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-107,                    m21 = true,"['m21', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-108,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-109,"                        print("" z21 and z23 Channel Saving Stopped \n"")","['print', '(', '"" z21 and z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-110,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-111,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-112,                    },['}'],['OPERATOR']
-113,                    if m21 == true && m23 != true {,"['if', 'm21', '==', 'true', '&&', 'm23', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-114,                        z21 = x,"['z21', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-115,"                        print(z21, ""   z21  Channel Saved \n"")","['print', '(', 'z21', ',', '""   z21  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-116,                    },['}'],['OPERATOR']
-117,                },['}'],['OPERATOR']
-118,            },['}'],['OPERATOR']
-119,"        case x, open := <-response23:","['case', 'x', ',', 'open', ':=', '<-', 'response23', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,            {,['{'],['OPERATOR']
-121,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,                    return,['return'],['KEYWORD']
-123,                },['}'],['OPERATOR']
-124,                if x != 0 && m21 != true {,"['if', 'x', '!=', '0', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-125,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-126,"                    print(z23, ""   z21\n"")","['print', '(', 'z23', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-127,                },['}'],['OPERATOR']
-128,                if x != 0 && m21 == true {,"['if', 'x', '!=', '0', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-129,                    z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-130,"                    print(z23, ""   z23 Channel Saving \n"")","['print', '(', 'z23', ',', '""   z23 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-131,                },['}'],['OPERATOR']
-132,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-133,                    m23 = true,"['m23', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-134,                    if m21 == true && m23 == true {,"['if', 'm21', '==', 'true', '&&', 'm23', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-135,"                        print("" z23 Channel Saving Stopped \n"")","['print', '(', '"" z23 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-136,                        m23 = false,"['m23', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-137,                        m21 = false,"['m21', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-138,                    },['}'],['OPERATOR']
-139,                    if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-140,                        z23 = x,"['z23', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-141,"                        print(z23, ""   z23  Channel Saved \n"")","['print', '(', 'z23', ',', '""   z23  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-142,                    },['}'],['OPERATOR']
-143,                },['}'],['OPERATOR']
-144,            },['}'],['OPERATOR']
-145,        },['}'],['OPERATOR']
-146,        if m23 == false && m21 == false {,"['if', 'm23', '==', 'false', '&&', 'm21', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-147,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-148,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-149,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-150,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-151,                    response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-152,                },['}'],['OPERATOR']
-153,            },['}'],['OPERATOR']
-154,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-155,                if y == 0 {,"['if', 'y', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-156,                    y = 10,"['y', '=', '10']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-157,                    response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-158,                },['}'],['OPERATOR']
-159,            },['}'],['OPERATOR']
-160,        },['}'],['OPERATOR']
-161,        if m23 == true && m21 != true {,"['if', 'm23', '==', 'true', '&&', 'm21', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-162,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-163,            response12 <- y,"['response12', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-164,        },['}'],['OPERATOR']
-165,        if m23 != true && m21 == true {,"['if', 'm23', '!=', 'true', '&&', 'm21', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-166,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-167,            command23 <- y,"['command23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-168,        },['}'],['OPERATOR']
-169,    },['}'],['OPERATOR']
-170,    close(response12),"['close', '(', 'response12', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-171,    close(command23),"['close', '(', 'command23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-172,},['}'],['OPERATOR']
-173,"func Routine3(command13 chan int, response13 chan int, command23 chan int, response23 chan int) {","['func', 'Routine3', '(', 'command13', 'chan', 'int', ',', 'response13', 'chan', 'int', ',', 'command23', 'chan', 'int', ',', 'response23', 'chan', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-174,    z31 := 200,"['z31', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-175,    z32 := 200,"['z32', ':=', '200']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-176,    m31 := false,"['m31', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-177,    m32 := false,"['m32', ':=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-178,    for i := 0; i < 20; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '20', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-179,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-180,"        case x, open := <-command13:","['case', 'x', ',', 'open', ':=', '<-', 'command13', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-181,            {,['{'],['OPERATOR']
-182,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-183,                    return,['return'],['KEYWORD']
-184,                },['}'],['OPERATOR']
-185,                if x != 0 && m32 != true {,"['if', 'x', '!=', '0', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-186,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-187,"                    print(z31, ""   z21\n"")","['print', '(', 'z31', ',', '""   z21\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-188,                },['}'],['OPERATOR']
-189,                if x != 0 && m32 == true {,"['if', 'x', '!=', '0', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-190,                    z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-191,"                    print(z31, ""   z31 Channel Saving \n"")","['print', '(', 'z31', ',', '""   z31 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-192,                },['}'],['OPERATOR']
-193,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-194,                    m31 = true,"['m31', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-195,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-196,"                        print("" z21 Channel Saving Stopped \n"")","['print', '(', '"" z21 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-197,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-198,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-199,                    },['}'],['OPERATOR']
-200,                    if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-201,                        z31 = x,"['z31', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-202,"                        print(z31, ""   z31  Channel Saved \n"")","['print', '(', 'z31', ',', '""   z31  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-203,                    },['}'],['OPERATOR']
-204,                },['}'],['OPERATOR']
-205,            },['}'],['OPERATOR']
-206,"        case x, open := <-command23:","['case', 'x', ',', 'open', ':=', '<-', 'command23', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-207,            {,['{'],['OPERATOR']
-208,                if !open {,"['if', '!', 'open', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-209,                    return,['return'],['KEYWORD']
-210,                },['}'],['OPERATOR']
-211,                if x != 0 && m31 != true {,"['if', 'x', '!=', '0', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-212,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-213,"                    print(z32, ""   z32\n"")","['print', '(', 'z32', ',', '""   z32\\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-214,                },['}'],['OPERATOR']
-215,                if x != 0 && m31 == true {,"['if', 'x', '!=', '0', '&&', 'm31', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-216,                    z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-217,"                    print(z32, ""   z32 Channel Saving \n"")","['print', '(', 'z32', ',', '""   z32 Channel Saving \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-218,                },['}'],['OPERATOR']
-219,                if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-220,                    m32 = true,"['m32', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-221,                    if m31 == true && m32 == true {,"['if', 'm31', '==', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-222,"                        print("" z32 Channel Saving Stopped \n"")","['print', '(', '"" z32 Channel Saving Stopped \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-223,                        m31 = false,"['m31', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-224,                        m32 = false,"['m32', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-225,                    },['}'],['OPERATOR']
-226,                    if m32 == true && m31 != true {,"['if', 'm32', '==', 'true', '&&', 'm31', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-227,                        z32 = x,"['z32', '=', 'x']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-228,"                        print(z32, ""   z32  Channel Saved \n"")","['print', '(', 'z32', ',', '""   z32  Channel Saved \\n""', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-229,                    },['}'],['OPERATOR']
-230,                },['}'],['OPERATOR']
-231,            },['}'],['OPERATOR']
-232,        },['}'],['OPERATOR']
-233,        if m31 == false && m32 == false {,"['if', 'm31', '==', 'false', '&&', 'm32', '==', 'false', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-234,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-235,            if y%2 == 0 {,"['if', 'y', '2', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-236,                response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-237,            },['}'],['OPERATOR']
-238,            if y%2 != 0 {,"['if', 'y', '2', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-239,                response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-240,            },['}'],['OPERATOR']
-241,        },['}'],['OPERATOR']
-242,        if m31 == true && m32 != true {,"['if', 'm31', '==', 'true', '&&', 'm32', '!=', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-243,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-244,            response13 <- y,"['response13', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-245,        },['}'],['OPERATOR']
-246,        if m31 != true && m32 == true {,"['if', 'm31', '!=', 'true', '&&', 'm32', '==', 'true', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-247,            y := rand.Intn(100),"['y', ':=', 'rand.Intn(100)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-248,            response23 <- y,"['response23', '<-', 'y']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-249,        },['}'],['OPERATOR']
-250,    },['}'],['OPERATOR']
-251,    close(response13),"['close', '(', 'response13', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-252,    close(response23),"['close', '(', 'response23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-253,},['}'],['OPERATOR']
-254,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-255,    // Three concurrent channels are created to pass integers to each other.,"['//', 'Three', 'concurrent', 'channels', 'are', 'created', 'to', 'pass', 'integers', 'to', 'each', 'other.']","['COMMENT', 'CD', 'NN', 'NNS', 'VBP', 'VBN', 'TO', 'VB', 'NNS', 'TO', 'DT', 'NN']"
-256,    // command 12 used to send int and response12 is used to receive int from routine 1 to routine 2.,"['//', 'command', '12', 'used', 'to', 'send', 'int', 'and', 'response12', 'is', 'used', 'to', 'receive', 'int', 'from', 'routine', '1', 'to', 'routine', '2.']","['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD']"
-257,    // response 12 used to send int and command 12 is used to receive int from routine 2 to routine 1. {so as for others},"['//', 'response', '12', 'used', 'to', 'send', 'int', 'and', 'command', '12', 'is', 'used', 'to', 'receive', 'int', 'from', 'routine', '2', 'to', 'routine', '1.', '{so', 'as', 'for', 'others}']","['COMMENT', 'NN', 'CD', 'VBN', 'TO', 'VB', 'NN', 'CC', 'NN', 'CD', 'VBZ', 'VBN', 'TO', 'VB', 'NN', 'IN', 'JJ', 'CD', 'TO', 'VB', 'CD', 'NN', 'IN', 'IN', 'NN']"
-258,    command12 := make(chan int),"['command12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-259,    response12 := make(chan int),"['response12', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-260,    command13 := make(chan int),"['command13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-261,    response13 := make(chan int),"['response13', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-262,    command23 := make(chan int),"['command23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-263,    response23 := make(chan int),"['response23', ':=', 'make', '(', 'chan', 'int', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-264,"    go Routine1(command12, response12, command13, response13)","['go', 'Routine1', '(', 'command12', ',', 'response12', ',', 'command13', ',', 'response13', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-265,"    go Routine2(command12, response12, command23, response23)","['go', 'Routine2', '(', 'command12', ',', 'response12', ',', 'command23', ',', 'response23', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-266,"    Routine3(command13, response13, command23, response23)","['Routine3', '(', 'command13', ',', 'response13', ',', 'command23', ',', 'response23', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-267,},['}'],['OPERATOR']
+","['Recently', 'I', 'started', 'writing', 'some', 'tests', 'for', 'sending', 'emails', 'in', 'my', 'Google', 'App', 'Engine', 'Go', 'application.', 'Part', 'of', 'the', 'email', 'sending', 'process', 'is', 'saving', 'the', 'email', 'in', 'the', 'datastore', 'with', 'this', 'function:']","['RB', 'PRP', 'VBD', 'VBG', 'DT', 'NNS', 'IN', 'VBG', 'NNS', 'IN', 'PRP$', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'IN', 'DT', 'NN', 'VBG', 'NN', 'VBZ', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN']"
+1,"func PutInDatastoreFull(c appengine.Context, kind, stringID string, intID int64, parent *datastore.Key, variable interface{}) (*datastore.Key, error) {","['func', 'PutInDatastoreFull', '(', 'c', 'appengine', '.', 'Context', ',', 'kind', ',', 'stringID', 'string', ',', 'intID', 'int64', ',', 'parent', '*', 'datastore', '.', 'Key', ',', 'var', 'iable', 'interface', '{})', '(*', 'datastore', '.', 'Key', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+2,"    k := datastore.NewKey(c, kind, stringID, intID, parent)","['k', ':=', 'datastore.NewKey(c, kind, stringID, intID, parent)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+3,"    key, err := datastore.Put(c, k, variable)","['key', ',', 'err', ':=', 'datastore.Put(c, k, variable)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+4,"    return key, err","['return', 'key', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+5,},['}'],['PUNCTUATION']
+6,"
+
+My tests query the datastore with this function:
+
+","['My', 'tests', 'query', 'the', 'datastore', 'with', 'this', 'function:']","['PRP$', 'NNS', 'VBP', 'DT', 'NN', 'IN', 'DT', 'NN']"
+7,"func QueryGetAllWithLimit(c appengine.Context, kind string, limit int, dst interface{}) ([]*datastore.Key, error) {","['func', 'QueryGetAllWithLimit', '(', 'c', 'appengine', '.', 'Context', ',', 'kind', 'string', ',', 'limit', 'int', ',', 'dst', 'interface', '{})', '([]*', 'datastore', '.', 'Key', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+8,    q := datastore.NewQuery(kind).Limit(limit),"['q', ':=', 'datastore.NewQuery(kind).Limit(limit)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+9,"    return q.GetAll(c, dst)","['return', 'q.GetAll(c, dst)']","['KEYWORD', 'FUNCTION_CALL']"
+10,},['}'],['PUNCTUATION']
+11,"
+
+When I run it in development environment, it returns last emails without a problem. However, when I run it with goapp test, it returns no error and no data. Is this an expected behaviour for the testing environment, or did I just find some bug?
+
+EDIT:
+
+The test is:
+
+","['When', 'I', 'run', 'it', 'in', 'development', 'environment,', 'it', 'returns', 'last', 'emails', 'without', 'a', 'problem.', 'However,', 'when', 'I', 'run', 'it', 'with', 'goapp', 'test,', 'it', 'returns', 'no', 'error', 'and', 'no', 'data.', 'Is', 'this', 'an', 'expected', 'behaviour', 'for', 'the', 'testing', 'environment,', 'or', 'did', 'I', 'just', 'find', 'some', 'bug?', 'EDIT:', 'The', 'test', 'is:']","['WRB', 'PRP', 'VBP', 'PRP', 'IN', 'NN', 'NN', 'PRP', 'VBZ', 'JJ', 'NNS', 'IN', 'DT', 'NN', 'NNP', 'WRB', 'PRP', 'VBP', 'PRP', 'IN', 'NN', 'NN', 'PRP', 'VBZ', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'DT', 'DT', 'JJ', 'NN', 'IN', 'DT', 'VBG', 'NN', 'CC', 'VBD', 'PRP', 'RB', 'VB', 'DT', 'NN', 'NNP', 'DT', 'NN', 'NN']"
+12,//Testing file,"['//', 'Testing', 'file']","['COMMENT', 'VBG', 'NN']"
+13,func TestEmails(t *testing.T) {,"['func', 'TestEmails', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+14,"    c, err := aetest.NewContext(nil)","['c', ',', 'err', ':=', 'aetest.NewContext(nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+16,        t.Fatal(err),['t.Fatal(err)'],['FUNCTION_CALL']
+17,    },['}'],['PUNCTUATION']
+18,    defer c.Close(),"['defer', 'c.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+19,"    err := NotifyAdminOfLowBalance(c, []string{""WARNING1"", ""WARNING2""})","['err', ':=', 'NotifyAdminOfLowBalance', '(', 'c', ',', '[]', 'string', '{', '""WARNING1""', ',', '""WARNING2""', '})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+20,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+21,        t.Fatal(err),['t.Fatal(err)'],['FUNCTION_CALL']
+22,    },['}'],['PUNCTUATION']
+23,"    emails, err := Data.LoadLastEmails(c, 100)","['emails', ',', 'err', ':=', 'Data.LoadLastEmails(c, 100)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+24,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+25,        t.Fatal(err),['t.Fatal(err)'],['FUNCTION_CALL']
+26,    },['}'],['PUNCTUATION']
+27,    if len(emails) == 0 { //test fails here,"['if', 'len', '(', 'emails', ')', '==', '0', '{', '//', 'test', 'fails', 'here']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'RB']"
+28,"        t.Fatal(""len(emails)==0"")","['t.Fatal(""len(emails)==0"")']",['FUNCTION_CALL']
+29,    },['}'],['PUNCTUATION']
+30,},['}'],['PUNCTUATION']
+31,//Production code,"['//', 'Production', 'code']","['COMMENT', 'NN', 'NN']"
+32,"func NotifyAdminOfLowBalance(c appengine.Context, warnings []string) error {","['func', 'NotifyAdminOfLowBalance', '(', 'c', 'appengine', '.', 'Context', ',', 'warnings', '[]', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+33,    not := Notification{},"['not', ':=', 'Notification', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+34,    not.Warnings = warnings,"['not', '.', 'Warnings', '=', 'warnings']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+35,    buff := new(bytes.Buffer),"['buff', ':=', 'new', '(', 'bytes', '.', 'Buffer', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+36,"    err := LowBalanceTemplate.Execute(buff, not);","['err', ':=', 'LowBalanceTemplate.Execute(buff, not)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+38,"        c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 1 - %v"", err)","['c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 1 - %v"", err)']",['FUNCTION_CALL']
+39,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+40,    },['}'],['PUNCTUATION']
+41,    emailBody := buff.String(),"['emailBody', ':=', 'buff.String()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+42,"    c.Debugf(""Backend Notifications - emailBody - %v"", emailBody)","['c.Debugf(""Backend Notifications - emailBody - %v"", emailBody)']",['FUNCTION_CALL']
+43,"    emailSubject := ""Low balance!""","['emailSubject', ':=', '""Low balance!""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+44,"    err = Email.SendHTMLEmail(c, emailSubject, DEFINE.AdminEmails, DEFINE.EmailSender, emailBody)","['err', '=', 'Email.SendHTMLEmail(c, emailSubject, DEFINE.AdminEmails, DEFINE.EmailSender, emailBody)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+46,"        c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 2 - %v"", err)","['c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 2 - %v"", err)']",['FUNCTION_CALL']
+47,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+48,    },['}'],['PUNCTUATION']
+49,"    err = Data.CreateAndSaveEmail(c, emailBody, emailSubject, ""ADMIN"", """", """", """")","['err', '=', 'Data.CreateAndSaveEmail(c, emailBody, emailSubject, ""ADMIN"", """", """", """")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+51,"        c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 3 - %v"", err)","['c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 3 - %v"", err)']",['FUNCTION_CALL']
+52,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+53,    },['}'],['PUNCTUATION']
+54,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+55,},['}'],['PUNCTUATION']
+56,//Data/Email.go file:,"['//', 'Data/Email.go', 'file:']","['COMMENT', 'NNP', 'NN']"
+57,"var EmailStr string = ""Email""","['var', 'EmailStr', 'string', '=', '""Email""']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+58,type Email struct {,"['type', 'Email', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+59,    //Class for handling Emails of what is happening in the system,"['//', 'Class', 'for', 'handling', 'Emails', 'of', 'what', 'is', 'happening', 'in', 'the', 'system']","['COMMENT', 'NN', 'IN', 'VBG', 'NNP', 'IN', 'WP', 'VBZ', 'VBG', 'IN', 'DT', 'NN']"
+60,    EmailID           string //ISO date?,"['EmailID', 'string', '//', 'ISO', 'date?']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NNP', 'NN']"
+61,    Timestamp         time.Time,"['Timestamp', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+62,"    Body              string `datastore:""-""`","['Body', 'string', 'datastore', ':', '""-""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+63,    BodyByte          []byte,"['BodyByte', '[]', 'byte']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+64,    Subject           string,"['Subject', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+65,    UserEmail         string,"['UserEmail', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+66,    RippleTxID        string,"['RippleTxID', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+67,    CoinTxID          string,"['CoinTxID', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+68,    Currency          string,"['Currency', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+69,},['}'],['PUNCTUATION']
+70,func (l *Email) LoadStrings() {,"['func', '(', 'l', '*', 'Email', ')', 'LoadStrings', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+71,    l.Body = mymath.Hex2ASCII(l.BodyByte),"['l', '.', 'Body', '=', 'mymath.Hex2ASCII(l.BodyByte)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+72,},['}'],['PUNCTUATION']
+73,"func CreateAndSaveEmail(c appengine.Context, body, subject, userEmail, rippleTx, coinTx, currency string) error {","['func', 'CreateAndSaveEmail', '(', 'c', 'appengine', '.', 'Context', ',', 'body', ',', 'subject', ',', 'userEmail', ',', 'rippleTx', ',', 'coinTx', ',', 'currency', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+74,    email := new(Email),"['email', ':=', 'new', '(', 'Email', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+75,    email.Timestamp = time.Now(),"['email', '.', 'Timestamp', '=', 'time.Now()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+76,"    email.EmailID = email.Timestamp.Format(""2006-01-02T15:04:05:"")+mymath.Int2Str(email.Timestamp.Nanosecond())","['email', '.', 'EmailID', '=', 'email', '.', 'Timestamp.Format(""2006-01-02T15:04:05:"")+mymath.Int2Str(email.Timestamp.Nanosecond())']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+77,    email.Body = body,"['email', '.', 'Body', '=', 'body']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+78,    email.BodyByte = mymath.ASCII2Hex(body),"['email', '.', 'BodyByte', '=', 'mymath.ASCII2Hex(body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+79,    email.Subject = subject,"['email', '.', 'Subject', '=', 'subject']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+80,    email.UserEmail = userEmail,"['email', '.', 'UserEmail', '=', 'userEmail']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+81,    email.RippleTxID = rippleTx,"['email', '.', 'RippleTxID', '=', 'rippleTx']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+82,    email.CoinTxID = coinTx,"['email', '.', 'CoinTxID', '=', 'coinTx']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+83,    email.Currency = currency,"['email', '.', 'Currency', '=', 'currency']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+84,"    keys, err := Datastore.PutInDatastoreFull(c, EmailStr, email.EmailID, 0, nil, email)","['keys', ',', 'err', ':=', 'Datastore.PutInDatastoreFull(c, EmailStr, email.EmailID, 0, nil, email)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+85,"    c.Debugf(""keys - %v, err - %v"", keys, err)","['c.Debugf(""keys - %v, err - %v"", keys, err)']",['FUNCTION_CALL']
+86,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+87,"        c.Errorf(""Email - CreateAndSaveEmail error 1 - %v"", err)","['c.Errorf(""Email - CreateAndSaveEmail error 1 - %v"", err)']",['FUNCTION_CALL']
+88,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+89,    },['}'],['PUNCTUATION']
+90,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+91,},['}'],['PUNCTUATION']
+92,"func LoadLastEmails(c appengine.Context, count int) ([]Email, error) {","['func', 'LoadLastEmails', '(', 'c', 'appengine', '.', 'Context', ',', 'count', 'int', ')', '([]', 'Email', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+93,"    c.Debugf(""LoadLastEmails - %v"", count)","['c.Debugf(""LoadLastEmails - %v"", count)']",['FUNCTION_CALL']
+94,    dst := []Email{},"['dst', ':=', '[]', 'Email', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+95,"    keys, err := Datastore.QueryGetAllWithLimit(c, EmailStr, count, &dst)","['keys', ',', 'err', ':=', 'Datastore.QueryGetAllWithLimit(c, EmailStr, count, &dst)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+96,"    c.Debugf(""keys - %v, err - %v"", keys, err)","['c.Debugf(""keys - %v, err - %v"", keys, err)']",['FUNCTION_CALL']
+97,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+98,"        c.Errorf(""Email - LoadLastEmails error 1 - %v"", err)","['c.Errorf(""Email - LoadLastEmails error 1 - %v"", err)']",['FUNCTION_CALL']
+99,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+100,    },['}'],['PUNCTUATION']
+101,"    c.Debugf(""dst - %v"", dst)","['c.Debugf(""dst - %v"", dst)']",['FUNCTION_CALL']
+102,"    return dst, nil","['return', 'dst', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+103,},['}'],['PUNCTUATION']
+104,"
+
+And the Datastore functions were already included above
+","['And', 'the', 'Datastore', 'functions', 'were', 'already', 'included', 'above']","['CC', 'DT', 'NNP', 'NNS', 'VBD', 'RB', 'VBN', 'IN']"

@@ -1,173 +1,327 @@
 ,text,token,annotation
-0,"I can think of a couple of approaches to do this.
+0,"When I use RSA to encrypt/decrypt the data,they are working good in delphi.But when I use them with other program, they seems not work.
 
-Passing the context
+I use the golang 1.5 in server side,when I use EncryptOAEP/DecryptOAEP,EncryptPKCS1v15/DecryptPKCS1v15,these pair functions are all good.
 
-first you can change the signature to accept context
+When I try to put all of these together,they can't recognized each other,I tried lots of kind of combination,for their own,they work fine.
 
-","['I', 'can', 'think', 'of', 'a', 'couple', 'of', 'approaches', 'to', 'do', 'this.', 'Passing', 'the', 'context', 'first', 'you', 'can', 'change', 'the', 'signature', 'to', 'accept', 'context']","['PRP', 'MD', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'VB', 'VBG', 'DT', 'NN', 'RB', 'PRP', 'MD', 'VB', 'DT', 'NN', 'TO', 'VB', 'NN']"
-1,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
-2,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-3,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-4,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-5,        },['}'],['PUNCTUATION']
-6,},['}'],['PUNCTUATION']
-7,"
+1.Delphi xe6
+2.lockbox Release v3.6.3.0
+3.some code
 
-Now I assume the AuthHandler has to do with authentication and setup the user in the context object. 
+golang on serverside
 
-What you could do is create another type handler which setup the context. like this
+","['When', 'I', 'use', 'RSA', 'to', 'encrypt/decrypt', 'the', 'data,they', 'are', 'working', 'good', 'in', 'delphi.But', 'when', 'I', 'use', 'them', 'with', 'other', 'program,', 'they', 'seems', 'not', 'work.', 'I', 'use', 'the', 'golang', '1.5', 'in', 'server', 'side,when', 'I', 'use', 'EncryptOAEP/DecryptOAEP,EncryptPKCS1v15/DecryptPKCS1v15,these', 'pair', 'functions', 'are', 'all', 'good.', 'When', 'I', 'try', 'to', 'put', 'all', 'of', 'these', 'together,they', ""can't"", 'recognized', 'each', 'other,I', 'tried', 'lots', 'of', 'kind', 'of', 'combination,for', 'their', 'own,they', 'work', 'fine.', '1.Delphi', 'xe6', '2.lockbox', 'Release', 'v3.6.3.0', '3.some', 'code', 'golang', 'on', 'serverside']","['WRB', 'PRP', 'VBP', 'JJ', 'TO', 'VB', 'DT', 'NN', 'VBP', 'VBG', 'JJ', 'IN', 'NN', 'WRB', 'PRP', 'VBP', 'PRP', 'IN', 'JJ', 'NN', 'PRP', 'VBZ', 'RB', 'VB', 'PRP', 'VBP', 'DT', 'NN', 'CD', 'IN', 'NN', 'NN', 'PRP', 'VBP', 'JJ', 'NN', 'NNS', 'VBP', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'IN', 'DT', 'NNS', 'VBP', 'VBN', 'DT', 'NN', 'VBD', 'NNS', 'IN', 'NN', 'IN', 'JJ', 'PRP$', 'JJ', 'NN', 'RB', 'CD', 'JJ', 'CD', 'NNP', 'VBD', 'CD', 'NN', 'NN', 'IN', 'NN']"
+1,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+2,"    ""errors""    ","['""errors""']",['STRING_LITERAL']
+3,"    ""strings""","['""strings""']",['STRING_LITERAL']
+4,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
+5,"    ""log""","['""log""']",['STRING_LITERAL']
+6,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
+7,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
+8,"    //""strconv""","['//', '""strconv""']","['COMMENT', 'NN']"
+9,"    ""encoding/base64""","['""encoding/base64""']",['STRING_LITERAL']
+10,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+11,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+12,"    //""strings""","['//', '""strings""']","['COMMENT', 'NN']"
+13,),[')'],['PUNCTUATION']
+14,var privateKey = []byte(`,"['var', 'privateKey', '=', '[]', 'byte', '(']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+15,-----BEGIN RSA PRIVATE KEY-----,"['-----', 'BEGIN', 'RSA', 'PRIVATE', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+16,MIICXQIBAAKBgQDZsfv1qscqYdy4vY+P4e3cAtmvppXQcRvrF1cB4drkv0haU24Y,"['MIICXQIBAAKBgQDZsfv1qscqYdy4vY', '+', 'P4e3cAtmvppXQcRvrF1cB4drkv0haU24Y']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+17,7m5qYtT52Kr539RdbKKdLAM6s20lWy7+5C0DgacdwYWd/7PeCELyEipZJL07Vro7,"['7', 'm5qYtT52Kr539RdbKKdLAM6s20lWy7', '+', '5C0DgacdwYWd/7PeCELyEipZJL07Vro7']","['DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
+18,Ate8Bfjya+wltGK9+XNUIHiumUKULW4KDx21+1NLAUeJ6PeW+DAkmJWF6QIDAQAB,"['Ate8Bfjya', '+', 'wltGK9', '+', 'XNUIHiumUKULW4KDx21', '+', '1', 'NLAUeJ6PeW', '+', 'DAkmJWF6QIDAQAB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+19,AoGBAJlNxenTQj6OfCl9FMR2jlMJjtMrtQT9InQEE7m3m7bLHeC+MCJOhmNVBjaM,"['AoGBAJlNxenTQj6OfCl9FMR2jlMJjtMrtQT9InQEE7m3m7bLHeC', '+', 'MCJOhmNVBjaM']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+20,ZpthDORdxIZ6oCuOf6Z2+Dl35lntGFh5J7S34UP2BWzF1IyyQfySCNexGNHKT1G1,"['ZpthDORdxIZ6oCuOf6Z2', '+', 'Dl35lntGFh5J7S34UP2BWzF1IyyQfySCNexGNHKT1G1']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+21,XKQtHmtc2gWWthEg+S6ciIyw2IGrrP2Rke81vYHExPrexf0hAkEA9Izb0MiYsMCB,"['XKQtHmtc2gWWthEg', '+', 'S6ciIyw2IGrrP2Rke81vYHExPrexf0hAkEA9Izb0MiYsMCB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+22,/jemLJB0Lb3Y/B8xjGjQFFBQT7bmwBVjvZWZVpnMnXi9sWGdgUpxsCuAIROXjZ40,['/jemLJB0Lb3Y/B8xjGjQFFBQT7bmwBVjvZWZVpnMnXi9sWGdgUpxsCuAIROXjZ40'],['DIRECTORY']
+23,IRZ2C9EouwJBAOPjPvV8Sgw4vaseOqlJvSq/C/pIFx6RVznDGlc8bRg7SgTPpjHG,['IRZ2C9EouwJBAOPjPvV8Sgw4vaseOqlJvSq/C/pIFx6RVznDGlc8bRg7SgTPpjHG'],['DIRECTORY']
+24,4G+M3mVgpCX1a/EU1mB+fhiJ2LAZ/pTtY6sCQGaW9NwIWu3DRIVGCSMm0mYh/3X9,"['4', 'G', '+', 'M3mVgpCX1a/EU1mB+fhiJ2LAZ/pTtY6sCQGaW9NwIWu3DRIVGCSMm0mYh/3X9']","['DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
+25,DAcwLSJoctiODQ1Fq9rreDE5QfpJnaJdJfsIJNtX1F+L3YceeBXtW0Ynz2MCQBI8,"['DAcwLSJoctiODQ1Fq9rreDE5QfpJnaJdJfsIJNtX1F', '+', 'L3YceeBXtW0Ynz2MCQBI8']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+26,9KP274Is5FkWkUFNKnuKUK4WKOuEXEO+LpR+vIhs7k6WQ8nGDd4/mujoJBr5mkrw,"['9', 'KP274Is5FkWkUFNKnuKUK4WKOuEXEO', '+', 'LpR', '+', 'vIhs7k6WQ8nGDd4/mujoJBr5mkrw']","['DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
+27,DPwqA3N5TMNDQVGv8gMCQQCaKGJgWYgvo3/milFfImbp+m7/Y3vCptarldXrYQWO,['DPwqA3N5TMNDQVGv8gMCQQCaKGJgWYgvo3/milFfImbp+m7/Y3vCptarldXrYQWO'],['DIRECTORY']
+28,AQjxwc71ZGBFDITYvdgJM1MTqc8xQek1FXn1vfpy2c6O,['AQjxwc71ZGBFDITYvdgJM1MTqc8xQek1FXn1vfpy2c6O'],['IDENTIFIER']
+29,-----END RSA PRIVATE KEY-----,"['-----', 'END', 'RSA', 'PRIVATE', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+30,`),[')'],['PUNCTUATION']
+31,var publicKey = []byte(`,"['var', 'publicKey', '=', '[]', 'byte', '(']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+32,-----BEGIN PUBLIC KEY-----,"['-----', 'BEGIN', 'PUBLIC', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+33,MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZsfv1qscqYdy4vY+P4e3cAtmv,"['MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZsfv1qscqYdy4vY', '+', 'P4e3cAtmv']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+34,ppXQcRvrF1cB4drkv0haU24Y7m5qYtT52Kr539RdbKKdLAM6s20lWy7+5C0Dgacd,"['ppXQcRvrF1cB4drkv0haU24Y7m5qYtT52Kr539RdbKKdLAM6s20lWy7', '+', '5', 'C0Dgacd']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+35,wYWd/7PeCELyEipZJL07Vro7Ate8Bfjya+wltGK9+XNUIHiumUKULW4KDx21+1NL,['wYWd/7PeCELyEipZJL07Vro7Ate8Bfjya+wltGK9+XNUIHiumUKULW4KDx21+1NL'],['DIRECTORY']
+36,AUeJ6PeW+DAkmJWF6QIDAQAB,"['AUeJ6PeW', '+', 'DAkmJWF6QIDAQAB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+37,-----END PUBLIC KEY-----,"['-----', 'END', 'PUBLIC', 'KEY', '-----']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+38,`),[')'],['PUNCTUATION']
+39,type DebugKeysRPC_Args struct {,"['type', 'DebugKeysRPC_Args', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+40,},['}'],['PUNCTUATION']
+41,type DebugKeysRPC_Reply struct {,"['type', 'DebugKeysRPC_Reply', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+42,    PubN        string,"['PubN', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+43,    PubE        uint64,"['PubE', 'uint64']","['IDENTIFIER', 'IDENTIFIER']"
+44,    PrvN        string,"['PrvN', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+45,    PrvD        string,"['PrvD', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+46,    PrvP        string,"['PrvP', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+47,    PrvQ        string,"['PrvQ', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+48,    Dp          string,"['Dp', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+49,    Dq          string,"['Dq', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+50,    Qinv        string,"['Qinv', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+51,    CRTValues   string,"['CRTValues', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+52,    ID      uint64,"['ID', 'uint64']","['IDENTIFIER', 'IDENTIFIER']"
+53,    Key     string,"['Key', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+54,    Dest    string  ,"['Dest', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+55,},['}'],['PUNCTUATION']
+56,"func (t *AccessDB) DebugKeysRPC(args *DebugKeysRPC_Args, reply *DebugKeysRPC_Reply) error { ","['func', '(', 't', '*', 'AccessDB', ')', 'DebugKeysRPC', '(', 'args', '*', 'DebugKeysRPC_Args', ',', 'reply', '*', 'DebugKeysRPC_Reply', ')', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+57,"    log.Println(""DebugKeysRPC"")","['log.Println(""DebugKeysRPC"")']",['FUNCTION_CALL']
+58,"    if pubN,pubE,PrvN,PrvD,PrvP,PrvQ,Dp,Dq,Qinv,CRTValues,err:=ReadKeyFields(publicKey,privateKey);err==nil{","['if', 'pubN', ',', 'pubE', ',', 'PrvN', ',', 'PrvD', ',', 'PrvP', ',', 'PrvQ', ',', 'Dp', ',', 'Dq', ',', 'Qinv', ',', 'CRTValues', ',', 'err', ':=', 'ReadKeyFields', '(', 'publicKey', ',', 'privateKey', ');', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+59,"        log.Println(""ok read"")","['log.Println(""ok read"")']",['FUNCTION_CALL']
+60,        reply.PubN=base64.StdEncoding.EncodeToString(pubN),"['reply', '.', 'PubN', '=', 'base64', '.', 'StdEncoding.EncodeToString(pubN)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+61,        reply.PubE=uint64(pubE),"['reply', '.', 'PubE', '=', 'uint64', '(', 'pubE', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+62,        reply.PrvN=base64.StdEncoding.EncodeToString(PrvN),"['reply', '.', 'PrvN', '=', 'base64', '.', 'StdEncoding.EncodeToString(PrvN)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+63,        reply.PrvD=base64.StdEncoding.EncodeToString(PrvD),"['reply', '.', 'PrvD', '=', 'base64', '.', 'StdEncoding.EncodeToString(PrvD)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+64,        reply.PrvP=base64.StdEncoding.EncodeToString(PrvP),"['reply', '.', 'PrvP', '=', 'base64', '.', 'StdEncoding.EncodeToString(PrvP)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+65,        reply.PrvQ=base64.StdEncoding.EncodeToString(PrvQ),"['reply', '.', 'PrvQ', '=', 'base64', '.', 'StdEncoding.EncodeToString(PrvQ)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+66,        reply.Dp=base64.StdEncoding.EncodeToString(Dp),"['reply', '.', 'Dp', '=', 'base64', '.', 'StdEncoding.EncodeToString(Dp)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+67,        reply.Dq=base64.StdEncoding.EncodeToString(Dq),"['reply', '.', 'Dq', '=', 'base64', '.', 'StdEncoding.EncodeToString(Dq)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+68,        reply.Qinv=base64.StdEncoding.EncodeToString(Qinv),"['reply', '.', 'Qinv', '=', 'base64', '.', 'StdEncoding.EncodeToString(Qinv)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+69,        reply.CRTValues=base64.StdEncoding.EncodeToString(CRTValues),"['reply', '.', 'CRTValues', '=', 'base64', '.', 'StdEncoding.EncodeToString(CRTValues)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+70,        reply.ID=1,"['reply', '.', 'ID', '=', '1']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+71,"        //origData:=[]byte(""abcdefghijklmnopqrstuvwxyz"")","['//', 'origData:=[]byte(""abcdefghijklmnopqrstuvwxyz"")']","['COMMENT', 'NN']"
+72,"        origData:=[]byte(""1234567890123456"")","['origData', ':=[]', 'byte', '(', '""1234567890123456""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+73,"        if resultRsa,err:=DbgRasEncryptOAEP(origData,publicKey);err==nil{","['if', 'resultRsa', ',', 'err', ':=', 'DbgRasEncryptOAEP', '(', 'origData', ',', 'publicKey', ');', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+74,"        //if resultRsa,err:=RsaEncrypt(origData,publicKey);err==nil{","['//', 'if', 'resultRsa,err:=RsaEncrypt(origData,publicKey);err==nil{']","['COMMENT', 'IN', 'NNS']"
+75,"            log.Printf(""resultRsa(%d): % x"", len(resultRsa),resultRsa)","['log.Printf(""resultRsa(%d): % x"", len(resultRsa),resultRsa)']",['FUNCTION_CALL']
+76,            reply.Dest=base64.StdEncoding.EncodeToString(resultRsa),"['reply', '.', 'Dest', '=', 'base64', '.', 'StdEncoding.EncodeToString(resultRsa)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+77,"            if resultRsaP,err:=DbgRsaDecryptOAEP(resultRsa,privateKey);err==nil{","['if', 'resultRsaP', ',', 'err', ':=', 'DbgRsaDecryptOAEP', '(', 'resultRsa', ',', 'privateKey', ');', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+78,"                //log.Printf(""RsaDecrypt ok % x"", resultRsaP)   ","['//', 'log.Printf(""RsaDecrypt', 'ok', '%', 'x"",', 'resultRsaP)']","['COMMENT', 'RB', 'JJ', 'NN', 'NNP', 'NN']"
+79,"                log.Println(""RsaDecrypt ok"")","['log.Println(""RsaDecrypt ok"")']",['FUNCTION_CALL']
+80,"                log.Printf(""resultRsaP(%d): %s"", len(string(resultRsaP)),string(resultRsaP))","['log.Printf(""resultRsaP(%d): %s"", len(string(resultRsaP)),string(resultRsaP))']",['FUNCTION_CALL']
+81,            }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+82,"                log.Println(""RsaDecrypt"",err)","['log.Println(""RsaDecrypt"",err)']",['FUNCTION_CALL']
+83,            },['}'],['PUNCTUATION']
+84,        }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+85,"            log.Println(""RsaEncrypt"",err)","['log.Println(""RsaEncrypt"",err)']",['FUNCTION_CALL']
+86,        }                   ,['}'],['PUNCTUATION']
+87,    }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+88,        WatchPublicKey(publicKey),"['WatchPublicKey', '(', 'publicKey', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+89,        WatchPrivateKey(privateKey),"['WatchPrivateKey', '(', 'privateKey', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+90,        log.Println(err),['log.Println(err)'],['FUNCTION_CALL']
+91,    },['}'],['PUNCTUATION']
+92,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+93,},['}'],['PUNCTUATION']
+94,"
 
-","['Now', 'I', 'assume', 'the', 'AuthHandler', 'has', 'to', 'do', 'with', 'authentication', 'and', 'setup', 'the', 'user', 'in', 'the', 'context', 'object.', 'What', 'you', 'could', 'do', 'is', 'create', 'another', 'type', 'handler', 'which', 'setup', 'the', 'context.', 'like', 'this']","['RB', 'PRP', 'VBP', 'DT', 'NNP', 'VBZ', 'TO', 'VB', 'IN', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RP', 'WP', 'PRP', 'MD', 'VB', 'VBZ', 'VB', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'IN', 'DT']"
-8,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
-9,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {           ","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-10,    // setup authentication here                                                    ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-11,    uid := 1                                                                        ,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-12,    // setup the context the way you want                                           ,"['//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want']","['COMMENT', 'VB', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP']"
-13,    parent := context.TODO()                                                        ,"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-14,"    ctx := context.WithValue(parent, userIdKey, uid)                                ","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-15,"    if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.              ","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-16,"        http.Error(w, e.Message, e.Code)                                            ","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-17,    }                                                                               ,['}'],['PUNCTUATION']
-18,},['}'],['PUNCTUATION']
-19,"
+===============================================================================
+some code in delphi side(I haven't install the lockbox,I insert all source into project).
 
-This way you can use it in the following way
+===============================================================================
 
-","['This', 'way', 'you', 'can', 'use', 'it', 'in', 'the', 'following', 'way']","['DT', 'NN', 'PRP', 'MD', 'VB', 'PRP', 'IN', 'DT', 'JJ', 'NN']"
-20,func init() {                                                                         ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-21,"    http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication ","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
-22,"    http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication       ","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
-23,}                                                                                     ,['}'],['PUNCTUATION']
-24,"
+","['===============================================================================', 'some', 'code', 'in', 'delphi', 'side(I', ""haven't"", 'install', 'the', 'lockbox,I', 'insert', 'all', 'source', 'into', 'project).', '===============================================================================']","['VB', 'DT', 'NN', 'IN', 'NN', 'NN', 'NN', 'VB', 'DT', 'NN', 'NN', 'DT', 'NN', 'IN', 'NN', 'NN']"
+95,procedure RsaEncrypt( const PublicKey: TStream; const srcStream : TStream;tgtStream:TStream);,"['procedure', 'RsaEncrypt', '(', 'const', 'PublicKey', ':', 'TStream', ';', 'const', 'srcStream', ':', 'TStream', ';', 'tgtStream', ':', 'TStream', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+96,var,['var'],['KEYWORD']
+97,  Codec : TCodec;,"['Codec', ':', 'TCodec', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+98,  wasAborted: boolean;,"['wasAborted', ':', 'boolean', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+99,  KeyPair: TAsymetricKeyPair;,"['KeyPair', ':', 'TAsymetricKeyPair', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+100,  Key: TSymetricKey;,"['Key', ':', 'TSymetricKey', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+101,  lib : TCryptographicLibrary;,"['lib', ':', 'TCryptographicLibrary', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+102,begin,['begin'],['IDENTIFIER']
+103,  Codec := TCodec.Create(Nil);,"['Codec', ':=', 'TCodec.Create(Nil)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+104,  lib := TCryptographicLibrary.Create(Nil);,"['lib', ':=', 'TCryptographicLibrary.Create(Nil)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+105,  try,['try'],['IDENTIFIER']
+106,    //0. Reset,"['//', '0.', 'Reset']","['COMMENT', 'CD', 'NNP']"
+107,    Codec.Reset;,"['Codec', '.', 'Reset', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+108,    Codec.CryptoLibrary := lib;,"['Codec', '.', 'CryptoLibrary', ':=', 'lib', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+109,    Codec.ChainModeId := ECB_ProgId;,"['Codec', '.', 'ChainModeId', ':=', 'ECB_ProgId', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+110,    Codec.StreamCipherId := 'native.RSA';,"['Codec', '.', 'StreamCipherId', ':=', ""'native.RSA'"", ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+111,    //1. Set the cipher to RSA encryption.,"['//', '1.', 'Set', 'the', 'cipher', 'to', 'RSA', 'encryption.']","['COMMENT', 'CD', 'NNP', 'DT', 'NN', 'TO', 'NNP', 'NN']"
+112,    Codec.StreamCipherId := RSA_ProgId;,"['Codec', '.', 'StreamCipherId', ':=', 'RSA_ProgId', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+113,    //2. Load our pre-fabricated public key.,"['//', '2.', 'Load', 'our', 'pre-fabricated', 'public', 'key.']","['COMMENT', 'CD', 'NNP', 'PRP$', 'JJ', 'JJ', 'NN']"
+114,    PublicKey.Position := 0;,"['PublicKey', '.', 'Position', ':=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+115,    Codec.AsymetricKeySizeInBits := 1024;,"['Codec', '.', 'AsymetricKeySizeInBits', ':=', '1024', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+116,"    Key := Codec.Asymetric_Engine.CreateFromStream(PublicKey, [partPublic]);","['Key', ':=', 'Codec', '.', 'Asymetric_Engine.CreateFromStream(PublicKey, [partPublic])', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+117,    //3. Now set the key.,"['//', '3.', 'Now', 'set', 'the', 'key.']","['COMMENT', 'CD', 'RB', 'VBP', 'DT', 'NN']"
+118,    Codec.InitFromKey(Key);,"['Codec.InitFromKey(Key)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+119,"    Codec.EncryptStream(srcStream,tgtStream);","['Codec.EncryptStream(srcStream,tgtStream)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+120,  finally,['finally'],['IDENTIFIER']
+121,    lib.Free;,"['lib', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+122,    Codec.Free;,"['Codec', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+123,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+124,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+125,procedure RsaDecrypt( const PrivateKey: TStream; const srcStream : TStream;tgtStream:TStream);,"['procedure', 'RsaDecrypt', '(', 'const', 'PrivateKey', ':', 'TStream', ';', 'const', 'srcStream', ':', 'TStream', ';', 'tgtStream', ':', 'TStream', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+126,var,['var'],['KEYWORD']
+127,  Codec : TCodec;,"['Codec', ':', 'TCodec', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+128,  wasAborted: boolean;,"['wasAborted', ':', 'boolean', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+129,  KeyPair: TAsymetricKeyPair;,"['KeyPair', ':', 'TAsymetricKeyPair', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+130,  //Key: TSymetricKey;,"['//', 'Key:', 'TSymetricKey;']","['COMMENT', 'NNP', 'NNP']"
+131,  lib : TCryptographicLibrary;,"['lib', ':', 'TCryptographicLibrary', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+132,begin,['begin'],['IDENTIFIER']
+133,  Codec := TCodec.Create(Nil);,"['Codec', ':=', 'TCodec.Create(Nil)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+134,  lib := TCryptographicLibrary.Create(Nil);,"['lib', ':=', 'TCryptographicLibrary.Create(Nil)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+135,  try,['try'],['IDENTIFIER']
+136,   //0. Reset,"['//', '0.', 'Reset']","['COMMENT', 'CD', 'NNP']"
+137,   Codec.Reset;,"['Codec', '.', 'Reset', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+138,   Codec.CryptoLibrary := lib;,"['Codec', '.', 'CryptoLibrary', ':=', 'lib', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+139,   Codec.ChainModeId := ECB_ProgId;,"['Codec', '.', 'ChainModeId', ':=', 'ECB_ProgId', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+140,   Codec.StreamCipherId := 'native.RSA';,"['Codec', '.', 'StreamCipherId', ':=', ""'native.RSA'"", ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+141,    //1. Set the cipher to RSA encryption.,"['//', '1.', 'Set', 'the', 'cipher', 'to', 'RSA', 'encryption.']","['COMMENT', 'CD', 'NNP', 'DT', 'NN', 'TO', 'NNP', 'NN']"
+142,    Codec.StreamCipherId := RSA_ProgId;,"['Codec', '.', 'StreamCipherId', ':=', 'RSA_ProgId', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+143,    //2. Load our pre-fabricated private key.,"['//', '2.', 'Load', 'our', 'pre-fabricated', 'private', 'key.']","['COMMENT', 'CD', 'NNP', 'PRP$', 'JJ', 'JJ', 'NN']"
+144,    PrivateKey.Position := 0;,"['PrivateKey', '.', 'Position', ':=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+145,    Codec.AsymetricKeySizeInBits := 1024;,"['Codec', '.', 'AsymetricKeySizeInBits', ':=', '1024', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+146,"    KeyPair := Codec.Asymetric_Engine.CreateFromStream(PrivateKey, [partPrivate]);","['KeyPair', ':=', 'Codec', '.', 'Asymetric_Engine.CreateFromStream(PrivateKey, [partPrivate])', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+147,    //3. Now set the key.,"['//', '3.', 'Now', 'set', 'the', 'key.']","['COMMENT', 'CD', 'RB', 'VBP', 'DT', 'NN']"
+148,    Codec.InitFromKey(KeyPair);,"['Codec.InitFromKey(KeyPair)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+149,"    Codec.DecryptStream(tgtStream,srcStream);","['Codec.DecryptStream(tgtStream,srcStream)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+150,  finally,['finally'],['IDENTIFIER']
+151,    lib.Free;,"['lib', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+152,    Codec.Free;,"['Codec', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+153,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+154,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+155,"procedure Sign(privateKey,srcStream,tgtStream:TMemoryStream);","['procedure', 'Sign', '(', 'privateKey', ',', 'srcStream', ',', 'tgtStream', ':', 'TMemoryStream', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+156,var,['var'],['KEYWORD']
+157,  sign:TSignature;,"['sign', ':', 'TSignature', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+158,begin,['begin'],['IDENTIFIER']
+159,  try,['try'],['IDENTIFIER']
+160,    sign:=TSignature.Create;,"['sign', ':=', 'TSignature', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+161,"    privateKey.Seek(0,soBeginning);","['privateKey.Seek(0,soBeginning)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+162,"    sign.m_Signatory.LoadKeysFromStream(privateKey,[partPrivate]);","['sign', '.', 'm_Signatory.LoadKeysFromStream(privateKey,[partPrivate])', ';']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+163,"    sign.m_Signatory.Sign(srcStream,tgtStream);","['sign', '.', 'm_Signatory.Sign(srcStream,tgtStream)', ';']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+164,  finally,['finally'],['IDENTIFIER']
+165,    sign.Free;,"['sign', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+166,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+167,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+168,"function Verify(publicKey,srcStream,tgtStream:TMemoryStream):Boolean;","['func', 'tion', 'Verify', '(', 'publicKey', ',', 'srcStream', ',', 'tgtStream', ':', 'TMemoryStream', '):', 'Boolean', ';']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+169,var,['var'],['KEYWORD']
+170,  sign:TSignature;,"['sign', ':', 'TSignature', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+171,  vResult:TVerifyResult;,"['vResult', ':', 'TVerifyResult', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+172,  nDbg:Integer;,"['nDbg', ':', 'Integer', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+173,begin,['begin'],['IDENTIFIER']
+174,  try,['try'],['IDENTIFIER']
+175,    result:=False;,"['result', ':=', 'False', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+176,"    publicKey.Seek(0,soBeginning);","['publicKey.Seek(0,soBeginning)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+177,"    srcStream.Seek(0,soBeginning);","['srcStream.Seek(0,soBeginning)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+178,"    tgtStream.Seek(0,soBeginning);","['tgtStream.Seek(0,soBeginning)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+179,    sign:=TSignature.Create;,"['sign', ':=', 'TSignature', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+180,"    sign.m_Signatory.LoadKeysFromStream(publicKey,[partPublic]);","['sign', '.', 'm_Signatory.LoadKeysFromStream(publicKey,[partPublic])', ';']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+181,"    vResult:=sign.m_Signatory.Verify(srcStream,tgtStream);","['vResult', ':=', 'sign', '.', 'm_Signatory.Verify(srcStream,tgtStream)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+182,    if vResult=vPass then,"['if', 'vResult', '=', 'vPass', 'then']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+183,    begin,['begin'],['IDENTIFIER']
+184,      nDbg:=0;,"['nDbg', ':=', '0', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+185,      result:=True;,"['result', ':=', 'True', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+186,    end,['end'],['IDENTIFIER']
+187,    else if vResult=vFail then,"['else', 'if', 'vResult', '=', 'vFail', 'then']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+188,    begin,['begin'],['IDENTIFIER']
+189,      nDbg:=1;,"['nDbg', ':=', '1', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+190,    end,['end'],['IDENTIFIER']
+191,    else if vResult=vUserAbort then,"['else', 'if', 'vResult', '=', 'vUserAbort', 'then']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+192,      nDbg:=3,"['nDbg', ':=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+193,    else nDbg:=4;,"['else', 'nDbg', ':=', '4', ';']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+194,  finally,['finally'],['IDENTIFIER']
+195,    sign.Free;,"['sign', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+196,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+197,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+198,procedure readPubKey(pubN:TStream;pubE:TStream);,"['procedure', 'readPubKey', '(', 'pubN', ':', 'TStream', ';', 'pubE', ':', 'TStream', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+199,var,['var'],['KEYWORD']
+200,  publicKey:TMemoryStream;,"['publicKey', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+201,  Codec : TCodec;,"['Codec', ':', 'TCodec', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+202,  Key: TAsymetricKeyPair;,"['Key', ':', 'TAsymetricKeyPair', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+203,  lib : TCryptographicLibrary;,"['lib', ':', 'TCryptographicLibrary', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+204,begin,['begin'],['IDENTIFIER']
+205,  try,['try'],['IDENTIFIER']
+206,    publicKey:=TMemoryStream.Create;,"['publicKey', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+207,    publicKey.LoadFromFile('e:\public.key');,"[""publicKey.LoadFromFile('e:\\public.key')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+208,    Codec := TCodec.Create(Nil);,"['Codec', ':=', 'TCodec.Create(Nil)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+209,    lib := TCryptographicLibrary.Create(Nil);,"['lib', ':=', 'TCryptographicLibrary.Create(Nil)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+210,    try,['try'],['IDENTIFIER']
+211,      //0. Reset,"['//', '0.', 'Reset']","['COMMENT', 'CD', 'NNP']"
+212,      Codec.Reset;,"['Codec', '.', 'Reset', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+213,      Codec.CryptoLibrary := lib;,"['Codec', '.', 'CryptoLibrary', ':=', 'lib', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+214,      Codec.ChainModeId := ECB_ProgId;,"['Codec', '.', 'ChainModeId', ':=', 'ECB_ProgId', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+215,      //1. Set the cipher to RSA encryption.,"['//', '1.', 'Set', 'the', 'cipher', 'to', 'RSA', 'encryption.']","['COMMENT', 'CD', 'NNP', 'DT', 'NN', 'TO', 'NNP', 'NN']"
+216,      Codec.StreamCipherId := RSA_ProgId;,"['Codec', '.', 'StreamCipherId', ':=', 'RSA_ProgId', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+217,      //2. Load our pre-fabricated public key.,"['//', '2.', 'Load', 'our', 'pre-fabricated', 'public', 'key.']","['COMMENT', 'CD', 'NNP', 'PRP$', 'JJ', 'JJ', 'NN']"
+218,      PublicKey.Position := 0;,"['PublicKey', '.', 'Position', ':=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+219,      Codec.AsymetricKeySizeInBits := 1024;,"['Codec', '.', 'AsymetricKeySizeInBits', ':=', '1024', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+220,"      Key := Codec.Asymetric_Engine.CreateFromStream(publicKey, [partPublic]);","['Key', ':=', 'Codec', '.', 'Asymetric_Engine.CreateFromStream(publicKey, [partPublic])', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+221,"      //pubN.Write(Key.F_RSA_n.Value,sizeof(Key.F_RSA_n.Value));","['//', 'pubN.Write(Key.F_RSA_n.Value,sizeof(Key.F_RSA_n.Value));']","['COMMENT', 'NN']"
+222,"      //pubE.Write(Key.F_RSA_n.Value,sizeof(Key.F_RSA_e.Value));","['//', 'pubE.Write(Key.F_RSA_n.Value,sizeof(Key.F_RSA_e.Value));']","['COMMENT', 'NN']"
+223,"      pubN.CopyFrom((TRSAKeyPair(Key)).F_RSA_n.Value.FValue,0);","['pubN.CopyFrom((TRSAKeyPair(Key)).F_RSA_n.Value.FValue,0)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+224,"      pubE.CopyFrom((TRSAKeyPair(Key)).F_RSA_e.Value.FValue,0);","['pubE.CopyFrom((TRSAKeyPair(Key)).F_RSA_e.Value.FValue,0)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+225,    finally,['finally'],['IDENTIFIER']
+226,      lib.Free;,"['lib', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+227,      Codec.Free;,"['Codec', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+228,    end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+229,  finally,['finally'],['IDENTIFIER']
+230,    publicKey.Free;,"['publicKey', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+231,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+232,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+233,procedure dbgRsaKeys();,"['procedure', 'dbgRsaKeys', '();']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+234,var,['var'],['KEYWORD']
+235,  publicKey:TMemoryStream;,"['publicKey', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+236,  privateKey:TMemoryStream;,"['privateKey', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+237,  tgtStream:TMemoryStream;,"['tgtStream', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+238,  srcStream:TStringStream;,"['srcStream', ':', 'TStringStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+239,  src:string;,"['src', ':', 'string', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+240,  rstStream:TStringStream;,"['rstStream', ':', 'TStringStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+241,  sResult:string;,"['sResult', ':', 'string', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+242,begin,['begin'],['IDENTIFIER']
+243,  publicKey:=TMemoryStream.Create;,"['publicKey', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+244,  privateKey:=TMemoryStream.Create;,"['privateKey', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+245,  rstStream:=TStringStream.Create;,"['rstStream', ':=', 'TStringStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+246,  srcStream:=TStringStream.Create;,"['srcStream', ':=', 'TStringStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+247,  tgtStream:=TMemoryStream.Create;,"['tgtStream', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+248,  try,['try'],['IDENTIFIER']
+249,"    src:='tell me why,tell me how,tell me where';","['src', ':=', ""'tell me why,tell me how,tell me where'"", ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+250,    srcStream.WriteString(src);,"['srcStream.WriteString(src)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+251,"    srcStream.Seek(0,soBeginning);","['srcStream.Seek(0,soBeginning)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+252,    publicKey.LoadFromFile('e:\public.key');,"[""publicKey.LoadFromFile('e:\\public.key')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+253,    privateKey.LoadFromFile('e:\private.key');,"[""privateKey.LoadFromFile('e:\\private.key')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+254,"    RsaEncrypt( PublicKey,srcStream ,tgtStream);","['RsaEncrypt', '(', 'PublicKey', ',', 'srcStream', ',', 'tgtStream', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+255,"    RsaDecrypt( PrivateKey,tgtStream,rstStream);","['RsaDecrypt', '(', 'PrivateKey', ',', 'tgtStream', ',', 'rstStream', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+256,    sResult:=rstStream.DataString;,"['sResult', ':=', 'rstStream', '.', 'DataString', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+257,  finally,['finally'],['IDENTIFIER']
+258,    publicKey.Free;,"['publicKey', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+259,    privateKey.Free;,"['privateKey', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+260,    srcStream.Free;,"['srcStream', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+261,    tgtStream.Free;,"['tgtStream', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+262,    rstStream.Free;,"['rstStream', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+263,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+264,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+265,procedure TestEncrypt();,"['procedure', 'TestEncrypt', '();']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+266,var,['var'],['KEYWORD']
+267,  publicKey:TMemoryStream;,"['publicKey', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+268,"  srcStream,tgtStream:TMemoryStream;","['srcStream', ',', 'tgtStream', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+269,begin,['begin'],['IDENTIFIER']
+270,  try,['try'],['IDENTIFIER']
+271,    publicKey:=TMemoryStream.Create;,"['publicKey', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+272,    srcStream:=TMemoryStream.Create;,"['srcStream', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+273,    srcStream.LoadFromFile('e:\scanconfig.txt');,"[""srcStream.LoadFromFile('e:\\scanconfig.txt')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+274,    tgtStream:=TMemoryStream.Create;,"['tgtStream', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+275,    publicKey.LoadFromFile('e:\public.key');,"[""publicKey.LoadFromFile('e:\\public.key')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+276,"    RsaEncrypt( PublicKey,srcStream ,tgtStream);","['RsaEncrypt', '(', 'PublicKey', ',', 'srcStream', ',', 'tgtStream', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+277,    tgtStream.SaveToFile('e:\scanconfig.enc');,"[""tgtStream.SaveToFile('e:\\scanconfig.enc')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+278,  finally,['finally'],['IDENTIFIER']
+279,    publicKey.Free;,"['publicKey', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+280,    srcStream.Free;,"['srcStream', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+281,    tgtStream.Free;,"['tgtStream', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+282,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+283,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+284,procedure TestDecrypt(srcStream:TMemoryStream);,"['procedure', 'TestDecrypt', '(', 'srcStream', ':', 'TMemoryStream', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+285,var,['var'],['KEYWORD']
+286,  privateKey:TMemoryStream;,"['privateKey', ':', 'TMemoryStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+287,  tgtStream:TStringStream;,"['tgtStream', ':', 'TStringStream', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+288,  sResult:String;,"['sResult', ':', 'String', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+289,begin,['begin'],['IDENTIFIER']
+290,  //dbgRsaKeys();,"['//', 'dbgRsaKeys();']","['COMMENT', 'NN']"
+291,  privateKey:=TMemoryStream.Create;,"['privateKey', ':=', 'TMemoryStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+292,  tgtStream:=TStringStream.Create;,"['tgtStream', ':=', 'TStringStream', '.', 'Create', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+293,  try,['try'],['IDENTIFIER']
+294,"    srcStream.Seek(0,soBeginning);","['srcStream.Seek(0,soBeginning)', ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+295,    privateKey.LoadFromFile('e:\private.key');,"[""privateKey.LoadFromFile('e:\\private.key')"", ';']","['FUNCTION_CALL', 'PUNCTUATION']"
+296,"    RsaDecrypt( privateKey,srcStream,tgtStream);","['RsaDecrypt', '(', 'privateKey', ',', 'srcStream', ',', 'tgtStream', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+297,    sResult:=tgtStream.DataString;,"['sResult', ':=', 'tgtStream', '.', 'DataString', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+298,  finally,['finally'],['IDENTIFIER']
+299,    privateKey.Free;,"['privateKey', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+300,    tgtStream.Free;,"['tgtStream', '.', 'Free', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+301,  end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+302,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+303,"
 
-This is the complete code
-
-","['This', 'is', 'the', 'complete', 'code']","['DT', 'VBZ', 'DT', 'JJ', 'NN']"
-25,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-26,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-27,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
-28,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
-29,"        ""code.google.com/p/go.net/context""","['""code.google.com/p/go.net/context""']",['STRING_LITERAL']
-30,),[')'],['PUNCTUATION']
-31,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-32,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
-33,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-34,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-35,},['}'],['PUNCTUATION']
-36,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-37,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-38,"type appHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
-39,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-40,"        if e := fn(w, r, nil); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'nil', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-41,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-42,        },['}'],['PUNCTUATION']
-43,},['}'],['PUNCTUATION']
-44,"type authHandler func(http.ResponseWriter, *http.Request, context.Context) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ',', 'context', '.', 'Context', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
-45,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-46,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-47,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-48,        // setup the context the way you want,"['//', 'setup', 'the', 'context', 'the', 'way', 'you', 'want']","['COMMENT', 'VB', 'DT', 'NN', 'DT', 'NN', 'PRP', 'VBP']"
-49,        parent := context.TODO(),"['parent', ':=', 'context.TODO()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-50,"        ctx := context.WithValue(parent, userIdKey, uid)","['ctx', ':=', 'context.WithValue(parent, userIdKey, uid)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-51,"        if e := fn(w, r, ctx); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ',', 'ctx', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-52,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-53,        },['}'],['PUNCTUATION']
-54,},['}'],['PUNCTUATION']
-55,"func viewRecord(w http.ResponseWriter, r *http.Request, c context.Context) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'c', 'context', '.', 'Context', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-56,        if c == nil {,"['if', 'c', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-57,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt.Fprintf(w, ""User are not logged in"")']",['FUNCTION_CALL']
-58,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-59,                uid := c.Value(userIdKey),"['uid', ':=', 'c.Value(userIdKey)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-60,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt.Fprintf(w, ""User logged in with uid: %d"", uid)']",['FUNCTION_CALL']
-61,        },['}'],['PUNCTUATION']
-62,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-63,},['}'],['PUNCTUATION']
-64,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-65,"        http.Handle(""/view"", appHandler(viewRecord))      // viewRecord is an appHandler function","['http.Handle(""/view"", appHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'appHandler', 'function']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
-66,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // viewRecord is an authHandler function","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'viewRecord', 'is', 'an', 'authHandler', 'function']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
-67,},['}'],['PUNCTUATION']
-68,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-69,"        http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
-70,},['}'],['PUNCTUATION']
-71,"
-
-create map context
-
-Instead of passing the context, you create 
-
-","['create', 'map', 'context', 'Instead', 'of', 'passing', 'the', 'context,', 'you', 'create']","['NN', 'NNS', 'JJ', 'RB', 'IN', 'VBG', 'DT', 'NN', 'PRP', 'VBP']"
-72,var contexts map[*http.Request]context.Context,"['var', 'contexts', 'map', '[*', 'http', '.', 'Request', ']', 'context', '.', 'Context']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-73,"
-
-and get the context in view with contexts[r]. 
-
-But because of map is not thread safe, access to the map must be protected with mutex.
-
-And guess what, this is what gorilla context is doing for you, and I think it's better approach
-
-https://github.com/gorilla/context/blob/master/context.go#l20-28
-
-this is the full code
-
-","['and', 'get', 'the', 'context', 'in', 'view', 'with', 'contexts[r].', 'But', 'because', 'of', 'map', 'is', 'not', 'thread', 'safe,', 'access', 'to', 'the', 'map', 'must', 'be', 'protected', 'with', 'mutex.', 'And', 'guess', 'what,', 'this', 'is', 'what', 'gorilla', 'context', 'is', 'doing', 'for', 'you,', 'and', 'I', 'think', ""it's"", 'better', 'approach', 'https://github.com/gorilla/context/blob/master/context.go#l20-28', 'this', 'is', 'the', 'full', 'code']","['CC', 'VB', 'DT', 'NN', 'IN', 'NN', 'IN', 'NN', 'CC', 'IN', 'IN', 'NN', 'VBZ', 'RB', 'JJ', 'JJ', 'NN', 'TO', 'DT', 'NN', 'MD', 'VB', 'VBN', 'IN', 'NN', 'CC', 'NN', 'NN', 'DT', 'VBZ', 'WP', 'NN', 'NN', 'VBZ', 'VBG', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'JJ', 'JJR', 'NN', 'NN', 'DT', 'VBZ', 'DT', 'JJ', 'NN']"
-74,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-75,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-76,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
-77,"        ""net/http""","['""net/http""']",['STRING_LITERAL']
-78,"        ""github.com/gorilla/context""","['""github.com/gorilla/context""']",['STRING_LITERAL']
-79,),[')'],['PUNCTUATION']
-80,type appError struct {,"['type', 'appError', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-81,        Error   error,"['Error', 'error']","['IDENTIFIER', 'IDENTIFIER']"
-82,        Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-83,        Code    int,"['Code', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-84,},['}'],['PUNCTUATION']
-85,type key int,"['type', 'key', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-86,const userIdKey key = 0,"['const', 'userIdKey', 'key', '=', '0']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-87,"type appHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'appHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
-88,"func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'appHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-89,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-90,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-91,        },['}'],['PUNCTUATION']
-92,},['}'],['PUNCTUATION']
-93,"type authHandler func(http.ResponseWriter, *http.Request) *appError","['type', 'authHandler', 'func', '(', 'http', '.', 'ResponseWriter', ',', '*', 'http', '.', 'Request', ')', '*', 'appError']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER']"
-94,"func (fn authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {","['func', '(', 'fn', 'authHandler', ')', 'ServeHTTP', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-95,        // setup authentication here,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-96,        uid := 1,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-97,"        context.Set(r, userIdKey, uid)","['context.Set(r, userIdKey, uid)']",['FUNCTION_CALL']
-98,"        if e := fn(w, r); e != nil { // e is *appError, not os.Error.","['if', 'e', ':=', 'fn', '(', 'w', ',', 'r', ');', 'e', '!=', 'nil', '{', '//', 'e', 'is', '*appError,', 'not', 'os.Error.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'JJ', 'RB', 'IN']"
-99,"                http.Error(w, e.Message, e.Code)","['http.Error(w, e.Message, e.Code)']",['FUNCTION_CALL']
-100,        },['}'],['PUNCTUATION']
-101,},['}'],['PUNCTUATION']
-102,"func viewRecord(w http.ResponseWriter, r *http.Request) *appError {","['func', 'viewRecord', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-103,"        if uid, ok := context.GetOk(r, userIdKey); !ok {","['if', 'uid', ',', 'ok', ':=', 'context.GetOk(r, userIdKey)', ';', '!', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-104,"                fmt.Fprintf(w, ""User are not logged in"")","['fmt.Fprintf(w, ""User are not logged in"")']",['FUNCTION_CALL']
-105,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-106,"                fmt.Fprintf(w, ""User logged in with uid: %d"", uid)","['fmt.Fprintf(w, ""User logged in with uid: %d"", uid)']",['FUNCTION_CALL']
-107,        },['}'],['PUNCTUATION']
-108,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-109,},['}'],['PUNCTUATION']
-110,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-111,"        http.Handle(""/view"", appHandler(viewRecord))      // don't require authentication","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
-112,"        http.Handle(""/viewAuth"", authHandler(viewRecord)) // require authentication","['http.Handle(""/viewAuth"", authHandler(viewRecord))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
-113,},['}'],['PUNCTUATION']
-114,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-115,"        http.ListenAndServe("":8080"", nil)","['http.ListenAndServe("":8080"", nil)']",['FUNCTION_CALL']
-116,},['}'],['PUNCTUATION']
-117,"
-
-you can also opt for wrapper function instead of type function for auth
-
-","['you', 'can', 'also', 'opt', 'for', 'wrapper', 'function', 'instead', 'of', 'type', 'function', 'for', 'auth']","['PRP', 'MD', 'RB', 'VB', 'IN', 'JJR', 'NN', 'RB', 'IN', 'JJ', 'NN', 'IN', 'NN']"
-118,func AuthHandler(h appHandler) appHandler {                                   ,"['func', 'AuthHandler', '(', 'h', 'appHandler', ')', 'appHandler', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-119,"    return func(w http.ResponseWriter, r *http.Request) *appError {","['return', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '*', 'appError', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-120,        // setup authentication here                                          ,"['//', 'setup', 'authentication', 'here']","['COMMENT', 'NN', 'NN', 'RB']"
-121,        uid := 1                                                              ,"['uid', ':=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-122,"        context.Set(r, userIdKey, uid)                                        ","['context.Set(r, userIdKey, uid)']",['FUNCTION_CALL']
-123,"        return h(w, r)                                                        ","['return', 'h', '(', 'w', ',', 'r', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-124,    }                                                                        ,['}'],['PUNCTUATION']
-125,}  ,['}'],['PUNCTUATION']
-126,func init() {                                                                                    ,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-127,"    http.Handle(""/view"", appHandler(viewRecord))                  // don't require authentication","['http.Handle(""/view"", appHandler(viewRecord))', '//', ""don't"", 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'VB', 'NN']"
-128,"    http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord))) // require authentication      ","['http.Handle(""/viewAuth"", appHandler(AuthHandler(viewRecord)))', '//', 'require', 'authentication']","['FUNCTION_CALL', 'COMMENT', 'NN', 'NN']"
-129,}                                                                                               ,['}'],['PUNCTUATION']
+================================================================================
+",['================================================================================'],['NN']

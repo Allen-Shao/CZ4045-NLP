@@ -1,299 +1,124 @@
 ,text,token,annotation
-0,"Short story:
+0,"I have an application running on a server which takes requests from a phone app and then load balances the request across worker servers. I'm trying to add a timeout in the case that messages on the main server that have been in the outbound queue for the length of the timeout are removed from the queue. More specifically, the application on the main server is written in golang and implements the Paranoid Pirate Pattern of load balancing. The code I currently have is:
 
-I'm having an issue where a map that previously had data but should now be empty is reporting a len() of > 0 even though it appears to be empty, and I have no idea why.
+","['I', 'have', 'an', 'application', 'running', 'on', 'a', 'server', 'which', 'takes', 'requests', 'from', 'a', 'phone', 'app', 'and', 'then', 'load', 'balances', 'the', 'request', 'across', 'worker', 'servers.', ""I'm"", 'trying', 'to', 'add', 'a', 'timeout', 'in', 'the', 'case', 'that', 'messages', 'on', 'the', 'main', 'server', 'that', 'have', 'been', 'in', 'the', 'outbound', 'queue', 'for', 'the', 'length', 'of', 'the', 'timeout', 'are', 'removed', 'from', 'the', 'queue.', 'More', 'specifically,', 'the', 'application', 'on', 'the', 'main', 'server', 'is', 'written', 'in', 'golang', 'and', 'implements', 'the', 'Paranoid', 'Pirate', 'Pattern', 'of', 'load', 'balancing.', 'The', 'code', 'I', 'currently', 'have', 'is:']","['PRP', 'VBP', 'DT', 'NN', 'VBG', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'NNS', 'IN', 'DT', 'NN', 'NN', 'CC', 'RB', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NN', 'NNP', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'IN', 'DT', 'JJ', 'NN', 'WDT', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'JJR', 'JJ', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'VBN', 'IN', 'NN', 'CC', 'VBZ', 'DT', 'NNP', 'NNP', 'NNP', 'IN', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBP', 'NNS']"
+1,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+2,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+3,"    zmq ""github.com/pebbe/zmq4""","['zmq', '""github.com/pebbe/zmq4""']","['IDENTIFIER', 'STRING_LITERAL']"
+4,"    ""time""","['""time""']",['STRING_LITERAL']
+5,),[')'],['PUNCTUATION']
+6,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+7,    HEARTBEAT_LIVENESS = 3,"['HEARTBEAT_LIVENESS', '=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+8,    HEARTBEAT_INTERVAL = 1500 * time.Millisecond,"['HEARTBEAT_INTERVAL', '=', '1500', '*', 'time', '.', 'Millisecond']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+9,"    MESSAGE_READY     = ""\001""","['MESSAGE_READY', '=', '""\\001""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+10,"    MESSAGE_HEARTBEAT = ""\002""","['MESSAGE_HEARTBEAT', '=', '""\\002""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+11,),[')'],['PUNCTUATION']
+12,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
+13,    client *zmq.Socket,"['client', '*', 'zmq', '.', 'Socket']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+14,    backend *zmq.Socket,"['backend', '*', 'zmq', '.', 'Socket']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+15,    frontend *zmq.Socket,"['frontend', '*', 'zmq', '.', 'Socket']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+16,    workerPoller *zmq.Poller,"['workerPoller', '*', 'zmq', '.', 'Poller']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+17,    brokerPoller *zmq.Poller,"['brokerPoller', '*', 'zmq', '.', 'Poller']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+18,    workerQueue []Worker,"['workerQueue', '[]', 'Worker']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+19,),[')'],['PUNCTUATION']
+20,type Worker struct {,"['type', 'Worker', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+21,    Id string,"['Id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+22,    Expire time.Time,"['Expire', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+23,},['}'],['PUNCTUATION']
+24,type RequestWrapper {,"['type', 'RequestWrapper', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+25,    RequestToSend Request,"['RequestToSend', 'Request']","['IDENTIFIER', 'IDENTIFIER']"
+26,},['}'],['PUNCTUATION']
+27,func NewWorker(id string) Worker {,"['func', 'NewWorker', '(', 'id', 'string', ')', 'Worker', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+28,    return Worker{,"['return', 'Worker', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+29,"        Id: id,","['Id', ':', 'id', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+30,"        Expire: time.Now().Add(HEARTBEAT_INTERVAL * HEARTBEAT_LIVENESS),","['Expire', ':', 'time.Now().Add(HEARTBEAT_INTERVAL * HEARTBEAT_LIVENESS)', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+31,    },['}'],['PUNCTUATION']
+32,},['}'],['PUNCTUATION']
+33,"func AddReadyWorker(workers []Worker, worker Worker) []Worker {","['func', 'AddReadyWorker', '(', 'workers', '[]', 'Worker', ',', 'worker', 'Worker', ')', '[]', 'Worker', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+34,"    fmt.Println(worker.Id, "" joined"")","['fmt.Println(worker.Id, "" joined"")']",['FUNCTION_CALL']
+35,"    for i, w := range workers {","['for', 'i', ',', 'w', ':=', 'range', 'workers', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+36,        if worker.Id == w.Id {,"['if', 'worker', '.', 'Id', '==', 'w', '.', 'Id', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+37,            if i == 0 {,"['if', 'i', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+38,                workers = workers[1:],"['workers', '=', 'workers', '[', '1', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+39,            } else if i == len(workers)-1 {,"['}', 'else', 'if', 'i', '==', 'len', '(', 'workers', ')-', '1', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+40,                workers = workers[:i],"['workers', '=', 'workers', '[:', 'i', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+41,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+42,"                workers = append(workers[:i], workers[i+1:]...)","['workers', '=', 'append', '(', 'workers', '[:', 'i', '],', 'workers', '[', 'i', '+', '1', ':]...)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+43,            },['}'],['PUNCTUATION']
+44,            break,['break'],['KEYWORD']
+45,        },['}'],['PUNCTUATION']
+46,    },['}'],['PUNCTUATION']
+47,"    return append(workers, worker)","['return', 'append', '(', 'workers', ',', 'worker', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+48,},['}'],['PUNCTUATION']
+49,func PurgeInactiveWorkers() {,"['func', 'PurgeInactiveWorkers', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+50,    now := time.Now(),"['now', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+51,"    for i, worker := range workerQueue {","['for', 'i', ',', 'worker', ':=', 'range', 'workerQueue', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+52,        if now.Before(worker.Expire) {,"['if', 'now.Before(worker.Expire)', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
+53,            workerQueue = workerQueue[i:],"['workerQueue', '=', 'workerQueue', '[', 'i', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+54,            return,['return'],['KEYWORD']
+55,        },['}'],['PUNCTUATION']
+56,    },['}'],['PUNCTUATION']
+57,    workerQueue = workerQueue[0:0],"['workerQueue', '=', 'workerQueue', '[', '0', ':', '0', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+58,},['}'],['PUNCTUATION']
+59,func LoadBalance() {,"['func', 'LoadBalance', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+60,// Loop:,"['//', 'Loop:']","['COMMENT', 'NN']"
+61,    heartbeat := time.Tick(HEARTBEAT_INTERVAL),"['heartbeat', ':=', 'time.Tick(HEARTBEAT_INTERVAL)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+62,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+63,        var sockets []zmq.Polled,"['var', 'sockets', '[]', 'zmq', '.', 'Polled']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+64,"        // If you have available workers, poll on the both front and backend","['//', 'If', 'you', 'have', 'available', 'workers,', 'poll', 'on', 'the', 'both', 'front', 'and', 'backend']","['COMMENT', 'IN', 'PRP', 'VBP', 'JJ', 'NNS', 'NN', 'IN', 'DT', 'DT', 'JJ', 'CC', 'VB']"
+65,        // If not poll on backend with infinite timeout,"['//', 'If', 'not', 'poll', 'on', 'backend', 'with', 'infinite', 'timeout']","['COMMENT', 'IN', 'RB', 'VB', 'IN', 'NN', 'IN', 'NN', 'NN']"
+66,        if len(workerQueue) > 0 {,"['if', 'len', '(', 'workerQueue', ')', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+67,"            sockets, _ = brokerPoller.Poll(HEARTBEAT_INTERVAL)","['sockets', ',', '_', '=', 'brokerPoller.Poll(HEARTBEAT_INTERVAL)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+68,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+69,"            sockets, _ = workerPoller.Poll(HEARTBEAT_INTERVAL)","['sockets', ',', '_', '=', 'workerPoller.Poll(HEARTBEAT_INTERVAL)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+70,        },['}'],['PUNCTUATION']
+71,"        for _, socket := range sockets {","['for', '_', ',', 'socket', ':=', 'range', 'sockets', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+72,            switch socket.Socket {,"['switch', 'socket', '.', 'Socket', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+73,                // backend is a router,"['//', 'backend', 'is', 'a', 'router']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN']"
+74,                case backend:,"['case', 'backend', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+75,"                    workerId, _ := backend.Recv(0)","['workerId', ',', '_', ':=', 'backend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+76,"                    workerQueue = AddReadyWorker(workerQueue, NewWorker(workerId))","['workerQueue', '=', 'AddReadyWorker', '(', 'workerQueue', ',', 'NewWorker', '(', 'workerId', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+77,"                    clientId, _ := backend.Recv(0)","['clientId', ',', '_', ':=', 'backend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+78,                    if clientId != MESSAGE_READY && clientId != MESSAGE_HEARTBEAT {,"['if', 'clientId', '!=', 'MESSAGE_READY', '&&', 'clientId', '!=', 'MESSAGE_HEARTBEAT', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+79,"                        route, _ := backend.Recv(0)","['route', ',', '_', ':=', 'backend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+80,"                        message, _ := backend.RecvBytes(0)","['message', ',', '_', ':=', 'backend.RecvBytes(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+81,"                        fmt.Println(""Received response"")","['fmt.Println(""Received response"")']",['FUNCTION_CALL']
+82,"                        RouteResponse(route, message)","['RouteResponse', '(', 'route', ',', 'message', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+83,"                        // frontend.Send(clientId, zmq.SNDMORE)","['//', 'frontend.Send(clientId,', 'zmq.SNDMORE)']","['COMMENT', 'NN', 'NN']"
+84,"                        // frontend.Send("""", zmq.SNDMORE)","['//', 'frontend.Send("""",', 'zmq.SNDMORE)']","['COMMENT', 'NN', 'NN']"
+85,"                        // frontend.SendBytes(message, 0)","['//', 'frontend.SendBytes(message,', '0)']","['COMMENT', 'NN', 'CD']"
+86,                    },['}'],['PUNCTUATION']
+87,                // frontend is a dealer,"['//', 'frontend', 'is', 'a', 'dealer']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN']"
+88,                case frontend:,"['case', 'frontend', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+89,"                    clientId, _ := frontend.Recv(0)","['clientId', ',', '_', ':=', 'frontend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+90,"                    route, _ := frontend.Recv(0)","['route', ',', '_', ':=', 'frontend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+91,"                    message, _ := frontend.RecvBytes(0)","['message', ',', '_', ':=', 'frontend.RecvBytes(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+92,"                    backend.Send(workerQueue[0].Id, zmq.SNDMORE)","['backend.Send(workerQueue[0].Id, zmq.SNDMORE)']",['FUNCTION_CALL']
+93,"                    backend.Send(clientId, zmq.SNDMORE)","['backend.Send(clientId, zmq.SNDMORE)']",['FUNCTION_CALL']
+94,"                    backend.Send(route, zmq.SNDMORE)","['backend.Send(route, zmq.SNDMORE)']",['FUNCTION_CALL']
+95,"                    backend.SendBytes(message, 0)","['backend.SendBytes(message, 0)']",['FUNCTION_CALL']
+96,                    workerQueue = workerQueue[1:],"['workerQueue', '=', 'workerQueue', '[', '1', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+97,            },['}'],['PUNCTUATION']
+98,        },['}'],['PUNCTUATION']
+99,        select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
+100,            case <-heartbeat:,"['case', '<-', 'heartbeat', ':']","['KEYWORD', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+101,"                for _, worker := range workerQueue {","['for', '_', ',', 'worker', ':=', 'range', 'workerQueue', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+102,"                    backend.Send(worker.Id, zmq.SNDMORE)","['backend.Send(worker.Id, zmq.SNDMORE)']",['FUNCTION_CALL']
+103,"                    backend.Send(MESSAGE_HEARTBEAT, 0)","['backend.Send(MESSAGE_HEARTBEAT, 0)']",['FUNCTION_CALL']
+104,                },['}'],['PUNCTUATION']
+105,                break,['break'],['KEYWORD']
+106,            default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
+107,        },['}'],['PUNCTUATION']
+108,        PurgeInactiveWorkers(),"['PurgeInactiveWorkers', '()']","['IDENTIFIER', 'PUNCTUATION']"
+109,    },['}'],['PUNCTUATION']
+110,},['}'],['PUNCTUATION']
+111,"
 
-Longer story:
+If the backend sends a message, but it is not actually sent to a worker in some period of time, I want it to expire and not ever be sent. Is there a socket option that can accomplish this? If not, what would I have to do to accomplish this?
 
-I need to process a number of devices at a time. Each device can have a number of messages. The concurrency of Go seemed like an obvious place to begin, so I wrote up some code to handle it and it seems to be going mostly very well. However...
+Two ways I think I can do this without socket options are:
 
-I started a single goroutine for each device. In the main() function I have a map that contains each of the devices. When a message comes in I check to see whether the device already exists and if not I create it, store it in the map, and then pass the message into the device's receiving buffered channel.
+1) Have the backend wrap the message in a wrapper and send to a golang queue and not through zeromq. The wrapper contains the time that the message was ""sent"". The backend concurrently pulls from the front of the golang queue one at a time and checks if the message is expired. If so, don't send, if not, send the message. I could have the backend add the message to the golang queue first and then truly send it out after in the same block of code. That way, I don't need a lock.
 
-This works great, and each device is being processed nicely. However, I need the device (and its goroutine) to terminate when it doesn't receive any messages for a preset amount of time. I've done this by checking in the goroutine itself how much time has passed since the last message was received, and if the goroutine is considered stale then the receiving channel is closed. But how to remove from the map?
-
-So I passed in a pointer to the map, and I have the goroutine delete the device from the map and close the receiving channel before returning. The problem though is that at the end I'm finding that the len() function returns a value > 0, but when I output the map itself I see that it's empty.
-
-I've written up a toy example to try to replicate the fault, and indeed I'm seeing that len() is reporting > 0 when the map is apparently empty. The last time I tried it I saw 10. The time before that 14. The time before that one, 53.
-
-So I can replicate the fault, but I'm not sure whether the fault is with me or with Go. How is len() reporting > 0 when there are apparently no items in it?
-
-Here's an example of how I've been able to replicate. I'm using Go v1.5.1 windows/amd64
-
-There are two things here, as far as I'm concerned:
-
-
-Am I managing the goroutines properly (probably not) and
-Why does len(m) report > 0 when there are no items in it?
-
-
-Thanks all
-
-Example Code:
-
-","['Short', 'story:', ""I'm"", 'having', 'an', 'issue', 'where', 'a', 'map', 'that', 'previously', 'had', 'data', 'but', 'should', 'now', 'be', 'empty', 'is', 'reporting', 'a', 'len()', 'of', '>', '0', 'even', 'though', 'it', 'appears', 'to', 'be', 'empty,', 'and', 'I', 'have', 'no', 'idea', 'why.', 'Longer', 'story:', 'I', 'need', 'to', 'process', 'a', 'number', 'of', 'devices', 'at', 'a', 'time.', 'Each', 'device', 'can', 'have', 'a', 'number', 'of', 'messages.', 'The', 'concurrency', 'of', 'Go', 'seemed', 'like', 'an', 'obvious', 'place', 'to', 'begin,', 'so', 'I', 'wrote', 'up', 'some', 'code', 'to', 'handle', 'it', 'and', 'it', 'seems', 'to', 'be', 'going', 'mostly', 'very', 'well.', 'However...', 'I', 'started', 'a', 'single', 'goroutine', 'for', 'each', 'device.', 'In', 'the', 'main()', 'function', 'I', 'have', 'a', 'map', 'that', 'contains', 'each', 'of', 'the', 'devices.', 'When', 'a', 'message', 'comes', 'in', 'I', 'check', 'to', 'see', 'whether', 'the', 'device', 'already', 'exists', 'and', 'if', 'not', 'I', 'create', 'it,', 'store', 'it', 'in', 'the', 'map,', 'and', 'then', 'pass', 'the', 'message', 'into', 'the', ""device's"", 'receiving', 'buffered', 'channel.', 'This', 'works', 'great,', 'and', 'each', 'device', 'is', 'being', 'processed', 'nicely.', 'However,', 'I', 'need', 'the', 'device', '(and', 'its', 'goroutine)', 'to', 'terminate', 'when', 'it', ""doesn't"", 'receive', 'any', 'messages', 'for', 'a', 'preset', 'amount', 'of', 'time.', ""I've"", 'done', 'this', 'by', 'checking', 'in', 'the', 'goroutine', 'itself', 'how', 'much', 'time', 'has', 'passed', 'since', 'the', 'last', 'message', 'was', 'received,', 'and', 'if', 'the', 'goroutine', 'is', 'considered', 'stale', 'then', 'the', 'receiving', 'channel', 'is', 'closed.', 'But', 'how', 'to', 'remove', 'from', 'the', 'map?', 'So', 'I', 'passed', 'in', 'a', 'pointer', 'to', 'the', 'map,', 'and', 'I', 'have', 'the', 'goroutine', 'delete', 'the', 'device', 'from', 'the', 'map', 'and', 'close', 'the', 'receiving', 'channel', 'before', 'returning.', 'The', 'problem', 'though', 'is', 'that', 'at', 'the', 'end', ""I'm"", 'finding', 'that', 'the', 'len()', 'function', 'returns', 'a', 'value', '>', '0,', 'but', 'when', 'I', 'output', 'the', 'map', 'itself', 'I', 'see', 'that', ""it's"", 'empty.', ""I've"", 'written', 'up', 'a', 'toy', 'example', 'to', 'try', 'to', 'replicate', 'the', 'fault,', 'and', 'indeed', ""I'm"", 'seeing', 'that', 'len()', 'is', 'reporting', '>', '0', 'when', 'the', 'map', 'is', 'apparently', 'empty.', 'The', 'last', 'time', 'I', 'tried', 'it', 'I', 'saw', '10.', 'The', 'time', 'before', 'that', '14.', 'The', 'time', 'before', 'that', 'one,', '53.', 'So', 'I', 'can', 'replicate', 'the', 'fault,', 'but', ""I'm"", 'not', 'sure', 'whether', 'the', 'fault', 'is', 'with', 'me', 'or', 'with', 'Go.', 'How', 'is', 'len()', 'reporting', '>', '0', 'when', 'there', 'are', 'apparently', 'no', 'items', 'in', 'it?', ""Here's"", 'an', 'example', 'of', 'how', ""I've"", 'been', 'able', 'to', 'replicate.', ""I'm"", 'using', 'Go', 'v1.5.1', 'windows/amd64', 'There', 'are', 'two', 'things', 'here,', 'as', 'far', 'as', ""I'm"", 'concerned:', 'Am', 'I', 'managing', 'the', 'goroutines', 'properly', '(probably', 'not)', 'and', 'Why', 'does', 'len(m)', 'report', '>', '0', 'when', 'there', 'are', 'no', 'items', 'in', 'it?', 'Thanks', 'all', 'Example', 'Code:']","['JJ', 'NN', 'NNP', 'VBG', 'DT', 'NN', 'WRB', 'DT', 'NN', 'WDT', 'RB', 'VBD', 'NNS', 'CC', 'MD', 'RB', 'VB', 'JJ', 'VBZ', 'VBG', 'DT', 'NN', 'IN', '$', 'CD', 'RB', 'IN', 'PRP', 'VBZ', 'TO', 'VB', 'JJ', 'CC', 'PRP', 'VBP', 'DT', 'NN', 'RB', 'NNP', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'IN', 'NNS', 'IN', 'DT', 'JJ', 'DT', 'NN', 'MD', 'VB', 'DT', 'NN', 'IN', 'FW', 'DT', 'NN', 'IN', 'NNP', 'VBD', 'IN', 'DT', 'JJ', 'NN', 'TO', 'VB', 'RB', 'PRP', 'VBD', 'RP', 'DT', 'NN', 'TO', 'VB', 'PRP', 'CC', 'PRP', 'VBZ', 'TO', 'VB', 'VBG', 'RB', 'RB', 'JJ', 'NNP', 'PRP', 'VBD', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'WDT', 'VBZ', 'DT', 'IN', 'DT', 'NN', 'WRB', 'DT', 'NN', 'VBZ', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'IN', 'DT', 'NN', 'RB', 'VBZ', 'CC', 'IN', 'RB', 'PRP', 'VBP', 'JJ', 'NN', 'PRP', 'IN', 'DT', 'NN', 'CC', 'RB', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBD', 'NN', 'DT', 'VBZ', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'VBG', 'VBN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'NN', 'NNP', 'PRP$', 'NN', 'TO', 'VB', 'WRB', 'PRP', 'RB', 'VB', 'DT', 'NNS', 'IN', 'DT', 'NN', 'NN', 'IN', 'NN', 'NNP', 'VBN', 'DT', 'IN', 'VBG', 'IN', 'DT', 'NN', 'PRP', 'WRB', 'JJ', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'JJ', 'NN', 'VBD', 'JJ', 'CC', 'IN', 'DT', 'NN', 'VBZ', 'VBN', 'JJ', 'RB', 'DT', 'NN', 'NN', 'VBZ', 'VBN', 'CC', 'WRB', 'TO', 'VB', 'IN', 'DT', 'NN', 'NNP', 'PRP', 'VBD', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'NN', 'VBP', 'DT', 'NN', 'IN', 'DT', 'NN', 'CC', 'VB', 'DT', 'NN', 'NN', 'IN', 'VBZ', 'DT', 'NN', 'NN', 'VBZ', 'DT', 'IN', 'DT', 'NN', 'NNP', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'CD', 'CC', 'WRB', 'PRP', 'NN', 'DT', 'NN', 'PRP', 'PRP', 'VBP', 'IN', 'JJ', 'FW', 'NNP', 'VBN', 'RP', 'DT', 'NN', 'NN', 'TO', 'VB', 'TO', 'VB', 'DT', 'NN', 'CC', 'RB', 'NNP', 'VBG', 'IN', 'NN', 'VBZ', 'VBG', 'RB', 'CD', 'WRB', 'DT', 'NN', 'VBZ', 'RB', 'VBN', 'DT', 'JJ', 'NN', 'PRP', 'VBD', 'PRP', 'PRP', 'VBD', 'CD', 'DT', 'NN', 'IN', 'DT', 'CD', 'DT', 'NN', 'IN', 'DT', 'VBZ', 'CD', 'IN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'CC', 'NNP', 'RB', 'JJ', 'IN', 'DT', 'NN', 'VBZ', 'IN', 'PRP', 'CC', 'IN', 'NNP', 'NNP', 'VBZ', 'JJ', 'VBG', 'NN', 'CD', 'WRB', 'EX', 'VBP', 'RB', 'DT', 'NNS', 'IN', 'NN', 'NNP', 'DT', 'NN', 'IN', 'WRB', 'NNP', 'VBN', 'JJ', 'TO', 'VB', 'NNP', 'VBG', 'NNP', 'RB', 'RB', 'EX', 'VBP', 'CD', 'NNS', 'VBP', 'RB', 'RB', 'IN', 'NNP', 'VBP', 'NNP', 'PRP', 'VBG', 'DT', 'NNS', 'RB', 'RB', 'JJ', 'CC', 'WRB', 'VBZ', 'VB', 'VB', '$', 'CD', 'WRB', 'EX', 'VBP', 'DT', 'NNS', 'IN', 'JJ', 'NNP', 'DT', 'NNP', 'NNP']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-3,"    ""log""","['""log""']",['STRING_LITERAL']
-4,"    ""os""","['""os""']",['STRING_LITERAL']
-5,"    ""time""","['""time""']",['STRING_LITERAL']
-6,),[')'],['OPERATOR']
-7,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-8,    chBuffSize        = 100             // How large the thing's channel buffer should be,"['chBuffSize', '=', '100', '//', 'How', 'large', 'the', ""thing's"", 'channel', 'buffer', 'should', 'be']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'DT', 'JJ', 'NN', 'NN', 'MD', 'VB']"
-9,    thingIdleLifetime = time.Second * 5 // How long things can live for when idle,"['thingIdleLifetime', '=', 'time', '.', 'Second', '*', '5', '//', 'How', 'long', 'things', 'can', 'live', 'for', 'when', 'idle']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'MD', 'VB', 'IN', 'WRB', 'JJ']"
-10,    thingsToMake      = 1000            // How many things and associated goroutines to make,"['thingsToMake', '=', '1000', '//', 'How', 'many', 'things', 'and', 'associated', 'goroutines', 'to', 'make']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'CC', 'VBN', 'NNS', 'TO', 'VB']"
-11,    thingMessageCount = 10              // How many messages to send to the thing,"['thingMessageCount', '=', '10', '//', 'How', 'many', 'messages', 'to', 'send', 'to', 'the', 'thing']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'TO', 'VB', 'TO', 'DT', 'NN']"
-12,),[')'],['OPERATOR']
-13,// The thing that we'll be passing into a goroutine to process -----------------,"['//', 'The', 'thing', 'that', ""we'll"", 'be', 'passing', 'into', 'a', 'goroutine', 'to', 'process', '-----------------']","['COMMENT', 'DT', 'NN', 'WDT', 'VBP', 'VB', 'VBG', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN']"
-14,type thing struct {,"['type', 'thing', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-15,    id string,"['id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-16,    ch chan bool,"['ch', 'chan', 'bool']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-17,},['}'],['OPERATOR']
-18,// Go go gadget map test -------------------------------------------------------,"['//', 'Go', 'go', 'gadget', 'map', 'test', '-------------------------------------------------------']","['COMMENT', 'NNP', 'VBP', 'NN', 'JJ', 'NN', 'NN']"
-19,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-20,    // Make all of the things!,"['//', 'Make', 'all', 'of', 'the', 'things!']","['COMMENT', 'NNP', 'DT', 'IN', 'DT', 'NN']"
-21,    things := make(map[string]thing),"['things', ':=', 'make', '(', 'map', '[', 'string', ']', 'thing', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-22,    for i := 0; i < thingsToMake; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'thingsToMake', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-23,        t := thing{,"['t', ':=', 'thing', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,"            id: string(i),","['id', ':', 'string', '(', 'i', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-25,"            ch: make(chan bool, chBuffSize),","['ch', ':', 'make', '(', 'chan', 'bool', ',', 'chBuffSize', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-26,        },['}'],['OPERATOR']
-27,        things[t.id] = t,"['things', '[', 't', '.', 'id', ']', '=', 't']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-28,        // Pass the thing into it's own goroutine,"['//', 'Pass', 'the', 'thing', 'into', ""it's"", 'own', 'goroutine']","['COMMENT', 'NNP', 'DT', 'NN', 'IN', 'JJ', 'JJ', 'NN']"
-29,"        go doSomething(t, &things)","['go', 'doSomething', '(', 't', ',', '&', 'things', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-30,        // Send (thingMessageCount) messages to the thing,"['//', 'Send', '(thingMessageCount)', 'messages', 'to', 'the', 'thing']","['COMMENT', 'NNP', 'NN', 'NNS', 'TO', 'DT', 'NN']"
-31,        go func(t thing) {,"['go', 'func', '(', 't', 'thing', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-32,            for x := 0; x < thingMessageCount; x++ {,"['for', 'x', ':=', '0', ';', 'x', '<', 'thingMessageCount', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-33,                t.ch <- true,"['t', '.', 'ch', '<-', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-34,            },['}'],['OPERATOR']
-35,        }(t),"['}(', 't', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-36,    },['}'],['OPERATOR']
-37,    // Check the map of things to see whether we're empty or not,"['//', 'Check', 'the', 'map', 'of', 'things', 'to', 'see', 'whether', ""we're"", 'empty', 'or', 'not']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'IN', 'JJ', 'NNS', 'CC', 'RB']"
-38,    size := 0,"['size', ':=', '0']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-39,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-40,        if size == len(things) && size != thingsToMake {,"['if', 'size', '==', 'len', '(', 'things', ')', '&&', 'size', '!=', 'thingsToMake', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-41,"            log.Println(""Same number of items in map as last time"")","['log.Println(""Same number of items in map as last time"")']",['FUNCTION_CALL']
-42,            log.Println(things),['log.Println(things)'],['FUNCTION_CALL']
-43,            os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-44,        },['}'],['OPERATOR']
-45,        size = len(things),"['size', '=', 'len', '(', 'things', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,"        log.Printf(""Map size: %d\n"", size)","['log.Printf(""Map size: %d\\n"", size)']",['FUNCTION_CALL']
-47,        time.Sleep(time.Second),['time.Sleep(time.Second)'],['FUNCTION_CALL']
-48,    },['}'],['OPERATOR']
-49,},['}'],['OPERATOR']
-50,// Func for each goroutine to run ----------------------------------------------,"['//', 'Func', 'for', 'each', 'goroutine', 'to', 'run', '----------------------------------------------']","['COMMENT', 'NNP', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN']"
-51,//,['//'],['COMMENT']
-52,// Takes two arguments:,"['//', 'Takes', 'two', 'arguments:']","['COMMENT', 'NNS', 'CD', 'NNS']"
-53,// 1) the thing that it is working with,"['//', '1)', 'the', 'thing', 'that', 'it', 'is', 'working', 'with']","['COMMENT', 'CD', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'VBG', 'IN']"
-54,// 2) a pointer to the map of things,"['//', '2)', 'a', 'pointer', 'to', 'the', 'map', 'of', 'things']","['COMMENT', 'CD', 'DT', 'NN', 'TO', 'DT', 'NN', 'IN', 'NNS']"
-55,//,['//'],['COMMENT']
-56,"// When this goroutine is ready to terminate, it should remove the associated","['//', 'When', 'this', 'goroutine', 'is', 'ready', 'to', 'terminate,', 'it', 'should', 'remove', 'the', 'associated']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'JJ', 'TO', 'VB', 'PRP', 'MD', 'VB', 'DT', 'JJ']"
-57,// thing from the map of things to clean up after itself,"['//', 'thing', 'from', 'the', 'map', 'of', 'things', 'to', 'clean', 'up', 'after', 'itself']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'RP', 'IN', 'PRP']"
-58,"func doSomething(t thing, things *map[string]thing) {","['func', 'doSomething', '(', 't', 'thing', ',', 'things', '*', 'map', '[', 'string', ']', 'thing', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-59,    lastAccessed := time.Now(),"['lastAccessed', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-60,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-61,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-62,        case <-t.ch:,"['case', '<-', 't', '.', 'ch', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,"            // We received a message, so extend the lastAccessed time","['//', 'We', 'received', 'a', 'message,', 'so', 'extend', 'the', 'lastAccessed', 'time']","['COMMENT', 'PRP', 'VBD', 'DT', 'NN', 'RB', 'VB', 'DT', 'JJ', 'NN']"
-64,            lastAccessed = time.Now(),"['lastAccessed', '=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-65,        default:,"['default', ':']","['KEYWORD', 'OPERATOR']"
-66,"            // We haven't received a message, so check if we're allowed to continue","['//', 'We', ""haven't"", 'received', 'a', 'message,', 'so', 'check', 'if', ""we're"", 'allowed', 'to', 'continue']","['COMMENT', 'PRP', 'VBP', 'VBD', 'DT', 'NN', 'RB', 'VB', 'IN', 'NN', 'VBN', 'TO', 'VB']"
-67,            n := time.Now(),"['n', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-68,            d := n.Sub(lastAccessed),"['d', ':=', 'n.Sub(lastAccessed)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-69,            if d > thingIdleLifetime {,"['if', 'd', '>', 'thingIdleLifetime', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,"                // We've run for >thingIdleLifetime, so close the channel, delete the","['//', ""We've"", 'run', 'for', '>thingIdleLifetime,', 'so', 'close', 'the', 'channel,', 'delete', 'the']","['COMMENT', 'NNP', 'NN', 'IN', 'NNP', 'RB', 'RB', 'DT', 'NN', 'VBD', 'DT']"
-71,"                // associated thing from the map and return, terminating the goroutine","['//', 'associated', 'thing', 'from', 'the', 'map', 'and', 'return,', 'terminating', 'the', 'goroutine']","['COMMENT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'CC', 'NN', 'VBG', 'DT', 'NN']"
-72,                close(t.ch),"['close', '(', 't', '.', 'ch', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"                delete(*things, string(t.id))","['delete', '(*', 'things', ',', 'string', '(', 't', '.', 'id', '))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-74,                return,['return'],['KEYWORD']
-75,            },['}'],['OPERATOR']
-76,        },['}'],['OPERATOR']
-77,        // Just sleep for a second in each loop to prevent the CPU being eaten up,"['//', 'Just', 'sleep', 'for', 'a', 'second', 'in', 'each', 'loop', 'to', 'prevent', 'the', 'CPU', 'being', 'eaten', 'up']","['COMMENT', 'RB', 'NN', 'IN', 'DT', 'JJ', 'IN', 'DT', 'NN', 'TO', 'VB', 'DT', 'NNP', 'VBG', 'VBN', 'RP']"
-78,        time.Sleep(time.Second),['time.Sleep(time.Second)'],['FUNCTION_CALL']
-79,    },['}'],['OPERATOR']
-80,},['}'],['OPERATOR']
-81,"
-
-Just to add; in my original code this is looping forever. The program is designed to listen for TCP connections and receive and process the data, so the function that is checking the map count is running in it's own goroutine. However, this example has exactly the same symptom even though the map len() check is in the main() function and it is designed to handle an initial burst of data and then break out of the loop.
-
-UPDATE 2015/11/23 15:56 UTC
-
-I've refactored my example below. I'm not sure if I've misunderstood @RobNapier or not but this works much better. However, if I change thingsToMake to a larger number, say 100000, then I get lots of errors like this:
-
-","['Just', 'to', 'add;', 'in', 'my', 'original', 'code', 'this', 'is', 'looping', 'forever.', 'The', 'program', 'is', 'designed', 'to', 'listen', 'for', 'TCP', 'connections', 'and', 'receive', 'and', 'process', 'the', 'data,', 'so', 'the', 'function', 'that', 'is', 'checking', 'the', 'map', 'count', 'is', 'running', 'in', ""it's"", 'own', 'goroutine.', 'However,', 'this', 'example', 'has', 'exactly', 'the', 'same', 'symptom', 'even', 'though', 'the', 'map', 'len()', 'check', 'is', 'in', 'the', 'main()', 'function', 'and', 'it', 'is', 'designed', 'to', 'handle', 'an', 'initial', 'burst', 'of', 'data', 'and', 'then', 'break', 'out', 'of', 'the', 'loop.', 'UPDATE', '2015/11/23', '15:56', 'UTC', ""I've"", 'refactored', 'my', 'example', 'below.', ""I'm"", 'not', 'sure', 'if', ""I've"", 'misunderstood', '@RobNapier', 'or', 'not', 'but', 'this', 'works', 'much', 'better.', 'However,', 'if', 'I', 'change', 'thingsToMake', 'to', 'a', 'larger', 'number,', 'say', '100000,', 'then', 'I', 'get', 'lots', 'of', 'errors', 'like', 'this:']","['RB', 'TO', 'VB', 'IN', 'PRP$', 'JJ', 'NN', 'DT', 'VBZ', 'VBG', 'VB', 'DT', 'NN', 'VBZ', 'VBN', 'TO', 'VB', 'IN', 'NNP', 'NNS', 'CC', 'JJ', 'CC', 'NN', 'DT', 'NN', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'VBG', 'DT', 'NN', 'NN', 'VBZ', 'VBG', 'IN', 'JJ', 'JJ', 'NN', 'NNP', 'DT', 'NN', 'VBZ', 'RB', 'DT', 'JJ', 'NN', 'RB', 'IN', 'DT', 'NN', 'NN', 'NN', 'VBZ', 'IN', 'DT', 'NN', 'NN', 'CC', 'PRP', 'VBZ', 'VBN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NNS', 'CC', 'RB', 'VB', 'IN', 'IN', 'DT', 'NN', 'NNP', 'CD', 'CD', 'NNP', 'NNP', 'VBD', 'PRP$', 'NN', 'NN', 'NNP', 'RB', 'JJ', 'IN', 'NNP', 'VBD', 'RBR', 'CC', 'RB', 'CC', 'DT', 'VBZ', 'RB', 'JJ', 'NNP', 'IN', 'PRP', 'VBP', 'VB', 'TO', 'DT', 'JJR', 'JJ', 'VBP', 'CD', 'RB', 'PRP', 'VBP', 'NNS', 'IN', 'NNS', 'IN', 'NN']"
-82,goroutine 199734 [select]:,"['go', 'routine', '199734', '[', 'select', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-83,"main.doSomething(0xc0d62e7680, 0x4, 0xc0d64efba0, 0xc082016240)","['main.doSomething(0xc0d62e7680, 0x4, 0xc0d64efba0, 0xc082016240)']",['FUNCTION_CALL']
-84,        C:/Users/anttheknee/go/src/maptest/maptest.go:83 +0x144,"['C:/Users/anttheknee/go/src/maptest/maptest.go:83', '+', '0x144']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-85,created by main.main,"['created', 'by', 'main', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-86,        C:/Users/anttheknee/go/src/maptest/maptest.go:46 +0x463,"['C:/Users/anttheknee/go/src/maptest/maptest.go:46', '+', '0x463']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-87,"
-
-I'm not sure if the problem is that I'm asking Go to do too much, or if I've made a hash of understanding the solution. Any thoughts?
-
-","[""I'm"", 'not', 'sure', 'if', 'the', 'problem', 'is', 'that', ""I'm"", 'asking', 'Go', 'to', 'do', 'too', 'much,', 'or', 'if', ""I've"", 'made', 'a', 'hash', 'of', 'understanding', 'the', 'solution.', 'Any', 'thoughts?']","['NNP', 'RB', 'JJ', 'IN', 'DT', 'NN', 'VBZ', 'IN', 'NNP', 'VBG', 'NNP', 'TO', 'VB', 'RB', 'VB', 'CC', 'IN', 'NNP', 'VBD', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NN', 'NNP', 'NN']"
-88,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-89,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-90,"    ""log""","['""log""']",['STRING_LITERAL']
-91,"    ""os""","['""os""']",['STRING_LITERAL']
-92,"    ""time""","['""time""']",['STRING_LITERAL']
-93,),[')'],['OPERATOR']
-94,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-95,    chBuffSize        = 100             // How large the thing's channel buffer should be,"['chBuffSize', '=', '100', '//', 'How', 'large', 'the', ""thing's"", 'channel', 'buffer', 'should', 'be']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'DT', 'JJ', 'NN', 'NN', 'MD', 'VB']"
-96,    thingIdleLifetime = time.Second * 5 // How long things can live for when idle,"['thingIdleLifetime', '=', 'time', '.', 'Second', '*', '5', '//', 'How', 'long', 'things', 'can', 'live', 'for', 'when', 'idle']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'MD', 'VB', 'IN', 'WRB', 'JJ']"
-97,    thingsToMake      = 10000           // How many things and associated goroutines to make,"['thingsToMake', '=', '10000', '//', 'How', 'many', 'things', 'and', 'associated', 'goroutines', 'to', 'make']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'CC', 'VBN', 'NNS', 'TO', 'VB']"
-98,    thingMessageCount = 10              // How many messages to send to the thing,"['thingMessageCount', '=', '10', '//', 'How', 'many', 'messages', 'to', 'send', 'to', 'the', 'thing']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'TO', 'VB', 'TO', 'DT', 'NN']"
-99,),[')'],['OPERATOR']
-100,// The thing that we'll be passing into a goroutine to process -----------------,"['//', 'The', 'thing', 'that', ""we'll"", 'be', 'passing', 'into', 'a', 'goroutine', 'to', 'process', '-----------------']","['COMMENT', 'DT', 'NN', 'WDT', 'VBP', 'VB', 'VBG', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN']"
-101,type thing struct {,"['type', 'thing', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-102,    id   string,"['id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-103,    ch   chan bool,"['ch', 'chan', 'bool']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-104,    done chan string,"['done', 'chan', 'string']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-105,},['}'],['OPERATOR']
-106,// Go go gadget map test -------------------------------------------------------,"['//', 'Go', 'go', 'gadget', 'map', 'test', '-------------------------------------------------------']","['COMMENT', 'NNP', 'VBP', 'NN', 'JJ', 'NN', 'NN']"
-107,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-108,    // Make all of the things!,"['//', 'Make', 'all', 'of', 'the', 'things!']","['COMMENT', 'NNP', 'DT', 'IN', 'DT', 'NN']"
-109,    things := make(map[string]thing),"['things', ':=', 'make', '(', 'map', '[', 'string', ']', 'thing', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,    // Make a channel to receive completion notification on,"['//', 'Make', 'a', 'channel', 'to', 'receive', 'completion', 'notification', 'on']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'NN', 'NN', 'IN']"
-111,"    doneCh := make(chan string, chBuffSize)","['doneCh', ':=', 'make', '(', 'chan', 'string', ',', 'chBuffSize', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-112,"    log.Printf(""Making %d things\n"", thingsToMake)","['log.Printf(""Making %d things\\n"", thingsToMake)']",['FUNCTION_CALL']
-113,    for i := 0; i < thingsToMake; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'thingsToMake', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-114,        t := thing{,"['t', ':=', 'thing', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,"            id:   string(i),","['id', ':', 'string', '(', 'i', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,"            ch:   make(chan bool, chBuffSize),","['ch', ':', 'make', '(', 'chan', 'bool', ',', 'chBuffSize', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-117,"            done: doneCh,","['done', ':', 'doneCh', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-118,        },['}'],['OPERATOR']
-119,        things[t.id] = t,"['things', '[', 't', '.', 'id', ']', '=', 't']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-120,        // Pass the thing into it's own goroutine,"['//', 'Pass', 'the', 'thing', 'into', ""it's"", 'own', 'goroutine']","['COMMENT', 'NNP', 'DT', 'NN', 'IN', 'JJ', 'JJ', 'NN']"
-121,        go doSomething(t),"['go', 'doSomething', '(', 't', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-122,        // Send (thingMessageCount) messages to the thing,"['//', 'Send', '(thingMessageCount)', 'messages', 'to', 'the', 'thing']","['COMMENT', 'NNP', 'NN', 'NNS', 'TO', 'DT', 'NN']"
-123,        go func(t thing) {,"['go', 'func', '(', 't', 'thing', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-124,            for x := 0; x < thingMessageCount; x++ {,"['for', 'x', ':=', '0', ';', 'x', '<', 'thingMessageCount', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-125,                t.ch <- true,"['t', '.', 'ch', '<-', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-126,                time.Sleep(time.Millisecond * 10),['time.Sleep(time.Millisecond * 10)'],['FUNCTION_CALL']
-127,            },['}'],['OPERATOR']
-128,        }(t),"['}(', 't', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-129,    },['}'],['OPERATOR']
-130,"    log.Printf(""All %d things made\n"", thingsToMake)","['log.Printf(""All %d things made\\n"", thingsToMake)']",['FUNCTION_CALL']
-131,    // Receive on doneCh when the goroutine is complete and clean the map up,"['//', 'Receive', 'on', 'doneCh', 'when', 'the', 'goroutine', 'is', 'complete', 'and', 'clean', 'the', 'map', 'up']","['COMMENT', 'VB', 'IN', 'NN', 'WRB', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'JJ', 'DT', 'NN', 'RP']"
-132,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-133,        id := <-doneCh,"['id', ':=', '<-', 'doneCh']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-134,        close(things[id].ch),"['close', '(', 'things', '[', 'id', '].', 'ch', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-135,"        delete(things, id)","['delete', '(', 'things', ',', 'id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,        if len(things) == 0 {,"['if', 'len', '(', 'things', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-137,"            log.Printf(""Map: %v"", things)","['log.Printf(""Map: %v"", things)']",['FUNCTION_CALL']
-138,"            log.Println(""All done. Exiting"")","['log.Println(""All done. Exiting"")']",['FUNCTION_CALL']
-139,            os.Exit(0),['os.Exit(0)'],['FUNCTION_CALL']
-140,        },['}'],['OPERATOR']
-141,    },['}'],['OPERATOR']
-142,},['}'],['OPERATOR']
-143,// Func for each goroutine to run ----------------------------------------------,"['//', 'Func', 'for', 'each', 'goroutine', 'to', 'run', '----------------------------------------------']","['COMMENT', 'NNP', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN']"
-144,//,['//'],['COMMENT']
-145,// Takes two arguments:,"['//', 'Takes', 'two', 'arguments:']","['COMMENT', 'NNS', 'CD', 'NNS']"
-146,// 1) the thing that it is working with,"['//', '1)', 'the', 'thing', 'that', 'it', 'is', 'working', 'with']","['COMMENT', 'CD', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'VBG', 'IN']"
-147,// 2) the channel to report that we're done through,"['//', '2)', 'the', 'channel', 'to', 'report', 'that', ""we're"", 'done', 'through']","['COMMENT', 'CD', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'VBN', 'IN']"
-148,//,['//'],['COMMENT']
-149,"// When this goroutine is ready to terminate, it should remove the associated","['//', 'When', 'this', 'goroutine', 'is', 'ready', 'to', 'terminate,', 'it', 'should', 'remove', 'the', 'associated']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'JJ', 'TO', 'VB', 'PRP', 'MD', 'VB', 'DT', 'JJ']"
-150,// thing from the map of things to clean up after itself,"['//', 'thing', 'from', 'the', 'map', 'of', 'things', 'to', 'clean', 'up', 'after', 'itself']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'RP', 'IN', 'PRP']"
-151,func doSomething(t thing) {,"['func', 'doSomething', '(', 't', 'thing', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-152,    timer := time.NewTimer(thingIdleLifetime),"['timer', ':=', 'time.NewTimer(thingIdleLifetime)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-153,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-154,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-155,        case <-t.ch:,"['case', '<-', 't', '.', 'ch', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-156,"            // We received a message, so extend the timer","['//', 'We', 'received', 'a', 'message,', 'so', 'extend', 'the', 'timer']","['COMMENT', 'PRP', 'VBD', 'DT', 'NN', 'RB', 'VB', 'DT', 'NN']"
-157,            timer.Reset(thingIdleLifetime),['timer.Reset(thingIdleLifetime)'],['FUNCTION_CALL']
-158,        case <-timer.C:,"['case', '<-', 'timer', '.', 'C', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-159,            // Timer returned so we need to exit now,"['//', 'Timer', 'returned', 'so', 'we', 'need', 'to', 'exit', 'now']","['COMMENT', 'NNP', 'VBD', 'RB', 'PRP', 'VBP', 'TO', 'VB', 'RB']"
-160,            t.done <- t.id,"['t', '.', 'done', '<-', 't', '.', 'id']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-161,            return,['return'],['KEYWORD']
-162,        },['}'],['OPERATOR']
-163,    },['}'],['OPERATOR']
-164,},['}'],['OPERATOR']
-165,"
-
-UPDATE 2015/11/23 16:41 UTC
-
-The completed code that appears to be working properly. Do feel free to let me know if there are any improvements that could be made, but this works (sleeps are deliberate to see progress as it's otherwise too fast!)
-
-","['UPDATE', '2015/11/23', '16:41', 'UTC', 'The', 'completed', 'code', 'that', 'appears', 'to', 'be', 'working', 'properly.', 'Do', 'feel', 'free', 'to', 'let', 'me', 'know', 'if', 'there', 'are', 'any', 'improvements', 'that', 'could', 'be', 'made,', 'but', 'this', 'works', '(sleeps', 'are', 'deliberate', 'to', 'see', 'progress', 'as', ""it's"", 'otherwise', 'too', 'fast!)']","['RB', 'CD', 'CD', 'IN', 'DT', 'VBN', 'NN', 'WDT', 'VBZ', 'TO', 'VB', 'VBG', 'JJ', 'NNP', 'VB', 'JJ', 'TO', 'VB', 'PRP', 'VB', 'IN', 'EX', 'VBP', 'DT', 'NNS', 'WDT', 'MD', 'VB', 'VBN', 'CC', 'DT', 'VBZ', 'NNS', 'VBP', 'JJ', 'TO', 'VB', 'NN', 'IN', 'JJ', 'RB', 'RB', 'JJ']"
-166,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-167,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-168,"    ""log""","['""log""']",['STRING_LITERAL']
-169,"    ""os""","['""os""']",['STRING_LITERAL']
-170,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-171,"    ""time""","['""time""']",['STRING_LITERAL']
-172,),[')'],['OPERATOR']
-173,const (,"['const', '(']","['KEYWORD', 'OPERATOR']"
-174,    chBuffSize        = 100             // How large the thing's channel buffer should be,"['chBuffSize', '=', '100', '//', 'How', 'large', 'the', ""thing's"", 'channel', 'buffer', 'should', 'be']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'DT', 'JJ', 'NN', 'NN', 'MD', 'VB']"
-175,    thingIdleLifetime = time.Second * 5 // How long things can live for when idle,"['thingIdleLifetime', '=', 'time', '.', 'Second', '*', '5', '//', 'How', 'long', 'things', 'can', 'live', 'for', 'when', 'idle']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'MD', 'VB', 'IN', 'WRB', 'JJ']"
-176,    thingsToMake      = 100000          // How many things and associated goroutines to make,"['thingsToMake', '=', '100000', '//', 'How', 'many', 'things', 'and', 'associated', 'goroutines', 'to', 'make']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'CC', 'VBN', 'NNS', 'TO', 'VB']"
-177,    thingMessageCount = 10              // How many messages to send to the thing,"['thingMessageCount', '=', '10', '//', 'How', 'many', 'messages', 'to', 'send', 'to', 'the', 'thing']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'WRB', 'JJ', 'NNS', 'TO', 'VB', 'TO', 'DT', 'NN']"
-178,),[')'],['OPERATOR']
-179,// The thing that we'll be passing into a goroutine to process -----------------,"['//', 'The', 'thing', 'that', ""we'll"", 'be', 'passing', 'into', 'a', 'goroutine', 'to', 'process', '-----------------']","['COMMENT', 'DT', 'NN', 'WDT', 'VBP', 'VB', 'VBG', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN']"
-180,type thing struct {,"['type', 'thing', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-181,    id       string,"['id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-182,    receiver chan bool,"['receiver', 'chan', 'bool']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-183,    done     chan string,"['done', 'chan', 'string']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-184,},['}'],['OPERATOR']
-185,// Go go gadget map test -------------------------------------------------------,"['//', 'Go', 'go', 'gadget', 'map', 'test', '-------------------------------------------------------']","['COMMENT', 'NNP', 'VBP', 'NN', 'JJ', 'NN', 'NN']"
-186,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-187,    // Make all of the things!,"['//', 'Make', 'all', 'of', 'the', 'things!']","['COMMENT', 'NNP', 'DT', 'IN', 'DT', 'NN']"
-188,    things := make(map[string]thing),"['things', ':=', 'make', '(', 'map', '[', 'string', ']', 'thing', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-189,    // Make a channel to receive completion notification on,"['//', 'Make', 'a', 'channel', 'to', 'receive', 'completion', 'notification', 'on']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'NN', 'NN', 'IN']"
-190,"    doneCh := make(chan string, chBuffSize)","['doneCh', ':=', 'make', '(', 'chan', 'string', ',', 'chBuffSize', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-191,"    log.Printf(""Making %d things\n"", thingsToMake)","['log.Printf(""Making %d things\\n"", thingsToMake)']",['FUNCTION_CALL']
-192,    for i := 0; i < thingsToMake; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'thingsToMake', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-193,        t := thing{,"['t', ':=', 'thing', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-194,"            id:       strconv.Itoa(i),","['id', ':', 'strconv.Itoa(i)', ',']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-195,"            receiver: make(chan bool, chBuffSize),","['receiver', ':', 'make', '(', 'chan', 'bool', ',', 'chBuffSize', '),']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-196,"            done:     doneCh,","['done', ':', 'doneCh', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-197,        },['}'],['OPERATOR']
-198,        things[t.id] = t,"['things', '[', 't', '.', 'id', ']', '=', 't']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-199,        // Pass the thing into it's own goroutine,"['//', 'Pass', 'the', 'thing', 'into', ""it's"", 'own', 'goroutine']","['COMMENT', 'NNP', 'DT', 'NN', 'IN', 'JJ', 'JJ', 'NN']"
-200,        go doSomething(t),"['go', 'doSomething', '(', 't', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-201,        // Send (thingMessageCount) messages to the thing,"['//', 'Send', '(thingMessageCount)', 'messages', 'to', 'the', 'thing']","['COMMENT', 'NNP', 'NN', 'NNS', 'TO', 'DT', 'NN']"
-202,        go func(t thing) {,"['go', 'func', '(', 't', 'thing', ')', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-203,            for x := 0; x < thingMessageCount; x++ {,"['for', 'x', ':=', '0', ';', 'x', '<', 'thingMessageCount', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-204,                t.receiver <- true,"['t', '.', 'receiver', '<-', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-205,                time.Sleep(time.Millisecond * 100),['time.Sleep(time.Millisecond * 100)'],['FUNCTION_CALL']
-206,            },['}'],['OPERATOR']
-207,        }(t),"['}(', 't', ')']","['OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-208,    },['}'],['OPERATOR']
-209,"    log.Printf(""All %d things made\n"", thingsToMake)","['log.Printf(""All %d things made\\n"", thingsToMake)']",['FUNCTION_CALL']
-210,    // Check the `len()` of things every second and exit when empty,"['//', 'Check', 'the', '`len()`', 'of', 'things', 'every', 'second', 'and', 'exit', 'when', 'empty']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS', 'DT', 'JJ', 'CC', 'NN', 'WRB', 'NN']"
-211,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-212,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-213,            time.Sleep(time.Second),['time.Sleep(time.Second)'],['FUNCTION_CALL']
-214,            m := things,"['m', ':=', 'things']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-215,"            log.Printf(""Map length: %v"", len(m))","['log.Printf(""Map length: %v"", len(m))']",['FUNCTION_CALL']
-216,            if len(m) == 0 {,"['if', 'len', '(', 'm', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-217,"                log.Printf(""Confirming empty map: %v"", things)","['log.Printf(""Confirming empty map: %v"", things)']",['FUNCTION_CALL']
-218,"                log.Println(""All done. Exiting"")","['log.Println(""All done. Exiting"")']",['FUNCTION_CALL']
-219,                os.Exit(0),['os.Exit(0)'],['FUNCTION_CALL']
-220,            },['}'],['OPERATOR']
-221,        },['}'],['OPERATOR']
-222,    }(),['}()'],['OPERATOR']
-223,    // Receive on doneCh when the goroutine is complete and clean the map up,"['//', 'Receive', 'on', 'doneCh', 'when', 'the', 'goroutine', 'is', 'complete', 'and', 'clean', 'the', 'map', 'up']","['COMMENT', 'VB', 'IN', 'NN', 'WRB', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'JJ', 'DT', 'NN', 'RP']"
-224,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-225,        id := <-doneCh,"['id', ':=', '<-', 'doneCh']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-226,        close(things[id].receiver),"['close', '(', 'things', '[', 'id', '].', 'receiver', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-227,"        delete(things, id)","['delete', '(', 'things', ',', 'id', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-228,    },['}'],['OPERATOR']
-229,},['}'],['OPERATOR']
-230,// Func for each goroutine to run ----------------------------------------------,"['//', 'Func', 'for', 'each', 'goroutine', 'to', 'run', '----------------------------------------------']","['COMMENT', 'NNP', 'IN', 'DT', 'NN', 'TO', 'VB', 'NN']"
-231,//,['//'],['COMMENT']
-232,// When this goroutine is ready to terminate it should respond through t.done to,"['//', 'When', 'this', 'goroutine', 'is', 'ready', 'to', 'terminate', 'it', 'should', 'respond', 'through', 't.done', 'to']","['COMMENT', 'WRB', 'DT', 'NN', 'VBZ', 'JJ', 'TO', 'VB', 'PRP', 'MD', 'VB', 'IN', 'NN', 'TO']"
-233,// notify the caller that it has finished and can be cleaned up. It will wait,"['//', 'notify', 'the', 'caller', 'that', 'it', 'has', 'finished', 'and', 'can', 'be', 'cleaned', 'up.', 'It', 'will', 'wait']","['COMMENT', 'IN', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'VBN', 'CC', 'MD', 'VB', 'VBN', 'JJ', 'PRP', 'MD', 'VB']"
-234,// for `thingIdleLifetime` until it times out and terminates on it's own,"['//', 'for', '`thingIdleLifetime`', 'until', 'it', 'times', 'out', 'and', 'terminates', 'on', ""it's"", 'own']","['COMMENT', 'IN', 'NNP', 'IN', 'PRP', 'VBZ', 'RP', 'CC', 'NNS', 'IN', 'NNS', 'JJ']"
-235,func doSomething(t thing) {,"['func', 'doSomething', '(', 't', 'thing', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-236,    timer := time.NewTimer(thingIdleLifetime),"['timer', ':=', 'time.NewTimer(thingIdleLifetime)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-237,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-238,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-239,        case <-t.receiver:,"['case', '<-', 't', '.', 'receiver', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-240,"            // We received a message, so extend the timer","['//', 'We', 'received', 'a', 'message,', 'so', 'extend', 'the', 'timer']","['COMMENT', 'PRP', 'VBD', 'DT', 'NN', 'RB', 'VB', 'DT', 'NN']"
-241,            timer.Reset(thingIdleLifetime),['timer.Reset(thingIdleLifetime)'],['FUNCTION_CALL']
-242,        case <-timer.C:,"['case', '<-', 'timer', '.', 'C', ':']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-243,            // Timer expired so we need to exit now,"['//', 'Timer', 'expired', 'so', 'we', 'need', 'to', 'exit', 'now']","['COMMENT', 'NN', 'VBD', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'RB']"
-244,            t.done <- t.id,"['t', '.', 'done', '<-', 't', '.', 'id']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-245,            return,['return'],['KEYWORD']
-246,        },['}'],['OPERATOR']
-247,    },['}'],['OPERATOR']
-248,},['}'],['OPERATOR']
+2) Send the wrapper message through zeromq to a retriever and the retriever checks if its expired and returns early. I don't like this because it seems like its bad for performance.
+","['If', 'the', 'backend', 'sends', 'a', 'message,', 'but', 'it', 'is', 'not', 'actually', 'sent', 'to', 'a', 'worker', 'in', 'some', 'period', 'of', 'time,', 'I', 'want', 'it', 'to', 'expire', 'and', 'not', 'ever', 'be', 'sent.', 'Is', 'there', 'a', 'socket', 'option', 'that', 'can', 'accomplish', 'this?', 'If', 'not,', 'what', 'would', 'I', 'have', 'to', 'do', 'to', 'accomplish', 'this?', 'Two', 'ways', 'I', 'think', 'I', 'can', 'do', 'this', 'without', 'socket', 'options', 'are:', '1)', 'Have', 'the', 'backend', 'wrap', 'the', 'message', 'in', 'a', 'wrapper', 'and', 'send', 'to', 'a', 'golang', 'queue', 'and', 'not', 'through', 'zeromq.', 'The', 'wrapper', 'contains', 'the', 'time', 'that', 'the', 'message', 'was', '""sent"".', 'The', 'backend', 'concurrently', 'pulls', 'from', 'the', 'front', 'of', 'the', 'golang', 'queue', 'one', 'at', 'a', 'time', 'and', 'checks', 'if', 'the', 'message', 'is', 'expired.', 'If', 'so,', ""don't"", 'send,', 'if', 'not,', 'send', 'the', 'message.', 'I', 'could', 'have', 'the', 'backend', 'add', 'the', 'message', 'to', 'the', 'golang', 'queue', 'first', 'and', 'then', 'truly', 'send', 'it', 'out', 'after', 'in', 'the', 'same', 'block', 'of', 'code.', 'That', 'way,', 'I', ""don't"", 'need', 'a', 'lock.', '2)', 'Send', 'the', 'wrapper', 'message', 'through', 'zeromq', 'to', 'a', 'retriever', 'and', 'the', 'retriever', 'checks', 'if', 'its', 'expired', 'and', 'returns', 'early.', 'I', ""don't"", 'like', 'this', 'because', 'it', 'seems', 'like', 'its', 'bad', 'for', 'performance.']","['IN', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'CC', 'PRP', 'VBZ', 'RB', 'RB', 'VBN', 'TO', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'PRP', 'TO', 'VB', 'CC', 'RB', 'RB', 'VB', 'VBN', 'NNP', 'EX', 'DT', 'NN', 'NN', 'WDT', 'MD', 'VB', 'VB', 'IN', 'JJ', 'WP', 'MD', 'PRP', 'VB', 'TO', 'VB', 'TO', 'VB', 'PRP', 'CD', 'NNS', 'PRP', 'VBP', 'PRP', 'MD', 'VB', 'DT', 'IN', 'NN', 'NNS', 'VBP', 'CD', 'VBP', 'DT', 'NN', 'VBD', 'DT', 'NN', 'IN', 'DT', 'NN', 'CC', 'VB', 'TO', 'DT', 'NN', 'NN', 'CC', 'RB', 'IN', 'NN', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBD', 'VBN', 'DT', 'NN', 'RB', 'VBZ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBD', 'CD', 'IN', 'DT', 'NN', 'CC', 'NNS', 'IN', 'DT', 'NN', 'VBZ', 'JJ', 'IN', 'JJ', 'NN', 'NN', 'IN', 'JJ', 'VBP', 'DT', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'RB', 'CC', 'RB', 'RB', 'VB', 'PRP', 'RP', 'IN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'VB', 'DT', 'JJ', 'CD', 'VBP', 'DT', 'NN', 'NN', 'IN', 'NN', 'TO', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'IN', 'PRP$', 'JJ', 'CC', 'NNS', 'VBP', 'PRP', 'VBP', 'IN', 'DT', 'IN', 'PRP', 'VBZ', 'IN', 'PRP$', 'JJ', 'IN', 'NN']"

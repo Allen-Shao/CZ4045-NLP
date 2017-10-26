@@ -1,342 +1,43 @@
 ,text,token,annotation
-0,"This code gets the page data through a proxy.
-It start from id of page = 1 and continue till 100000
+0,"although this is a dead post, I cannot help but note since no one else has (explicitly), and it's kinda' important to know why:
 
-","['This', 'code', 'gets', 'the', 'page', 'data', 'through', 'a', 'proxy.', 'It', 'start', 'from', 'id', 'of', 'page', '=', '1', 'and', 'continue', 'till', '100000']","['DT', 'NN', 'VBZ', 'DT', 'NN', 'NNS', 'IN', 'DT', 'NN', 'PRP', 'VBZ', 'IN', 'NN', 'IN', 'NN', '$', 'CD', 'CC', 'VB', 'NN', 'CD']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""code.google.com/p/gcfg""","['""code.google.com/p/gcfg""']",['STRING_LITERAL']
-4,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
-5,"    ""flag""","['""flag""']",['STRING_LITERAL']
-6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-7,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
-8,"    ""github.com/parnurzeal/gorequest""","['""github.com/parnurzeal/gorequest""']",['STRING_LITERAL']
-9,"    ""log""","['""log""']",['STRING_LITERAL']
-10,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-11,"    ""time""","['""time""']",['STRING_LITERAL']
-12,),[')'],['PUNCTUATION']
-13,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-14,    t := time.Now(),"['t', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-15,    initConfig(),"['initConfig', '()']","['IDENTIFIER', 'PUNCTUATION']"
-16,    initRoundRobin(),"['initRoundRobin', '()']","['IDENTIFIER', 'PUNCTUATION']"
-17,    for i := vStart; i <= vStop; i++ {,"['for', 'i', ':=', 'vStart', ';', 'i', '<=', 'vStop', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-18,"        cache(""https://site.ru/url/""+strconv.Itoa(i), ""url"", i)","['cache(""https://site.ru/url/""+strconv.Itoa(i),', '""url""', ',', 'i', ')']","['DIRECTORY', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-19,    },['}'],['PUNCTUATION']
-20,"    fmt.Println(""Time: "", time.Since(t))","['fmt.Println(""Time: "", time.Since(t))']",['FUNCTION_CALL']
-21,},['}'],['PUNCTUATION']
-22,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-23,    db                  *sql.DB,"['db', '*', 'sql', '.', 'DB']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-24,    config              ConfigStruct,"['config', 'ConfigStruct']","['IDENTIFIER', 'IDENTIFIER']"
-25,"    configFile          = ""config.gcfg""","['configFile', '=', '""config.gcfg""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-26,    roundRobin          map[int]string,"['roundRobin', 'map', '[', 'int', ']', 'string']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-27,    roundRobinNextId    int,"['roundRobinNextId', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-28,    roundRobinMaxId     int,"['roundRobinMaxId', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-29,    vStart              int,"['vStart', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-30,    vStop               int,"['vStop', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-31,    vPart               int,"['vPart', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-32,    vScriptCount        int,"['vScriptCount', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-33,    roundRobinShift     int,"['roundRobinShift', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-34,    failedRequestCount  int,"['failedRequestCount', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-35,    successRequestCount int,"['successRequestCount', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-36,),[')'],['PUNCTUATION']
-37,type ConfigStruct struct {,"['type', 'ConfigStruct', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-38,    Database struct {,"['Database', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-39,        ConnectionString string,"['ConnectionString', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-40,        TableNameCache   string,"['TableNameCache', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-41,    },['}'],['PUNCTUATION']
-42,    Part struct {,"['Part', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-43,        CurrentPart             int,"['CurrentPart', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-44,        CurrentProxyCheckerPart int,"['CurrentProxyCheckerPart', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-45,    },['}'],['PUNCTUATION']
-46,},['}'],['PUNCTUATION']
-47,type ProxyAddress struct {,"['type', 'ProxyAddress', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-48,    Id int,"['Id', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-49,    Ip string,"['Ip', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-50,},['}'],['PUNCTUATION']
-51,func check(e error) {,"['func', 'check', '(', 'e', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-52,    if e != nil {,"['if', 'e', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-53,        panic(e),"['panic', '(', 'e', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-54,        log.Fatal(e),['log.Fatal(e)'],['FUNCTION_CALL']
-55,    },['}'],['PUNCTUATION']
-56,},['}'],['PUNCTUATION']
-57,"
 
-Init connection to the database where stored proxy list and store all pages data.
+nested for loops exhibit quadratic running time complexity,
+and as you stated, searching an array takes linear time,
 
-","['Init', 'connection', 'to', 'the', 'database', 'where', 'stored', 'proxy', 'list', 'and', 'store', 'all', 'pages', 'data.']","['NNP', 'NN', 'TO', 'DT', 'NN', 'WRB', 'VBN', 'JJ', 'NN', 'CC', 'NN', 'DT', 'NNS', 'VBP']"
-58,func initConfig() {,"['func', 'initConfig', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-59,"    if err := gcfg.ReadFileInto(&config, configFile); err != nil {","['if', 'err', ':=', 'gcfg.ReadFileInto(&config, configFile)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-60,        check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-61,    },['}'],['PUNCTUATION']
-62,"    connect, err := sql.Open(""mysql"", config.Database.ConnectionString)","['connect', ',', 'err', ':=', 'sql.Open(""mysql"", config.Database.ConnectionString)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-63,    check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-64,    db = connect,"['db', '=', 'connect']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-65,    vScriptCount = 100000,"['vScriptCount', '=', '100000']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-66,"    flag.IntVar(&roundRobinShift, ""shift"", 0, """")","['flag.IntVar(&roundRobinShift, ""shift"", 0, """")']",['FUNCTION_CALL']
-67,"    flag.IntVar(&vPart, ""part"", 0, ""select part"")","['flag.IntVar(&vPart, ""part"", 0, ""select part"")']",['FUNCTION_CALL']
-68,"    flag.IntVar(&vStart, ""start"", (vPart*vScriptCount)+1, ""select start id"")","['flag.IntVar(&vStart, ""start"", (vPart*vScriptCount)+1, ""select start id"")']",['FUNCTION_CALL']
-69,"    flag.IntVar(&vStop, ""stop"", (vPart+1)*vScriptCount, ""select stop id"")","['flag.IntVar(&vStop, ""stop"", (vPart+1)*vScriptCount, ""select stop id"")']",['FUNCTION_CALL']
-70,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-71,    vStart = vStart + (vPart * vScriptCount),"['vStart', '=', 'vStart', '+', '(', 'vPart', '*', 'vScriptCount', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-72,    vStop = vStop + (vPart * vScriptCount),"['vStop', '=', 'vStop', '+', '(', 'vPart', '*', 'vScriptCount', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-73,    successRequestCount = 0,"['successRequestCount', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-74,},['}'],['PUNCTUATION']
-75,"
 
-Init list of proxies
+so simply put:
 
-","['Init', 'list', 'of', 'proxies']","['NNP', 'NN', 'IN', 'NNS']"
-76,func initRoundRobin() {,"['func', 'initRoundRobin', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-77,    roundRobin = make(map[int]string),"['roundRobin', '=', 'make', '(', 'map', '[', 'int', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-78,"    rows, err := db.Query(""SELECT id, ip FROM proxies WHERE status = 1 order by id asc"")","['rows', ',', 'err', ':=', 'db.Query(""SELECT id, ip FROM proxies WHERE status = 1 order by id asc"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-79,    check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-80,    defer rows.Close(),"['defer', 'rows.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-81,    for rows.Next() {,"['for', 'rows.Next()', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-82,        pa := new(ProxyAddress),"['pa', ':=', 'new', '(', 'ProxyAddress', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-83,"        if err := rows.Scan(&pa.Id, &pa.Ip); err != nil {","['if', 'err', ':=', 'rows.Scan(&pa.Id, &pa.Ip)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-84,            check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-85,        },['}'],['PUNCTUATION']
-86,        roundRobin[pa.Id] = pa.Ip,"['roundRobin', '[', 'pa', '.', 'Id', ']', '=', 'pa', '.', 'Ip']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-87,        roundRobinMaxId = pa.Id,"['roundRobinMaxId', '=', 'pa', '.', 'Id']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-88,    },['}'],['PUNCTUATION']
-89,    roundRobinNextId = roundRobinShift + successRequestCount,"['roundRobinNextId', '=', 'roundRobinShift', '+', 'successRequestCount']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-90,    if roundRobinNextId > roundRobinMaxId {,"['if', 'roundRobinNextId', '>', 'roundRobinMaxId', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-91,        roundRobinNextId = 0,"['roundRobinNextId', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-92,    },['}'],['PUNCTUATION']
-93,    failedRequestCount = 0,"['failedRequestCount', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-94,},['}'],['PUNCTUATION']
-95,"
 
-Function check data from database and if it is not in it - script will do a request 
+the computation time will increase by the square of the total number of elements.
 
-","['Function', 'check', 'data', 'from', 'database', 'and', 'if', 'it', 'is', 'not', 'in', 'it', '-', 'script', 'will', 'do', 'a', 'request']","['NNP', 'NN', 'NNS', 'IN', 'NN', 'CC', 'IN', 'PRP', 'VBZ', 'RB', 'IN', 'PRP', ':', 'NN', 'MD', 'VB', 'DT', 'NN']"
-96,"func cache(url string, tag string, url_id int) ([]byte, error) {","['func', 'cache', '(', 'url', 'string', ',', 'tag', 'string', ',', 'url_id', 'int', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-97,    var data string,"['var', 'data', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-98,"    err := db.QueryRow(""SELECT data FROM cache WHERE url_id=? AND tag=?"", url_id, tag).Scan(&data)","['err', ':=', 'db.QueryRow(""SELECT data FROM cache WHERE url_id=? AND tag=?"", url_id, tag).Scan(&data)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-99,    if err == sql.ErrNoRows {,"['if', 'err', '==', 'sql', '.', 'ErrNoRows', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-100,"        data, err := proxyRequest(url)","['data', ',', 'err', ':=', 'proxyRequest', '(', 'url', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-101,        check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-102,"        insert, err := db.Prepare(""INSERT cache SET url_id=?, url=?, tag=?, data=?, datetime=?"")","['insert', ',', 'err', ':=', 'db.Prepare(""INSERT cache SET url_id=?, url=?, tag=?, data=?, datetime=?"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-103,"        datetime, err := strconv.ParseInt(time.Now().Format(""20060102150405""), 10, 64)","['datetime', ',', 'err', ':=', 'strconv.ParseInt(time.Now().Format(""20060102150405""), 10, 64)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-104,        check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-105,"        insert.Exec(url_id, url, tag, data, datetime)","['insert.Exec(url_id, url, tag, data, datetime)']",['FUNCTION_CALL']
-106,"        return []byte(data), nil","['return', '[]', 'byte', '(', 'data', '),', 'nil']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-107,    },['}'],['PUNCTUATION']
-108,"    return []byte(data), nil","['return', '[]', 'byte', '(', 'data', '),', 'nil']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-109,},['}'],['PUNCTUATION']
-110,"
 
-Function make request through proxy to get page data. Each request get through new proxy server. Timeout per server = 10 sec. If server don't send a response - server will be deleted from roundrobin.
+now to answer why this isn't the case in php -- well cause you were using a hash map which:
 
-","['Function', 'make', 'request', 'through', 'proxy', 'to', 'get', 'page', 'data.', 'Each', 'request', 'get', 'through', 'new', 'proxy', 'server.', 'Timeout', 'per', 'server', '=', '10', 'sec.', 'If', 'server', ""don't"", 'send', 'a', 'response', '-', 'server', 'will', 'be', 'deleted', 'from', 'roundrobin.']","['NNP', 'VBP', 'NN', 'IN', 'NN', 'TO', 'VB', 'JJ', 'NN', 'DT', 'NN', 'VBP', 'IN', 'JJ', 'JJ', 'NN', 'NNP', 'IN', 'NN', 'VBP', 'CD', 'NN', 'IN', 'JJ', 'VBP', 'VB', 'DT', 'NN', ':', 'NN', 'MD', 'VB', 'VBN', 'IN', 'NN']"
-111,"func proxyRequest(url string) ([]byte, error) {","['func', 'proxyRequest', '(', 'url', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-112,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-113,        roundRobinCurrentId := getNextRoundRobinId(),"['roundRobinCurrentId', ':=', 'getNextRoundRobinId', '()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-114,        proxy := roundRobin[roundRobinCurrentId],"['proxy', ':=', 'roundRobin', '[', 'roundRobinCurrentId', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-115,"        request := gorequest.New().Timeout(10000 * time.Millisecond).Proxy(""http://"" + proxy)","['request', ':=', 'go', 'request.New().Timeout(10000 * time.Millisecond).Proxy(""http://"" + proxy)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'FUNCTION_CALL']"
-116,"        _, body, err := request.Get(url).End()","['_', ',', 'body', ',', 'err', ':=', 'request.Get(url).End()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-117,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-118,"            deleteRoundRobinId(roundRobinCurrentId, err[0].Error())","['deleteRoundRobinId', '(', 'roundRobinCurrentId', ',', 'err', '[', '0', '].', 'Error', '())']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-119,            continue,['continue'],['KEYWORD']
-120,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-121,            successRequestCount++,"['successRequestCount', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-122,        },['}'],['PUNCTUATION']
-123,"        return []byte(body), nil","['return', '[]', 'byte', '(', 'body', '),', 'nil']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-124,        break,['break'],['KEYWORD']
-125,    },['}'],['PUNCTUATION']
-126,"    return []byte(""""), nil","['return', '[]', 'byte', '(', '""""', '),', 'nil']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-127,},['}'],['PUNCTUATION']
-128,"
 
-Get next proxy server from list. If list is ended - script will wait for 30 seconds.
+can be said, exhibits a constant time complexity
 
-","['Get', 'next', 'proxy', 'server', 'from', 'list.', 'If', 'list', 'is', 'ended', '-', 'script', 'will', 'wait', 'for', '30', 'seconds.']","['NNP', 'JJ', 'NN', 'NN', 'IN', 'NN', 'IN', 'NN', 'VBZ', 'VBN', ':', 'NN', 'MD', 'VB', 'IN', 'CD', 'NN']"
-129,func getNextRoundRobinId() int {,"['func', 'getNextRoundRobinId', '()', 'int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-130,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-131,        if len(roundRobin) == 0 {,"['if', 'len', '(', 'roundRobin', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-132,            initRoundRobin(),"['initRoundRobin', '()']","['IDENTIFIER', 'PUNCTUATION']"
-133,            if len(roundRobin) == 0 {,"['if', 'len', '(', 'roundRobin', ')', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-134,"                fmt.Println(""proxy is ended"")","['fmt.Println(""proxy is ended"")']",['FUNCTION_CALL']
-135,                time.Sleep(30 * time.Second),['time.Sleep(30 * time.Second)'],['FUNCTION_CALL']
-136,                initRoundRobin(),"['initRoundRobin', '()']","['IDENTIFIER', 'PUNCTUATION']"
-137,            },['}'],['PUNCTUATION']
-138,        },['}'],['PUNCTUATION']
-139,        if roundRobinNextId == roundRobinMaxId {,"['if', 'roundRobinNextId', '==', 'roundRobinMaxId', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-140,            roundRobinNextId = 0,"['roundRobinNextId', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-141,        },['}'],['PUNCTUATION']
-142,        roundRobinNextId++,"['roundRobinNextId', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-143,"        _, ok := roundRobin[roundRobinNextId]","['_', ',', 'ok', ':=', 'roundRobin', '[', 'roundRobinNextId', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-144,        if ok {,"['if', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-145,            break,['break'],['KEYWORD']
-146,        },['}'],['PUNCTUATION']
-147,    },['}'],['PUNCTUATION']
-148,    return roundRobinNextId,"['return', 'roundRobinNextId']","['KEYWORD', 'IDENTIFIER']"
-149,},['}'],['PUNCTUATION']
-150,"
 
-If response from proxy was bad - server will be deleted by this function.
-If count of servers get 5 - list of proxy will be reinit.
+again, simply put this means that:
 
-","['If', 'response', 'from', 'proxy', 'was', 'bad', '-', 'server', 'will', 'be', 'deleted', 'by', 'this', 'function.', 'If', 'count', 'of', 'servers', 'get', '5', '-', 'list', 'of', 'proxy', 'will', 'be', 'reinit.']","['IN', 'NN', 'IN', 'NN', 'VBD', 'JJ', ':', 'NN', 'MD', 'VB', 'VBN', 'IN', 'DT', 'NN', 'IN', 'NN', 'IN', 'NNS', 'VBP', 'CD', ':', 'NN', 'IN', 'NN', 'MD', 'VB', 'JJ']"
-151,"func deleteRoundRobinId(roundRobinId int, result string) {","['func', 'deleteRoundRobinId', '(', 'roundRobinId', 'int', ',', 'result', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-152,"    db.Exec(""update proxies set status = 0, response =? where id=?"", result, roundRobinId)","['db.Exec(""update proxies set status = 0, response =? where id=?"", result, roundRobinId)']",['FUNCTION_CALL']
-153,"    delete(roundRobin, roundRobinId)","['delete', '(', 'roundRobin', ',', 'roundRobinId', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-154,    failedRequestCount++,"['failedRequestCount', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-155,    if failedRequestCount == 5 {,"['if', 'failedRequestCount', '==', '5', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-156,        initRoundRobin(),"['initRoundRobin', '()']","['IDENTIFIER', 'PUNCTUATION']"
-157,    },['}'],['PUNCTUATION']
-158,},['}'],['PUNCTUATION']
-159,"
 
-I run this script on 10 terminals. Some time later most of them crashed with this error:
+look up time is not related to the number of elements (aka the size of the collection).
 
-","['I', 'run', 'this', 'script', 'on', '10', 'terminals.', 'Some', 'time', 'later', 'most', 'of', 'them', 'crashed', 'with', 'this', 'error:']","['PRP', 'VBP', 'DT', 'NN', 'IN', 'CD', 'CC', 'DT', 'NN', 'RB', 'JJS', 'IN', 'PRP', 'VBD', 'IN', 'DT', 'NN']"
-160,"database/sql.(*Stmt).Exec(0x0, 0xc20842be38, 0x5, 0x5, 0x0, 0x0, 0x0, 0x0)","['database/sql.(*Stmt).Exec(0x0,', '0xc2', '0', '842', 'be38', ',', '0x5', ',', '0x5', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-161,    /usr/local/go/src/database/sql/sql.go:1302 +0x3e1,"['/usr/local/go/src/database/sql/sql.go:1302', '+', '0x3e1']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-162,"main.cache(0xc2082f0690, 0x23, 0x355910, 0x9, 0x12775b, 0x0, 0x0, 0x0, 0x0, 0x0)","['main.cache(0xc2082f0690, 0x23, 0x355910, 0x9, 0x12775b, 0x0, 0x0, 0x0, 0x0, 0x0)']",['FUNCTION_CALL']
-163,    /var/go/src/parser/index.go:148 +0x702,"['/var/go/src/parser/index.go:148', '+', '0x7', '02']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-164,main.main(),['main.main()'],['FUNCTION_CALL']
-165,    /var/go/src/parser/index.go:31 +0x26c,"['/var/go/src/parser/index.go:31', '+', '0x26c']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-166,"goroutine 5 [chan receive, 213 minutes]:","['go', 'routine', '5', '[', 'chan', 'receive', ',', '213', 'minutes', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-167,database/sql.(*DB).connectionOpener(0xc2080446e0),['database/sql.(*DB).connectionOpener(0xc2080446e0)'],['DIRECTORY']
-168,    /usr/local/go/src/database/sql/sql.go:589 +0x4c,"['/usr/local/go/src/database/sql/sql.go:589', '+', '0x4c']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-169,created by database/sql.Open,"['created', 'by', 'database/sql.Open']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-170,    /usr/local/go/src/database/sql/sql.go:452 +0x31c,"['/usr/local/go/src/database/sql/sql.go:452', '+', '0x31c']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-171,"goroutine 17 [syscall, 213 minutes, locked to thread]:","['go', 'routine', '17', '[', 'syscall', ',', '213', 'minutes', ',', 'locked', 'to', 'thread', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-172,runtime.goexit(),['runtime.goexit()'],['FUNCTION_CALL']
-173,    /usr/local/go/src/runtime/asm_amd64.s:2232 +0x1,"['/usr/local/go/src/runtime/asm_amd64.s:2232', '+', '0x1']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-174,goroutine 10854 [IO wait]:,"['go', 'routine', '10854', '[', 'IO', 'wait', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-175,"net.(*pollDesc).Wait(0xc2081f2990, 0x72, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'Wait', '(', '0xc2', '0', '81', 'f2990', ',', '0x72', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-176,    /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47,"['/usr/local/go/src/net/fd_poll_runtime.go:84', '+', '0x47']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-177,"net.(*pollDesc).WaitRead(0xc2081f2990, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'WaitRead', '(', '0xc2', '0', '81', 'f2990', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-178,    /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43,"['/usr/local/go/src/net/fd_poll_runtime.go:89', '+', '0x43']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-179,"net.(*netFD).Read(0xc2081f2930, 0xc20844e800, 0x400, 0x400, 0x0, 0x584b70, 0xc2081f7ae8)","['net', '.(*', 'netFD', ').', 'Read', '(', '0xc2', '0', '81', 'f2930', ',', '0xc2', '0', '844', 'e800', ',', '0x4', '0', '0', ',', '0x4', '0', '0', ',', '0', 'x0', ',', '0x584b7', '0', ',', '0xc2', '0', '81', 'f7ae8', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-180,    /usr/local/go/src/net/fd_unix.go:242 +0x40f,"['/usr/local/go/src/net/fd_unix.go:242', '+', '0x4', '0', 'f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-181,"net.(*conn).Read(0xc208038390, 0xc20844e800, 0x400, 0x400, 0x0, 0x0, 0x0)","['net', '.(*', 'conn', ').', 'Read', '(', '0xc2', '0', '8038390', ',', '0xc2', '0', '844', 'e800', ',', '0x4', '0', '0', ',', '0x4', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-182,    /usr/local/go/src/net/net.go:121 +0xdc,"['/usr/local/go/src/net/net.go:121', '+', '0xdc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-183,"crypto/tls.(*block).readFromUntil(0xc20857dfb0, 0x5860a8, 0xc208038390, 0x5, 0x0, 0x0)","['crypto/tls.(*block).readFromUntil(0xc20857dfb0,', '0x586', '0', 'a8', ',', '0xc2', '0', '8038390', ',', '0x5', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-184,    /usr/local/go/src/crypto/tls/conn.go:454 +0xe6,"['/usr/local/go/src/crypto/tls/conn.go:454', '+', '0xe6']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-185,"crypto/tls.(*Conn).readRecord(0xc208484b00, 0x17, 0x0, 0x0)","['crypto/tls.(*Conn).readRecord(0xc208484b00,', '0x17', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-186,    /usr/local/go/src/crypto/tls/conn.go:539 +0x2da,"['/usr/local/go/src/crypto/tls/conn.go:539', '+', '0x2da']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-187,"crypto/tls.(*Conn).Read(0xc208484b00, 0xc20834e000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['crypto/tls.(*Conn).Read(0xc208484b00,', '0xc2', '0', '834', 'e000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-188,    /usr/local/go/src/crypto/tls/conn.go:904 +0x166,"['/usr/local/go/src/crypto/tls/conn.go:904', '+', '0x166']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-189,"net/http.noteEOFReader.Read(0x58c488, 0xc208484b00, 0xc208263398, 0xc20834e000, 0x1000, 0x1000, 0x2a0300, 0x0, 0x0)","['net/http.noteEOFReader.Read(0x58c488,', '0xc2', '0', '8484', 'b00', ',', '0xc2', '0', '8263398', ',', '0xc2', '0', '834', 'e000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x2a', '03', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-190,    /usr/local/go/src/net/http/transport.go:1270 +0x6e,"['/usr/local/go/src/net/http/transport.go:1270', '+', '0x6e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-191,"net/http.(*noteEOFReader).Read(0xc2082a4460, 0xc20834e000, 0x1000, 0x1000, 0xc208012000, 0x0, 0x0)","['net/http.(*noteEOFReader).Read(0xc2082a4460,', '0xc2', '0', '834', 'e000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0xc2', '0', '8012000', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-192,    :125 +0xd4,"[':', '125', '+', '0xd4']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-193,bufio.(*Reader).fill(0xc2080fc060),"['bufio', '.(*', 'Reader', ').', 'fill', '(', '0xc2', '0', '80', 'fc060', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-194,    /usr/local/go/src/bufio/bufio.go:97 +0x1ce,"['/usr/local/go/src/bufio/bufio.go:97', '+', '0x1ce']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-195,"bufio.(*Reader).Peek(0xc2080fc060, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)","['bufio', '.(*', 'Reader', ').', 'Peek', '(', '0xc2', '0', '80', 'fc060', ',', '0x1', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-196,    /usr/local/go/src/bufio/bufio.go:132 +0xf0,"['/usr/local/go/src/bufio/bufio.go:132', '+', '0xf', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-197,net/http.(*persistConn).readLoop(0xc208263340),['net/http.(*persistConn).readLoop(0xc208263340)'],['DIRECTORY']
-198,    /usr/local/go/src/net/http/transport.go:842 +0xa4,"['/usr/local/go/src/net/http/transport.go:842', '+', '0xa4']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-199,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-200,    /usr/local/go/src/net/http/transport.go:660 +0xc9f,"['/usr/local/go/src/net/http/transport.go:660', '+', '0xc9f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-201,goroutine 10863 [select]:,"['go', 'routine', '10863', '[', 'select', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-202,net/http.(*persistConn).writeLoop(0xc208263ad0),['net/http.(*persistConn).writeLoop(0xc208263ad0)'],['DIRECTORY']
-203,    /usr/local/go/src/net/http/transport.go:945 +0x41d,"['/usr/local/go/src/net/http/transport.go:945', '+', '0x41d']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-204,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-205,    /usr/local/go/src/net/http/transport.go:661 +0xcbc,"['/usr/local/go/src/net/http/transport.go:661', '+', '0xcbc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-206,goroutine 10855 [select]:,"['go', 'routine', '10855', '[', 'select', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-207,net/http.(*persistConn).writeLoop(0xc208263340),['net/http.(*persistConn).writeLoop(0xc208263340)'],['DIRECTORY']
-208,    /usr/local/go/src/net/http/transport.go:945 +0x41d,"['/usr/local/go/src/net/http/transport.go:945', '+', '0x41d']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-209,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-210,    /usr/local/go/src/net/http/transport.go:661 +0xcbc,"['/usr/local/go/src/net/http/transport.go:661', '+', '0xcbc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-211,goroutine 10862 [IO wait]:,"['go', 'routine', '10862', '[', 'IO', 'wait', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-212,"net.(*pollDesc).Wait(0xc208010b50, 0x72, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'Wait', '(', '0xc2', '0', '8010', 'b50', ',', '0x72', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-213,    /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47,"['/usr/local/go/src/net/fd_poll_runtime.go:84', '+', '0x47']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-214,"net.(*pollDesc).WaitRead(0xc208010b50, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'WaitRead', '(', '0xc2', '0', '8010', 'b50', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-215,    /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43,"['/usr/local/go/src/net/fd_poll_runtime.go:89', '+', '0x43']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-216,"net.(*netFD).Read(0xc208010af0, 0xc20852c800, 0x400, 0x400, 0x0, 0x584b70, 0xc2081af168)","['net', '.(*', 'netFD', ').', 'Read', '(', '0xc2', '0', '8010', 'af0', ',', '0xc2', '0', '852', 'c800', ',', '0x4', '0', '0', ',', '0x4', '0', '0', ',', '0', 'x0', ',', '0x584b7', '0', ',', '0xc2', '0', '81', 'af168', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-217,    /usr/local/go/src/net/fd_unix.go:242 +0x40f,"['/usr/local/go/src/net/fd_unix.go:242', '+', '0x4', '0', 'f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-218,"net.(*conn).Read(0xc208038488, 0xc20852c800, 0x400, 0x400, 0x0, 0x0, 0x0)","['net', '.(*', 'conn', ').', 'Read', '(', '0xc2', '0', '8038488', ',', '0xc2', '0', '852', 'c800', ',', '0x4', '0', '0', ',', '0x4', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-219,    /usr/local/go/src/net/net.go:121 +0xdc,"['/usr/local/go/src/net/net.go:121', '+', '0xdc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-220,"crypto/tls.(*block).readFromUntil(0xc2085597a0, 0x5860a8, 0xc208038488, 0x5, 0x0, 0x0)","['crypto/tls.(*block).readFromUntil(0xc2085597a0,', '0x586', '0', 'a8', ',', '0xc2', '0', '8038488', ',', '0x5', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-221,    /usr/local/go/src/crypto/tls/conn.go:454 +0xe6,"['/usr/local/go/src/crypto/tls/conn.go:454', '+', '0xe6']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-222,"crypto/tls.(*Conn).readRecord(0xc2084858c0, 0x17, 0x0, 0x0)","['crypto/tls.(*Conn).readRecord(0xc2084858c0,', '0x17', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-223,    /usr/local/go/src/crypto/tls/conn.go:539 +0x2da,"['/usr/local/go/src/crypto/tls/conn.go:539', '+', '0x2da']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-224,"crypto/tls.(*Conn).Read(0xc2084858c0, 0xc208415000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['crypto/tls.(*Conn).Read(0xc2084858c0,', '0xc2', '0', '8415000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-225,    /usr/local/go/src/crypto/tls/conn.go:904 +0x166,"['/usr/local/go/src/crypto/tls/conn.go:904', '+', '0x166']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-226,"net/http.noteEOFReader.Read(0x58c488, 0xc2084858c0, 0xc208263b28, 0xc208415000, 0x1000, 0x1000, 0x2a0300, 0x0, 0x0)","['net/http.noteEOFReader.Read(0x58c488,', '0xc2', '0', '84858', 'c0', ',', '0xc2', '0', '8263', 'b28', ',', '0xc2', '0', '8415000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x2a', '03', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-227,    /usr/local/go/src/net/http/transport.go:1270 +0x6e,"['/usr/local/go/src/net/http/transport.go:1270', '+', '0x6e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-228,"net/http.(*noteEOFReader).Read(0xc20825bce0, 0xc208415000, 0x1000, 0x1000, 0xc208012000, 0x0, 0x0)","['net/http.(*noteEOFReader).Read(0xc20825bce0,', '0xc2', '0', '8415000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0xc2', '0', '8012000', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-229,    :125 +0xd4,"[':', '125', '+', '0xd4']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-230,bufio.(*Reader).fill(0xc2080fd740),"['bufio', '.(*', 'Reader', ').', 'fill', '(', '0xc2', '0', '80', 'fd740', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-231,    /usr/local/go/src/bufio/bufio.go:97 +0x1ce,"['/usr/local/go/src/bufio/bufio.go:97', '+', '0x1ce']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-232,"bufio.(*Reader).Peek(0xc2080fd740, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)","['bufio', '.(*', 'Reader', ').', 'Peek', '(', '0xc2', '0', '80', 'fd740', ',', '0x1', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-233,    /usr/local/go/src/bufio/bufio.go:132 +0xf0,"['/usr/local/go/src/bufio/bufio.go:132', '+', '0xf', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-234,net/http.(*persistConn).readLoop(0xc208263ad0),['net/http.(*persistConn).readLoop(0xc208263ad0)'],['DIRECTORY']
-235,    /usr/local/go/src/net/http/transport.go:842 +0xa4,"['/usr/local/go/src/net/http/transport.go:842', '+', '0xa4']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-236,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-237,    /usr/local/go/src/net/http/transport.go:660 +0xc9f,"['/usr/local/go/src/net/http/transport.go:660', '+', '0xc9f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-238,goroutine 10867 [select]:,"['go', 'routine', '10867', '[', 'select', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-239,net/http.(*persistConn).writeLoop(0xc208263ef0),['net/http.(*persistConn).writeLoop(0xc208263ef0)'],['DIRECTORY']
-240,    /usr/local/go/src/net/http/transport.go:945 +0x41d,"['/usr/local/go/src/net/http/transport.go:945', '+', '0x41d']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-241,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-242,    /usr/local/go/src/net/http/transport.go:661 +0xcbc,"['/usr/local/go/src/net/http/transport.go:661', '+', '0xcbc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-243,goroutine 10866 [IO wait]:,"['go', 'routine', '10866', '[', 'IO', 'wait', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-244,"net.(*pollDesc).Wait(0xc2084be1b0, 0x72, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'Wait', '(', '0xc2', '0', '84', 'be1b0', ',', '0x72', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-245,    /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47,"['/usr/local/go/src/net/fd_poll_runtime.go:84', '+', '0x47']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-246,"net.(*pollDesc).WaitRead(0xc2084be1b0, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'WaitRead', '(', '0xc2', '0', '84', 'be1b0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-247,    /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43,"['/usr/local/go/src/net/fd_poll_runtime.go:89', '+', '0x43']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-248,"net.(*netFD).Read(0xc2084be150, 0xc208465000, 0x1000, 0x1000, 0x0, 0x584b70, 0xc2081602f0)","['net', '.(*', 'netFD', ').', 'Read', '(', '0xc2', '0', '84', 'be150', ',', '0xc2', '0', '8465000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0x584b7', '0', ',', '0xc2', '0', '81602', 'f0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-249,    /usr/local/go/src/net/fd_unix.go:242 +0x40f,"['/usr/local/go/src/net/fd_unix.go:242', '+', '0x4', '0', 'f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-250,"net.(*conn).Read(0xc208038540, 0xc208465000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['net', '.(*', 'conn', ').', 'Read', '(', '0xc2', '0', '8038540', ',', '0xc2', '0', '8465000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-251,    /usr/local/go/src/net/net.go:121 +0xdc,"['/usr/local/go/src/net/net.go:121', '+', '0xdc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-252,"crypto/tls.(*block).readFromUntil(0xc2080cc180, 0x5860a8, 0xc208038540, 0x5, 0x0, 0x0)","['crypto/tls.(*block).readFromUntil(0xc2080cc180,', '0x586', '0', 'a8', ',', '0xc2', '0', '8038540', ',', '0x5', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-253,    /usr/local/go/src/crypto/tls/conn.go:454 +0xe6,"['/usr/local/go/src/crypto/tls/conn.go:454', '+', '0xe6']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-254,"crypto/tls.(*Conn).readRecord(0xc2082cc000, 0x17, 0x0, 0x0)","['crypto/tls.(*Conn).readRecord(0xc2082cc000,', '0x17', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-255,    /usr/local/go/src/crypto/tls/conn.go:539 +0x2da,"['/usr/local/go/src/crypto/tls/conn.go:539', '+', '0x2da']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-256,"crypto/tls.(*Conn).Read(0xc2082cc000, 0xc2082cf000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['crypto/tls.(*Conn).Read(0xc2082cc000,', '0xc2', '0', '82', 'cf000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-257,    /usr/local/go/src/crypto/tls/conn.go:904 +0x166,"['/usr/local/go/src/crypto/tls/conn.go:904', '+', '0x166']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-258,"net/http.noteEOFReader.Read(0x58c488, 0xc2082cc000, 0xc208263f48, 0xc2082cf000, 0x1000, 0x1000, 0x2a0300, 0x0, 0x0)","['net/http.noteEOFReader.Read(0x58c488,', '0xc2', '0', '82', 'cc000', ',', '0xc2', '0', '8263', 'f48', ',', '0xc2', '0', '82', 'cf000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x2a', '03', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-259,    /usr/local/go/src/net/http/transport.go:1270 +0x6e,"['/usr/local/go/src/net/http/transport.go:1270', '+', '0x6e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-260,"net/http.(*noteEOFReader).Read(0xc20820ed60, 0xc2082cf000, 0x1000, 0x1000, 0xc208012000, 0x0, 0x0)","['net/http.(*noteEOFReader).Read(0xc20820ed60,', '0xc2', '0', '82', 'cf000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0xc2', '0', '8012000', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-261,    :125 +0xd4,"[':', '125', '+', '0xd4']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-262,bufio.(*Reader).fill(0xc208326240),"['bufio', '.(*', 'Reader', ').', 'fill', '(', '0xc2', '0', '8326240', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-263,    /usr/local/go/src/bufio/bufio.go:97 +0x1ce,"['/usr/local/go/src/bufio/bufio.go:97', '+', '0x1ce']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-264,"bufio.(*Reader).Peek(0xc208326240, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)","['bufio', '.(*', 'Reader', ').', 'Peek', '(', '0xc2', '0', '8326240', ',', '0x1', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-265,    /usr/local/go/src/bufio/bufio.go:132 +0xf0,"['/usr/local/go/src/bufio/bufio.go:132', '+', '0xf', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-266,net/http.(*persistConn).readLoop(0xc208263ef0),['net/http.(*persistConn).readLoop(0xc208263ef0)'],['DIRECTORY']
-267,    /usr/local/go/src/net/http/transport.go:842 +0xa4,"['/usr/local/go/src/net/http/transport.go:842', '+', '0xa4']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-268,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-269,    /usr/local/go/src/net/http/transport.go:660 +0xc9f,"['/usr/local/go/src/net/http/transport.go:660', '+', '0xc9f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-270,goroutine 10859 [select]:,"['go', 'routine', '10859', '[', 'select', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-271,net/http.(*persistConn).writeLoop(0xc208263760),['net/http.(*persistConn).writeLoop(0xc208263760)'],['DIRECTORY']
-272,    /usr/local/go/src/net/http/transport.go:945 +0x41d,"['/usr/local/go/src/net/http/transport.go:945', '+', '0x41d']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-273,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-274,    /usr/local/go/src/net/http/transport.go:661 +0xcbc,"['/usr/local/go/src/net/http/transport.go:661', '+', '0xcbc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-275,goroutine 10858 [IO wait]:,"['go', 'routine', '10858', '[', 'IO', 'wait', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-276,"net.(*pollDesc).Wait(0xc2081f3790, 0x72, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'Wait', '(', '0xc2', '0', '81', 'f3790', ',', '0x72', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-277,    /usr/local/go/src/net/fd_poll_runtime.go:84 +0x47,"['/usr/local/go/src/net/fd_poll_runtime.go:84', '+', '0x47']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-278,"net.(*pollDesc).WaitRead(0xc2081f3790, 0x0, 0x0)","['net', '.(*', 'pollDesc', ').', 'WaitRead', '(', '0xc2', '0', '81', 'f3790', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-279,    /usr/local/go/src/net/fd_poll_runtime.go:89 +0x43,"['/usr/local/go/src/net/fd_poll_runtime.go:89', '+', '0x43']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-280,"net.(*netFD).Read(0xc2081f3730, 0xc208418000, 0x1000, 0x1000, 0x0, 0x584b70, 0xc2081c53e8)","['net', '.(*', 'netFD', ').', 'Read', '(', '0xc2', '0', '81', 'f3730', ',', '0xc2', '0', '8418000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0x584b7', '0', ',', '0xc2', '0', '81', 'c53e8', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-281,    /usr/local/go/src/net/fd_unix.go:242 +0x40f,"['/usr/local/go/src/net/fd_unix.go:242', '+', '0x4', '0', 'f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
-282,"net.(*conn).Read(0xc208038400, 0xc208418000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['net', '.(*', 'conn', ').', 'Read', '(', '0xc2', '0', '8038400', ',', '0xc2', '0', '8418000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-283,    /usr/local/go/src/net/net.go:121 +0xdc,"['/usr/local/go/src/net/net.go:121', '+', '0xdc']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-284,"crypto/tls.(*block).readFromUntil(0xc208458510, 0x5860a8, 0xc208038400, 0x5, 0x0, 0x0)","['crypto/tls.(*block).readFromUntil(0xc208458510,', '0x586', '0', 'a8', ',', '0xc2', '0', '8038400', ',', '0x5', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-285,    /usr/local/go/src/crypto/tls/conn.go:454 +0xe6,"['/usr/local/go/src/crypto/tls/conn.go:454', '+', '0xe6']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-286,"crypto/tls.(*Conn).readRecord(0xc208485340, 0x17, 0x0, 0x0)","['crypto/tls.(*Conn).readRecord(0xc208485340,', '0x17', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-287,    /usr/local/go/src/crypto/tls/conn.go:539 +0x2da,"['/usr/local/go/src/crypto/tls/conn.go:539', '+', '0x2da']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-288,"crypto/tls.(*Conn).Read(0xc208485340, 0xc2082f6000, 0x1000, 0x1000, 0x0, 0x0, 0x0)","['crypto/tls.(*Conn).Read(0xc208485340,', '0xc2', '0', '82', 'f6000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-289,    /usr/local/go/src/crypto/tls/conn.go:904 +0x166,"['/usr/local/go/src/crypto/tls/conn.go:904', '+', '0x166']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-290,"net/http.noteEOFReader.Read(0x58c488, 0xc208485340, 0xc2082637b8, 0xc2082f6000, 0x1000, 0x1000, 0x2a0300, 0x0, 0x0)","['net/http.noteEOFReader.Read(0x58c488,', '0xc2', '0', '8485340', ',', '0xc2', '0', '82637', 'b8', ',', '0xc2', '0', '82', 'f6000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0x2a', '03', '0', '0', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-291,    /usr/local/go/src/net/http/transport.go:1270 +0x6e,"['/usr/local/go/src/net/http/transport.go:1270', '+', '0x6e']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-292,"net/http.(*noteEOFReader).Read(0xc20827a1a0, 0xc2082f6000, 0x1000, 0x1000, 0xc208012000, 0x0, 0x0)","['net/http.(*noteEOFReader).Read(0xc20827a1a0,', '0xc2', '0', '82', 'f6000', ',', '0x1', '0', '0', '0', ',', '0x1', '0', '0', '0', ',', '0xc2', '0', '8012000', ',', '0', 'x0', ',', '0', 'x0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-293,    :125 +0xd4,"[':', '125', '+', '0xd4']","['PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-294,bufio.(*Reader).fill(0xc2080fcc00),"['bufio', '.(*', 'Reader', ').', 'fill', '(', '0xc2', '0', '80', 'fcc00', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-295,    /usr/local/go/src/bufio/bufio.go:97 +0x1ce,"['/usr/local/go/src/bufio/bufio.go:97', '+', '0x1ce']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-296,"bufio.(*Reader).Peek(0xc2080fcc00, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0)","['bufio', '.(*', 'Reader', ').', 'Peek', '(', '0xc2', '0', '80', 'fcc00', ',', '0x1', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ',', '0', 'x0', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-297,    /usr/local/go/src/bufio/bufio.go:132 +0xf0,"['/usr/local/go/src/bufio/bufio.go:132', '+', '0xf', '0']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-298,net/http.(*persistConn).readLoop(0xc208263760),['net/http.(*persistConn).readLoop(0xc208263760)'],['DIRECTORY']
-299,    /usr/local/go/src/net/http/transport.go:842 +0xa4,"['/usr/local/go/src/net/http/transport.go:842', '+', '0xa4']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-300,created by net/http.(*Transport).dialConn,"['created', 'by', 'net/http.(*Transport).dialConn']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-301,    /usr/local/go/src/net/http/transport.go:660 +0xc9f,"['/usr/local/go/src/net/http/transport.go:660', '+', '0xc9f']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
-302,exit status 2,"['exit', 'status', '2']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
-303,"
 
-What it can be and how I can fix it?
+see: big-o
 
-Thank you!
-","['What', 'it', 'can', 'be', 'and', 'how', 'I', 'can', 'fix', 'it?', 'Thank', 'you!']","['WP', 'PRP', 'MD', 'VB', 'CC', 'WRB', 'PRP', 'MD', 'VB', 'JJ', 'NNP', 'NN']"
+with all that being said, please note: 
+
+
+i don't know php,
+
+
+thus do not the know details regarding how the language implements arrays, and
+
+im not an algorithm expert,
+
+
+so please treat my post as a statement for the general case.
+
+pce
+","['although', 'this', 'is', 'a', 'dead', 'post,', 'I', 'cannot', 'help', 'but', 'note', 'since', 'no', 'one', 'else', 'has', '(explicitly),', 'and', ""it's"", ""kinda'"", 'important', 'to', 'know', 'why:', 'nested', 'for', 'loops', 'exhibit', 'quadratic', 'running', 'time', 'complexity,', 'and', 'as', 'you', 'stated,', 'searching', 'an', 'array', 'takes', 'linear', 'time,', 'so', 'simply', 'put:', 'the', 'computation', 'time', 'will', 'increase', 'by', 'the', 'square', 'of', 'the', 'total', 'number', 'of', 'elements.', 'now', 'to', 'answer', 'why', 'this', ""isn't"", 'the', 'case', 'in', 'php', '--', 'well', 'cause', 'you', 'were', 'using', 'a', 'hash', 'map', 'which:', 'can', 'be', 'said,', 'exhibits', 'a', 'constant', 'time', 'complexity', 'again,', 'simply', 'put', 'this', 'means', 'that:', 'look', 'up', 'time', 'is', 'not', 'related', 'to', 'the', 'number', 'of', 'elements', '(aka', 'the', 'size', 'of', 'the', 'collection).', 'see:', 'big-o', 'with', 'all', 'that', 'being', 'said,', 'please', 'note:', 'i', ""don't"", 'know', 'php,', 'thus', 'do', 'not', 'the', 'know', 'details', 'regarding', 'how', 'the', 'language', 'implements', 'arrays,', 'and', 'im', 'not', 'an', 'algorithm', 'expert,', 'so', 'please', 'treat', 'my', 'post', 'as', 'a', 'statement', 'for', 'the', 'general', 'case.', 'pce']","['IN', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'VB', 'CC', 'VB', 'IN', 'DT', 'NN', 'RB', 'VBZ', 'VBN', 'CC', 'JJ', 'NN', 'JJ', 'TO', 'VB', 'RB', 'VBN', 'IN', 'JJ', 'NN', 'JJ', 'NN', 'NN', 'NN', 'CC', 'IN', 'PRP', 'VBP', 'VBG', 'DT', 'NN', 'VBZ', 'JJ', 'NNS', 'RB', 'RB', 'VB', 'DT', 'NN', 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'RB', 'TO', 'VB', 'WRB', 'DT', 'VBZ', 'DT', 'NN', 'IN', 'NN', ':', 'RB', 'IN', 'PRP', 'VBD', 'VBG', 'DT', 'NN', 'NN', 'NN', 'MD', 'VB', 'JJ', 'NNS', 'DT', 'JJ', 'NN', 'NN', 'VBP', 'RB', 'VB', 'DT', 'VBZ', 'JJ', 'VB', 'RP', 'NN', 'VBZ', 'RB', 'VBN', 'TO', 'DT', 'NN', 'IN', 'NNS', 'VBP', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBD', 'JJ', 'IN', 'PDT', 'IN', 'VBG', 'JJ', 'NN', 'NN', 'VBP', 'NN', 'VBP', 'NN', 'RB', 'VBP', 'RB', 'DT', 'NN', 'NNS', 'VBG', 'WRB', 'DT', 'NN', 'NNS', 'JJ', 'CC', 'JJ', 'RB', 'DT', 'NN', 'NN', 'RB', 'JJ', 'VB', 'PRP$', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NN']"

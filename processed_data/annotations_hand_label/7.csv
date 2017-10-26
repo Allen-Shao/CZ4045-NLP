@@ -1,228 +1,145 @@
 ,text,token,annotation
-0,"I'm trying to detect sending failures by inspecting the error returned by golang TCPConn.Write, but it's nil. I also tried using TCPConn.SetWriteDeadline without success.
+0,"I was trying to refactor some Go code and ran into an issue. My original server was just one file similar to this. 
 
-That's how things happen:
-
-
-the server starts
-a client connects
-the server sends a message and the client receives it
-the client shuts down
-the server sends one more message: no error
-the server sends the third message: only now the error appears
-
-
-Question: why only the second message to a non-existing client results in an error? How should the case be handled properly?
-
-The code follows:
-
-","[""I'm"", 'trying', 'to', 'detect', 'sending', 'failures', 'by', 'inspecting', 'the', 'error', 'returned', 'by', 'golang', 'TCPConn.Write,', 'but', ""it's"", 'nil.', 'I', 'also', 'tried', 'using', 'TCPConn.SetWriteDeadline', 'without', 'success.', ""That's"", 'how', 'things', 'happen:', 'the', 'server', 'starts', 'a', 'client', 'connects', 'the', 'server', 'sends', 'a', 'message', 'and', 'the', 'client', 'receives', 'it', 'the', 'client', 'shuts', 'down', 'the', 'server', 'sends', 'one', 'more', 'message:', 'no', 'error', 'the', 'server', 'sends', 'the', 'third', 'message:', 'only', 'now', 'the', 'error', 'appears', 'Question:', 'why', 'only', 'the', 'second', 'message', 'to', 'a', 'non-existing', 'client', 'results', 'in', 'an', 'error?', 'How', 'should', 'the', 'case', 'be', 'handled', 'properly?', 'The', 'code', 'follows:']","['NNP', 'VBG', 'TO', 'VB', 'VBG', 'NNS', 'IN', 'VBG', 'DT', 'NN', 'VBN', 'IN', 'NN', 'NNP', 'CC', 'JJ', 'NN', 'PRP', 'RB', 'VBD', 'VBG', 'NNP', 'IN', 'NN', 'NNP', 'WRB', 'NNS', 'VBP', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'PRP', 'DT', 'NN', 'VBZ', 'RP', 'DT', 'NN', 'VBZ', 'CD', 'JJR', 'NN', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'RB', 'RB', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'RB', 'DT', 'JJ', 'NN', 'TO', 'DT', 'JJ', 'NN', 'NNS', 'IN', 'DT', 'JJ', 'WRB', 'MD', 'DT', 'NN', 'VB', 'VBN', 'IN', 'DT', 'NN', 'NN']"
+","['I', 'was', 'trying', 'to', 'refactor', 'some', 'Go', 'code', 'and', 'ran', 'into', 'an', 'issue.', 'My', 'original', 'server', 'was', 'just', 'one', 'file', 'similar', 'to', 'this.']","['PRP', 'VBD', 'VBG', 'TO', 'VB', 'DT', 'NNP', 'NN', 'CC', 'VBD', 'IN', 'DT', 'JJ', 'NNP', 'JJ', 'NN', 'VBD', 'RB', 'CD', 'NN', 'JJ', 'TO', 'VB']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-3,"    ""net""","['""net""']",['STRING_LITERAL']
-4,"    ""os""","['""os""']",['STRING_LITERAL']
-5,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
-6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-7,"    ""time""","['""time""']",['STRING_LITERAL']
-8,),[')'],['OPERATOR']
-9,"func AcceptConnections(listener net.Listener, console <- chan string) {","['func', 'AcceptConnections', '(', 'listener', 'net', '.', 'Listener', ',', 'console', '<-', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-10,"    msg := """"","['msg', ':=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-11,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-12,"        conn, err := listener.Accept()","['conn', ',', 'err', ':=', 'listener.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-13,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-14,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-15,        },['}'],['OPERATOR']
-16,"        fmt.Printf(""client connected\n"")","['fmt.Printf(""client connected\\n"")']",['FUNCTION_CALL']
-17,        for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-18,"            if msg == """" {","['if', 'msg', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-19,                msg = <- console,"['msg', '=', '<-', 'console']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-20,"                fmt.Printf(""read from console: %s"", msg)","['fmt.Printf(""read from console: %s"", msg)']",['FUNCTION_CALL']
-21,            },['}'],['OPERATOR']
-22,            err = conn.SetWriteDeadline(time.Now().Add(time.Second)),"['err', '=', 'conn.SetWriteDeadline(time.Now().Add(time.Second))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-23,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,"                fmt.Printf(""SetWriteDeadline failed: %v\n"", err)","['fmt.Printf(""SetWriteDeadline failed: %v\\n"", err)']",['FUNCTION_CALL']
-25,            },['}'],['OPERATOR']
-26,"            _, err = conn.Write([]byte(msg))","['_', ',', 'err', '=', 'conn.Write([]byte(msg))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-27,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,                // expecting an error after sending a message,"['//', 'expecting', 'an', 'error', 'after', 'sending', 'a', 'message']","['COMMENT', 'VBG', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NN']"
-29,                // to a non-existing client endpoint,"['//', 'to', 'a', 'non-existing', 'client', 'endpoint']","['COMMENT', 'TO', 'DT', 'JJ', 'NN', 'NN']"
-30,"                fmt.Printf(""failed sending a message to network: %v\n"", err)","['fmt.Printf(""failed sending a message to network: %v\\n"", err)']",['FUNCTION_CALL']
-31,                break,['break'],['KEYWORD']
-32,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-33,"                fmt.Printf(""msg sent: %s"", msg)","['fmt.Printf(""msg sent: %s"", msg)']",['FUNCTION_CALL']
-34,"                msg = """"","['msg', '=', '""""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-35,            },['}'],['OPERATOR']
-36,        },['}'],['OPERATOR']
-37,    },['}'],['OPERATOR']
-38,},['}'],['OPERATOR']
-39,func ReadConsole(network chan <- string) {,"['func', 'ReadConsole', '(', 'network', 'chan', '<-', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-40,    console := bufio.NewReader(os.Stdin),"['console', ':=', 'bufio.NewReader(os.Stdin)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-41,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-42,"        line, err := console.ReadString('\n')","['line', ',', 'err', ':=', ""console.ReadString('\\n')""]","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-43,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-45,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-46,            network <- line,"['network', '<-', 'line']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-47,        },['}'],['OPERATOR']
-48,    },['}'],['OPERATOR']
-49,},['}'],['OPERATOR']
-50,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-51,"    listener, err := net.Listen(""tcp"", ""localhost:6666"")","['listener', ',', 'err', ':=', 'net.Listen(""tcp"", ""localhost:6666"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-52,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-53,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-54,    },['}'],['OPERATOR']
-55,"    println(""listening on "" + listener.Addr().String())","['println', '(', '""listening on ""', '+', 'listener.Addr().String())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-56,    consoleToNetwork := make(chan string),"['consoleToNetwork', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-57,"    go AcceptConnections(listener, consoleToNetwork)","['go', 'AcceptConnections', '(', 'listener', ',', 'consoleToNetwork', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-58,    ReadConsole(consoleToNetwork),"['ReadConsole', '(', 'consoleToNetwork', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-59,},['}'],['OPERATOR']
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+4,"    ""strings""","['""strings""']",['STRING_LITERAL']
+5,"    ""google.golang.org/appengine""","['""google.golang.org/appengine""']",['STRING_LITERAL']
+6,"    ""google.golang.org/appengine/urlfetch""","['""google.golang.org/appengine/urlfetch""']",['STRING_LITERAL']
+7,"    ""github.com/tdewolff/minify/json""","['""github.com/tdewolff/minify/json""']",['STRING_LITERAL']
+8,"    ""github.com/tdewolff/minify""","['""github.com/tdewolff/minify""']",['STRING_LITERAL']
+9,),[')'],['PUNCTUATION']
+10,func reactFileServer(fs http.Handler) http.Handler {,"['func', 'reactFileServer', '(', 'fs', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+11,"    fn := func(w http.ResponseWriter, req *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+12,        staticPaths := [...]string{,"['staticPaths', ':=', '[...]', 'string', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+13,"            ""/static/"",","['""/static/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+14,"            ""/img/"",","['""/img/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+15,        },['}'],['PUNCTUATION']
+16,        var isStaticPath bool = false,"['var', 'isStaticPath', 'bool', '=', 'false']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+17,"        for _, path := range staticPaths {","['for', '_', ',', 'path', ':=', 'range', 'staticPaths', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+18,"            if strings.HasPrefix(req.URL.Path, path) {","['if', 'strings.HasPrefix(req.URL.Path, path)', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
+19,                isStaticPath = true,"['isStaticPath', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+20,                break,['break'],['KEYWORD']
+21,            },['}'],['PUNCTUATION']
+22,        },['}'],['PUNCTUATION']
+23,        if isStaticPath {,"['if', 'isStaticPath', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+24,"            fs.ServeHTTP(w, req)","['fs.ServeHTTP(w, req)']",['FUNCTION_CALL']
+25,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+26,"            fsHandler := http.StripPrefix(req.URL.Path, fs)","['fsHandler', ':=', 'http.StripPrefix(req.URL.Path, fs)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+27,"            fsHandler.ServeHTTP(w, req)","['fsHandler.ServeHTTP(w, req)']",['FUNCTION_CALL']
+28,        },['}'],['PUNCTUATION']
+29,    },['}'],['PUNCTUATION']
+30,    return http.HandlerFunc(fn),"['return', 'http.HandlerFunc(fn)']","['KEYWORD', 'FUNCTION_CALL']"
+31,},['}'],['PUNCTUATION']
+32,func getGooglePlaceInfo() http.Handler {,"['func', 'getGooglePlaceInfo', '()', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+33,"    fn := func(w http.ResponseWriter, req *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+34,        ctx := appengine.NewContext(req),"['ctx', ':=', 'appengine.NewContext(req)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+35,        client := urlfetch.Client(ctx),"['client', ':=', 'urlfetch.Client(ctx)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+36,"        resp, err := client.Get(","['resp', ',', 'err', ':=', 'client', '.', 'Get', '(']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+37,"            ""https://maps.googleapis.com/maps/api/place/details/json"" +","['""https://maps.googleapis.com/maps/api/place/details/json""', '+']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+38,"                ""?placeid=[REMOVED]"" +","['""?placeid=[REMOVED]""', '+']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+39,"                ""&key=[REMOVED]"")","['""&key=[REMOVED]""', ')']","['STRING_LITERAL', 'PUNCTUATION']"
+40,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+41,"            http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
+42,            return,['return'],['KEYWORD']
+43,        },['}'],['PUNCTUATION']
+44,"        w.Header().Set(""Content-Type"", ""application/json"")","['w.Header().Set(""Content-Type"", ""application/json"")']",['FUNCTION_CALL']
+45,        m := minify.New(),"['m', ':=', 'minify.New()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+46,"        json.Minify(m, w, resp.Body, nil)","['json.Minify(m, w, resp.Body, nil)']",['FUNCTION_CALL']
+47,    },['}'],['PUNCTUATION']
+48,    return http.HandlerFunc(fn),"['return', 'http.HandlerFunc(fn)']","['KEYWORD', 'FUNCTION_CALL']"
+49,},['}'],['PUNCTUATION']
+50,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+51,"    fs := http.FileServer(http.Dir(""web""))","['fs', ':=', 'http.FileServer(http.Dir(""web""))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+52,"    http.Handle(""/"", reactFileServer(fs))","['http.Handle(""/"", reactFileServer(fs))']",['FUNCTION_CALL']
+53,"    http.Handle(""/services/google-places-info/"", getGooglePlaceInfo())","['http.Handle(""/services/google-places-info/"", getGooglePlaceInfo())']",['FUNCTION_CALL']
+54,},['}'],['PUNCTUATION']
+55,"
+
+I tried to refactor the code by moving the getGooglePlaceInfo function into it's own file. When I do that I get the following error.
+
+","['I', 'tried', 'to', 'refactor', 'the', 'code', 'by', 'moving', 'the', 'getGooglePlaceInfo', 'function', 'into', ""it's"", 'own', 'file.', 'When', 'I', 'do', 'that', 'I', 'get', 'the', 'following', 'error.']","['PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NN', 'NN', 'IN', 'JJ', 'JJ', 'NN', 'WRB', 'PRP', 'VBP', 'DT', 'PRP', 'VBP', 'DT', 'JJ', 'NN']"
+56,ERROR: (gcloud.app.deploy) Error Response: [9] Deployment contains files that cannot be compiled: Compile failed:,"['ERROR', ':', '(', 'gcloud', '.', 'app', '.', 'deploy', ')', 'Error', 'Response', ':', '[', '9', ']', 'Deployment', 'contains', 'files', 'that', 'cannot', 'be', 'compiled', ':', 'Compile', 'failed', ':']","['IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+57,"2017/07/20 17:01:47 go-app-builder: build timing: 2├ùcompile (213ms total), 0├ùlink (0s total)","['2017/07/20', '17', ':', '01', ':', '47', 'go', '-', 'app', '-', 'builder', ':', 'build', 'timing', ':', '2', 'compile', '(', '213', 'ms', 'total', '),', '0', 'link', '(', '0', 's', 'total', ')']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+58,2017/07/20 17:01:47 go-app-builder: failed running compile: exit status 2,"['2017/07/20', '17', ':', '01', ':', '47', 'go', '-', 'app', '-', 'builder', ':', 'failed', 'running', 'compile', ':', 'exit', 'status', '2']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+59,"services/google-places-info.go:5: can't find import: ""google.golang.org/appengine""","['services/google-places-info.go:5: can\'t find import: ""google.golang.org/appengine""']",['DIRECTORY']
 60,"
 
-The server console looks like this:
+Here's the code that's getting the error
 
-","['The', 'server', 'console', 'looks', 'like', 'this:']","['DT', 'NN', 'JJ', 'NNS', 'IN', 'NN']"
-61,listening on 127.0.0.1:6666,"['listening', 'on', '127', '.', '0', '.', '0', '.', '1', ':', '6666']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-62,client connected,"['client', 'connected']","['IDENTIFIER', 'IDENTIFIER']"
-63,hi there!,"['hi', 'there', '!']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-64,read from console: hi there!,"['read', 'from', 'console', ':', 'hi', 'there', '!']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-65,msg sent: hi there!,"['msg', 'sent', ':', 'hi', 'there', '!']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-66,this one should fail,"['this', 'one', 'should', 'fail']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-67,read from console: this one should fail,"['read', 'from', 'console', ':', 'this', 'one', 'should', 'fail']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-68,msg sent: this one should fail,"['msg', 'sent', ':', 'this', 'one', 'should', 'fail']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-69,this one actually fails,"['this', 'one', 'actually', 'fails']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-70,read from console: this one actually fails,"['read', 'from', 'console', ':', 'this', 'one', 'actually', 'fails']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-71,failed sending a message to network: write tcp 127.0.0.1:51194: broken pipe,"['failed', 'sending', 'a', 'message', 'to', 'network', ':', 'write', 'tcp', '127', '.', '0', '.', '0', '.', '1', ':', '51194', ':', 'broken', 'pipe']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-72,"
+/main.go
 
-The client looks like this:
+","[""Here's"", 'the', 'code', ""that's"", 'getting', 'the', 'error', '/main.go']","['NNP', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NN', 'NN']"
+61,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+62,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+63,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+64,"    ""strings""","['""strings""']",['STRING_LITERAL']
+65,),[')'],['PUNCTUATION']
+66,func reactFileServer(fs http.Handler) http.Handler {,"['func', 'reactFileServer', '(', 'fs', 'http', '.', 'Handler', ')', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+67,"    fn := func(w http.ResponseWriter, req *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+68,        staticPaths := [...]string{,"['staticPaths', ':=', '[...]', 'string', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+69,"            ""/static/"",","['""/static/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+70,"            ""/img/"",","['""/img/""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+71,        },['}'],['PUNCTUATION']
+72,        var isStaticPath bool = false,"['var', 'isStaticPath', 'bool', '=', 'false']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+73,"        for _, path := range staticPaths {","['for', '_', ',', 'path', ':=', 'range', 'staticPaths', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+74,"            if strings.HasPrefix(req.URL.Path, path) {","['if', 'strings.HasPrefix(req.URL.Path, path)', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
+75,                isStaticPath = true,"['isStaticPath', '=', 'true']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+76,                break,['break'],['KEYWORD']
+77,            },['}'],['PUNCTUATION']
+78,        },['}'],['PUNCTUATION']
+79,        if isStaticPath {,"['if', 'isStaticPath', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+80,"            fs.ServeHTTP(w, req)","['fs.ServeHTTP(w, req)']",['FUNCTION_CALL']
+81,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+82,"            fsHandler := http.StripPrefix(req.URL.Path, fs)","['fsHandler', ':=', 'http.StripPrefix(req.URL.Path, fs)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+83,"            fsHandler.ServeHTTP(w, req)","['fsHandler.ServeHTTP(w, req)']",['FUNCTION_CALL']
+84,        },['}'],['PUNCTUATION']
+85,    },['}'],['PUNCTUATION']
+86,    return http.HandlerFunc(fn),"['return', 'http.HandlerFunc(fn)']","['KEYWORD', 'FUNCTION_CALL']"
+87,},['}'],['PUNCTUATION']
+88,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+89,"    fs := http.FileServer(http.Dir(""web""))","['fs', ':=', 'http.FileServer(http.Dir(""web""))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+90,"    http.Handle(""/"", reactFileServer(fs))","['http.Handle(""/"", reactFileServer(fs))']",['FUNCTION_CALL']
+91,},['}'],['PUNCTUATION']
+92,"
 
-","['The', 'client', 'looks', 'like', 'this:']","['DT', 'NN', 'VBZ', 'IN', 'NN']"
-73,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-74,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-75,"    ""net""","['""net""']",['STRING_LITERAL']
-76,"    ""os""","['""os""']",['STRING_LITERAL']
-77,"    ""io""","['""io""']",['STRING_LITERAL']
-78,"    //""bufio""","['//', '""bufio""']","['COMMENT', 'NN']"
-79,"    //""fmt""","['//', '""fmt""']","['COMMENT', 'NN']"
-80,),[')'],['OPERATOR']
-81,"func cp(dst io.Writer, src io.Reader, errc chan<- error) {","['func', 'cp', '(', 'dst', 'io', '.', 'Writer', ',', 'src', 'io', '.', 'Reader', ',', 'errc', 'chan', '<-', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-82,    // -reads from src and writes to dst,"['//', '-reads', 'from', 'src', 'and', 'writes', 'to', 'dst']","['COMMENT', 'NNS', 'IN', 'NN', 'CC', 'VBZ', 'TO', 'VB']"
-83,    // -blocks until EOF,"['//', '-blocks', 'until', 'EOF']","['COMMENT', 'NNS', 'IN', 'NNP']"
-84,    // -EOF is not an error,"['//', '-EOF', 'is', 'not', 'an', 'error']","['COMMENT', 'NN', 'VBZ', 'RB', 'DT', 'NN']"
-85,"    _, err :=  io.Copy(dst, src)","['_', ',', 'err', ':=', 'io.Copy(dst, src)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-86,    // push err to the channel when io.Copy returns,"['//', 'push', 'err', 'to', 'the', 'channel', 'when', 'io.Copy', 'returns']","['COMMENT', 'NN', 'NN', 'TO', 'DT', 'NN', 'WRB', 'NN', 'NNS']"
-87,    errc <- err,"['errc', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-88,},['}'],['OPERATOR']
-89,func StartCommunication(conn net.Conn) {,"['func', 'StartCommunication', '(', 'conn', 'net', '.', 'Conn', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-90,    //create a channel for errors,"['//', 'create', 'a', 'channel', 'for', 'errors']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'NNS']"
-91,    errc := make(chan error),"['errc', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-92,    //read connection and print to console,"['//', 'read', 'connection', 'and', 'print', 'to', 'console']","['COMMENT', 'JJ', 'NN', 'CC', 'NN', 'TO', 'VB']"
-93,"    go cp(os.Stdout, conn, errc)","['go', 'cp', '(', 'os', '.', 'Stdout', ',', 'conn', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,    //read user input and write to connection,"['//', 'read', 'user', 'input', 'and', 'write', 'to', 'connection']","['COMMENT', 'VB', 'NN', 'NN', 'CC', 'NN', 'TO', 'NN']"
-95,"    go cp(conn, os.Stdin, errc)","['go', 'cp', '(', 'conn', ',', 'os', '.', 'Stdin', ',', 'errc', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,    //wait until nil or an error arrives,"['//', 'wait', 'until', 'nil', 'or', 'an', 'error', 'arrives']","['COMMENT', 'NN', 'IN', 'FW', 'CC', 'DT', 'NN', 'VBZ']"
-97,    err := <- errc,"['err', ':=', '<-', 'errc']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-98,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-99,"        println(""cp error: "", err.Error())","['println', '(', '""cp error: ""', ',', 'err.Error())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-100,    },['}'],['OPERATOR']
-101,},['}'],['OPERATOR']
-102,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-103,"    servAddr := ""localhost:6666""","['servAddr', ':=', '""localhost:6666""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-104,"    tcpAddr, err := net.ResolveTCPAddr(""tcp"", servAddr)","['tcpAddr', ',', 'err', ':=', 'net.ResolveTCPAddr(""tcp"", servAddr)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-105,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-106,"        println(""ResolveTCPAddr failed:"", err.Error())","['println', '(', '""ResolveTCPAddr failed:""', ',', 'err.Error())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-107,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-108,    },['}'],['OPERATOR']
-109,"    conn, err := net.DialTCP(""tcp"", nil, tcpAddr)","['conn', ',', 'err', ':=', 'net.DialTCP(""tcp"", nil, tcpAddr)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-110,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-111,"        println(""net.DialTCP failed:"", err.Error())","['println', '(', '""net.DialTCP failed:""', ',', 'err.Error())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-112,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-113,    },['}'],['OPERATOR']
-114,    defer conn.Close(),"['defer', 'conn.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-115,    StartCommunication(conn),"['StartCommunication', '(', 'conn', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,},['}'],['OPERATOR']
-117,"
+/services/google-places-info.go
 
-EDIT: Following JimB's suggestion I came up with a working example. Messages don't get lost any more and are re-sent in a new connection. I'm not quite sure though how safe is it to use a shared variable (connWrap.IsFaulted) between different go routines.
+",['/services/google-places-info.go'],['NN']
+93,package services,"['package', 'services']","['KEYWORD', 'IDENTIFIER']"
+94,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+95,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+96,"    ""google.golang.org/appengine""","['""google.golang.org/appengine""']",['STRING_LITERAL']
+97,"    ""google.golang.org/appengine/urlfetch""","['""google.golang.org/appengine/urlfetch""']",['STRING_LITERAL']
+98,"    ""github.com/tdewolff/minify""","['""github.com/tdewolff/minify""']",['STRING_LITERAL']
+99,"    ""github.com/tdewolff/minify/json""","['""github.com/tdewolff/minify/json""']",['STRING_LITERAL']
+100,),[')'],['PUNCTUATION']
+101,func getGooglePlaceInfo() http.Handler {,"['func', 'getGooglePlaceInfo', '()', 'http', '.', 'Handler', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+102,"    fn := func(w http.ResponseWriter, req *http.Request) {","['fn', ':=', 'func', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'req', '*', 'http', '.', 'Request', ')', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+103,        ctx := appengine.NewContext(req),"['ctx', ':=', 'appengine.NewContext(req)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+104,        client := urlfetch.Client(ctx),"['client', ':=', 'urlfetch.Client(ctx)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+105,"        resp, err := client.Get(","['resp', ',', 'err', ':=', 'client', '.', 'Get', '(']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+106,"            ""https://maps.googleapis.com/maps/api/place/details/json"" +","['""https://maps.googleapis.com/maps/api/place/details/json""', '+']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+107,"                ""?placeid=[REMOVED]"" +","['""?placeid=[REMOVED]""', '+']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR']"
+108,"                ""&key=[REMOVED]"")","['""&key=[REMOVED]""', ')']","['STRING_LITERAL', 'PUNCTUATION']"
+109,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+110,"            http.Error(w, err.Error(), http.StatusInternalServerError)","['http.Error(w, err.Error(), http.StatusInternalServerError)']",['FUNCTION_CALL']
+111,            return,['return'],['KEYWORD']
+112,        },['}'],['PUNCTUATION']
+113,"        w.Header().Set(""Content-Type"", ""application/json"")","['w.Header().Set(""Content-Type"", ""application/json"")']",['FUNCTION_CALL']
+114,        m := minify.New(),"['m', ':=', 'minify.New()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+115,"        json.Minify(m, w, resp.Body, nil)","['json.Minify(m, w, resp.Body, nil)']",['FUNCTION_CALL']
+116,    },['}'],['PUNCTUATION']
+117,    return http.HandlerFunc(fn),"['return', 'http.HandlerFunc(fn)']","['KEYWORD', 'FUNCTION_CALL']"
+118,},['}'],['PUNCTUATION']
+119,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+120,"    http.Handle(""/services/google-places-info/"", getGooglePlaceInfo())","['http.Handle(""/services/google-places-info/"", getGooglePlaceInfo())']",['FUNCTION_CALL']
+121,},['}'],['PUNCTUATION']
+122,"
 
-","['EDIT:', 'Following', ""JimB's"", 'suggestion', 'I', 'came', 'up', 'with', 'a', 'working', 'example.', 'Messages', ""don't"", 'get', 'lost', 'any', 'more', 'and', 'are', 're-sent', 'in', 'a', 'new', 'connection.', ""I'm"", 'not', 'quite', 'sure', 'though', 'how', 'safe', 'is', 'it', 'to', 'use', 'a', 'shared', 'variable', '(connWrap.IsFaulted)', 'between', 'different', 'go', 'routines.']","['NNP', 'NNP', 'NNP', 'NN', 'PRP', 'VBD', 'RP', 'IN', 'DT', 'VBG', 'NN', 'NNP', 'NN', 'VB', 'VBN', 'DT', 'JJR', 'CC', 'VBP', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'NNP', 'RB', 'RB', 'JJ', 'IN', 'WRB', 'JJ', 'VBZ', 'PRP', 'TO', 'VB', 'DT', 'VBN', 'JJ', 'NN', 'IN', 'JJ', 'VBP', 'NN']"
-118,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-119,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-120,"    ""net""","['""net""']",['STRING_LITERAL']
-121,"    ""os""","['""os""']",['STRING_LITERAL']
-122,"    ""bufio""","['""bufio""']",['STRING_LITERAL']
-123,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-124,),[')'],['OPERATOR']
-125,type Connection struct {,"['type', 'Connection', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-126,    IsFaulted bool,"['IsFaulted', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
-127,    Conn net.Conn,"['Conn', 'net', '.', 'Conn']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-128,},['}'],['OPERATOR']
-129,"func StartWritingToNetwork(connWrap * Connection, errChannel chan <- error, msgStack chan string) {","['func', 'StartWritingToNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', ',', 'msgStack', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-130,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-131,        msg := <- msgStack,"['msg', ':=', '<-', 'msgStack']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-132,        if connWrap.IsFaulted {,"['if', 'connWrap', '.', 'IsFaulted', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-133,            //put it back for another connection,"['//', 'put', 'it', 'back', 'for', 'another', 'connection']","['COMMENT', 'VBD', 'PRP', 'RP', 'IN', 'DT', 'NN']"
-134,            msgStack <- msg,"['msgStack', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-135,            return,['return'],['KEYWORD']
-136,        },['}'],['OPERATOR']
-137,"        _, err := connWrap.Conn.Write([]byte(msg))","['_', ',', 'err', ':=', 'connWrap', '.', 'Conn.Write([]byte(msg))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-138,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,"            fmt.Printf(""failed sending a message to network: %v\n"", err)","['fmt.Printf(""failed sending a message to network: %v\\n"", err)']",['FUNCTION_CALL']
-140,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-141,            msgStack <- msg,"['msgStack', '<-', 'msg']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-142,            errChannel <- err,"['errChannel', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-143,            return,['return'],['KEYWORD']
-144,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-145,"            fmt.Printf(""msg sent: %s"", msg)","['fmt.Printf(""msg sent: %s"", msg)']",['FUNCTION_CALL']
-146,        },['}'],['OPERATOR']
-147,    },['}'],['OPERATOR']
-148,},['}'],['OPERATOR']
-149,"func StartReadingFromNetwork(connWrap * Connection, errChannel chan <- error){","['func', 'StartReadingFromNetwork', '(', 'connWrap', '*', 'Connection', ',', 'errChannel', 'chan', '<-', 'error', '){']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-150,    network := bufio.NewReader(connWrap.Conn),"['network', ':=', 'bufio.NewReader(connWrap.Conn)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-151,    for (!connWrap.IsFaulted) {,"['for', '(!', 'connWrap', '.', 'IsFaulted', ')', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-152,"        line, err := network.ReadString('\n')","['line', ',', 'err', ':=', ""network.ReadString('\\n')""]","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-153,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-154,"            fmt.Printf(""failed reading from network: %v\n"", err)","['fmt.Printf(""failed reading from network: %v\\n"", err)']",['FUNCTION_CALL']
-155,            connWrap.IsFaulted = true,"['connWrap', '.', 'IsFaulted', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-156,            errChannel <- err,"['errChannel', '<-', 'err']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-158,"            fmt.Printf(""%s"", line)","['fmt.Printf(""%s"", line)']",['FUNCTION_CALL']
-159,        },['}'],['OPERATOR']
-160,    },['}'],['OPERATOR']
-161,},['}'],['OPERATOR']
-162,"func AcceptConnections(listener net.Listener, console chan string) {","['func', 'AcceptConnections', '(', 'listener', 'net', '.', 'Listener', ',', 'console', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-163,    errChannel := make(chan error),"['errChannel', ':=', 'make', '(', 'chan', 'error', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-164,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-165,"        conn, err := listener.Accept()","['conn', ',', 'err', ':=', 'listener.Accept()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-166,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-167,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-168,        },['}'],['OPERATOR']
-169,"        fmt.Printf(""client connected\n"")","['fmt.Printf(""client connected\\n"")']",['FUNCTION_CALL']
-170,"        connWrap := Connection{false, conn}","['connWrap', ':=', 'Connection', '{', 'false', ',', 'conn', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-171,"        go StartReadingFromNetwork(&connWrap, errChannel)","['go', 'StartReadingFromNetwork', '(&', 'connWrap', ',', 'errChannel', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-172,"        go StartWritingToNetwork(&connWrap, errChannel, console)","['go', 'StartWritingToNetwork', '(&', 'connWrap', ',', 'errChannel', ',', 'console', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-173,        //block until an error occurs,"['//', 'block', 'until', 'an', 'error', 'occurs']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NN']"
-174,        <- errChannel,"['<-', 'errChannel']","['OPERATOR', 'IDENTIFIER']"
-175,    },['}'],['OPERATOR']
-176,},['}'],['OPERATOR']
-177,func ReadConsole(network chan <- string) {,"['func', 'ReadConsole', '(', 'network', 'chan', '<-', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-178,    console := bufio.NewReader(os.Stdin),"['console', ':=', 'bufio.NewReader(os.Stdin)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-179,    for {,"['for', '{']","['KEYWORD', 'OPERATOR']"
-180,"        line, err := console.ReadString('\n')","['line', ',', 'err', ':=', ""console.ReadString('\\n')""]","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-181,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-182,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-183,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-184,            network <- line,"['network', '<-', 'line']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-185,        },['}'],['OPERATOR']
-186,    },['}'],['OPERATOR']
-187,},['}'],['OPERATOR']
-188,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-189,"    listener, err := net.Listen(""tcp"", ""localhost:6666"")","['listener', ',', 'err', ':=', 'net.Listen(""tcp"", ""localhost:6666"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-190,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-191,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-192,    },['}'],['OPERATOR']
-193,"    println(""listening on "" + listener.Addr().String())","['println', '(', '""listening on ""', '+', 'listener.Addr().String())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-194,    consoleToNetwork := make(chan string),"['consoleToNetwork', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-195,"    go AcceptConnections(listener, consoleToNetwork)","['go', 'AcceptConnections', '(', 'listener', ',', 'consoleToNetwork', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-196,    ReadConsole(consoleToNetwork),"['ReadConsole', '(', 'consoleToNetwork', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-197,},['}'],['OPERATOR']
+I've put up the example on github.
+
+https://github.com/bensisson/google-app-engine-bug-example
+","[""I've"", 'put', 'up', 'the', 'example', 'on', 'github.', 'https://github.com/bensisson/google-app-engine-bug-example']","['NNP', 'VBD', 'RP', 'DT', 'NN', 'IN', 'NN', 'NN']"

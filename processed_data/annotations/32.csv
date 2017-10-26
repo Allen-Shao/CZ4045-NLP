@@ -1,161 +1,124 @@
 ,text,token,annotation
-0,"I am very, very memory careful as I have to write programs that need to cope with massive datasets.
+0,"After a lot of trial and error, I present to you this fully functional solution:
 
-Currently my application quickly reaches 32GB of memory, starts swapping, and then gets killed by the system.
-
-I do not understand how this can be since all variables are collectable (in functions and quickly released) except TokensStruct and TokensCount in the Trainer struct. TokensCount is just a uint. TokensStruct is a 1,000,000 row slice of [5]uint32 and string, so that means 20 bytes + string, which we could call a maximum of 50 bytes per record. 50*1000000 = 50MB of memory required. So this script should therefore not use much more than 50MB + overhead + temporary collectable variables in the functions (maybe another 50MB max.) The maximum potential size of TokensStruct is 5,000,000, as this is the size of dictionary, but even then it would be only 250MB of memory. dictionary is a map and apparently uses around 600MB of memory, as that is how the app starts, but this is not an issue because dictionary is only loaded once and never written to again.
-
-Instead it uses 32GB of memory then dies. By the speed that it does this I expect it would happily get to 1TB of memory if it could. The memory appears to increase in a linear fashion with the size of the files being loaded, meaning that it appears to never clear any memory at all. Everything that enters the app is allocated more memory and memory is never freed.
-
-I tried implementing runtime.GC() in case the garbage collection wasn't running often enough, but this made no difference.
-
-Since the memory usage increases in a linear fashion then this would imply that there is a memory leak in GetTokens() or LoadZip(). I don't know how this could be, since they are both functions and only do one task and then close. Or it could be that the tokens variable in Start() is the cause of the leak. Basically it looks like every file that is loaded and parsed is never released from memory, as that is the only way that the memory could fill up in a linear fashion and keep on rising up to 32GB++.
-
-Absolute nightmare! What's wrong with Go? Any way to fix this?
-
-","['I', 'am', 'very,', 'very', 'memory', 'careful', 'as', 'I', 'have', 'to', 'write', 'programs', 'that', 'need', 'to', 'cope', 'with', 'massive', 'datasets.', 'Currently', 'my', 'application', 'quickly', 'reaches', '32GB', 'of', 'memory,', 'starts', 'swapping,', 'and', 'then', 'gets', 'killed', 'by', 'the', 'system.', 'I', 'do', 'not', 'understand', 'how', 'this', 'can', 'be', 'since', 'all', 'variables', 'are', 'collectable', '(in', 'functions', 'and', 'quickly', 'released)', 'except', 'TokensStruct', 'and', 'TokensCount', 'in', 'the', 'Trainer', 'struct.', 'TokensCount', 'is', 'just', 'a', 'uint.', 'TokensStruct', 'is', 'a', '1,000,000', 'row', 'slice', 'of', '[5]uint32', 'and', 'string,', 'so', 'that', 'means', '20', 'bytes', '+', 'string,', 'which', 'we', 'could', 'call', 'a', 'maximum', 'of', '50', 'bytes', 'per', 'record.', '50*1000000', '=', '50MB', 'of', 'memory', 'required.', 'So', 'this', 'script', 'should', 'therefore', 'not', 'use', 'much', 'more', 'than', '50MB', '+', 'overhead', '+', 'temporary', 'collectable', 'variables', 'in', 'the', 'functions', '(maybe', 'another', '50MB', 'max.)', 'The', 'maximum', 'potential', 'size', 'of', 'TokensStruct', 'is', '5,000,000,', 'as', 'this', 'is', 'the', 'size', 'of', 'dictionary,', 'but', 'even', 'then', 'it', 'would', 'be', 'only', '250MB', 'of', 'memory.', 'dictionary', 'is', 'a', 'map', 'and', 'apparently', 'uses', 'around', '600MB', 'of', 'memory,', 'as', 'that', 'is', 'how', 'the', 'app', 'starts,', 'but', 'this', 'is', 'not', 'an', 'issue', 'because', 'dictionary', 'is', 'only', 'loaded', 'once', 'and', 'never', 'written', 'to', 'again.', 'Instead', 'it', 'uses', '32GB', 'of', 'memory', 'then', 'dies.', 'By', 'the', 'speed', 'that', 'it', 'does', 'this', 'I', 'expect', 'it', 'would', 'happily', 'get', 'to', '1TB', 'of', 'memory', 'if', 'it', 'could.', 'The', 'memory', 'appears', 'to', 'increase', 'in', 'a', 'linear', 'fashion', 'with', 'the', 'size', 'of', 'the', 'files', 'being', 'loaded,', 'meaning', 'that', 'it', 'appears', 'to', 'never', 'clear', 'any', 'memory', 'at', 'all.', 'Everything', 'that', 'enters', 'the', 'app', 'is', 'allocated', 'more', 'memory', 'and', 'memory', 'is', 'never', 'freed.', 'I', 'tried', 'implementing', 'runtime.GC()', 'in', 'case', 'the', 'garbage', 'collection', ""wasn't"", 'running', 'often', 'enough,', 'but', 'this', 'made', 'no', 'difference.', 'Since', 'the', 'memory', 'usage', 'increases', 'in', 'a', 'linear', 'fashion', 'then', 'this', 'would', 'imply', 'that', 'there', 'is', 'a', 'memory', 'leak', 'in', 'GetTokens()', 'or', 'LoadZip().', 'I', ""don't"", 'know', 'how', 'this', 'could', 'be,', 'since', 'they', 'are', 'both', 'functions', 'and', 'only', 'do', 'one', 'task', 'and', 'then', 'close.', 'Or', 'it', 'could', 'be', 'that', 'the', 'tokens', 'variable', 'in', 'Start()', 'is', 'the', 'cause', 'of', 'the', 'leak.', 'Basically', 'it', 'looks', 'like', 'every', 'file', 'that', 'is', 'loaded', 'and', 'parsed', 'is', 'never', 'released', 'from', 'memory,', 'as', 'that', 'is', 'the', 'only', 'way', 'that', 'the', 'memory', 'could', 'fill', 'up', 'in', 'a', 'linear', 'fashion', 'and', 'keep', 'on', 'rising', 'up', 'to', '32GB++.', 'Absolute', 'nightmare!', ""What's"", 'wrong', 'with', 'Go?', 'Any', 'way', 'to', 'fix', 'this?']","['PRP', 'VBP', 'JJ', 'RB', 'RB', 'JJ', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'NNS', 'WDT', 'VBP', 'TO', 'VB', 'IN', 'JJ', 'NN', 'NNP', 'PRP$', 'NN', 'RB', 'VBZ', 'CD', 'IN', 'NN', 'NNS', 'NN', 'CC', 'RB', 'VBZ', 'VBN', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'RB', 'VB', 'WRB', 'DT', 'MD', 'VB', 'IN', 'DT', 'NNS', 'VBP', 'JJ', 'JJ', 'NNS', 'CC', 'RB', 'VB', 'IN', 'NNP', 'CC', 'NNP', 'IN', 'DT', 'NNP', 'NN', 'NNP', 'VBZ', 'RB', 'DT', 'JJ', 'NN', 'VBZ', 'DT', 'CD', 'NN', 'NN', 'IN', 'NN', 'CC', 'NN', 'RB', 'IN', 'VBZ', 'CD', 'NNS', 'VBP', 'NN', 'WDT', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'CD', 'NNS', 'IN', 'NN', 'CD', 'JJ', 'CD', 'IN', 'NN', 'NN', 'IN', 'DT', 'NN', 'MD', 'VB', 'RB', 'RB', 'RB', 'JJR', 'IN', 'CD', 'JJ', 'JJ', 'NN', 'JJ', 'JJ', 'NNS', 'IN', 'DT', 'NNS', 'VBP', 'DT', 'CD', 'NN', 'DT', 'JJ', 'JJ', 'NN', 'IN', 'NNP', 'VBZ', 'CD', 'IN', 'DT', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'CC', 'RB', 'RB', 'PRP', 'MD', 'VB', 'RB', 'CD', 'IN', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'CC', 'RB', 'VBZ', 'IN', 'CD', 'IN', 'NN', 'IN', 'DT', 'VBZ', 'WRB', 'DT', 'JJ', 'NN', 'CC', 'DT', 'VBZ', 'RB', 'DT', 'NN', 'IN', 'NN', 'VBZ', 'RB', 'JJ', 'RB', 'CC', 'RB', 'VBN', 'TO', 'VB', 'RB', 'PRP', 'VBZ', 'CD', 'IN', 'NN', 'RB', 'VBN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'DT', 'PRP', 'VBP', 'PRP', 'MD', 'RB', 'VB', 'TO', 'CD', 'IN', 'NN', 'IN', 'PRP', 'VBZ', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NNS', 'VBG', 'JJ', 'NN', 'IN', 'PRP', 'VBZ', 'TO', 'RB', 'JJ', 'DT', 'NN', 'IN', 'NN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'VBZ', 'VBN', 'JJR', 'NN', 'CC', 'NN', 'VBZ', 'RB', 'VBN', 'PRP', 'VBD', 'VBG', 'NN', 'IN', 'NN', 'DT', 'NN', 'NN', 'IN', 'VBG', 'RB', 'RB', 'CC', 'DT', 'VBD', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'RB', 'DT', 'MD', 'VB', 'IN', 'EX', 'VBZ', 'DT', 'NN', 'NN', 'IN', 'NNP', 'CC', 'NNP', 'PRP', 'VBP', 'VB', 'WRB', 'DT', 'MD', 'VB', 'IN', 'PRP', 'VBP', 'DT', 'NNS', 'CC', 'RB', 'VBP', 'CD', 'NN', 'CC', 'RB', 'NN', 'CC', 'PRP', 'MD', 'VB', 'IN', 'DT', 'NNS', 'JJ', 'IN', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'PRP', 'VBZ', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'VBN', 'CC', 'VBN', 'VBZ', 'RB', 'VBN', 'IN', 'NN', 'IN', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'MD', 'VB', 'RP', 'IN', 'DT', 'JJ', 'NN', 'CC', 'VB', 'IN', 'VBG', 'RP', 'TO', 'CD', 'NNP', 'NN', 'NNP', 'JJ', 'IN', 'NNP', 'NNP', 'NN', 'TO', 'VB', 'NN']"
+","['After', 'a', 'lot', 'of', 'trial', 'and', 'error,', 'I', 'present', 'to', 'you', 'this', 'fully', 'functional', 'solution:']","['IN', 'DT', 'NN', 'IN', 'NN', 'CC', 'NN', 'PRP', 'VBP', 'TO', 'PRP', 'DT', 'RB', 'JJ', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
-4,"    ""code.google.com/p/go.text/transform""","['""code.google.com/p/go.text/transform""']",['STRING_LITERAL']
-5,"    ""code.google.com/p/go.text/unicode/norm""","['""code.google.com/p/go.text/unicode/norm""']",['STRING_LITERAL']
-6,"    ""compress/zlib""","['""compress/zlib""']",['STRING_LITERAL']
-7,"    ""encoding/gob""","['""encoding/gob""']",['STRING_LITERAL']
-8,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-9,"    ""github.com/AlasdairF/BinSearch""","['""github.com/AlasdairF/BinSearch""']",['STRING_LITERAL']
-10,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-11,"    ""os""","['""os""']",['STRING_LITERAL']
-12,"    ""regexp""","['""regexp""']",['STRING_LITERAL']
-13,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
-14,"    ""strings""","['""strings""']",['STRING_LITERAL']
-15,"    ""unicode""","['""unicode""']",['STRING_LITERAL']
-16,"    ""unicode/utf8""","['""unicode/utf8""']",['STRING_LITERAL']
-17,),[')'],['PUNCTUATION']
-18,type TokensStruct struct {,"['type', 'TokensStruct', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-19,    binsearch.Key_string,"['binsearch', '.', 'Key_string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-20,    Value [][5]uint32,"['Value', '[][', '5', ']', 'uint32']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
+3,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+5,"    ""log""","['""log""']",['STRING_LITERAL']
+6,"    ""time""","['""time""']",['STRING_LITERAL']
+7,),[')'],['PUNCTUATION']
+8,type Clip struct {,"['type', 'Clip', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+9,    Value []InfoClip `json:value`,"['Value', '[]', 'InfoClip', 'json', ':', 'value']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+10,},['}'],['PUNCTUATION']
+11,type customTime struct {,"['type', 'customTime', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+12,    time.Time,"['time', '.', 'Time']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+13,},['}'],['PUNCTUATION']
+14,"const ctLayout = ""2006-01-02 15:04:05""","['const', 'ctLayout', '=', '""2006-01-02 15:04:05""']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+15,func (ct *customTime) UnmarshalJSON(b []byte) (err error) {,"['func', '(', 'ct', '*', 'customTime', ')', 'UnmarshalJSON', '(', 'b', '[]', 'byte', ')', '(', 'err', 'error', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+16,"    if b[0] == '""' && b[len(b)-1] == '""' {","['if', 'b', '[', '0', ']', '==', '\'""\'', '&&', 'b', '[', 'len', '(', 'b', ')-', '1', ']', '==', '\'""\'', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+17,        b = b[1 : len(b)-1],"['b', '=', 'b', '[', '1', ':', 'len', '(', 'b', ')-', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+18,    },['}'],['PUNCTUATION']
+19,"    ct.Time, err = time.Parse(ctLayout, string(b))","['ct', '.', 'Time', ',', 'err', '=', 'time.Parse(ctLayout, string(b))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+20,    return,['return'],['KEYWORD']
 21,},['}'],['PUNCTUATION']
-22,type Trainer struct {,"['type', 'Trainer', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-23,    Tokens      TokensStruct,"['Tokens', 'TokensStruct']","['IDENTIFIER', 'IDENTIFIER']"
-24,    TokensCount uint,"['TokensCount', 'uint']","['IDENTIFIER', 'IDENTIFIER']"
-25,},['}'],['PUNCTUATION']
-26,func checkErr(err error) {,"['func', 'checkErr', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-27,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-28,        return,['return'],['KEYWORD']
-29,    },['}'],['PUNCTUATION']
-30,"    fmt.Println(`Some Error:`, err)","['fmt.Println(`Some Error:`, err)']",['FUNCTION_CALL']
-31,    panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-32,},['}'],['PUNCTUATION']
-33,// Local helper function for normalization of UTF8 strings.,"['//', 'Local', 'helper', 'function', 'for', 'normalization', 'of', 'UTF8', 'strings.']","['COMMENT', 'JJ', 'NN', 'NN', 'IN', 'NN', 'IN', 'NNP', 'NN']"
-34,func isMn(r rune) bool {,"['func', 'isMn', '(', 'r', 'rune', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-35,"    return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks","['return', 'unicode.Is(unicode.Mn, r)', '//', 'Mn:', 'nonspacing', 'marks']","['KEYWORD', 'FUNCTION_CALL', 'COMMENT', 'NNP', 'NN', 'NNS']"
-36,},['}'],['PUNCTUATION']
-37,// This map is used by RemoveAccents function to convert non-accented characters.,"['//', 'This', 'map', 'is', 'used', 'by', 'RemoveAccents', 'function', 'to', 'convert', 'non-accented', 'characters.']","['COMMENT', 'DT', 'NN', 'VBZ', 'VBN', 'IN', 'NNP', 'NN', 'TO', 'VB', 'JJ', 'NN']"
-38,"var transliterations = map[rune]string{'Æ': ""E"", 'Ð': ""D"", 'Ł': ""L"", 'Ø': ""OE"", 'Þ': ""Th"", 'ß': ""ss"", 'æ': ""e"", 'ð': ""d"", 'ł': ""l"", 'ø': ""oe"", 'þ': ""th"", 'Œ': ""OE"", 'œ': ""oe""}","['var', 'transliterations', '=', 'map', '[', 'rune', ']', 'string', '{', ""'Æ'"", ':', '""E""', ',', ""'Ð'"", ':', '""D""', ',', ""'Ł'"", ':', '""L""', ',', ""'Ø'"", ':', '""OE""', ',', ""'Þ'"", ':', '""Th""', ',', ""'ß'"", ':', '""ss""', ',', ""'æ'"", ':', '""e""', ',', ""'ð'"", ':', '""d""', ',', ""'ł'"", ':', '""l""', ',', ""'ø'"", ':', '""oe""', ',', ""'þ'"", ':', '""th""', ',', ""'Œ'"", ':', '""OE""', ',', ""'œ'"", ':', '""oe""', '}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-39,"//  removeAccentsBytes converts accented UTF8 characters into their non-accented equivalents, from a []byte.","['//', 'removeAccentsBytes', 'converts', 'accented', 'UTF8', 'characters', 'into', 'their', 'non-accented', 'equivalents,', 'from', 'a', '[]byte.']","['COMMENT', 'NNS', 'NNS', 'VBD', 'NNP', 'NNS', 'IN', 'PRP$', 'JJ', 'NN', 'IN', 'DT', 'NN']"
-40,"func removeAccentsBytesDashes(b []byte) ([]byte, error) {","['func', 'removeAccentsBytesDashes', '(', 'b', '[]', 'byte', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-41,"    mnBuf := make([]byte, len(b))","['mnBuf', ':=', 'make', '([]', 'byte', ',', 'len', '(', 'b', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-42,"    t := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)","['t', ':=', 'transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-43,"    n, _, err := t.Transform(mnBuf, b, true)","['n', ',', '_', ',', 'err', ':=', 't.Transform(mnBuf, b, true)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-44,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-45,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-46,    },['}'],['PUNCTUATION']
-47,    mnBuf = mnBuf[:n],"['mnBuf', '=', 'mnBuf', '[:', 'n', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-48,"    tlBuf := bytes.NewBuffer(make([]byte, 0, len(mnBuf)*2))","['tlBuf', ':=', 'bytes.NewBuffer(make([]byte, 0, len(mnBuf)*2))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-49,"    for i, w := 0, 0; i < len(mnBuf); i += w {","['for', 'i', ',', 'w', ':=', '0', ',', '0', ';', 'i', '<', 'len', '(', 'mnBuf', ');', 'i', '+=', 'w', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-50,"        r, width := utf8.DecodeRune(mnBuf[i:])","['r', ',', 'width', ':=', 'utf8.DecodeRune(mnBuf[i:])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-51,        if r == '-' {,"['if', 'r', '==', ""'-'"", '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-52,            tlBuf.WriteByte(' '),"[""tlBuf.WriteByte(' ')""]",['FUNCTION_CALL']
-53,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-54,"            if d, ok := transliterations[r]; ok {","['if', 'd', ',', 'ok', ':=', 'transliterations', '[', 'r', '];', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-55,                tlBuf.WriteString(d),['tlBuf.WriteString(d)'],['FUNCTION_CALL']
-56,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-57,                tlBuf.WriteRune(r),['tlBuf.WriteRune(r)'],['FUNCTION_CALL']
-58,            },['}'],['PUNCTUATION']
-59,        },['}'],['PUNCTUATION']
-60,        w = width,"['w', '=', 'width']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-61,    },['}'],['PUNCTUATION']
-62,"    return tlBuf.Bytes(), nil","['return', 'tlBuf.Bytes()', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-63,},['}'],['PUNCTUATION']
-64,"func LoadZip(filename string) ([]byte, error) {","['func', 'LoadZip', '(', 'filename', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-65,    // Open file for reading,"['//', 'Open', 'file', 'for', 'reading']","['COMMENT', 'NNP', 'NN', 'IN', 'NN']"
-66,"    fi, err := os.Open(filename)","['fi', ',', 'err', ':=', 'os.Open(filename)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-67,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-68,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-69,    },['}'],['PUNCTUATION']
-70,    defer fi.Close(),"['defer', 'fi.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-71,    // Attach ZIP reader,"['//', 'Attach', 'ZIP', 'reader']","['COMMENT', 'NNP', 'NNP', 'NN']"
-72,"    fz, err := zlib.NewReader(fi)","['fz', ',', 'err', ':=', 'zlib.NewReader(fi)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-73,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-74,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-75,    },['}'],['PUNCTUATION']
-76,    defer fz.Close(),"['defer', 'fz.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-77,    // Pull,"['//', 'Pull']","['COMMENT', 'NN']"
-78,"    data, err := ioutil.ReadAll(fz)","['data', ',', 'err', ':=', 'ioutil.ReadAll(fz)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-79,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-80,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-81,    },['}'],['PUNCTUATION']
-82,"    return norm.NFC.Bytes(data), nil // return normalized","['return', 'norm', '.', 'NFC.Bytes(data)', ',', 'nil', '//', 'return', 'normalized']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'NN', 'VBD']"
-83,},['}'],['PUNCTUATION']
-84,func getTokens(pibn string) []string {,"['func', 'getTokens', '(', 'pibn', 'string', ')', '[]', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-85,    var data []byte,"['var', 'data', '[]', 'byte']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-86,    var err error,"['var', 'err', 'error']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-87,"    data, err = LoadZip(`/storedir/` + pibn + `/text.zip`)","['data', ',', 'err', '=', 'LoadZip(`/storedir/`', '+', 'pibn', '+', '`/text.zip`)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
-88,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-89,"    data, err = removeAccentsBytesDashes(data)","['data', ',', 'err', '=', 'removeAccentsBytesDashes', '(', 'data', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-90,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,    data = bytes.ToLower(data),"['data', '=', 'bytes.ToLower(data)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-92,"    data = reg2.ReplaceAll(data, []byte(""$2"")) // remove contractions","['data', '=', 'reg2.ReplaceAll(data, []byte(""$2""))', '//', 'remove', 'contractions']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'VB', 'NNS']"
-93,"    data = reg.ReplaceAllLiteral(data, nil)","['data', '=', 'reg.ReplaceAllLiteral(data, nil)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-94,    tokens := strings.Fields(string(data)),"['tokens', ':=', 'strings.Fields(string(data))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-95,    return tokens,"['return', 'tokens']","['KEYWORD', 'IDENTIFIER']"
-96,},['}'],['PUNCTUATION']
-97,func (t *Trainer) Start() {,"['func', '(', 't', '*', 'Trainer', ')', 'Start', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-98,"    data, err := ioutil.ReadFile(`list.txt`)","['data', ',', 'err', ':=', 'ioutil.ReadFile(`list.txt`)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-99,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-100,    pibns := bytes.Fields(data),"['pibns', ':=', 'bytes.Fields(data)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-101,"    for i, pibn := range pibns {","['for', 'i', ',', 'pibn', ':=', 'range', 'pibns', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-102,        tokens := getTokens(string(pibn)),"['tokens', ':=', 'getTokens', '(', 'string', '(', 'pibn', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-103,        t.addTokens(tokens),['t.addTokens(tokens)'],['FUNCTION_CALL']
-104,        if i%100 == 0 {,"['if', 'i', '%', '100', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-105,"            runtime.GC() // I added this just to try to stop the memory craziness, but it makes no difference","['runtime.GC()', '//', 'I', 'added', 'this', 'just', 'to', 'try', 'to', 'stop', 'the', 'memory', 'craziness,', 'but', 'it', 'makes', 'no', 'difference']","['FUNCTION_CALL', 'COMMENT', 'PRP', 'VBD', 'DT', 'RB', 'TO', 'VB', 'TO', 'VB', 'DT', 'NN', 'NN', 'CC', 'PRP', 'VBZ', 'DT', 'NN']"
-106,        },['}'],['PUNCTUATION']
-107,    },['}'],['PUNCTUATION']
-108,},['}'],['PUNCTUATION']
-109,func (t *Trainer) addTokens(tokens []string) {,"['func', '(', 't', '*', 'Trainer', ')', 'addTokens', '(', 'tokens', '[]', 'string', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-110,"    for _, tok := range tokens {","['for', '_', ',', 'tok', ':=', 'range', 'tokens', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-111,"        if _, ok := dictionary[tok]; ok {","['if', '_', ',', 'ok', ':=', 'dictionary', '[', 'tok', '];', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-112,"            if indx, ok2 := t.Tokens.Find(tok); ok2 {","['if', 'indx', ',', 'ok2', ':=', 't', '.', 'Tokens.Find(tok)', ';', 'ok2', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-113,                ar := t.Tokens.Value[indx],"['ar', ':=', 't', '.', 'Tokens', '.', 'Value', '[', 'indx', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-114,                ar[0]++,"['ar', '[', '0', ']++']","['IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-115,                t.Tokens.Value[indx] = ar,"['t', '.', 'Tokens', '.', 'Value', '[', 'indx', ']', '=', 'ar']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-116,                t.TokensCount++,"['t', '.', 'TokensCount', '++']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-117,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-118,"                t.Tokens.AddKeyAt(tok, indx)","['t', '.', 'Tokens.AddKeyAt(tok, indx)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-119,"                t.Tokens.Value = append(t.Tokens.Value, [5]uint32{0, 0, 0, 0, 0})","['t', '.', 'Tokens', '.', 'Value', '=', 'append', '(', 't', '.', 'Tokens', '.', 'Value', ',', '[', '5', ']', 'uint32', '{', '0', ',', '0', ',', '0', ',', '0', ',', '0', '})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-120,"                copy(t.Tokens.Value[indx+1:], t.Tokens.Value[indx:])","['copy', '(', 't', '.', 'Tokens', '.', 'Value', '[', 'indx', '+', '1', ':],', 't', '.', 'Tokens', '.', 'Value', '[', 'indx', ':])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-121,"                t.Tokens.Value[indx] = [5]uint32{1, 0, 0, 0, 0}","['t', '.', 'Tokens', '.', 'Value', '[', 'indx', ']', '=', '[', '5', ']', 'uint32', '{', '1', ',', '0', ',', '0', ',', '0', ',', '0', '}']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-122,                t.TokensCount++,"['t', '.', 'TokensCount', '++']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-123,            },['}'],['PUNCTUATION']
-124,        },['}'],['PUNCTUATION']
-125,    },['}'],['PUNCTUATION']
-126,    return,['return'],['KEYWORD']
-127,},['}'],['PUNCTUATION']
-128,func LoadDictionary() {,"['func', 'LoadDictionary', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-129,    dictionary = make(map[string]bool),"['dictionary', '=', 'make', '(', 'map', '[', 'string', ']', 'bool', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-130,"    data, err := ioutil.ReadFile(`dictionary`)","['data', ',', 'err', ':=', 'ioutil.ReadFile(`dictionary`)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-131,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-132,    words := bytes.Fields(data),"['words', ':=', 'bytes.Fields(data)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-133,"    for _, word := range words {","['for', '_', ',', 'word', ':=', 'range', 'words', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-134,        strword := string(word),"['strword', ':=', 'string', '(', 'word', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-135,        dictionary[strword] = false,"['dictionary', '[', 'strword', ']', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-136,    },['}'],['PUNCTUATION']
-137,},['}'],['PUNCTUATION']
-138,var reg = regexp.MustCompile(`[^a-z0-9\s]`),"['var', 'reg', '=', 'regexp.MustCompile(`[^a-z0-9\\s]`)']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-139,var reg2 = regexp.MustCompile(`\b(c|l|all|dall|dell|nell|sull|coll|pell|gl|agl|dagl|degl|negl|sugl|un|m|t|s|v|d|qu|n|j)'([a-z])`) //contractions,"['var', 'reg2', '=', ""regexp.MustCompile(`\\b(c|l|all|dall|dell|nell|sull|coll|pell|gl|agl|dagl|degl|negl|sugl|un|m|t|s|v|d|qu|n|j)'([a-z])`)"", '//', 'contractions']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'NNS']"
-140,var dictionary map[string]bool,"['var', 'dictionary', 'map', '[', 'string', ']', 'bool']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-141,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-142,    trainer := new(Trainer),"['trainer', ':=', 'new', '(', 'Trainer', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-143,    LoadDictionary(),"['LoadDictionary', '()']","['IDENTIFIER', 'PUNCTUATION']"
-144,    trainer.Start(),['trainer.Start()'],['FUNCTION_CALL']
-145,},['}'],['PUNCTUATION']
+22,type InfoClip struct {,"['type', 'InfoClip', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+23,"    Id                string     `json:""clipId""`","['Id', 'string', 'json', ':', '""clipId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+24,"    CreatedAt         customTime `json:""createdAt""`","['CreatedAt', 'customTime', 'json', ':', '""createdAt""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+25,"    StartTimeCode     string     `json:""startTimeCode""` //if you want ints here, you'll have to decode manually, or fix the json beforehand","['StartTimeCode', 'string', 'json', ':', '""startTimeCode""', '//', 'if', 'you', 'want', 'ints', 'here,', ""you'll"", 'have', 'to', 'decode', 'manually,', 'or', 'fix', 'the', 'json', 'beforehand']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'IN', 'PRP', 'VBP', 'NNS', 'VB', 'NNS', 'VBP', 'TO', 'VB', 'NN', 'CC', 'VB', 'DT', 'NN', 'NN']"
+26,"    EndTimeCode       string     `json:""endTimeCode""`   //same for this one","['EndTimeCode', 'string', 'json', ':', '""endTimeCode""', '//', 'same', 'for', 'this', 'one']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'JJ', 'IN', 'DT', 'CD']"
+27,"    Metas             metas      `json:""-""`","['Metas', 'metas', 'json', ':', '""-""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+28,"    MetasString       string     `json:""metas""`","['MetasString', 'string', 'json', ':', '""metas""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+29,"    Tags              []string   `json:""tags""`","['Tags', '[]', 'string', 'json', ':', '""tags""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+30,"    Categories        []string   `json:""categories""`","['Categories', '[]', 'string', 'json', ':', '""categories""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+31,"    UserId            string     `json:""userId""`","['UserId', 'string', 'json', ':', '""userId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+32,"    SourceId          string     `json:""sourceId""`","['SourceId', 'string', 'json', ':', '""sourceId""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+33,"    ProviderName      string     `json:""providerName""`","['ProviderName', 'string', 'json', ':', '""providerName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+34,"    ProviderReference string     `json:""providerReference""`","['ProviderReference', 'string', 'json', ':', '""providerReference""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+35,"    PublicationStatus string     `json:""publicationStatus""`","['PublicationStatus', 'string', 'json', ':', '""publicationStatus""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+36,"    Name              string     `json:""name""`","['Name', 'string', 'json', ':', '""name""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+37,"    FacebookPage      string     `json:""facebookPage""`","['FacebookPage', 'string', 'json', ':', '""facebookPage""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+38,"    TwitterHandle     string     `json:""twitterHandle""`","['TwitterHandle', 'string', 'json', ':', '""twitterHandle""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+39,"    PermaLinkUrl      string     `json:""permalinkBaseURL""`","['PermaLinkUrl', 'string', 'json', ':', '""permalinkBaseURL""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+40,"    Logo              string     `json:""logo""`","['Logo', 'string', 'json', ':', '""logo""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+41,"    Link              string     `json:""link""`","['Link', 'string', 'json', ':', '""link""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+42,"    Views             int        `json:""views""`","['Views', 'int', 'json', ':', '""views""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+43,},['}'],['PUNCTUATION']
+44,type metas struct {,"['type', 'metas', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+45,"    Title      string   `json:""title""`","['Title', 'string', 'json', ':', '""title""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+46,"    Tags       []string `json:""tags""`","['Tags', '[]', 'string', 'json', ':', '""tags""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+47,"    Categories []string `json:""categories""`","['Categories', '[]', 'string', 'json', ':', '""categories""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+48,"    PermaLink  string   `json:""permalink""`","['PermaLink', 'string', 'json', ':', '""permalink""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+49,},['}'],['PUNCTUATION']
+50,var jsonString = `{  ,"['var', 'jsonString', '=', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION']"
+51,"   ""clipId"":""9b2ea9bb-e54b-4291-ba16-9211fa3c755f"",","['""clipId""', ':', '""9b2ea9bb-e54b-4291-ba16-9211fa3c755f""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+52,"   ""streamUrl"":""https:///asset-32e43a5d-1500-80c3-cc6b-f1e4fe2b5c44\/6c53fbf5-dbe9-4617-9692-78e8d76a7b6e_H264_500kbps_AAC_und_ch2_128kbps.mp4?sv=2012-02-12&sr=c&si=17ed71e8-5176-4432-8092-ee64928a55f6&sig=KHyToRlqvwQxWZXVvRYOkBOBOF0SuBLVmKiGp4joBpw%3D&st=2015-05-18T13%3A32%3A41Z&se=2057-05-07T13%3A32%3A41Z"",","['""streamUrl""', ':', '""https:///asset-32e43a5d-1500-80c3-cc6b-f1e4fe2b5c44\\/6c53fbf5-dbe9-4617-9692-78e8d76a7b6e_H264_500kbps_AAC_und_ch2_128kbps.mp4?sv=2012-02-12&sr=c&si=17ed71e8-5176-4432-8092-ee64928a55f6&sig=KHyToRlqvwQxWZXVvRYOkBOBOF0SuBLVmKiGp4joBpw%3D&st=2015-05-18T13%3A32%3A41Z&se=2057-05-07T13%3A32%3A41Z""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+53,"   ""startTimecode"":""6"",","['""startTimecode""', ':', '""6""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+54,"   ""endTimecode"":""16"",","['""endTimecode""', ':', '""16""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+55,"   ""createdAt"":""2015-05-19 13:31:32"",","['""createdAt""', ':', '""2015-05-19 13:31:32""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+56,"   ""metas"":""{\""title\"":\""Zapping : Obama, Marine Le Pen et Michael Jackson\"",\""tags\"":[\""actualite\""],\""categories\"":[\""actualite\""],\""permalink\"":\""http:\/\/videos.lexpress.fr\/actualite\/zapping-obama-marine-le-pen-et-michael-jackson_910357.html\""}"",","['""metas""', ':', '""{\\""', 'title', '"":\\""', 'Zapping', ':', 'Obama', ',', 'Marine', 'Le', 'Pen', 'et', 'Michael', 'Jackson', '"",\\""', 'tags', '"":[\\""', 'actualite', '""],\\""', 'categories', '"":[\\""', 'actualite', '""],\\""', 'permalink', '"":\\""', 'http', ':', '/', '/', 'videos', '.', 'lexpress', '.', 'fr', '/', 'actualite', '/', 'zapping', '-', 'obama', '-', 'marine', '-', 'le', '-', 'pen', '-', 'et', '-', 'michael', '-', 'jackson_910357', '.', 'html', '""}""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION']"
+57,"   ""sourceId"":""6c53fbf5-dbe9-4617-9692-78e8d76a7b6e"",","['""sourceId""', ':', '""6c53fbf5-dbe9-4617-9692-78e8d76a7b6e""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+58,"   ""providerName"":""dailymotion"",","['""providerName""', ':', '""dailymotion""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+59,"   ""providerReference"":""x1xmnxq"",","['""providerReference""', ':', '""x1xmnxq""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+60,"   ""publicationStatus"":""1"",","['""publicationStatus""', ':', '""1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+61,"   ""userId"":""b373400a-bd7e-452a-af68-36992b0323a5"",","['""userId""', ':', '""b373400a-bd7e-452a-af68-36992b0323a5""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+62,"   ""name"":""LEXPRESS.fr"",","['""name""', ':', '""LEXPRESS.fr""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+63,"   ""facebookPage"":""https:\/\/www.facebook.com\/LExpress"",","['""facebookPage""', ':', '""https:\\/\\/www.facebook.com\\/LExpress""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+64,"   ""twitterHandle"":""https:\/\/twitter.com\/lexpress"",","['""twitterHandle""', ':', '""https:\\/\\/twitter.com\\/lexpress""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+65,"   ""permalinkBaseURL"":""https:\/\/tym.net\/fr\/{CLIP_ID}"",","['""permalinkBaseURL""', ':', '""https:\\/\\/tym.net\\/fr\\/{CLIP_ID}""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+66,"   ""logo"":""lexpress-120px.png"",","['""logo""', ':', '""lexpress-120px.png""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+67,"   ""link"":""http:\/\/videos.lexpress.fr\/""","['""link""', ':', '""http:\\/\\/videos.lexpress.fr\\/""']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL']"
+68,}`,['}'],['PUNCTUATION']
+69,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+70,    res := parseJson(jsonString),"['res', ':=', 'parseJson', '(', 'jsonString', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+71,"    fmt.Printf(""%+v\n"",res)","['fmt.Printf(""%+v\\n"",res)']",['FUNCTION_CALL']
+72,},['}'],['PUNCTUATION']
+73,func parseJson(theJson string) InfoClip {,"['func', 'parseJson', '(', 'theJson', 'string', ')', 'InfoClip', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+74,    toParseInto := struct {,"['toParseInto', ':=', 'struct', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION']"
+75,        InfoClip,['InfoClip'],['IDENTIFIER']
+76,"        MetasString string `json:""metas""`","['MetasString', 'string', 'json', ':', '""metas""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+77,    }{,['}{'],['PUNCTUATION']
+78,"        InfoClip:    InfoClip{},","['InfoClip', ':', 'InfoClip', '{},']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+79,"        MetasString: """"}","['MetasString', ':', '""""', '}']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+80,"    err := json.Unmarshal([]byte(jsonString), &toParseInto)","['err', ':=', 'json.Unmarshal([]byte(jsonString), &toParseInto)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+81,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+82,        log.Panic(err),['log.Panic(err)'],['FUNCTION_CALL']
+83,    },['}'],['PUNCTUATION']
+84,"    err = json.Unmarshal([]byte(toParseInto.MetasString), &toParseInto.InfoClip.Metas)","['err', '=', 'json.Unmarshal([]byte(toParseInto.MetasString), &toParseInto.InfoClip.Metas)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+85,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+86,        log.Panic(err),['log.Panic(err)'],['FUNCTION_CALL']
+87,    },['}'],['PUNCTUATION']
+88,    return toParseInto.InfoClip,"['return', 'toParseInto', '.', 'InfoClip']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+89,},['}'],['PUNCTUATION']
+90,"
+
+What are we doing in the parseJson function?
+
+We create a new struct and assign that to the toParseInto variable. We design the struct in a way that it contains all of the fields from InfoClip via embedding, and We add a field to temporarily hold the JSON string metas.
+
+We then unmarshal into that struct, which, after fixing the issues listed below, works fine.
+
+After that, we unmarshal that inner JSON into the correct field in the embedded InfoClip.
+
+We can now easily return that embedded InfoClip to get what we really wanted.
+
+Now, all the issues I have identified in your original solution:
+
+
+The time format in your JSON is not the standard time format to be used in JSON. That is defined in some RFC, but anyways: because of that, we have to use our own type customTime to parse that. It handles just like a normal time.Time, because that is embedded within.
+All your json tags were wrong. All of them had missing quotes, and some were just not even correct.
+startTimeCode and endTimeCode are strings in the JSON, not ints
+
+
+Left to you to improve:
+
+
+Error handling: Don't just panic in the parseJson function, but rather return the error somehow
+If you want startTimecode and endTimecode to be available as ints, parse them manually. You can employ a ""hack"" similar to the one I used to parse the inner JSON.
+
+
+One final note, not related to this answer but rather to your question: If you had provided both your code and the JSON with your original question, you would have had an answer in probably less than an hour. Please, please don't make this harder than it needs to be.
+
+EDIT: I forgot to provide my sources, I used this question to parse your time format.
+","['What', 'are', 'we', 'doing', 'in', 'the', 'parseJson', 'function?', 'We', 'create', 'a', 'new', 'struct', 'and', 'assign', 'that', 'to', 'the', 'toParseInto', 'variable.', 'We', 'design', 'the', 'struct', 'in', 'a', 'way', 'that', 'it', 'contains', 'all', 'of', 'the', 'fields', 'from', 'InfoClip', 'via', 'embedding,', 'and', 'We', 'add', 'a', 'field', 'to', 'temporarily', 'hold', 'the', 'JSON', 'string', 'metas.', 'We', 'then', 'unmarshal', 'into', 'that', 'struct,', 'which,', 'after', 'fixing', 'the', 'issues', 'listed', 'below,', 'works', 'fine.', 'After', 'that,', 'we', 'unmarshal', 'that', 'inner', 'JSON', 'into', 'the', 'correct', 'field', 'in', 'the', 'embedded', 'InfoClip.', 'We', 'can', 'now', 'easily', 'return', 'that', 'embedded', 'InfoClip', 'to', 'get', 'what', 'we', 'really', 'wanted.', 'Now,', 'all', 'the', 'issues', 'I', 'have', 'identified', 'in', 'your', 'original', 'solution:', 'The', 'time', 'format', 'in', 'your', 'JSON', 'is', 'not', 'the', 'standard', 'time', 'format', 'to', 'be', 'used', 'in', 'JSON.', 'That', 'is', 'defined', 'in', 'some', 'RFC,', 'but', 'anyways:', 'because', 'of', 'that,', 'we', 'have', 'to', 'use', 'our', 'own', 'type', 'customTime', 'to', 'parse', 'that.', 'It', 'handles', 'just', 'like', 'a', 'normal', 'time.Time,', 'because', 'that', 'is', 'embedded', 'within.', 'All', 'your', 'json', 'tags', 'were', 'wrong.', 'All', 'of', 'them', 'had', 'missing', 'quotes,', 'and', 'some', 'were', 'just', 'not', 'even', 'correct.', 'startTimeCode', 'and', 'endTimeCode', 'are', 'strings', 'in', 'the', 'JSON,', 'not', 'ints', 'Left', 'to', 'you', 'to', 'improve:', 'Error', 'handling:', ""Don't"", 'just', 'panic', 'in', 'the', 'parseJson', 'function,', 'but', 'rather', 'return', 'the', 'error', 'somehow', 'If', 'you', 'want', 'startTimecode', 'and', 'endTimecode', 'to', 'be', 'available', 'as', 'ints,', 'parse', 'them', 'manually.', 'You', 'can', 'employ', 'a', '""hack""', 'similar', 'to', 'the', 'one', 'I', 'used', 'to', 'parse', 'the', 'inner', 'JSON.', 'One', 'final', 'note,', 'not', 'related', 'to', 'this', 'answer', 'but', 'rather', 'to', 'your', 'question:', 'If', 'you', 'had', 'provided', 'both', 'your', 'code', 'and', 'the', 'JSON', 'with', 'your', 'original', 'question,', 'you', 'would', 'have', 'had', 'an', 'answer', 'in', 'probably', 'less', 'than', 'an', 'hour.', 'Please,', 'please', ""don't"", 'make', 'this', 'harder', 'than', 'it', 'needs', 'to', 'be.', 'EDIT:', 'I', 'forgot', 'to', 'provide', 'my', 'sources,', 'I', 'used', 'this', 'question', 'to', 'parse', 'your', 'time', 'format.']","['WP', 'VBP', 'PRP', 'VBG', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'CC', 'NN', 'WDT', 'TO', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'DT', 'IN', 'DT', 'NNS', 'IN', 'NNP', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'NN', 'TO', 'RB', 'VB', 'DT', 'NNP', 'VBG', 'NN', 'PRP', 'RB', 'VBD', 'IN', 'DT', 'NN', 'NN', 'IN', 'VBG', 'DT', 'NNS', 'VBN', 'NN', 'VBZ', 'RB', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'JJ', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NNP', 'PRP', 'MD', 'RB', 'RB', 'VB', 'DT', 'VBD', 'NNP', 'TO', 'VB', 'WP', 'PRP', 'RB', 'VB', 'NNP', 'PDT', 'DT', 'NNS', 'PRP', 'VBP', 'VBN', 'IN', 'PRP$', 'JJ', 'VB', 'DT', 'NN', 'NN', 'IN', 'PRP$', 'NNP', 'VBZ', 'RB', 'DT', 'JJ', 'NN', 'NN', 'TO', 'VB', 'VBN', 'IN', 'NNP', 'NNP', 'VBZ', 'VBN', 'IN', 'DT', 'NNP', 'CC', 'RB', 'IN', 'IN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'PRP$', 'JJ', 'NN', 'NN', 'TO', 'VB', 'NN', 'PRP', 'VBZ', 'RB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'VBZ', 'VBN', 'IN', 'DT', 'PRP$', 'NN', 'NNS', 'VBD', 'JJ', 'NNP', 'IN', 'PRP', 'VBD', 'VBG', 'NN', 'CC', 'DT', 'VBD', 'RB', 'RB', 'RB', 'VB', 'NN', 'CC', 'NN', 'VBP', 'NNS', 'IN', 'DT', 'NNP', 'RB', 'VBZ', 'VBN', 'TO', 'PRP', 'TO', 'VB', 'NNP', 'VB', 'NNP', 'RB', 'NN', 'IN', 'DT', 'NN', 'NN', 'CC', 'RB', 'VB', 'DT', 'NN', 'RB', 'IN', 'PRP', 'VBP', 'JJ', 'CC', 'NN', 'TO', 'VB', 'JJ', 'IN', 'JJ', 'IN', 'PRP', 'VBP', 'PRP', 'MD', 'VB', 'DT', 'JJ', 'JJ', 'TO', 'DT', 'NN', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'JJ', 'NNP', 'NNP', 'JJ', 'NN', 'RB', 'VBN', 'TO', 'DT', 'NN', 'CC', 'RB', 'TO', 'PRP$', 'NN', 'IN', 'PRP', 'VBD', 'VBN', 'DT', 'PRP$', 'NN', 'CC', 'DT', 'NNP', 'IN', 'PRP$', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'VBD', 'DT', 'NN', 'IN', 'RB', 'JJR', 'IN', 'DT', 'JJ', 'NNP', 'NN', 'RB', 'VB', 'DT', 'JJR', 'IN', 'PRP', 'VBZ', 'TO', 'VB', 'NNP', 'PRP', 'VBD', 'TO', 'VB', 'PRP$', 'NN', 'PRP', 'VBD', 'DT', 'NN', 'TO', 'VB', 'PRP$', 'NN', 'NN']"

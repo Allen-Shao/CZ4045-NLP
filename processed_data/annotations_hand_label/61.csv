@@ -1,176 +1,180 @@
 ,text,token,annotation
-0,"I have deployed the Go App on Heroku but on hitting the url.. its not giving proper response. The Heroku logs looks something like this : 
+0,"I'm porting an app from Play (Scala) to Go and wondering how to implement dependency injection. In Scala I used the cake pattern, while in Go I implemented a DAO interface along with an implementation for Mongo.
 
-","['I', 'have', 'deployed', 'the', 'Go', 'App', 'on', 'Heroku', 'but', 'on', 'hitting', 'the', 'url..', 'its', 'not', 'giving', 'proper', 'response.', 'The', 'Heroku', 'logs', 'looks', 'something', 'like', 'this', ':']","['PRP', 'VBP', 'VBN', 'DT', 'NNP', 'NNP', 'IN', 'NNP', 'CC', 'IN', 'VBG', 'DT', 'NN', 'PRP$', 'RB', 'VBG', 'JJ', 'NN', 'DT', 'NNP', 'NNS', 'VBZ', 'NN', 'IN', 'DT', ':']"
-1,2015-06-27T10:43:06.839094+00:00 heroku[web.1]: Starting process with command `FlickrImage`,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '06', '.', '839094', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'Starting', 'process', 'with', 'command', 'FlickrImage']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-2,2015-06-27T10:43:08.998400+00:00 heroku[web.1]: State changed from starting to crashed,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '0', '8', '.', '998400', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'State', 'chan', 'ged', 'from', 'starting', 'to', 'crashed']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-3,2015-06-27T10:43:08.998400+00:00 heroku[web.1]: State changed from crashed to starting,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '0', '8', '.', '998400', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'State', 'chan', 'ged', 'from', 'crashed', 'to', 'starting']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-4,2015-06-27T10:43:08.985737+00:00 heroku[web.1]: Process exited with status 0,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '0', '8', '.', '985737', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'Process', 'exited', 'with', 'status', '0']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL']"
-5,2015-06-27T10:43:10.795684+00:00 heroku[web.1]: Starting process with command `FlickrImage`,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '10', '.', '795684', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'Starting', 'process', 'with', 'command', 'FlickrImage']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-6,2015-06-27T10:43:13.837301+00:00 heroku[web.1]: Process exited with status 0,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '13', '.', '837301', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'Process', 'exited', 'with', 'status', '0']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL']"
-7,2015-06-27T10:43:13.850141+00:00 heroku[web.1]: State changed from starting to crashed,"['2015', '-', '06', '-', '27', 'T10', ':', '43', ':', '13', '.', '850141', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'web', '.', '1', ']:', 'State', 'chan', 'ged', 'from', 'starting', 'to', 'crashed']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-8,"2015-06-27T10:44:41.914412+00:00 heroku[router]: at=error code=H10 desc=""App crashed"" method=GET path=""/Index"" host=morning-ridge-1365.herokuapp.com request_id=89d2e794-a725-4ddf-b437-dbcbd988428c fwd=""202.12.83.44"" dyno= connect= service= status=503 bytes=","['2015', '-', '06', '-', '27', 'T10', ':', '44', ':', '41', '.', '914412', '+', '0', '0', ':', '0', '0', 'heroku', '[', 'router', ']:', 'at', '=', 'error', 'code', '=', 'H10', 'desc', '=', '""App crashed""', 'method', '=', 'GET', 'path=""/Index""', 'host', '=', 'morning', '-', 'ridge', '-', '1365', '.', 'herokuapp', '.', 'com', 'request_id', '=', '89', 'd2e794', '-', 'a725', '-', '4', 'ddf', '-', 'b437', '-', 'dbcbd988428c', 'fwd', '=', '""202.12.83.44""', 'dyno', '=', 'connect', '=', 'service', '=', 'status', '=', '503', 'bytes', '=']","['DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-9,"
+Here below is how I tried to implement a pattern that let me change the DAO implementation as needed (e.g. test, different DB, etc.):
 
-FlickrImage is my go file and I have created a Procfile which contains ""web: FlickrImage""
+1. entity.go
 
-EDIT :
-FlickrImageServer Code :
+","[""I'm"", 'porting', 'an', 'app', 'from', 'Play', '(Scala)', 'to', 'Go', 'and', 'wondering', 'how', 'to', 'implement', 'dependency', 'injection.', 'In', 'Scala', 'I', 'used', 'the', 'cake', 'pattern,', 'while', 'in', 'Go', 'I', 'implemented', 'a', 'DAO', 'interface', 'along', 'with', 'an', 'implementation', 'for', 'Mongo.', 'Here', 'below', 'is', 'how', 'I', 'tried', 'to', 'implement', 'a', 'pattern', 'that', 'let', 'me', 'change', 'the', 'DAO', 'implementation', 'as', 'needed', '(e.g.', 'test,', 'different', 'DB,', 'etc.):', '1.', 'entity.go']","['NNP', 'VBG', 'DT', 'NN', 'IN', 'NNP', 'NNP', 'TO', 'VB', 'CC', 'VBG', 'WRB', 'TO', 'VB', 'NN', 'NN', 'IN', 'NNP', 'PRP', 'VBD', 'DT', 'NN', 'NN', 'IN', 'IN', 'NNP', 'PRP', 'VBD', 'DT', 'NNP', 'NN', 'IN', 'IN', 'DT', 'NN', 'IN', 'NNP', 'RB', 'IN', 'VBZ', 'WRB', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'WDT', 'VBD', 'PRP', 'VB', 'DT', 'NNP', 'NN', 'IN', 'VBN', 'NN', 'NN', 'JJ', 'NNP', 'NN', 'CD', 'NN']"
+1,package models,"['package', 'models']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""time""","['""time""']",['STRING_LITERAL']
+4,"    ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['STRING_LITERAL']
+5,),[')'],['PUNCTUATION']
+6,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+7,    Entity struct {,"['Entity', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+8,"        Id        bson.ObjectId `json:""id,omitempty"" bson:""_id,omitempty""`","['Id', 'bson', '.', 'ObjectId', 'json', ':', '""id,omitempty""', 'bson', ':', '""_id,omitempty""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+9,"        CreatedAt time.Time     `json:""createdAt,omitempty"" bson:""createdAt,omitempty""`","['CreatedAt', 'time', '.', 'Time', 'json', ':', '""createdAt,omitempty""', 'bson', ':', '""createdAt,omitempty""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+10,"        LastUpdate time.Time    `json:""lastUpdate,omitempty"" bson:""lastUpdate,omitempty""`","['LastUpdate', 'time', '.', 'Time', 'json', ':', '""lastUpdate,omitempty""', 'bson', ':', '""lastUpdate,omitempty""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+11,    },['}'],['PUNCTUATION']
+12,),[')'],['PUNCTUATION']
+13,"
 
-","['FlickrImage', 'is', 'my', 'go', 'file', 'and', 'I', 'have', 'created', 'a', 'Procfile', 'which', 'contains', '""web:', 'FlickrImage""', 'EDIT', ':', 'FlickrImageServer', 'Code', ':']","['NN', 'VBZ', 'PRP$', 'JJ', 'NN', 'CC', 'PRP', 'VBP', 'VBN', 'DT', 'NNP', 'WDT', 'VBZ', 'JJ', 'NNP', 'NNP', ':', 'NN', 'NN', ':']"
-10,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-11,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-12,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-13,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-14,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-15,"    ""log""","['""log""']",['STRING_LITERAL']
-16,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-17,"    ""os""","['""os""']",['STRING_LITERAL']
-18,"    ""reflect""","['""reflect""']",['STRING_LITERAL']
-19,"    ""strconv""","['""strconv""']",['STRING_LITERAL']
-20,"    ""strings""","['""strings""']",['STRING_LITERAL']
-21,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
-22,"    ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['STRING_LITERAL']
-23,"    ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['STRING_LITERAL']
-24,),[')'],['OPERATOR']
-25,type imageLinks struct {,"['type', 'imageLinks', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-26,"    Link     string `bson:""link""`","['Link', 'string', 'bson', ':', '""link""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-27,"    Upvote   int    `bson:""upvote""`","['Upvote', 'int', 'bson', ':', '""upvote""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-28,"    Downvote int    `bson:""downvote""`","['Downvote', 'int', 'bson', ':', '""downvote""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-29,},['}'],['OPERATOR']
-30,type Result struct {,"['type', 'Result', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-31,    Photos struct {,"['Photos', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-32,"        Page    int    `json: ""page""`","['Page', 'int', 'json', ':', '""page""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-33,"        Pages   int    `json: ""pages""`","['Pages', 'int', 'json', ':', '""pages""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-34,"        PerPage int    `json: ""perpage""`","['PerPage', 'int', 'json', ':', '""perpage""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-35,"        Total   string `json: ""total""`","['Total', 'string', 'json', ':', '""total""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-36,        Photo   []struct {,"['Photo', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-37,"            Id       string `json: ""id""`","['Id', 'string', 'json', ':', '""id""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-38,"            Owner    string `json: ""owner""`","['Owner', 'string', 'json', ':', '""owner""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-39,"            Secret   string `json: ""secret""`","['Secret', 'string', 'json', ':', '""secret""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-40,"            Server   string `json: ""server""`","['Server', 'string', 'json', ':', '""server""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-41,"            Farm     int    `json: ""farm""`","['Farm', 'int', 'json', ':', '""farm""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-42,"            Title    string `json: ""title""`","['Title', 'string', 'json', ':', '""title""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-43,"            IsPublic int    `json: ""ispublic""`","['IsPublic', 'int', 'json', ':', '""ispublic""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-44,"            IsFriend int    `json: ""isfriend""`","['IsFriend', 'int', 'json', ':', '""isfriend""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-45,"            IsFamily int    `json: ""isfamily`","['IsFamily', 'int', 'json', ':', 'isfamily']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-46,"        } `json: ""photo""`","['}', 'json', ':', '""photo""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-47,"    } `json: ""photos""`","['}', 'json', ':', '""photos""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-48,"    Stat string `json: ""stat""`","['Stat', 'string', 'json', ':', '""stat""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-49,},['}'],['OPERATOR']
-50,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-51,    router := mux.NewRouter().StrictSlash(true),"['router', ':=', 'mux.NewRouter().StrictSlash(true)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-52,"    router.HandleFunc(""/Index"", Index)","['router.HandleFunc(""/Index"", Index)']",['FUNCTION_CALL']
-53,"    router.HandleFunc(""/UpVote"", UpVoteRoute)","['router.HandleFunc(""/UpVote"", UpVoteRoute)']",['FUNCTION_CALL']
-54,"    router.HandleFunc(""/DownVote"", DownVoteRoute)","['router.HandleFunc(""/DownVote"", DownVoteRoute)']",['FUNCTION_CALL']
-55,"    log.Fatal(http.ListenAndServe("":8080"", router))","['log.Fatal(http.ListenAndServe("":8080"", router))']",['FUNCTION_CALL']
-56,},['}'],['OPERATOR']
-57,"func UpVoteRoute(w http.ResponseWriter, r *http.Request) {","['func', 'UpVoteRoute', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-58,"    link := r.URL.Query().Get(""imagelink"")","['link', ':=', 'r', '.', 'URL.Query().Get(""imagelink"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-59,"    w.Header().Set(""Content-Type"", ""application/json"")","['w.Header().Set(""Content-Type"", ""application/json"")']",['FUNCTION_CALL']
-60,"    session, err := mgo.Dial(""mongodb://:@ds061631.mongolab.com:61631/flickrimagedb"")","['session', ',', 'err', ':=', 'mgo.Dial(""mongodb://:@ds061631.mongolab.com:61631/flickrimagedb"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-61,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-62,"        fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-63,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-64,    },['}'],['OPERATOR']
-65,    defer session.Close(),"['defer', 'session.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-66,"    session.SetMode(mgo.Monotonic, true)","['session.SetMode(mgo.Monotonic, true)']",['FUNCTION_CALL']
-67,"    c := session.DB(""flickrimagedb"").C(""image_links_votes"")","['c', ':=', 'session.DB(""flickrimagedb"").C(""image_links_votes"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-68,"    err = c.Update(bson.M{""link"": link}, bson.M{""$inc"": bson.M{""upvote"": 1}})","['err', '=', 'c.Update(bson.M{""link"": link}, bson.M{""$inc"": bson.M{""upvote"": 1}})']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-69,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-70,"        fmt.Printf(""Can't update document %v\n"", err)","['fmt.Printf(""Can\'t update document %v\\n"", err)']",['FUNCTION_CALL']
-71,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-72,    },['}'],['OPERATOR']
-73,},['}'],['OPERATOR']
-74,"func DownVoteRoute(w http.ResponseWriter, r *http.Request) {","['func', 'DownVoteRoute', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-75,"    link := r.URL.Query().Get(""imagelink"")","['link', ':=', 'r', '.', 'URL.Query().Get(""imagelink"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-76,"    w.Header().Set(""Content-Type"", ""application/json"")","['w.Header().Set(""Content-Type"", ""application/json"")']",['FUNCTION_CALL']
-77,"    session, err := mgo.Dial(""mongodb://*********:*******@ds061631.mongolab.com:61631/flickrimagedb"")","['session', ',', 'err', ':=', 'mgo.Dial(""mongodb://*********:*******@ds061631.mongolab.com:61631/flickrimagedb"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-78,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-79,"        fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-80,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-81,    },['}'],['OPERATOR']
-82,    defer session.Close(),"['defer', 'session.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-83,"    session.SetMode(mgo.Monotonic, true)","['session.SetMode(mgo.Monotonic, true)']",['FUNCTION_CALL']
-84,"    c := session.DB(""flickrimagedb"").C(""image_links_votes"")","['c', ':=', 'session.DB(""flickrimagedb"").C(""image_links_votes"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-85,"    err = c.Update(bson.M{""link"": link}, bson.M{""$inc"": bson.M{""downvote"": 1}})","['err', '=', 'c.Update(bson.M{""link"": link}, bson.M{""$inc"": bson.M{""downvote"": 1}})']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-86,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"        fmt.Printf(""Can't update document %v\n"", err)","['fmt.Printf(""Can\'t update document %v\\n"", err)']",['FUNCTION_CALL']
-88,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-89,    },['}'],['OPERATOR']
-90,},['}'],['OPERATOR']
-91,"func Index(w http.ResponseWriter, r *http.Request) {","['func', 'Index', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-92,"    w.Header().Set(""Content-Type"", ""application/json"")","['w.Header().Set(""Content-Type"", ""application/json"")']",['FUNCTION_CALL']
-93,"    session, err := mgo.Dial(""mongodb://*********:*********@ds061631.mongolab.com:61631/flickrimagedb"")","['session', ',', 'err', ':=', 'mgo.Dial(""mongodb://*********:*********@ds061631.mongolab.com:61631/flickrimagedb"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-94,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,"        fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-96,        os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-97,    },['}'],['OPERATOR']
-98,    defer session.Close(),"['defer', 'session.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-99,"    session.SetMode(mgo.Monotonic, true)","['session.SetMode(mgo.Monotonic, true)']",['FUNCTION_CALL']
-100,"    c := session.DB(""flickrimagedb"").C(""image_links_votes"")","['c', ':=', 'session.DB(""flickrimagedb"").C(""image_links_votes"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-101,    checkResult := &imageLinks{},"['checkResult', ':=', '&', 'imageLinks', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-102,    // Create a slice to begin with,"['//', 'Create', 'a', 'slice', 'to', 'begin', 'with']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'IN']"
-103,    myType := reflect.TypeOf(checkResult),"['myType', ':=', 'reflect.TypeOf(checkResult)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-104,"    slice := reflect.MakeSlice(reflect.SliceOf(myType), 10, 10)","['slice', ':=', 'reflect.MakeSlice(reflect.SliceOf(myType), 10, 10)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-105,    // Create a pointer to a slice value and set it to the slice,"['//', 'Create', 'a', 'pointer', 'to', 'a', 'slice', 'value', 'and', 'set', 'it', 'to', 'the', 'slice']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'DT', 'NN']"
-106,    x := reflect.New(slice.Type()),"['x', ':=', 'reflect.New(slice.Type())']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-107,    x.Elem().Set(slice),['x.Elem().Set(slice)'],['FUNCTION_CALL']
-108,    err = c.Find(bson.M{}).All(x.Interface()),"['err', '=', 'c.Find(bson.M{}).All(x.Interface())']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-109,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-110,"        response, err := json.Marshal(x.Interface())","['response', ',', 'err', ':=', 'json.Marshal(x.Interface())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-111,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-112,"            fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-113,            os.Exit(2),['os.Exit(2)'],['FUNCTION_CALL']
-114,        },['}'],['OPERATOR']
-115,"        fmt.Fprintf(w, string(response))","['fmt.Fprintf(w, string(response))']",['FUNCTION_CALL']
-116,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-117,"        url := ""https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=*****************************&text=cute+puppies&per_page=12&format=json&nojsoncallback=1""","['url', ':=', '""https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=*****************************&text=cute+puppies&per_page=12&format=json&nojsoncallback=1""']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-118,"        res, err := http.Get(url)","['res', ',', 'err', ':=', 'http.Get(url)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-119,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-120,"            fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-121,            os.Exit(3),['os.Exit(3)'],['FUNCTION_CALL']
-122,        },['}'],['OPERATOR']
-123,"        body, err := ioutil.ReadAll(res.Body)","['body', ',', 'err', ':=', 'ioutil.ReadAll(res.Body)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-124,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-125,"            fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-126,            os.Exit(4),['os.Exit(4)'],['FUNCTION_CALL']
-127,        },['}'],['OPERATOR']
-128,        jsonData := &Result{},"['jsonData', ':=', '&', 'Result', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-129,"        err = json.Unmarshal(body, jsonData)","['err', '=', 'json.Unmarshal(body, jsonData)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-130,        for value := range jsonData.Photos.Photo {,"['for', 'value', ':=', 'range', 'jsonData', '.', 'Photos', '.', 'Photo', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-131,"            s1 := []string{""https://farm"", "".staticflickr.com/""}","['s1', ':=', '[]string{""https://farm"",', '"".staticflickr.com/""', '}']","['IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'STRING_LITERAL', 'OPERATOR']"
-132,"            s2 := []string{strings.Join(s1, strconv.Itoa(jsonData.Photos.Photo[value].Farm)), ""/""}","['s2', ':=', '[]', 'string', '{', 'strings.Join(s1, strconv.Itoa(jsonData.Photos.Photo[value].Farm))', ',', '""/""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-133,"            s3 := []string{strings.Join(s2, jsonData.Photos.Photo[value].Server), ""_""}","['s3', ':=', '[]', 'string', '{', 'strings.Join(s2, jsonData.Photos.Photo[value].Server)', ',', '""_""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-134,"            s4 := []string{strings.Join(s3, jsonData.Photos.Photo[value].Id), "".jpg""}","['s4', ':=', '[]', 'string', '{', 'strings.Join(s3, jsonData.Photos.Photo[value].Id)', ',', '"".jpg""', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-135,"            s := strings.Join(s4, jsonData.Photos.Photo[value].Secret)","['s', ':=', 'strings.Join(s4, jsonData.Photos.Photo[value].Secret)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-136,            singleReuslt := imageLinks{},"['singleReuslt', ':=', 'imageLinks', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-137,"            err = c.Find(bson.M{""link"": s}).One(&singleReuslt)","['err', '=', 'c.Find(bson.M{""link"": s}).One(&singleReuslt)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-138,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-139,"                err = c.Insert(&imageLinks{Link: s, Upvote: 0, Downvote: 0})","['err', '=', 'c.Insert(&imageLinks{Link: s, Upvote: 0, Downvote: 0})']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-140,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-141,"                    fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-142,                    os.Exit(5),['os.Exit(5)'],['FUNCTION_CALL']
-143,                },['}'],['OPERATOR']
-144,            },['}'],['OPERATOR']
-145,        },['}'],['OPERATOR']
-146,        allResult := &imageLinks{},"['allResult', ':=', '&', 'imageLinks', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-147,        // Create a slice to begin with,"['//', 'Create', 'a', 'slice', 'to', 'begin', 'with']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'VB', 'IN']"
-148,        myType := reflect.TypeOf(allResult),"['myType', ':=', 'reflect.TypeOf(allResult)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-149,"        slice := reflect.MakeSlice(reflect.SliceOf(myType), 10, 10)","['slice', ':=', 'reflect.MakeSlice(reflect.SliceOf(myType), 10, 10)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-150,        // Create a pointer to a slice value and set it to the slice,"['//', 'Create', 'a', 'pointer', 'to', 'a', 'slice', 'value', 'and', 'set', 'it', 'to', 'the', 'slice']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'CC', 'VB', 'PRP', 'TO', 'DT', 'NN']"
-151,        x := reflect.New(slice.Type()),"['x', ':=', 'reflect.New(slice.Type())']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-152,        x.Elem().Set(slice),['x.Elem().Set(slice)'],['FUNCTION_CALL']
-153,        err = c.Find(bson.M{}).All(x.Interface()),"['err', '=', 'c.Find(bson.M{}).All(x.Interface())']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-154,"        response, err := json.Marshal(x.Interface())","['response', ',', 'err', ':=', 'json.Marshal(x.Interface())']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-155,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-156,"            fmt.Printf(""%s"", err)","['fmt.Printf(""%s"", err)']",['FUNCTION_CALL']
-157,            os.Exit(6),['os.Exit(6)'],['FUNCTION_CALL']
-158,        },['}'],['OPERATOR']
-159,"        fmt.Fprintf(w, string(response))","['fmt.Fprintf(w, string(response))']",['FUNCTION_CALL']
-160,    },['}'],['OPERATOR']
-161,},['}'],['OPERATOR']
-162,"
+2. user.go
 
-Any help would be appreciated
-","['Any', 'help', 'would', 'be', 'appreciated']","['DT', 'NN', 'MD', 'VB', 'VBN']"
+","['2.', 'user.go']","['CD', 'JJ']"
+14,package models,"['package', 'models']","['KEYWORD', 'IDENTIFIER']"
+15,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+16,"    ""time""","['""time""']",['STRING_LITERAL']
+17,),[')'],['PUNCTUATION']
+18,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+19,    User struct {,"['User', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+20,"        Entity                  `bson:"",inline""`","['Entity', 'bson', ':', '"",inline""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+21,"        Name      string        `json:""name,omitempty"" bson:""name,omitempty""`","['Name', 'string', 'json', ':', '""name,omitempty""', 'bson', ':', '""name,omitempty""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+22,"        BirthDate time.Time     `json:""birthDate,omitempty"" bson:""birthDate,omitempty""`","['BirthDate', 'time', '.', 'Time', 'json', ':', '""birthDate,omitempty""', 'bson', ':', '""birthDate,omitempty""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+23,    },['}'],['PUNCTUATION']
+24,),[')'],['PUNCTUATION']
+25,"
+
+3. dao.go
+
+","['3.', 'dao.go']","['CD', 'NN']"
+26,package persistence,"['package', 'persistence']","['KEYWORD', 'IDENTIFIER']"
+27,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+28,    DAO interface {,"['DAO', 'interface', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+29,        Insert(entity interface{}) error,"['Insert', '(', 'entity', 'interface', '{})', 'error']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER']"
+30,"        List(result interface{}, sort string) error","['List', '(', 'result', 'interface', '{},', 'sort', 'string', ')', 'error']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+31,"        Find(id string, result interface{}) error","['Find', '(', 'id', 'string', ',', 'result', 'interface', '{})', 'error']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER']"
+32,"        Update(id string, update interface{}) error","['Update', '(', 'id', 'string', ',', 'update', 'interface', '{})', 'error']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER']"
+33,        Remove(id string) error,"['Remove', '(', 'id', 'string', ')', 'error']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+34,        Close(),"['Close', '()']","['IDENTIFIER', 'PUNCTUATION']"
+35,    },['}'],['PUNCTUATION']
+36,    daoFactory func() DAO,"['daoFactory', 'func', '()', 'DAO']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER']"
+37,),[')'],['PUNCTUATION']
+38,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
+39,    New daoFactory,"['New', 'daoFactory']","['IDENTIFIER', 'IDENTIFIER']"
+40,),[')'],['PUNCTUATION']
+41,"
+
+4. mongoDao.go (DB info and collection name are hard-coded since it's just an example)
+
+","['4.', 'mongoDao.go', '(DB', 'info', 'and', 'collection', 'name', 'are', 'hard-coded', 'since', ""it's"", 'just', 'an', 'example)']","['CD', 'NN', 'NNP', 'NN', 'CC', 'NN', 'NN', 'VBP', 'JJ', 'IN', 'NN', 'RB', 'DT', 'NN']"
+42,package persistence,"['package', 'persistence']","['KEYWORD', 'IDENTIFIER']"
+43,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+44,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+45,"    ""time""","['""time""']",['STRING_LITERAL']
+46,"    ""errors""","['""errors""']",['STRING_LITERAL']
+47,"    ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['STRING_LITERAL']
+48,"    ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['STRING_LITERAL']
+49,"    ""github.com/fatih/structs""","['""github.com/fatih/structs""']",['STRING_LITERAL']
+50,"    ""cmd/server/models""","['""cmd/server/models""']",['STRING_LITERAL']
+51,),[')'],['PUNCTUATION']
+52,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+53,    mongoDAO struct{,"['mongoDAO', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+54,        session *mgo.Session,"['session', '*', 'mgo', '.', 'Session']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+55,    },['}'],['PUNCTUATION']
+56,),[')'],['PUNCTUATION']
+57,func NewMongoDAO() DAO {,"['func', 'NewMongoDAO', '()', 'DAO', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+58,    dialInfo := &mgo.DialInfo{,"['dialInfo', ':=', '&', 'mgo', '.', 'DialInfo', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+59,"        Addrs:      []string{""localhost:27017""},","['Addrs', ':', '[]', 'string', '{', '""localhost:27017""', '},']","['IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+60,"        Timeout:    60 * time.Second,","['Timeout', ':', '60', '*', 'time', '.', 'Second', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+61,"        Database:   ""test"",","['Database', ':', '""test""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+62,    },['}'],['PUNCTUATION']
+63,"    session, err := mgo.DialWithInfo(dialInfo)","['session', ',', 'err', ':=', 'mgo.DialWithInfo(dialInfo)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+64,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+65,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+66,    },['}'],['PUNCTUATION']
+67,"    session.SetMode(mgo.Monotonic, true)","['session.SetMode(mgo.Monotonic, true)']",['FUNCTION_CALL']
+68,    return &mongoDAO{session},"['return', '&', 'mongoDAO', '{', 'session', '}']","['KEYWORD', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+69,},['}'],['PUNCTUATION']
+70,func (dao *mongoDAO) Insert(entity interface{}) error {,"['func', '(', 'dao', '*', 'mongoDAO', ')', 'Insert', '(', 'entity', 'interface', '{})', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+71,    doc := entity.(*models.User),"['doc', ':=', 'entity', '.(*', 'models', '.', 'User', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+72,    doc.Id = bson.NewObjectId(),"['doc', '.', 'Id', '=', 'bson.NewObjectId()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+73,    doc.CreatedAt = time.Now().UTC(),"['doc', '.', 'CreatedAt', '=', 'time.Now().UTC()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+74,    doc.LastUpdate = time.Now().UTC(),"['doc', '.', 'LastUpdate', '=', 'time.Now().UTC()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+75,"    return dao.session.DB(""test"").C(""users"").Insert(doc)","['return', 'dao', '.', 'session.DB(""test"").C(""users"").Insert(doc)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+76,},['}'],['PUNCTUATION']
+77,"func (dao *mongoDAO) List(result interface{}, sort string) error {","['func', '(', 'dao', '*', 'mongoDAO', ')', 'List', '(', 'result', 'interface', '{},', 'sort', 'string', ')', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+78,"    return dao.session.DB(""test"").C(""users"").Find(nil).Sort(sort).All(result)","['return', 'dao', '.', 'session.DB(""test"").C(""users"").Find(nil).Sort(sort).All(result)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+79,},['}'],['PUNCTUATION']
+80,"func (dao *mongoDAO) Find(id string, result interface{}) error {","['func', '(', 'dao', '*', 'mongoDAO', ')', 'Find', '(', 'id', 'string', ',', 'result', 'interface', '{})', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+81,    if !bson.IsObjectIdHex(id) {,"['if', '!', 'bson.IsObjectIdHex(id)', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+82,"        return errors.New(fmt.Sprintf(""%s is not a valid hex id"", id))","['return', 'errors.New(fmt.Sprintf(""%s is not a valid hex id"", id))']","['KEYWORD', 'FUNCTION_CALL']"
+83,    },['}'],['PUNCTUATION']
+84,    oid := bson.ObjectIdHex(id),"['oid', ':=', 'bson.ObjectIdHex(id)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+85,"    return dao.session.DB(""test"").C(""users"").FindId(oid).One(result)","['return', 'dao', '.', 'session.DB(""test"").C(""users"").FindId(oid).One(result)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+86,},['}'],['PUNCTUATION']
+87,"func (dao *mongoDAO) Update(id string, update interface{}) error {","['func', '(', 'dao', '*', 'mongoDAO', ')', 'Update', '(', 'id', 'string', ',', 'update', 'interface', '{})', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+88,    if !bson.IsObjectIdHex(id) {,"['if', '!', 'bson.IsObjectIdHex(id)', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+89,"        return errors.New(fmt.Sprintf(""%s is not a valid hex id"", id))","['return', 'errors.New(fmt.Sprintf(""%s is not a valid hex id"", id))']","['KEYWORD', 'FUNCTION_CALL']"
+90,    },['}'],['PUNCTUATION']
+91,    oid := bson.ObjectIdHex(id),"['oid', ':=', 'bson.ObjectIdHex(id)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+92,    doc := update.(*models.User),"['doc', ':=', 'update', '.(*', 'models', '.', 'User', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+93,    doc.LastUpdate = time.Now().UTC(),"['doc', '.', 'LastUpdate', '=', 'time.Now().UTC()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+94,"    return dao.session.DB(""test"").C(""users"").Update(oid, bson.M{""$set"": structs.Map(update)})","['return', 'dao', '.', 'session.DB(""test"").C(""users"").Update(oid, bson.M{""$set"": structs.Map(update)})']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+95,},['}'],['PUNCTUATION']
+96,func (dao *mongoDAO) Remove(id string) error {,"['func', '(', 'dao', '*', 'mongoDAO', ')', 'Remove', '(', 'id', 'string', ')', 'error', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+97,    if !bson.IsObjectIdHex(id) {,"['if', '!', 'bson.IsObjectIdHex(id)', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+98,"        return errors.New(fmt.Sprintf(""%s is not a valid hex id"", id))","['return', 'errors.New(fmt.Sprintf(""%s is not a valid hex id"", id))']","['KEYWORD', 'FUNCTION_CALL']"
+99,    },['}'],['PUNCTUATION']
+100,    oid := bson.ObjectIdHex(id),"['oid', ':=', 'bson.ObjectIdHex(id)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+101,"    return dao.session.DB(""test"").C(""users"").RemoveId(oid)","['return', 'dao', '.', 'session.DB(""test"").C(""users"").RemoveId(oid)']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+102,},['}'],['PUNCTUATION']
+103,func (dao *mongoDAO) Close() {,"['func', '(', 'dao', '*', 'mongoDAO', ')', 'Close', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+104,    dao.session.Close(),"['dao', '.', 'session.Close()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+105,},['}'],['PUNCTUATION']
+106,func init() {,"['func', 'init', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+107,    New = NewMongoDAO,"['New', '=', 'NewMongoDAO']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+108,},['}'],['PUNCTUATION']
+109,"
+
+Finally, here is how I use the types above:
+
+5. userController.go
+
+","['Finally,', 'here', 'is', 'how', 'I', 'use', 'the', 'types', 'above:', '5.', 'userController.go']","['NNP', 'RB', 'VBZ', 'WRB', 'PRP', 'VBP', 'DT', 'NNS', 'VBP', 'CD', 'JJ']"
+110,package controllers,"['package', 'controllers']","['KEYWORD', 'IDENTIFIER']"
+111,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+112,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+113,"    ""github.com/labstack/echo""","['""github.com/labstack/echo""']",['STRING_LITERAL']
+114,"    ""cmd/server/models""","['""cmd/server/models""']",['STRING_LITERAL']
+115,"    ""cmd/server/persistence""","['""cmd/server/persistence""']",['STRING_LITERAL']
+116,),[')'],['PUNCTUATION']
+117,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+118,    UserController struct {,"['UserController', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+119,        dao persistence.DAO,"['dao', 'persistence', '.', 'DAO']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+120,    },['}'],['PUNCTUATION']
+121,),[')'],['PUNCTUATION']
+122,func NewUserController(dao persistence.DAO) *UserController {,"['func', 'NewUserController', '(', 'dao', 'persistence', '.', 'DAO', ')', '*', 'UserController', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+123,    return &UserController{dao},"['return', '&', 'UserController', '{', 'dao', '}']","['KEYWORD', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+124,},['}'],['PUNCTUATION']
+125,func (userController *UserController) CreateUser() echo.HandlerFunc {,"['func', '(', 'userController', '*', 'UserController', ')', 'CreateUser', '()', 'echo', '.', 'HandlerFunc', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+126,    return func(context echo.Context) error {,"['return', 'func', '(', 'context', 'echo', '.', 'Context', ')', 'error', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+127,        user := &models.User{},"['user', ':=', '&', 'models', '.', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+128,        if err := context.Bind(user); err != nil {,"['if', 'err', ':=', 'context.Bind(user)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+129,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+130,        },['}'],['PUNCTUATION']
+131,        if err := userController.dao.Insert(user); err != nil {,"['if', 'err', ':=', 'userController', '.', 'dao.Insert(user)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+132,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+133,        },['}'],['PUNCTUATION']
+134,"        return context.JSON(http.StatusCreated, user)","['return', 'context.JSON(http.StatusCreated, user)']","['KEYWORD', 'FUNCTION_CALL']"
+135,    },['}'],['PUNCTUATION']
+136,},['}'],['PUNCTUATION']
+137,func (userController *UserController) UpdateUser() echo.HandlerFunc {,"['func', '(', 'userController', '*', 'UserController', ')', 'UpdateUser', '()', 'echo', '.', 'HandlerFunc', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+138,    return func(context echo.Context) error {,"['return', 'func', '(', 'context', 'echo', '.', 'Context', ')', 'error', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+139,        user := &models.User{},"['user', ':=', '&', 'models', '.', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+140,        if err := context.Bind(user); err != nil {,"['if', 'err', ':=', 'context.Bind(user)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+141,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+142,        },['}'],['PUNCTUATION']
+143,"        id := context.Param(""id"")","['id', ':=', 'context.Param(""id"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+144,"        if err := userController.dao.Update(id, user); err != nil {","['if', 'err', ':=', 'userController', '.', 'dao.Update(id, user)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+145,            return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+146,        },['}'],['PUNCTUATION']
+147,"        return context.JSON(http.StatusOK, user)","['return', 'context.JSON(http.StatusOK, user)']","['KEYWORD', 'FUNCTION_CALL']"
+148,    },['}'],['PUNCTUATION']
+149,},['}'],['PUNCTUATION']
+150,....,['....'],['PUNCTUATION']
+151,"
+
+The code above is 90% fine... I've just a problem in mongoDao.go with methods Insert and Update where the compiler forces me to cast input entity to a specific type (*models.User), but this prevents me from having a generic DAO component that works for all types. How do I fix this issue?
+","['The', 'code', 'above', 'is', '90%', 'fine...', ""I've"", 'just', 'a', 'problem', 'in', 'mongoDao.go', 'with', 'methods', 'Insert', 'and', 'Update', 'where', 'the', 'compiler', 'forces', 'me', 'to', 'cast', 'input', 'entity', 'to', 'a', 'specific', 'type', '(*models.User),', 'but', 'this', 'prevents', 'me', 'from', 'having', 'a', 'generic', 'DAO', 'component', 'that', 'works', 'for', 'all', 'types.', 'How', 'do', 'I', 'fix', 'this', 'issue?']","['DT', 'NN', 'IN', 'VBZ', 'CD', 'JJ', 'NNP', 'RB', 'DT', 'NN', 'IN', 'NN', 'IN', 'NNS', 'NNP', 'CC', 'NNP', 'WRB', 'DT', 'NN', 'NNS', 'PRP', 'TO', 'VB', 'NN', 'NN', 'TO', 'DT', 'JJ', 'NN', 'NN', 'CC', 'DT', 'VBZ', 'PRP', 'IN', 'VBG', 'DT', 'JJ', 'NNP', 'NN', 'WDT', 'VBZ', 'IN', 'DT', 'NN', 'NNP', 'VBP', 'PRP', 'VB', 'DT', 'NN']"

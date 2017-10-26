@@ -1,111 +1,114 @@
 ,text,token,annotation
-0,"To expand on Cory LaNou's answer, you can  use StartTLS on a normal net.Conn. You need to define a tls.Config and then use that to upgrade the connection to use TLS.
+0,"I tried to push some data in nested array using $push. Here is my json file
 
-The example below is based on Cory's answer and also steals some code from the crypto/tls test files for creating the RSA cert and private key. In production you'd obviously replace these with real certs and keys.
+","['I', 'tried', 'to', 'push', 'some', 'data', 'in', 'nested', 'array', 'using', '$push.', 'Here', 'is', 'my', 'json', 'file']","['PRP', 'VBD', 'TO', 'VB', 'DT', 'NNS', 'IN', 'JJ', 'NN', 'VBG', 'NN', 'RB', 'VBZ', 'PRP$', 'NN', 'NN']"
+1,{,['{'],['PUNCTUATION']
+2,"    ""_id"" : ObjectId(""57307906f051147d5317984e""),","['""_id""', ':', 'ObjectId', '(', '""57307906f051147d5317984e""', '),']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+3,"    ""user"" : [","['""user""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+4,        {,['{'],['PUNCTUATION']
+5,"            ""firstName"" : ""chetan"",","['""firstName""', ':', '""chetan""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+6,"            ""lastName"" : ""kumar"",","['""lastName""', ':', '""kumar""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+7,"            ""age"" : 23,","['""age""', ':', '23', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+8,"            ""sales"" : [","['""sales""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+9,                {,['{'],['PUNCTUATION']
+10,"            ""firstName"" : ""ashu"",","['""firstName""', ':', '""ashu""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+11,"            ""lastName"" : ""jha"",","['""lastName""', ':', '""jha""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+12,"            ""age"" : 27","['""age""', ':', '27']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+13,                },['}'],['PUNCTUATION']
+14,"            ],","['],']",['PUNCTUATION']
+15,"        },","['},']",['PUNCTUATION']
+16,        {,['{'],['PUNCTUATION']
+17,"            ""firstName"" : ""nepolean"",","['""firstName""', ':', '""nepolean""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+18,"            ""lastName"" : ""dang"",","['""lastName""', ':', '""dang""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+19,"            ""age"" : 26","['""age""', ':', '26']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+20,"        },","['},']",['PUNCTUATION']
+21,        {,['{'],['PUNCTUATION']
+22,"            ""firstName"" : ""Raj"",","['""firstName""', ':', '""Raj""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+23,"            ""lastname"" : ""kumar"",","['""lastname""', ':', '""kumar""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+24,"            ""age"" : 26","['""age""', ':', '26']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+25,        },['}'],['PUNCTUATION']
+26,"    ],","['],']",['PUNCTUATION']
+27,},['}'],['PUNCTUATION']
+28,"
 
-It may require some customization of the variables, as well as some changes to the tls.Config to suit your environment.
+Now here is my golang code which I tried here to execute
 
-","['To', 'expand', 'on', 'Cory', ""LaNou's"", 'answer,', 'you', 'can', 'use', 'StartTLS', 'on', 'a', 'normal', 'net.Conn.', 'You', 'need', 'to', 'define', 'a', 'tls.Config', 'and', 'then', 'use', 'that', 'to', 'upgrade', 'the', 'connection', 'to', 'use', 'TLS.', 'The', 'example', 'below', 'is', 'based', 'on', ""Cory's"", 'answer', 'and', 'also', 'steals', 'some', 'code', 'from', 'the', 'crypto/tls', 'test', 'files', 'for', 'creating', 'the', 'RSA', 'cert', 'and', 'private', 'key.', 'In', 'production', ""you'd"", 'obviously', 'replace', 'these', 'with', 'real', 'certs', 'and', 'keys.', 'It', 'may', 'require', 'some', 'customization', 'of', 'the', 'variables,', 'as', 'well', 'as', 'some', 'changes', 'to', 'the', 'tls.Config', 'to', 'suit', 'your', 'environment.']","['TO', 'VB', 'IN', 'NNP', 'NNP', 'IN', 'PRP', 'MD', 'VB', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'CC', 'RB', 'VB', 'DT', 'TO', 'VB', 'DT', 'NN', 'TO', 'VB', 'NNP', 'DT', 'NN', 'NN', 'VBZ', 'VBN', 'IN', 'NNP', 'NN', 'CC', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NNS', 'IN', 'VBG', 'DT', 'NNP', 'NN', 'CC', 'JJ', 'NN', 'IN', 'NN', 'NN', 'RB', 'VB', 'DT', 'IN', 'JJ', 'NNS', 'CC', 'VB', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RB', 'RB', 'IN', 'DT', 'NNS', 'TO', 'DT', 'NN', 'TO', 'VB', 'PRP$', 'NN']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""crypto/rsa""","['""crypto/rsa""']",['STRING_LITERAL']
-4,"    ""crypto/tls""","['""crypto/tls""']",['STRING_LITERAL']
-5,"    ""encoding/hex""","['""encoding/hex""']",['STRING_LITERAL']
-6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-7,"    ""log""","['""log""']",['STRING_LITERAL']
-8,"    ""math/big""","['""math/big""']",['STRING_LITERAL']
-9,"    ""net""","['""net""']",['STRING_LITERAL']
-10,"    ""net/smtp""","['""net/smtp""']",['STRING_LITERAL']
-11,),[')'],['PUNCTUATION']
-12,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-13,    var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-14,"        host     = ""smtp.myexchange.com""","['host', '=', '""smtp.myexchange.com""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-15,        port     = 587,"['port', '=', '587']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-16,"        from     = ""sender@example.org""","['from', '=', '""sender@example.org""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-17,"        password = ""password""","['password', '=', '""password""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-18,"        to       = []string{""recipient@example.org""}","['to', '=', '[]', 'string', '{', '""recipient@example.org""', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-19,"        msg      = []byte(""This is my message"")","['msg', '=', '[]', 'byte', '(', '""This is my message""', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-20,"        auth     = smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")","['auth', '=', 'smtp.PlainAuth("""", from, password, ""smtp.myexchange.com"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-21,    ),[')'],['PUNCTUATION']
-22,    conf := new(tls.Config),"['conf', ':=', 'new', '(', 'tls', '.', 'Config', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-23,"    conf.Certificates = make([]tls.Certificate, 1)","['conf', '.', 'Certificates', '=', 'make', '([]', 'tls', '.', 'Certificate', ',', '1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-24,    conf.Certificates[0].Certificate = [][]byte{testRSACertificate},"['conf', '.', 'Certificates', '[', '0', '].', 'Certificate', '=', '[][]', 'byte', '{', 'testRSACertificate', '}']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-25,    conf.Certificates[0].PrivateKey = testRSAPrivateKey,"['conf', '.', 'Certificates', '[', '0', '].', 'PrivateKey', '=', 'testRSAPrivateKey']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-26,    conf.CipherSuites = []uint16{tls.TLS_RSA_WITH_RC4_128_SHA},"['conf', '.', 'CipherSuites', '=', '[]', 'uint16', '{', 'tls', '.', 'TLS_RSA_WITH_RC4_128_SHA', '}']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-27,    conf.InsecureSkipVerify = true,"['conf', '.', 'InsecureSkipVerify', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
-28,    conf.MinVersion = tls.VersionSSL30,"['conf', '.', 'MinVersion', '=', 'tls', '.', 'VersionSSL30']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-29,    conf.MaxVersion = tls.VersionTLS10,"['conf', '.', 'MaxVersion', '=', 'tls', '.', 'VersionTLS10']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-30,"    serverAddr := fmt.Sprintf(""%s:%d"", host, port)","['serverAddr', ':=', 'fmt.Sprintf(""%s:%d"", host, port)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-31,"    conn, err := net.Dial(""tcp"", serverAddr)","['conn', ',', 'err', ':=', 'net.Dial(""tcp"", serverAddr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-32,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-33,"        log.Printf(""Error Dialing %s\n"", err)","['log.Printf(""Error Dialing %s\\n"", err)']",['FUNCTION_CALL']
-34,        return,['return'],['KEYWORD']
-35,    },['}'],['PUNCTUATION']
-36,"    client, err := smtp.NewClient(conn, host)","['client', ',', 'err', ':=', 'smtp.NewClient(conn, host)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-38,"        log.Printf(""Error SMTP connection: %s\n"", err)","['log.Printf(""Error SMTP connection: %s\\n"", err)']",['FUNCTION_CALL']
-39,        return,['return'],['KEYWORD']
-40,    },['}'],['PUNCTUATION']
-41,    if err = client.StartTLS(conf); err != nil {,"['if', 'err', '=', 'client.StartTLS(conf)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-42,"        log.Printf(""Error performing StartTLS: %s\n"", err)","['log.Printf(""Error performing StartTLS: %s\\n"", err)']",['FUNCTION_CALL']
-43,        return,['return'],['KEYWORD']
-44,    },['}'],['PUNCTUATION']
-45,"    if ok, _ := client.Extension(""AUTH""); ok {","['if', 'ok', ',', '_', ':=', 'client.Extension(""AUTH"")', ';', 'ok', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-46,        if err := client.Auth(auth); err != nil {,"['if', 'err', ':=', 'client.Auth(auth)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-47,"            log.Printf(""Error during AUTH %s\n"", err)","['log.Printf(""Error during AUTH %s\\n"", err)']",['FUNCTION_CALL']
-48,            return,['return'],['KEYWORD']
-49,        },['}'],['PUNCTUATION']
-50,    },['}'],['PUNCTUATION']
-51,    if err := client.Mail(from); err != nil {,"['if', 'err', ':=', 'client.Mail(from)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-52,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
-53,        return,['return'],['KEYWORD']
-54,    },['}'],['PUNCTUATION']
-55,"    for _, addr := range to {","['for', '_', ',', 'addr', ':=', 'range', 'to', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-56,        if err := client.Rcpt(addr); err != nil {,"['if', 'err', ':=', 'client.Rcpt(addr)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-57,"            log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
-58,            return,['return'],['KEYWORD']
-59,        },['}'],['PUNCTUATION']
-60,    },['}'],['PUNCTUATION']
-61,"    w, err := client.Data()","['w', ',', 'err', ':=', 'client.Data()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-62,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-63,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
-64,        return,['return'],['KEYWORD']
-65,    },['}'],['PUNCTUATION']
-66,"    _, err = w.Write(msg)","['_', ',', 'err', '=', 'w.Write(msg)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-67,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-68,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
-69,        return,['return'],['KEYWORD']
-70,    },['}'],['PUNCTUATION']
-71,    err = w.Close(),"['err', '=', 'w.Close()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-72,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-73,"        log.Printf(""Error: %s\n"", err)","['log.Printf(""Error: %s\\n"", err)']",['FUNCTION_CALL']
-74,        return,['return'],['KEYWORD']
-75,    },['}'],['PUNCTUATION']
-76,    client.Quit(),['client.Quit()'],['FUNCTION_CALL']
-77,},['}'],['PUNCTUATION']
-78,// Code below from http://golang.org/src/pkg/crypto/tls/handshake_server_test.go,"['//', 'Code', 'below', 'from', 'http:golang.org/src/pkg/crypto/tls/handshake_server_test.go']","['COMMENT', 'NNP', 'IN', 'IN', 'NN']"
-79,func bigFromString(s string) *big.Int {,"['func', 'bigFromString', '(', 's', 'string', ')', '*', 'big', '.', 'Int', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-80,    ret := new(big.Int),"['ret', ':=', 'new', '(', 'big', '.', 'Int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-81,"    ret.SetString(s, 10)","['ret.SetString(s, 10)']",['FUNCTION_CALL']
-82,    return ret,"['return', 'ret']","['KEYWORD', 'IDENTIFIER']"
-83,},['}'],['PUNCTUATION']
-84,func fromHex(s string) []byte {,"['func', 'fromHex', '(', 's', 'string', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-85,"    b, _ := hex.DecodeString(s)","['b', ',', '_', ':=', 'hex.DecodeString(s)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-86,    return b,"['return', 'b']","['KEYWORD', 'IDENTIFIER']"
-87,},['}'],['PUNCTUATION']
-88,"var testRSACertificate = fromHex(""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9"")","['var', 'testRSACertificate', '=', 'fromHex', '(', '""308202b030820219a00302010202090085b0bba48a7fb8ca300d06092a864886f70d01010505003045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c7464301e170d3130303432343039303933385a170d3131303432343039303933385a3045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746430819f300d06092a864886f70d010101050003818d0030818902818100bb79d6f517b5e5bf4610d0dc69bee62b07435ad0032d8a7a4385b71452e7a5654c2c78b8238cb5b482e5de1f953b7e62a52ca533d6fe125c7a56fcf506bffa587b263fb5cd04d3d0c921964ac7f4549f5abfef427100fe1899077f7e887d7df10439c4a22edb51c97ce3c04c3b326601cfafb11db8719a1ddbdb896baeda2d790203010001a381a73081a4301d0603551d0e04160414b1ade2855acfcb28db69ce2369ded3268e18883930750603551d23046e306c8014b1ade2855acfcb28db69ce2369ded3268e188839a149a4473045310b3009060355040613024155311330110603550408130a536f6d652d53746174653121301f060355040a1318496e7465726e6574205769646769747320507479204c746482090085b0bba48a7fb8ca300c0603551d13040530030101ff300d06092a864886f70d010105050003818100086c4524c76bb159ab0c52ccf2b014d7879d7a6475b55a9566e4c52b8eae12661feb4f38b36e60d392fdf74108b52513b1187a24fb301dbaed98b917ece7d73159db95d31d78ea50565cd5825a2d5a5f33c4b6d8c97590968c0f5298b5cd981f89205ff2a01ca31b9694dda9fd57e970e8266d71999b266e3850296c90a7bdd9""', ')']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-89,var testRSAPrivateKey = &rsa.PrivateKey{,"['var', 'testRSAPrivateKey', '=', '&', 'rsa', '.', 'PrivateKey', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-90,    PublicKey: rsa.PublicKey{,"['PublicKey', ':', 'rsa', '.', 'PublicKey', '{']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,"        N: bigFromString(""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""),","['N', ':', 'bigFromString', '(', '""131650079503776001033793877885499001334664249354723305978524647182322416328664556247316495448366990052837680518067798333412266673813370895702118944398081598789828837447552603077848001020611640547221687072142537202428102790818451901395596882588063427854225330436740647715202971973145151161964464812406232198521""', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-92,"        E: 65537,","['E', ':', '65537', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-93,"    },","['},']",['PUNCTUATION']
-94,"    D: bigFromString(""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""),","['D', ':', 'bigFromString', '(', '""29354450337804273969007277378287027274721892607543397931919078829901848876371746653677097639302788129485893852488285045793268732234230875671682624082413996177431586734171663258657462237320300610850244186316880055243099640544518318093544057213190320837094958164973959123058337475052510833916491060913053867729""', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-95,    Primes: []*big.Int{,"['Primes', ':', '[]*', 'big', '.', 'Int', '{']","['IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-96,"        bigFromString(""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""),","['bigFromString', '(', '""11969277782311800166562047708379380720136961987713178380670422671426759650127150688426177829077494755200794297055316163155755835813760102405344560929062149""', '),']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-97,"        bigFromString(""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""),","['bigFromString', '(', '""10998999429884441391899182616418192492905073053684657075974935218461686523870125521822756579792315215543092255516093840728890783887287417039645833477273829""', '),']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-98,"    },","['},']",['PUNCTUATION']
-99,},['}'],['PUNCTUATION']
-100,"
+","['Now', 'here', 'is', 'my', 'golang', 'code', 'which', 'I', 'tried', 'here', 'to', 'execute']","['RB', 'RB', 'VBZ', 'PRP$', 'NN', 'NN', 'WDT', 'PRP', 'VBD', 'RB', 'TO', 'VB']"
+29,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+30,import(,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+31,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+32,"    ""log""","['""log""']",['STRING_LITERAL']
+33,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+34,"        //""encoding/json""","['//', '""encoding/json""']","['COMMENT', 'NN']"
+35,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
+36,"        ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['STRING_LITERAL']
+37,"        ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['STRING_LITERAL']
+38,),[')'],['PUNCTUATION']
+39,type User struct{,"['type', 'User', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+40,"    SALES       []Sales     `json:""sales"" bson:""sales""`","['SALES', '[]', 'Sales', 'json', ':', '""sales""', 'bson', ':', '""sales""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+41,"    FIRSTNAME   string      `json:""firstName"" bson:""firstName""`","['FIRSTNAME', 'string', 'json', ':', '""firstName""', 'bson', ':', '""firstName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+42,"    LASTNAME    string      `json:""lastName"" bson:""lastName""`","['LASTNAME', 'string', 'json', ':', '""lastName""', 'bson', ':', '""lastName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+43,"    AGE     int     `json:""age"" bson:""age""`","['AGE', 'int', 'json', ':', '""age""', 'bson', ':', '""age""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+44,},['}'],['PUNCTUATION']
+45,type Sales struct{,"['type', 'Sales', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+46,"    FIRSTNAME   string      `json:""firstName"" bson:""firstName""`","['FIRSTNAME', 'string', 'json', ':', '""firstName""', 'bson', ':', '""firstName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+47,"    LASTNAME    string      `json:""lastName"" bson:""lastName""`","['LASTNAME', 'string', 'json', ':', '""lastName""', 'bson', ':', '""lastName""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+48,"    AGE     int     `json:""age"" bson:""age""`","['AGE', 'int', 'json', ':', '""age""', 'bson', ':', '""age""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+49,},['}'],['PUNCTUATION']
+50,type Details struct{,"['type', 'Details', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+51,"    ID  bson.ObjectId   `json:""_id"" bson:""_id""`","['ID', 'bson', '.', 'ObjectId', 'json', ':', '""_id""', 'bson', ':', '""_id""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+52,"    USER    []User      `json:""user"" bson:""user""`","['USER', '[]', 'User', 'json', ':', '""user""', 'bson', ':', '""user""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+53,},['}'],['PUNCTUATION']
+54,"func detail(w http.ResponseWriter, r *http.Request){","['func', 'detail', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', '){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+55,"    session, err := mgo.Dial(""127.0.0.1"")","['session', ',', 'err', ':=', 'mgo.Dial(""127.0.0.1"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+56,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+57,                panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+58,        }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+59,"                fmt.Println(""dial"")","['fmt.Println(""dial"")']",['FUNCTION_CALL']
+60,        },['}'],['PUNCTUATION']
+61,        defer session.Close(),"['defer', 'session.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
+62,"        session.SetMode(mgo.Monotonic, true)","['session.SetMode(mgo.Monotonic, true)']",['FUNCTION_CALL']
+63,"        c := session.DB(""userdb"").C(""user"")","['c', ':=', 'session.DB(""userdb"").C(""user"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+64,        addsales:= []Sales{Sales{,"['addsales', ':=', '[]', 'Sales', '{', 'Sales', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+65,"            FIRSTNAME : ""chetan"",","['FIRSTNAME', ':', '""chetan""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+66,"            LASTNAME : ""kumar"",","['LASTNAME', ':', '""kumar""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+67,"            AGE : 24,","['AGE', ':', '24', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+68,"            },","['},']",['PUNCTUATION']
+69,        },['}'],['PUNCTUATION']
+70,    fmt.Println(addsales),['fmt.Println(addsales)'],['FUNCTION_CALL']
+71,"    match := bson.M{""firstName"" : ""nepolean""}","['match', ':=', 'bson', '.', 'M', '{', '""firstName""', ':', '""nepolean""', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+72,"    change := bson.M{""$push"":bson.M{""user.$.sales"":addsales}}","['chan', 'ge', ':=', 'bson', '.', 'M', '{', '""$push""', ':', 'bson', '.', 'M', '{', '""user.$.sales""', ':', 'addsales', '}}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+73,"    err = c.Update(match,change)","['err', '=', 'c.Update(match,change)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+74,    if err !=nil{,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+75,        panic(err)      ,"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+76,    }else{,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+77,"    fmt.Println(""success"")","['fmt.Println(""success"")']",['FUNCTION_CALL']
+78,    },['}'],['PUNCTUATION']
+79,},['}'],['PUNCTUATION']
+80,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+81,    router := mux.NewRouter().StrictSlash(true),"['router', ':=', 'mux.NewRouter().StrictSlash(true)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+82,"    router.HandleFunc(""/detail"",detail)","['router.HandleFunc(""/detail"",detail)']",['FUNCTION_CALL']
+83,"    log.Fatal(http.ListenAndServe("":9080"", router))","['log.Fatal(http.ListenAndServe("":9080"", router))']",['FUNCTION_CALL']
+84,},['}'],['PUNCTUATION']
+85,"
 
-Playground
-",['Playground'],['NN']
+Here, is my OutPut after executing
+
+","['Here,', 'is', 'my', 'OutPut', 'after', 'executing']","['NNP', 'VBZ', 'PRP$', 'NN', 'IN', 'VBG']"
+86,/Desktop$ go run arrayupdate.go dial [{chetan kumar 24}] 2016/05/24,"['/', 'Desktop', '$', 'go', 'run', 'arrayupdate', '.', 'go', 'dial', '[{', 'chetan', 'kumar', '24', '}]', '2016/05/24']","['ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DIRECTORY']"
+87, 12:39:48 http: panic serving 127.0.0.1:43928: not found goroutine 5,"['12', ':', '39', ':', '48', 'http', ':', 'panic', 'serving', '127', '.', '0', '.', '0', '.', '1', ':', '43928', ':', 'not', 'found', 'go', 'routine', '5']","['DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+88, [running]: net/http.(*conn).serve.func1(0xc820082200),"['[', 'running', ']:', 'net/http.(*conn).serve.func1(0xc820082200)']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+89,"    /usr/local/go/src/net/http/server.go:1389 +0xc1 panic(0x7c6bc0,","['/usr/local/go/src/net/http/server.go:1389', '+', '0xc1', 'panic', '(', '0x7c6bc', '0', ',']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION']"
+90, 0xc82000b080)  /usr/local/go/src/runtime/panic.go:426 +0x4e9,"['0xc82', '0', '0', '0', 'b080', ')', '/usr/local/go/src/runtime/panic.go:426', '+', '0x4e9']","['HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+91," main.detail(0x7f4a62bf9900, 0xc8200735f0, 0xc8200d6000)","['main.detail(0x7f4a62bf9900, 0xc8200735f0, 0xc8200d6000)']",['FUNCTION_CALL']
+92,    /home/joybynature/Desktop/arrayupdate.go:93 +0x7a6,"['/home/joybynature/Desktop/arrayupdate.go:93', '+', '0x7a6']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+93," net/http.HandlerFunc.ServeHTTP(0x91d9f0, 0x7f4a62bf9900, 0xc8200735f0,","['net/http.HandlerFunc.ServeHTTP(0x91d9f0,', '0x7f4a62bf99', '0', '0', ',', '0xc82', '0', '0735', 'f0', ',']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+94, 0xc8200d6000)  /usr/local/go/src/net/http/server.go:1618 +0x3a,"['0xc82', '0', '0', 'd6000', ')', '/usr/local/go/src/net/http/server.go:1618', '+', '0x3a']","['HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+95," github.com/gorilla/mux.(*Router).ServeHTTP(0xc820012550,","['github', '.', 'com/gorilla/mux.(*Router).ServeHTTP(0xc820012550,']","['IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+96," 0x7f4a62bf9900, 0xc8200735f0, 0xc8200d6000)","['0x7f4a62bf99', '0', '0', ',', '0xc82', '0', '0735', 'f0', ',', '0xc82', '0', '0', 'd6000', ')']","['HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+97,    /home/joybynature/src/github.com/gorilla/mux/mux.go:107 +0x285,"['/home/joybynature/src/github.com/gorilla/mux/mux.go:107', '+', '0x285']","['DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+98," net/http.serverHandler.ServeHTTP(0xc820082180, 0x7f4a62bf9900,","['net/http.serverHandler.ServeHTTP(0xc820082180,', '0x7f4a62bf99', '0', '0', ',']","['DIRECTORY', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION']"
+99," 0xc8200735f0, 0xc8200d6000)    /usr/local/go/src/net/http/server.go:2081","['0xc82', '0', '0735', 'f0', ',', '0xc82', '0', '0', 'd6000', ')', '/usr/local/go/src/net/http/server.go:2081']","['HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+100, +0x19e net/http.(*conn).serve(0xc820082200)    /usr/local/go/src/net/http/server.go:1472 +0xf2e created by,"['+', '0x19e', 'net/http.(*conn).serve(0xc820082200)    /usr/local/go/src/net/http/server.go:1472', '+', '0xf2e', 'created', 'by']","['ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+101, net/http.(*Server).Serve   /usr/local/go/src/net/http/server.go:2137,['net/http.(*Server).Serve   /usr/local/go/src/net/http/server.go:2137'],['DIRECTORY']
+102, +0x44e,"['+', '0x44e']","['ARITHMETIC_OPERATOR', 'HEX_LITERAL']"

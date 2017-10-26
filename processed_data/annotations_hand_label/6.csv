@@ -1,356 +1,140 @@
 ,text,token,annotation
-0,"I wrote a simple Go program.  Its goal is to rotate a triangle on the screen using OpenGl.
+0,"I have issue when using cgo with c struct array.
 
-EDIT: The main loop seems to be responsible, OpenGl is fine, but I am doing something wrong with goroutines and/or channels.  See at the bottom of this post.  I am changing the title of this question appropriately.
+My program as follow:
 
-The program almost works.  It stutters, alternating between rotating as it is supposed to, and just flashing the two OpenGl buffers without drawing anything.  About two thirds of the frames I try to render fail silently, and I do not understand why.
+I have struct in c  and contain a pointer to a c struct array. 
 
-This does not depend on my frame rate.  Whether I update at 50 or 1 FPS, I get long series of messed up frames followed by shorter series of working frames.  I don't think I am asking OpenGl to work too fast (and I call glFinish() anyway).
+In C, I provide a initialize function (take two parameter: the pointer to the variable, the length of the array inside the variable)  to malloc the memory of the variable. 
 
-I started experimenting and found a strange behavior.
-I use glGetUniformLocation as a first step to send my new rotation matrix to the vertex buffer.
-I noticed that if I ask glGetUniformLocation to tell me where I can find ""dummy"", a parameter that obviously does not exist in the shader, it does not always return -1 as expected ; it sometimes returns 0.  That dummy attribute is not responsible for the problem, it is merely a symptom.
+Then In go, I assign the value to this variable and assign value to the array in variable.  And in go , I call another C function to using this variable. 
 
-I check glGetError after every OpenGl call, they always return NO_ERROR.
+After the C function handle it.  Go pick up the variable again and return to other Go function. 
 
-I am pasting here my code.  I wish I could have made it shorter.  My real code checks glError after every single call to OpenGl, and also looks at 0 buffers or -1 locations.  This version is lighter.  func main is at the top, followed my the loop that takes care of the rotation.
+When I coded like this, I go a array like.  type *C.struct does not support indexing. 
 
-","['I', 'wrote', 'a', 'simple', 'Go', 'program.', 'Its', 'goal', 'is', 'to', 'rotate', 'a', 'triangle', 'on', 'the', 'screen', 'using', 'OpenGl.', 'EDIT:', 'The', 'main', 'loop', 'seems', 'to', 'be', 'responsible,', 'OpenGl', 'is', 'fine,', 'but', 'I', 'am', 'doing', 'something', 'wrong', 'with', 'goroutines', 'and/or', 'channels.', 'See', 'at', 'the', 'bottom', 'of', 'this', 'post.', 'I', 'am', 'changing', 'the', 'title', 'of', 'this', 'question', 'appropriately.', 'The', 'program', 'almost', 'works.', 'It', 'stutters,', 'alternating', 'between', 'rotating', 'as', 'it', 'is', 'supposed', 'to,', 'and', 'just', 'flashing', 'the', 'two', 'OpenGl', 'buffers', 'without', 'drawing', 'anything.', 'About', 'two', 'thirds', 'of', 'the', 'frames', 'I', 'try', 'to', 'render', 'fail', 'silently,', 'and', 'I', 'do', 'not', 'understand', 'why.', 'This', 'does', 'not', 'depend', 'on', 'my', 'frame', 'rate.', 'Whether', 'I', 'update', 'at', '50', 'or', '1', 'FPS,', 'I', 'get', 'long', 'series', 'of', 'messed', 'up', 'frames', 'followed', 'by', 'shorter', 'series', 'of', 'working', 'frames.', 'I', ""don't"", 'think', 'I', 'am', 'asking', 'OpenGl', 'to', 'work', 'too', 'fast', '(and', 'I', 'call', 'glFinish()', 'anyway).', 'I', 'started', 'experimenting', 'and', 'found', 'a', 'strange', 'behavior.', 'I', 'use', 'glGetUniformLocation', 'as', 'a', 'first', 'step', 'to', 'send', 'my', 'new', 'rotation', 'matrix', 'to', 'the', 'vertex', 'buffer.', 'I', 'noticed', 'that', 'if', 'I', 'ask', 'glGetUniformLocation', 'to', 'tell', 'me', 'where', 'I', 'can', 'find', '""dummy"",', 'a', 'parameter', 'that', 'obviously', 'does', 'not', 'exist', 'in', 'the', 'shader,', 'it', 'does', 'not', 'always', 'return', '-1', 'as', 'expected', ';', 'it', 'sometimes', 'returns', '0.', 'That', 'dummy', 'attribute', 'is', 'not', 'responsible', 'for', 'the', 'problem,', 'it', 'is', 'merely', 'a', 'symptom.', 'I', 'check', 'glGetError', 'after', 'every', 'OpenGl', 'call,', 'they', 'always', 'return', 'NO_ERROR.', 'I', 'am', 'pasting', 'here', 'my', 'code.', 'I', 'wish', 'I', 'could', 'have', 'made', 'it', 'shorter.', 'My', 'real', 'code', 'checks', 'glError', 'after', 'every', 'single', 'call', 'to', 'OpenGl,', 'and', 'also', 'looks', 'at', '0', 'buffers', 'or', '-1', 'locations.', 'This', 'version', 'is', 'lighter.', 'func', 'main', 'is', 'at', 'the', 'top,', 'followed', 'my', 'the', 'loop', 'that', 'takes', 'care', 'of', 'the', 'rotation.']","['PRP', 'VBD', 'DT', 'JJ', 'NNP', 'VBD', 'PRP$', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBG', 'NNP', 'NNP', 'DT', 'JJ', 'NN', 'VBZ', 'TO', 'VB', 'JJ', 'NNP', 'VBZ', 'JJ', 'CC', 'PRP', 'VBP', 'VBG', 'NN', 'JJ', 'IN', 'NNS', 'NNS', 'VBP', 'VB', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'RB', 'VBD', 'PRP', 'VBZ', 'VBG', 'IN', 'VBG', 'IN', 'PRP', 'VBZ', 'VBN', 'NN', 'CC', 'RB', 'VBG', 'DT', 'CD', 'NNP', 'NNS', 'IN', 'VBG', 'NN', 'IN', 'CD', 'NNS', 'IN', 'DT', 'NNS', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'NN', 'CC', 'PRP', 'VBP', 'RB', 'VB', 'NN', 'DT', 'VBZ', 'RB', 'VB', 'IN', 'PRP$', 'NN', 'VBZ', 'NNP', 'PRP', 'VBP', 'IN', 'CD', 'CC', 'CD', 'NNP', 'PRP', 'VBP', 'JJ', 'NN', 'IN', 'VBN', 'RP', 'NNS', 'VBN', 'IN', 'JJR', 'NN', 'IN', 'VBG', 'NN', 'PRP', 'VBP', 'VB', 'PRP', 'VBP', 'VBG', 'NNP', 'TO', 'VB', 'RB', 'JJ', 'NN', 'PRP', 'VBP', 'JJ', 'NN', 'PRP', 'VBD', 'VBG', 'CC', 'VBD', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'NN', 'IN', 'DT', 'JJ', 'NN', 'TO', 'VB', 'PRP$', 'JJ', 'NN', 'NN', 'TO', 'DT', 'NN', 'NN', 'PRP', 'VBD', 'IN', 'IN', 'PRP', 'VBP', 'NN', 'TO', 'VB', 'PRP', 'WRB', 'PRP', 'MD', 'VB', 'VB', 'DT', 'NN', 'WDT', 'RB', 'VBZ', 'RB', 'VB', 'IN', 'DT', 'NN', 'PRP', 'VBZ', 'RB', 'RB', 'VB', 'RP', 'IN', 'VBN', ':', 'PRP', 'VBZ', 'VBZ', 'CD', 'IN', 'JJ', 'NN', 'VBZ', 'RB', 'JJ', 'IN', 'DT', 'NN', 'PRP', 'VBZ', 'RB', 'DT', 'NN', 'PRP', 'VBP', 'NN', 'IN', 'DT', 'NNP', 'NN', 'PRP', 'RB', 'VBP', 'NNP', 'PRP', 'VBP', 'VBG', 'RB', 'PRP$', 'NN', 'PRP', 'VBP', 'PRP', 'MD', 'VB', 'VBN', 'PRP', 'VB', 'NNP', 'JJ', 'NN', 'NNS', 'VBP', 'IN', 'DT', 'JJ', 'NN', 'TO', 'NNP', 'CC', 'RB', 'VBZ', 'IN', 'CD', 'NNS', 'CC', 'VB', 'NN', 'DT', 'NN', 'VBZ', 'JJ', 'NN', 'JJ', 'VBZ', 'IN', 'DT', 'NN', 'VBD', 'PRP$', 'DT', 'NN', 'WDT', 'VBZ', 'NN', 'IN', 'DT', 'NN']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-4,"    ""github.com/0xe2-0x9a-0x9b/Go-SDL/sdl""","['""github.com/0xe2-0x9a-0x9b/Go-SDL/sdl""']",['STRING_LITERAL']
-5,"    gl ""github.com/chsc/gogl/gl33""","['gl', '""github.com/chsc/gogl/gl33""']","['IDENTIFIER', 'STRING_LITERAL']"
-6,"    ""math""","['""math""']",['STRING_LITERAL']
-7,"    ""time""","['""time""']",['STRING_LITERAL']
-8,"    ""unsafe""","['""unsafe""']",['STRING_LITERAL']
-9,),[')'],['OPERATOR']
-10,const DEG_TO_RAD = math.Pi / 180,"['const', 'DEG_TO_RAD', '=', 'math', '.', 'Pi', '180']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'DECIMAL_LITERAL']"
-11,type GoMatrix [16]float64,"['type', 'GoMatrix', '[', '16', ']', 'float64']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER']"
-12,type GlMatrix [16]gl.Float,"['type', 'GlMatrix', '[', '16', ']', 'gl', '.', 'Float']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-13,"var good_frames, bad_frames, sdl_events int","['var', 'go', 'od_frames', ',', 'bad_frames', ',', 'sdl_events', 'int']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-14,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-15,    //=================================================================,"['//', '=================================================================']","['COMMENT', 'NN']"
-16,"    // Just opening a window, skip to the next part.","['//', 'Just', 'opening', 'a', 'window,', 'skip', 'to', 'the', 'next', 'part.']","['COMMENT', 'RB', 'VBG', 'DT', 'NN', 'NN', 'TO', 'DT', 'JJ', 'NN']"
-17,    if status := sdl.Init(sdl.INIT_VIDEO); status != 0 {,"['if', 'status', ':=', 'sdl.Init(sdl.INIT_VIDEO)', ';', 'status', '!=', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-18,"        panic(""Could not initialize SDL: "" + sdl.GetError())","['panic', '(', '""Could not initialize SDL: ""', '+', 'sdl.GetError())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-19,    },['}'],['OPERATOR']
-20,    defer sdl.Quit(),"['defer', 'sdl.Quit()']","['IDENTIFIER', 'FUNCTION_CALL']"
-21,"    sdl.GL_SetAttribute(sdl.GL_DOUBLEBUFFER, 1)","['sdl.GL_SetAttribute(sdl.GL_DOUBLEBUFFER, 1)']",['FUNCTION_CALL']
-22,    const FLAGS = sdl.OPENGL,"['const', 'FLAGS', '=', 'sdl', '.', 'OPENGL']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-23,"    if screen := sdl.SetVideoMode(640, 480, 32, FLAGS); screen == nil {","['if', 'screen', ':=', 'sdl.SetVideoMode(640, 480, 32, FLAGS)', ';', 'screen', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-24,"        panic(""Could not open SDL window: "" + sdl.GetError())","['panic', '(', '""Could not open SDL window: ""', '+', 'sdl.GetError())']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR', 'FUNCTION_CALL']"
-25,    },['}'],['OPERATOR']
-26,    if err := gl.Init(); err != nil {,"['if', 'err', ':=', 'gl.Init()', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-27,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-28,    },['}'],['OPERATOR']
-29,"    gl.Viewport(0, 0, 640, 480)","['gl.Viewport(0, 0, 640, 480)']",['FUNCTION_CALL']
-30,"    gl.ClearColor(.5, .5, .5, 1)","['gl.ClearColor(.5, .5, .5, 1)']",['FUNCTION_CALL']
-31,    //=================================================================,"['//', '=================================================================']","['COMMENT', 'NN']"
-32,    // Simplest shaders ever.,"['//', 'Simplest', 'shaders', 'ever.']","['COMMENT', 'JJS', 'NNS', 'VBP']"
-33,"    // A matrix to move the model, nothing else.","['//', 'A', 'matrix', 'to', 'move', 'the', 'model,', 'nothing', 'else.']","['COMMENT', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'NN']"
-34,    vertex_code := gl.GLString(`,"['vertex_code', ':=', 'gl', '.', 'GLString', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,    #version 330 core,"['version', '330', 'core']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-36,    in vec3 vpos;,"['in', 'vec3', 'vpos', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-37,    uniform mat4 MVP;,"['uniform', 'mat4', 'MVP', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-38,    void main() { ,"['void', 'main', '()', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-39,"        gl_Position = MVP * vec4(vpos, 1);","['gl_Position', '=', 'MVP', '*', 'vec4', '(', 'vpos', ',', '1', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-40,    }   ,['}'],['OPERATOR']
-41,    `),[')'],['OPERATOR']
-42,    // Everything is red.,"['//', 'Everything', 'is', 'red.']","['COMMENT', 'NN', 'VBZ', 'JJ']"
-43,    fragment_code := gl.GLString(`,"['fragment_code', ':=', 'gl', '.', 'GLString', '(']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-44,    #version 330 core,"['version', '330', 'core']","['IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-45,    void main(){,"['void', 'main', '(){']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-46,"        gl_FragColor = vec4(1,0,0,1);","['gl_FragColor', '=', 'vec4', '(', '1', ',', '0', ',', '0', ',', '1', ');']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-47,    },['}'],['OPERATOR']
-48,    `),[')'],['OPERATOR']
-49,    vs := gl.CreateShader(gl.VERTEX_SHADER),"['vs', ':=', 'gl.CreateShader(gl.VERTEX_SHADER)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-50,    fs := gl.CreateShader(gl.FRAGMENT_SHADER),"['fs', ':=', 'gl.CreateShader(gl.FRAGMENT_SHADER)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-51,"    gl.ShaderSource(vs, 1, &vertex_code, nil)","['gl.ShaderSource(vs, 1, &vertex_code, nil)']",['FUNCTION_CALL']
-52,"    gl.ShaderSource(fs, 1, &fragment_code, nil)","['gl.ShaderSource(fs, 1, &fragment_code, nil)']",['FUNCTION_CALL']
-53,    gl.CompileShader(vs),['gl.CompileShader(vs)'],['FUNCTION_CALL']
-54,    gl.CompileShader(fs),['gl.CompileShader(fs)'],['FUNCTION_CALL']
-55,    prog := gl.CreateProgram(),"['prog', ':=', 'gl.CreateProgram()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-56,"    gl.AttachShader(prog, vs)","['gl.AttachShader(prog, vs)']",['FUNCTION_CALL']
-57,"    gl.AttachShader(prog, fs)","['gl.AttachShader(prog, fs)']",['FUNCTION_CALL']
-58,    gl.LinkProgram(prog),['gl.LinkProgram(prog)'],['FUNCTION_CALL']
-59,    // Did it compile?,"['//', 'Did', 'it', 'compile?']","['COMMENT', 'VB', 'PRP', 'VB']"
-60,    var link_status gl.Int,"['var', 'link_status', 'gl', '.', 'Int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-61,"    gl.GetProgramiv(prog, gl.LINK_STATUS, &link_status)","['gl.GetProgramiv(prog, gl.LINK_STATUS, &link_status)']",['FUNCTION_CALL']
-62,    if link_status == gl.FALSE {,"['if', 'link_status', '==', 'gl', '.', 'FALSE', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-63,        var info_log_length gl.Int,"['var', 'info_log_length', 'gl', '.', 'Int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-64,"        gl.GetProgramiv(prog, gl.INFO_LOG_LENGTH, &info_log_length)","['gl.GetProgramiv(prog, gl.INFO_LOG_LENGTH, &info_log_length)']",['FUNCTION_CALL']
-65,        if info_log_length == 0 {,"['if', 'info_log_length', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-66,"            panic(""Program linking failed but OpenGL has no log about it."")","['panic', '(', '""Program linking failed but OpenGL has no log about it.""', ')']","['IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-67,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-68,            info_log_gl := gl.GLStringAlloc(gl.Sizei(info_log_length)),"['info_log_gl', ':=', 'gl.GLStringAlloc(gl.Sizei(info_log_length))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-69,            defer gl.GLStringFree(info_log_gl),"['defer', 'gl.GLStringFree(info_log_gl)']","['IDENTIFIER', 'FUNCTION_CALL']"
-70,"            gl.GetProgramInfoLog(prog, gl.Sizei(info_log_length), nil, info_log_gl)","['gl.GetProgramInfoLog(prog, gl.Sizei(info_log_length), nil, info_log_gl)']",['FUNCTION_CALL']
-71,            info_log := gl.GoString(info_log_gl),"['info_log', ':=', 'gl.GoString(info_log_gl)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-72,            panic(info_log),"['panic', '(', 'info_log', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,        },['}'],['OPERATOR']
-74,    },['}'],['OPERATOR']
-75,    gl.UseProgram(prog),['gl.UseProgram(prog)'],['FUNCTION_CALL']
-76,"    attrib_vpos := gl.Uint(gl.GetAttribLocation(prog, gl.GLString(""vpos"")))","['attrib_vpos', ':=', 'gl.Uint(gl.GetAttribLocation(prog, gl.GLString(""vpos"")))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-77,    //=================================================================,"['//', '=================================================================']","['COMMENT', 'NN']"
-78,    // One triangle.,"['//', 'One', 'triangle.']","['COMMENT', 'CD', 'NN']"
-79,"    positions := [...]gl.Float{-.5, -.5, 0, .5, -.5, 0, 0, .5, 0}","['positions', ':=', '[...]', 'gl', '.', 'Float', '{-.', '5', ',', '-.', '5', ',', '0', ',', '.', '5', ',', '-.', '5', ',', '0', ',', '0', ',', '.', '5', ',', '0', '}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-80,    var vao gl.Uint,"['var', 'vao', 'gl', '.', 'Uint']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-81,"    gl.GenVertexArrays(1, &vao)","['gl.GenVertexArrays(1, &vao)']",['FUNCTION_CALL']
-82,    gl.BindVertexArray(vao),['gl.BindVertexArray(vao)'],['FUNCTION_CALL']
-83,    var vbo gl.Uint,"['var', 'vbo', 'gl', '.', 'Uint']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-84,"    gl.GenBuffers(1, &vbo)","['gl.GenBuffers(1, &vbo)']",['FUNCTION_CALL']
-85,"    gl.BindBuffer(gl.ARRAY_BUFFER, vbo)","['gl.BindBuffer(gl.ARRAY_BUFFER, vbo)']",['FUNCTION_CALL']
-86,"    gl.BufferData(gl.ARRAY_BUFFER,","['gl', '.', 'BufferData', '(', 'gl', '.', 'ARRAY_BUFFER', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-87,"        gl.Sizeiptr(unsafe.Sizeof(positions)),","['gl.Sizeiptr(unsafe.Sizeof(positions))', ',']","['FUNCTION_CALL', 'OPERATOR']"
-88,"        gl.Pointer(&positions[0]),","['gl.Pointer(&positions[0])', ',']","['FUNCTION_CALL', 'OPERATOR']"
-89,        gl.STATIC_DRAW),"['gl', '.', 'STATIC_DRAW', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-90,    gl.EnableVertexAttribArray(attrib_vpos),['gl.EnableVertexAttribArray(attrib_vpos)'],['FUNCTION_CALL']
-91,"    gl.VertexAttribPointer(attrib_vpos, 3, gl.FLOAT, gl.FALSE, 0, gl.Pointer(nil))","['gl.VertexAttribPointer(attrib_vpos, 3, gl.FLOAT, gl.FALSE, 0, gl.Pointer(nil))']",['FUNCTION_CALL']
-92,    //=================================================================,"['//', '=================================================================']","['COMMENT', 'NN']"
-93,    Loop(prog),"['Loop', '(', 'prog', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-94,"    fmt.Println(""Good frames"", good_frames)","['fmt.Println(""Good frames"", good_frames)']",['FUNCTION_CALL']
-95,"    fmt.Println(""Bad frames "", bad_frames)","['fmt.Println(""Bad frames "", bad_frames)']",['FUNCTION_CALL']
-96,"    fmt.Println(""SDL events "", sdl_events)","['fmt.Println(""SDL events "", sdl_events)']",['FUNCTION_CALL']
-97,},['}'],['OPERATOR']
-98,func Loop(program gl.Uint) {,"['func', 'Loop', '(', 'program', 'gl', '.', 'Uint', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-99,    start_time := time.Now(),"['start_time', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-100,    ticker := time.NewTicker(100 * time.Millisecond),"['ticker', ':=', 'time.NewTicker(100 * time.Millisecond)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-101,    defer ticker.Stop(),"['defer', 'ticker.Stop()']","['IDENTIFIER', 'FUNCTION_CALL']"
-102,    running := true,"['running', ':=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-103,    for running {,"['for', 'running', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-104,        select {,"['select', '{']","['KEYWORD', 'OPERATOR']"
-105,        case tick_time := <-ticker.C:,"['case', 'tick_time', ':=', '<-', 'ticker', '.', 'C', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-106,"            OnTick(start_time, tick_time, program)","['OnTick', '(', 'start_time', ',', 'tick_time', ',', 'program', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-107,        case event := <-sdl.Events:,"['case', 'event', ':=', '<-', 'sdl', '.', 'Events', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-108,            running = OnSdlEvent(event),"['running', '=', 'OnSdlEvent', '(', 'event', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-109,        },['}'],['OPERATOR']
-110,    },['}'],['OPERATOR']
-111,},['}'],['OPERATOR']
-112,func OnSdlEvent(event interface{}) bool {,"['func', 'OnSdlEvent', '(', 'event', 'interface', '{})', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-113,    sdl_events++,"['sdl_events', '++']","['IDENTIFIER', 'OPERATOR']"
-114,    switch event.(type) {,"['switch', 'event', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR', 'OPERATOR']"
-115,    case sdl.QuitEvent:,"['case', 'sdl', '.', 'QuitEvent', ':']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-116,        return false // Stop the main loop.,"['return', 'false', '//', 'Stop', 'the', 'main', 'loop.']","['KEYWORD', 'IDENTIFIER', 'COMMENT', 'VB', 'DT', 'JJ', 'NN']"
-117,    },['}'],['OPERATOR']
-118,    return true // Do not stop the main loop.,"['return', 'true', '//', 'Do', 'not', 'stop', 'the', 'main', 'loop.']","['KEYWORD', 'IDENTIFIER', 'COMMENT', 'VB', 'RB', 'VB', 'DT', 'JJ', 'NN']"
-119,},['}'],['OPERATOR']
-120,"func OnTick(start_time, tick_time time.Time, program gl.Uint) {","['func', 'OnTick', '(', 'start_time', ',', 'tick_time', 'time', '.', 'Time', ',', 'program', 'gl', '.', 'Uint', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-121,    duration := tick_time.Sub(start_time).Seconds(),"['duration', ':=', 'tick_time.Sub(start_time).Seconds()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-122,    speed := 10.,"['speed', ':=', '10', '.']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-123,"    angle := math.Mod(duration*speed, 360)","['angle', ':=', 'math.Mod(duration*speed, 360)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-124,    gom := RotZ(angle),"['go', 'm', ':=', 'RotZ', '(', 'angle', ')']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-125,    MVP := ToGlMatrix(gom),"['MVP', ':=', 'ToGlMatrix', '(', 'go', 'm', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-126,"    /* HERE, SOMETHING FISHY HAPPENS.","['*', 'HERE', ',', 'SOMETHING', 'FISHY', 'HAPPENS', '.']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-127,"    Problem: sometimes, actually often, OpenGl returns 0 instead of -1 for","['Problem', ':', 'sometimes', ',', 'actually', 'often', ',', 'OpenGl', 'return', 's', '0', 'instead', 'of', '-', '1', 'for']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'KEYWORD']"
-128,    the dummy parameter.  This is entirely correlated to the stuttering.,"['the', 'dummy', 'parameter', '.', 'This', 'is', 'entirely', 'correlated', 'to', 'the', 'stuttering', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-129,"    With my implementation of OpenGl, swap buffer does a real swap.","['With', 'my', 'implementation', 'of', 'OpenGl', ',', 'swap', 'buffer', 'does', 'a', 'real', 'swap', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-130,    That means I get to see the last two pictures rendered.,"['That', 'means', 'I', 'get', 'to', 'see', 'the', 'last', 'two', 'pictures', 'rendered', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-131,"    Thing is, I can see the swap, that means the pictures are different.","['Thing', 'is', ',', 'I', 'can', 'see', 'the', 'swap', ',', 'that', 'means', 'the', 'pictures', 'are', 'different', '.']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-132,    That means that the call to DrawArrays is ignored.,"['That', 'means', 'that', 'the', 'call', 'to', 'DrawArrays', 'is', 'ignored', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-133,    OpenGl is just crapping its pants.,"['OpenGl', 'is', 'just', 'crapping', 'its', 'pants', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-134,    */,['*'],['OPERATOR']
-135,"    matrix_loc := gl.GetUniformLocation(program, gl.GLString(""MVP""))","['matrix_loc', ':=', 'gl.GetUniformLocation(program, gl.GLString(""MVP""))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-136,"    dummy_matrix_loc := gl.GetUniformLocation(program, gl.GLString(""dummy""))","['dummy_matrix_loc', ':=', 'gl.GetUniformLocation(program, gl.GLString(""dummy""))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-137,    if gl.GetError() != gl.NO_ERROR {,"['if', 'gl.GetError()', '!=', 'gl', '.', 'NO_ERROR', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-138,"        fmt.Println(""Error get location"") // Never happens.","['fmt.Println(""Error get location"")', '//', 'Never', 'happens.']","['FUNCTION_CALL', 'COMMENT', 'RB', 'NN']"
-139,    },['}'],['OPERATOR']
-140,    if dummy_matrix_loc == -1 {,"['if', 'dummy_matrix_loc', '==', '-', '1', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR']"
-141,        good_frames++ // Because is SHOULD fail.,"['go', 'od_frames', '++', '//', 'Because', 'is', 'SHOULD', 'fail.']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'COMMENT', 'IN', 'VBZ', 'NNP', 'NN']"
-142,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-143,        bad_frames++ // That's not normal.,"['bad_frames', '++', '//', ""That's"", 'not', 'normal.']","['IDENTIFIER', 'OPERATOR', 'COMMENT', 'NNP', 'RB', 'RB']"
-144,    },['}'],['OPERATOR']
-145,"    gl.UniformMatrix4fv(matrix_loc, 16, gl.TRUE, &MVP[0])","['gl.UniformMatrix4fv(matrix_loc, 16, gl.TRUE, &MVP[0])']",['FUNCTION_CALL']
-146,    if gl.GetError() != gl.NO_ERROR {,"['if', 'gl.GetError()', '!=', 'gl', '.', 'NO_ERROR', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-147,"        fmt.Println(""Error send matrix"") // Never happens.","['fmt.Println(""Error send matrix"")', '//', 'Never', 'happens.']","['FUNCTION_CALL', 'COMMENT', 'RB', 'NN']"
-148,    },['}'],['OPERATOR']
-149,    gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT),['gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)'],['FUNCTION_CALL']
-150,    if gl.GetError() != gl.NO_ERROR {,"['if', 'gl.GetError()', '!=', 'gl', '.', 'NO_ERROR', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-151,"        fmt.Println(""Error clearing"") // Never happens.","['fmt.Println(""Error clearing"")', '//', 'Never', 'happens.']","['FUNCTION_CALL', 'COMMENT', 'RB', 'NN']"
-152,    },['}'],['OPERATOR']
-153,"    gl.DrawArrays(gl.TRIANGLES, 0, 3)","['gl.DrawArrays(gl.TRIANGLES, 0, 3)']",['FUNCTION_CALL']
-154,    if gl.GetError() != gl.NO_ERROR {,"['if', 'gl.GetError()', '!=', 'gl', '.', 'NO_ERROR', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-155,"        fmt.Println(""Error drawing"") // Never happens.","['fmt.Println(""Error drawing"")', '//', 'Never', 'happens.']","['FUNCTION_CALL', 'COMMENT', 'RB', 'NN']"
-156,    },['}'],['OPERATOR']
-157,    gl.Finish() // Does not seem to make anything work better.,"['gl.Finish()', '//', 'Does', 'not', 'seem', 'to', 'make', 'anything', 'work', 'better.']","['FUNCTION_CALL', 'COMMENT', 'VBZ', 'RB', 'VB', 'TO', 'VB', 'NN', 'NN', 'NN']"
-158,    sdl.GL_SwapBuffers(),['sdl.GL_SwapBuffers()'],['FUNCTION_CALL']
-159,},['}'],['OPERATOR']
-160,func RotZ(angle float64) GoMatrix {,"['func', 'RotZ', '(', 'angle', 'float64', ')', 'GoMatrix', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-161,    var gom GoMatrix,"['var', 'go', 'm', 'GoMatrix']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-162,    a := angle * DEG_TO_RAD,"['a', ':=', 'angle', '*', 'DEG_TO_RAD']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-163,    c := math.Cos(a),"['c', ':=', 'math.Cos(a)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-164,    s := math.Sin(a),"['s', ':=', 'math.Sin(a)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-165,    gom[0] = c,"['go', 'm', '[', '0', ']', '=', 'c']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-166,    gom[1] = s,"['go', 'm', '[', '1', ']', '=', 's']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-167,    gom[4] = -s,"['go', 'm', '[', '4', ']', '=', '-', 's']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-168,    gom[5] = c,"['go', 'm', '[', '5', ']', '=', 'c']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-169,    gom[10] = 1,"['go', 'm', '[', '10', ']', '=', '1']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
-170,    gom[15] = 1,"['go', 'm', '[', '15', ']', '=', '1']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'DECIMAL_LITERAL']"
-171,    return gom,"['return', 'go', 'm']","['KEYWORD', 'KEYWORD', 'IDENTIFIER']"
-172,},['}'],['OPERATOR']
-173,func ToGlMatrix(gom GoMatrix) GlMatrix {,"['func', 'ToGlMatrix', '(', 'go', 'm', 'GoMatrix', ')', 'GlMatrix', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-174,    var glm GlMatrix,"['var', 'glm', 'GlMatrix']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-175,    glm[0] = gl.Float(gom[0]),"['glm', '[', '0', ']', '=', 'gl.Float(gom[0])']","['IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-176,    glm[1] = gl.Float(gom[1]),"['glm', '[', '1', ']', '=', 'gl.Float(gom[1])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-177,    glm[2] = gl.Float(gom[2]),"['glm', '[', '2', ']', '=', 'gl.Float(gom[2])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-178,    glm[3] = gl.Float(gom[3]),"['glm', '[', '3', ']', '=', 'gl.Float(gom[3])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-179,    glm[4] = gl.Float(gom[4]),"['glm', '[', '4', ']', '=', 'gl.Float(gom[4])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-180,    glm[5] = gl.Float(gom[5]),"['glm', '[', '5', ']', '=', 'gl.Float(gom[5])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-181,    glm[6] = gl.Float(gom[6]),"['glm', '[', '6', ']', '=', 'gl.Float(gom[6])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-182,    glm[7] = gl.Float(gom[7]),"['glm', '[', '7', ']', '=', 'gl.Float(gom[7])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-183,    glm[8] = gl.Float(gom[8]),"['glm', '[', '8', ']', '=', 'gl.Float(gom[8])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-184,    glm[9] = gl.Float(gom[9]),"['glm', '[', '9', ']', '=', 'gl.Float(gom[9])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-185,    glm[10] = gl.Float(gom[10]),"['glm', '[', '10', ']', '=', 'gl.Float(gom[10])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-186,    glm[11] = gl.Float(gom[11]),"['glm', '[', '11', ']', '=', 'gl.Float(gom[11])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-187,    glm[12] = gl.Float(gom[12]),"['glm', '[', '12', ']', '=', 'gl.Float(gom[12])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-188,    glm[13] = gl.Float(gom[13]),"['glm', '[', '13', ']', '=', 'gl.Float(gom[13])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-189,    glm[14] = gl.Float(gom[14]),"['glm', '[', '14', ']', '=', 'gl.Float(gom[14])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-190,    glm[15] = gl.Float(gom[15]),"['glm', '[', '15', ']', '=', 'gl.Float(gom[15])']","['IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'OPERATOR', 'FUNCTION_CALL']"
-191,    return glm,"['return', 'glm']","['KEYWORD', 'IDENTIFIER']"
-192,},['}'],['OPERATOR']
-193,"
+My code like follow.
 
-As requested, the output of glxinfo.
+C:
 
-","['As', 'requested,', 'the', 'output', 'of', 'glxinfo.']","['IN', 'NN', 'DT', 'NN', 'IN', 'NN']"
-194,> glxinfo,"['>', 'glxinfo']","['OPERATOR', 'IDENTIFIER']"
-195,name of display: :0,"['name', 'of', 'display', ':', ':', '0']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL']"
-196,display: :0  screen: 0,"['display', ':', ':', '0', 'screen', ':', '0']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL']"
-197,direct rendering: Yes,"['direct', 'rendering', ':', 'Yes']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-198,server glx vendor string: ATI,"['server', 'glx', 'vendor', 'string', ':', 'ATI']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-199,server glx version string: 1.4,"['server', 'glx', 'version', 'string', ':', '1', '.', '4']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-200,server glx extensions:,"['server', 'glx', 'extensions', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-201,"    GLX_ARB_multisample, GLX_EXT_import_context, GLX_EXT_texture_from_pixmap, ","['GLX_ARB_multisample', ',', 'GLX_EXT_import_context', ',', 'GLX_EXT_texture_from_pixmap', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-202,"    GLX_EXT_visual_info, GLX_EXT_visual_rating, GLX_OML_swap_method, ","['GLX_EXT_visual_info', ',', 'GLX_EXT_visual_rating', ',', 'GLX_OML_swap_method', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-203,"    GLX_SGI_make_current_read, GLX_SGI_swap_control, GLX_SGIS_multisample, ","['GLX_SGI_make_current_read', ',', 'GLX_SGI_swap_control', ',', 'GLX_SGIS_multisample', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-204,"    GLX_SGIX_fbconfig, GLX_SGIX_pbuffer, GLX_SGIX_visual_select_group","['GLX_SGIX_fbconfig', ',', 'GLX_SGIX_pbuffer', ',', 'GLX_SGIX_visual_select_group']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-205,client glx vendor string: ATI,"['client', 'glx', 'vendor', 'string', ':', 'ATI']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-206,client glx version string: 1.4,"['client', 'glx', 'version', 'string', ':', '1', '.', '4']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-207,client glx extensions:,"['client', 'glx', 'extensions', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-208,"    GLX_ARB_create_context, GLX_ARB_create_context_profile, ","['GLX_ARB_create_context', ',', 'GLX_ARB_create_context_profile', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-209,"    GLX_ARB_get_proc_address, GLX_ARB_multisample, GLX_EXT_import_context, ","['GLX_ARB_get_proc_address', ',', 'GLX_ARB_multisample', ',', 'GLX_EXT_import_context', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-210,"    GLX_EXT_visual_info, GLX_EXT_visual_rating, GLX_MESA_allocate_memory, ","['GLX_EXT_visual_info', ',', 'GLX_EXT_visual_rating', ',', 'GLX_MESA_allocate_memory', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-211,"    GLX_MESA_copy_sub_buffer, GLX_MESA_swap_control, ","['GLX_MESA_copy_sub_buffer', ',', 'GLX_MESA_swap_control', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-212,"    GLX_MESA_swap_frame_usage, GLX_NV_swap_group, GLX_OML_swap_method, ","['GLX_MESA_swap_frame_usage', ',', 'GLX_NV_swap_group', ',', 'GLX_OML_swap_method', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-213,"    GLX_SGI_make_current_read, GLX_SGI_swap_control, GLX_SGI_video_sync, ","['GLX_SGI_make_current_read', ',', 'GLX_SGI_swap_control', ',', 'GLX_SGI_video_sync', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-214,"    GLX_SGIS_multisample, GLX_SGIX_fbconfig, GLX_SGIX_pbuffer, ","['GLX_SGIS_multisample', ',', 'GLX_SGIX_fbconfig', ',', 'GLX_SGIX_pbuffer', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-215,"    GLX_SGIX_swap_barrier, GLX_SGIX_swap_group, GLX_SGIX_visual_select_group, ","['GLX_SGIX_swap_barrier', ',', 'GLX_SGIX_swap_group', ',', 'GLX_SGIX_visual_select_group', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-216,"    GLX_EXT_texture_from_pixmap, GLX_EXT_framebuffer_sRGB, ","['GLX_EXT_texture_from_pixmap', ',', 'GLX_EXT_framebuffer_sRGB', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-217,"    GLX_ARB_fbconfig_float, GLX_AMD_gpu_association","['GLX_ARB_fbconfig_float', ',', 'GLX_AMD_gpu_association']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-218,GLX version: 1.4,"['GLX', 'version', ':', '1', '.', '4']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-219,GLX extensions:,"['GLX', 'extensions', ':']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-220,"    GLX_ARB_create_context, GLX_ARB_create_context_profile, ","['GLX_ARB_create_context', ',', 'GLX_ARB_create_context_profile', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-221,"    GLX_ARB_get_proc_address, GLX_ARB_multisample, GLX_EXT_import_context, ","['GLX_ARB_get_proc_address', ',', 'GLX_ARB_multisample', ',', 'GLX_EXT_import_context', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-222,"    GLX_EXT_visual_info, GLX_EXT_visual_rating, GLX_MESA_swap_control, ","['GLX_EXT_visual_info', ',', 'GLX_EXT_visual_rating', ',', 'GLX_MESA_swap_control', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-223,"    GLX_NV_swap_group, GLX_OML_swap_method, GLX_SGI_make_current_read, ","['GLX_NV_swap_group', ',', 'GLX_OML_swap_method', ',', 'GLX_SGI_make_current_read', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-224,"    GLX_SGI_swap_control, GLX_SGI_video_sync, GLX_SGIS_multisample, ","['GLX_SGI_swap_control', ',', 'GLX_SGI_video_sync', ',', 'GLX_SGIS_multisample', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-225,"    GLX_SGIX_fbconfig, GLX_SGIX_pbuffer, GLX_SGIX_swap_barrier, ","['GLX_SGIX_fbconfig', ',', 'GLX_SGIX_pbuffer', ',', 'GLX_SGIX_swap_barrier', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-226,"    GLX_SGIX_swap_group, GLX_SGIX_visual_select_group, ","['GLX_SGIX_swap_group', ',', 'GLX_SGIX_visual_select_group', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-227,    GLX_EXT_texture_from_pixmap,['GLX_EXT_texture_from_pixmap'],['IDENTIFIER']
-228,OpenGL vendor string: ATI Technologies Inc.,"['OpenGL', 'vendor', 'string', ':', 'ATI', 'Technologies', 'Inc', '.']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-229,OpenGL renderer string: ATI Mobility Radeon HD 4500 Series,"['OpenGL', 'renderer', 'string', ':', 'ATI', 'Mobility', 'Radeon', 'HD', '4500', 'Series']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-230,OpenGL version string: 3.3.11005 Compatibility Profile Context,"['OpenGL', 'version', 'string', ':', '3', '.', '3', '.', '11005', 'Compatibility', 'Profile', 'Context']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-231,OpenGL shading language version string: 3.30,"['OpenGL', 'shading', 'language', 'version', 'string', ':', '3', '.', '30']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL']"
-232,OpenGL extensions:,"['OpenGL', 'extensions', ':']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR']"
-233,"    GL_AMDX_debug_output, GL_AMDX_vertex_shader_tessellator, ","['GL_AMDX_debug_output', ',', 'GL_AMDX_vertex_shader_tessellator', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-234,"    GL_AMD_conservative_depth, GL_AMD_debug_output, ","['GL_AMD_conservative_depth', ',', 'GL_AMD_debug_output', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-235,"    GL_AMD_depth_clamp_separate, GL_AMD_draw_buffers_blend, ","['GL_AMD_depth_clamp_separate', ',', 'GL_AMD_draw_buffers_blend', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-236,"    GL_AMD_name_gen_delete, GL_AMD_performance_monitor, GL_AMD_pinned_memory, ","['GL_AMD_name_gen_delete', ',', 'GL_AMD_performance_monitor', ',', 'GL_AMD_pinned_memory', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-237,"    GL_AMD_sample_positions, GL_AMD_seamless_cubemap_per_texture, ","['GL_AMD_sample_positions', ',', 'GL_AMD_seamless_cubemap_per_texture', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-238,"    GL_AMD_shader_stencil_export, GL_AMD_texture_cube_map_array, ","['GL_AMD_shader_stencil_export', ',', 'GL_AMD_texture_cube_map_array', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-239,"    GL_AMD_texture_texture4, GL_AMD_vertex_shader_tessellator, ","['GL_AMD_texture_texture4', ',', 'GL_AMD_vertex_shader_tessellator', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-240,"    GL_ARB_ES2_compatibility, GL_ARB_blend_func_extended, ","['GL_ARB_ES2_compatibility', ',', 'GL_ARB_blend_func_extended', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-241,"    GL_ARB_color_buffer_float, GL_ARB_copy_buffer, GL_ARB_depth_buffer_float, ","['GL_ARB_color_buffer_float', ',', 'GL_ARB_copy_buffer', ',', 'GL_ARB_depth_buffer_float', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-242,"    GL_ARB_depth_clamp, GL_ARB_depth_texture, GL_ARB_draw_buffers, ","['GL_ARB_depth_clamp', ',', 'GL_ARB_depth_texture', ',', 'GL_ARB_draw_buffers', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-243,"    GL_ARB_draw_buffers_blend, GL_ARB_draw_elements_base_vertex, ","['GL_ARB_draw_buffers_blend', ',', 'GL_ARB_draw_elements_base_vertex', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-244,"    GL_ARB_draw_instanced, GL_ARB_explicit_attrib_location, ","['GL_ARB_draw_instanced', ',', 'GL_ARB_explicit_attrib_location', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-245,"    GL_ARB_fragment_coord_conventions, GL_ARB_fragment_program, ","['GL_ARB_fragment_coord_conventions', ',', 'GL_ARB_fragment_program', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-246,"    GL_ARB_fragment_program_shadow, GL_ARB_fragment_shader, ","['GL_ARB_fragment_program_shadow', ',', 'GL_ARB_fragment_shader', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-247,"    GL_ARB_framebuffer_object, GL_ARB_framebuffer_sRGB, ","['GL_ARB_framebuffer_object', ',', 'GL_ARB_framebuffer_sRGB', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-248,"    GL_ARB_geometry_shader4, GL_ARB_get_program_binary, ","['GL_ARB_geometry_shader4', ',', 'GL_ARB_get_program_binary', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-249,"    GL_ARB_half_float_pixel, GL_ARB_half_float_vertex, GL_ARB_imaging, ","['GL_ARB_half_float_pixel', ',', 'GL_ARB_half_float_vertex', ',', 'GL_ARB_imaging', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-250,"    GL_ARB_instanced_arrays, GL_ARB_map_buffer_range, GL_ARB_multisample, ","['GL_ARB_instanced_arrays', ',', 'GL_ARB_map_buffer_range', ',', 'GL_ARB_multisample', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-251,"    GL_ARB_multitexture, GL_ARB_occlusion_query, GL_ARB_occlusion_query2, ","['GL_ARB_multitexture', ',', 'GL_ARB_occlusion_query', ',', 'GL_ARB_occlusion_query2', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-252,"    GL_ARB_pixel_buffer_object, GL_ARB_point_parameters, GL_ARB_point_sprite, ","['GL_ARB_pixel_buffer_object', ',', 'GL_ARB_point_parameters', ',', 'GL_ARB_point_sprite', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-253,"    GL_ARB_provoking_vertex, GL_ARB_sample_shading, GL_ARB_sampler_objects, ","['GL_ARB_provoking_vertex', ',', 'GL_ARB_sample_shading', ',', 'GL_ARB_sampler_objects', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-254,"    GL_ARB_seamless_cube_map, GL_ARB_separate_shader_objects, ","['GL_ARB_seamless_cube_map', ',', 'GL_ARB_separate_shader_objects', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-255,"    GL_ARB_shader_bit_encoding, GL_ARB_shader_objects, ","['GL_ARB_shader_bit_encoding', ',', 'GL_ARB_shader_objects', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-256,"    GL_ARB_shader_precision, GL_ARB_shader_stencil_export, ","['GL_ARB_shader_precision', ',', 'GL_ARB_shader_stencil_export', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-257,"    GL_ARB_shader_texture_lod, GL_ARB_shading_language_100, GL_ARB_shadow, ","['GL_ARB_shader_texture_lod', ',', 'GL_ARB_shading_language_100', ',', 'GL_ARB_shadow', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-258,"    GL_ARB_shadow_ambient, GL_ARB_sync, GL_ARB_texture_border_clamp, ","['GL_ARB_shadow_ambient', ',', 'GL_ARB_sync', ',', 'GL_ARB_texture_border_clamp', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-259,"    GL_ARB_texture_buffer_object, GL_ARB_texture_buffer_object_rgb32, ","['GL_ARB_texture_buffer_object', ',', 'GL_ARB_texture_buffer_object_rgb32', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-260,"    GL_ARB_texture_compression, GL_ARB_texture_compression_rgtc, ","['GL_ARB_texture_compression', ',', 'GL_ARB_texture_compression_rgtc', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-261,"    GL_ARB_texture_cube_map, GL_ARB_texture_cube_map_array, ","['GL_ARB_texture_cube_map', ',', 'GL_ARB_texture_cube_map_array', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-262,"    GL_ARB_texture_env_add, GL_ARB_texture_env_combine, ","['GL_ARB_texture_env_add', ',', 'GL_ARB_texture_env_combine', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-263,"    GL_ARB_texture_env_crossbar, GL_ARB_texture_env_dot3, ","['GL_ARB_texture_env_crossbar', ',', 'GL_ARB_texture_env_dot3', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-264,"    GL_ARB_texture_float, GL_ARB_texture_gather, ","['GL_ARB_texture_float', ',', 'GL_ARB_texture_gather', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-265,"    GL_ARB_texture_mirrored_repeat, GL_ARB_texture_multisample, ","['GL_ARB_texture_mirrored_repeat', ',', 'GL_ARB_texture_multisample', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-266,"    GL_ARB_texture_non_power_of_two, GL_ARB_texture_query_lod, ","['GL_ARB_texture_non_power_of_two', ',', 'GL_ARB_texture_query_lod', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-267,"    GL_ARB_texture_rectangle, GL_ARB_texture_rg, GL_ARB_texture_rgb10_a2ui, ","['GL_ARB_texture_rectangle', ',', 'GL_ARB_texture_rg', ',', 'GL_ARB_texture_rgb10_a2ui', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-268,"    GL_ARB_texture_snorm, GL_ARB_timer_query, GL_ARB_transform_feedback2, ","['GL_ARB_texture_snorm', ',', 'GL_ARB_timer_query', ',', 'GL_ARB_transform_feedback2', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-269,"    GL_ARB_transform_feedback3, GL_ARB_transpose_matrix, ","['GL_ARB_transform_feedback3', ',', 'GL_ARB_transpose_matrix', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-270,"    GL_ARB_uniform_buffer_object, GL_ARB_vertex_array_bgra, ","['GL_ARB_uniform_buffer_object', ',', 'GL_ARB_vertex_array_bgra', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-271,"    GL_ARB_vertex_array_object, GL_ARB_vertex_buffer_object, ","['GL_ARB_vertex_array_object', ',', 'GL_ARB_vertex_buffer_object', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-272,"    GL_ARB_vertex_program, GL_ARB_vertex_shader, ","['GL_ARB_vertex_program', ',', 'GL_ARB_vertex_shader', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-273,"    GL_ARB_vertex_type_2_10_10_10_rev, GL_ARB_viewport_array, ","['GL_ARB_vertex_type_2_10_10_10_rev', ',', 'GL_ARB_viewport_array', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-274,"    GL_ARB_window_pos, GL_ATI_draw_buffers, GL_ATI_envmap_bumpmap, ","['GL_ARB_window_pos', ',', 'GL_ATI_draw_buffers', ',', 'GL_ATI_envmap_bumpmap', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-275,"    GL_ATI_fragment_shader, GL_ATI_meminfo, GL_ATI_separate_stencil, ","['GL_ATI_fragment_shader', ',', 'GL_ATI_meminfo', ',', 'GL_ATI_separate_stencil', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-276,"    GL_ATI_texture_compression_3dc, GL_ATI_texture_env_combine3, ","['GL_ATI_texture_compression_3dc', ',', 'GL_ATI_texture_env_combine3', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-277,"    GL_ATI_texture_float, GL_ATI_texture_mirror_once, GL_EXT_abgr, ","['GL_ATI_texture_float', ',', 'GL_ATI_texture_mirror_once', ',', 'GL_EXT_abgr', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-278,"    GL_EXT_bgra, GL_EXT_bindable_uniform, GL_EXT_blend_color, ","['GL_EXT_bgra', ',', 'GL_EXT_bindable_uniform', ',', 'GL_EXT_blend_color', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-279,"    GL_EXT_blend_equation_separate, GL_EXT_blend_func_separate, ","['GL_EXT_blend_equation_separate', ',', 'GL_EXT_blend_func_separate', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-280,"    GL_EXT_blend_minmax, GL_EXT_blend_subtract, GL_EXT_compiled_vertex_array, ","['GL_EXT_blend_minmax', ',', 'GL_EXT_blend_subtract', ',', 'GL_EXT_compiled_vertex_array', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-281,"    GL_EXT_copy_buffer, GL_EXT_copy_texture, GL_EXT_direct_state_access, ","['GL_EXT_copy_buffer', ',', 'GL_EXT_copy_texture', ',', 'GL_EXT_direct_state_access', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-282,"    GL_EXT_draw_buffers2, GL_EXT_draw_instanced, GL_EXT_draw_range_elements, ","['GL_EXT_draw_buffers2', ',', 'GL_EXT_draw_instanced', ',', 'GL_EXT_draw_range_elements', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-283,"    GL_EXT_fog_coord, GL_EXT_framebuffer_blit, GL_EXT_framebuffer_multisample, ","['GL_EXT_fog_coord', ',', 'GL_EXT_framebuffer_blit', ',', 'GL_EXT_framebuffer_multisample', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-284,"    GL_EXT_framebuffer_object, GL_EXT_framebuffer_sRGB, ","['GL_EXT_framebuffer_object', ',', 'GL_EXT_framebuffer_sRGB', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-285,"    GL_EXT_geometry_shader4, GL_EXT_gpu_program_parameters, ","['GL_EXT_geometry_shader4', ',', 'GL_EXT_gpu_program_parameters', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-286,"    GL_EXT_gpu_shader4, GL_EXT_histogram, GL_EXT_multi_draw_arrays, ","['GL_EXT_gpu_shader4', ',', 'GL_EXT_histogram', ',', 'GL_EXT_multi_draw_arrays', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-287,"    GL_EXT_packed_depth_stencil, GL_EXT_packed_float, GL_EXT_packed_pixels, ","['GL_EXT_packed_depth_stencil', ',', 'GL_EXT_packed_float', ',', 'GL_EXT_packed_pixels', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-288,"    GL_EXT_pixel_buffer_object, GL_EXT_point_parameters, ","['GL_EXT_pixel_buffer_object', ',', 'GL_EXT_point_parameters', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-289,"    GL_EXT_provoking_vertex, GL_EXT_rescale_normal, GL_EXT_secondary_color, ","['GL_EXT_provoking_vertex', ',', 'GL_EXT_rescale_normal', ',', 'GL_EXT_secondary_color', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-290,"    GL_EXT_separate_specular_color, GL_EXT_shadow_funcs, GL_EXT_stencil_wrap, ","['GL_EXT_separate_specular_color', ',', 'GL_EXT_shadow_funcs', ',', 'GL_EXT_stencil_wrap', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-291,"    GL_EXT_subtexture, GL_EXT_texgen_reflection, GL_EXT_texture3D, ","['GL_EXT_subtexture', ',', 'GL_EXT_texgen_reflection', ',', 'GL_EXT_texture3D', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-292,"    GL_EXT_texture_array, GL_EXT_texture_buffer_object, ","['GL_EXT_texture_array', ',', 'GL_EXT_texture_buffer_object', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-293,"    GL_EXT_texture_compression_latc, GL_EXT_texture_compression_rgtc, ","['GL_EXT_texture_compression_latc', ',', 'GL_EXT_texture_compression_rgtc', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-294,"    GL_EXT_texture_compression_s3tc, GL_EXT_texture_cube_map, ","['GL_EXT_texture_compression_s3tc', ',', 'GL_EXT_texture_cube_map', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-295,"    GL_EXT_texture_edge_clamp, GL_EXT_texture_env_add, ","['GL_EXT_texture_edge_clamp', ',', 'GL_EXT_texture_env_add', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-296,"    GL_EXT_texture_env_combine, GL_EXT_texture_env_dot3, ","['GL_EXT_texture_env_combine', ',', 'GL_EXT_texture_env_dot3', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-297,"    GL_EXT_texture_filter_anisotropic, GL_EXT_texture_integer, ","['GL_EXT_texture_filter_anisotropic', ',', 'GL_EXT_texture_integer', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-298,"    GL_EXT_texture_lod, GL_EXT_texture_lod_bias, GL_EXT_texture_mirror_clamp, ","['GL_EXT_texture_lod', ',', 'GL_EXT_texture_lod_bias', ',', 'GL_EXT_texture_mirror_clamp', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-299,"    GL_EXT_texture_object, GL_EXT_texture_rectangle, GL_EXT_texture_sRGB, ","['GL_EXT_texture_object', ',', 'GL_EXT_texture_rectangle', ',', 'GL_EXT_texture_sRGB', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-300,"    GL_EXT_texture_shared_exponent, GL_EXT_texture_snorm, ","['GL_EXT_texture_shared_exponent', ',', 'GL_EXT_texture_snorm', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-301,"    GL_EXT_texture_swizzle, GL_EXT_timer_query, GL_EXT_transform_feedback, ","['GL_EXT_texture_swizzle', ',', 'GL_EXT_timer_query', ',', 'GL_EXT_transform_feedback', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-302,"    GL_EXT_vertex_array, GL_EXT_vertex_array_bgra, ","['GL_EXT_vertex_array', ',', 'GL_EXT_vertex_array_bgra', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-303,"    GL_IBM_texture_mirrored_repeat, GL_KTX_buffer_region, GL_NV_blend_square, ","['GL_IBM_texture_mirrored_repeat', ',', 'GL_KTX_buffer_region', ',', 'GL_NV_blend_square', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-304,"    GL_NV_conditional_render, GL_NV_copy_depth_to_color, ","['GL_NV_conditional_render', ',', 'GL_NV_copy_depth_to_color', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-305,"    GL_NV_explicit_multisample, GL_NV_float_buffer, GL_NV_half_float, ","['GL_NV_explicit_multisample', ',', 'GL_NV_float_buffer', ',', 'GL_NV_half_float', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-306,"    GL_NV_primitive_restart, GL_NV_texgen_reflection, GL_NV_texture_barrier, ","['GL_NV_primitive_restart', ',', 'GL_NV_texgen_reflection', ',', 'GL_NV_texture_barrier', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-307,"    GL_SGIS_generate_mipmap, GL_SGIS_texture_edge_clamp, GL_SGIS_texture_lod, ","['GL_SGIS_generate_mipmap', ',', 'GL_SGIS_texture_edge_clamp', ',', 'GL_SGIS_texture_lod', ',']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-308,"    GL_SUN_multi_draw_arrays, GL_WIN_swap_hint, WGL_EXT_swap_control","['GL_SUN_multi_draw_arrays', ',', 'GL_WIN_swap_hint', ',', 'WGL_EXT_swap_control']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-309,"
+test.h
 
-EDIT: The main loop seems to be responsible, OpenGl is fine, but I am doing something wrong with goroutines and/or channels.
+","['I', 'have', 'issue', 'when', 'using', 'cgo', 'with', 'c', 'struct', 'array.', 'My', 'program', 'as', 'follow:', 'I', 'have', 'struct', 'in', 'c', 'and', 'contain', 'a', 'pointer', 'to', 'a', 'c', 'struct', 'array.', 'In', 'C,', 'I', 'provide', 'a', 'initialize', 'function', '(take', 'two', 'parameter:', 'the', 'pointer', 'to', 'the', 'variable,', 'the', 'length', 'of', 'the', 'array', 'inside', 'the', 'variable)', 'to', 'malloc', 'the', 'memory', 'of', 'the', 'variable.', 'Then', 'In', 'go,', 'I', 'assign', 'the', 'value', 'to', 'this', 'variable', 'and', 'assign', 'value', 'to', 'the', 'array', 'in', 'variable.', 'And', 'in', 'go', ',', 'I', 'call', 'another', 'C', 'function', 'to', 'using', 'this', 'variable.', 'After', 'the', 'C', 'function', 'handle', 'it.', 'Go', 'pick', 'up', 'the', 'variable', 'again', 'and', 'return', 'to', 'other', 'Go', 'function.', 'When', 'I', 'coded', 'like', 'this,', 'I', 'go', 'a', 'array', 'like.', 'type', '*C.struct', 'does', 'not', 'support', 'indexing.', 'My', 'code', 'like', 'follow.', 'C:', 'test.h']","['PRP', 'VBP', 'NN', 'WRB', 'VBG', 'NN', 'IN', 'JJ', 'NN', 'JJ', 'NNP', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'VBN', 'IN', 'NN', 'CC', 'VB', 'DT', 'NN', 'TO', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'VBP', 'CD', 'VBP', 'DT', 'NN', 'TO', 'DT', 'NN', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RB', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'TO', 'DT', 'JJ', 'CC', 'JJ', 'NN', 'TO', 'DT', 'NN', 'IN', 'NN', 'CC', 'IN', 'NN', ',', 'PRP', 'VBP', 'DT', 'NNP', 'NN', 'TO', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'RP', 'DT', 'NN', 'RB', 'CC', 'VB', 'TO', 'JJ', 'NNP', 'NN', 'WRB', 'PRP', 'VBD', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'NN', 'NN', 'VBZ', 'RB', 'VB', 'VB', 'NNP', 'NN', 'IN', 'NN', 'NNP', 'NN']"
+1,typedef struct,"['type', 'def', 'struct']","['KEYWORD', 'IDENTIFIER', 'KEYWORD']"
+2,{,['{'],['PUNCTUATION']
+3,    int     profileCnt;,"['int', 'profileCnt', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+4,    _profile   *profile;                      //pointer to profile array,"['_profile', '*', 'profile', ';', '//', 'pointer', 'to', 'profile', 'array']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'TO', 'VB', 'NN']"
+5,}_profiles;,"['}', '_profiles', ';']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+6,// variable using in Go,"['//', 'variable', 'using', 'in', 'Go']","['COMMENT', 'JJ', 'VBG', 'IN', 'NNP']"
+7,typedef struct,"['type', 'def', 'struct']","['KEYWORD', 'IDENTIFIER', 'KEYWORD']"
+8,{,['{'],['PUNCTUATION']
+9,    int     profileId;              ,"['int', 'profileId', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+10,    _name   userName;               ,"['_name', 'userName', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+11,    char         *dateOfBirth;          ,"['char', '*', 'dateOfBirth', ';']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+12,    int     stateFipsId;            ,"['int', 'stateFipsId', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+13,}_profile;,"['}', '_profile', ';']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+14,typedef struct,"['type', 'def', 'struct']","['KEYWORD', 'IDENTIFIER', 'KEYWORD']"
+15,{,['{'],['PUNCTUATION']
+16,    char    first[32];,"['char', 'first', '[', '32', '];']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+17,    char    last[32];,"['char', 'last', '[', '32', '];']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+18,} _name;,"['}', '_name', ';']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+19,"void initializeProfiles(_profiles *profiles, int profileCount, bool create);","['void', 'initializeProfiles', '(', '_profiles', '*', 'profiles', ',', 'int', 'profileCount', ',', 'bool', 'create', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+20,"int doSomething _In_C( _profiles *profiles, int log);","['int', 'doSomething', '_In_C', '(', '_profiles', '*', 'profiles', ',', 'int', 'log', ');']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+21,"
 
-If I replace my main loop with something that does not rely on channels and goroutines, then OpenGl behaves perfectly.
+test.c
 
-","['EDIT:', 'The', 'main', 'loop', 'seems', 'to', 'be', 'responsible,', 'OpenGl', 'is', 'fine,', 'but', 'I', 'am', 'doing', 'something', 'wrong', 'with', 'goroutines', 'and/or', 'channels.', 'If', 'I', 'replace', 'my', 'main', 'loop', 'with', 'something', 'that', 'does', 'not', 'rely', 'on', 'channels', 'and', 'goroutines,', 'then', 'OpenGl', 'behaves', 'perfectly.']","['NNP', 'DT', 'JJ', 'NN', 'VBZ', 'TO', 'VB', 'JJ', 'NNP', 'VBZ', 'JJ', 'CC', 'PRP', 'VBP', 'VBG', 'NN', 'JJ', 'IN', 'NNS', 'RB', 'VBP', 'IN', 'PRP', 'VB', 'PRP$', 'JJ', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'RB', 'VB', 'IN', 'NNS', 'CC', 'NN', 'RB', 'NNP', 'VBZ', 'NN']"
-310,func Loop(program gl.Uint) {,"['func', 'Loop', '(', 'program', 'gl', '.', 'Uint', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-311,    start_time := time.Now(),"['start_time', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-312,    stop_time := start_time.Add(time.Duration(30 * time.Second)),"['stop_time', ':=', 'start_time.Add(time.Duration(30 * time.Second))']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-313,    running := true,"['running', ':=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-314,    for running {,"['for', 'running', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-315,        tick_time := time.Now(),"['tick_time', ':=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-316,"        OnTick(start_time, tick_time, program)","['OnTick', '(', 'start_time', ',', 'tick_time', ',', 'program', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-317,        time.Sleep(10 * time.Millisecond),['time.Sleep(10 * time.Millisecond)'],['FUNCTION_CALL']
-318,        if tick_time.After(stop_time) {,"['if', 'tick_time.After(stop_time)', '{']","['KEYWORD', 'FUNCTION_CALL', 'OPERATOR']"
-319,            running = false,"['running', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-320,        },['}'],['OPERATOR']
-321,    },['}'],['OPERATOR']
-322,},['}'],['OPERATOR']
-323,"
+",['test.c'],['NN']
+22,"void initializeProfiles(_profiles *profiles, int profileCount, bool create)","['void', 'initializeProfiles', '(', '_profiles', '*', 'profiles', ',', 'int', 'profileCount', ',', 'bool', 'create', ')']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+23,{,['{'],['PUNCTUATION']
+24,    profiles->profileCnt = profileCount;                                                ,"['profiles', '->', 'profileCnt', '=', 'profileCount', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+25,//  initialize profiles struct & profile[] Array,"['//', 'initialize', 'profiles', 'struct', '&', 'profile[]', 'Array']","['COMMENT', 'VB', 'NNS', 'VB', 'CC', 'VB', 'NN']"
+26,    if (profileCount > 0),"['if', '(', 'profileCount', '>', '0', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+27,    {,['{'],['PUNCTUATION']
+28,        if (create == true),"['if', '(', 'create', '==', 'true', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+29,            profiles->profile = malloc(profileCount * sizeof *profiles->profile + 1);           //  allocate memory for profiles[numProfiles],"['profiles', '->', 'profile', '=', 'malloc', '(', 'profileCount', '*', 'sizeof', '*', 'profiles', '->', 'profile', '+', '1', ');', '//', 'allocate', 'memory', 'for', 'profiles[numProfiles]']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'JJ', 'NN', 'IN', 'NN']"
+30,            for (int i = 0; i profileCnt; i++),"['for', '(', 'int', 'i', '=', '0', ';', 'i', 'profileCnt', ';', 'i', '++)']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+31,"            initializeProfile(&profiles->profile[i], create);","['initializeProfile', '(&', 'profiles', '->', 'profile', '[', 'i', '],', 'create', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+32,        if (create == false),"['if', '(', 'create', '==', 'false', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+33,        {,['{'],['PUNCTUATION']
+34,            free(profiles->profile);,"['free', '(', 'profiles', '->', 'profile', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+35,            profiles->profileCnt = 0;,"['profiles', '->', 'profileCnt', '=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+36,        },['}'],['PUNCTUATION']
+37,    },['}'],['PUNCTUATION']
+38,    else,['else'],['KEYWORD']
+39,        profiles->profile = NULL;,"['profiles', '->', 'profile', '=', 'NULL', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+40,} ,['}'],['PUNCTUATION']
+41,"void initializeProfile(_profile *profile, bool create)","['void', 'initializeProfile', '(', '_profile', '*', 'profile', ',', 'bool', 'create', ')']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+42,{,['{'],['PUNCTUATION']
+43,    if (create == true),"['if', '(', 'create', '==', 'true', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+44,    {       ,['{'],['PUNCTUATION']
+45,        profile->dateOfBirth = NULL;            ,"['profile', '->', 'dateOfBirth', '=', 'NULL', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+46,    },['}'],['PUNCTUATION']
+47,    profile->profileId = 0;                 ,"['profile', '->', 'profileId', '=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+48,"    memset(profile->userName.first, '\0', sizeof(profile->userName.first));     ","['memset', '(', 'profile', '->', 'userName', '.', 'first', ',', ""'\\0'"", ',', 'sizeof', '(', 'profile', '->', 'userName', '.', 'first', '));']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+49,"    memset(profile->userName.last, '\0', sizeof(profile->userName.last));       ","['memset', '(', 'profile', '->', 'userName', '.', 'last', ',', ""'\\0'"", ',', 'sizeof', '(', 'profile', '->', 'userName', '.', 'last', '));']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+50,    if (create == false),"['if', '(', 'create', '==', 'false', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+51,    {,['{'],['PUNCTUATION']
+52,        if (profile->dateOfBirth != NULL),"['if', '(', 'profile', '->', 'dateOfBirth', '!=', 'NULL', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+53,            free(profile->dateOfBirth);,"['free', '(', 'profile', '->', 'dateOfBirth', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+54,    },['}'],['PUNCTUATION']
+55,},['}'],['PUNCTUATION']
+56,"int doSomething _In_C( _profiles *profiles, int log)","['int', 'doSomething', '_In_C', '(', '_profiles', '*', 'profiles', ',', 'int', 'log', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+57,{,['{'],['PUNCTUATION']
+58,    /*  ===========================================,"['/*', '===========================================']","['PUNCTUATION', 'PUNCTUATION']"
+59,    */  ====   did something to that variable============================,"['*/', '====', 'did', 'something', 'to', 'that', 'var', 'iable', '============================']","['PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+60,    if (errStatus.code == _SUCCESS),"['if', '(', 'errStatus', '.', 'code', '==', '_SUCCESS', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+61,        return(_SUCCESS);,"['return', '(', '_SUCCESS', ');']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+62,    else,['else'],['KEYWORD']
+63,        return(FAILURE);,"['return', '(', 'FAILURE', ');']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+64,},['}'],['PUNCTUATION']
+65,"
 
-My problem may come from the fact that OpenGl is in the main Goroutine, which blocks while waiting for the channels to deliver a tick or a SDL event.  I don't know, I am confused.
+My GO code 
 
-Changing the title from glGetUniformLocation often returns 0 instead of -1 for an attribute that does not exist to OpenGl seems stuck while my main loop waits for channels to tick and deliver events.
-","['My', 'problem', 'may', 'come', 'from', 'the', 'fact', 'that', 'OpenGl', 'is', 'in', 'the', 'main', 'Goroutine,', 'which', 'blocks', 'while', 'waiting', 'for', 'the', 'channels', 'to', 'deliver', 'a', 'tick', 'or', 'a', 'SDL', 'event.', 'I', ""don't"", 'know,', 'I', 'am', 'confused.', 'Changing', 'the', 'title', 'from', 'glGetUniformLocation', 'often', 'returns', '0', 'instead', 'of', '-1', 'for', 'an', 'attribute', 'that', 'does', 'not', 'exist', 'to', 'OpenGl', 'seems', 'stuck', 'while', 'my', 'main', 'loop', 'waits', 'for', 'channels', 'to', 'tick', 'and', 'deliver', 'events.']","['PRP$', 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNP', 'VBZ', 'IN', 'DT', 'JJ', 'NNP', 'WDT', 'VBZ', 'IN', 'VBG', 'IN', 'DT', 'NNS', 'TO', 'VB', 'DT', 'NN', 'CC', 'DT', 'NNP', 'NN', 'PRP', 'VBP', 'VB', 'PRP', 'VBP', 'JJ', 'VBG', 'DT', 'NN', 'IN', 'NN', 'RB', 'VBZ', 'CD', 'RB', 'IN', 'NNP', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'RB', 'VB', 'TO', 'NNP', 'VBZ', 'VBN', 'IN', 'PRP$', 'JJ', 'NN', 'NNS', 'IN', 'NNS', 'TO', 'VB', 'CC', 'VB', 'NN']"
+","['My', 'GO', 'code']","['PRP$', 'NNP', 'NN']"
+66,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+67,//#cgo CFLAGS: -std=c99 -ggdb3 -O0 -Wall,"['//', '#cgo', 'CFLAGS:', '-std=c99', '-ggdb3', '-O0', '-Wall']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+68,//#cgo CFLAGS: -I../../include/common,"['//', '#cgo', 'CFLAGS:', '-I../../include/common']","['COMMENT', 'JJ', 'NNP', 'NN']"
+69,//#cgo LDFLAGS: -L string.h,"['//', '#cgo', 'LDFLAGS:', '-L', 'string.h']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NN']"
+70,//#cgo LDFLAGS: -lstdc++ -lpthread -lm -lc -lssl -lcrypto,"['//', '#cgo', 'LDFLAGS:', '-lstdc++', '-lpthread', '-lm', '-lc', '-lssl', '-lcrypto']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
+71,//#include ,"['//', '#include']","['COMMENT', 'NN']"
+72,//#include ,"['//', '#include']","['COMMENT', 'NN']"
+73,"//#include ""test.h""","['//', '#include', '""test.h""']","['COMMENT', 'NN', 'NN']"
+74,"import ""C""","['import', '""C""']","['KEYWORD', 'STRING_LITERAL']"
+75,"//import ""unsafe""","['//', 'import', '""unsafe""']","['COMMENT', 'NN', 'NN']"
+76,func Test() {,"['func', 'Test', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+77,    log := 1 // sets logging level,"['log', ':=', '1', '//', 'sets', 'logging', 'level']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'NNS', 'VBG', 'NN']"
+78,    numProfiles := 3,"['numProfiles', ':=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+79,    var profiles C._profiles,"['var', 'profiles', 'C', '.', '_profiles']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+80,"    C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(true))","['C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(true))']",['FUNCTION_CALL']
+81,    profiles.profile[0].profileId = C.int(2),"['profiles', '.', 'profile', '[', '0', '].', 'profileId', '=', 'C.int(2)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+82,    profiles.profile[0].stateFipsId = C.int(1),"['profiles', '.', 'profile', '[', '0', '].', 'stateFipsId', '=', 'C.int(1)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+83,"    profiles.profile[0].userName.first = C.CString(""test"")","['profiles', '.', 'profile', '[', '0', '].', 'userName', '.', 'first', '=', 'C.CString(""test"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+84,"    profiles.profile[0].userName.last = C.CString（""test""）","['profiles', '.', 'profile', '[', '0', '].', 'userName', '.', 'last', '=', 'C', '.', 'CString', '""test""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL']"
+85,"    C.dosomething_In_C( &profiles,C.int(3))","['C.dosomething_In_C( &profiles,C.int(3))']",['FUNCTION_CALL']
+86,"    C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(false))","['C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(false))']",['FUNCTION_CALL']
+87,"    fmt.Println(int(""get c variable and  return"")","['fmt.Println(int(""get c variable and  return"")']",['FUNCTION_CALL']
+88,},['}'],['PUNCTUATION']
+89,"
+
+When I compile  in like this
+            profiles.profile[0].profileId = C.int(2) 
+
+I got error message : 
+    invalid operation: profiles.profile[0] (type *C.struct___6 does not support indexing)  
+
+So, I try another solution.  Transfer the c struct array form c to go. like this 
+
+","['When', 'I', 'compile', 'in', 'like', 'this', 'profiles.profile[0].profileId', '=', 'C.int(2)', 'I', 'got', 'error', 'message', ':', 'invalid', 'operation:', 'profiles.profile[0]', '(type', '*C.struct___6', 'does', 'not', 'support', 'indexing)', 'So,', 'I', 'try', 'another', 'solution.', 'Transfer', 'the', 'c', 'struct', 'array', 'form', 'c', 'to', 'go.', 'like', 'this']","['WRB', 'PRP', 'VBP', 'IN', 'IN', 'DT', 'NN', 'VBZ', 'NNP', 'PRP', 'VBD', 'JJ', 'NN', ':', 'JJ', 'NN', 'NN', 'JJ', 'NN', 'VBZ', 'RB', 'VB', 'JJ', 'NNP', 'PRP', 'VBP', 'DT', 'NN', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'NN', 'NN', 'TO', 'VB', 'IN', 'DT']"
+90,    profile.profikes = (*[1 << 30]C._profile)(unsafe.Pointer(&profiles.profile))[:numProfiles:numProfiles],"['profile', '.', 'profikes', '=', '(*[', '1', '<<', '30', ']', 'C', '.', '_profile', ')(', 'unsafe.Pointer(&profiles.profile))', '[:', 'numProfiles', ':', 'numProfiles', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+91,"
+
+But get error like   cannot use (*[1073741824]C.struct___6)(unsafe.Pointer(&profiles.profile))[:numProfiles:numProfiles] (type []C.struct___6) as type *C.struct___6 in assignment    
+
+and I afraid It create another piece of memory,  when I call in dosomething_In_C function, it can not get the data. 
+
+Is anyone know how to fix this?
+
+Thank you 
+","['But', 'get', 'error', 'like', 'cannot', 'use', '(*[1073741824]C.struct___6)(unsafe.Pointer(&profiles.profile))[:numProfiles:numProfiles]', '(type', '[]C.struct___6)', 'as', 'type', '*C.struct___6', 'in', 'assignment', 'and', 'I', 'afraid', 'It', 'create', 'another', 'piece', 'of', 'memory,', 'when', 'I', 'call', 'in', 'dosomething_In_C', 'function,', 'it', 'can', 'not', 'get', 'the', 'data.', 'Is', 'anyone', 'know', 'how', 'to', 'fix', 'this?', 'Thank', 'you']","['CC', 'VB', 'NN', 'IN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'NN', 'NN', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'PRP', 'VB', 'DT', 'NN', 'IN', 'NN', 'WRB', 'PRP', 'VBP', 'IN', 'NN', 'NN', 'PRP', 'MD', 'RB', 'VB', 'DT', 'NN', 'VBZ', 'NN', 'VB', 'WRB', 'TO', 'VB', 'JJ', 'NNP', 'PRP']"

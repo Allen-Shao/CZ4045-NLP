@@ -1,171 +1,23 @@
 ,text,token,annotation
-0,"I am new to Go so hopefully I'm making myself clear with this issue I'm having.  My problem is that I am trying to iterate over an array of structs but I keep running into an index out of range issue.  For the purposes of this problem, I have already verified that my array is not empty but that it in fact does contain at least one Services struct and file_content is the string that contains my valid JSON
+0,"You are pushing an array of Sales with syntax for a single item.
+It should be either a single Sales object to push:
 
-Here is the snippet of code that represents the problem I'm having:
+","['You', 'are', 'pushing', 'an', 'array', 'of', 'Sales', 'with', 'syntax', 'for', 'a', 'single', 'item.', 'It', 'should', 'be', 'either', 'a', 'single', 'Sales', 'object', 'to', 'push:']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'IN', 'NNS', 'IN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'CC', 'DT', 'JJ', 'NNS', 'VBP', 'TO', 'VB']"
+1,addsales:= Sales{,"['addsales', ':=', 'Sales', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+2,"    FIRSTNAME : ""chetan"",","['FIRSTNAME', ':', '""chetan""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+3,"    LASTNAME : ""kumar"",","['LASTNAME', ':', '""kumar""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+4,"    AGE : 24,","['AGE', ':', '24', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+5,"},","['},']",['PUNCTUATION']
+6,"change := bson.M{""$push"":bson.M{""user.$.sales"":addsales}}","['chan', 'ge', ':=', 'bson', '.', 'M', '{', '""$push""', ':', 'bson', '.', 'M', '{', '""user.$.sales""', ':', 'addsales', '}}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+7,"
 
-","['I', 'am', 'new', 'to', 'Go', 'so', 'hopefully', ""I'm"", 'making', 'myself', 'clear', 'with', 'this', 'issue', ""I'm"", 'having.', 'My', 'problem', 'is', 'that', 'I', 'am', 'trying', 'to', 'iterate', 'over', 'an', 'array', 'of', 'structs', 'but', 'I', 'keep', 'running', 'into', 'an', 'index', 'out', 'of', 'range', 'issue.', 'For', 'the', 'purposes', 'of', 'this', 'problem,', 'I', 'have', 'already', 'verified', 'that', 'my', 'array', 'is', 'not', 'empty', 'but', 'that', 'it', 'in', 'fact', 'does', 'contain', 'at', 'least', 'one', 'Services', 'struct', 'and', 'file_content', 'is', 'the', 'string', 'that', 'contains', 'my', 'valid', 'JSON', 'Here', 'is', 'the', 'snippet', 'of', 'code', 'that', 'represents', 'the', 'problem', ""I'm"", 'having:']","['PRP', 'VBP', 'JJ', 'TO', 'VB', 'RB', 'RB', 'NNP', 'VBG', 'PRP', 'JJ', 'IN', 'DT', 'NN', 'NNP', 'VBD', 'PRP$', 'NN', 'VBZ', 'IN', 'PRP', 'VBP', 'VBG', 'TO', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNS', 'CC', 'PRP', 'VBP', 'VBG', 'IN', 'DT', 'NN', 'IN', 'IN', 'NN', 'NN', 'IN', 'DT', 'NNS', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'RB', 'VBN', 'IN', 'PRP$', 'NN', 'VBZ', 'RB', 'JJ', 'CC', 'IN', 'PRP', 'IN', 'NN', 'VBZ', 'VB', 'IN', 'JJS', 'CD', 'NNPS', 'NN', 'CC', 'NN', 'VBZ', 'DT', 'NN', 'WDT', 'VBZ', 'PRP$', 'JJ', 'NNP', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'NNP', 'NN']"
-1,type service_config struct {,"['type', 'service_config', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-2,    Services []struct {,"['Services', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-3,        Name    string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-4,        Command string,"['Command', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-5,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-6,    },['}'],['OPERATOR']
-7,},['}'],['OPERATOR']
-8,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-9,"err_json := json.Unmarshal(file_content, &ServiceConf)","['err_json', ':=', 'json.Unmarshal(file_content, &ServiceConf)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-10,"for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-11,  log.Println(s),['log.Println(s)'],['FUNCTION_CALL']
-12,},['}'],['OPERATOR']
-13,"
+or use $each modifier to push multiple items:
 
-So every time I run my code I get:
-
-","['So', 'every', 'time', 'I', 'run', 'my', 'code', 'I', 'get:']","['RB', 'DT', 'NN', 'PRP', 'VBP', 'PRP$', 'NN', 'PRP', 'VBP']"
-14,2014/03/14 18:19:53 http: panic serving [::1]:65448: runtime error: index out of range,"['2014/03/14', '18', ':', '19', ':', '53', 'http', ':', 'panic', 'serving', '[::', '1', ']:', '65448', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DIRECTORY', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
-15,"
-
-",[],[]
-16,{,['{'],['OPERATOR']
-17,"  ""services"" : [","['""services""', ':', '[']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-18,    {,['{'],['OPERATOR']
-19,"      ""name"": ""translation"",","['""name""', ':', '""translation""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-20,"      ""command"": ""to german"",","['""command""', ':', '""to german""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-21,"      ""request"": {","['""request""', ':', '{']","['STRING_LITERAL', 'OPERATOR', 'OPERATOR']"
-22,"        ""key"": ""XXX"",","['""key""', ':', '""XXX""', ',']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-23,"        ""url"": ""https://www.googleapis.com/language/translate/v2?""","['""url""', ':', '""https://www.googleapis.com/language/translate/v2?""']","['STRING_LITERAL', 'OPERATOR', 'STRING_LITERAL']"
-24,      },['}'],['OPERATOR']
-25,    },['}'],['OPERATOR']
-26,  ],[']'],['OPERATOR']
-27,},['}'],['OPERATOR']
-28,"
-
-If you're interested in the complete source file:
-
-","['If', ""you're"", 'interested', 'in', 'the', 'complete', 'source', 'file:']","['IN', 'RB', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'NN']"
-29,    package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-30,import (,"['import', '(']","['KEYWORD', 'OPERATOR']"
-31,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-32,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-33,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
-34,"    ""log""","['""log""']",['STRING_LITERAL']
-35,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-36,"    ""net/url""","['""net/url""']",['STRING_LITERAL']
-37,"    ""os""","['""os""']",['STRING_LITERAL']
-38,),[')'],['OPERATOR']
-39,type SlackResponse struct {,"['type', 'SlackResponse', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-40,    token        string,"['token', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-41,    team_id      string,"['team_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-42,    channel_id   string,"['chan', 'nel_id', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-43,    channel_name string,"['chan', 'nel_name', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-44,    timestamp    string,"['timestamp', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-45,    user_id      string,"['user_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-46,    user_name    string,"['user_name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-47,    text         string,"['text', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-48,},['}'],['OPERATOR']
-49,type service_config struct {,"['type', 'service_config', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-50,    Services []struct {,"['Services', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-51,        Name    string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-52,        Command string,"['Command', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-53,        Request map[string]interface{},"['Request', 'map', '[', 'string', ']', 'interface', '{}']","['IDENTIFIER', 'KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-54,    },['}'],['OPERATOR']
-55,},['}'],['OPERATOR']
-56,var ServiceConf = service_config{},"['var', 'ServiceConf', '=', 'service_config', '{}']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-57,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-58,"    content, err_read := ioutil.ReadFile(""config.ini"")","['content', ',', 'err_read', ':=', 'ioutil.ReadFile(""config.ini"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-59,    if err_read != nil {,"['if', 'err_read', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-60,"        log.Println(""Could not read config"")","['log.Println(""Could not read config"")']",['FUNCTION_CALL']
-61,        return,['return'],['KEYWORD']
-62,    },['}'],['OPERATOR']
-63,    log.Println(string(content)),['log.Println(string(content))'],['FUNCTION_CALL']
-64,"    err_json := json.Unmarshal(content, &ServiceConf)","['err_json', ':=', 'json.Unmarshal(content, &ServiceConf)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-65,    if err_json != nil {,"['if', 'err_json', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-66,        log.Println(err_json),['log.Println(err_json)'],['FUNCTION_CALL']
-67,    },['}'],['OPERATOR']
-68,"    http.HandleFunc(""/"", handler)","['http.HandleFunc(""/"", handler)']",['FUNCTION_CALL']
-69,"    http.ListenAndServe("":""+os.Getenv(""PORT""), nil)","['http.ListenAndServe("":""+os.Getenv(""PORT""), nil)']",['FUNCTION_CALL']
-70,},['}'],['OPERATOR']
-71,"func handler(w http.ResponseWriter, r *http.Request) {","['func', 'handler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-72,    slack_response := SlackResponse{,"['slack_response', ':=', 'SlackResponse', '{']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-73,"        r.FormValue(""token""),","['r.FormValue(""token"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-74,"        r.FormValue(""team_id""),","['r.FormValue(""team_id"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-75,"        r.FormValue(""channel_id""),","['r.FormValue(""channel_id"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-76,"        r.FormValue(""channel_name""),","['r.FormValue(""channel_name"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-77,"        r.FormValue(""timestamp""),","['r.FormValue(""timestamp"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-78,"        r.FormValue(""user_id""),","['r.FormValue(""user_id"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-79,"        r.FormValue(""user_name""),","['r.FormValue(""user_name"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-80,"        r.FormValue(""text""),","['r.FormValue(""text"")', ',']","['FUNCTION_CALL', 'OPERATOR']"
-81,    },['}'],['OPERATOR']
-82,"    // log.Println(ServiceConf.Services[0].Request[""key""])","['//', 'log.Println(ServiceConf.Services[0].Request[""key""])']","['COMMENT', 'NN']"
-83,    // loop through services to find command phrases,"['//', 'loop', 'through', 'services', 'to', 'find', 'command', 'phrases']","['COMMENT', 'NN', 'IN', 'NNS', 'TO', 'VB', 'NN', 'NNS']"
-84,"    for _, s := range ServiceConf.Services {","['for', '_', ',', 's', ':=', 'range', 'ServiceConf', '.', 'Services', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-85,        log.Println(s),['log.Println(s)'],['FUNCTION_CALL']
-86,    },['}'],['OPERATOR']
-87,"    if slack_response.user_name == ""slackbot"" {","['if', 'slack_response', '.', 'user_name', '==', '""slackbot""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-88,        return,['return'],['KEYWORD']
-89,    },['}'],['OPERATOR']
-90,"    // fmt.Fprintf(w, ""{ \""text\"": \""Master %s!  You said: '%s'\"" }"", slack_response.user_name, slack_response.text)","['//', 'fmt.Fprintf(w,', '""{', '\\""text\\"":', '\\""Master', '%s!', 'You', 'said:', '\'%s\'\\""', '}"",', 'slack_response.user_name,', 'slack_response.text)']","['COMMENT', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'PRP', 'VBP', ""''"", 'JJ', 'NN', 'NN']"
-91,"    content, err := getContent(""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q="" + url.QueryEscape(slack_response.text))","['content', ',', 'err', ':=', 'getContent(""https://www.googleapis.com/language/translate/v2?key=&source=en&target=de&q=""', '+', 'url.QueryEscape(slack_response.text))']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DIRECTORY', 'OPERATOR', 'FUNCTION_CALL']"
-92,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-93,"        fmt.Fprintf(w, ""{ \""text\"": \""Huh?!\"" }"")","['fmt.Fprintf(w, ""{ \\""text\\"": \\""Huh?!\\"" }"")']",['FUNCTION_CALL']
-94,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-95,        type trans struct {,"['type', 'trans', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-96,            Data struct {,"['Data', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'OPERATOR']"
-97,                Translations []struct {,"['Translations', '[]', 'struct', '{']","['IDENTIFIER', 'OPERATOR', 'KEYWORD', 'OPERATOR']"
-98,"                    TranslatedText string `json:""translatedText""`","['TranslatedText', 'string', 'json', ':', '""translatedText""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-99,"                } `json:""translations""`","['}', 'json', ':', '""translations""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-100,"            } `json:""data""`","['}', 'json', ':', '""data""']","['OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-101,        },['}'],['OPERATOR']
-102,        f := trans{},"['f', ':=', 'trans', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-103,"        err := json.Unmarshal(content, &f)","['err', ':=', 'json.Unmarshal(content, &f)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-104,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-105,            log.Println(err),['log.Println(err)'],['FUNCTION_CALL']
-106,        },['}'],['OPERATOR']
-107,"        fmt.Fprintf(w, ""{ \""text\"": \""Translated to German you said: '%s'\"" }"", f.Data.Translations[0].TranslatedText)","['fmt.Fprintf(w, ""{ \\""text\\"": \\""Translated to German you said: \'%s\'\\"" }"", f.Data.Translations[0].TranslatedText)']",['FUNCTION_CALL']
-108,    },['}'],['OPERATOR']
-109,},['}'],['OPERATOR']
-110,// array of bytes if retrieved successfully.,"['//', 'array', 'of', 'bytes', 'if', 'retrieved', 'successfully.']","['COMMENT', 'NN', 'IN', 'NNS', 'IN', 'VBN', 'NN']"
-111,"func getContent(url string) ([]byte, error) {","['func', 'getContent', '(', 'url', 'string', ')', '([]', 'byte', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR']"
-112,    // Build the request,"['//', 'Build', 'the', 'request']","['COMMENT', 'VB', 'DT', 'NN']"
-113,"    req, err := http.NewRequest(""GET"", url, nil)","['req', ',', 'err', ':=', 'http.NewRequest(""GET"", url, nil)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-114,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-116,    },['}'],['OPERATOR']
-117,    // Send the request via a client,"['//', 'Send', 'the', 'request', 'via', 'a', 'client']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
-118,    client := &http.Client{},"['client', ':=', '&', 'http', '.', 'Client', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-119,"    resp, err := client.Do(req)","['resp', ',', 'err', ':=', 'client.Do(req)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-120,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-121,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-122,    },['}'],['OPERATOR']
-123,    // Defer the closing of the body,"['//', 'Defer', 'the', 'closing', 'of', 'the', 'body']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN']"
-124,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body.Close()']","['IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-125,    // Read the content into a byte array,"['//', 'Read', 'the', 'content', 'into', 'a', 'byte', 'array']","['COMMENT', 'VB', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN']"
-126,"    body, err := ioutil.ReadAll(resp.Body)","['body', ',', 'err', ':=', 'ioutil.ReadAll(resp.Body)']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-127,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-128,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-129,    },['}'],['OPERATOR']
-130,    // At this point we're done - simply return the bytes,"['//', 'At', 'this', 'point', ""we're"", 'done', '-', 'simply', 'return', 'the', 'bytes']","['COMMENT', 'IN', 'DT', 'NN', 'NN', 'VBN', ':', 'RB', 'VB', 'DT', 'NNS']"
-131,"    return body, nil","['return', 'body', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-132,},['}'],['OPERATOR']
-133,"
-
-Here is the stack trace:
-
-","['Here', 'is', 'the', 'stack', 'trace:']","['RB', 'VBZ', 'DT', 'NN', 'NN']"
-134,2014/03/21 23:21:29 http: panic serving [::1]:59508: runtime error: index out of range,"['2014/03/21', '23', ':', '21', ':', '29', 'http', ':', 'panic', 'serving', '[::', '1', ']:', '59508', ':', 'runtime', 'error', ':', 'index', 'out', 'of', 'range']","['DIRECTORY', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD']"
-135,goroutine 3 [running]:,"['go', 'routine', '3', '[', 'running', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-136,net/http.func·009(),['net/http.func·009()'],['DIRECTORY']
-137,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1093 +0xae,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1093', '+', '0xae']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-138,"runtime.panic(0x215f80, 0x4b6537)","['runtime.panic(0x215f80, 0x4b6537)']",['FUNCTION_CALL']
-139,    /usr/local/Cellar/go/1.2/libexec/src/pkg/runtime/panic.c:248 +0x106,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/runtime/panic.c:248', '+', '0x1', '06']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-140,"main.handler(0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['main.handler(0x5a85e8, 0xc21000f6e0, 0xc210037dd0)']",['FUNCTION_CALL']
-141,    /Users/et/src/go/src/github.com/etdebruin/gojacques/main.go:100 +0x81b,"['/Users/et/src/go/src/github.com/etdebruin/gojacques/main.go:100', '+', '0x81b']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-142,"net/http.HandlerFunc.ServeHTTP(0x2cbc60, 0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['net/http.HandlerFunc.ServeHTTP(0x2cbc60,', '0x5a85e8', ',', '0xc21', '0', '0', '0', 'f6e0', ',', '0xc21', '0', '037', 'dd0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-143,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1220 +0x40,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1220', '+', '0x4', '0']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL']"
-144,"net/http.(*ServeMux).ServeHTTP(0xc21001e5d0, 0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['net/http.(*ServeMux).ServeHTTP(0xc21001e5d0,', '0x5a85e8', ',', '0xc21', '0', '0', '0', 'f6e0', ',', '0xc21', '0', '037', 'dd0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-145,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1496 +0x163,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1496', '+', '0x163']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-146,"net/http.serverHandler.ServeHTTP(0xc21001f500, 0x5a85e8, 0xc21000f6e0, 0xc210037dd0)","['net/http.serverHandler.ServeHTTP(0xc21001f500,', '0x5a85e8', ',', '0xc21', '0', '0', '0', 'f6e0', ',', '0xc21', '0', '037', 'dd0', ')']","['DIRECTORY', 'HEX_LITERAL', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'OPERATOR']"
-147,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1597 +0x16e,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1597', '+', '0x16e']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-148,net/http.(*conn).serve(0xc210058300),['net/http.(*conn).serve(0xc210058300)'],['DIRECTORY']
-149,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1167 +0x7b7,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1167', '+', '0x7b7']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
-150,created by net/http.(*Server).Serve,"['created', 'by', 'net/http.(*Server).Serve']","['IDENTIFIER', 'IDENTIFIER', 'DIRECTORY']"
-151,    /usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1644 +0x28b,"['/usr/local/Cellar/go/1.2/libexec/src/pkg/net/http/server.go:1644', '+', '0x28b']","['DIRECTORY', 'OPERATOR', 'HEX_LITERAL']"
+","['or', 'use', '$each', 'modifier', 'to', 'push', 'multiple', 'items:']","['CC', 'VB', 'NN', 'NN', 'TO', 'VB', 'JJ', 'NN']"
+8,addsales:= []Sales{Sales{,"['addsales', ':=', '[]', 'Sales', '{', 'Sales', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+9,"    FIRSTNAME : ""chetan"",","['FIRSTNAME', ':', '""chetan""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+10,"    LASTNAME : ""kumar"",","['LASTNAME', ':', '""kumar""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+11,"    AGE : 24,","['AGE', ':', '24', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+12,"    },","['},']",['PUNCTUATION']
+13,},['}'],['PUNCTUATION']
+14,"change := bson.M{""$push"":bson.M{""user.$.sales"":bson.M{""$each"":addsales}}}","['chan', 'ge', ':=', 'bson', '.', 'M', '{', '""$push""', ':', 'bson', '.', 'M', '{', '""user.$.sales""', ':', 'bson', '.', 'M', '{', '""$each""', ':', 'addsales', '}}}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"

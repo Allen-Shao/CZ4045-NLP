@@ -1,36 +1,117 @@
 ,text,token,annotation
-0,"I am trying to using the D-Bus interface on omxplayer in order to control the running video.  I'm attempting this using the go.dbus library found here:  https://github.com/guelfey/go.dbus
+0,"I am writing a function in golang to search for a string in elasticsearch documents which are indexed. I am using elasticsearch golang client elastic. For example consider the object is tweet,
 
-The omxplayer documentation provides a dbuscontrol.sh script that I can use successfully.  It sets some environments variable and then can use dbus-send in order to query omxplayer.
+","['I', 'am', 'writing', 'a', 'function', 'in', 'golang', 'to', 'search', 'for', 'a', 'string', 'in', 'elasticsearch', 'documents', 'which', 'are', 'indexed.', 'I', 'am', 'using', 'elasticsearch', 'golang', 'client', 'elastic.', 'For', 'example', 'consider', 'the', 'object', 'is', 'tweet,']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'IN', 'NN', 'TO', 'VB', 'IN', 'DT', 'NN', 'IN', 'NN', 'NNS', 'WDT', 'VBP', 'JJ', 'PRP', 'VBP', 'VBG', 'NN', 'NN', 'NN', 'NN', 'IN', 'NN', 'VBP', 'DT', 'NN', 'VBZ', 'JJ']"
+1,type Tweet struct {,"['type', 'Tweet', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+2,    User    string,"['User', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+3,    Message string,"['Message', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+4,    Retweets int,"['Retweets', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+5,},['}'],['PUNCTUATION']
+6,"
 
-I'm trying to reproduce this in Go but I keep getting the error ""The name org.mpris.MediaPlayer2 was not provided by any .service files""
+And the search function is 
 
-Here is my code:
+","['And', 'the', 'search', 'function', 'is']","['CC', 'DT', 'NN', 'NN', 'VBZ']"
+7,func SearchProject() error{,"['func', 'SearchProject', '()', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+8,    // Search with a term query,"['//', 'Search', 'with', 'a', 'term', 'query']","['COMMENT', 'NN', 'IN', 'DT', 'NN', 'NN']"
+9,"    termQuery := elastic.NewTermQuery(""user"", ""olivere"")","['termQuery', ':=', 'elastic.NewTermQuery(""user"", ""olivere"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+10,"    searchResult, err := client.Search().","['searchResult', ',', 'err', ':=', 'client.Search()', '.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+11,"        Index(""twitter"").   // search in index ""twitter""","['Index', '(', '""twitter""', ').', '//', 'search', 'in', 'index', '""twitter""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'IN', 'NN', 'NN']"
+12,        Query(&termQuery).  // specify the query,"['Query', '(&', 'termQuery', ').', '//', 'specify', 'the', 'query']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'VB', 'DT', 'NN']"
+13,"        Sort(""user"", true). // sort by ""user"" field, ascending","['Sort', '(', '""user""', ',', 'true', ').', '//', 'sort', 'by', '""user""', 'field,', 'ascending']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'IN', 'NNP', 'NN', 'VBG']"
+14,        From(0).Size(10).   // take documents 0-9,"['From', '(', '0', ').', 'Size', '(', '10', ').', '//', 'take', 'documents', '0-9']","['IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'VB', 'NNS', 'JJ']"
+15,        Pretty(true).       // pretty print request and response JSON,"['Pretty', '(', 'true', ').', '//', 'pretty', 'print', 'request', 'and', 'response', 'JSON']","['IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'COMMENT', 'RB', 'NN', 'NN', 'CC', 'NN', 'NNP']"
+16,        Do()                // execute,"['Do', '()', '//', 'execute']","['IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN']"
+17,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+18,        // Handle error,"['//', 'Handle', 'error']","['COMMENT', 'NNP', 'NN']"
+19,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+20,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+21,    },['}'],['PUNCTUATION']
+22,"    // searchResult is of type SearchResult and returns hits, suggestions,","['//', 'searchResult', 'is', 'of', 'type', 'SearchResult', 'and', 'returns', 'hits,', 'suggestions,']","['COMMENT', 'NN', 'VBZ', 'IN', 'NN', 'NNP', 'CC', 'NNS', 'VBP', 'NN']"
+23,    // and all kinds of other information from Elasticsearch.,"['//', 'and', 'all', 'kinds', 'of', 'other', 'information', 'from', 'Elasticsearch.']","['COMMENT', 'CC', 'DT', 'NNS', 'IN', 'JJ', 'NN', 'IN', 'NNP']"
+24,"    fmt.Printf(""Query took %d milliseconds\n"", searchResult.TookInMillis)","['fmt.Printf(""Query took %d milliseconds\\n"", searchResult.TookInMillis)']",['FUNCTION_CALL']
+25,    // Each is a convenience function that iterates over hits in a search result.,"['//', 'Each', 'is', 'a', 'convenience', 'function', 'that', 'iterates', 'over', 'hits', 'in', 'a', 'search', 'result.']","['COMMENT', 'DT', 'VBZ', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'RP', 'NNS', 'IN', 'DT', 'NN', 'NN']"
+26,    // It makes sure you don't need to check for nil values in the response.,"['//', 'It', 'makes', 'sure', 'you', ""don't"", 'need', 'to', 'check', 'for', 'nil', 'values', 'in', 'the', 'response.']","['COMMENT', 'PRP', 'VBZ', 'JJ', 'PRP', 'VBP', 'VB', 'TO', 'VB', 'IN', 'JJ', 'NNS', 'IN', 'DT', 'NN']"
+27,"    // However, it ignores errors in serialization. If you want full control","['//', 'However,', 'it', 'ignores', 'errors', 'in', 'serialization.', 'If', 'you', 'want', 'full', 'control']","['COMMENT', 'NNP', 'PRP', 'VBZ', 'NNS', 'IN', 'NN', 'IN', 'PRP', 'VBP', 'JJ', 'NN']"
+28,"    // over iterating the hits, see below.","['//', 'over', 'iterating', 'the', 'hits,', 'see', 'below.']","['COMMENT', 'IN', 'VBG', 'DT', 'NN', 'VBP', 'NN']"
+29,    var ttyp Tweet,"['var', 'ttyp', 'Tweet']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+30,"    for _, item := range searchResult.Each(reflect.TypeOf(ttyp)) {","['for', '_', ',', 'item', ':=', 'range', 'searchResult.Each(reflect.TypeOf(ttyp))', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
+31,        t := item.(Tweet),"['t', ':=', 'item', '.(', 'Tweet', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+32,"        fmt.Printf(""Tweet by %s: %s\n"", t.User, t.Message)","['fmt.Printf(""Tweet by %s: %s\\n"", t.User, t.Message)']",['FUNCTION_CALL']
+33,    },['}'],['PUNCTUATION']
+34,    // TotalHits is another convenience function that works even when something goes wrong.,"['//', 'TotalHits', 'is', 'another', 'convenience', 'function', 'that', 'works', 'even', 'when', 'something', 'goes', 'wrong.']","['COMMENT', 'NNS', 'VBZ', 'DT', 'NN', 'NN', 'WDT', 'VBZ', 'RB', 'WRB', 'NN', 'VBZ', 'JJ']"
+35,"    fmt.Printf(""Found a total of %d tweets\n"", searchResult.TotalHits())","['fmt.Printf(""Found a total of %d tweets\\n"", searchResult.TotalHits())']",['FUNCTION_CALL']
+36,    // Here's how you iterate through results with full control over each step.,"['//', ""Here's"", 'how', 'you', 'iterate', 'through', 'results', 'with', 'full', 'control', 'over', 'each', 'step.']","['COMMENT', 'NNP', 'WRB', 'PRP', 'VBP', 'IN', 'NNS', 'IN', 'JJ', 'NN', 'IN', 'DT', 'NN']"
+37,    if searchResult.Hits != nil {,"['if', 'searchResult', '.', 'Hits', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+38,"        fmt.Printf(""Found a total of %d tweets\n"", searchResult.Hits.TotalHits)","['fmt.Printf(""Found a total of %d tweets\\n"", searchResult.Hits.TotalHits)']",['FUNCTION_CALL']
+39,        // Iterate through results,"['//', 'Iterate', 'through', 'results']","['COMMENT', 'NNP', 'IN', 'NNS']"
+40,"        for _, hit := range searchResult.Hits.Hits {","['for', '_', ',', 'hit', ':=', 'range', 'searchResult', '.', 'Hits', '.', 'Hits', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+41,            // hit.Index contains the name of the index,"['//', 'hit.Index', 'contains', 'the', 'name', 'of', 'the', 'index']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN']"
+42,            // Deserialize hit.Source into a Tweet (could also be just a map[string]interface{}).,"['//', 'Deserialize', 'hit.Source', 'into', 'a', 'Tweet', '(could', 'also', 'be', 'just', 'a', 'map[string]interface{}).']","['COMMENT', 'NNP', 'NN', 'IN', 'DT', 'NNP', 'NNP', 'RB', 'VB', 'RB', 'DT', 'NN']"
+43,            var t Tweet,"['var', 't', 'Tweet']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+44,"            err := json.Unmarshal(*hit.Source, &t)","['err', ':=', 'json.Unmarshal(*hit.Source, &t)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+45,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+46,                // Deserialization failed,"['//', 'Deserialization', 'failed']","['COMMENT', 'NN', 'VBD']"
+47,            },['}'],['PUNCTUATION']
+48,            // Work with tweet,"['//', 'Work', 'with', 'tweet']","['COMMENT', 'NN', 'IN', 'NN']"
+49,"            fmt.Printf(""Tweet by %s: %s\n"", t.User, t.Message)","['fmt.Printf(""Tweet by %s: %s\\n"", t.User, t.Message)']",['FUNCTION_CALL']
+50,        },['}'],['PUNCTUATION']
+51,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+52,        // No hits,"['//', 'No', 'hits']","['COMMENT', 'DT', 'NNS']"
+53,"        fmt.Print(""Found no tweets\n"")","['fmt.Print(""Found no tweets\\n"")']",['FUNCTION_CALL']
+54,    },['}'],['PUNCTUATION']
+55,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+56,},['}'],['PUNCTUATION']
+57,"
 
-","['I', 'am', 'trying', 'to', 'using', 'the', 'D-Bus', 'interface', 'on', 'omxplayer', 'in', 'order', 'to', 'control', 'the', 'running', 'video.', ""I'm"", 'attempting', 'this', 'using', 'the', 'go.dbus', 'library', 'found', 'here:', 'https://github.com/guelfey/go.dbus', 'The', 'omxplayer', 'documentation', 'provides', 'a', 'dbuscontrol.sh', 'script', 'that', 'I', 'can', 'use', 'successfully.', 'It', 'sets', 'some', 'environments', 'variable', 'and', 'then', 'can', 'use', 'dbus-send', 'in', 'order', 'to', 'query', 'omxplayer.', ""I'm"", 'trying', 'to', 'reproduce', 'this', 'in', 'Go', 'but', 'I', 'keep', 'getting', 'the', 'error', '""The', 'name', 'org.mpris.MediaPlayer2', 'was', 'not', 'provided', 'by', 'any', '.service', 'files""', 'Here', 'is', 'my', 'code:']","['PRP', 'VBP', 'VBG', 'TO', 'VBG', 'DT', 'NNP', 'NN', 'IN', 'NN', 'IN', 'NN', 'TO', 'VB', 'DT', 'VBG', 'NN', 'NNP', 'VBG', 'DT', 'VBG', 'DT', 'NN', 'NN', 'VBD', 'RB', 'VBZ', 'DT', 'JJ', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'MD', 'VB', 'VB', 'PRP', 'VBZ', 'DT', 'NNS', 'JJ', 'CC', 'RB', 'MD', 'VB', 'JJ', 'IN', 'NN', 'TO', 'VB', 'JJ', 'NNP', 'VBG', 'TO', 'VB', 'DT', 'IN', 'NNP', 'CC', 'PRP', 'VBP', 'VBG', 'DT', 'NN', 'NNP', 'NN', 'NN', 'VBD', 'RB', 'VBN', 'IN', 'DT', 'NNP', 'NN', 'RB', 'VBZ', 'PRP$', 'NN']"
-1,"package main                                                                                                                                                                                                                                                                                                                                                          import (                                                                                                                                                                               ""encoding/json""                                                                                                                                                                    ""fmt""                                                                                                                                                                              ""os""                                                                                                                                                                                                                                                                                                                                                                  ""github.com/guelfey/go.dbus""                                                                                                                                                       ""github.com/guelfey/go.dbus/introspect""                                                                                                                                        ","['package', 'main', 'import', '(', '""encoding/json""', '""fmt""', '""os""', '""github.com/guelfey/go.dbus""', '""github.com/guelfey/go.dbus/introspect""']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'STRING_LITERAL', 'STRING_LITERAL', 'STRING_LITERAL', 'STRING_LITERAL']"
-2,)                                                                                                                                                                                  ,[')'],['PUNCTUATION']
-3,func main() {                                                                                                                                                                      ,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-4,"    os.Setenv(""OMXPLAYER_DBUS_ADDR"", ""/tmp/omxplayerdbus.pi"")                                                                                                                      ","['os.Setenv(""OMXPLAYER_DBUS_ADDR"", ""/tmp/omxplayerdbus.pi"")']",['FUNCTION_CALL']
-5,"    os.Setenv(""OMXPLAYER_DBUS_PID"", ""/tmp/omxplayerdbus.pi.pid"")                                                                                                                   ","['os.Setenv(""OMXPLAYER_DBUS_PID"", ""/tmp/omxplayerdbus.pi.pid"")']",['FUNCTION_CALL']
-6,"    conn, err := dbus.SessionBus()                                                                                                                                                 ","['conn', ',', 'err', ':=', 'dbus.SessionBus()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-7,    if err != nil {                                                                                                                                                                ,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-8,        panic(err)                                                                                                                                                                 ,"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-9,    }                                                                                                                                                                              ,['}'],['PUNCTUATION']
-10,"    node, err := introspect.Call(conn.Object(""org.mpris.MediaPlayer2.omxplayer"", ""/org/mpris/MediaPlayer2""))                                                                       ","['node', ',', 'err', ':=', 'introspect.Call(conn.Object(""org.mpris.MediaPlayer2.omxplayer"", ""/org/mpris/MediaPlayer2""))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-11,    if err != nil {                                                                                                                                                                ,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-12,        fmt.Println(err)                                                                                                                                                           ,['fmt.Println(err)'],['FUNCTION_CALL']
-13,    }                                                                                                                                                                              ,['}'],['PUNCTUATION']
-14,"    data, _ := json.MarshalIndent(node, """", ""    "")                                                                                                                                ","['data', ',', '_', ':=', 'json.MarshalIndent(node, """", ""    "")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-15,    var s []string                                                                                                                                                                 ,"['var', 's', '[]', 'string']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-16,"    err = conn.BusObject().Call(""org.freedesktop.DBus.ListNames"", 0).Store(&s)                                                                                                     ","['err', '=', 'conn.BusObject().Call(""org.freedesktop.DBus.ListNames"", 0).Store(&s)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-17,    if err != nil {                                                                                                                                                                ,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-18,"        fmt.Fprintln(os.Stderr, ""Failed to get list of owned names:"", err)                                                                                                         ","['fmt.Fprintln(os.Stderr, ""Failed to get list of owned names:"", err)']",['FUNCTION_CALL']
-19,        os.Exit(1)                                                                                                                                                                 ,['os.Exit(1)'],['FUNCTION_CALL']
-20,    }                                                                                                                                                                              ,['}'],['PUNCTUATION']
-21,"    fmt.Println(""Currently owned names on the session bus:"")                                                                                                                       ","['fmt.Println(""Currently owned names on the session bus:"")']",['FUNCTION_CALL']
-22,"    for _, v := range s {                                                                                                                                                          ","['for', '_', ',', 'v', ':=', 'range', 's', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-23,        fmt.Println(v)                                                                                                                                                             ,['fmt.Println(v)'],['FUNCTION_CALL']
-24,    }                                                                                                                                                                              ,['}'],['PUNCTUATION']
-25,    os.Stdout.Write(data)                                                                                                                                                          ,"['os', '.', 'Stdout.Write(data)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-26,},['}'],['PUNCTUATION']
+This search is printing tweets by the user 'olivere'.  But if I give 'olive' then search is not working. How do I search for a string which is part of User/Message/Retweets?
+
+And the Indexing function looks like this,
+
+","['This', 'search', 'is', 'printing', 'tweets', 'by', 'the', 'user', ""'olivere'."", 'But', 'if', 'I', 'give', ""'olive'"", 'then', 'search', 'is', 'not', 'working.', 'How', 'do', 'I', 'search', 'for', 'a', 'string', 'which', 'is', 'part', 'of', 'User/Message/Retweets?', 'And', 'the', 'Indexing', 'function', 'looks', 'like', 'this,']","['DT', 'NN', 'VBZ', 'VBG', 'NNS', 'IN', 'DT', 'NN', 'POS', 'CC', 'IN', 'PRP', 'VBP', ""''"", 'RB', 'NN', 'VBZ', 'RB', 'JJ', 'NNP', 'VBP', 'PRP', 'VB', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'NN', 'IN', 'NNP', 'CC', 'DT', 'NNP', 'NN', 'VBZ', 'IN', 'NN']"
+58,func IndexProject(p *objects.ElasticProject) error {,"['func', 'IndexProject', '(', 'p', '*', 'objects', '.', 'ElasticProject', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+59,// Index a tweet (using JSON serialization),"['//', 'Index', 'a', 'tweet', '(using', 'JSON', 'serialization)']","['COMMENT', 'NN', 'DT', 'NN', 'VBG', 'NNP', 'NN']"
+60,"    tweet1 := `{""user"" : ""olivere"", ""message"" : ""It's a Raggy Waltz""}`","['tweet1', ':=', '{', '""user""', ':', '""olivere""', ',', '""message""', ':', '""It\'s a Raggy Waltz""', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+61,"    put1, err := client.Index().","['put1', ',', 'err', ':=', 'client.Index()', '.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
+62,"        Index(""twitter"").","['Index', '(', '""twitter""', ').']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+63,"        Type(""tweet"").","['Type', '(', '""tweet""', ').']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+64,"        Id(""1"").","['Id', '(', '""1""', ').']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+65,        BodyJson(tweet1).,"['BodyJson', '(', 'tweet1', ').']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+66,        Do(),"['Do', '()']","['IDENTIFIER', 'PUNCTUATION']"
+67,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+68,        // Handle error,"['//', 'Handle', 'error']","['COMMENT', 'NNP', 'NN']"
+69,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+70,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
+71,    },['}'],['PUNCTUATION']
+72,"    fmt.Printf(""Indexed tweet %s to index %s, type %s\n"", put1.Id, put1.Index, put1.Type)","['fmt.Printf(""Indexed tweet %s to index %s, type %s\\n"", put1.Id, put1.Index, put1.Type)']",['FUNCTION_CALL']
+73,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+74,},['}'],['PUNCTUATION']
+75,"
+
+Output:
+
+",['Output:'],['NN']
+76,"Indexed tweet 1 to index twitter, type tweet","['Indexed', 'tweet', '1', 'to', 'index', 'twitter', ',', 'type', 'tweet']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER']"
+77,"Got document 1 in version 1 from index twitter, type tweet","['Got', 'document', '1', 'in', 'version', '1', 'from', 'index', 'twitter', ',', 'type', 'tweet']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER']"
+78,Query took 4 milliseconds,"['Query', 'took', '4', 'milliseconds']","['IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+79,Tweet by olivere: It's a Raggy Waltz,"['Tweet', 'by', 'olivere', ':', 'It', 's', 'a', 'Raggy', 'Waltz']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+80,Found a total of 1 tweets,"['Found', 'a', 'total', 'of', '1', 'tweets']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+81,Found a total of 1 tweets,"['Found', 'a', 'total', 'of', '1', 'tweets']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+82,Tweet by olivere: It's a Raggy Waltz,"['Tweet', 'by', 'olivere', ':', 'It', 's', 'a', 'Raggy', 'Waltz']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+83,"
+
+Version
+
+",['Version'],['NN']
+84,Go 1.4.2,"['Go', '1', '.', '4', '.', '2']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+85,Elasticsearch-1.4.4,"['Elasticsearch', '-', '1', '.', '4', '.', '4']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+86,"
+
+Elasticsearch Go Library
+
+","['Elasticsearch', 'Go', 'Library']","['NNP', 'NNP', 'NNP']"
+87,github.com/olivere/elastic,"['github', '.', 'com/olivere/elastic']","['IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+88,"
+
+Could anyone help me on this.? Thank you
+","['Could', 'anyone', 'help', 'me', 'on', 'this.?', 'Thank', 'you']","['NNP', 'NN', 'NN', 'PRP', 'IN', 'NN', 'NNP', 'PRP']"

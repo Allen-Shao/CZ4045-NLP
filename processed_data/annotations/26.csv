@@ -1,509 +1,98 @@
 ,text,token,annotation
-0,"When I find problems dealing with stats, my second line of attack after having found that a library does not exist is to port from the R code. This is mixed in ease since code may be R, C/C++ or fortran.
+0,"I'm trying to extract match data from whoscored.com. When I view the source on firefox, I find on line 816 a big json string with the data I want for that matchid. My goal is to eventually get this json.
 
-In this case it was pure C, so the port was trivial. Note that the Qhyper() implementation is not an exact port since I have used stirlerr() in place of lgammacor() for the lbeta() implementation. This doesn't seem to make a great deal of difference, but I advise caution if using this lbeta() (and so Qhyper()).
+In doing this, I've tried to download every page of https://www.whoscored.com/Matches/ID/Live where ID is the id of the match. I wrote a little Go program to GET request each ID up to a certain point:
 
-","['When', 'I', 'find', 'problems', 'dealing', 'with', 'stats,', 'my', 'second', 'line', 'of', 'attack', 'after', 'having', 'found', 'that', 'a', 'library', 'does', 'not', 'exist', 'is', 'to', 'port', 'from', 'the', 'R', 'code.', 'This', 'is', 'mixed', 'in', 'ease', 'since', 'code', 'may', 'be', 'R,', 'C/C++', 'or', 'fortran.', 'In', 'this', 'case', 'it', 'was', 'pure', 'C,', 'so', 'the', 'port', 'was', 'trivial.', 'Note', 'that', 'the', 'Qhyper()', 'implementation', 'is', 'not', 'an', 'exact', 'port', 'since', 'I', 'have', 'used', 'stirlerr()', 'in', 'place', 'of', 'lgammacor()', 'for', 'the', 'lbeta()', 'implementation.', 'This', ""doesn't"", 'seem', 'to', 'make', 'a', 'great', 'deal', 'of', 'difference,', 'but', 'I', 'advise', 'caution', 'if', 'using', 'this', 'lbeta()', '(and', 'so', 'Qhyper()).']","['WRB', 'PRP', 'VBP', 'NNS', 'VBG', 'IN', 'JJ', 'PRP$', 'JJ', 'NN', 'IN', 'NN', 'IN', 'VBG', 'VBD', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'VB', 'VBZ', 'TO', 'VB', 'IN', 'DT', 'NNP', 'NN', 'DT', 'VBZ', 'JJ', 'IN', 'NN', 'IN', 'NN', 'MD', 'VB', 'NNP', 'NNP', 'CC', 'VBN', 'IN', 'DT', 'NN', 'PRP', 'VBD', 'JJ', 'NNP', 'IN', 'DT', 'NN', 'VBD', 'JJ', 'NN', 'IN', 'DT', 'NNP', 'NN', 'VBZ', 'RB', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'VBP', 'VBN', 'NN', 'IN', 'NN', 'IN', 'NN', 'IN', 'DT', 'NN', 'NN', 'DT', 'NN', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'NN', 'IN', 'VBG', 'DT', 'JJ', 'NNP', 'RB', 'NNP']"
-1,"// Direct port of R code from nmath/{phyper,dbinom,stirlerr}.c and {dpq,nmath}.h.","['//', 'Direct', 'port', 'of', 'R', 'code', 'from', 'nmath/{phyper,dbinom,stirlerr}.c', 'and', '{dpq,nmath}.h.']","['COMMENT', 'JJ', 'NN', 'IN', 'NNP', 'NN', 'IN', 'NN', 'CC', 'NN']"
-2,// Code licensed under GPL for that reason (c) Dan Kortschak.,"['//', 'Code', 'licensed', 'under', 'GPL', 'for', 'that', 'reason', '(c)', 'Dan', 'Kortschak.']","['COMMENT', 'NNP', 'VBD', 'IN', 'NNP', 'IN', 'DT', 'NN', 'NNP', 'NNP', 'NNP']"
-3,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-4,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-5,"    ""errors""","['""errors""']",['STRING_LITERAL']
-6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-7,"    ""math""","['""math""']",['STRING_LITERAL']
-8,),[')'],['PUNCTUATION']
-9,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-10,    // Example values come from:,"['//', 'Example', 'values', 'come', 'from:']","['COMMENT', 'JJ', 'NNS', 'VBP', 'NN']"
-11,    // http://stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper,"['//', 'http:stackoverflow.com/questions/8382806/r-hypergeometric-test-phyper']","['COMMENT', 'NN']"
-12,"    fmt.Println(Phyper(62, 1998, 5260-1998, 131, true, false))","['fmt.Println(Phyper(62, 1998, 5260-1998, 131, true, false))']",['FUNCTION_CALL']
-13,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-14,"        fmt.Println(Phyper(x, 10, 7, 8, true, false))","['fmt.Println(Phyper(x, 10, 7, 8, true, false))']",['FUNCTION_CALL']
-15,    },['}'],['PUNCTUATION']
-16,    fmt.Println(),['fmt.Println()'],['FUNCTION_CALL']
-17,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-18,"        fmt.Println(Dhyper(x, 10, 7, 8, false))","['fmt.Println(Dhyper(x, 10, 7, 8, false))']",['FUNCTION_CALL']
-19,    },['}'],['PUNCTUATION']
-20,    fmt.Println(),['fmt.Println()'],['FUNCTION_CALL']
-21,    for x := 0.; x < 10; x++ {,"['for', 'x', ':=', '0', '.;', 'x', '<', '10', ';', 'x', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-22,"        fmt.Println(Qhyper(x, 10, 7, 8, true, false))","['fmt.Println(Qhyper(x, 10, 7, 8, true, false))']",['FUNCTION_CALL']
-23,    },['}'],['PUNCTUATION']
-24,},['}'],['PUNCTUATION']
-25,"var ErrDomain = errors.New(""hyper: argument out of domain"")","['var', 'ErrDomain', '=', 'errors.New(""hyper: argument out of domain"")']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-26,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
-27,    epsilon = 2.2204460492503131e-16,"['epsilon', '=', '2', '.', '2204460492503131', 'e', '-', '16']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-28,    min     = 2.2250738585072014e-308,"['min', '=', '2', '.', '2250738585072014', 'e', '-', '308']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-29,),[')'],['PUNCTUATION']
-30,// Sample of n balls from r red and b black ones; x are red,"['//', 'Sample', 'of', 'n', 'balls', 'from', 'r', 'red', 'and', 'b', 'black', 'ones;', 'x', 'are', 'red']","['COMMENT', 'NN', 'IN', 'JJ', 'NNS', 'IN', 'NN', 'JJ', 'CC', 'JJ', 'JJ', 'NN', 'NN', 'VBP', 'JJ']"
-31,"func Phyper(x, r, b, n float64, lowerTail, logP bool) (float64, error) {","['func', 'Phyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-32,    x = math.Floor(x + 1e-7),"['x', '=', 'math.Floor(x + 1e-7)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-33,    r = round(r),"['r', '=', 'round', '(', 'r', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-34,    b = round(b),"['b', '=', 'round', '(', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-35,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-36,    if r  r+b {,"['if', 'r', 'r', '+', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-37,"        return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-38,    },['}'],['PUNCTUATION']
-39,    if x*(r+b) > n*r {,"['if', 'x', '*(', 'r', '+', 'b', ')', '>', 'n', '*', 'r', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-40,"        b, r = r, b","['b', ',', 'r', '=', 'r', ',', 'b']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-41,        x = n - x - 1,"['x', '=', 'n', '-', 'x', '-', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-42,        lowerTail = !lowerTail,"['lowerTail', '=', '!', 'lowerTail']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'LOGICAL_OPERATOR', 'IDENTIFIER']"
-43,    },['}'],['PUNCTUATION']
-44,    if x < 0 {,"['if', 'x', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-45,"        return dt0(lowerTail, logP), nil","['return', 'dt0', '(', 'lowerTail', ',', 'logP', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-46,    },['}'],['PUNCTUATION']
-47,    if x >= r || x >= n {,"['if', 'x', '>=', 'r', '||', 'x', '>=', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-48,"        return dt1(lowerTail, logP), nil","['return', 'dt1', '(', 'lowerTail', ',', 'logP', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-49,    },['}'],['PUNCTUATION']
-50,"    d, err := Dhyper(x, r, b, n, logP)","['d', ',', 'err', ':=', 'Dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'logP', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-51,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-52,"        return d, err","['return', 'd', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-53,    },['}'],['PUNCTUATION']
-54,"    pd := pdhyper(x, r, b, n, logP)","['pd', ':=', 'pdhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', ',', 'logP', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-55,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-56,"        return log(d+pd, lowerTail), nil","['return', 'log', '(', 'd', '+', 'pd', ',', 'lowerTail', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-57,    },['}'],['PUNCTUATION']
-58,    res := d * pd,"['res', ':=', 'd', '*', 'pd']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-59,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-60,"        return res, nil","['return', 'res', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-61,    },['}'],['PUNCTUATION']
-62,    // Use 0.5 - p + 0.5 to perhaps gain 1 bit of accuracy,"['//', 'Use', '0.5', '-', 'p', '+', '0.5', 'to', 'perhaps', 'gain', '1', 'bit', 'of', 'accuracy']","['COMMENT', 'NNP', 'CD', ':', 'NN', 'VBZ', 'CD', 'TO', 'RB', 'VB', 'CD', 'NN', 'IN', 'NN']"
-63,    res = 0.5 - res,"['res', '=', '0', '.', '5', '-', 'res']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-64,"    return res + 0.5, nil","['return', 'res', '+', '0', '.', '5', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-65,},['}'],['PUNCTUATION']
-66,"func Dhyper(x, r, b, n float64, giveLog bool) (float64, error) {","['func', 'Dhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'giveLog', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-67,    if negativeOrNotInteger(r) || negativeOrNotInteger(b) || negativeOrNotInteger(n) || n > r+b {,"['if', 'negativeOrNotInteger', '(', 'r', ')', '||', 'negativeOrNotInteger', '(', 'b', ')', '||', 'negativeOrNotInteger', '(', 'n', ')', '||', 'n', '>', 'r', '+', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-68,"        return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-69,    },['}'],['PUNCTUATION']
-70,    if x < 0 {,"['if', 'x', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-71,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-72,    },['}'],['PUNCTUATION']
-73,    if x != math.Floor(x) {,"['if', 'x', '!=', 'math.Floor(x)', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-74,"        return 0, fmt.Errorf(""non-integer x = %f"", x)","['return', '0', ',', 'fmt.Errorf(""non-integer x = %f"", x)']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-75,    },['}'],['PUNCTUATION']
-76,    x = round(x),"['x', '=', 'round', '(', 'x', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-77,    r = round(r),"['r', '=', 'round', '(', 'r', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-78,    b = round(b),"['b', '=', 'round', '(', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-79,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-80,    if n  b {,"['if', 'n', 'b', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-81,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-82,    },['}'],['PUNCTUATION']
-83,    if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-84,        if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-85,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-86,        },['}'],['PUNCTUATION']
-87,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-88,    },['}'],['PUNCTUATION']
-89,    p := n / (r + b),"['p', ':=', 'n', '/', '(', 'r', '+', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-90,    q := (r + b - n) / (r + b),"['q', ':=', '(', 'r', '+', 'b', '-', 'n', ')', '/', '(', 'r', '+', 'b', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-91,"    p1, err := dbinom(x, r, p, q, giveLog)","['p1', ',', 'err', ':=', 'dbinom', '(', 'x', ',', 'r', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-92,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-93,"        return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-94,    },['}'],['PUNCTUATION']
-95,"    p2, err := dbinom(n-x, b, p, q, giveLog)","['p2', ',', 'err', ':=', 'dbinom', '(', 'n', '-', 'x', ',', 'b', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-96,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-97,"        return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-98,    },['}'],['PUNCTUATION']
-99,"    p3, err := dbinom(n, r+b, p, q, giveLog)","['p3', ',', 'err', ':=', 'dbinom', '(', 'n', ',', 'r', '+', 'b', ',', 'p', ',', 'q', ',', 'giveLog', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-100,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-101,"        return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-102,    },['}'],['PUNCTUATION']
-103,    if giveLog {,"['if', 'giveLog', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-104,"        return p1 + p2 - p3, nil","['return', 'p1', '+', 'p2', '-', 'p3', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-105,    },['}'],['PUNCTUATION']
-106,"    return p1 * p2 / p3, nil","['return', 'p1', '*', 'p2', '/', 'p3', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-107,},['}'],['PUNCTUATION']
-108,"func Qhyper(p, NR, NB, n float64, lowerTail, logP bool) (float64, error) {","['func', 'Qhyper', '(', 'p', ',', 'NR', ',', 'NB', ',', 'n', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-109,    if notFinite(p) || notFinite(NR) || notFinite(NB) || notFinite(n) {,"['if', 'notFinite', '(', 'p', ')', '||', 'notFinite', '(', 'NR', ')', '||', 'notFinite', '(', 'NB', ')', '||', 'notFinite', '(', 'n', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-110,"        return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-111,    },['}'],['PUNCTUATION']
-112,    NR = round(NR),"['NR', '=', 'round', '(', 'NR', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-113,    NB = round(NB),"['NB', '=', 'round', '(', 'NB', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-114,    N := NR + NB,"['N', ':=', 'NR', '+', 'NB']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-115,    n = round(n),"['n', '=', 'round', '(', 'n', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-116,    if NR  N {,"['if', 'NR', 'N', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-117,"        return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-118,    },['}'],['PUNCTUATION']
-119,    /* Goal: Find xr (= #{red balls in sample}) such that,"['/*', 'Goal', ':', 'Find', 'xr', '(=', '{', 'red', 'balls', 'in', 'sample', '})', 'such', 'that']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-120,"    * phyper(xr, NR,NB, n) >= p > phyper(xr - 1, NR,NB, n)","['*', 'phyper', '(', 'xr', ',', 'NR', ',', 'NB', ',', 'n', ')', '>=', 'p', '>', 'phyper', '(', 'xr', '-', '1', ',', 'NR', ',', 'NB', ',', 'n', ')']","['POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-121,     */,['*/'],['PUNCTUATION']
-122,"    xstart := math.Max(0, n-NB)","['xstart', ':=', 'math.Max(0, n-NB)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-123,"    xend := math.Min(n, NR)","['xend', ':=', 'math.Min(n, NR)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-124,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-125,        if p > 0 {,"['if', 'p', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-126,"            return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-127,        },['}'],['PUNCTUATION']
-128,        if p == 0 { /* upper bound*/,"['if', 'p', '==', '0', '{', '/*', 'upper', 'bound', '*/']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-129,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-130,"                return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-131,            },['}'],['PUNCTUATION']
-132,"            return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-133,        },['}'],['PUNCTUATION']
-134,"        if math.IsInf(p, -1) {","['if', 'math.IsInf(p, -1)', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-135,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-136,"                return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-137,            },['}'],['PUNCTUATION']
-138,"            return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-139,        },['}'],['PUNCTUATION']
-140,    } else { /* !logP */,"['}', 'else', '{', '/*', '!', 'logP', '*/']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-141,        if p  1 {,"['if', 'p', '1', '{']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-142,"            return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-143,        },['}'],['PUNCTUATION']
-144,        if p == 0 {,"['if', 'p', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-145,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-146,"                return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-147,            },['}'],['PUNCTUATION']
-148,"            return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-149,        },['}'],['PUNCTUATION']
-150,        if p == 1 {,"['if', 'p', '==', '1', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-151,            if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-152,"                return xend, nil","['return', 'xend', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-153,            },['}'],['PUNCTUATION']
-154,"            return xstart, nil","['return', 'xstart', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-155,        },['}'],['PUNCTUATION']
-156,    },['}'],['PUNCTUATION']
-157,    xr := xstart,"['xr', ':=', 'xstart']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-158,    xb := n - xr /* always ( = #{black balls in sample} ) */,"['xb', ':=', 'n', '-', 'xr', '/*', 'always', '(', '=', '{', 'black', 'balls', 'in', 'sample', '}', ')', '*/']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'PUNCTUATION']"
-159,    smallN := N < 1000 /* won't have underflow in product below */,"['smallN', ':=', 'N', '<', '1000', '/*', 'won', 't', 'have', 'underflow', 'in', 'product', 'below', '*/']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-160,"    /* if N is small, term := product.ratio( bin.coef );","['/*', 'if', 'N', 'is', 'small', ',', 'term', ':=', 'product.ratio( bin.coef )', ';']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-161,    otherwise work with its logarithm to protect against underflow */,"['otherwise', 'work', 'with', 'its', 'logarithm', 'to', 'protect', 'against', 'underflow', '*/']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-162,"    t1, err := lfastchoose(NR, xr)","['t1', ',', 'err', ':=', 'lfastchoose', '(', 'NR', ',', 'xr', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-163,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-164,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-165,    },['}'],['PUNCTUATION']
-166,"    t2, err := lfastchoose(NB, xb)","['t2', ',', 'err', ':=', 'lfastchoose', '(', 'NB', ',', 'xb', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-167,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-168,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-169,    },['}'],['PUNCTUATION']
-170,"    t3, err := lfastchoose(N, n)","['t3', ',', 'err', ':=', 'lfastchoose', '(', 'N', ',', 'n', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-171,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-172,"        return 0, err","['return', '0', ',', 'err']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-173,    },['}'],['PUNCTUATION']
-174,    term := t1 + t2 - t3,"['term', ':=', 't1', '+', 't2', '-', 't3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-175,    if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-176,        term = math.Exp(term),"['term', '=', 'math.Exp(term)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-177,    },['}'],['PUNCTUATION']
-178,    NR -= xr,"['NR', '-=', 'xr']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-179,    NB -= xb,"['NB', '-=', 'xb']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-180,    if !lowerTail || logP {,"['if', '!', 'lowerTail', '||', 'logP', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-181,"        p = qIv(p, lowerTail, logP)","['p', '=', 'qIv', '(', 'p', ',', 'lowerTail', ',', 'logP', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-182,    },['}'],['PUNCTUATION']
-183,"    p *= 1 - 1000*epsilon /* was 64, but failed on FreeBSD sometimes */","['p', '*=', '1', '-', '1000', '*', 'epsilon', '/*', 'was', '64', ',', 'but', 'failed', 'on', 'FreeBSD', 'sometimes', '*/']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-184,    var sum float64,"['var', 'sum', 'float64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-185,    if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-186,        sum = term,"['sum', '=', 'term']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-187,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-188,        sum = math.Exp(term),"['sum', '=', 'math.Exp(term)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-189,    },['}'],['PUNCTUATION']
-190,    for sum < p && xr < xend {,"['for', 'sum', '<', 'p', '&&', 'xr', '<', 'xend', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-191,        xr++,"['xr', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-192,        NB++,"['NB', '++']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-193,        if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-194,            term *= (NR / xr) * (xb / NB),"['term', '*=', '(', 'NR', '/', 'xr', ')', '*', '(', 'xb', '/', 'NB', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-195,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-196,            term += math.Log((NR / xr) * (xb / NB)),"['term', '+=', 'math.Log((NR / xr) * (xb / NB))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-197,        },['}'],['PUNCTUATION']
-198,        if smallN {,"['if', 'smallN', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-199,            sum += term,"['sum', '+=', 'term']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-200,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-201,            sum += math.Exp(term),"['sum', '+=', 'math.Exp(term)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-202,        },['}'],['PUNCTUATION']
-203,        xb--,"['xb', '--']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-204,        NR--,"['NR', '--']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-205,    },['}'],['PUNCTUATION']
-206,"    return xr, nil","['return', 'xr', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-207,},['}'],['PUNCTUATION']
-208,"func lfastchoose(n, k float64) (float64, error) {","['func', 'lfastchoose', '(', 'n', ',', 'k', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-209,"    lb, err := lbeta(n-k+1, k+1)","['lb', ',', 'err', ':=', 'lbeta', '(', 'n', '-', 'k', '+', '1', ',', 'k', '+', '1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-210,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-211,"        return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-212,    },['}'],['PUNCTUATION']
-213,"    return -math.Log(n+1) - lb, nil","['return', '-', 'math.Log(n+1)', '-', 'lb', ',', 'nil']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-214,},['}'],['PUNCTUATION']
-215,"func lbeta(a, b float64) (float64, error) {","['func', 'lbeta', '(', 'a', ',', 'b', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-216,    p := a,"['p', ':=', 'a']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-217,    q := a,"['q', ':=', 'a']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-218,    if b < p {,"['if', 'b', '<', 'p', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-219,        p = b,"['p', '=', 'b']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-220,"    } /* := min(a,b) */","['}', '/*', ':=', 'min', '(', 'a', ',', 'b', ')', '*/']","['PUNCTUATION', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-221,    if b > q {,"['if', 'b', '>', 'q', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-222,        q = b,"['q', '=', 'b']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-223,"    } /* := max(a,b) */","['}', '/*', ':=', 'max', '(', 'a', ',', 'b', ')', '*/']","['PUNCTUATION', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-224,    /* both arguments must be >= 0 */,"['/*', 'both', 'arguments', 'must', 'be', '>=', '0', '*/']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-225,    if p < 0 {,"['if', 'p', '<', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-226,"        return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-227,    } else if p == 0 {,"['}', 'else', 'if', 'p', '==', '0', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-228,"        return math.Inf(1), nil","['return', 'math.Inf(1)', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-229,    } else if notFinite(q) { /* q == +Inf */,"['}', 'else', 'if', 'notFinite', '(', 'q', ')', '{', '/*', 'q', '==', '+', 'Inf', '*/']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-230,"        return math.Inf(1), nil","['return', 'math.Inf(1)', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-231,    },['}'],['PUNCTUATION']
-232,    if p >= 10 {,"['if', 'p', '>=', '10', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-233,        /* p and q are big. */,"['/*', 'p', 'and', 'q', 'are', 'big', '.', '*/']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-234,        corr := stirlerr(p) + stirlerr(q) - stirlerr(p+q),"['corr', ':=', 'stirlerr', '(', 'p', ')', '+', 'stirlerr', '(', 'q', ')', '-', 'stirlerr', '(', 'p', '+', 'q', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-235,"        return math.Log(q)*-0.5 + logSqrt2Pi + corr + (p-0.5)*math.Log(p/(p+q)) + q*math.Log1p(-p/(p+q)), nil","['return', 'math.Log(q)*-0.5 + logSqrt2Pi + corr + (p-0.5)*math.Log(p/(p+q)) + q*math.Log1p(-p/(p+q))', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-236,    } else if q >= 10 {,"['}', 'else', 'if', 'q', '>=', '10', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-237,"        /* p is small, but q is big. */","['/*', 'p', 'is', 'small', ',', 'but', 'q', 'is', 'big', '.', '*/']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-238,        corr := stirlerr(q) - stirlerr(p+q),"['corr', ':=', 'stirlerr', '(', 'q', ')', '-', 'stirlerr', '(', 'p', '+', 'q', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-239,"        return math.Gamma(p) + corr + p - p*math.Log(p+q) + (q-0.5)*math.Log1p(-p/(p+q)), nil","['return', 'math.Gamma(p) + corr + p - p*math.Log(p+q) + (q-0.5)*math.Log1p(-p/(p+q))', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-240,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-241,        /* p and q are small: p <= q < 10. */,"['/*', 'p', 'and', 'q', 'are', 'small', ':', 'p', '<=', 'q', '<', '10', '.', '*/']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-242,        /* R change for very small args */,"['/*', 'R', 'chan', 'ge', 'for', 'very', 'small', 'args', '*/']","['PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-243,        if p < min {,"['if', 'p', '<', 'min', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-244,"            return lgamma(p) + (lgamma(q) - lgamma(p+q)), nil","['return', 'lgamma', '(', 'p', ')', '+', '(', 'lgamma', '(', 'q', ')', '-', 'lgamma', '(', 'p', '+', 'q', ')),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-245,        },['}'],['PUNCTUATION']
-246,    },['}'],['PUNCTUATION']
-247,"    return math.Log(math.Gamma(p) * (math.Gamma(q) / math.Gamma(p+q))), nil","['return', 'math.Log(math.Gamma(p) * (math.Gamma(q) / math.Gamma(p+q)))', ',', 'nil']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-248,},['}'],['PUNCTUATION']
-249,func lgamma(p float64) float64 {,"['func', 'lgamma', '(', 'p', 'float64', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-250,"    r, _ := math.Lgamma(p)","['r', ',', '_', ':=', 'math.Lgamma(p)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-251,    return r,"['return', 'r']","['KEYWORD', 'IDENTIFIER']"
-252,},['}'],['PUNCTUATION']
-253,"func qIv(p float64, lowerTail, logP bool) float64 {","['func', 'qIv', '(', 'p', 'float64', ',', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-254,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-255,        if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-256,            return math.Exp(p),"['return', 'math.Exp(p)']","['KEYWORD', 'FUNCTION_CALL']"
-257,        },['}'],['PUNCTUATION']
-258,        return -math.Expm1(p),"['return', '-', 'math.Expm1(p)']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
-259,    },['}'],['PUNCTUATION']
-260,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-261,        return p,"['return', 'p']","['KEYWORD', 'IDENTIFIER']"
-262,    },['}'],['PUNCTUATION']
-263,    p = 0.5 - p,"['p', '=', '0', '.', '5', '-', 'p']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-264,    return p + 0.5,"['return', 'p', '+', '0', '.', '5']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-265,},['}'],['PUNCTUATION']
-266,// Calculate,"['//', 'Calculate']","['COMMENT', 'NN']"
-267,//,['//'],['COMMENT']
-268,"// phyper (x, r, b, n, TRUE, FALSE)","['//', 'phyper', '(x,', 'r,', 'b,', 'n,', 'TRUE,', 'FALSE)']","['COMMENT', 'NN', 'NN', 'NN', 'NN', 'JJ', 'NNP', 'NNP']"
-269,// [log] ----------------------------------,"['//', '[log]', '----------------------------------']","['COMMENT', 'NN', 'NN']"
-270,"// dhyper (x, r, b, n, FALSE)","['//', 'dhyper', '(x,', 'r,', 'b,', 'n,', 'FALSE)']","['COMMENT', 'NN', 'NN', 'NN', 'NN', 'NN', 'NNP']"
-271,//,['//'],['COMMENT']
-272,// without actually calling phyper. This assumes that,"['//', 'without', 'actually', 'calling', 'phyper.', 'This', 'assumes', 'that']","['COMMENT', 'IN', 'RB', 'VBG', 'NN', 'DT', 'VBZ', 'IN']"
-273,//,['//'],['COMMENT']
-274,// x * (r + b) <= n * r,"['//', 'x', '*', '(r', '+', 'b)', '<=', 'n', '*', 'r']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'NN', 'NNP', 'NN', 'NNP', 'NN']"
-275,"func pdhyper(x, r, b, n float64, logP bool) float64 {","['func', 'pdhyper', '(', 'x', ',', 'r', ',', 'b', ',', 'n', 'float64', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-276,    sum := 0.,"['sum', ':=', '0', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-277,    term := 1.,"['term', ':=', '1', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-278,    for x > 0 && term >= epsilon*sum {,"['for', 'x', '>', '0', '&&', 'term', '>=', 'epsilon', '*', 'sum', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-279,        term *= x * (b - n + x) / (n + 1 - x) / (r + 1 - x),"['term', '*=', 'x', '*', '(', 'b', '-', 'n', '+', 'x', ')', '/', '(', 'n', '+', '1', '-', 'x', ')', '/', '(', 'r', '+', '1', '-', 'x', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-280,        sum += term,"['sum', '+=', 'term']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-281,        x--,"['x', '--']","['IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-282,    },['}'],['PUNCTUATION']
-283,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-284,        return math.Log1p(sum),"['return', 'math.Log1p(sum)']","['KEYWORD', 'FUNCTION_CALL']"
-285,    },['}'],['PUNCTUATION']
-286,    return 1 + sum,"['return', '1', '+', 'sum']","['KEYWORD', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-287,},['}'],['PUNCTUATION']
-288,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-289,    ln2   = math.Log(2),"['ln2', '=', 'math.Log(2)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-290,    ln2Pi = math.Log(2 * math.Pi),"['ln2Pi', '=', 'math.Log(2 * math.Pi)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-291,),[')'],['PUNCTUATION']
-292,"func log(x float64, lowerTail bool) float64 {","['func', 'log', '(', 'x', 'float64', ',', 'lowerTail', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-293,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-294,        return math.Log(x),"['return', 'math.Log(x)']","['KEYWORD', 'FUNCTION_CALL']"
-295,    },['}'],['PUNCTUATION']
-296,    if x > -ln2 {,"['if', 'x', '>', '-', 'ln2', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-297,        return math.Log(-math.Expm1(x)),"['return', 'math.Log(-math.Expm1(x))']","['KEYWORD', 'FUNCTION_CALL']"
-298,    },['}'],['PUNCTUATION']
-299,    return math.Log1p(-math.Exp(x)),"['return', 'math.Log1p(-math.Exp(x))']","['KEYWORD', 'FUNCTION_CALL']"
-300,},['}'],['PUNCTUATION']
-301,"func dbinom(x, n, p, q float64, giveLog bool) (float64, error) {","['func', 'dbinom', '(', 'x', ',', 'n', ',', 'p', ',', 'q', 'float64', ',', 'giveLog', 'bool', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-302,    if p == 0 {,"['if', 'p', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-303,        if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-304,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-305,        },['}'],['PUNCTUATION']
-306,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-307,    },['}'],['PUNCTUATION']
-308,    if q == 0 {,"['if', 'q', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-309,        if x == n {,"['if', 'x', '==', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-310,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-311,        },['}'],['PUNCTUATION']
-312,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-313,    },['}'],['PUNCTUATION']
-314,    if x == 0 {,"['if', 'x', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-315,        if n == 0 {,"['if', 'n', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-316,"            return 1, nil","['return', '1', ',', 'nil']","['KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-317,        },['}'],['PUNCTUATION']
-318,        if p < 0.1 {,"['if', 'p', '<', '0', '.', '1', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-319,"            t, err := bd0(n, n*q)","['t', ',', 'err', ':=', 'bd0', '(', 'n', ',', 'n', '*', 'q', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-320,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-321,"                return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-322,            },['}'],['PUNCTUATION']
-323,"            return exp(-t-n*p, giveLog), nil","['return', 'exp', '(-', 't', '-', 'n', '*', 'p', ',', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-324,        },['}'],['PUNCTUATION']
-325,"        return exp(n*math.Log(q), giveLog), nil","['return', 'exp', '(', 'n', '*', 'math.Log(q), giveLog)', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-326,    },['}'],['PUNCTUATION']
-327,    if x == n {,"['if', 'x', '==', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-328,        if q < 0.1 {,"['if', 'q', '<', '0', '.', '1', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-329,"            t, err := bd0(n, n*p)","['t', ',', 'err', ':=', 'bd0', '(', 'n', ',', 'n', '*', 'p', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-330,            if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-331,"                return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-332,            },['}'],['PUNCTUATION']
-333,"            return exp(-t-n*q, giveLog), nil","['return', 'exp', '(-', 't', '-', 'n', '*', 'q', ',', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-334,        },['}'],['PUNCTUATION']
-335,"        return exp(n*math.Log(p), giveLog), nil","['return', 'exp', '(', 'n', '*', 'math.Log(p), giveLog)', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-336,    },['}'],['PUNCTUATION']
-337,    if x  n {,"['if', 'x', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-338,"        return 0, nil","['return', '0', ',', 'nil']","['KEYWORD', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
-339,    },['}'],['PUNCTUATION']
-340,    // n*p or n*q can underflow to zero if n and p or q are small. This,"['//', 'n*p', 'or', 'n*q', 'can', 'underflow', 'to', 'zero', 'if', 'n', 'and', 'p', 'or', 'q', 'are', 'small.', 'This']","['COMMENT', 'NN', 'CC', 'NN', 'MD', 'VB', 'TO', 'CD', 'IN', 'NNS', 'CC', 'NN', 'CC', 'NN', 'VBP', 'VBN', 'DT']"
-341,"    // used to occur in dbeta, and gives NaN as from R 2.3.0.","['//', 'used', 'to', 'occur', 'in', 'dbeta,', 'and', 'gives', 'NaN', 'as', 'from', 'R', '2.3.0.']","['COMMENT', 'VBN', 'TO', 'VB', 'IN', 'NN', 'CC', 'VBZ', 'NNP', 'IN', 'IN', 'NNP', 'CD']"
-342,"    t1, err := bd0(x, n*p)","['t1', ',', 'err', ':=', 'bd0', '(', 'x', ',', 'n', '*', 'p', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-343,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-344,"        return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-345,    },['}'],['PUNCTUATION']
-346,"    t2, err := bd0(n-x, n*q)","['t2', ',', 'err', ':=', 'bd0', '(', 'n', '-', 'x', ',', 'n', '*', 'q', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-347,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-348,"        return math.NaN(), err","['return', 'math.NaN()', ',', 'err']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-349,    },['}'],['PUNCTUATION']
-350,    lc := stirlerr(n) - stirlerr(x) - stirlerr(n-x) - t1 - t2,"['lc', ':=', 'stirlerr', '(', 'n', ')', '-', 'stirlerr', '(', 'x', ')', '-', 'stirlerr', '(', 'n', '-', 'x', ')', '-', 't1', '-', 't2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-351,    // f = (M_2PI*x*(n-x))/n; could overflow or underflow,"['//', 'f', '=', '(M_2PI*x*(n-x))/n;', 'could', 'overflow', 'or', 'underflow']","['COMMENT', 'JJ', 'NNP', 'NN', 'MD', 'VB', 'CC', 'VB']"
-352,    // Upto R 2.7.1:,"['//', 'Upto', 'R', '2.7.1:']","['COMMENT', 'NNP', 'NNP', 'CD']"
-353,    // lf = log(M_2PI) + log(x) + log(n-x) - log(n);,"['//', 'lf', '=', 'log(M_2PI)', '+', 'log(x)', '+', 'log(n-x)', '-', 'log(n);']","['COMMENT', 'NN', 'NNP', 'VBZ', 'NNP', 'JJ', 'NNP', 'JJ', ':', 'NN']"
-354,    // -- following is much better for x << n :,"['//', '--', 'following', 'is', 'much', 'better', 'for', 'x', '<<', 'n', ':']","['COMMENT', ':', 'NN', 'VBZ', 'RB', 'JJR', 'IN', 'JJ', 'JJ', 'NNS', ':']"
-355,    lf := ln2Pi + math.Log(x) + math.Log1p(-x/n),"['lf', ':=', 'ln2Pi', '+', 'math.Log(x) + math.Log1p(-x/n)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
-356,"    return exp(lc-0.5*lf, giveLog), nil","['return', 'exp', '(', 'lc', '-', '0', '.', '5', '*', 'lf', ',', 'giveLog', '),', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-357,},['}'],['PUNCTUATION']
-358,func negativeOrNotInteger(x float64) bool {,"['func', 'negativeOrNotInteger', '(', 'x', 'float64', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-359,    return x < 0 || x != math.Floor(x),"['return', 'x', '<', '0', '||', 'x', '!=', 'math.Floor(x)']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'FUNCTION_CALL']"
-360,},['}'],['PUNCTUATION']
-361,func notFinite(x float64) bool {,"['func', 'notFinite', '(', 'x', 'float64', ')', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-362,"    return math.IsNaN(x) || math.IsInf(x, 0)","['return', 'math.IsNaN(x) || math.IsInf(x, 0)']","['KEYWORD', 'FUNCTION_CALL']"
-363,},['}'],['PUNCTUATION']
-364,func round(x float64) float64 {,"['func', 'round', '(', 'x', 'float64', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-365,"    if _, frac := math.Modf(x); frac >= 0.5 {","['if', '_', ',', 'frac', ':=', 'math.Modf(x)', ';', 'frac', '>=', '0', '.', '5', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-366,        return math.Ceil(x),"['return', 'math.Ceil(x)']","['KEYWORD', 'FUNCTION_CALL']"
-367,    },['}'],['PUNCTUATION']
-368,    return math.Floor(x),"['return', 'math.Floor(x)']","['KEYWORD', 'FUNCTION_CALL']"
-369,},['}'],['PUNCTUATION']
-370,"func exp(x float64, giveLog bool) float64 {","['func', 'exp', '(', 'x', 'float64', ',', 'giveLog', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-371,    if giveLog {,"['if', 'giveLog', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-372,        return x,"['return', 'x']","['KEYWORD', 'IDENTIFIER']"
-373,    },['}'],['PUNCTUATION']
-374,    return math.Exp(x),"['return', 'math.Exp(x)']","['KEYWORD', 'FUNCTION_CALL']"
-375,},['}'],['PUNCTUATION']
-376,"func dt0(lowerTail, logP bool) float64 {","['func', 'dt0', '(', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-377,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-378,        return d0(logP),"['return', 'd0', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-379,    },['}'],['PUNCTUATION']
-380,    return d1(logP),"['return', 'd1', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-381,},['}'],['PUNCTUATION']
-382,"func dt1(lowerTail, logP bool) float64 {","['func', 'dt1', '(', 'lowerTail', ',', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-383,    if lowerTail {,"['if', 'lowerTail', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-384,        return d1(logP),"['return', 'd1', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-385,    },['}'],['PUNCTUATION']
-386,    return d0(logP),"['return', 'd0', '(', 'logP', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-387,},['}'],['PUNCTUATION']
-388,func d0(logP bool) float64 {,"['func', 'd0', '(', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-389,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-390,        return math.Inf(-1),"['return', 'math.Inf(-1)']","['KEYWORD', 'FUNCTION_CALL']"
-391,    },['}'],['PUNCTUATION']
-392,    return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-393,},['}'],['PUNCTUATION']
-394,func d1(logP bool) float64 {,"['func', 'd1', '(', 'logP', 'bool', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-395,    if logP {,"['if', 'logP', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-396,        return 0,"['return', '0']","['KEYWORD', 'OCTAL_LITERAL']"
-397,    },['}'],['PUNCTUATION']
-398,    return 1,"['return', '1']","['KEYWORD', 'DECIMAL_LITERAL']"
-399,},['}'],['PUNCTUATION']
-400,"// bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =","['//', 'bd0(x,M)', ':=', 'M', '*', 'D0(x/M)', '=', 'M*[', 'x/M', '*', 'log(x/M)', '+', '1', '-', '(x/M)', ']', '=']","['COMMENT', 'NN', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'VBD', '$', 'CD', ':', 'NN', 'NN', 'NN']"
-401,//       =  x * log(x/M) + M - x,"['//', '=', 'x', '*', 'log(x/M)', '+', 'M', '-', 'x']","['COMMENT', 'JJ', 'NNP', 'NNP', 'VBZ', 'NNP', 'NNP', ':', 'NN']"
-402,"// where M = E[X] = n*p (or = lambda), for   x, M > 0","['//', 'where', 'M', '=', 'E[X]', '=', 'n*p', '(or', '=', 'lambda),', 'for', 'x,', 'M', '>', '0']","['COMMENT', 'WRB', 'NNP', 'NNP', 'NNP', 'NNP', 'MD', 'VB', 'NNP', 'NN', 'IN', 'NNP', 'NNP', 'VBD', 'CD']"
-403,//,['//'],['COMMENT']
-404,// in a manner that should be stable (with small relative error),"['//', 'in', 'a', 'manner', 'that', 'should', 'be', 'stable', '(with', 'small', 'relative', 'error)']","['COMMENT', 'IN', 'DT', 'NN', 'WDT', 'MD', 'VB', 'JJ', 'NNP', 'JJ', 'JJ', 'NN']"
-405,"// for all x and M=np. In particular for x/np close to 1, direct","['//', 'for', 'all', 'x', 'and', 'M=np.', 'In', 'particular', 'for', 'x/np', 'close', 'to', '1,', 'direct']","['COMMENT', 'IN', 'DT', 'NNP', 'CC', 'NNP', 'IN', 'JJ', 'IN', 'NNP', 'NN', 'TO', 'CD', 'JJ']"
-406,"// evaluation fails, and evaluation is based on the Taylor series","['//', 'evaluation', 'fails,', 'and', 'evaluation', 'is', 'based', 'on', 'the', 'Taylor', 'series']","['COMMENT', 'NN', 'NN', 'CC', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'NNP', 'NN']"
-407,// of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).,"['//', 'of', 'log((1+v)/(1-v))', 'with', 'v', '=', '(x-M)/(x+M)', '=', '(x-np)/(x+np).']","['COMMENT', 'IN', 'JJ', 'IN', 'JJ', 'JJ', 'JJ', 'NN', 'NN']"
-408,//,['//'],['COMMENT']
-409,"func bd0(x, np float64) (float64, error) {","['func', 'bd0', '(', 'x', ',', 'np', 'float64', ')', '(', 'float64', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-410,    if notFinite(x) || notFinite(np) || np == 0 {,"['if', 'notFinite', '(', 'x', ')', '||', 'notFinite', '(', 'np', ')', '||', 'np', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-411,"        return math.NaN(), ErrDomain","['return', 'math.NaN()', ',', 'ErrDomain']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER']"
-412,    },['}'],['PUNCTUATION']
-413,    if math.Abs(x-np) < 0.1*(x+np) {,"['if', 'math.Abs(x-np) < 0.1*(x+np)', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-414,        v := (x - np) / (x + np) // might underflow to 0,"['v', ':=', '(', 'x', '-', 'np', ')', '/', '(', 'x', '+', 'np', ')', '//', 'might', 'underflow', 'to', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'MD', 'VB', 'TO', 'CD']"
-415,        s := (x - np) * v        // s using v -- change by MM,"['s', ':=', '(', 'x', '-', 'np', ')', '*', 'v', '//', 's', 'using', 'v', '--', 'change', 'by', 'MM']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBG', 'NN', ':', 'NN', 'IN', 'NNP']"
-416,        if math.Abs(s) < min {,"['if', 'math.Abs(s)', '<', 'min', '{']","['KEYWORD', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-417,"            return s, nil","['return', 's', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-418,        },['}'],['PUNCTUATION']
-419,        ej := 2 * x * v,"['ej', ':=', '2', '*', 'x', '*', 'v']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'POINTER_OPERATOR', 'IDENTIFIER']"
-420,        v = v * v,"['v', '=', 'v', '*', 'v']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-421,        for j := 1; j < 1000; j++ {,"['for', 'j', ':=', '1', ';', 'j', '<', '1000', ';', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-422,            // Taylor series; 1000: no infinite loop,"['//', 'Taylor', 'series;', '1000:', 'no', 'infinite', 'loop']","['COMMENT', 'NNP', 'VBD', 'CD', 'DT', 'NN', 'NN']"
-423,"            // as |v| < .1,  v^2000 is ""zero""","['//', 'as', '|v|', '<', '.1,', 'v^2000', 'is', '""zero""']","['COMMENT', 'IN', 'NNP', 'NNP', 'NNP', 'NN', 'VBZ', 'JJ']"
-424,            ej *= v // = v^(2j+1),"['ej', '*=', 'v', '//', '=', 'v^(2j+1)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'NN']"
-425,            s1 := s + ej/float64((j<<1)+1),"['s1', ':=', 's', '+', 'ej/float64((j<<1)+1)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY']"
-426,            if s1 == s { // last term was effectively 0,"['if', 's1', '==', 's', '{', '//', 'last', 'term', 'was', 'effectively', '0']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'JJ', 'NN', 'VBD', 'RB', 'CD']"
-427,"                return s1, nil","['return', 's1', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-428,            },['}'],['PUNCTUATION']
-429,            s = s1,"['s', '=', 's1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-430,        },['}'],['PUNCTUATION']
-431,    },['}'],['PUNCTUATION']
-432,    /* else:  | x - np |  is not too small */,"['/*', 'else', ':', '|', 'x', '-', 'np', '|', 'is', 'not', 'too', 'small', '*/']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'BITWISE_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-433,"    return x*math.Log(x/np) + np - x, nil","['return', 'x*math.Log(x/np)', '+', 'np', '-', 'x', ',', 'nil']","['KEYWORD', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-434,},['}'],['PUNCTUATION']
-435,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-436,"    // error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.","['//', 'error', 'for', '0,', '0.5,', '1.0,', '1.5,', '...,', '14.5,', '15.0.']","['COMMENT', 'NN', 'IN', 'CD', 'CD', 'CD', 'CD', 'JJ', 'CD', 'CD']"
-437,    sfErrHalves = [31]float64{,"['sfErrHalves', '=', '[', '31', ']', 'float64', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-438,"        0.0, // n=0 - wrong, place holder only","['0', '.', '0', ',', '//', 'n=0', '-', 'wrong,', 'place', 'holder', 'only']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'SYM', ':', 'JJ', 'NN', 'NN', 'RB']"
-439,"        0.1534264097200273452913848,   // 0.5","['0', '.', '1534264097200273452913848', ',', '//', '0.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-440,"        0.0810614667953272582196702,   // 1.0","['0', '.', '0', '810614667953272582196702', ',', '//', '1.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-441,"        0.0548141210519176538961390,   // 1.5","['0', '.', '054', '8141210519176538961390', ',', '//', '1.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-442,"        0.0413406959554092940938221,   // 2.0","['0', '.', '04134', '06', '959554092940938221', ',', '//', '2.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-443,"        0.03316287351993628748511048,  // 2.5","['0', '.', '033162', '87351993628748511048', ',', '//', '2.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-444,"        0.02767792568499833914878929,  // 3.0","['0', '.', '027677', '92568499833914878929', ',', '//', '3.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-445,"        0.02374616365629749597132920,  // 3.5","['0', '.', '0237461636562', '9749597132920', ',', '//', '3.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-446,"        0.02079067210376509311152277,  // 4.0","['0', '.', '02', '07', '9067210376509311152277', ',', '//', '4.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-447,"        0.01848845053267318523077934,  // 4.5","['0', '.', '01', '848845053267318523077934', ',', '//', '4.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-448,"        0.01664469118982119216319487,  // 5.0","['0', '.', '0166446', '9118982119216319487', ',', '//', '5.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-449,"        0.01513497322191737887351255,  // 5.5","['0', '.', '015134', '97322191737887351255', ',', '//', '5.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-450,"        0.01387612882307074799874573,  // 6.0","['0', '.', '013', '87612882307074799874573', ',', '//', '6.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-451,"        0.01281046524292022692424986,  // 6.5","['0', '.', '012', '81046524292022692424986', ',', '//', '6.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-452,"        0.01189670994589177009505572,  // 7.0","['0', '.', '011', '89670994589177009505572', ',', '//', '7.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-453,"        0.01110455975820691732662991,  // 7.5","['0', '.', '0111', '0455', '975820691732662991', ',', '//', '7.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-454,"        0.010411265261972096497478567, // 8.0","['0', '.', '01', '0411265261', '972096497478567', ',', '//', '8.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-455,"        0.009799416126158803298389475, // 8.5","['0', '.', '0', '0', '9799416126158803298389475', ',', '//', '8.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-456,"        0.009255462182712732917728637, // 9.0","['0', '.', '0', '0', '9255462182712732917728637', ',', '//', '9.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-457,"        0.008768700134139385462952823, // 9.5","['0', '.', '0', '0', '8768700134139385462952823', ',', '//', '9.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-458,"        0.008330563433362871256469318, // 10.0","['0', '.', '0', '0', '8330563433362871256469318', ',', '//', '10.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-459,"        0.007934114564314020547248100, // 10.5","['0', '.', '0', '07', '934114564314020547248100', ',', '//', '10.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-460,"        0.007573675487951840794972024, // 11.0","['0', '.', '0', '075736754', '87951840794972024', ',', '//', '11.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-461,"        0.007244554301320383179543912, // 11.5","['0', '.', '0', '072445543', '0132', '03', '83179543912', ',', '//', '11.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-462,"        0.006942840107209529865664152, // 12.0","['0', '.', '0', '06', '942840107209529865664152', ',', '//', '12.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-463,"        0.006665247032707682442354394, // 12.5","['0', '.', '0', '06665247', '0327', '076', '82442354394', ',', '//', '12.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-464,"        0.006408994188004207068439631, // 13.0","['0', '.', '0', '064', '0', '8994188004207068439631', ',', '//', '13.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-465,"        0.006171712263039457647532867, // 13.5","['0', '.', '0', '06171712263', '03', '9457647532867', ',', '//', '13.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-466,"        0.005951370112758847735624416, // 14.0","['0', '.', '0', '05', '951370112758847735624416', ',', '//', '14.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-467,"        0.005746216513010115682023589, // 14.5","['0', '.', '0', '05746216513', '01', '01156', '82023589', ',', '//', '14.5']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-468,"        0.005554733551962801371038690, // 15.0","['0', '.', '0', '05554733551', '962801371038690', ',', '//', '15.0']","['OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'CD']"
-469,    },['}'],['PUNCTUATION']
-470,    logSqrt2Pi = math.Log(math.Sqrt(2 * math.Pi)),"['logSqrt2Pi', '=', 'math.Log(math.Sqrt(2 * math.Pi))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-471,),[')'],['PUNCTUATION']
-472,// stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n ),"['//', 'stirlerr(n)', '=', 'log(n!)', '-', 'log(', 'sqrt(2*pi*n)*(n/e)^n', ')']","['COMMENT', 'NN', 'NNP', 'VBZ', ':', 'NN', 'NN', ')']"
-473,//             = log Gamma(n+1) - 1/2 * [log(2*pi) + log(n)] - n*[log(n) - 1],"['//', '=', 'log', 'Gamma(n+1)', '-', '1/2', '*', '[log(2*pi)', '+', 'log(n)]', '-', 'n*[log(n)', '-', '1]']","['COMMENT', 'JJ', 'NN', 'NNP', ':', 'CD', 'JJ', 'NNP', 'NNP', 'SYM', ':', 'JJ', ':', 'CD']"
-474,//             = log Gamma(n+1) - (n + 1/2) * log(n) + n - log(2*pi)/2,"['//', '=', 'log', 'Gamma(n+1)', '-', '(n', '+', '1/2)', '*', 'log(n)', '+', 'n', '-', 'log(2*pi)/2']","['COMMENT', 'JJ', 'NN', 'NNP', ':', 'NN', 'VBZ', 'CD', 'NN', 'NN', 'NNP', 'SYM', ':', 'NN']"
-475,func stirlerr(n float64) float64 {,"['func', 'stirlerr', '(', 'n', 'float64', ')', 'float64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-476,    const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
-477,        S0 = 1. / 12.,"['S0', '=', '1', '.', '/', '12', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-478,        S1 = 1. / 360.,"['S1', '=', '1', '.', '/', '360', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-479,        S2 = 1. / 1260.,"['S2', '=', '1', '.', '/', '1260', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-480,        S3 = 1. / 1680.,"['S3', '=', '1', '.', '/', '1680', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-481,        S4 = 1. / 1188.,"['S4', '=', '1', '.', '/', '1188', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-482,    ),[')'],['PUNCTUATION']
-483,    var nn float64,"['var', 'nn', 'float64']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-484,    if n <= 15.0 {,"['if', 'n', '<=', '15', '.', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-485,        nn = n + n,"['nn', '=', 'n', '+', 'n']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-486,        if nn == math.Floor(nn) {,"['if', 'nn', '==', 'math.Floor(nn)', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-487,            return sfErrHalves[int(nn)],"['return', 'sfErrHalves', '[', 'int', '(', 'nn', ')]']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-488,        },['}'],['PUNCTUATION']
-489,"        lg, _ := math.Lgamma(n + 1)","['lg', ',', '_', ':=', 'math.Lgamma(n + 1)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-490,        return lg - (n+0.5)*math.Log(n) + n - logSqrt2Pi,"['return', 'lg', '-', '(', 'n', '+', '0', '.', '5', ')*', 'math.Log(n)', '+', 'n', '-', 'logSqrt2Pi']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-491,    },['}'],['PUNCTUATION']
-492,    nn = n * n,"['nn', '=', 'n', '*', 'n']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-493,    switch {,"['switch', '{']","['IDENTIFIER', 'PUNCTUATION']"
-494,    case n > 500:,"['case', 'n', '>', '500', ':']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-495,        return ((S0 - S1/nn) / n),"['return', '((', 'S0', '-', 'S1/nn)', '/', 'n', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-496,    case n > 80:,"['case', 'n', '>', '80', ':']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-497,        return ((S0 - (S1-S2/nn)/nn) / n),"['return', '((', 'S0', '-', '(S1-S2/nn)/nn)', '/', 'n', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-498,    case n > 35:,"['case', 'n', '>', '35', ':']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-499,        return ((S0 - (S1-(S2-S3/nn)/nn)/nn) / n),"['return', '((', 'S0', '-', '(S1-(S2-S3/nn)/nn)/nn)', '/', 'n', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-500,    default: // 15 < n <= 35,"['default', ':', '//', '15', '<', 'n', '<=', '35']","['KEYWORD', 'PUNCTUATION', 'COMMENT', 'CD', 'JJ', 'JJ', 'NN', 'CD']"
-501,        return (S0 - (S1-(S2-(S3-S4/nn)/nn)/nn)/nn) / n,"['return', '(', 'S0', '-', '(S1-(S2-(S3-S4/nn)/nn)/nn)/nn)', '/', 'n']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DIRECTORY', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
-502,    },['}'],['PUNCTUATION']
-503,},['}'],['PUNCTUATION']
+","[""I'm"", 'trying', 'to', 'extract', 'match', 'data', 'from', 'whoscored.com.', 'When', 'I', 'view', 'the', 'source', 'on', 'firefox,', 'I', 'find', 'on', 'line', '816', 'a', 'big', 'json', 'string', 'with', 'the', 'data', 'I', 'want', 'for', 'that', 'matchid.', 'My', 'goal', 'is', 'to', 'eventually', 'get', 'this', 'json.', 'In', 'doing', 'this,', ""I've"", 'tried', 'to', 'download', 'every', 'page', 'of', 'https://www.whoscored.com/Matches/ID/Live', 'where', 'ID', 'is', 'the', 'id', 'of', 'the', 'match.', 'I', 'wrote', 'a', 'little', 'Go', 'program', 'to', 'GET', 'request', 'each', 'ID', 'up', 'to', 'a', 'certain', 'point:']","['NNP', 'VBG', 'TO', 'VB', 'VB', 'NNS', 'IN', 'NN', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'IN', 'NN', 'CD', 'DT', 'JJ', 'NN', 'VBG', 'IN', 'DT', 'NNS', 'PRP', 'VBP', 'IN', 'DT', 'NN', 'NNP', 'NN', 'VBZ', 'TO', 'RB', 'VB', 'DT', 'NN', 'IN', 'VBG', 'JJ', 'NNP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'IN', 'JJ', 'WRB', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'PRP', 'VBD', 'DT', 'JJ', 'NNP', 'NN', 'TO', 'VB', 'VB', 'DT', 'NNP', 'RB', 'TO', 'DT', 'JJ', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+4,"    ""io/ioutil""","['""io/ioutil""']",['STRING_LITERAL']
+5,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+6,"    ""os""","['""os""']",['STRING_LITERAL']
+7,),[')'],['PUNCTUATION']
+8,// http://www.whoscored.com/Matches/614052/Live is the match for,"['//', 'http:www.whoscored.com/Matches/614052/Live', 'is', 'the', 'match', 'for']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'IN']"
+9,// Eveton vs Manchester,"['//', 'Eveton', 'vs', 'Manchester']","['COMMENT', 'NNP', 'NN', 'NNP']"
+10,"const match_address = ""http://www.whoscored.com/Matches/""","['const', 'match_address', '=', '""http://www.whoscored.com/Matches/""']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+11,// the max id we get,"['//', 'the', 'max', 'id', 'we', 'get']","['COMMENT', 'DT', 'NN', 'NN', 'PRP', 'VBP']"
+12,const max_id = 300,"['const', 'max_id', '=', '300']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+13,const num_workers = 10,"['const', 'num_workers', '=', '10']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+14,// function that get the bytes of the match id from the website,"['//', 'function', 'that', 'get', 'the', 'bytes', 'of', 'the', 'match', 'id', 'from', 'the', 'website']","['COMMENT', 'NN', 'WDT', 'VBP', 'DT', 'NNS', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN']"
+15,func match_fetch(matchid int) {,"['func', 'match_fetch', '(', 'matchid', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+16,"    url := fmt.Sprintf(""%s%d/Live"", match_address, matchid)","['url', ':=', 'fmt.Sprintf(""%s%d/Live"", match_address, matchid)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+17,"    resp, err := http.Get(url)","['resp', ',', 'err', ':=', 'http.Get(url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+18,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+19,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+20,        return,['return'],['KEYWORD']
+21,    },['}'],['PUNCTUATION']
+22,"    // if we sucessfully got a response, store the","['//', 'if', 'we', 'sucessfully', 'got', 'a', 'response,', 'store', 'the']","['COMMENT', 'IN', 'PRP', 'RB', 'VBD', 'DT', 'NN', 'NN', 'DT']"
+23,    // body in memory,"['//', 'body', 'in', 'memory']","['COMMENT', 'NN', 'IN', 'NN']"
+24,    defer resp.Body.Close(),"['defer', 'resp', '.', 'Body.Close()']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+25,"    body, err := ioutil.ReadAll(resp.Body)","['body', ',', 'err', ':=', 'ioutil.ReadAll(resp.Body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+26,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+27,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+28,        return,['return'],['KEYWORD']
+29,    },['}'],['PUNCTUATION']
+30,    // write the body to memory,"['//', 'write', 'the', 'body', 'to', 'memory']","['COMMENT', 'VB', 'DT', 'NN', 'TO', 'NN']"
+31,"    pwd, _ := os.Getwd()","['pwd', ',', '_', ':=', 'os.Getwd()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+32,"    filepath := fmt.Sprintf(""%s/match_data/%d"", pwd, matchid)","['filepath', ':=', 'fmt.Sprintf(""%s/match_data/%d"", pwd, matchid)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+33,"    err = ioutil.WriteFile(filepath, body, 0644)","['err', '=', 'ioutil.WriteFile(filepath, body, 0644)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+34,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+35,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+36,        return,['return'],['KEYWORD']
+37,    },['}'],['PUNCTUATION']
+38,},['}'],['PUNCTUATION']
+39,"// data type to send to the workers,","['//', 'data', 'type', 'to', 'send', 'to', 'the', 'workers,']","['COMMENT', 'NNS', 'NN', 'TO', 'VB', 'TO', 'DT', 'NN']"
+40,// last means this job is the last one,"['//', 'last', 'means', 'this', 'job', 'is', 'the', 'last', 'one']","['COMMENT', 'JJ', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN']"
+41,// matchid is the match id to be fetched,"['//', 'matchid', 'is', 'the', 'match', 'id', 'to', 'be', 'fetched']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NN', 'TO', 'VB', 'VBN']"
+42,// a matchid of -1 means don't fetch a match,"['//', 'a', 'matchid', 'of', '-1', 'means', ""don't"", 'fetch', 'a', 'match']","['COMMENT', 'DT', 'NN', 'IN', 'NN', 'NNS', 'VBP', 'VB', 'DT', 'NN']"
+43,type job struct {,"['type', 'job', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+44,    last    bool,"['last', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
+45,    matchid int,"['matchid', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+46,},['}'],['PUNCTUATION']
+47,func create_worker(jobs chan job) {,"['func', 'create_worker', '(', 'jobs', 'chan', 'job', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+48,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+49,        next_job := <-jobs,"['next_job', ':=', '<-', 'jobs']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+50,        if next_job.matchid != -1 {,"['if', 'next_job', '.', 'matchid', '!=', '-', '1', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+51,            match_fetch(next_job.matchid),"['match_fetch', '(', 'next_job', '.', 'matchid', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+52,        },['}'],['PUNCTUATION']
+53,        if next_job.last {,"['if', 'next_job', '.', 'last', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+54,            return,['return'],['KEYWORD']
+55,        },['}'],['PUNCTUATION']
+56,    },['}'],['PUNCTUATION']
+57,},['}'],['PUNCTUATION']
+58,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+59,    // do the eveton match as a reference,"['//', 'do', 'the', 'eveton', 'match', 'as', 'a', 'reference']","['COMMENT', 'VB', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN']"
+60,    match_fetch(614052),"['match_fetch', '(', '614052', ')']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+61,    var joblist [num_workers]chan job,"['var', 'joblist', '[', 'num_workers', ']', 'chan', 'job']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER']"
+62,    var v int,"['var', 'v', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+63,    for i := 0; i < num_workers; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'num_workers', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+64,        job_chan := make(chan job),"['job_chan', ':=', 'make', '(', 'chan', 'job', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+65,        joblist[i] = job_chan,"['joblist', '[', 'i', ']', '=', 'job_chan']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+66,        go create_worker(job_chan),"['go', 'create_worker', '(', 'job_chan', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+67,    },['}'],['PUNCTUATION']
+68,    for i := 0; i < max_id; i = i + num_workers {,"['for', 'i', ':=', '0', ';', 'i', '<', 'max_id', ';', 'i', '=', 'i', '+', 'num_workers', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+69,"        for index, c := range joblist {","['for', 'index', ',', 'c', ':=', 'range', 'joblist', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+70,            if i+index < max_id {,"['if', 'i', '+', 'index', '<', 'max_id', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+71,                v = i + index,"['v', '=', 'i', '+', 'index']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+72,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+73,                v = -1,"['v', '=', '-', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
+74,            },['}'],['PUNCTUATION']
+75,"            c <- job{false, v}","['c', '<-', 'job', '{', 'false', ',', 'v', '}']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+76,        },['}'],['PUNCTUATION']
+77,    },['}'],['PUNCTUATION']
+78,"    for _, c := range joblist {","['for', '_', ',', 'c', ':=', 'range', 'joblist', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+79,"        c <- job{true, -1}","['c', '<-', 'job', '{', 'true', ',', '-', '1', '}']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+80,    },['}'],['PUNCTUATION']
+81,},['}'],['PUNCTUATION']
+82,"
+
+The code seems to work in that it fills a directory called match_data with html. The problem is that this html is completely different to what I get in the browser! Here is the section which I think does this: (from the body of the GET request of http://www.whoscored.com/Matches/614052/Live.
+
+","['The', 'code', 'seems', 'to', 'work', 'in', 'that', 'it', 'fills', 'a', 'directory', 'called', 'match_data', 'with', 'html.', 'The', 'problem', 'is', 'that', 'this', 'html', 'is', 'completely', 'different', 'to', 'what', 'I', 'get', 'in', 'the', 'browser!', 'Here', 'is', 'the', 'section', 'which', 'I', 'think', 'does', 'this:', '(from', 'the', 'body', 'of', 'the', 'GET', 'request', 'of', 'http://www.whoscored.com/Matches/614052/Live.']","['DT', 'NN', 'VBZ', 'TO', 'VB', 'IN', 'DT', 'PRP', 'VBZ', 'DT', 'NN', 'VBN', 'NN', 'IN', 'PDT', 'DT', 'NN', 'VBZ', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'JJ', 'TO', 'WP', 'PRP', 'VBP', 'IN', 'DT', 'NN', 'RB', 'VBZ', 'DT', 'NN', 'WDT', 'PRP', 'VBP', 'VBZ', 'VB', 'IN', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'IN', 'NN']"
+83,(function() { ,"['(', 'func', 'tion', '()', '{']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+84,"var z="""";var b=""7472797B766172207868723B76617220743D6E6577204461746528292E67657454696D6528293B766172207374617475733D227374617274223B7661722074696D696E673D6E65772041727261792833293B77696E646F772E6F6E756E6C6F61643D66756E6374696F6E28297B74696D696E675B325D3D22723A222B286E6577204461746528292E67657454696D6528292D74293B646F63756D656E742E637265617465456C656D656E742822696D6722292E7372633D222F5F496E63617073756C615F5265736F757263653F4553324C555243543D363726743D373826643D222B656E636F6465555249436F6D706F6E656E74287374617475732B222028222B74696D696E672E6A6F696E28292B222922297D3B69662877696E646F772E584D4C4874747052657175657374297B7868723D6E657720584D4C48747470526571756573747D656C73657B7868723D6E657720416374697665584F626A65637428224D6963726F736F66742E584D4C4854545022297D7868722E6F6E726561647973746174656368616E67653D66756E6374696F6E28297B737769746368287868722E72656164795374617465297B6361736520303A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2072657175657374206E6F7420696E697469616C697A656420223B627265616B3B6361736520313A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2073657276657220636F6E6E656374696F6E2065737461626C6973686564223B627265616B3B6361736520323A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2072657175657374207265636569766564223B627265616B3B6361736520333A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2070726F63657373696E672072657175657374223B627265616B3B6361736520343A7374617475733D22636F6D706C657465223B74696D696E675B315D3D22633A222B286E6577204461746528292E67657454696D6528292D74293B6966287868722E7374617475733D3D323030297B706172656E742E6C6F636174696F6E2E72656C6F616428297D627265616B7D7D3B74696D696E675B305D3D22733A222B286E6577204461746528292E67657454696D6528292D74293B7868722E6F70656E2822474554222C222F5F496E63617073756C615F5265736F757263653F535748414E45444C3D313536343032333530343538313538333938362C31373139363833393832313930303534313833392C31333935303737313737393531363432383234342C3132363636222C66616C7365293B7868722E73656E64286E756C6C297D63617463682863297B7374617475732B3D6E6577204461746528292E67657454696D6528292D742B2220696E6361705F6578633A20222B633B646F63756D656E742E637265617465456C656D656E742822696D6722292E7372633D222F5F496E63617073756C615F5265736F757263653F4553324C555243543D363726743D373826643D222B656E636F6465555249436F6D706F6E656E74287374617475732B222028222B74696D696E672E6A6F696E28292B222922297D3B"";for (var i=0;i<b.length;i+=2){z=z+parseInt(b.substring(i, i+2), 16)+"","";}z = z.substring(0,z.length-1); eval(eval('String.fromCharCode('+z+')'));})();","['var', 'z', '=', '""""', ';', 'var', 'b', '=', '""7472797B766172207868723B76617220743D6E6577204461746528292E67657454696D6528293B766172207374617475733D227374617274223B7661722074696D696E673D6E65772041727261792833293B77696E646F772E6F6E756E6C6F61643D66756E6374696F6E28297B74696D696E675B325D3D22723A222B286E6577204461746528292E67657454696D6528292D74293B646F63756D656E742E637265617465456C656D656E742822696D6722292E7372633D222F5F496E63617073756C615F5265736F757263653F4553324C555243543D363726743D373826643D222B656E636F6465555249436F6D706F6E656E74287374617475732B222028222B74696D696E672E6A6F696E28292B222922297D3B69662877696E646F772E584D4C4874747052657175657374297B7868723D6E657720584D4C48747470526571756573747D656C73657B7868723D6E657720416374697665584F626A65637428224D6963726F736F66742E584D4C4854545022297D7868722E6F6E726561647973746174656368616E67653D66756E6374696F6E28297B737769746368287868722E72656164795374617465297B6361736520303A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2072657175657374206E6F7420696E697469616C697A656420223B627265616B3B6361736520313A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2073657276657220636F6E6E656374696F6E2065737461626C6973686564223B627265616B3B6361736520323A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2072657175657374207265636569766564223B627265616B3B6361736520333A7374617475733D6E6577204461746528292E67657454696D6528292D742B223A2070726F63657373696E672072657175657374223B627265616B3B6361736520343A7374617475733D22636F6D706C657465223B74696D696E675B315D3D22633A222B286E6577204461746528292E67657454696D6528292D74293B6966287868722E7374617475733D3D323030297B706172656E742E6C6F636174696F6E2E72656C6F616428297D627265616B7D7D3B74696D696E675B305D3D22733A222B286E6577204461746528292E67657454696D6528292D74293B7868722E6F70656E2822474554222C222F5F496E63617073756C615F5265736F757263653F535748414E45444C3D313536343032333530343538313538333938362C31373139363833393832313930303534313833392C31333935303737313737393531363432383234342C3132363636222C66616C7365293B7868722E73656E64286E756C6C297D63617463682863297B7374617475732B3D6E6577204461746528292E67657454696D6528292D742B2220696E6361705F6578633A20222B633B646F63756D656E742E637265617465456C656D656E742822696D6722292E7372633D222F5F496E63617073756C615F5265736F757263653F4553324C555243543D363726743D373826643D222B656E636F6465555249436F6D706F6E656E74287374617475732B222028222B74696D696E672E6A6F696E28292B222922297D3B""', ';', 'for', '(', 'var', 'i', '=', '0', ';', 'i', '<', 'b', '.', 'length', ';', 'i', '+=', '2', '){', 'z', '=', 'z', '+', 'parseInt', '(', 'b.substring(i, i+2), 16)+"","";}z = z.substring(0,z.length-1); eval(eval(\'String.fromCharCode(\'+z+\')\'));})()', ';']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+85,"
+
+The reason I think this is the case is that the javascript in the page fetches and edits the DOM to what I see on view source. How can I get golang to run the javascript? Is there are library to do this? Better still, could I directly grab the JSON from the servers?
+","['The', 'reason', 'I', 'think', 'this', 'is', 'the', 'case', 'is', 'that', 'the', 'javascript', 'in', 'the', 'page', 'fetches', 'and', 'edits', 'the', 'DOM', 'to', 'what', 'I', 'see', 'on', 'view', 'source.', 'How', 'can', 'I', 'get', 'golang', 'to', 'run', 'the', 'javascript?', 'Is', 'there', 'are', 'library', 'to', 'do', 'this?', 'Better', 'still,', 'could', 'I', 'directly', 'grab', 'the', 'JSON', 'from', 'the', 'servers?']","['DT', 'NN', 'PRP', 'VBP', 'DT', 'VBZ', 'DT', 'NN', 'VBZ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNS', 'CC', 'VBZ', 'DT', 'NNP', 'TO', 'WP', 'PRP', 'VBP', 'IN', 'NN', 'VBP', 'WRB', 'MD', 'PRP', 'VB', 'NN', 'TO', 'VB', 'DT', 'NN', 'VBZ', 'EX', 'VBP', 'JJ', 'TO', 'VB', 'VB', 'NNP', 'NN', 'MD', 'PRP', 'RB', 'VBP', 'DT', 'NNP', 'IN', 'DT', 'NN']"

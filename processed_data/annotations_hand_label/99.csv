@@ -1,332 +1,76 @@
 ,text,token,annotation
-0,"Problem: There is a list of tables associated keys. It is necessary to implement CRUD for each table + some functional on the specifics of the table (pagination, etc.).
-Troubles: duplicated in each of the functional implementation for each table About 50% of the code.
-Question: What are the ways on the specifics of the language, of the optimization / refactoring / use similar code patterns?
+0,"According to the error message, the error is on this line:
 
-Example code part
+","['According', 'to', 'the', 'error', 'message,', 'the', 'error', 'is', 'on', 'this', 'line:']","['VBG', 'TO', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'IN', 'DT', 'NN']"
+1,"local res = redis.call(""HMSET"", KEYS[1], unpack(a))","['local', 'res', '=', 'redis.call(""HMSET"", KEYS[1], unpack(a))']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+2,"
 
+The issue is that the application is passing two arguments to the script, the key and argv converted to a string. The call unpack(a) yields a single value.
 
-","['Problem:', 'There', 'is', 'a', 'list', 'of', 'tables', 'associated', 'keys.', 'It', 'is', 'necessary', 'to', 'implement', 'CRUD', 'for', 'each', 'table', '+', 'some', 'functional', 'on', 'the', 'specifics', 'of', 'the', 'table', '(pagination,', 'etc.).', 'Troubles:', 'duplicated', 'in', 'each', 'of', 'the', 'functional', 'implementation', 'for', 'each', 'table', 'About', '50%', 'of', 'the', 'code.', 'Question:', 'What', 'are', 'the', 'ways', 'on', 'the', 'specifics', 'of', 'the', 'language,', 'of', 'the', 'optimization', '/', 'refactoring', '/', 'use', 'similar', 'code', 'patterns?', 'Example', 'code', 'part']","['NNP', 'EX', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'VBN', 'NN', 'PRP', 'VBZ', 'JJ', 'TO', 'VB', 'NNP', 'IN', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'IN', 'DT', 'NNS', 'IN', 'DT', 'NN', 'NN', 'NN', 'NNP', 'VBN', 'IN', 'DT', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'IN', 'CD', 'IN', 'DT', 'NN', 'NNP', 'WP', 'VBP', 'DT', 'NNS', 'IN', 'DT', 'NNS', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'VBG', 'NNP', 'NN', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NN']"
-1,//------------------------------------------------------------------,"['//', '------------------------------------------------------------------']","['COMMENT', 'NN']"
-2,//  user,"['//', 'user']","['COMMENT', 'NN']"
-3,//----------------------------------------------------------------------,"['//', '----------------------------------------------------------------------']","['COMMENT', 'NN']"
-4,"func (d *Database) UserCreate(email, password, username string, role int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserCreate', '(', 'email', ',', 'password', ',', 'username', 'string', ',', 'role', 'int', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-5,    //variables,"['//', 'variables']","['COMMENT', 'NNS']"
-6,"    answer := d.initCall(""UserCreate"")","['answer', ':=', 'd.initCall(""UserCreate"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-7,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-8,    //check exist user,"['//', 'check', 'exist', 'user']","['COMMENT', 'NN', 'VBP', 'NN']"
-9,"    if userExist := d.DB.Find(&User{}, &User{Email:email}).Error; userExist == nil {","['if', 'userExist', ':=', 'd', '.', 'DB.Find(&User{}, &User{Email:email})', '.', 'Error', ';', 'userExist', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-10,"        answer.AnswerJSON.ErrorAnswer.Message = ""[usercreate] user already exist""","['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', '""[usercreate] user already exist""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-11,        answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-12,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-13,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-14,        userinfo := UserInfo{Data:time.Now()},"['userinfo', ':=', 'UserInfo', '{', 'Data', ':', 'time.Now()', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-15,        session := Session{Data:time.Now()},"['session', ':=', 'Session', '{', 'Data', ':', 'time.Now()', '}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR']"
-16,        cook := Cook{},"['cook', ':=', 'Cook', '{}']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-17,        //make support  tables object,"['//', 'make', 'support', 'tables', 'object']","['COMMENT', 'VB', 'NN', 'NNS', 'VBP']"
-18,        //userinfo object,"['//', 'userinfo', 'object']","['COMMENT', 'JJ', 'NN']"
-19,        userinfo.Password = password,"['userinfo', '.', 'Password', '=', 'password']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-20,        userinfo.Username = username,"['userinfo', '.', 'Username', '=', 'username']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-21,        //cook object,"['//', 'cook', 'object']","['COMMENT', 'NN', 'NN']"
-22,        cook.SessionID = session.ID,"['cook', '.', 'SessionID', '=', 'session', '.', 'ID']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-23,"        cook.Cookie = d.cookgeneratenew(""somesaltforcooksgenerate"")","['cook', '.', 'Cookie', '=', 'd.cookgeneratenew(""somesaltforcooksgenerate"")']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-24,        cook.Status = true,"['cook', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-25,        cook.Lastconnect = time.Now(),"['cook', '.', 'Lastconnect', '=', 'time.Now()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-26,        cook.CountConnect += 1,"['cook', '.', 'CountConnect', '+=', '1']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'DECIMAL_LITERAL']"
-27,        //user object,"['//', 'user', 'object']","['COMMENT', 'NN', 'NN']"
-28,        user.Email = email,"['user', '.', 'Email', '=', 'email']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-29,        user.Session = session,"['user', '.', 'Session', '=', 'session']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-30,        user.UserInfo = userinfo,"['user', '.', 'UserInfo', '=', 'userinfo']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-31,        user.Cook = cook,"['user', '.', 'Cook', '=', 'cook']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-32,        user.Role = int64(role),"['user', '.', 'Role', '=', 'int64', '(', 'role', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-33,        //make request + //serizlizations to json answer,"['//', 'make', 'request', '+', 'serizlizations', 'to', 'json', 'answer']","['COMMENT', 'VB', 'NN', 'NN', 'NNS', 'TO', 'VB', 'NN']"
-34,        if err := d.DB.Create(user).Error; err != nil {,"['if', 'err', ':=', 'd', '.', 'DB.Create(user)', '.', 'Error', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-35,            answer.AnswerJSON.ErrorAnswer.Message = err.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'err.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-36,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-37,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-38,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-39,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-40,        },['}'],['OPERATOR']
-41,    },['}'],['OPERATOR']
-42,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-43,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-44,},['}'],['OPERATOR']
-45,func (d *Database) UserDelete(userid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserDelete', '(', 'userid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-46,"    answer := d.initCall(""UserDelete"")","['answer', ':=', 'd.initCall(""UserDelete"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-47,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-48,    //check exists,"['//', 'check', 'exists']","['COMMENT', 'NN', 'NNS']"
-49,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists == nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-50,        if userDelete := d.DB.Delete(user).Error; userDelete != nil {,"['if', 'userDelete', ':=', 'd', '.', 'DB.Delete(user)', '.', 'Error', ';', 'userDelete', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-51,            answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-52,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-53,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-54,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-55,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-56,        },['}'],['OPERATOR']
-57,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-58,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-59,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-60,    },['}'],['OPERATOR']
-61,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-62,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-63,},['}'],['OPERATOR']
-64,func (d *Database) UserRead(userid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserRead', '(', 'userid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-65,"    answer := d.initCall(""UserRead"")","['answer', ':=', 'd.initCall(""UserRead"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-66,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-67,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists != nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-68,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-69,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-70,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-71,        if rel := d.DB.Model(user).Related(&user.Session).Error; rel != nil {,"['if', 'rel', ':=', 'd', '.', 'DB.Model(user).Related(&user.Session)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-72,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-73,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-74,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-75,        } else if rel = d.DB.Model(user).Related(&user.UserInfo).Error; rel != nil {,"['}', 'else', 'if', 'rel', '=', 'd', '.', 'DB.Model(user).Related(&user.UserInfo)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-76,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-77,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-78,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-79,        } else if rel = d.DB.Model(user).Related(&user.Cook).Error; rel != nil {,"['}', 'else', 'if', 'rel', '=', 'd', '.', 'DB.Model(user).Related(&user.Cook)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['OPERATOR', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-80,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-81,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-82,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-83,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-84,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-85,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-86,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-87,        },['}'],['OPERATOR']
-88,    },['}'],['OPERATOR']
-89,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-90,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-91,},['}'],['OPERATOR']
-92,func (d *Database) UserReadAll() *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserReadAll', '()', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-93,"    answer := d.initCall(""UserReadAll"")","['answer', ':=', 'd.initCall(""UserReadAll"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-94,    users := []User{},"['users', ':=', '[]', 'User', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-95,    if usersGet := d.DB.Find(&users).Error; usersGet != nil {,"['if', 'usersGet', ':=', 'd', '.', 'DB.Find(&users)', '.', 'Error', ';', 'usersGet', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-96,        answer.AnswerJSON.ErrorAnswer.Message = usersGet.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'usersGet.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-97,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-98,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-99,"        for _, user := range users {","['for', '_', ',', 'user', ':=', 'range', 'users', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-100,            d.DB.Model(user).Related(&user.Session),"['d', '.', 'DB.Model(user).Related(&user.Session)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-101,            d.DB.Model(user).Related(&user.UserInfo),"['d', '.', 'DB.Model(user).Related(&user.UserInfo)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-102,            d.DB.Model(user).Related(&user.Cook),"['d', '.', 'DB.Model(user).Related(&user.Cook)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-103,        },['}'],['OPERATOR']
-104,        answer.AnswerJSON.Result = users,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'users']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-105,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-106,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-107,    },['}'],['OPERATOR']
-108,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-109,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-110,},['}'],['OPERATOR']
-111,"func (d *Database) UserUpdate(userid int64, uu *UserUpdateStruct) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserUpdate', '(', 'userid', 'int64', ',', 'uu', '*', 'UserUpdateStruct', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-112,"    answer := d.initCall(""UserUpdate"")","['answer', ':=', 'd.initCall(""UserUpdate"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-113,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-114,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists != nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-115,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-116,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-117,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-118,        //get relevating struct info,"['//', 'get', 'relevating', 'struct', 'info']","['COMMENT', 'VB', 'VBG', 'NN', 'NN']"
-119,        d.DB.Model(user).Related(&user.Session),"['d', '.', 'DB.Model(user).Related(&user.Session)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-120,        d.DB.Model(user).Related(&user.UserInfo),"['d', '.', 'DB.Model(user).Related(&user.UserInfo)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-121,        d.DB.Model(user).Related(&user.Cook),"['d', '.', 'DB.Model(user).Related(&user.Cook)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-122,        //update columns,"['//', 'update', 'columns']","['COMMENT', 'JJ', 'NNS']"
-123,"        if uu.Email != """" {","['if', 'uu', '.', 'Email', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-124,            user.Email = uu.Email,"['user', '.', 'Email', '=', 'uu', '.', 'Email']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-125,        },['}'],['OPERATOR']
-126,        if uu.Avatar > 0 {,"['if', 'uu', '.', 'Avatar', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-127,            user.UserInfo.Avatar = uu.Avatar,"['user', '.', 'UserInfo', '.', 'Avatar', '=', 'uu', '.', 'Avatar']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-128,        },['}'],['OPERATOR']
-129,"        if uu.Birthday != """" {","['if', 'uu', '.', 'Birthday', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-130,            user.UserInfo.Birthday = uu.Birthday,"['user', '.', 'UserInfo', '.', 'Birthday', '=', 'uu', '.', 'Birthday']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-131,        },['}'],['OPERATOR']
-132,"        if uu.Location != """" {","['if', 'uu', '.', 'Location', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-133,            user.UserInfo.Location = uu.Location,"['user', '.', 'UserInfo', '.', 'Location', '=', 'uu', '.', 'Location']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-134,        },['}'],['OPERATOR']
-135,"        if uu.Male != """" {","['if', 'uu', '.', 'Male', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-136,            user.UserInfo.Male = uu.Male,"['user', '.', 'UserInfo', '.', 'Male', '=', 'uu', '.', 'Male']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-137,        },['}'],['OPERATOR']
-138,"        if uu.Password != """" {","['if', 'uu', '.', 'Password', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-139,            user.UserInfo.Password = uu.Password,"['user', '.', 'UserInfo', '.', 'Password', '=', 'uu', '.', 'Password']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-140,        },['}'],['OPERATOR']
-141,        if uu.Role > 0 {,"['if', 'uu', '.', 'Role', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OCTAL_LITERAL', 'OPERATOR']"
-142,            if roleErr := d.DB.Find(&Role{}).Error; roleErr != nil {,"['if', 'roleErr', ':=', 'd', '.', 'DB.Find(&Role{})', '.', 'Error', ';', 'roleErr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-143,                //role not found,"['//', 'role', 'not', 'found']","['COMMENT', 'NN', 'RB', 'VBD']"
-144,"                fmt.Printf(""[userupdate] role not found `%d`\n"", uu.Role)","['fmt.Printf(""[userupdate] role not found `%d`\\n"", uu.Role)']",['FUNCTION_CALL']
-145,            } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-146,                user.Role = uu.Role,"['user', '.', 'Role', '=', 'uu', '.', 'Role']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-147,            },['}'],['OPERATOR']
-148,        },['}'],['OPERATOR']
-149,        //update,"['//', 'update']","['COMMENT', 'NN']"
-150,        if errUpdate := d.DB.Save(user).Error; errUpdate != nil {,"['if', 'errUpdate', ':=', 'd', '.', 'DB.Save(user)', '.', 'Error', ';', 'errUpdate', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-151,            answer.AnswerJSON.ErrorAnswer.Message = errUpdate.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errUpdate.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-152,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-153,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-154,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-155,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-156,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-157,        },['}'],['OPERATOR']
-158,    },['}'],['OPERATOR']
-159,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-160,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-161,},['}'],['OPERATOR']
-162,"func (d *Database) UserPaginate(page, countPage int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserPaginate', '(', 'page', ',', 'countPage', 'int', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-163,"    answer := d.initCall(""UserPaginate"")","['answer', ':=', 'd.initCall(""UserPaginate"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-164,    result := []*User{},"['result', ':=', '[]*', 'User', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-165,    if errPag := d.DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result).Error; errPag != nil {,"['if', 'errPag', ':=', 'd', '.', 'DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result)', '.', 'Error', ';', 'errPag', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-166,        answer.AnswerJSON.ErrorAnswer.Message = errPag.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errPag.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-167,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-168,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-169,"        for _, user := range result {","['for', '_', ',', 'user', ':=', 'range', 'result', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-170,            d.DB.Model(&user).Related(&user.Session),"['d', '.', 'DB.Model(&user).Related(&user.Session)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-171,            d.DB.Model(&user).Related(&user.UserInfo),"['d', '.', 'DB.Model(&user).Related(&user.UserInfo)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-172,            d.DB.Model(&user).Related(&user.Cook),"['d', '.', 'DB.Model(&user).Related(&user.Cook)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-173,        },['}'],['OPERATOR']
-174,        answer.AnswerJSON.Result = result,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'result']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-175,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-176,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-177,    },['}'],['OPERATOR']
-178,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-179,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-180,},['}'],['OPERATOR']
-181,//-------------------------------------------------------------------,"['//', '-------------------------------------------------------------------']","['COMMENT', 'NN']"
-182,//  category,"['//', 'category']","['COMMENT', 'NN']"
-183,//--------------------------------------------------------------------,"['//', '--------------------------------------------------------------------']","['COMMENT', 'NN']"
-184,func (d *Database) CategoryCreate(name string) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryCreate', '(', 'name', 'string', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-185,    //variables,"['//', 'variables']","['COMMENT', 'NNS']"
-186,"    answer := d.initCall(""CategoryCreate"")","['answer', ':=', 'd.initCall(""CategoryCreate"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-187,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-188,    //check exist user,"['//', 'check', 'exist', 'user']","['COMMENT', 'NN', 'VBP', 'NN']"
-189,"    if catExist := d.DB.Find(&Category{}, &Category{Name:name}).Error; catExist == nil {","['if', 'catExist', ':=', 'd', '.', 'DB.Find(&Category{}, &Category{Name:name})', '.', 'Error', ';', 'catExist', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-190,"        answer.AnswerJSON.ErrorAnswer.Message = ""[categorycreate] category already exist""","['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', '""[categorycreate] category already exist""']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL']"
-191,        answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-192,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-193,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-194,        cat.Name = name,"['cat', '.', 'Name', '=', 'name']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-195,        //make request + //serizlizations to json answer,"['//', 'make', 'request', '+', 'serizlizations', 'to', 'json', 'answer']","['COMMENT', 'VB', 'NN', 'NN', 'NNS', 'TO', 'VB', 'NN']"
-196,        if err := d.DB.Create(cat).Error; err != nil {,"['if', 'err', ':=', 'd', '.', 'DB.Create(cat)', '.', 'Error', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-197,            answer.AnswerJSON.ErrorAnswer.Message = err.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'err.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-198,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-199,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-200,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-201,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-202,        },['}'],['OPERATOR']
-203,    },['}'],['OPERATOR']
-204,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-205,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-206,},['}'],['OPERATOR']
-207,func (d *Database) CategoryDelete(catid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryDelete', '(', 'catid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-208,"    answer := d.initCall(""CategoryDelete"")","['answer', ':=', 'd.initCall(""CategoryDelete"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-209,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-210,    //check exists,"['//', 'check', 'exists']","['COMMENT', 'NN', 'NNS']"
-211,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists == nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-212,        if catDelete := d.DB.Delete(cat).Error; catDelete != nil {,"['if', 'catDelete', ':=', 'd', '.', 'DB.Delete(cat)', '.', 'Error', ';', 'catDelete', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-213,            answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-214,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-215,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-216,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-217,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-218,        },['}'],['OPERATOR']
-219,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-220,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-221,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-222,    },['}'],['OPERATOR']
-223,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-224,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-225,},['}'],['OPERATOR']
-226,func (d *Database) CategoryRead(catid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryRead', '(', 'catid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-227,"    answer := d.initCall(""CategoryRead"")","['answer', ':=', 'd.initCall(""CategoryRead"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-228,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-229,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists != nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-230,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-231,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-232,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-233,        if rel := d.DB.Model(cat).Related(&cat.Post).Error; rel != nil {,"['if', 'rel', ':=', 'd', '.', 'DB.Model(cat).Related(&cat.Post)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-234,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-235,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-236,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-237,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-238,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-239,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-240,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-241,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-242,            },['}'],['OPERATOR']
-243,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-244,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-245,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-246,        },['}'],['OPERATOR']
-247,    },['}'],['OPERATOR']
-248,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-249,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-250,},['}'],['OPERATOR']
-251,func (d *Database) CategoryReadAll() *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryReadAll', '()', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-252,"    answer := d.initCall(""CategoryReadAll"")","['answer', ':=', 'd.initCall(""CategoryReadAll"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-253,    cats := []Category{},"['cats', ':=', '[]', 'Category', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-254,    if catsGet := d.DB.Find(&cats).Error; catsGet != nil {,"['if', 'catsGet', ':=', 'd', '.', 'DB.Find(&cats)', '.', 'Error', ';', 'catsGet', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-255,        answer.AnswerJSON.ErrorAnswer.Message = catsGet.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catsGet.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-256,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-257,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-258,        //categorys,"['//', 'categorys']","['COMMENT', 'NN']"
-259,"        for _, cat := range cats {","['for', '_', ',', 'cat', ':=', 'range', 'cats', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-260,            d.DB.Model(cat).Related(&cat.Post),"['d', '.', 'DB.Model(cat).Related(&cat.Post)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-261,            //get relete POST,"['//', 'get', 'relete', 'POST']","['COMMENT', 'VB', 'JJ', 'NNP']"
-262,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-263,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-264,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-265,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-266,            },['}'],['OPERATOR']
-267,        },['}'],['OPERATOR']
-268,        answer.AnswerJSON.Result = cats,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cats']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-269,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-270,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-271,    },['}'],['OPERATOR']
-272,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-273,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-274,},['}'],['OPERATOR']
-275,"func (d *Database) CategoryUpdate(catid int64, name string) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'CategoryUpdate', '(', 'catid', 'int64', ',', 'name', 'string', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-276,"    answer := d.initCall(""CategoryUpdate"")","['answer', ':=', 'd.initCall(""CategoryUpdate"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-277,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-278,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists != nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-279,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-280,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-281,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-282,        //get relevating struct info,"['//', 'get', 'relevating', 'struct', 'info']","['COMMENT', 'VB', 'VBG', 'NN', 'NN']"
-283,        d.DB.Model(cat).Related(&cat.Post),"['d', '.', 'DB.Model(cat).Related(&cat.Post)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-284,        //update columns,"['//', 'update', 'columns']","['COMMENT', 'JJ', 'NNS']"
-285,"        if name != """" {","['if', 'name', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'STRING_LITERAL', 'OPERATOR']"
-286,            cat.Name = name,"['cat', '.', 'Name', '=', 'name']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-287,        },['}'],['OPERATOR']
-288,        //update,"['//', 'update']","['COMMENT', 'NN']"
-289,        if errUpdate := d.DB.Save(cat).Error; errUpdate != nil {,"['if', 'errUpdate', ':=', 'd', '.', 'DB.Save(cat)', '.', 'Error', ';', 'errUpdate', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-290,            answer.AnswerJSON.ErrorAnswer.Message = errUpdate.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errUpdate.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-291,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-292,        } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-293,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-294,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-295,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-296,        },['}'],['OPERATOR']
-297,    },['}'],['OPERATOR']
-298,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-299,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-300,},['}'],['OPERATOR']
-301,"func (d *Database) CategoryPaginate(page, countPage int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'CategoryPaginate', '(', 'page', ',', 'countPage', 'int', ')', '*', 'Answer', '{']","['KEYWORD', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-302,"    answer := d.initCall(""CategoryPaginate"")","['answer', ':=', 'd.initCall(""CategoryPaginate"")']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-303,    result := []*Category{},"['result', ':=', '[]*', 'Category', '{}']","['IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-304,    if errPag := d.DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result).Error; errPag != nil {,"['if', 'errPag', ':=', 'd', '.', 'DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result)', '.', 'Error', ';', 'errPag', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-305,        answer.AnswerJSON.ErrorAnswer.Message = errPag.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errPag.Error()']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-306,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-307,    } else {,"['}', 'else', '{']","['OPERATOR', 'KEYWORD', 'OPERATOR']"
-308,"        for _, cat := range result {","['for', '_', ',', 'cat', ':=', 'range', 'result', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR']"
-309,            d.DB.Model(&cat).Related(&cat.Post),"['d', '.', 'DB.Model(&cat).Related(&cat.Post)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-310,            //get relete POST,"['//', 'get', 'relete', 'POST']","['COMMENT', 'VB', 'JJ', 'NNP']"
-311,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']","['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR']"
-312,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-313,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']","['IDENTIFIER', 'OPERATOR', 'FUNCTION_CALL']"
-314,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'OPERATOR', 'IDENTIFIER']"
-315,            },['}'],['OPERATOR']
-316,        },['}'],['OPERATOR']
-317,        answer.AnswerJSON.Result = result,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'result']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-318,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-319,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER', 'OPERATOR', 'IDENTIFIER']"
-320,    },['}'],['OPERATOR']
-321,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
-322,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
-323,},['}'],['OPERATOR']
+The fix is to pass each argument separately to the script:
+
+","['The', 'issue', 'is', 'that', 'the', 'application', 'is', 'passing', 'two', 'arguments', 'to', 'the', 'script,', 'the', 'key', 'and', 'argv', 'converted', 'to', 'a', 'string.', 'The', 'call', 'unpack(a)', 'yields', 'a', 'single', 'value.', 'The', 'fix', 'is', 'to', 'pass', 'each', 'argument', 'separately', 'to', 'the', 'script:']","['DT', 'NN', 'VBZ', 'IN', 'DT', 'NN', 'VBZ', 'VBG', 'CD', 'NNS', 'TO', 'DT', 'NN', 'DT', 'NN', 'CC', 'RB', 'VBN', 'TO', 'DT', 'NN', 'DT', 'NN', 'JJ', 'NNS', 'DT', 'JJ', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'RB', 'TO', 'DT', 'NN']"
+3,"reply, errS := rScript.Do(retryConn,","['reply', ',', 'errS', ':=', 'rScript', '.', 'Do', '(', 'retryConn', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+4,"   ""JJNb324a680c35d11e6a1123c15c2d271f21481871788G"",","['""JJNb324a680c35d11e6a1123c15c2d271f21481871788G""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+5,"   ""30000"",","['""30000""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+6,"   ""SSF_lastAccessedDate"", ""1481627386"",","['""SSF_lastAccessedDate""', ',', '""1481627386""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+7,"   ""SSF_expiryDate"", ""2481657386"")","['""SSF_expiryDate""', ',', '""2481657386""', ')']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+8,"
+
+I recommend initializing a package level variable with the script so the hash of the script text is computed once instead of on every use of the script:
+
+","['I', 'recommend', 'initializing', 'a', 'package', 'level', 'variable', 'with', 'the', 'script', 'so', 'the', 'hash', 'of', 'the', 'script', 'text', 'is', 'computed', 'once', 'instead', 'of', 'on', 'every', 'use', 'of', 'the', 'script:']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'NN', 'JJ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'VBN', 'RB', 'RB', 'IN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN']"
+9,"var rScript = redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1]) == 1 then","['var', 'rScript', '=', 'redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1])', '==', '1', 'then']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+10,"    local keyvalues = redis.call(""HGETALL"", KEYS[1])","['local', 'keyvalues', '=', 'redis.call(""HGETALL"", KEYS[1])']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+11,    local a = {},"['local', 'a', '=', '{}']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION']"
+12,"    for i=2, table.getn(ARGV) do","['for', 'i', '=', '2', ',', 'table.getn(ARGV)', 'do']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL', 'IDENTIFIER']"
+13,      a[i-1] = ARGV[i],"['a', '[', 'i', '-', '1', ']', '=', 'ARGV', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+14,    end,['end'],['IDENTIFIER']
+15,"    local res = redis.call(""HMSET"", KEYS[1], unpack(a))","['local', 'res', '=', 'redis.call(""HMSET"", KEYS[1], unpack(a))']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+16,"    redis.call(""EXPIRE"", KEYS[1], ARGV[1])  ","['redis.call(""EXPIRE"", KEYS[1], ARGV[1])']",['FUNCTION_CALL']
+17,    return keyvalues,"['return', 'keyvalues']","['KEYWORD', 'IDENTIFIER']"
+18,else,['else'],['KEYWORD']
+19,"    return 2 -- ""Key doesn't exists""","['return', '2', '--', '""Key doesn\'t exists""']","['KEYWORD', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+20,end`),"['end', ')']","['IDENTIFIER', 'PUNCTUATION']"
+21,"
+
+and use this script in main():
+
+","['and', 'use', 'this', 'script', 'in', 'main():']","['CC', 'VB', 'DT', 'NN', 'IN', 'NN']"
+22,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+23,  ...,['...'],['PUNCTUATION']
+24,"  reply, errS := rScript.Do(retryConn,","['reply', ',', 'errS', ':=', 'rScript', '.', 'Do', '(', 'retryConn', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+25,"   ""JJNb324a680c35d11e6a1123c15c2d271f21481871788G"",","['""JJNb324a680c35d11e6a1123c15c2d271f21481871788G""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+26,"   ""30000"",","['""30000""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+27,"   ""SSF_lastAccessedDate"", ""1481627386"",","['""SSF_lastAccessedDate""', ',', '""1481627386""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+28,"   ""SSF_expiryDate"", ""2481657386"")","['""SSF_expiryDate""', ',', '""2481657386""', ')']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+29,  ...,['...'],['PUNCTUATION']
+30,},['}'],['PUNCTUATION']
+31,"
+
+Also, use table.remove to simplify the script:
+
+","['Also,', 'use', 'table.remove', 'to', 'simplify', 'the', 'script:']","['NNP', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN']"
+32,"var rScript = redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1]) == 1 then","['var', 'rScript', '=', 'redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1])', '==', '1', 'then']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
+33,"    local keyvalues = redis.call(""HGETALL"", KEYS[1])","['local', 'keyvalues', '=', 'redis.call(""HGETALL"", KEYS[1])']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+34,"    local expires = table.remove(ARGV, 1)","['local', 'expires', '=', 'table.remove(ARGV, 1)']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+35,"    local res = redis.call(""HMSET"", KEYS[1], unpack(ARGV))","['local', 'res', '=', 'redis.call(""HMSET"", KEYS[1], unpack(ARGV))']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+36,"    redis.call(""EXPIRE"", KEYS[1], expires)  ","['redis.call(""EXPIRE"", KEYS[1], expires)']",['FUNCTION_CALL']
+37,    return keyvalues,"['return', 'keyvalues']","['KEYWORD', 'IDENTIFIER']"
+38,else,['else'],['KEYWORD']
+39,"    return 2 -- ""Key doesn't exists""","['return', '2', '--', '""Key doesn\'t exists""']","['KEYWORD', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+40,end`),"['end', ')']","['IDENTIFIER', 'PUNCTUATION']"
+41,"
+
+Use redis.Strings to convert the slice of []byte returned from the server to a slice of strings:
+
+","['Use', 'redis.Strings', 'to', 'convert', 'the', 'slice', 'of', '[]byte', 'returned', 'from', 'the', 'server', 'to', 'a', 'slice', 'of', 'strings:']","['NNP', 'NNS', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'VBN', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN', 'IN', 'NN']"
+42,"  reply, errS := redis.Strings(rScript.Do(retryConn,","['reply', ',', 'errS', ':=', 'redis', '.', 'Strings', '(', 'rScript', '.', 'Do', '(', 'retryConn', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+43,"   ""JJNb324a680c35d11e6a1123c15c2d271f21481871788G"",","['""JJNb324a680c35d11e6a1123c15c2d271f21481871788G""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+44,"   ""30000"",","['""30000""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
+45,"   ""SSF_lastAccessedDate"", ""1481627386"",","['""SSF_lastAccessedDate""', ',', '""1481627386""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+46,"   ""SSF_expiryDate"", ""2481657386""))","['""SSF_expiryDate""', ',', '""2481657386""', '))']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+47,"
+
+Printing this reply will give the result you are expecting.
+","['Printing', 'this', 'reply', 'will', 'give', 'the', 'result', 'you', 'are', 'expecting.']","['VBG', 'DT', 'NN', 'MD', 'VB', 'DT', 'NN', 'PRP', 'VBP', 'JJ']"
