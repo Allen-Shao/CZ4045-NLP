@@ -1,134 +1,24 @@
 ,text,token,annotation
-0,"In this example below the UPDATE command doesn't work. Why ?
+0,"I have a http server. It is written with Go.
+I have this code:
 
-See the updateDate method for details.
-
-","['In', 'this', 'example', 'below', 'the', 'UPDATE', 'command', ""doesn't"", 'work.', 'Why', '?', 'See', 'the', 'updateDate', 'method', 'for', 'details.']","['IN', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'VB', 'WRB', '.', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN']"
+","['I', 'have', 'a', 'http', 'server.', 'It', 'is', 'written', 'with', 'Go.', 'I', 'have', 'this', 'code:']","['PRP', 'VBP', 'DT', 'NN', 'NN', 'PRP', 'VBZ', 'VBN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'NN']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
-4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-5,"    ""log""","['""log""']",['STRING_LITERAL']
-6,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
-7,),[')'],['PUNCTUATION']
-8,type ConnData struct {,"['type', 'ConnData', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-9,    // para usar conexão via socket veja '/etc/mysql/my.cnf',"['//', 'para', 'usar', 'conexão', 'via', 'socket', 'veja', ""'/etc/mysql/my.cnf'""]","['COMMENT', 'NN', 'JJ', 'NN', 'IN', 'NN', 'NN', 'POS']"
-10,    // para usar conexão via tcp confira a porta com 'ps -ef | grep mysqld',"['//', 'para', 'usar', 'conexão', 'via', 'tcp', 'confira', 'a', 'porta', 'com', ""'ps"", '-ef', '|', 'grep', ""mysqld'""]","['COMMENT', 'NN', 'JJ', 'NN', 'IN', 'NN', 'VBP', 'DT', 'NN', 'NN', 'POS', 'NNP', 'NNP', 'NN', 'NN']"
-11,"    dbuser, dbpasswd, dbname, tcp, socket string","['dbuser', ',', 'dbpasswd', ',', 'dbname', ',', 'tcp', ',', 'socket', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-12,},['}'],['PUNCTUATION']
-13,"var myConnData = ConnData{dbuser: ""soma"", dbpasswd: ""secret1000"",","['var', 'myConnData', '=', 'ConnData', '{', 'dbuser', ':', '""soma""', ',', 'dbpasswd', ':', '""secret1000""', ',']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-14,"    dbname: ""test"",","['dbname', ':', '""test""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-15,"    tcp:    ""tcp(127.0.0.1:3307)"",","['tcp', ':', '""tcp(127.0.0.1:3307)""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-16,"    socket: ""unix(/tmp/mysql.sock)""}","['socket', ':', '""unix(/tmp/mysql.sock)""', '}']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-17,// CREATE TABLE userinfo,"['//', 'CREATE', 'TABLE', 'userinfo']","['COMMENT', 'NNP', 'NNP', 'NN']"
-18,// (,"['//', '(']","['COMMENT', '(']"
-19,"//     uid serial NOT NULL,","['//', 'uid', 'serial', 'NOT', 'NULL,']","['COMMENT', 'JJ', 'JJ', 'NNP', 'NNP']"
-20,"//     username character varying(20) NOT NULL,","['//', 'username', 'character', 'varying(20)', 'NOT', 'NULL,']","['COMMENT', 'JJ', 'NN', 'NN', 'NNP', 'NNP']"
-21,"//     depto character varying(10)  NULL,","['//', 'depto', 'character', 'varying(10)', 'NULL,']","['COMMENT', 'JJ', 'NN', 'NN', 'NNP']"
-22,"//     Created date,","['//', 'Created', 'date,']","['COMMENT', 'VBN', 'NN']"
-23,//     CONSTRAINT userinfo_pkey PRIMARY KEY (uid),"['//', 'CONSTRAINT', 'userinfo_pkey', 'PRIMARY', 'KEY', '(uid)']","['COMMENT', 'NNP', 'JJ', 'NNP', 'NNP', 'NNP']"
-24,// ),"['//', ')']","['COMMENT', ')']"
-25,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-26,    _ = ConnectToMySQLAndRunCmd(myConnData).(string),"['_', '=', 'ConnectToMySQLAndRunCmd', '(', 'myConnData', ').(', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-27,},['}'],['PUNCTUATION']
-28,func ConnectToMySQLAndRunCmd(connData ConnData) interface{} {,"['func', 'ConnectToMySQLAndRunCmd', '(', 'connData', 'ConnData', ')', 'interface', '{}', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-29,"    myConnStr := connData.dbuser + "":"" + connData.dbpasswd +","['myConnStr', ':=', 'connData', '.', 'dbuser', '+', '"":""', '+', 'connData', '.', 'dbpasswd', '+']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR']"
-30,"        ""@"" + connData.tcp + ""/"" + connData.dbname","['""@""', '+', 'connData', '.', 'tcp', '+', '""/""', '+', 'connData', '.', 'dbname']","['STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-31,"    log.Printf(""Connecting to MySQL Server using %s\n"", myConnStr)","['log.Printf(""Connecting to MySQL Server using %s\\n"", myConnStr)']",['FUNCTION_CALL']
-32,"    db, err := sql.Open(""mysql"", myConnStr)","['db', ',', 'err', ':=', 'sql.Open(""mysql"", myConnStr)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-33,"    // myConnStr := connData.dbuser + "":"" + connData.dbpasswd +","['//', 'myConnStr', ':=', 'connData.dbuser', '+', '"":""', '+', 'connData.dbpasswd', '+']","['COMMENT', 'NN', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NN', 'NN']"
-34,"    //  ""@"" + connData.tcp + ""/"" + connData.dbname","['//', '""@""', '+', 'connData.tcp', '+', '""/""', '+', 'connData.dbname']","['COMMENT', 'JJ', 'NNP', 'NN', 'NNP', 'NNP', 'NNP', 'NN']"
-35,    defer db.Close(),"['defer', 'db.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-36,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-37,    // Open doesn't open a connection. Validate DSN data:,"['//', 'Open', ""doesn't"", 'open', 'a', 'connection.', 'Validate', 'DSN', 'data:']","['COMMENT', 'JJ', 'NN', 'VB', 'DT', 'NN', 'NNP', 'NNP', 'NN']"
-38,    err = db.Ping(),"['err', '=', 'db.Ping()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-39,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-40,    // Limpando a tabela,"['//', 'Limpando', 'a', 'tabela']","['COMMENT', 'VB', 'DT', 'NN']"
-41,"    _, err = db.Exec(""DELETE FROM userinfo"")","['_', ',', 'err', '=', 'db.Exec(""DELETE FROM userinfo"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-42,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-43,    // Consultando,"['//', 'Consultando']","['COMMENT', 'NN']"
-44,    selectAll(db),"['select', 'All', '(', 'db', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-45,    // Inserindo,"['//', 'Inserindo']","['COMMENT', 'NN']"
-46,"    stmt, err := db.Prepare(""INSERT INTO userinfo (username, depto, created) VALUES(?,?,?)"")","['stmt', ',', 'err', ':=', 'db.Prepare(""INSERT INTO userinfo (username, depto, created) VALUES(?,?,?)"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-47,"    // db.Prepare(""INSERT INTO users(name) VALUES(?)"")","['//', 'db.Prepare(""INSERT', 'INTO', 'users(name)', 'VALUES(?)"")']","['COMMENT', 'NN', 'NNP', 'JJ', 'NNP']"
-48,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-49,"    res, err := stmt.Exec(""Pedro"", ""TI"", ""2015-09-01"")","['res', ',', 'err', ':=', 'stmt.Exec(""Pedro"", ""TI"", ""2015-09-01"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-50,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-51,"    lastId, err := res.LastInsertId()","['lastId', ',', 'err', ':=', 'res.LastInsertId()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-52,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-53,"    rowCnt, err := res.RowsAffected()","['rowCnt', ',', 'err', ':=', 'res.RowsAffected()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-54,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-55,"    log.Printf(""ID = %d, affected = %d\n"", lastId, rowCnt)","['log.Printf(""ID = %d, affected = %d\\n"", lastId, rowCnt)']",['FUNCTION_CALL']
-56,    // Verificando,"['//', 'Verificando']","['COMMENT', 'NN']"
-57,    selectAll(db),"['select', 'All', '(', 'db', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-58,    // Atualizando,"['//', 'Atualizando']","['COMMENT', 'NN']"
-59,"    updateDate(db, lastId)","['updateDate', '(', 'db', ',', 'lastId', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-60,    // Verificando Novamente,"['//', 'Verificando', 'Novamente']","['COMMENT', 'NNP', 'NNP']"
-61,    selectAll(db),"['select', 'All', '(', 'db', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,"    return ""OK""","['return', '""OK""']","['KEYWORD', 'STRING_LITERAL']"
-63,},['}'],['PUNCTUATION']
-64,func selectAll(mydb *sql.DB) {,"['func', 'select', 'All', '(', 'mydb', '*', 'sql', '.', 'DB', ')', '{']","['KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-65,    // Consultando todos,"['//', 'Consultando', 'todos']","['COMMENT', 'NNP', 'NN']"
-66,    var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-67,        id    int,"['id', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-68,        name  string,"['name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-69,        depto string,"['depto', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-70,        date  string,"['date', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-71,    ),[')'],['PUNCTUATION']
-72,"    rows, err := mydb.Query(""select uid, username, depto, created from userinfo"")","['rows', ',', 'err', ':=', 'mydb.Query(""select uid, username, depto, created from userinfo"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-73,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-74,    defer rows.Close(),"['defer', 'rows.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-75,    for rows.Next() {,"['for', 'rows.Next()', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-76,"        err := rows.Scan(&id, &name, &depto, &date)","['err', ':=', 'rows.Scan(&id, &name, &depto, &date)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-77,        checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-78,"        log.Println(id, name, depto, date)","['log.Println(id, name, depto, date)']",['FUNCTION_CALL']
-79,    },['}'],['PUNCTUATION']
-80,    err = rows.Err(),"['err', '=', 'rows.Err()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-81,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-82,},['}'],['PUNCTUATION']
-83,"func updateDate(mydb *sql.DB, lastId int64) {","['func', 'updateDate', '(', 'mydb', '*', 'sql', '.', 'DB', ',', 'lastId', 'int64', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-84,    // Atualizando a data,"['//', 'Atualizando', 'a', 'data']","['COMMENT', 'IN', 'DT', 'NN']"
-85,"    tx, err := mydb.Begin()","['tx', ',', 'err', ':=', 'mydb.Begin()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-86,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-87,    //...,"['//', '...']","['COMMENT', ':']"
-88,"    cmd := ""UPDATE userinfo SET created = ? WHERE uid = ?""","['cmd', ':=', '""UPDATE userinfo SET created = ? WHERE uid = ?""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-89,"    updateDate, err := tx.Prepare(cmd)","['updateDate', ',', 'err', ':=', 'tx.Prepare(cmd)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-90,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,    //...,"['//', '...']","['COMMENT', ':']"
-92,"    log.Println(""•••• Updating record"", lastId)","['log.Println(""•••• Updating record"", lastId)']",['FUNCTION_CALL']
-93,"    res, err := updateDate.Exec(lastId, ""2015-09-02"")","['res', ',', 'err', ':=', 'updateDate.Exec(lastId, ""2015-09-02"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-94,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-95,"    // log.Println(""•••• >>> "", res)","['//', 'log.Println(""••••', '>>>', '"",', 'res)']","['COMMENT', 'NN', 'NNP', 'NNP', 'NN']"
-96,    updateDate.Close(),['updateDate.Close()'],['FUNCTION_CALL']
-97,    err = tx.Commit(),"['err', '=', 'tx.Commit()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-98,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-99,"    affect, err := res.RowsAffected()","['affect', ',', 'err', ':=', 'res.RowsAffected()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-100,    checkErr(err),"['checkErr', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-101,"    fmt.Println(""Records affected"", affect)","['fmt.Println(""Records affected"", affect)']",['FUNCTION_CALL']
-102,},['}'],['PUNCTUATION']
-103,func checkErr(err error) {,"['func', 'checkErr', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-104,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-105,        log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-106,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-107,    },['}'],['PUNCTUATION']
-108,},['}'],['PUNCTUATION']
-109,"
+3,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
+4,"    ""runtime""","['""runtime""']",['STRING_LITERAL']
+5,),[')'],['PUNCTUATION']
+6,var cur = 0,"['var', 'cur', '=', '0']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+7,"func handler(w http.ResponseWriter, r *http.Request) {","['func', 'handler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+8,    cur = cur + 1;,"['cur', '=', 'cur', '+', '1', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+9,},['}'],['PUNCTUATION']
+10,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+11,    runtime.GOMAXPROCS(runtime.NumCPU()),['runtime.GOMAXPROCS(runtime.NumCPU())'],['FUNCTION_CALL']
+12,"    http.HandleFunc(""/"", handler)","['http.HandleFunc(""/"", handler)']",['FUNCTION_CALL']
+13,"    http.ListenAndServe("":9010"", nil)","['http.ListenAndServe("":9010"", nil)']",['FUNCTION_CALL']
+14,},['}'],['PUNCTUATION']
+15,"
 
-What is going wrong ?
-
-See below the result when I run the main programa.
-
-","['What', 'is', 'going', 'wrong', '?', 'See', 'below', 'the', 'result', 'when', 'I', 'run', 'the', 'main', 'programa.']","['WP', 'VBZ', 'VBG', 'JJ', '.', 'VB', 'IN', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'DT', 'JJ', 'NN']"
-110,$ ./main,"['$', './', 'main']","['PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER']"
-111,2015/09/05 14:04:34 Connecting to MySQL Server using soma:soma@tcp(127.0.0.1:3307)/test,['2015/09/05 14:04:34 Connecting to MySQL Server using soma:soma@tcp(127.0.0.1:3307)/test'],['DIRECTORY']
-112,"2015/09/05 14:04:34 ID = 3, affected = 1","['2015/09/05', '14', ':', '04', ':', '34', 'ID', '=', '3', ',', 'affected', '=', '1']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-113,2015/09/05 14:04:34 3 Pedro TI 2015-09-01,"['2015/09/05', '14', ':', '04', ':', '34', '3', 'Pedro', 'TI', '2015', '-', '0', '9', '-', '01']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL']"
-114,2015/09/05 14:04:34 •••• Updating record 3,"['2015/09/05', '14', ':', '04', ':', '34', 'Updating', 'record', '3']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL']"
-115,Records affected 0,"['Records', 'affected', '0']","['IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL']"
-116,2015/09/05 14:04:34 3 Pedro TI 2015-09-01,"['2015/09/05', '14', ':', '04', ':', '34', '3', 'Pedro', 'TI', '2015', '-', '0', '9', '-', '01']","['DIRECTORY', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL']"
-117,"
-
-I'm using ","[""I'm"", 'using']","['NNP', 'VBG']"
-118,go build -a -installsuffix cgo -o main .,"['go', 'build', '-', 'a', '-', 'installsuffix', 'cgo', '-', 'o', 'main', '.']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-119," to build the main program
-","['to', 'build', 'the', 'main', 'program']","['TO', 'VB', 'DT', 'JJ', 'NN']"
+Is it safe?
+May be I need to use a mutex?
+","['Is', 'it', 'safe?', 'May', 'be', 'I', 'need', 'to', 'use', 'a', 'mutex?']","['VBZ', 'PRP', 'NN', 'NNP', 'VB', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN']"

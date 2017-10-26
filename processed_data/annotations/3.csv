@@ -1,147 +1,332 @@
 ,text,token,annotation
-0,"I have just seen an implementation of a priority queue in a generic kind of way in which any
-type satisfying an interface can be put into the queue. Is this the way to go with go or does this introduces any issues?
+0,"Problem: There is a list of tables associated keys. It is necessary to implement CRUD for each table + some functional on the specifics of the table (pagination, etc.).
+Troubles: duplicated in each of the functional implementation for each table About 50% of the code.
+Question: What are the ways on the specifics of the language, of the optimization / refactoring / use similar code patterns?
 
-","['I', 'have', 'just', 'seen', 'an', 'implementation', 'of', 'a', 'priority', 'queue', 'in', 'a', 'generic', 'kind', 'of', 'way', 'in', 'which', 'any', 'type', 'satisfying', 'an', 'interface', 'can', 'be', 'put', 'into', 'the', 'queue.', 'Is', 'this', 'the', 'way', 'to', 'go', 'with', 'go', 'or', 'does', 'this', 'introduces', 'any', 'issues?']","['PRP', 'VBP', 'RB', 'VBN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'IN', 'WDT', 'DT', 'NN', 'VBG', 'DT', 'NN', 'MD', 'VB', 'VBN', 'IN', 'DT', 'NN', 'VBZ', 'DT', 'DT', 'NN', 'TO', 'VB', 'IN', 'NN', 'CC', 'VBZ', 'DT', 'VBZ', 'DT', 'NN']"
-1,// Copyright 2012 Stefan Nilsson,"['//', 'Copyright', '2012', 'Stefan', 'Nilsson']","['COMMENT', 'JJ', 'CD', 'NNP', 'NNP']"
-2,//,['//'],['COMMENT']
-3,"// Licensed under the Apache License, Version 2.0 (the ""License"");","['//', 'Licensed', 'under', 'the', 'Apache', 'License,', 'Version', '2.0', '(the', '""License"");']","['COMMENT', 'VBN', 'IN', 'DT', 'NNP', 'NNP', 'NNP', 'CD', 'NNP', 'NN']"
-4,// you may not use this file except in compliance with the License.,"['//', 'you', 'may', 'not', 'use', 'this', 'file', 'except', 'in', 'compliance', 'with', 'the', 'License.']","['COMMENT', 'PRP', 'MD', 'RB', 'VB', 'DT', 'NN', 'IN', 'IN', 'NN', 'IN', 'DT', 'NNP']"
-5,// You may obtain a copy of the License at,"['//', 'You', 'may', 'obtain', 'a', 'copy', 'of', 'the', 'License', 'at']","['COMMENT', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'DT', 'NNP', 'IN']"
-6,//,['//'],['COMMENT']
-7,//     http://www.apache.org/licenses/LICENSE-2.0,"['//', 'http:www.apache.org/licenses/LICENSE-2.0']","['COMMENT', 'NN']"
-8,//,['//'],['COMMENT']
-9,"// Unless required by applicable law or agreed to in writing, software","['//', 'Unless', 'required', 'by', 'applicable', 'law', 'or', 'agreed', 'to', 'in', 'writing,', 'software']","['COMMENT', 'IN', 'VBN', 'IN', 'JJ', 'NN', 'CC', 'VBN', 'TO', 'IN', 'NN', 'NN']"
-10,"// distributed under the License is distributed on an ""AS IS"" BASIS,","['//', 'distributed', 'under', 'the', 'License', 'is', 'distributed', 'on', 'an', '""AS', 'IS""', 'BASIS,']","['COMMENT', 'VBN', 'IN', 'DT', 'NNP', 'VBZ', 'VBN', 'IN', 'DT', 'JJ', 'NNP', 'NNP']"
-11,"// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.","['//', 'WITHOUT', 'WARRANTIES', 'OR', 'CONDITIONS', 'OF', 'ANY', 'KIND,', 'either', 'express', 'or', 'implied.']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'IN', 'NNP', 'NNP', 'CC', 'NN', 'CC', 'NN']"
-12,// See the License for the specific language governing permissions and,"['//', 'See', 'the', 'License', 'for', 'the', 'specific', 'language', 'governing', 'permissions', 'and']","['COMMENT', 'VB', 'DT', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'NN', 'NNS', 'CC']"
-13,// limitations under the License.,"['//', 'limitations', 'under', 'the', 'License.']","['COMMENT', 'NNS', 'IN', 'DT', 'NNP']"
-14,// Package prio provides a priority queue.,"['//', 'Package', 'prio', 'provides', 'a', 'priority', 'queue.']","['COMMENT', 'NN', 'NN', 'VBZ', 'DT', 'NN', 'NN']"
-15,// The queue can hold elements that implement the two methods of prio.Interface.,"['//', 'The', 'queue', 'can', 'hold', 'elements', 'that', 'implement', 'the', 'two', 'methods', 'of', 'prio.Interface.']","['COMMENT', 'DT', 'NN', 'MD', 'VB', 'NNS', 'WDT', 'VBP', 'DT', 'CD', 'NNS', 'IN', 'NN']"
-16,package prio,"['package', 'prio']","['KEYWORD', 'IDENTIFIER']"
-17,/*,['/*'],['PUNCTUATION']
-18,A type that implements prio.Interface can be inserted into a priority queue.,"['A', 'type', 'that', 'implements', 'prio', '.', 'Interface', 'can', 'be', 'inserted', 'into', 'a', 'priority', 'queue', '.']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-19,The simplest use case looks like this:,"['The', 'simplest', 'use', 'case', 'looks', 'like', 'this', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-20,        type myInt int,"['type', 'myInt', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-21,        func (x myInt) Less(y prio.Interface) bool { return x < y.(myInt) },"['func', '(', 'x', 'myInt', ')', 'Less', '(', 'y', 'prio', '.', 'Interface', ')', 'bool', '{', 'return', 'x', '<', 'y', '.(', 'myInt', ')', '}']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-22,        func (x myInt) Index(i int)                {},"['func', '(', 'x', 'myInt', ')', 'Index', '(', 'i', 'int', ')', '{}']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-23,To use the Remove method you need to keep track of the index of elements,"['To', 'use', 'the', 'Remove', 'method', 'you', 'need', 'to', 'keep', 'track', 'of', 'the', 'index', 'of', 'elements']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-24,"in the heap, e.g. like this:","['in', 'the', 'heap', ',', 'e', '.', 'g', '.', 'like', 'this', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-25,        type myType struct {,"['type', 'myType', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-26,                value int,"['value', 'int']","['IDENTIFIER', 'IDENTIFIER']"
-27,                index int // index in heap,"['index', 'int', '//', 'index', 'in', 'heap']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NN', 'IN', 'NN']"
-28,        },['}'],['PUNCTUATION']
-29,        func (x *myType) Less(y prio.Interface) bool { return x.value < y.(*myType).value },"['func', '(', 'x', '*', 'myType', ')', 'Less', '(', 'y', 'prio', '.', 'Interface', ')', 'bool', '{', 'return', 'x', '.', 'value', '<', 'y', '.(*', 'myType', ').', 'value', '}']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-30,        func (x *myType) Index(i int)                { x.index = i },"['func', '(', 'x', '*', 'myType', ')', 'Index', '(', 'i', 'int', ')', '{', 'x', '.', 'index', '=', 'i', '}']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-31,*/,['*/'],['PUNCTUATION']
-32,type Interface interface {,"['type', 'Interface', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-33,        // Less returns whether this element should sort before element x.,"['//', 'Less', 'returns', 'whether', 'this', 'element', 'should', 'sort', 'before', 'element', 'x.']","['COMMENT', 'NNP', 'VBZ', 'IN', 'DT', 'NN', 'MD', 'VB', 'IN', 'NN', 'NN']"
-34,        Less(x Interface) bool,"['Less', '(', 'x', 'Interface', ')', 'bool']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-35,        // Index is called by the priority queue when this element is moved to index i.,"['//', 'Index', 'is', 'called', 'by', 'the', 'priority', 'queue', 'when', 'this', 'element', 'is', 'moved', 'to', 'index', 'i.']","['COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'NN', 'NN', 'WRB', 'DT', 'NN', 'VBZ', 'VBN', 'TO', 'NN', 'NN']"
-36,        Index(i int),"['Index', '(', 'i', 'int', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-37,},['}'],['PUNCTUATION']
-38,// Queue represents a priority queue.,"['//', 'Queue', 'represents', 'a', 'priority', 'queue.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'NN']"
-39,// The zero value for Queue is an empty queue ready to use.,"['//', 'The', 'zero', 'value', 'for', 'Queue', 'is', 'an', 'empty', 'queue', 'ready', 'to', 'use.']","['COMMENT', 'DT', 'CD', 'NN', 'IN', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'JJ', 'TO', 'VB']"
-40,type Queue struct {,"['type', 'Queue', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-41,        h []Interface,"['h', '[]', 'Interface']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-42,},['}'],['PUNCTUATION']
-43,// New returns an initialized priority queue with the given elements.,"['//', 'New', 'returns', 'an', 'initialized', 'priority', 'queue', 'with', 'the', 'given', 'elements.']","['COMMENT', 'NNP', 'NNS', 'DT', 'JJ', 'NN', 'NN', 'IN', 'DT', 'VBN', 'NN']"
-44,// A call of the form New(x...) uses the underlying array of x to implement,"['//', 'A', 'call', 'of', 'the', 'form', 'New(x...)', 'uses', 'the', 'underlying', 'array', 'of', 'x', 'to', 'implement']","['COMMENT', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'NN', 'TO', 'VB']"
-45,// the queue and hence might change the elements of x.,"['//', 'the', 'queue', 'and', 'hence', 'might', 'change', 'the', 'elements', 'of', 'x.']","['COMMENT', 'DT', 'NN', 'CC', 'NN', 'MD', 'VB', 'DT', 'NNS', 'IN', 'NN']"
-46,"// The complexity is O(n), where n = len(x).","['//', 'The', 'complexity', 'is', 'O(n),', 'where', 'n', '=', 'len(x).']","['COMMENT', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'JJ', 'NN', 'NN']"
-47,func New(x ...Interface) Queue {,"['func', 'New', '(', 'x', '...', 'Interface', ')', 'Queue', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-48,        q := Queue{x},"['q', ':=', 'Queue', '{', 'x', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-49,        heapify(q.h),"['heapify', '(', 'q', '.', 'h', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-50,        return q,"['return', 'q']","['KEYWORD', 'IDENTIFIER']"
-51,},['}'],['PUNCTUATION']
-52,// Push pushes the element x onto the queue.,"['//', 'Push', 'pushes', 'the', 'element', 'x', 'onto', 'the', 'queue.']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'NNP', 'IN', 'DT', 'NN']"
-53,// The complexity is O(log(n)) where n = q.Len().,"['//', 'The', 'complexity', 'is', 'O(log(n))', 'where', 'n', '=', 'q.Len().']","['COMMENT', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'JJ', 'NN', 'NN']"
-54,func (q *Queue) Push(x Interface) {,"['func', '(', 'q', '*', 'Queue', ')', 'Push', '(', 'x', 'Interface', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-55,        n := len(q.h),"['n', ':=', 'len', '(', 'q', '.', 'h', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-56,"        q.h = append(q.h, x)","['q', '.', 'h', '=', 'append', '(', 'q', '.', 'h', ',', 'x', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-57,"        up(q.h, n) // x.Index(n) is done by up.","['up', '(', 'q', '.', 'h', ',', 'n', ')', '//', 'x.Index(n)', 'is', 'done', 'by', 'up.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
-58,},['}'],['PUNCTUATION']
-59,// Pop removes a minimum element (according to Less) from the queue and returns it.,"['//', 'Pop', 'removes', 'a', 'minimum', 'element', '(according', 'to', 'Less)', 'from', 'the', 'queue', 'and', 'returns', 'it.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'VBG', 'TO', 'NNP', 'IN', 'DT', 'NN', 'CC', 'NNS', 'VBP']"
-60,"// The complexity is O(log(n)), where n = q.Len().","['//', 'The', 'complexity', 'is', 'O(log(n)),', 'where', 'n', '=', 'q.Len().']","['COMMENT', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'JJ', 'NN', 'NN']"
-61,func (q *Queue) Pop() Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Pop', '()', 'Interface', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,        h := q.h,"['h', ':=', 'q', '.', 'h']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-63,        n := len(h) - 1,"['n', ':=', 'len', '(', 'h', ')', '-', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-64,        x := h[0],"['x', ':=', 'h', '[', '0', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-65,"        h[0], h[n] = h[n], nil","['h', '[', '0', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-66,        h = h[:n],"['h', '=', 'h', '[:', 'n', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-67,        if n > 0 {,"['if', 'n', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-68,"                down(h, 0) // h[0].Index(0) is done by down.","['down', '(', 'h', ',', '0', ')', '//', 'h[0].Index(0)', 'is', 'done', 'by', 'down.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
-69,        },['}'],['PUNCTUATION']
-70,        q.h = h,"['q', '.', 'h', '=', 'h']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-71,        x.Index(-1) // for safety,"['x.Index(-1)', '//', 'for', 'safety']","['FUNCTION_CALL', 'COMMENT', 'IN', 'NN']"
-72,        return x,"['return', 'x']","['KEYWORD', 'IDENTIFIER']"
-73,},['}'],['PUNCTUATION']
-74,"// Peek returns, but does not remove, a minimum element (according to Less) of the queue.","['//', 'Peek', 'returns,', 'but', 'does', 'not', 'remove,', 'a', 'minimum', 'element', '(according', 'to', 'Less)', 'of', 'the', 'queue.']","['COMMENT', 'JJ', 'NN', 'CC', 'VBZ', 'RB', 'VB', 'DT', 'JJ', 'NN', 'VBG', 'TO', 'NNP', 'IN', 'DT', 'NN']"
-75,func (q *Queue) Peek() Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Peek', '()', 'Interface', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-76,        return q.h[0],"['return', 'q', '.', 'h', '[', '0', ']']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-77,},['}'],['PUNCTUATION']
-78,// Remove removes the element at index i from the queue and returns it.,"['//', 'Remove', 'removes', 'the', 'element', 'at', 'index', 'i', 'from', 'the', 'queue', 'and', 'returns', 'it.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NN', 'IN', 'DT', 'NN', 'CC', 'NNS', 'VBP']"
-79,"// The complexity is O(log(n)), where n = q.Len().","['//', 'The', 'complexity', 'is', 'O(log(n)),', 'where', 'n', '=', 'q.Len().']","['COMMENT', 'DT', 'NN', 'VBZ', 'NNP', 'WRB', 'JJ', 'NN', 'NN']"
-80,func (q *Queue) Remove(i int) Interface {,"['func', '(', 'q', '*', 'Queue', ')', 'Remove', '(', 'i', 'int', ')', 'Interface', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-81,        h := q.h,"['h', ':=', 'q', '.', 'h']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-82,        n := len(h) - 1,"['n', ':=', 'len', '(', 'h', ')', '-', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-83,        x := h[i],"['x', ':=', 'h', '[', 'i', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-84,"        h[i], h[n] = h[n], nil","['h', '[', 'i', '],', 'h', '[', 'n', ']', '=', 'h', '[', 'n', '],', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-85,        h = h[:n],"['h', '=', 'h', '[:', 'n', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-86,        if i < n {,"['if', 'i', '<', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-87,"                down(h, i) // h[i].Index(i) is done by down.","['down', '(', 'h', ',', 'i', ')', '//', 'h[i].Index(i)', 'is', 'done', 'by', 'down.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'VBN', 'IN', 'NN']"
-88,"                up(h, i)","['up', '(', 'h', ',', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-89,        },['}'],['PUNCTUATION']
-90,        q.h = h,"['q', '.', 'h', '=', 'h']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-91,        x.Index(-1) // for safety,"['x.Index(-1)', '//', 'for', 'safety']","['FUNCTION_CALL', 'COMMENT', 'IN', 'NN']"
-92,        return x,"['return', 'x']","['KEYWORD', 'IDENTIFIER']"
-93,},['}'],['PUNCTUATION']
-94,// Len returns the number of elements in the queue.,"['//', 'Len', 'returns', 'the', 'number', 'of', 'elements', 'in', 'the', 'queue.']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'IN', 'DT', 'NN']"
-95,func (q *Queue) Len() int {,"['func', '(', 'q', '*', 'Queue', ')', 'Len', '()', 'int', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-96,        return len(q.h),"['return', 'len', '(', 'q', '.', 'h', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-97,},['}'],['PUNCTUATION']
-98,// Establishes the heap invariant in O(n) time.,"['//', 'Establishes', 'the', 'heap', 'invariant', 'in', 'O(n)', 'time.']","['COMMENT', 'NNS', 'DT', 'NN', 'NN', 'IN', 'NNP', 'NN']"
-99,func heapify(h []Interface) {,"['func', 'heapify', '(', 'h', '[]', 'Interface', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-100,        n := len(h),"['n', ':=', 'len', '(', 'h', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-101,        for i := n - 1; i >= n/2; i-- {,"['for', 'i', ':=', 'n', '-', '1', ';', 'i', '>=', 'n/2;', 'i', '--', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DIRECTORY', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-102,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+Example code part
+
+
+","['Problem:', 'There', 'is', 'a', 'list', 'of', 'tables', 'associated', 'keys.', 'It', 'is', 'necessary', 'to', 'implement', 'CRUD', 'for', 'each', 'table', '+', 'some', 'functional', 'on', 'the', 'specifics', 'of', 'the', 'table', '(pagination,', 'etc.).', 'Troubles:', 'duplicated', 'in', 'each', 'of', 'the', 'functional', 'implementation', 'for', 'each', 'table', 'About', '50%', 'of', 'the', 'code.', 'Question:', 'What', 'are', 'the', 'ways', 'on', 'the', 'specifics', 'of', 'the', 'language,', 'of', 'the', 'optimization', '/', 'refactoring', '/', 'use', 'similar', 'code', 'patterns?', 'Example', 'code', 'part']","['NNP', 'EX', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'VBN', 'NN', 'PRP', 'VBZ', 'JJ', 'TO', 'VB', 'NNP', 'IN', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'IN', 'DT', 'NNS', 'IN', 'DT', 'NN', 'NN', 'NN', 'NNP', 'VBN', 'IN', 'DT', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'IN', 'CD', 'IN', 'DT', 'NN', 'NNP', 'WP', 'VBP', 'DT', 'NNS', 'IN', 'DT', 'NNS', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'VBG', 'NNP', 'NN', 'JJ', 'NN', 'NN', 'NNP', 'NN', 'NN']"
+1,//------------------------------------------------------------------,"['//', '------------------------------------------------------------------']","['COMMENT', 'NN']"
+2,//  user,"['//', 'user']","['COMMENT', 'NN']"
+3,//----------------------------------------------------------------------,"['//', '----------------------------------------------------------------------']","['COMMENT', 'NN']"
+4,"func (d *Database) UserCreate(email, password, username string, role int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserCreate', '(', 'email', ',', 'password', ',', 'username', 'string', ',', 'role', 'int', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+5,    //variables,"['//', 'variables']","['COMMENT', 'NNS']"
+6,"    answer := d.initCall(""UserCreate"")","['answer', ':=', 'd.initCall(""UserCreate"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+7,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+8,    //check exist user,"['//', 'check', 'exist', 'user']","['COMMENT', 'NN', 'VBP', 'NN']"
+9,"    if userExist := d.DB.Find(&User{}, &User{Email:email}).Error; userExist == nil {","['if', 'userExist', ':=', 'd', '.', 'DB.Find(&User{}, &User{Email:email})', '.', 'Error', ';', 'userExist', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+10,"        answer.AnswerJSON.ErrorAnswer.Message = ""[usercreate] user already exist""","['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', '""[usercreate] user already exist""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+11,        answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+12,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+13,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+14,        userinfo := UserInfo{Data:time.Now()},"['userinfo', ':=', 'UserInfo', '{', 'Data', ':', 'time.Now()', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+15,        session := Session{Data:time.Now()},"['session', ':=', 'Session', '{', 'Data', ':', 'time.Now()', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+16,        cook := Cook{},"['cook', ':=', 'Cook', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+17,        //make support  tables object,"['//', 'make', 'support', 'tables', 'object']","['COMMENT', 'VB', 'NN', 'NNS', 'VBP']"
+18,        //userinfo object,"['//', 'userinfo', 'object']","['COMMENT', 'JJ', 'NN']"
+19,        userinfo.Password = password,"['userinfo', '.', 'Password', '=', 'password']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+20,        userinfo.Username = username,"['userinfo', '.', 'Username', '=', 'username']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+21,        //cook object,"['//', 'cook', 'object']","['COMMENT', 'NN', 'NN']"
+22,        cook.SessionID = session.ID,"['cook', '.', 'SessionID', '=', 'session', '.', 'ID']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+23,"        cook.Cookie = d.cookgeneratenew(""somesaltforcooksgenerate"")","['cook', '.', 'Cookie', '=', 'd.cookgeneratenew(""somesaltforcooksgenerate"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+24,        cook.Status = true,"['cook', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+25,        cook.Lastconnect = time.Now(),"['cook', '.', 'Lastconnect', '=', 'time.Now()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+26,        cook.CountConnect += 1,"['cook', '.', 'CountConnect', '+=', '1']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+27,        //user object,"['//', 'user', 'object']","['COMMENT', 'NN', 'NN']"
+28,        user.Email = email,"['user', '.', 'Email', '=', 'email']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+29,        user.Session = session,"['user', '.', 'Session', '=', 'session']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+30,        user.UserInfo = userinfo,"['user', '.', 'UserInfo', '=', 'userinfo']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+31,        user.Cook = cook,"['user', '.', 'Cook', '=', 'cook']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+32,        user.Role = int64(role),"['user', '.', 'Role', '=', 'int64', '(', 'role', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+33,        //make request + //serizlizations to json answer,"['//', 'make', 'request', '+', 'serizlizations', 'to', 'json', 'answer']","['COMMENT', 'VB', 'NN', 'NN', 'NNS', 'TO', 'VB', 'NN']"
+34,        if err := d.DB.Create(user).Error; err != nil {,"['if', 'err', ':=', 'd', '.', 'DB.Create(user)', '.', 'Error', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+35,            answer.AnswerJSON.ErrorAnswer.Message = err.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'err.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+36,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+37,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+38,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+39,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+40,        },['}'],['PUNCTUATION']
+41,    },['}'],['PUNCTUATION']
+42,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+43,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+44,},['}'],['PUNCTUATION']
+45,func (d *Database) UserDelete(userid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserDelete', '(', 'userid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+46,"    answer := d.initCall(""UserDelete"")","['answer', ':=', 'd.initCall(""UserDelete"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+47,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+48,    //check exists,"['//', 'check', 'exists']","['COMMENT', 'NN', 'NNS']"
+49,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists == nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+50,        if userDelete := d.DB.Delete(user).Error; userDelete != nil {,"['if', 'userDelete', ':=', 'd', '.', 'DB.Delete(user)', '.', 'Error', ';', 'userDelete', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+51,            answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+52,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+53,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+54,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+55,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+56,        },['}'],['PUNCTUATION']
+57,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+58,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+59,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+60,    },['}'],['PUNCTUATION']
+61,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+62,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+63,},['}'],['PUNCTUATION']
+64,func (d *Database) UserRead(userid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserRead', '(', 'userid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+65,"    answer := d.initCall(""UserRead"")","['answer', ':=', 'd.initCall(""UserRead"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+66,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+67,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists != nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+68,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+69,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+70,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+71,        if rel := d.DB.Model(user).Related(&user.Session).Error; rel != nil {,"['if', 'rel', ':=', 'd', '.', 'DB.Model(user).Related(&user.Session)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+72,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+73,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+74,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+75,        } else if rel = d.DB.Model(user).Related(&user.UserInfo).Error; rel != nil {,"['}', 'else', 'if', 'rel', '=', 'd', '.', 'DB.Model(user).Related(&user.UserInfo)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+76,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+77,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+78,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+79,        } else if rel = d.DB.Model(user).Related(&user.Cook).Error; rel != nil {,"['}', 'else', 'if', 'rel', '=', 'd', '.', 'DB.Model(user).Related(&user.Cook)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+80,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+81,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+82,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+83,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+84,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+85,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+86,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+87,        },['}'],['PUNCTUATION']
+88,    },['}'],['PUNCTUATION']
+89,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+90,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+91,},['}'],['PUNCTUATION']
+92,func (d *Database) UserReadAll() *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserReadAll', '()', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+93,"    answer := d.initCall(""UserReadAll"")","['answer', ':=', 'd.initCall(""UserReadAll"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+94,    users := []User{},"['users', ':=', '[]', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+95,    if usersGet := d.DB.Find(&users).Error; usersGet != nil {,"['if', 'usersGet', ':=', 'd', '.', 'DB.Find(&users)', '.', 'Error', ';', 'usersGet', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+96,        answer.AnswerJSON.ErrorAnswer.Message = usersGet.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'usersGet.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+97,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+98,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+99,"        for _, user := range users {","['for', '_', ',', 'user', ':=', 'range', 'users', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+100,            d.DB.Model(user).Related(&user.Session),"['d', '.', 'DB.Model(user).Related(&user.Session)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+101,            d.DB.Model(user).Related(&user.UserInfo),"['d', '.', 'DB.Model(user).Related(&user.UserInfo)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+102,            d.DB.Model(user).Related(&user.Cook),"['d', '.', 'DB.Model(user).Related(&user.Cook)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
 103,        },['}'],['PUNCTUATION']
-104,        for i := n/2 - 1; i >= 0; i-- { // h[i].Index(i) is done by down.,"['for', 'i', ':=', 'n/2 - 1; i >= 0; i-- { //', 'h', '[', 'i', '].', 'Index', '(', 'i', ')', 'is', 'done', 'by', 'down', '.']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-105,"                down(h, i)","['down', '(', 'h', ',', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-106,        },['}'],['PUNCTUATION']
-107,},['}'],['PUNCTUATION']
-108,// Moves element at position i towards top of heap to restore invariant.,"['//', 'Moves', 'element', 'at', 'position', 'i', 'towards', 'top', 'of', 'heap', 'to', 'restore', 'invariant.']","['COMMENT', 'NNS', 'VBP', 'IN', 'NN', 'NN', 'VBP', 'NN', 'IN', 'NN', 'TO', 'VB', 'NN']"
-109,"func up(h []Interface, i int) {","['func', 'up', '(', 'h', '[]', 'Interface', ',', 'i', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-110,        for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-111,                parent := (i - 1) / 2,"['parent', ':=', '(', 'i', '-', '1', ')', '/', '2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-112,                if i == 0 || h[parent].Less(h[i]) {,"['if', 'i', '==', '0', '||', 'h', '[', 'parent', '].', 'Less', '(', 'h', '[', 'i', '])', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-113,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-114,                        break,['break'],['KEYWORD']
-115,                },['}'],['PUNCTUATION']
-116,"                h[parent], h[i] = h[i], h[parent]","['h', '[', 'parent', '],', 'h', '[', 'i', ']', '=', 'h', '[', 'i', '],', 'h', '[', 'parent', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-117,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-118,                i = parent,"['i', '=', 'parent']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-119,        },['}'],['PUNCTUATION']
-120,},['}'],['PUNCTUATION']
-121,// Moves element at position i towards bottom of heap to restore invariant.,"['//', 'Moves', 'element', 'at', 'position', 'i', 'towards', 'bottom', 'of', 'heap', 'to', 'restore', 'invariant.']","['COMMENT', 'NNS', 'VBP', 'IN', 'NN', 'NN', 'VBP', 'NN', 'IN', 'NN', 'TO', 'VB', 'NN']"
-122,"func down(h []Interface, i int) {","['func', 'down', '(', 'h', '[]', 'Interface', ',', 'i', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-123,        for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-124,                n := len(h),"['n', ':=', 'len', '(', 'h', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-125,                left := 2*i + 1,"['left', ':=', '2', '*', 'i', '+', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
-126,                if left >= n {,"['if', 'left', '>=', 'n', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-127,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-128,                        break,['break'],['KEYWORD']
-129,                },['}'],['PUNCTUATION']
-130,                j := left,"['j', ':=', 'left']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-131,                if right := left + 1; right < n && h[right].Less(h[left]) {,"['if', 'right', ':=', 'left', '+', '1', ';', 'right', '<', 'n', '&&', 'h', '[', 'right', '].', 'Less', '(', 'h', '[', 'left', '])', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-132,                        j = right,"['j', '=', 'right']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-133,                },['}'],['PUNCTUATION']
-134,                if h[i].Less(h[j]) {,"['if', 'h', '[', 'i', '].', 'Less', '(', 'h', '[', 'j', '])', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-135,                        h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-136,                        break,['break'],['KEYWORD']
-137,                },['}'],['PUNCTUATION']
-138,"                h[i], h[j] = h[j], h[i]","['h', '[', 'i', '],', 'h', '[', 'j', ']', '=', 'h', '[', 'j', '],', 'h', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-139,                h[i].Index(i),"['h', '[', 'i', '].', 'Index', '(', 'i', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-140,                i = j,"['i', '=', 'j']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-141,        },['}'],['PUNCTUATION']
-142,},['}'],['PUNCTUATION']
+104,        answer.AnswerJSON.Result = users,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'users']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+105,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+106,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+107,    },['}'],['PUNCTUATION']
+108,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+109,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+110,},['}'],['PUNCTUATION']
+111,"func (d *Database) UserUpdate(userid int64, uu *UserUpdateStruct) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserUpdate', '(', 'userid', 'int64', ',', 'uu', '*', 'UserUpdateStruct', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+112,"    answer := d.initCall(""UserUpdate"")","['answer', ':=', 'd.initCall(""UserUpdate"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+113,    user := new(User),"['user', ':=', 'new', '(', 'User', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+114,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists != nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+115,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+116,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+117,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+118,        //get relevating struct info,"['//', 'get', 'relevating', 'struct', 'info']","['COMMENT', 'VB', 'VBG', 'NN', 'NN']"
+119,        d.DB.Model(user).Related(&user.Session),"['d', '.', 'DB.Model(user).Related(&user.Session)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+120,        d.DB.Model(user).Related(&user.UserInfo),"['d', '.', 'DB.Model(user).Related(&user.UserInfo)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+121,        d.DB.Model(user).Related(&user.Cook),"['d', '.', 'DB.Model(user).Related(&user.Cook)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+122,        //update columns,"['//', 'update', 'columns']","['COMMENT', 'JJ', 'NNS']"
+123,"        if uu.Email != """" {","['if', 'uu', '.', 'Email', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+124,            user.Email = uu.Email,"['user', '.', 'Email', '=', 'uu', '.', 'Email']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+125,        },['}'],['PUNCTUATION']
+126,        if uu.Avatar > 0 {,"['if', 'uu', '.', 'Avatar', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+127,            user.UserInfo.Avatar = uu.Avatar,"['user', '.', 'UserInfo', '.', 'Avatar', '=', 'uu', '.', 'Avatar']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+128,        },['}'],['PUNCTUATION']
+129,"        if uu.Birthday != """" {","['if', 'uu', '.', 'Birthday', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+130,            user.UserInfo.Birthday = uu.Birthday,"['user', '.', 'UserInfo', '.', 'Birthday', '=', 'uu', '.', 'Birthday']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+131,        },['}'],['PUNCTUATION']
+132,"        if uu.Location != """" {","['if', 'uu', '.', 'Location', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+133,            user.UserInfo.Location = uu.Location,"['user', '.', 'UserInfo', '.', 'Location', '=', 'uu', '.', 'Location']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+134,        },['}'],['PUNCTUATION']
+135,"        if uu.Male != """" {","['if', 'uu', '.', 'Male', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+136,            user.UserInfo.Male = uu.Male,"['user', '.', 'UserInfo', '.', 'Male', '=', 'uu', '.', 'Male']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+137,        },['}'],['PUNCTUATION']
+138,"        if uu.Password != """" {","['if', 'uu', '.', 'Password', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+139,            user.UserInfo.Password = uu.Password,"['user', '.', 'UserInfo', '.', 'Password', '=', 'uu', '.', 'Password']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+140,        },['}'],['PUNCTUATION']
+141,        if uu.Role > 0 {,"['if', 'uu', '.', 'Role', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+142,            if roleErr := d.DB.Find(&Role{}).Error; roleErr != nil {,"['if', 'roleErr', ':=', 'd', '.', 'DB.Find(&Role{})', '.', 'Error', ';', 'roleErr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+143,                //role not found,"['//', 'role', 'not', 'found']","['COMMENT', 'NN', 'RB', 'VBD']"
+144,"                fmt.Printf(""[userupdate] role not found `%d`\n"", uu.Role)","['fmt.Printf(""[userupdate] role not found `%d`\\n"", uu.Role)']",['FUNCTION_CALL']
+145,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+146,                user.Role = uu.Role,"['user', '.', 'Role', '=', 'uu', '.', 'Role']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+147,            },['}'],['PUNCTUATION']
+148,        },['}'],['PUNCTUATION']
+149,        //update,"['//', 'update']","['COMMENT', 'NN']"
+150,        if errUpdate := d.DB.Save(user).Error; errUpdate != nil {,"['if', 'errUpdate', ':=', 'd', '.', 'DB.Save(user)', '.', 'Error', ';', 'errUpdate', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+151,            answer.AnswerJSON.ErrorAnswer.Message = errUpdate.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errUpdate.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+152,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+153,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+154,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+155,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+156,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+157,        },['}'],['PUNCTUATION']
+158,    },['}'],['PUNCTUATION']
+159,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+160,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+161,},['}'],['PUNCTUATION']
+162,"func (d *Database) UserPaginate(page, countPage int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserPaginate', '(', 'page', ',', 'countPage', 'int', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+163,"    answer := d.initCall(""UserPaginate"")","['answer', ':=', 'd.initCall(""UserPaginate"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+164,    result := []*User{},"['result', ':=', '[]*', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+165,    if errPag := d.DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result).Error; errPag != nil {,"['if', 'errPag', ':=', 'd', '.', 'DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result)', '.', 'Error', ';', 'errPag', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+166,        answer.AnswerJSON.ErrorAnswer.Message = errPag.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errPag.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+167,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+168,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+169,"        for _, user := range result {","['for', '_', ',', 'user', ':=', 'range', 'result', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+170,            d.DB.Model(&user).Related(&user.Session),"['d', '.', 'DB.Model(&user).Related(&user.Session)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+171,            d.DB.Model(&user).Related(&user.UserInfo),"['d', '.', 'DB.Model(&user).Related(&user.UserInfo)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+172,            d.DB.Model(&user).Related(&user.Cook),"['d', '.', 'DB.Model(&user).Related(&user.Cook)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+173,        },['}'],['PUNCTUATION']
+174,        answer.AnswerJSON.Result = result,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'result']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+175,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+176,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+177,    },['}'],['PUNCTUATION']
+178,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+179,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+180,},['}'],['PUNCTUATION']
+181,//-------------------------------------------------------------------,"['//', '-------------------------------------------------------------------']","['COMMENT', 'NN']"
+182,//  category,"['//', 'category']","['COMMENT', 'NN']"
+183,//--------------------------------------------------------------------,"['//', '--------------------------------------------------------------------']","['COMMENT', 'NN']"
+184,func (d *Database) CategoryCreate(name string) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryCreate', '(', 'name', 'string', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+185,    //variables,"['//', 'variables']","['COMMENT', 'NNS']"
+186,"    answer := d.initCall(""CategoryCreate"")","['answer', ':=', 'd.initCall(""CategoryCreate"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+187,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+188,    //check exist user,"['//', 'check', 'exist', 'user']","['COMMENT', 'NN', 'VBP', 'NN']"
+189,"    if catExist := d.DB.Find(&Category{}, &Category{Name:name}).Error; catExist == nil {","['if', 'catExist', ':=', 'd', '.', 'DB.Find(&Category{}, &Category{Name:name})', '.', 'Error', ';', 'catExist', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+190,"        answer.AnswerJSON.ErrorAnswer.Message = ""[categorycreate] category already exist""","['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', '""[categorycreate] category already exist""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+191,        answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+192,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+193,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+194,        cat.Name = name,"['cat', '.', 'Name', '=', 'name']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+195,        //make request + //serizlizations to json answer,"['//', 'make', 'request', '+', 'serizlizations', 'to', 'json', 'answer']","['COMMENT', 'VB', 'NN', 'NN', 'NNS', 'TO', 'VB', 'NN']"
+196,        if err := d.DB.Create(cat).Error; err != nil {,"['if', 'err', ':=', 'd', '.', 'DB.Create(cat)', '.', 'Error', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+197,            answer.AnswerJSON.ErrorAnswer.Message = err.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'err.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+198,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+199,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+200,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+201,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+202,        },['}'],['PUNCTUATION']
+203,    },['}'],['PUNCTUATION']
+204,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+205,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+206,},['}'],['PUNCTUATION']
+207,func (d *Database) CategoryDelete(catid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryDelete', '(', 'catid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+208,"    answer := d.initCall(""CategoryDelete"")","['answer', ':=', 'd.initCall(""CategoryDelete"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+209,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+210,    //check exists,"['//', 'check', 'exists']","['COMMENT', 'NN', 'NNS']"
+211,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists == nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+212,        if catDelete := d.DB.Delete(cat).Error; catDelete != nil {,"['if', 'catDelete', ':=', 'd', '.', 'DB.Delete(cat)', '.', 'Error', ';', 'catDelete', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+213,            answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+214,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+215,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+216,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+217,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+218,        },['}'],['PUNCTUATION']
+219,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+220,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+221,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+222,    },['}'],['PUNCTUATION']
+223,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+224,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+225,},['}'],['PUNCTUATION']
+226,func (d *Database) CategoryRead(catid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryRead', '(', 'catid', 'int64', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+227,"    answer := d.initCall(""CategoryRead"")","['answer', ':=', 'd.initCall(""CategoryRead"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+228,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+229,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists != nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+230,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+231,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+232,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+233,        if rel := d.DB.Model(cat).Related(&cat.Post).Error; rel != nil {,"['if', 'rel', ':=', 'd', '.', 'DB.Model(cat).Related(&cat.Post)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+234,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+235,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+236,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+237,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+238,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+239,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+240,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+241,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+242,            },['}'],['PUNCTUATION']
+243,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+244,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+245,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+246,        },['}'],['PUNCTUATION']
+247,    },['}'],['PUNCTUATION']
+248,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+249,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+250,},['}'],['PUNCTUATION']
+251,func (d *Database) CategoryReadAll() *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryReadAll', '()', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+252,"    answer := d.initCall(""CategoryReadAll"")","['answer', ':=', 'd.initCall(""CategoryReadAll"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+253,    cats := []Category{},"['cats', ':=', '[]', 'Category', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+254,    if catsGet := d.DB.Find(&cats).Error; catsGet != nil {,"['if', 'catsGet', ':=', 'd', '.', 'DB.Find(&cats)', '.', 'Error', ';', 'catsGet', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+255,        answer.AnswerJSON.ErrorAnswer.Message = catsGet.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catsGet.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+256,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+257,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+258,        //categorys,"['//', 'categorys']","['COMMENT', 'NN']"
+259,"        for _, cat := range cats {","['for', '_', ',', 'cat', ':=', 'range', 'cats', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+260,            d.DB.Model(cat).Related(&cat.Post),"['d', '.', 'DB.Model(cat).Related(&cat.Post)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+261,            //get relete POST,"['//', 'get', 'relete', 'POST']","['COMMENT', 'VB', 'JJ', 'NNP']"
+262,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+263,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+264,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+265,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+266,            },['}'],['PUNCTUATION']
+267,        },['}'],['PUNCTUATION']
+268,        answer.AnswerJSON.Result = cats,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cats']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+269,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+270,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+271,    },['}'],['PUNCTUATION']
+272,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+273,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+274,},['}'],['PUNCTUATION']
+275,"func (d *Database) CategoryUpdate(catid int64, name string) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'CategoryUpdate', '(', 'catid', 'int64', ',', 'name', 'string', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+276,"    answer := d.initCall(""CategoryUpdate"")","['answer', ':=', 'd.initCall(""CategoryUpdate"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+277,    cat := new(Category),"['cat', ':=', 'new', '(', 'Category', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+278,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists != nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+279,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+280,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+281,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+282,        //get relevating struct info,"['//', 'get', 'relevating', 'struct', 'info']","['COMMENT', 'VB', 'VBG', 'NN', 'NN']"
+283,        d.DB.Model(cat).Related(&cat.Post),"['d', '.', 'DB.Model(cat).Related(&cat.Post)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+284,        //update columns,"['//', 'update', 'columns']","['COMMENT', 'JJ', 'NNS']"
+285,"        if name != """" {","['if', 'name', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
+286,            cat.Name = name,"['cat', '.', 'Name', '=', 'name']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+287,        },['}'],['PUNCTUATION']
+288,        //update,"['//', 'update']","['COMMENT', 'NN']"
+289,        if errUpdate := d.DB.Save(cat).Error; errUpdate != nil {,"['if', 'errUpdate', ':=', 'd', '.', 'DB.Save(cat)', '.', 'Error', ';', 'errUpdate', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+290,            answer.AnswerJSON.ErrorAnswer.Message = errUpdate.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errUpdate.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+291,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+292,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+293,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+294,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+295,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+296,        },['}'],['PUNCTUATION']
+297,    },['}'],['PUNCTUATION']
+298,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+299,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+300,},['}'],['PUNCTUATION']
+301,"func (d *Database) CategoryPaginate(page, countPage int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'CategoryPaginate', '(', 'page', ',', 'countPage', 'int', ')', '*', 'Answer', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+302,"    answer := d.initCall(""CategoryPaginate"")","['answer', ':=', 'd.initCall(""CategoryPaginate"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+303,    result := []*Category{},"['result', ':=', '[]*', 'Category', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+304,    if errPag := d.DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result).Error; errPag != nil {,"['if', 'errPag', ':=', 'd', '.', 'DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result)', '.', 'Error', ';', 'errPag', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+305,        answer.AnswerJSON.ErrorAnswer.Message = errPag.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errPag.Error()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+306,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+307,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+308,"        for _, cat := range result {","['for', '_', ',', 'cat', ':=', 'range', 'result', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+309,            d.DB.Model(&cat).Related(&cat.Post),"['d', '.', 'DB.Model(&cat).Related(&cat.Post)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+310,            //get relete POST,"['//', 'get', 'relete', 'POST']","['COMMENT', 'VB', 'JJ', 'NNP']"
+311,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+312,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+313,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+314,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+315,            },['}'],['PUNCTUATION']
+316,        },['}'],['PUNCTUATION']
+317,        answer.AnswerJSON.Result = result,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'result']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+318,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+319,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+320,    },['}'],['PUNCTUATION']
+321,    d.serilize(answer),['d.serilize(answer)'],['FUNCTION_CALL']
+322,    return answer,"['return', 'answer']","['KEYWORD', 'IDENTIFIER']"
+323,},['}'],['PUNCTUATION']

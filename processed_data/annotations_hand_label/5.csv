@@ -1,13 +1,11 @@
 ,text,token,annotation
-0,"Although (as mentioned above) this works:
+0,"The goroutines are only working on copies of the slice headers, the underlying arrays are the same. To make a copy of a slice, you need to use copy (or append to a different slice).
 
+","['The', 'goroutines', 'are', 'only', 'working', 'on', 'copies', 'of', 'the', 'slice', 'headers,', 'the', 'underlying', 'arrays', 'are', 'the', 'same.', 'To', 'make', 'a', 'copy', 'of', 'a', 'slice,', 'you', 'need', 'to', 'use', 'copy', '(or', 'append', 'to', 'a', 'different', 'slice).']","['DT', 'NNS', 'VBP', 'RB', 'VBG', 'IN', 'NNS', 'IN', 'DT', 'NN', 'VBD', 'DT', 'JJ', 'NNS', 'VBP', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'NN', 'NNS', 'VBP', 'TO', 'DT', 'JJ', 'NN']"
+1,"buf_Seq = append(buf_Seq, line)","['buf_Seq', '=', 'append', '(', 'buf_Seq', ',', 'line', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+2,"bufCopy := make([]string, len(buf_Seq))","['bufCopy', ':=', 'make', '([]', 'string', ',', 'len', '(', 'buf_Seq', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+3,"copy(bufCopy, buf_Seq)","['copy', '(', 'bufCopy', ',', 'buf_Seq', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+4,"
 
-err := collection.Find(nil).Select(bson.M{""categories"": bson.M{""$elemMatch"": bson.M{""slug"": ""general""}}}).One(&result)
-
-
-but I think this will query all docments inside the collection, and then it choose the right one. Hence I think the solution that comes below is more efficent.
-
-
-err := collection.Find(bson.M{""categories"": bson.M{""$elemMatch"": bson.M{""slug"": ""general""}}}).One(&result)
-
-","['Although', '(as', 'mentioned', 'above)', 'this', 'works:', 'err', ':=', 'collection.Find(nil).Select(bson.M{""categories"":', 'bson.M{""$elemMatch"":', 'bson.M{""slug"":', '""general""}}}).One(&result)', 'but', 'I', 'think', 'this', 'will', 'query', 'all', 'docments', 'inside', 'the', 'collection,', 'and', 'then', 'it', 'choose', 'the', 'right', 'one.', 'Hence', 'I', 'think', 'the', 'solution', 'that', 'comes', 'below', 'is', 'more', 'efficent.', 'err', ':=', 'collection.Find(bson.M{""categories"":', 'bson.M{""$elemMatch"":', 'bson.M{""slug"":', '""general""}}}).One(&result)']","['IN', 'NNP', 'VBD', 'RP', 'DT', 'NN', 'VBZ', 'NNP', 'NN', 'NN', 'NN', 'NN', 'CC', 'PRP', 'VBP', 'DT', 'MD', 'VB', 'DT', 'NNS', 'IN', 'DT', 'NN', 'CC', 'RB', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'NNP', 'PRP', 'VBP', 'DT', 'NN', 'WDT', 'VBZ', 'IN', 'VBZ', 'JJR', 'JJ', 'NN', 'NNP', 'NN', 'NN', 'NN', 'NN']"
+You can then safely pass bufCopy to the goroutines, or simply use it directly in the closure.
+","['You', 'can', 'then', 'safely', 'pass', 'bufCopy', 'to', 'the', 'goroutines,', 'or', 'simply', 'use', 'it', 'directly', 'in', 'the', 'closure.']","['PRP', 'MD', 'RB', 'RB', 'VBP', 'NN', 'TO', 'DT', 'NN', 'CC', 'RB', 'VB', 'PRP', 'RB', 'IN', 'DT', 'NN']"

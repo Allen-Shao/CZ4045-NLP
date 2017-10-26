@@ -1,27 +1,21 @@
 ,text,token,annotation
-0,"You need to account for the number of bytes returned from ReadAt, otherwise the last fileBuffer you send will have extra garbage bytes.
+0,"I think you should create the Child outside of the Add method and pass it in. If you want to manipulate the Child, do that before you passed it in. You might use methods on the Child struct to do that:
 
-Example:
-
-","['You', 'need', 'to', 'account', 'for', 'the', 'number', 'of', 'bytes', 'returned', 'from', 'ReadAt,', 'otherwise', 'the', 'last', 'fileBuffer', 'you', 'send', 'will', 'have', 'extra', 'garbage', 'bytes.', 'Example:']","['PRP', 'VBP', 'TO', 'VB', 'IN', 'DT', 'NN', 'IN', 'NNS', 'VBN', 'IN', 'NNP', 'RB', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'MD', 'VB', 'JJ', 'NN', 'NN', 'NNP']"
-1,"n, err := file.ReadAt(fileBuffer, currentByte)","['n', ',', 'err', ':=', 'file.ReadAt(fileBuffer, currentByte)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-2,connection.Write(fileBuffer[:n]),['connection.Write(fileBuffer[:n])'],['FUNCTION_CALL']
-3,"
-
-Also ",['Also'],['RB']
-4,"bytes.Trim(fileBuffer, ""\x00"")","['bytes.Trim(fileBuffer, ""\\x00"")']",['FUNCTION_CALL']
-5," will destroy almost any binary file since usually they use null bytes to fill space.
-
-Also the proper way of doing this is just using io.Copy:
-
-","['will', 'destroy', 'almost', 'any', 'binary', 'file', 'since', 'usually', 'they', 'use', 'null', 'bytes', 'to', 'fill', 'space.', 'Also', 'the', 'proper', 'way', 'of', 'doing', 'this', 'is', 'just', 'using', 'io.Copy:']","['MD', 'VB', 'RB', 'DT', 'JJ', 'NN', 'IN', 'RB', 'PRP', 'VBP', 'JJ', 'NNS', 'TO', 'VB', 'NN', 'RB', 'DT', 'JJ', 'NN', 'IN', 'VBG', 'DT', 'VBZ', 'RB', 'VBG', 'NN']"
-6,"file, err := os.Open(strings.TrimSpace(fileName)) // For read access.","['file', ',', 'err', ':=', 'os.Open(strings.TrimSpace(fileName))', '//', 'For', 'read', 'access.']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'IN', 'JJ', 'NN']"
-7,if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-8,    log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-9,},['}'],['PUNCTUATION']
-10,defer file.Close() // make sure to close the file even if we panic.,"['defer', 'file.Close()', '//', 'make', 'sure', 'to', 'close', 'the', 'file', 'even', 'if', 'we', 'panic.']","['IDENTIFIER', 'FUNCTION_CALL', 'COMMENT', 'VB', 'JJ', 'TO', 'VB', 'DT', 'NN', 'RB', 'IN', 'PRP', 'VBP']"
-11,"n, err = io.Copy(connection, file)","['n', ',', 'err', '=', 'io.Copy(connection, file)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-12,if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-13,    log.Fatal(err),['log.Fatal(err)'],['FUNCTION_CALL']
-14,},['}'],['PUNCTUATION']
-15,"fmt.Println(n, ""bytes sent"")","['fmt.Println(n, ""bytes sent"")']",['FUNCTION_CALL']
+","['I', 'think', 'you', 'should', 'create', 'the', 'Child', 'outside', 'of', 'the', 'Add', 'method', 'and', 'pass', 'it', 'in.', 'If', 'you', 'want', 'to', 'manipulate', 'the', 'Child,', 'do', 'that', 'before', 'you', 'passed', 'it', 'in.', 'You', 'might', 'use', 'methods', 'on', 'the', 'Child', 'struct', 'to', 'do', 'that:']","['PRP', 'VBP', 'PRP', 'MD', 'VB', 'DT', 'NNP', 'IN', 'IN', 'DT', 'NNP', 'NN', 'CC', 'NN', 'PRP', 'VBZ', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NNP', 'VBP', 'IN', 'IN', 'PRP', 'VBD', 'PRP', 'VBZ', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'NNP', 'NN', 'TO', 'VB', 'VB']"
+1,"func (c *Child) Init(fn1 func(), fn2 func()) {","['func', '(', 'c', '*', 'Child', ')', 'Init', '(', 'fn1', 'func', '(),', 'fn2', 'func', '())', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+2,"  c.Status = ""1""","['c', '.', 'Status', '=', '""1""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+3,  ...,['...'],['PUNCTUATION']
+4,},['}'],['PUNCTUATION']
+5,func (p *Parent) Add(c *Child) *Child {,"['func', '(', 'p', '*', 'Parent', ')', 'Add', '(', 'c', '*', 'Child', ')', '*', 'Child', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+6,"  p.Children = append(p.Children, c)","['p', '.', 'Children', '=', 'append', '(', 'p', '.', 'Children', ',', 'c', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+7,  return c,"['return', 'c']","['KEYWORD', 'IDENTIFIER']"
+8,},['}'],['PUNCTUATION']
+9,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+10,  var p Parent,"['var', 'p', 'Parent']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+11,  var child Child,"['var', 'child', 'Child']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+12,  child.Init(...)       // <- pass something in there...,"['child.Init(...)', '//', '<-', 'pass', 'something', 'in', 'there...']","['FUNCTION_CALL', 'COMMENT', 'JJ', 'NN', 'NN', 'IN', 'NN']"
+13,  p.Add(&child),['p.Add(&child)'],['FUNCTION_CALL']
+14,"  child.Status = ""2""","['child', '.', 'Status', '=', '""2""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+15,  fmt.Println(p),['fmt.Println(p)'],['FUNCTION_CALL']
+16,  fmt.Println(child),['fmt.Println(child)'],['FUNCTION_CALL']
+17,},['}'],['PUNCTUATION']

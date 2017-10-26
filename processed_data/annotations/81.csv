@@ -1,5 +1,70 @@
 ,text,token,annotation
-0,"
+0,"The following program runs fine.
 
-From the appengine documentation it appears you can use the net/http package as usual with a few tweaks.
-","['From', 'the', 'appengine', 'documentation', 'it', 'appears', 'you', 'can', 'use', 'the', 'net/http', 'package', 'as', 'usual', 'with', 'a', 'few', 'tweaks.']","['IN', 'DT', 'NN', 'NN', 'PRP', 'VBZ', 'PRP', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'IN', 'DT', 'JJ', 'NN']"
+","['The', 'following', 'program', 'runs', 'fine.']","['DT', 'JJ', 'NN', 'NNS', 'VBP']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+4,),[')'],['PUNCTUATION']
+5,type Person interface {,"['type', 'Person', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+6,    Hello(),"['Hello', '()']","['IDENTIFIER', 'PUNCTUATION']"
+7,},['}'],['PUNCTUATION']
+8,type Joker struct {,"['type', 'Joker', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+9,    Name string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+10,},['}'],['PUNCTUATION']
+11,func (j Joker) Hello() {,"['func', '(', 'j', 'Joker', ')', 'Hello', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+12,"    fmt.Println(j.Name, ""says, \""Hello!\"""")","['fmt.Println(j.Name, ""says, \\""Hello!\\"""")']",['FUNCTION_CALL']
+13,},['}'],['PUNCTUATION']
+14,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+15,"    var j Joker = Joker{""Peter""}","['var', 'j', 'Joker', '=', 'Joker', '{', '""Peter""', '}']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+16,    invokeHello(j),"['invokeHello', '(', 'j', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+17,},['}'],['PUNCTUATION']
+18,func invokeHello(p Person) {,"['func', 'invokeHello', '(', 'p', 'Person', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+19,    p.Hello(),['p.Hello()'],['FUNCTION_CALL']
+20,},['}'],['PUNCTUATION']
+21,"
+
+Here is the output.
+
+","['Here', 'is', 'the', 'output.']","['RB', 'VBZ', 'DT', 'NN']"
+22,$ go run foo.go,"['$', 'go', 'run', 'foo', '.', 'go']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD']"
+23,"Peter says, ""Hello!""","['Peter', 'says', ',', '""Hello!""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+24,"
+
+But when I change the Hello method to receive a pointer, I get errors.
+
+","['But', 'when', 'I', 'change', 'the', 'Hello', 'method', 'to', 'receive', 'a', 'pointer,', 'I', 'get', 'errors.']","['CC', 'WRB', 'PRP', 'VBP', 'DT', 'NNP', 'NN', 'TO', 'VB', 'DT', 'NN', 'PRP', 'VBP', 'JJ']"
+25,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+26,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+27,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+28,),[')'],['PUNCTUATION']
+29,type Person interface {,"['type', 'Person', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+30,    Hello(),"['Hello', '()']","['IDENTIFIER', 'PUNCTUATION']"
+31,},['}'],['PUNCTUATION']
+32,type Joker struct {,"['type', 'Joker', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+33,    Name string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+34,},['}'],['PUNCTUATION']
+35,func (j *Joker) Hello() {,"['func', '(', 'j', '*', 'Joker', ')', 'Hello', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+36,"    fmt.Println(j.Name, ""says, \""Hello!\"""")","['fmt.Println(j.Name, ""says, \\""Hello!\\"""")']",['FUNCTION_CALL']
+37,},['}'],['PUNCTUATION']
+38,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+39,"    var j *Joker = &Joker{""Peter""}","['var', 'j', '*', 'Joker', '=', '&', 'Joker', '{', '""Peter""', '}']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+40,    invokeHello(j),"['invokeHello', '(', 'j', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+41,},['}'],['PUNCTUATION']
+42,func invokeHello(p *Person) {,"['func', 'invokeHello', '(', 'p', '*', 'Person', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+43,    p.Hello(),['p.Hello()'],['FUNCTION_CALL']
+44,},['}'],['PUNCTUATION']
+45,"
+
+Here are the errors.
+
+","['Here', 'are', 'the', 'errors.']","['RB', 'VBP', 'DT', 'NN']"
+46,$ go run bar.go,"['$', 'go', 'run', 'bar', '.', 'go']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD']"
+47,# command-line-arguments,"['command', '-', 'line', '-', 'arguments']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER']"
+48,./bar.go:21: cannot use j (type *Joker) as type *Person in argument to invokeHello:,"['./', 'bar', '.', 'go', ':', '21', ':', 'cannot', 'use', 'j', '(', 'type', '*', 'Joker', ')', 'as', 'type', '*', 'Person', 'in', 'argument', 'to', 'invokeHello', ':']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+49,"    *Person is pointer to interface, not interface","['*', 'Person', 'is', 'pointer', 'to', 'interface', ',', 'not', 'interface']","['POINTER_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD']"
+50,./bar.go:25: p.Hello undefined (type *Person has no field or method Hello),"['./', 'bar', '.', 'go', ':', '25', ':', 'p', '.', 'Hello', 'undefined', '(', 'type', '*', 'Person', 'has', 'no', 'field', 'or', 'method', 'Hello', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+51,"
+
+How can I fix the second program?
+","['How', 'can', 'I', 'fix', 'the', 'second', 'program?']","['WRB', 'MD', 'PRP', 'VB', 'DT', 'JJ', 'NN']"

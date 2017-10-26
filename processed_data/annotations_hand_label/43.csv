@@ -1,173 +1,65 @@
 ,text,token,annotation
-0,Got stuck while passing multiple values in cookie. I'm not able to find a better way for managing session and cookies. Trying to use ,"['Got', 'stuck', 'while', 'passing', 'multiple', 'values', 'in', 'cookie.', ""I'm"", 'not', 'able', 'to', 'find', 'a', 'better', 'way', 'for', 'managing', 'session', 'and', 'cookies.', 'Trying', 'to', 'use']","['NNP', 'VBD', 'IN', 'VBG', 'JJ', 'NNS', 'IN', 'NN', 'NNP', 'RB', 'JJ', 'TO', 'VB', 'DT', 'JJR', 'NN', 'IN', 'VBG', 'NN', 'CC', 'NN', 'VBG', 'TO', 'VB']"
-1,github.com/gorilla/securecookie,"['github', '.', 'com/gorilla/securecookie']","['IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
-2," this package. 
+0,"Another approach is using sync.Cond and atomic, something along the lines of:
 
-loginMain.go
-
-","['this', 'package.', 'loginMain.go']","['DT', 'NN', 'NN']"
-3,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-4,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-5,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
-6,"    ""log""","['""log""']",['STRING_LITERAL']
-7,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-8,"    ""shambhavi/packages/loginPkg""   ","['""shambhavi/packages/loginPkg""']",['STRING_LITERAL']
-9,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
-10,"    ""github.com/gorilla/mux""","['""github.com/gorilla/mux""']",['STRING_LITERAL']
+","['Another', 'approach', 'is', 'using', 'sync.Cond', 'and', 'atomic,', 'something', 'along', 'the', 'lines', 'of:']","['DT', 'NN', 'VBZ', 'VBG', 'NN', 'CC', 'JJ', 'NN', 'IN', 'DT', 'NNS', 'VBP']"
+1,type Server struct {,"['type', 'Server', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+2,    s     chan int,"['s', 'chan', 'int']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+3,    r     chan int,"['r', 'chan', 'int']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+4,    c     *sync.Cond,"['c', '*', 'sync', '.', 'Cond']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+5,    state uint32,"['state', 'uint32']","['IDENTIFIER', 'IDENTIFIER']"
+6,},['}'],['PUNCTUATION']
+7,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+8,    sNormal       = 0,"['sNormal', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+9,    sQuitting     = 1,"['sQuitting', '=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+10,    sReconnecting = 2,"['sReconnecting', '=', '2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
 11,),[')'],['PUNCTUATION']
-12,var router = mux.NewRouter(),"['var', 'router', '=', 'mux.NewRouter()']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-13,var db *sql.DB,"['var', 'db', '*', 'sql', '.', 'DB']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-14,func connectDb() *sql.DB {,"['func', 'connectDb', '()', '*', 'sql', '.', 'DB', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-15,"    db, dberr := sql.Open(""mysql"", ""root:root@tcp(127.0.0.1:8889)/shambhavi_db"")","['db', ',', 'dberr', ':=', 'sql.Open(""mysql"", ""root:root@tcp(127.0.0.1:8889)/shambhavi_db"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-16,    if dberr != nil {,"['if', 'dberr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-17,        log.Println(dberr),['log.Println(dberr)'],['FUNCTION_CALL']
-18,    },['}'],['PUNCTUATION']
-19,    return db,"['return', 'db']","['KEYWORD', 'IDENTIFIER']"
-20,},['}'],['PUNCTUATION']
-21,"func login(w http.ResponseWriter, r *http.Request) {","['func', 'login', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-22,    var db *sql.DB = connectDb(),"['var', 'db', '*', 'sql', '.', 'DB', '=', 'connectDb', '()']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-23,"    loginPkg.LoginOperation(w, r, db)","['loginPkg.LoginOperation(w, r, db)']",['FUNCTION_CALL']
-24,},['}'],['PUNCTUATION']
-25,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-26,"    http.HandleFunc(""/demo"", login)","['http.HandleFunc(""/demo"", login)']",['FUNCTION_CALL']
-27,"    http.Handle(""/"", router)","['http.Handle(""/"", router)']",['FUNCTION_CALL']
-28,"    err := http.ListenAndServe(port, nil) // setting listening port","['err', ':=', 'http.ListenAndServe(port, nil)', '//', 'setting', 'listening', 'port']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'VBG', 'VBG', 'NN']"
-29,if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-30,"    log.Fatal(""ListenAndServe: "", err)","['log.Fatal(""ListenAndServe: "", err)']",['FUNCTION_CALL']
-31,},['}'],['PUNCTUATION']
-32,}  ,['}'],['PUNCTUATION']
-33,"
+12,func New() *Server {,"['func', 'New', '()', '*', 'Server', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+13,    s := &Server{,"['s', ':=', '&', 'Server', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+14,"        s: make(chan int),","['s', ':', 'make', '(', 'chan', 'int', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+15,"        r: make(chan int),","['r', ':', 'make', '(', 'chan', 'int', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+16,"        c: sync.NewCond(&sync.Mutex{}),","['c', ':', 'sync.NewCond(&sync.Mutex{})', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+17,    },['}'],['PUNCTUATION']
+18,    go s.sender(),"['go', 's.sender()']","['KEYWORD', 'FUNCTION_CALL']"
+19,    // go s.receiver(),"['//', 'go', 's.receiver()']","['COMMENT', 'VB', 'NN']"
+20,    return s,"['return', 's']","['KEYWORD', 'IDENTIFIER']"
+21,},['}'],['PUNCTUATION']
+22,func (s *Server) sender() {,"['func', '(', 's', '*', 'Server', ')', 'sender', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+23,    //,['//'],['COMMENT']
+24,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+25,        select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
+26,        case data := <-s.s:,"['case', 'data', ':=', '<-', 's', '.', 's', ':']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+27,        //do stuff with data,"['//', 'do', 'stuff', 'with', 'data']","['COMMENT', 'VB', 'NN', 'IN', 'NNS']"
+28,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
+29,            s.c.L.Lock(),"['s', '.', 'c', '.', 'L.Lock()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+30,        L:,"['L', ':']","['IDENTIFIER', 'PUNCTUATION']"
+31,            for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
+32,                switch atomic.LoadUint32(&s.state) {,"['switch', 'atomic.LoadUint32(&s.state)', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'PUNCTUATION']"
+33,                case sNormal:,"['case', 'sNormal', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+34,                    break L,"['break', 'L']","['KEYWORD', 'IDENTIFIER']"
+35,                case sReconnecting:,"['case', 'sReconnecting', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+36,                case sQuitting:,"['case', 'sQuitting', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+37,                    s.c.L.Unlock(),"['s', '.', 'c', '.', 'L.Unlock()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+38,                    return,['return'],['KEYWORD']
+39,                },['}'],['PUNCTUATION']
+40,                s.c.Wait(),"['s', '.', 'c.Wait()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+41,            },['}'],['PUNCTUATION']
+42,            s.c.L.Unlock(),"['s', '.', 'c', '.', 'L.Unlock()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+43,        },['}'],['PUNCTUATION']
+44,    },['}'],['PUNCTUATION']
+45,},['}'],['PUNCTUATION']
+46,//repeat for receiver,"['//', 'repeat', 'for', 'receiver']","['COMMENT', 'NN', 'IN', 'NN']"
+47,func (s *Server) Reconnect() {,"['func', '(', 's', '*', 'Server', ')', 'Reconnect', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+48,    var cannotReconnect bool,"['var', 'cannotReconnect', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+49,"    atomic.StoreUint32(&s.state, sReconnecting)","['atomic.StoreUint32(&s.state, sReconnecting)']",['FUNCTION_CALL']
+50,    //keep trying to reconnect,"['//', 'keep', 'trying', 'to', 'reconnect']","['COMMENT', 'VB', 'VBG', 'TO', 'VB']"
+51,    if cannotReconnect {,"['if', 'cannotReconnect', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+52,"        atomic.StoreUint32(&s.state, sQuitting)","['atomic.StoreUint32(&s.state, sQuitting)']",['FUNCTION_CALL']
+53,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+54,"        atomic.StoreUint32(&s.state, sNormal)","['atomic.StoreUint32(&s.state, sNormal)']",['FUNCTION_CALL']
+55,    },['}'],['PUNCTUATION']
+56,    s.c.Broadcast(),"['s', '.', 'c.Broadcast()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+57,},['}'],['PUNCTUATION']
+58,"
 
-LoginPkg.go
-
-",['LoginPkg.go'],['NN']
-34,package loginPkg,"['package', 'loginPkg']","['KEYWORD', 'IDENTIFIER']"
-35,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-36,"    ""database/sql""","['""database/sql""']",['STRING_LITERAL']
-37,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
-38,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-39,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-40,"    ""shambhavi/packages/sessionPkg""","['""shambhavi/packages/sessionPkg""']",['STRING_LITERAL']
-41,"    _ ""github.com/go-sql-driver/mysql""","['_', '""github.com/go-sql-driver/mysql""']","['IDENTIFIER', 'STRING_LITERAL']"
-42,),[')'],['PUNCTUATION']
-43,var retMap = make(map[string]string),"['var', 'retMap', '=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-44,func ErrorHandler(err error) {,"['func', 'ErrorHandler', '(', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-46,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-47,    },['}'],['PUNCTUATION']
-48,},['}'],['PUNCTUATION']
-49,"func LoginOperation(w http.ResponseWriter, r *http.Request, db *sql.DB) {","['func', 'LoginOperation', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'db', '*', 'sql', '.', 'DB', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-50,"    fmt.Println(""In LoginOperation "")","['fmt.Println(""In LoginOperation "")']",['FUNCTION_CALL']
-51,    r.ParseForm(),['r.ParseForm()'],['FUNCTION_CALL']
-52,"    if len(r.Form[""username""][0]) == 0 && len(r.Form[""password""][0]) == 0 {","['if', 'len', '(', 'r', '.', 'Form', '[', '""username""', '][', '0', '])', '==', '0', '&&', 'len', '(', 'r', '.', 'Form', '[', '""password""', '][', '0', '])', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-53,"        fmt.Fprintf(w, ""Something is blank !!!"")","['fmt.Fprintf(w, ""Something is blank !!!"")']",['FUNCTION_CALL']
-54,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-55,        var lvl string,"['var', 'lvl', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-56,        var uFullName string,"['var', 'uFullName', 'string']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-57,"        err := db.QueryRow(""SELECT lvl_flag FROM admin_instance WHERE user_name = ? AND passwd = ?"", r.FormValue(""username""), r.FormValue(""password"")).Scan(&lvl)","['err', ':=', 'db.QueryRow(""SELECT lvl_flag FROM admin_instance WHERE user_name = ? AND passwd = ?"", r.FormValue(""username""), r.FormValue(""password"")).Scan(&lvl)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-58,"        er := db.QueryRow(""SELECT emp_name FROM emp_detail WHERE emp_uname = ?"", r.FormValue(""username"")).Scan(&uFullName)","['er', ':=', 'db.QueryRow(""SELECT emp_name FROM emp_detail WHERE emp_uname = ?"", r.FormValue(""username"")).Scan(&uFullName)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-59,        ErrorHandler(er),"['ErrorHandler', '(', 'er', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-60,"        retMap[""msg""] = ""Login successfully""","['retMap', '[', '""msg""', ']', '=', '""Login successfully""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-61,"        retMap[""err""] = ""Not Login""","['retMap', '[', '""err""', ']', '=', '""Not Login""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-62,"        retMap[""lvl""] = lvl","['retMap', '[', '""lvl""', ']', '=', 'lvl']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-63,"        retMap[""fullName""] = uFullName","['retMap', '[', '""fullName""', ']', '=', 'uFullName']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-64,"        b, _ := json.Marshal(retMap)","['b', ',', '_', ':=', 'json.Marshal(retMap)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-65,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-66,            fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
-67,"            fmt.Fprintf(w, ""%s"", b)","['fmt.Fprintf(w, ""%s"", b)']",['FUNCTION_CALL']
-68,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-69,"            if lvl == ""1"" || lvl == ""2"" || lvl == ""3"" {","['if', 'lvl', '==', '""1""', '||', 'lvl', '==', '""2""', '||', 'lvl', '==', '""3""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-70,"                sessionPkg.SetSession(w, r, r.FormValue(""username""), retMap) // Passing map to the fun, retMap","['sessionPkg.SetSession(w, r, r.FormValue(""username""), retMap)', '//', 'Passing', 'map', 'to', 'the', 'fun,', 'retMap']","['FUNCTION_CALL', 'COMMENT', 'VBG', 'NN', 'TO', 'DT', 'NN', 'NN']"
-71,"                fmt.Fprintf(w, ""%s"", b)","['fmt.Fprintf(w, ""%s"", b)']",['FUNCTION_CALL']
-72,                usrnm := sessionPkg.GetUserName(r),"['usrnm', ':=', 'sessionPkg.GetUserName(r)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-73,"                fmt.Println(""From session variable"", usrnm)","['fmt.Println(""From session variable"", usrnm)']",['FUNCTION_CALL']
-74,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-75,"                fmt.Println(""Chukala ...."")","['fmt.Println(""Chukala ...."")']",['FUNCTION_CALL']
-76,"                fmt.Fprintf(w, ""%s"", b)","['fmt.Fprintf(w, ""%s"", b)']",['FUNCTION_CALL']
-77,            }   ,['}'],['PUNCTUATION']
-78,        },['}'],['PUNCTUATION']
-79,    },['}'],['PUNCTUATION']
-80,    defer db.Close(),"['defer', 'db.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-81,},['}'],['PUNCTUATION']
-82,"
-
-The problem lies in following file....
-
-sessionHandler.go
-
-","['The', 'problem', 'lies', 'in', 'following', 'file....', 'sessionHandler.go']","['DT', 'NN', 'VBZ', 'IN', 'VBG', 'NN', 'NN']"
-83,package sessionPkg,"['package', 'sessionPkg']","['KEYWORD', 'IDENTIFIER']"
-84,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-85,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-86,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-87,"    ""time""","['""time""']",['STRING_LITERAL']
-88,"    ""github.com/gorilla/securecookie""","['""github.com/gorilla/securecookie""']",['STRING_LITERAL']
-89,),[')'],['PUNCTUATION']
-90,var cookieHandler = securecookie.New(,"['var', 'cookieHandler', '=', 'securecookie', '.', 'New', '(']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,"    securecookie.GenerateRandomKey(64),","['securecookie.GenerateRandomKey(64)', ',']","['FUNCTION_CALL', 'PUNCTUATION']"
-92,    securecookie.GenerateRandomKey(32)),['securecookie.GenerateRandomKey(32))'],['FUNCTION_CALL']
-93,"func SetSession(w http.ResponseWriter, r *http.Request, username string, retMap map[string]string) {","['func', 'SetSession', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ',', 'username', 'string', ',', 'retMap', 'map', '[', 'string', ']', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-94,    sessionData := map[string]string{,"['sessionData', ':=', 'map', '[', 'string', ']', 'string', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-95,"        ""userName"": username,","['""userName""', ':', 'username', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-96,"        ""lvl"":      retMap[""lvl""],","['""lvl""', ':', 'retMap', '[', '""lvl""', '],']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-97,"        ""fullName"": retMap[""fullName""],","['""fullName""', ':', 'retMap', '[', '""fullName""', '],']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-98,    },['}'],['PUNCTUATION']
-99,    expiration := time.Now().Add(365 * 24 * time.Hour),"['expiration', ':=', 'time.Now().Add(365 * 24 * time.Hour)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-100,"    //if encoded, err := cookieHandler.Encode(""session"", sessionData); err == nil {","['//', 'if', 'encoded,', 'err', ':=', 'cookieHandler.Encode(""session"",', 'sessionData);', 'err', '==', 'nil', '{']","['COMMENT', 'IN', 'JJ', 'FW', 'FW', 'NN', 'NN', 'NN', 'NNP', 'RB', '(']"
-101,    cookie := http.Cookie{,"['cookie', ':=', 'http', '.', 'Cookie', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-102,"        Name:    ""session"",","['Name', ':', '""session""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-103,"        Value:   sessionData[""userName""], //Here i want map or something else that can accept multiple values","['Value', ':', 'sessionData', '[', '""userName""', '],', '//', 'Here', 'i', 'want', 'map', 'or', 'something', 'else', 'that', 'can', 'accept', 'multiple', 'values']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'COMMENT', 'RB', 'JJ', 'VBP', 'NN', 'CC', 'NN', 'RB', 'IN', 'MD', 'VB', 'JJ', 'NNS']"
-104,"        Expires: expiration,","['Expires', ':', 'expiration', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-105,"        //MaxAge: 3600,","['//', 'MaxAge:', '3600,']","['COMMENT', 'NNP', 'CD']"
-106,    },['}'],['PUNCTUATION']
-107,"    http.SetCookie(w, &cookie)","['http.SetCookie(w, &cookie)']",['FUNCTION_CALL']
-108,    //},"['//', '}']","['COMMENT', ')']"
-109,},['}'],['PUNCTUATION']
-110,func GetUserName(request *http.Request) (userName string) {,"['func', 'GetUserName', '(', 'request', '*', 'http', '.', 'Request', ')', '(', 'userName', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-111,"    //fmt.Println(request.Cookie(""session""))","['//', 'fmt.Println(request.Cookie(""session""))']","['COMMENT', 'NN']"
-112,    cookieValue := make(map[string]string),"['cookieValue', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-113,"    if cookie, err := request.Cookie(""session""); err == nil {","['if', 'cookie', ',', 'err', ':=', 'request.Cookie(""session"")', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-114,"        fmt.Println(""cookieValue = "", cookie.Value)","['fmt.Println(""cookieValue = "", cookie.Value)']",['FUNCTION_CALL']
-115,"        //if err = cookieHandler.Decode(""session"", cookie.Value, &cookieValue); err == nil {","['//', 'if', 'err', '=', 'cookieHandler.Decode(""session"",', 'cookie.Value,', '&cookieValue);', 'err', '==', 'nil', '{']","['COMMENT', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'VBZ', 'NNP', 'RB', '(']"
-116,        //fmt.Println(cookie),"['//', 'fmt.Println(cookie)']","['COMMENT', 'NN']"
-117,"        cookieValue[""userName""] = cookie.Value","['cookieValue', '[', '""userName""', ']', '=', 'cookie', '.', 'Value']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-118,"        //fmt.Println(cookieValue[""userName""])","['//', 'fmt.Println(cookieValue[""userName""])']","['COMMENT', 'NN']"
-119,        //},"['//', '}']","['COMMENT', ')']"
-120,        /*else {,"['/*', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-121,"            fmt.Println(""Error "", err)","['fmt.Println(""Error "", err)']",['FUNCTION_CALL']
-122,        }*/,['}*/'],['PUNCTUATION']
-123,    },['}'],['PUNCTUATION']
-124,"    return cookieValue[""userName""]","['return', 'cookieValue', '[', '""userName""', ']']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-125,},['}'],['PUNCTUATION']
-126,/*func GetFullName(request *http.Request) (fullName string) {,"['/*', 'func', 'GetFullName', '(', 'request', '*', 'http', '.', 'Request', ')', '(', 'fullName', 'string', ')', '{']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-127,"    fmt.Println(""In GetFullName"")","['fmt.Println(""In GetFullName"")']",['FUNCTION_CALL']
-128,    cookieValue := make(map[string]string),"['cookieValue', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-129,"    if cookie2, err := request.Cookie(""session""); err == nil {","['if', 'cookie2', ',', 'err', ':=', 'request.Cookie(""session"")', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-130,"        fmt.Println(""cookieValue = "", cookie2.Value)","['fmt.Println(""cookieValue = "", cookie2.Value)']",['FUNCTION_CALL']
-131,"        //if err = cookieHandler.Decode(""session"", cookie.Value, &cookieValue); err == nil {","['//', 'if', 'err', '=', 'cookieHandler.Decode(""session"",', 'cookie.Value,', '&cookieValue);', 'err', '==', 'nil', '{']","['COMMENT', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NNP', 'VBZ', 'NNP', 'RB', '(']"
-132,        fmt.Println(cookie2),['fmt.Println(cookie2)'],['FUNCTION_CALL']
-133,"        cookieValue[""fullName""] = cookie2.Value","['cookieValue', '[', '""fullName""', ']', '=', 'cookie2', '.', 'Value']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-134,"        fmt.Println(cookieValue[""fullName""])","['fmt.Println(cookieValue[""fullName""])']",['FUNCTION_CALL']
-135,        //},"['//', '}']","['COMMENT', ')']"
-136,    },['}'],['PUNCTUATION']
-137,"    return cookieValue[""fullName""]","['return', 'cookieValue', '[', '""fullName""', ']']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-138,}*/,['}*/'],['PUNCTUATION']
-139,func ClearSession(response http.ResponseWriter) {,"['func', 'ClearSession', '(', 'response', 'http', '.', 'ResponseWriter', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-140,    cookie := &http.Cookie{,"['cookie', ':=', '&', 'http', '.', 'Cookie', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-141,"        Name:   ""session"",","['Name', ':', '""session""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-142,"        Value:  """",","['Value', ':', '""""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-143,"        Path:   ""/"",","['Path', ':', '""/""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-144,"        MaxAge: -1,","['MaxAge', ':', '-', '1', ',']","['IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-145,    },['}'],['PUNCTUATION']
-146,"    http.SetCookie(response, cookie)","['http.SetCookie(response, cookie)']",['FUNCTION_CALL']
-147,},['}'],['PUNCTUATION']
-148,"
-
-Problem indicated in code by comment. I want to use session like in PHP. Suggest the better way to secure the cookie and maintain the session. Give some explanation too.  
-
-Edited: Explain ","['Problem', 'indicated', 'in', 'code', 'by', 'comment.', 'I', 'want', 'to', 'use', 'session', 'like', 'in', 'PHP.', 'Suggest', 'the', 'better', 'way', 'to', 'secure', 'the', 'cookie', 'and', 'maintain', 'the', 'session.', 'Give', 'some', 'explanation', 'too.', 'Edited:', 'Explain']","['NNP', 'VBD', 'IN', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'NN', 'IN', 'IN', 'NNP', 'NNP', 'DT', 'JJR', 'NN', 'TO', 'VB', 'DT', 'NN', 'CC', 'VB', 'DT', 'NN', 'NNP', 'DT', 'NN', 'NN', 'NNP', 'NNP']"
-149,cookieHandler.Encode(),['cookieHandler.Encode()'],['FUNCTION_CALL']
-150, and ,['and'],['CC']
-151,cookieHandler.Decode(),['cookieHandler.Decode()'],['FUNCTION_CALL']
-152,". It is not decoding the data which is passed to it.
-","['.', 'It', 'is', 'not', 'decoding', 'the', 'data', 'which', 'is', 'passed', 'to', 'it.']","['.', 'PRP', 'VBZ', 'RB', 'VBG', 'DT', 'NN', 'WDT', 'VBZ', 'VBN', 'TO', 'VB']"
+playground
+",['playground'],['NN']

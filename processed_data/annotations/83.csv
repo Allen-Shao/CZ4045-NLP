@@ -1,8 +1,28 @@
 ,text,token,annotation
-0,"The problem is that Go interprets your literal value as an int. But, it does not really fit into 32 bits, so it fails. However, you can set the value of a big.Int after its creation:
+0,"I'm wrapping a Go library for Python. I need to be able to return None, but it's not finding it at compile time:
 
-","['The', 'problem', 'is', 'that', 'Go', 'interprets', 'your', 'literal', 'value', 'as', 'an', 'int.', 'But,', 'it', 'does', 'not', 'really', 'fit', 'into', '32', 'bits,', 'so', 'it', 'fails.', 'However,', 'you', 'can', 'set', 'the', 'value', 'of', 'a', 'big.Int', 'after', 'its', 'creation:']","['DT', 'NN', 'VBZ', 'DT', 'NNP', 'VBZ', 'PRP$', 'JJ', 'NN', 'IN', 'DT', 'NN', 'NNP', 'PRP', 'VBZ', 'RB', 'RB', 'VB', 'IN', 'CD', 'NNS', 'IN', 'PRP', 'VBZ', 'NNP', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'PRP$', 'NN']"
-1,PublicKey.N = big.NewInt(0),"['PublicKey', '.', 'N', '=', 'big.NewInt(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-2,"PublicKey.N.SetBytes([]byte(""8162962977631249175163884403387595004235353952981629629776312491751638844033875950042353539529""))","['PublicKey', '.', 'N.SetBytes([]byte(""8162962977631249175163884403387595004235353952981629629776312491751638844033875950042353539529""))']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-3,fmt.Println(N),['fmt.Println(N)'],['FUNCTION_CALL']
-4,// 8162962977631249175163884403387595004235353952981629629776312491751638844033875950042353539529,"['//', '8162962977631249175163884403387595004235353952981629629776312491751638844033875950042353539529']","['COMMENT', 'CD']"
+","[""I'm"", 'wrapping', 'a', 'Go', 'library', 'for', 'Python.', 'I', 'need', 'to', 'be', 'able', 'to', 'return', 'None,', 'but', ""it's"", 'not', 'finding', 'it', 'at', 'compile', 'time:']","['NNP', 'VBG', 'DT', 'NNP', 'NN', 'IN', 'NNP', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'TO', 'VB', 'NNP', 'CC', 'VBZ', 'RB', 'VBG', 'PRP', 'IN', 'NN', 'NN']"
+1,/*,['/*'],['PUNCTUATION']
+2,#cgo pkg-config: python3,"['cgo', 'pkg', '-', 'config', ':', 'python3']","['IDENTIFIER', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+3,#define Py_LIMITED_API,"['define', 'Py_LIMITED_API']","['IDENTIFIER', 'IDENTIFIER']"
+4,#include ,['include'],['IDENTIFIER']
+5,*/,['*/'],['PUNCTUATION']
+6,"import ""C""","['import', '""C""']","['KEYWORD', 'STRING_LITERAL']"
+7,//export Nothing,"['//', 'export', 'Nothing']","['COMMENT', 'NN', 'NN']"
+8,"func Nothing(self, args *C.PyObject) (status *C.PyObject) {","['func', 'Nothing', '(', 'self', ',', 'args', '*', 'C', '.', 'PyObject', ')', '(', 'status', '*', 'C', '.', 'PyObject', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+9,    C.Py_IncRef(C.Py_None),['C.Py_IncRef(C.Py_None)'],['FUNCTION_CALL']
+10,    return C.Py_None,"['return', 'C', '.', 'Py_None']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+11,},['}'],['PUNCTUATION']
+12,"
+
+Here's the output of go build
+
+","[""Here's"", 'the', 'output', 'of', 'go', 'build']","['NNP', 'DT', 'NN', 'IN', 'FW', 'VB']"
+13,go build -buildmode=c-shared -o mymodule.so,"['go', 'build', '-', 'buildmode', '=', 'c', '-', 'shared', '-', 'o', 'mymodule', '.', 'so']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+14,# example.com/mywrapper,"['example', '.', 'com/mywrapper']","['IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+15,/tmp/go-build293667616/example.com/mywrapper/_obj/_cgo_main.o:(.data.rel+0x0): undefined reference to `Py_None',"['/tmp/go-build293667616/example.com/mywrapper/_obj/_cgo_main.o:(.data.rel+0x0):', 'undefined', 'reference', 'to', 'Py_None']","['DIRECTORY', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+16,collect2: error: ld returned 1 exit status,"['collect2', ':', 'error', ':', 'ld', 'return', 'ed', '1', 'exit', 'status']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+17,"
+
+I'm not understanding how it can be finding all of the other Py* functions and types (PyArgs_ParseTuple and PyLong_FromLong work just fine), but can't find Py_None. The Python library is obviously being loaded. What's going on here?
+","[""I'm"", 'not', 'understanding', 'how', 'it', 'can', 'be', 'finding', 'all', 'of', 'the', 'other', 'Py*', 'functions', 'and', 'types', '(PyArgs_ParseTuple', 'and', 'PyLong_FromLong', 'work', 'just', 'fine),', 'but', ""can't"", 'find', 'Py_None.', 'The', 'Python', 'library', 'is', 'obviously', 'being', 'loaded.', ""What's"", 'going', 'on', 'here?']","['NNP', 'RB', 'VBG', 'WRB', 'PRP', 'MD', 'VB', 'VBG', 'DT', 'IN', 'DT', 'JJ', 'NNP', 'NNS', 'CC', 'NNS', 'NNS', 'CC', 'NNP', 'NN', 'RB', 'RB', 'CC', 'JJ', 'VB', 'NNP', 'DT', 'NNP', 'NN', 'VBZ', 'RB', 'VBG', 'JJ', 'NNP', 'VBG', 'IN', 'NN']"

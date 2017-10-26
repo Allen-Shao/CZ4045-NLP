@@ -1,9 +1,19 @@
 ,text,token,annotation
-0,"Just overingeneering in loop condition. Try
+0,"Here is the code, that calculates current offset between local and specified timezones. I agree with Ainar-G's comment that offset makes sense only with relation to specified moment in time:
 
-","['Just', 'overingeneering', 'in', 'loop', 'condition.', 'Try']","['RB', 'VBG', 'IN', 'NN', 'NN', 'NNP']"
-1,for lineNumber := 0; lineNumber <= LongestSlice(stuff)-1; lineNumber++ {,"['for', 'lineNumber', ':=', '0', ';', 'lineNumber', '<=', 'LongestSlice', '(', 'stuff', ')-', '1', ';', 'lineNumber', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-2,"
-
-in outer loop in func joinStrings. See it works https://play.golang.org/p/eR4JJtY4T1
-","['in', 'outer', 'loop', 'in', 'func', 'joinStrings.', 'See', 'it', 'works', 'https://play.golang.org/p/eR4JJtY4T1']","['IN', 'NN', 'NN', 'IN', 'JJ', 'NN', 'VB', 'PRP', 'VBZ', 'NN']"
+","['Here', 'is', 'the', 'code,', 'that', 'calculates', 'current', 'offset', 'between', 'local', 'and', 'specified', 'timezones.', 'I', 'agree', 'with', ""Ainar-G's"", 'comment', 'that', 'offset', 'makes', 'sense', 'only', 'with', 'relation', 'to', 'specified', 'moment', 'in', 'time:']","['RB', 'VBZ', 'DT', 'NN', 'WDT', 'VBZ', 'JJ', 'NN', 'IN', 'JJ', 'CC', 'JJ', 'NN', 'PRP', 'VBP', 'IN', 'NNP', 'NN', 'WDT', 'VBD', 'VBZ', 'NN', 'RB', 'IN', 'NN', 'TO', 'VBN', 'NN', 'IN', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+4,"    ""time""","['""time""']",['STRING_LITERAL']
+5,),[')'],['PUNCTUATION']
+6,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+7,"    loc, err := time.LoadLocation(""MST"")","['loc', ',', 'err', ':=', 'time.LoadLocation(""MST"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+8,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+9,        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+10,    },['}'],['PUNCTUATION']
+11,    now := time.Now(),"['now', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+12,"    _, destOffset := now.In(loc).Zone()","['_', ',', 'destOffset', ':=', 'now.In(loc).Zone()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+13,"    _, localOffset := now.Zone()","['_', ',', 'localOffset', ':=', 'now.Zone()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+14,"    fmt.Println(""Offset:"", destOffset-localOffset)","['fmt.Println(""Offset:"", destOffset-localOffset)']",['FUNCTION_CALL']
+15,},['}'],['PUNCTUATION']

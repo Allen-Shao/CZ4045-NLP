@@ -1,97 +1,11 @@
 ,text,token,annotation
-0,"This has really stumped me...I'm just trying to setup a basic server using Cobra and the standard http package. I've followed the golang example here for how to create a certificate and key, but no matter what I throw at it, I'm not getting it to go through and keep getting this error: 
+0,"I know Caspar has already posted the link contained, but here is the list of community contributed packages:
 
+http://godashboard.appspot.com/package
 
-  Cannot serve on http port: crypto/tls: failed to find certificate PEM data in certificate input, but did find a private key; PEM inputs may have been switched
+For completeness here are the official packages:
 
+http://golang.org/pkg/
 
-so I am left with the belief that it must be something wrong with my program that won't let me process certificates.
-
-This is what I use to parse my flags to start the server: 
-
-","['This', 'has', 'really', 'stumped', ""me...I'm"", 'just', 'trying', 'to', 'setup', 'a', 'basic', 'server', 'using', 'Cobra', 'and', 'the', 'standard', 'http', 'package.', ""I've"", 'followed', 'the', 'golang', 'example', 'here', 'for', 'how', 'to', 'create', 'a', 'certificate', 'and', 'key,', 'but', 'no', 'matter', 'what', 'I', 'throw', 'at', 'it,', ""I'm"", 'not', 'getting', 'it', 'to', 'go', 'through', 'and', 'keep', 'getting', 'this', 'error:', 'Cannot', 'serve', 'on', 'http', 'port:', 'crypto/tls:', 'failed', 'to', 'find', 'certificate', 'PEM', 'data', 'in', 'certificate', 'input,', 'but', 'did', 'find', 'a', 'private', 'key;', 'PEM', 'inputs', 'may', 'have', 'been', 'switched', 'so', 'I', 'am', 'left', 'with', 'the', 'belief', 'that', 'it', 'must', 'be', 'something', 'wrong', 'with', 'my', 'program', 'that', ""won't"", 'let', 'me', 'process', 'certificates.', 'This', 'is', 'what', 'I', 'use', 'to', 'parse', 'my', 'flags', 'to', 'start', 'the', 'server:']","['DT', 'VBZ', 'RB', 'VBN', 'NN', 'RB', 'VBG', 'TO', 'VB', 'DT', 'JJ', 'NN', 'VBG', 'NNP', 'CC', 'DT', 'JJ', 'NN', 'NN', 'NNP', 'VBD', 'DT', 'NN', 'NN', 'RB', 'IN', 'WRB', 'TO', 'VB', 'DT', 'NN', 'CC', 'NN', 'CC', 'DT', 'NN', 'WP', 'PRP', 'VBP', 'IN', 'NN', 'NNP', 'RB', 'VBG', 'PRP', 'TO', 'VB', 'IN', 'CC', 'VB', 'VBG', 'DT', 'NN', 'NNP', 'NN', 'IN', 'NN', 'NN', 'NN', 'VBD', 'TO', 'VB', 'JJ', 'NNP', 'NN', 'IN', 'NN', 'NN', 'CC', 'VBD', 'VB', 'DT', 'JJ', 'NN', 'NNP', 'NNS', 'MD', 'VB', 'VBN', 'VBN', 'RB', 'PRP', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'IN', 'PRP', 'MD', 'VB', 'NN', 'JJ', 'IN', 'PRP$', 'NN', 'IN', 'VBZ', 'VB', 'PRP', 'VB', 'NN', 'DT', 'VBZ', 'WP', 'PRP', 'VBP', 'TO', 'VB', 'PRP$', 'NNS', 'TO', 'VB', 'DT', 'NN']"
-1,var serverCmd = &cobra.Command{,"['var', 'serverCmd', '=', '&', 'cobra', '.', 'Command', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-2,"    Use:   ""server"",","['Use', ':', '""server""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-3,"    Short: ""start a compiler server"",","['Short', ':', '""start a compiler server""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-4,"    Run: func(cmd *cobra.Command, args []string) {","['Run', ':', 'func', '(', 'cmd', '*', 'cobra', '.', 'Command', ',', 'args', '[]', 'string', ')', '{']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-5,"        addrUnsecure := """"","['addrUnsecure', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-6,"        addrSecure := """"","['addrSecure', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-7,"        addrUnsecure += "":"" + strconv.FormatUint(serverPort, 10)","['addrUnsecure', '+=', '"":""', '+', 'strconv.FormatUint(serverPort, 10)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
-8,"        addrSecure += "":"" + strconv.FormatUint(securePort, 10)","['addrSecure', '+=', '"":""', '+', 'strconv.FormatUint(securePort, 10)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL', 'ARITHMETIC_OPERATOR', 'FUNCTION_CALL']"
-9,        if noSSL {,"['if', 'noSSL', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-10,"            addrSecure = """"","['addrSecure', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-11,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-12,            if secureOnly {,"['if', 'secureOnly', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-13,"                addrUnsecure = """"","['addrUnsecure', '=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-14,            },['}'],['PUNCTUATION']
-15,"            if _, err := os.Stat(serverKey); os.IsNotExist(err) {","['if', '_', ',', 'err', ':=', 'os.Stat(serverKey); os.IsNotExist(err)', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-16,"                log.Error(""Can't find ssl key %s. Use --no-ssl flag to disable"", serverKey)","['log.Error(""Can\'t find ssl key %s. Use --no-ssl flag to disable"", serverKey)']",['FUNCTION_CALL']
-17,                os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-18,            },['}'],['PUNCTUATION']
-19,"            if _, err := os.Stat(serverCert); os.IsNotExist(err) {","['if', '_', ',', 'err', ':=', 'os.Stat(serverCert); os.IsNotExist(err)', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-20,"                log.Error(""Can't find ssl cert %s. Use --no-ssl flag to disable"", serverCert)","['log.Error(""Can\'t find ssl cert %s. Use --no-ssl flag to disable"", serverCert)']",['FUNCTION_CALL']
-21,                os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-22,            },['}'],['PUNCTUATION']
-23,        },['}'],['PUNCTUATION']
-24,"        server.StartServer(addrUnsecure, addrSecure, serverCert, serverKey)","['server.StartServer(addrUnsecure, addrSecure, serverCert, serverKey)']",['FUNCTION_CALL']
-25,"    },","['},']",['PUNCTUATION']
-26,},['}'],['PUNCTUATION']
-27,func addServerFlags() {,"['func', 'addServerFlags', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-28,"    serverCmd.Flags().Uint64VarP(&serverPort, ""port"", ""p"", setServerPort(), ""set the listening port for http"")","['serverCmd.Flags().Uint64VarP(&serverPort, ""port"", ""p"", setServerPort(), ""set the listening port for http"")']",['FUNCTION_CALL']
-29,"    serverCmd.Flags().Uint64VarP(&securePort, ""secure-port"", ""s"", setSecurePort(), ""set the listening port for https"")","['serverCmd.Flags().Uint64VarP(&securePort, ""secure-port"", ""s"", setSecurePort(), ""set the listening port for https"")']",['FUNCTION_CALL']
-30,"    serverCmd.Flags().BoolVarP(&noSSL, ""no-ssl"", ""n"", setSSL(), ""use only http"")","['serverCmd.Flags().BoolVarP(&noSSL, ""no-ssl"", ""n"", setSSL(), ""use only http"")']",['FUNCTION_CALL']
-31,"    serverCmd.Flags().BoolVarP(&secureOnly, ""secure-only"", ""o"", setSecureOnly(), ""use only https"")","['serverCmd.Flags().BoolVarP(&secureOnly, ""secure-only"", ""o"", setSecureOnly(), ""use only https"")']",['FUNCTION_CALL']
-32,"    serverCmd.Flags().StringVarP(&serverCert, ""cert"", ""c"", setDefaultServerCert(), ""set the https certificate"")","['serverCmd.Flags().StringVarP(&serverCert, ""cert"", ""c"", setDefaultServerCert(), ""set the https certificate"")']",['FUNCTION_CALL']
-33,"    serverCmd.Flags().StringVarP(&serverKey, ""key"", ""k"", setDefaultServerKey(), ""set the key to interact with the https certificate"")","['serverCmd.Flags().StringVarP(&serverKey, ""key"", ""k"", setDefaultServerKey(), ""set the key to interact with the https certificate"")']",['FUNCTION_CALL']
-34,},['}'],['PUNCTUATION']
-35,func setServerPort() uint64 {,"['func', 'setServerPort', '()', 'uint64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-36,    return 9099,"['return', '9099']","['KEYWORD', 'DECIMAL_LITERAL']"
-37,},['}'],['PUNCTUATION']
-38,func setSecurePort() uint64 {,"['func', 'setSecurePort', '()', 'uint64', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-39,    return 9098,"['return', '9098']","['KEYWORD', 'DECIMAL_LITERAL']"
-40,},['}'],['PUNCTUATION']
-41,func setSSL() bool {,"['func', 'setSSL', '()', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-42,    return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-43,},['}'],['PUNCTUATION']
-44,func setSecureOnly() bool {,"['func', 'setSecureOnly', '()', 'bool', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-45,    return false,"['return', 'false']","['KEYWORD', 'BOOLEAN_LITERAL']"
-46,},['}'],['PUNCTUATION']
-47,func setDefaultServerCert() string {,"['func', 'setDefaultServerCert', '()', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-48,"    return """"","['return', '""""']","['KEYWORD', 'STRING_LITERAL']"
-49,},['}'],['PUNCTUATION']
-50,func setDefaultServerKey() string {,"['func', 'setDefaultServerKey', '()', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-51,"    return """"","['return', '""""']","['KEYWORD', 'STRING_LITERAL']"
-52,},['}'],['PUNCTUATION']
-53,"
-
-and this is the function where the actual server is started:
-
-","['and', 'this', 'is', 'the', 'function', 'where', 'the', 'actual', 'server', 'is', 'started:']","['CC', 'DT', 'VBZ', 'DT', 'NN', 'WRB', 'DT', 'JJ', 'NN', 'VBZ', 'JJ']"
-54,"func StartServer(addrUnsecure, addrSecure, key, cert string) {","['func', 'StartServer', '(', 'addrUnsecure', ',', 'addrSecure', ',', 'key', ',', 'cert', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-55,"    log.Warn(""Hello I'm the marmots' compilers server"")","['log.Warn(""Hello I\'m the marmots\' compilers server"")']",['FUNCTION_CALL']
-56,    common.InitErisDir(),['common.InitErisDir()'],['FUNCTION_CALL']
-57,    // Routes,"['//', 'Routes']","['COMMENT', 'NNS']"
-58,"    http.HandleFunc(""/"", CompileHandler)","['http.HandleFunc(""/"", CompileHandler)']",['FUNCTION_CALL']
-59,    // Use SSL ?,"['//', 'Use', 'SSL', '?']","['COMMENT', 'NNP', 'NNP', '.']"
-60,    log.Debug(cert),['log.Debug(cert)'],['FUNCTION_CALL']
-61,"    if addrSecure != """" {","['if', 'addrSecure', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-62,"        log.Debug(""Using HTTPS"")","['log.Debug(""Using HTTPS"")']",['FUNCTION_CALL']
-63,"        log.WithField(""=>"", addrSecure).Debug(""Listening on..."")","['log.WithField(""=>"", addrSecure).Debug(""Listening on..."")']",['FUNCTION_CALL']
-64,"        if err := http.ListenAndServeTLS(addrUnsecure, cert, key, nil); err != nil {","['if', 'err', ':=', 'http.ListenAndServeTLS(addrUnsecure, cert, key, nil)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-65,"            log.Error(""Cannot serve on http port: "", err)","['log.Error(""Cannot serve on http port: "", err)']",['FUNCTION_CALL']
-66,            os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-67,        },['}'],['PUNCTUATION']
-68,    },['}'],['PUNCTUATION']
-69,"    if addrUnsecure != """" {","['if', 'addrUnsecure', '!=', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-70,"        log.Debug(""Using HTTP"")","['log.Debug(""Using HTTP"")']",['FUNCTION_CALL']
-71,"        log.WithField(""=>"", addrUnsecure).Debug(""Listening on..."")","['log.WithField(""=>"", addrUnsecure).Debug(""Listening on..."")']",['FUNCTION_CALL']
-72,"        if err := http.ListenAndServe(addrUnsecure, nil); err != nil {","['if', 'err', ':=', 'http.ListenAndServe(addrUnsecure, nil)', ';', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-73,"            log.Error(""Cannot serve on http port: "", err)","['log.Error(""Cannot serve on http port: "", err)']",['FUNCTION_CALL']
-74,            os.Exit(1),['os.Exit(1)'],['FUNCTION_CALL']
-75,        },['}'],['PUNCTUATION']
-76,    },['}'],['PUNCTUATION']
-77,},['}'],['PUNCTUATION']
-78,"
-
-I've gotten this in both Docker running Ubuntu 14.04 and OS X locally on my machine. Thanks in advance to whoever can help me out. It's kind of embarassing because this seems like it should be a really simple thing to do and I'm willing to bet it's going to be something dumb that's got me here. 
-","[""I've"", 'gotten', 'this', 'in', 'both', 'Docker', 'running', 'Ubuntu', '14.04', 'and', 'OS', 'X', 'locally', 'on', 'my', 'machine.', 'Thanks', 'in', 'advance', 'to', 'whoever', 'can', 'help', 'me', 'out.', ""It's"", 'kind', 'of', 'embarassing', 'because', 'this', 'seems', 'like', 'it', 'should', 'be', 'a', 'really', 'simple', 'thing', 'to', 'do', 'and', ""I'm"", 'willing', 'to', 'bet', ""it's"", 'going', 'to', 'be', 'something', 'dumb', ""that's"", 'got', 'me', 'here.']","['NNP', 'VBZ', 'DT', 'IN', 'DT', 'NNP', 'VBG', 'NNP', 'CD', 'CC', 'NNP', 'NNP', 'RB', 'IN', 'PRP$', 'JJ', 'NNS', 'IN', 'NN', 'TO', 'WP', 'MD', 'VB', 'PRP', 'JJ', 'NNP', 'NN', 'IN', 'NN', 'IN', 'DT', 'VBZ', 'IN', 'PRP', 'MD', 'VB', 'DT', 'RB', 'JJ', 'NN', 'TO', 'VB', 'CC', 'NNP', 'JJ', 'TO', 'VB', 'NN', 'VBG', 'TO', 'VB', 'NN', 'JJ', 'NN', 'VBD', 'PRP', 'VB']"
+Also, since it is a VERY new language I don't feel too bad in saying, if it needs doing, I'm sure they would be happy for your contributions. (I try not to say ""submit a patch"" when we are talk about old languages/modules, however a new language is an exception)
+","['I', 'know', 'Caspar', 'has', 'already', 'posted', 'the', 'link', 'contained,', 'but', 'here', 'is', 'the', 'list', 'of', 'community', 'contributed', 'packages:', 'http://godashboard.appspot.com/package', 'For', 'completeness', 'here', 'are', 'the', 'official', 'packages:', 'http://golang.org/pkg/', 'Also,', 'since', 'it', 'is', 'a', 'VERY', 'new', 'language', 'I', ""don't"", 'feel', 'too', 'bad', 'in', 'saying,', 'if', 'it', 'needs', 'doing,', ""I'm"", 'sure', 'they', 'would', 'be', 'happy', 'for', 'your', 'contributions.', '(I', 'try', 'not', 'to', 'say', '""submit', 'a', 'patch""', 'when', 'we', 'are', 'talk', 'about', 'old', 'languages/modules,', 'however', 'a', 'new', 'language', 'is', 'an', 'exception)']","['PRP', 'VBP', 'NNP', 'VBZ', 'RB', 'VBN', 'DT', 'NN', 'NN', 'CC', 'RB', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'VBD', 'JJ', 'NN', 'IN', 'NN', 'RB', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'NNP', 'IN', 'PRP', 'VBZ', 'DT', 'RB', 'JJ', 'NN', 'PRP', 'VBP', 'VB', 'RB', 'JJ', 'IN', 'NN', 'IN', 'PRP', 'VBZ', 'JJ', 'NNP', 'NN', 'PRP', 'MD', 'VB', 'JJ', 'IN', 'PRP$', 'NN', 'NNS', 'VBP', 'RB', 'TO', 'VB', 'VB', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'VBG', 'IN', 'JJ', 'NN', 'RB', 'DT', 'JJ', 'NN', 'VBZ', 'DT', 'NN']"

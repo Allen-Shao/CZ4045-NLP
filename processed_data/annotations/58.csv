@@ -1,1 +1,39 @@
 ,text,token,annotation
+0,"So I am trying to write some code that allows me to edit values in an array in a struct.  This example uses ""Status"" as a possible value to alter, but this is just a simplification to try to get my intent across.
+
+","['So', 'I', 'am', 'trying', 'to', 'write', 'some', 'code', 'that', 'allows', 'me', 'to', 'edit', 'values', 'in', 'an', 'array', 'in', 'a', 'struct.', 'This', 'example', 'uses', '""Status""', 'as', 'a', 'possible', 'value', 'to', 'alter,', 'but', 'this', 'is', 'just', 'a', 'simplification', 'to', 'try', 'to', 'get', 'my', 'intent', 'across.']","['RB', 'PRP', 'VBP', 'VBG', 'TO', 'VB', 'DT', 'NN', 'WDT', 'VBZ', 'PRP', 'TO', 'VB', 'NNS', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'NNP', 'IN', 'DT', 'JJ', 'NN', 'TO', 'VB', 'CC', 'DT', 'VBZ', 'RB', 'DT', 'NN', 'TO', 'VB', 'TO', 'VB', 'PRP$', 'NN', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import(,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"  ""fmt""","['""fmt""']",['STRING_LITERAL']
+4,),[')'],['PUNCTUATION']
+5,type Parent struct {,"['type', 'Parent', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+6,  Children []Child,"['Children', '[]', 'Child']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+7,},['}'],['PUNCTUATION']
+8,type Child struct {,"['type', 'Child', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+9,  Status string,"['Status', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+10,},['}'],['PUNCTUATION']
+11,func (p *Parent) Add() *Child {,"['func', '(', 'p', '*', 'Parent', ')', 'Add', '()', '*', 'Child', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+12,  var child Child,"['var', 'child', 'Child']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+13,"  child.Status = ""1""","['child', '.', 'Status', '=', '""1""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+14,"  p.Children = append(p.Children, child)","['p', '.', 'Children', '=', 'append', '(', 'p', '.', 'Children', ',', 'child', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+15,  return &p.Children[len(p.Children)-1],"['return', '&', 'p', '.', 'Children', '[', 'len', '(', 'p', '.', 'Children', ')-', '1', ']']","['KEYWORD', 'BITWISE_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+16,},['}'],['PUNCTUATION']
+17,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+18,  var p Parent,"['var', 'p', 'Parent']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+19,  child := p.Add(),"['child', ':=', 'p.Add()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+20,"  child.Status = ""2""","['child', '.', 'Status', '=', '""2""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+21,  fmt.Println(p),['fmt.Println(p)'],['FUNCTION_CALL']
+22,  fmt.Println(child),['fmt.Println(child)'],['FUNCTION_CALL']
+23,},['}'],['PUNCTUATION']
+24,"
+
+This doesn't feel ""proper"".  How should I do this in golang?  Certainly I could pass the value in as a parameter, but in my particular case I would like to edit function pointers that are inside the Child struct (not in this code to keep it short) after having added the child.  That feels nicer, but maybe I just need to pass them as parameters to the Add method?
+
+eg
+
+","['This', ""doesn't"", 'feel', '""proper"".', 'How', 'should', 'I', 'do', 'this', 'in', 'golang?', 'Certainly', 'I', 'could', 'pass', 'the', 'value', 'in', 'as', 'a', 'parameter,', 'but', 'in', 'my', 'particular', 'case', 'I', 'would', 'like', 'to', 'edit', 'function', 'pointers', 'that', 'are', 'inside', 'the', 'Child', 'struct', '(not', 'in', 'this', 'code', 'to', 'keep', 'it', 'short)', 'after', 'having', 'added', 'the', 'child.', 'That', 'feels', 'nicer,', 'but', 'maybe', 'I', 'just', 'need', 'to', 'pass', 'them', 'as', 'parameters', 'to', 'the', 'Add', 'method?', 'eg']","['DT', 'NN', 'VB', 'IN', 'NNP', 'MD', 'PRP', 'VB', 'DT', 'IN', 'NN', 'NNP', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'IN', 'DT', 'NN', 'CC', 'IN', 'PRP$', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'TO', 'VB', 'NN', 'NNS', 'WDT', 'VBP', 'IN', 'DT', 'NNP', 'NN', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'PRP', 'RB', 'IN', 'VBG', 'VBD', 'DT', 'NN', 'WDT', 'VBZ', 'RB', 'CC', 'RB', 'PRP', 'RB', 'VBP', 'TO', 'VB', 'PRP', 'IN', 'NNS', 'TO', 'DT', 'NNP', 'NN', 'NN']"
+25,"func (p *Parent) Add(fn1 func(), fn2 func()) *Child {","['func', '(', 'p', '*', 'Parent', ')', 'Add', '(', 'fn1', 'func', '(),', 'fn2', 'func', '())', '*', 'Child', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+26,"
+
+Anyway just wondering if anybody has any thoughts on this type of situation.
+","['Anyway', 'just', 'wondering', 'if', 'anybody', 'has', 'any', 'thoughts', 'on', 'this', 'type', 'of', 'situation.']","['RB', 'RB', 'VBG', 'IN', 'NN', 'VBZ', 'DT', 'NNS', 'IN', 'DT', 'NN', 'IN', 'NN']"

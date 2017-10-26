@@ -1,3 +1,30 @@
 ,text,token,annotation
-0,"Simply updating from Go 1.4 from 1.3 solved the issue for me on OS X Mavericks. The Go installer at golang.org will remove any older versions of Go when installing 1.4
-","['Simply', 'updating', 'from', 'Go', '1.4', 'from', '1.3', 'solved', 'the', 'issue', 'for', 'me', 'on', 'OS', 'X', 'Mavericks.', 'The', 'Go', 'installer', 'at', 'golang.org', 'will', 'remove', 'any', 'older', 'versions', 'of', 'Go', 'when', 'installing', '1.4']","['NNP', 'VBG', 'IN', 'NNP', 'CD', 'IN', 'CD', 'VBD', 'DT', 'NN', 'IN', 'PRP', 'IN', 'NNP', 'NNP', 'NNP', 'DT', 'NNP', 'NN', 'IN', 'NN', 'MD', 'VB', 'DT', 'JJR', 'NNS', 'IN', 'NNP', 'WRB', 'VBG', 'CD']"
+0,"Know that Reader.ReadString() returns you a string value with the delimieter. So r.ReadString('\n') will return you a string with the trailing newline character.
+
+And when you split the string at the commas, the last part will contain the newline character, and attempting to parse the number from it will fail, as shown in this example:
+
+","['Know', 'that', 'Reader.ReadString()', 'returns', 'you', 'a', 'string', 'value', 'with', 'the', 'delimieter.', 'So', ""r.ReadString('\\n')"", 'will', 'return', 'you', 'a', 'string', 'with', 'the', 'trailing', 'newline', 'character.', 'And', 'when', 'you', 'split', 'the', 'string', 'at', 'the', 'commas,', 'the', 'last', 'part', 'will', 'contain', 'the', 'newline', 'character,', 'and', 'attempting', 'to', 'parse', 'the', 'number', 'from', 'it', 'will', 'fail,', 'as', 'shown', 'in', 'this', 'example:']","['NNP', 'IN', 'NNP', 'VBZ', 'PRP', 'DT', 'VBG', 'NN', 'IN', 'DT', 'NN', 'NNP', 'NN', 'MD', 'VB', 'PRP', 'DT', 'VBG', 'IN', 'DT', 'VBG', 'JJ', 'NN', 'CC', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'DT', 'NN', 'DT', 'JJ', 'NN', 'MD', 'VB', 'DT', 'JJ', 'NN', 'CC', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP', 'MD', 'VB', 'IN', 'VBN', 'IN', 'DT', 'NN']"
+1,"line := ""0,1,2\n""","['line', ':=', '""0,1,2\\n""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+2,"for _, ele := range strings.Split(line, "","") {","['for', '_', ',', 'ele', ':=', 'range', 'strings.Split(line, "","")', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
+3,"    fmt.Println(strconv.ParseInt(ele, 10, 64))","['fmt.Println(strconv.ParseInt(ele, 10, 64))']",['FUNCTION_CALL']
+4,},['}'],['PUNCTUATION']
+5,"
+
+Output (try it on the Go Playground):
+
+","['Output', '(try', 'it', 'on', 'the', 'Go', 'Playground):']","['NNP', 'VBD', 'PRP', 'IN', 'DT', 'NNP', 'NNP']"
+6,0 ,['0'],['OCTAL_LITERAL']
+7,1 ,['1'],['DECIMAL_LITERAL']
+8,"0 strconv.ParseInt: parsing ""2\n"": invalid syntax","['0', 'strconv', '.', 'ParseInt', ':', 'parsing', '""2\\n""', ':', 'invalid', 'syntax']","['OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
+9,"
+
+You religiously omit error checks, don't do that! As you can see in the above example, checking and printing the error returned by strconv.ParseInt() immediately revealed the error and what's going wrong.
+
+What you may do is cut the trailing newline character before attempting to parse any number from it, e.g.:
+
+","['You', 'religiously', 'omit', 'error', 'checks,', ""don't"", 'do', 'that!', 'As', 'you', 'can', 'see', 'in', 'the', 'above', 'example,', 'checking', 'and', 'printing', 'the', 'error', 'returned', 'by', 'strconv.ParseInt()', 'immediately', 'revealed', 'the', 'error', 'and', ""what's"", 'going', 'wrong.', 'What', 'you', 'may', 'do', 'is', 'cut', 'the', 'trailing', 'newline', 'character', 'before', 'attempting', 'to', 'parse', 'any', 'number', 'from', 'it,', 'e.g.:']","['PRP', 'RB', 'VBP', 'NN', 'NN', 'NN', 'VB', 'RB', 'IN', 'PRP', 'MD', 'VB', 'IN', 'DT', 'JJ', 'NN', 'NN', 'CC', 'VBG', 'DT', 'NN', 'VBN', 'IN', 'NN', 'RB', 'VBD', 'DT', 'NN', 'CC', 'NN', 'VBG', 'WP', 'WP', 'PRP', 'MD', 'VB', 'VBZ', 'VB', 'DT', 'VBG', 'JJ', 'NN', 'IN', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'JJ', 'NN']"
+10,"strconv.ParseInt(strings.TrimSpace(ele), 10, 64)","['strconv.ParseInt(strings.TrimSpace(ele), 10, 64)']",['FUNCTION_CALL']
+11,"
+
+Or use the bufio.Scanner which can scan lines and it cuts trailing newlines automatically.
+","['Or', 'use', 'the', 'bufio.Scanner', 'which', 'can', 'scan', 'lines', 'and', 'it', 'cuts', 'trailing', 'newlines', 'automatically.']","['CC', 'VB', 'DT', 'NN', 'WDT', 'MD', 'VB', 'NNS', 'CC', 'PRP', 'VBZ', 'VBG', 'NNS', 'NNS']"

@@ -1,64 +1,163 @@
 ,text,token,annotation
-0,"This is what i normally do. 
+0,You may use one ,"['You', 'may', 'use', 'one']","['PRP', 'MD', 'VB', 'CD']"
+1,func Save(d interface{}),"['func', 'Save', '(', 'd', 'interface', '{})']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+2," like this:
 
-","['This', 'is', 'what', 'i', 'normally', 'do.']","['DT', 'VBZ', 'WP', 'JJ', 'RB', 'VBP']"
-1,package mongo,"['package', 'mongo']","['KEYWORD', 'IDENTIFIER']"
-2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-3,"    ""time""","['""time""']",['STRING_LITERAL']
-4,"    ""gopkg.in/mgo.v2""","['""gopkg.in/mgo.v2""']",['STRING_LITERAL']
-5,),[')'],['PUNCTUATION']
-6,// DataStore containing a pointer to a mgo session,"['//', 'DataStore', 'containing', 'a', 'pointer', 'to', 'a', 'mgo', 'session']","['COMMENT', 'NNP', 'VBG', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN']"
-7,type DataStore struct {,"['type', 'DataStore', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-8,    Session *mgo.Session,"['Session', '*', 'mgo', '.', 'Session']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-9,},['}'],['PUNCTUATION']
-10,// ConnectToTagserver is a helper method that connections to pubgears' tagserver,"['//', 'ConnectToTagserver', 'is', 'a', 'helper', 'method', 'that', 'connections', 'to', ""pubgears'"", 'tagserver']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'WDT', 'NNS', 'TO', 'VB', 'NN']"
-11,// database,"['//', 'database']","['COMMENT', 'NN']"
-12,func (ds *DataStore) ConnectToTagserver() {,"['func', '(', 'ds', '*', 'DataStore', ')', 'ConnectToTagserver', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-13,    mongoDBDialInfo := &mgo.DialInfo{,"['mongoDBDialInfo', ':=', '&', 'mgo', '.', 'DialInfo', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-14,"        Addrs:    []string{""some IP""},","['Addrs', ':', '[]', 'string', '{', '""some IP""', '},']","['IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-15,"        Timeout:  60 * time.Second,","['Timeout', ':', '60', '*', 'time', '.', 'Second', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-16,"        Database: ""some db"",","['Database', ':', '""some db""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-17,    },['}'],['PUNCTUATION']
-18,"    sess, err := mgo.DialWithInfo(mongoDBDialInfo)","['sess', ',', 'err', ':=', 'mgo.DialWithInfo(mongoDBDialInfo)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-19,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-20,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-21,    },['}'],['PUNCTUATION']
-22,"    sess.SetMode(mgo.Monotonic, true)","['sess.SetMode(mgo.Monotonic, true)']",['FUNCTION_CALL']
-23,    ds.Session = sess,"['ds', '.', 'Session', '=', 'sess']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-24,},['}'],['PUNCTUATION']
-25,// Close is a helper method that ensures the session is properly terminated,"['//', 'Close', 'is', 'a', 'helper', 'method', 'that', 'ensures', 'the', 'session', 'is', 'properly', 'terminated']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'DT', 'NN', 'VBZ', 'RB', 'VBN']"
-26,func (ds *DataStore) Close() {,"['func', '(', 'ds', '*', 'DataStore', ')', 'Close', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-27,    ds.Session.Close(),"['ds', '.', 'Session.Close()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-28,},['}'],['PUNCTUATION']
-29,"
+","['like', 'this:']","['IN', 'NN']"
+3,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+4,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+5,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+6,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+7,),[')'],['PUNCTUATION']
+8,type User struct {,"['type', 'User', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+9,    ID   int,"['ID', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+10,    Name string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+11,},['}'],['PUNCTUATION']
+12,type Admin struct {,"['type', 'Admin', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+13,    User,['User'],['IDENTIFIER']
+14,    Level int,"['Level', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+15,},['}'],['PUNCTUATION']
+16,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+17,    Save(User{}),"['Save', '(', 'User', '{})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+18,    Save(Admin{}),"['Save', '(', 'Admin', '{})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+19,},['}'],['PUNCTUATION']
+20,func Save(d interface{}) {,"['func', 'Save', '(', 'd', 'interface', '{})', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+21,"    body, err := json.Marshal(d)","['body', ',', 'err', ':=', 'json.Marshal(d)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+22,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+23,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+24,    },['}'],['PUNCTUATION']
+25,    st := string(body),"['st', ':=', 'string', '(', 'body', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+26,    fmt.Println(st),['fmt.Println(st)'],['FUNCTION_CALL']
+27,},['}'],['PUNCTUATION']
+28,"
 
-Then in my models package I do something like this
+output:
 
-","['Then', 'in', 'my', 'models', 'package', 'I', 'do', 'something', 'like', 'this']","['RB', 'IN', 'PRP$', 'NNS', 'NN', 'PRP', 'VBP', 'NN', 'IN', 'DT']"
-30,package models,"['package', 'models']","['KEYWORD', 'IDENTIFIER']"
-31,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-32,"    ""./mongo""","['""./mongo""']",['STRING_LITERAL']
-33,"    ""gopkg.in/mgo.v2/bson""","['""gopkg.in/mgo.v2/bson""']",['STRING_LITERAL']
-34,),[')'],['PUNCTUATION']
-35,// AdSize represents the data object stucture that is returned by querying,"['//', 'AdSize', 'represents', 'the', 'data', 'object', 'stucture', 'that', 'is', 'returned', 'by', 'querying']","['COMMENT', 'NNP', 'VBZ', 'DT', 'NNS', 'VBP', 'NN', 'WDT', 'VBZ', 'VBN', 'IN', 'VBG']"
-36,// mongo's account collection,"['//', ""mongo's"", 'account', 'collection']","['COMMENT', 'NN', 'NN', 'NN']"
-37,type AdSize struct {,"['type', 'AdSize', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-38,"    ID        bson.ObjectId `bson:""_id,omitempty""`","['ID', 'bson', '.', 'ObjectId', 'bson', ':', '""_id,omitempty""']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
-39,"    Providers []string      `bson:""providers""`","['Providers', '[]', 'string', 'bson', ':', '""providers""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
-40,"    Size      string        `bson:""size""`","['Size', 'string', 'bson', ':', '""size""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+",['output:'],['NN']
+29,"{""ID"":0,""Name"":""""}","['{', '""ID""', ':', '0', ',', '""Name""', ':', '""""', '}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+30,"{""ID"":0,""Name"":"""",""Level"":0}","['{', '""ID""', ':', '0', ',', '""Name""', ':', '""""', ',', '""Level""', ':', '0', '}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+31,"
+
+
+
+for your case, use this one function for all types:
+
+","['for', 'your', 'case,', 'use', 'this', 'one', 'function', 'for', 'all', 'types:']","['IN', 'PRP$', 'NN', 'NN', 'DT', 'CD', 'NN', 'IN', 'DT', 'NN']"
+32,"func Save(i interface{}, id int) {","['func', 'Save', '(', 'i', 'interface', '{},', 'id', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+33,"    data, err := json.Marshal(i)","['data', ',', 'err', ':=', 'json.Marshal(i)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+34,    check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+35,    if id == 0 {,"['if', 'id', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+36,"        _, err = app.DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+37,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+38,"        _, err = app.DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+39,    },['}'],['PUNCTUATION']
+40,    check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 41,},['}'],['PUNCTUATION']
-42,// GetAllAdsizes is a helper function designed to retrieve all the objects in the,"['//', 'GetAllAdsizes', 'is', 'a', 'helper', 'function', 'designed', 'to', 'retrieve', 'all', 'the', 'objects', 'in', 'the']","['COMMENT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'VBN', 'TO', 'VB', 'PDT', 'DT', 'NNS', 'IN', 'DT']"
-43,// adsize collection,"['//', 'adsize', 'collection']","['COMMENT', 'VB', 'NN']"
-44,"func GetAllAdsizes() ([]AdSize, error) {","['func', 'GetAllAdsizes', '()', '([]', 'AdSize', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-45,    ds := mongo.DataStore{},"['ds', ':=', 'mongo', '.', 'DataStore', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-46,    ds.ConnectToTagserver(),['ds.ConnectToTagserver()'],['FUNCTION_CALL']
-47,    defer ds.Close(),"['defer', 'ds.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-48,    adSizes := []AdSize{},"['adSizes', ':=', '[]', 'AdSize', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-49,"    adSizeCollection := ds.Session.DB(""some database"").C(""some collection"")","['adSizeCollection', ':=', 'ds', '.', 'Session.DB(""some database"").C(""some collection"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-50,"    err := adSizeCollection.Find(bson.M{}).Sort(""name"").All(&adSizes)","['err', ':=', 'adSizeCollection.Find(bson.M{}).Sort(""name"").All(&adSizes)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-51,"    return adSizes, err","['return', 'adSizes', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-52,},['}'],['PUNCTUATION']
-53,"
+42,"
 
-So I created a session wrapper in the mongo file, then create a session object in the models file, then lastly in some route file i call the method GetAllAdsizes(), which handled my mongo session.  The session is keep alive until the the end of the GetAllAdsizes() method, as it was closed on defer. However something like this can be modified, where you handle all the user stuff and then close the session if user logs out. Also take a look here Best practice to maintain a mgo session, where you can see a similar type of logic.
-","['So', 'I', 'created', 'a', 'session', 'wrapper', 'in', 'the', 'mongo', 'file,', 'then', 'create', 'a', 'session', 'object', 'in', 'the', 'models', 'file,', 'then', 'lastly', 'in', 'some', 'route', 'file', 'i', 'call', 'the', 'method', 'GetAllAdsizes(),', 'which', 'handled', 'my', 'mongo', 'session.', 'The', 'session', 'is', 'keep', 'alive', 'until', 'the', 'the', 'end', 'of', 'the', 'GetAllAdsizes()', 'method,', 'as', 'it', 'was', 'closed', 'on', 'defer.', 'However', 'something', 'like', 'this', 'can', 'be', 'modified,', 'where', 'you', 'handle', 'all', 'the', 'user', 'stuff', 'and', 'then', 'close', 'the', 'session', 'if', 'user', 'logs', 'out.', 'Also', 'take', 'a', 'look', 'here', 'Best', 'practice', 'to', 'maintain', 'a', 'mgo', 'session,', 'where', 'you', 'can', 'see', 'a', 'similar', 'type', 'of', 'logic.']","['RB', 'PRP', 'VBD', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'NN', 'RB', 'VB', 'DT', 'NN', 'NN', 'IN', 'DT', 'NNS', 'VBP', 'RB', 'RB', 'IN', 'DT', 'NN', 'NN', 'NN', 'VBP', 'DT', 'NN', 'NNP', 'WDT', 'VBD', 'PRP$', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'JJ', 'JJ', 'IN', 'DT', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'IN', 'PRP', 'VBD', 'VBN', 'IN', 'NN', 'RB', 'NN', 'IN', 'DT', 'MD', 'VB', 'VBN', 'WRB', 'PRP', 'VBP', 'PDT', 'DT', 'NN', 'NN', 'CC', 'RB', 'VB', 'DT', 'NN', 'IN', 'JJ', 'NNS', 'NN', 'RB', 'VBP', 'DT', 'NN', 'RB', 'NNP', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'WRB', 'PRP', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN']"
+And call it like this:
+
+","['And', 'call', 'it', 'like', 'this:']","['CC', 'VB', 'PRP', 'IN', 'NN']"
+43,u := User{},"['u', ':=', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+44,a := Admin{},"['a', ':=', 'Admin', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+45,"Save(u, u.ID)","['Save', '(', 'u', ',', 'u', '.', 'ID', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+46,"Save(a, a.ID)","['Save', '(', 'a', ',', 'a', '.', 'ID', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+47,"
+
+
+
+And Yes, this is even simplifies call to Save to one parameter:
+
+","['And', 'Yes,', 'this', 'is', 'even', 'simplifies', 'call', 'to', 'Save', 'to', 'one', 'parameter:']","['CC', 'NNP', 'DT', 'VBZ', 'RB', 'NNS', 'VBP', 'TO', 'VB', 'TO', 'CD', 'NN']"
+48,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+49,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+50,"    ""encoding/json""","['""encoding/json""']",['STRING_LITERAL']
+51,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+52,),[')'],['PUNCTUATION']
+53,type Model interface {,"['type', 'Model', 'interface', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+54,    ID() int,"['ID', '()', 'int']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+55,    setID(int),"['setID', '(', 'int', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+56,},['}'],['PUNCTUATION']
+57,type User struct {,"['type', 'User', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+58,    Id   int,"['Id', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+59,    Name string,"['Name', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+60,},['}'],['PUNCTUATION']
+61,func (t User) ID() int      { return t.Id },"['func', '(', 't', 'User', ')', 'ID', '()', 'int', '{', 'return', 't', '.', 'Id', '}']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+62,func (t User) setID(id int) { t.Id = id },"['func', '(', 't', 'User', ')', 'setID', '(', 'id', 'int', ')', '{', 't', '.', 'Id', '=', 'id', '}']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+63,type Admin struct {,"['type', 'Admin', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+64,    User,['User'],['IDENTIFIER']
+65,    Level int,"['Level', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+66,},['}'],['PUNCTUATION']
+67,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+68,    Save(User{}),"['Save', '(', 'User', '{})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+69,    Save(Admin{}),"['Save', '(', 'Admin', '{})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+70,},['}'],['PUNCTUATION']
+71,func Save(d Model) {,"['func', 'Save', '(', 'd', 'Model', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+72,"    body, err := json.Marshal(d)","['body', ',', 'err', ':=', 'json.Marshal(d)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+73,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+74,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+75,    },['}'],['PUNCTUATION']
+76,    st := string(body),"['st', ':=', 'string', '(', 'body', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+77,    fmt.Println(st),['fmt.Println(st)'],['FUNCTION_CALL']
+78,"    fmt.Println(""ID is "", d.ID())","['fmt.Println(""ID is "", d.ID())']",['FUNCTION_CALL']
+79,},['}'],['PUNCTUATION']
+80,"
+
+output:
+
+",['output:'],['NN']
+81,"{""Id"":0,""Name"":""""}","['{', '""Id""', ':', '0', ',', '""Name""', ':', '""""', '}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+82,ID is  0,"['ID', 'is', '0']","['IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL']"
+83,"{""Id"":0,""Name"":"""",""Level"":0}","['{', '""Id""', ':', '0', ',', '""Name""', ':', '""""', ',', '""Level""', ':', '0', '}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
+84,ID is  0,"['ID', 'is', '0']","['IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL']"
+85,"
+
+
+
+Now You may use this one function for all types:
+
+","['Now', 'You', 'may', 'use', 'this', 'one', 'function', 'for', 'all', 'types:']","['RB', 'PRP', 'MD', 'VB', 'DT', 'CD', 'NN', 'IN', 'DT', 'NN']"
+86,func Save(i Model) {,"['func', 'Save', '(', 'i', 'Model', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+87,"    data, err := json.Marshal(i)","['data', ',', 'err', ':=', 'json.Marshal(i)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+88,    check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+89,    id := i.ID(),"['id', ':=', 'i.ID()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+90,    if id == 0 {,"['if', 'id', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+91,"        _, err = app.DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+92,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+93,"        _, err = app.DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+94,    },['}'],['PUNCTUATION']
+95,    check(err),"['check', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+96,},['}'],['PUNCTUATION']
+97,"
+
+And call it like this:
+
+","['And', 'call', 'it', 'like', 'this:']","['CC', 'VB', 'PRP', 'IN', 'NN']"
+98,u := User{},"['u', ':=', 'User', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+99,a := Admin{},"['a', ':=', 'Admin', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+100,Save(u),"['Save', '(', 'u', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+101,Save(a),"['Save', '(', 'a', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+102,"
+
+
+
+Effective Go:
+
+
+  Getters
+  
+  Go doesn't provide automatic support for getters and setters. There's
+  nothing wrong with providing getters and setters yourself, and it's
+  often appropriate to do so, but it's neither idiomatic nor necessary
+  to put Get into the getter's name. If you have a field called owner
+  (lower case, unexported), the getter method should be called Owner
+  (upper case, exported), not GetOwner. The use of upper-case names for
+  export provides the hook to discriminate the field from the method. A
+  setter function, if needed, will likely be called SetOwner. Both names
+  read well in practice:
+
+","['Effective', 'Go:', 'Getters', 'Go', ""doesn't"", 'provide', 'automatic', 'support', 'for', 'getters', 'and', 'setters.', ""There's"", 'nothing', 'wrong', 'with', 'providing', 'getters', 'and', 'setters', 'yourself,', 'and', ""it's"", 'often', 'appropriate', 'to', 'do', 'so,', 'but', ""it's"", 'neither', 'idiomatic', 'nor', 'necessary', 'to', 'put', 'Get', 'into', 'the', ""getter's"", 'name.', 'If', 'you', 'have', 'a', 'field', 'called', 'owner', '(lower', 'case,', 'unexported),', 'the', 'getter', 'method', 'should', 'be', 'called', 'Owner', '(upper', 'case,', 'exported),', 'not', 'GetOwner.', 'The', 'use', 'of', 'upper-case', 'names', 'for', 'export', 'provides', 'the', 'hook', 'to', 'discriminate', 'the', 'field', 'from', 'the', 'method.', 'A', 'setter', 'function,', 'if', 'needed,', 'will', 'likely', 'be', 'called', 'SetOwner.', 'Both', 'names', 'read', 'well', 'in', 'practice:']","['JJ', 'NNP', 'NNP', 'NNP', 'VBD', 'RB', 'JJ', 'NN', 'IN', 'NNS', 'CC', 'JJ', 'NNP', 'NN', 'JJ', 'IN', 'VBG', 'NNS', 'CC', 'NNS', 'NNS', 'CC', 'NNS', 'RB', 'VBP', 'TO', 'VB', 'NNS', 'CC', 'VBP', 'CC', 'JJ', 'CC', 'JJ', 'TO', 'VB', 'NNP', 'IN', 'DT', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'DT', 'NN', 'VBN', 'NN', 'NN', 'NN', 'IN', 'DT', 'NN', 'NN', 'MD', 'VB', 'VBN', 'NNP', 'NNP', 'NN', 'NN', 'RB', 'NNP', 'DT', 'NN', 'IN', 'JJ', 'NNS', 'IN', 'NN', 'VBZ', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'NNP', 'NN', 'NN', 'IN', 'NN', 'MD', 'RB', 'VB', 'VBN', 'NNP', 'NNP', 'RB', 'VBP', 'RB', 'IN', 'NN']"
+103,owner := obj.Owner(),"['owner', ':=', 'obj.Owner()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+104,if owner != user {,"['if', 'owner', '!=', 'user', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+105,    obj.SetOwner(user),['obj.SetOwner(user)'],['FUNCTION_CALL']
+106,},['}'],['PUNCTUATION']

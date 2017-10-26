@@ -1,84 +1,22 @@
 ,text,token,annotation
-0,"I'm using the Gin Gonic framework to create a reverse proxy endpoint, with the target endpoint being served using grpc Gateway using the code given below. This is similar to the reverse proxy methodology suggested for gin here and here
+0,"I found a strange problem in golang.The program executed by exec.Start() will quit if the parent program is interrupt by the signal os.Interrupt,while the child program will NOT quit if the parent program exit normally.What's the difference between that two conditions?
+   For examples:
 
-","[""I'm"", 'using', 'the', 'Gin', 'Gonic', 'framework', 'to', 'create', 'a', 'reverse', 'proxy', 'endpoint,', 'with', 'the', 'target', 'endpoint', 'being', 'served', 'using', 'grpc', 'Gateway', 'using', 'the', 'code', 'given', 'below.', 'This', 'is', 'similar', 'to', 'the', 'reverse', 'proxy', 'methodology', 'suggested', 'for', 'gin', 'here', 'and', 'here']","['NNP', 'VBG', 'DT', 'NNP', 'NNP', 'NN', 'TO', 'VB', 'DT', 'NN', 'NN', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBG', 'VBD', 'VBG', 'JJ', 'NNP', 'VBG', 'DT', 'NN', 'VBN', 'NN', 'DT', 'VBZ', 'JJ', 'TO', 'DT', 'NN', 'NN', 'NN', 'VBD', 'IN', 'NN', 'RB', 'CC', 'RB']"
-1,"ep1 := v1.Group(""/ep1"")","['ep1', ':=', 'v1.Group(""/ep1"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-2,{,['{'],['PUNCTUATION']
-3,"    ep1.GET(""/ep2"", reverseProxy(""http://localhost:50000""))","['ep1.GET(""/ep2"", reverseProxy(""http://localhost:50000""))']",['FUNCTION_CALL']
-4,},['}'],['PUNCTUATION']
-5,func reverseProxy(target string) gin.HandlerFunc {,"['func', 'reverseProxy', '(', 'target', 'string', ')', 'gin', '.', 'HandlerFunc', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-6,"    url, err := url.Parse(target)","['url', ',', 'err', ':=', 'url.Parse(target)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-7,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-8,"        log.Println(""Reverse Proxy target url could not be parsed:"", err)","['log.Println(""Reverse Proxy target url could not be parsed:"", err)']",['FUNCTION_CALL']
-9,        return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-10,    },['}'],['PUNCTUATION']
-11,    proxy := httputil.NewSingleHostReverseProxy(url),"['proxy', ':=', 'httputil.NewSingleHostReverseProxy(url)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-12,    return func(c *gin.Context) {,"['return', 'func', '(', 'c', '*', 'gin', '.', 'Context', ')', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-13,"        proxy.ServeHTTP(c.Writer, c.Request)","['proxy.ServeHTTP(c.Writer, c.Request)']",['FUNCTION_CALL']
-14,    },['}'],['PUNCTUATION']
-15,},['}'],['PUNCTUATION']
-16,"
+","['I', 'found', 'a', 'strange', 'problem', 'in', 'golang.The', 'program', 'executed', 'by', 'exec.Start()', 'will', 'quit', 'if', 'the', 'parent', 'program', 'is', 'interrupt', 'by', 'the', 'signal', 'os.Interrupt,while', 'the', 'child', 'program', 'will', 'NOT', 'quit', 'if', 'the', 'parent', 'program', 'exit', ""normally.What's"", 'the', 'difference', 'between', 'that', 'two', 'conditions?', 'For', 'examples:']","['PRP', 'VBD', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'VBN', 'IN', 'NN', 'MD', 'VB', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'JJ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'MD', 'NNP', 'VB', 'IN', 'DT', 'NN', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'CD', 'NN', 'IN', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,"import ""fmt""","['import', '""fmt""']","['KEYWORD', 'STRING_LITERAL']"
+3,"import ""os""","['import', '""os""']","['KEYWORD', 'STRING_LITERAL']"
+4,"import ""time""","['import', '""time""']","['KEYWORD', 'STRING_LITERAL']"
+5,"import ""os/exec""","['import', '""os/exec""']","['KEYWORD', 'STRING_LITERAL']"
+6,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+7,"    cmd := exec.Command(""sleep"", ""100000"")","['cmd', ':=', 'exec.Command(""sleep"", ""100000"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+8,    cmd.Env = os.Environ(),"['cmd', '.', 'Env', '=', 'os.Environ()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+9,    fmt.Println(cmd.Env),['fmt.Println(cmd.Env)'],['FUNCTION_CALL']
+10,    cmd.Start(),['cmd.Start()'],['FUNCTION_CALL']
+11,    time.Sleep(1e9*20),['time.Sleep(1e9*20)'],['FUNCTION_CALL']
+12,    return,['return'],['KEYWORD']
+13,} ,['}'],['PUNCTUATION']
+14,"
 
-However, when on actually sending a request to this gin endpoint (/ep1/ep2) a go panic is seen:
-
-","['However,', 'when', 'on', 'actually', 'sending', 'a', 'request', 'to', 'this', 'gin', 'endpoint', '(/ep1/ep2)', 'a', 'go', 'panic', 'is', 'seen:']","['NNP', 'WRB', 'IN', 'RB', 'VBG', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'VBD', 'DT', 'NN', 'NN', 'VBZ', 'JJ']"
-17,interface conversion: *http.timeoutWriter is not http.CloseNotifier: missing method CloseNotify,"['interface', 'conversion', ':', '*', 'http', '.', 'timeoutWriter', 'is', 'not', 'http', '.', 'CloseNotifier', ':', 'missing', 'method', 'CloseNotify']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-18,/usr/local/Cellar/go/1.8/libexec/src/runtime/panic.go:489 (0x10288df),"['/usr/local/Cellar/go/1.8/libexec/src/runtime/panic.go:489', '(', '0x1', '02', '88', 'df', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-19,"    gopanic: reflectcall(nil, unsafe.Pointer(d.fn), deferArgs(d), uint32(d.siz), uint32(d.siz))","['go', 'panic', ':', 'reflectcall', '(', 'nil', ',', 'unsafe.Pointer(d.fn), deferArgs(d), uint32(d.siz), uint32(d.siz))']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-20,/usr/local/Cellar/go/1.8/libexec/src/runtime/iface.go:131 (0x100c3af),"['/usr/local/Cellar/go/1.8/libexec/src/runtime/iface.go:131', '(', '0x1', '0', '0', 'c3af', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-21,"    additab: panic(&TypeAssertionError{"""", typ.string(), inter.typ.string(), iname})","['additab', ':', 'panic', '(&', 'TypeAssertionError', '{', '""""', ',', 'typ.string(), inter.typ.string(), iname})']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-22,/usr/local/Cellar/go/1.8/libexec/src/runtime/iface.go:79 (0x100bc34),"['/usr/local/Cellar/go/1.8/libexec/src/runtime/iface.go:79', '(', '0x1', '0', '0', 'bc34', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-23,"    getitab: additab(m, true, canfail)","['getitab', ':', 'additab', '(', 'm', ',', 'true', ',', 'canfail', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-24,/usr/local/Cellar/go/1.8/libexec/src/runtime/iface.go:256 (0x100cbb8),"['/usr/local/Cellar/go/1.8/libexec/src/runtime/iface.go:256', '(', '0x1', '0', '0', 'cbb8', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-25,"    assertI2I: r.tab = getitab(inter, tab._type, false)","['assertI2I', ':', 'r', '.', 'tab', '=', 'getitab', '(', 'inter', ',', 'tab', '.', '_type', ',', 'false', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-26,/path/to/vendor/github.com/gin-gonic/gin/response_writer.go:110 (0x14de6f3),"['/path/to/vendor/github.com/gin-gonic/gin/response_writer.go:110', '(', '0x14de6f3', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-27,    (*responseWriter).CloseNotify: return w.ResponseWriter.(http.CloseNotifier).CloseNotify(),"['(*', 'responseWriter', ').', 'CloseNotify', ':', 'return', 'w', '.', 'ResponseWriter', '.(', 'http', '.', 'CloseNotifier', ').', 'CloseNotify', '()']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-28,/usr/local/Cellar/go/1.8/libexec/src/net/http/httputil/reverseproxy.go:142 (0x14d4d12),"['/usr/local/Cellar/go/1.8/libexec/src/net/http/httputil/reverseproxy.go:142', '(', '0x14d4d12', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-29,    (*ReverseProxy).ServeHTTP: notifyChan := cn.CloseNotify(),"['(*', 'ReverseProxy', ').', 'ServeHTTP', ':', 'notifyChan', ':=', 'cn.CloseNotify()']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-30,/path/to/main.go:379 (0x16d2ead),"['/path/to/main.go:379', '(', '0x16d2ead', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-31,"    reverseProxy.func1: proxy.ServeHTTP(c.Writer, c.Request)","['reverseProxy', '.', 'func', '1', ':', 'proxy.ServeHTTP(c.Writer, c.Request)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-32,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-33,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-34,/path/to/middlewares/locale.go:12 (0x15737d9),"['/path/to/middlewares/locale.go:12', '(', '0x15737d9', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-35,    getLocaleMiddleware.func1: c.Next(),"['getLocaleMiddleware', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-36,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-37,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-38,/path/to/middlewares/session_cookie.go:27 (0x1574e7c),"['/path/to/middlewares/session_cookie.go:27', '(', '0x1574e7c', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-39,    getSessionCookieMiddleware.func1: c.Next(),"['getSessionCookieMiddleware', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-40,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-41,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-42,/path/to/middlewares/affiliate_api.go:27 (0x15729a1),"['/path/to/middlewares/affiliate_api.go:27', '(', '0x15729a1', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-43,    getAffiliateAPIMiddleware.func1: c.Next(),"['getAffiliateAPIMiddleware', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-44,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-45,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-46,/path/to/middlewares/metrics.go:17 (0x157465b),"['/path/to/middlewares/metrics.go:17', '(', '0x157465b', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-47,    getMetricsMiddleware.func1: c.Next(),"['getMetricsMiddleware', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-48,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-49,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-50,/path/to/middlewares/input_validations.go:75 (0x1572dcb),"['/path/to/middlewares/input_validations.go:75', '(', '0x1572dcb', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-51,    getInputValidationMiddleware.func1: c.Next(),"['getInputValidationMiddleware', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-52,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-53,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-54,/path/to/middlewares/logger.go:68 (0x1573aea),"['/path/to/middlewares/logger.go:68', '(', '0x1573aea', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-55,    LoggerWithWriter.func1: c.Next(),"['LoggerWithWriter', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-56,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-57,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-58,/path/to/middlewares/request_tracer.go:13 (0x1574d6c),"['/path/to/middlewares/request_tracer.go:13', '(', '0x1574d6c', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-59,    getTracerContext.func1: c.Next(),"['getTracerContext', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-60,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-61,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,/path/to/vendor/github.com/gin-gonic/gin/recovery.go:45 (0x14e4b6a),"['/path/to/vendor/github.com/gin-gonic/gin/recovery.go:45', '(', '0x14e4b6a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-63,    RecoveryWithWriter.func1: c.Next(),"['RecoveryWithWriter', '.', 'func', '1', ':', 'c.Next()']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL']"
-64,/path/to/vendor/github.com/gin-gonic/gin/context.go:97 (0x14d657a),"['/path/to/vendor/github.com/gin-gonic/gin/context.go:97', '(', '0x14d657a', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'PUNCTUATION']"
-65,    (*Context).Next: c.handlers[c.index](c),"['(*', 'Context', ').', 'Next', ':', 'c', '.', 'handlers', '[', 'c', '.', 'index', '](', 'c', ')']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-66,/path/to/vendor/github.com/gin-gonic/gin/gin.go:284 (0x14dc710),"['/path/to/vendor/github.com/gin-gonic/gin/gin.go:284', '(', '0x14dc71', '0', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION']"
-67,    (*Engine).handleHTTPRequest: context.Next(),"['(*', 'Engine', ').', 'handleHTTPRequest', ':', 'context.Next()']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-68,/path/to/vendor/github.com/gin-gonic/gin/gin.go:265 (0x14dc02b),"['/path/to/vendor/github.com/gin-gonic/gin/gin.go:265', '(', '0x14dc', '02', 'b', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-69,    (*Engine).ServeHTTP: engine.handleHTTPRequest(c),"['(*', 'Engine', ').', 'ServeHTTP', ':', 'engine.handleHTTPRequest(c)']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-70,/usr/local/Cellar/go/1.8/libexec/src/net/http/server.go:2967 (0x140fa53),"['/usr/local/Cellar/go/1.8/libexec/src/net/http/server.go:2967', '(', '0x14', '0', 'fa53', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
-71,"    (*timeoutHandler).ServeHTTP.func1: h.handler.ServeHTTP(tw, r)","['(*', 'timeoutHandler', ').', 'ServeHTTP', '.', 'func', '1', ':', 'h', '.', 'handler.ServeHTTP(tw, r)']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-72,/usr/local/Cellar/go/1.8/libexec/src/runtime/asm_amd64.s:2197 (0x1054851),"['/usr/local/Cellar/go/1.8/libexec/src/runtime/asm_amd64.s:2197', '(', '0x1', '054', '851', ')']","['DIRECTORY', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-73,"
-
-Any ideas on why this might be happening or what's wrong in the code?
-","['Any', 'ideas', 'on', 'why', 'this', 'might', 'be', 'happening', 'or', ""what's"", 'wrong', 'in', 'the', 'code?']","['DT', 'NNS', 'IN', 'WRB', 'DT', 'MD', 'VB', 'VBG', 'CC', 'VB', 'JJ', 'IN', 'DT', 'NN']"
+In the later condition the parent of sleep 100000 will be the init process after 20s if we didn't interrupt the main program.
+","['In', 'the', 'later', 'condition', 'the', 'parent', 'of', 'sleep', '100000', 'will', 'be', 'the', 'init', 'process', 'after', '20s', 'if', 'we', ""didn't"", 'interrupt', 'the', 'main', 'program.']","['IN', 'DT', 'JJ', 'NN', 'DT', 'NN', 'IN', 'JJ', 'CD', 'MD', 'VB', 'DT', 'NN', 'NN', 'IN', 'CD', 'IN', 'PRP', 'VBP', 'VB', 'DT', 'JJ', 'NN']"

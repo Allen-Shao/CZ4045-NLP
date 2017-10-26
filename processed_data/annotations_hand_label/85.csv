@@ -1,66 +1,21 @@
 ,text,token,annotation
-0,"Thanks for answer,
-I added example @qwertmax and fixed bug for parse fragment of url. Please update package and see example.
+0,"Use binary shift operators to load seven bits at a time into a bit buffer, and whenever the bit buffer has eight bits, output that.  At the end, if there are any bits leftover, output a final byte with what's in the buffer.
 
-","['Thanks', 'for', 'answer,', 'I', 'added', 'example', '@qwertmax', 'and', 'fixed', 'bug', 'for', 'parse', 'fragment', 'of', 'url.', 'Please', 'update', 'package', 'and', 'see', 'example.']","['NNS', 'IN', 'NN', 'PRP', 'VBD', 'NN', 'NNP', 'CC', 'VBN', 'NN', 'IN', 'JJ', 'NN', 'IN', 'JJ', 'NNP', 'JJ', 'NN', 'CC', 'VB', 'NN']"
-1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-2,// Thanks @qwertmax for this example,"['//', 'Thanks', '@qwertmax', 'for', 'this', 'example']","['COMMENT', 'NNS', 'VBP', 'IN', 'DT', 'NN']"
-3,// (http://stackoverflow.com/questions/29359907/social-network-vk-auth-with-martini),"['//', '(http:stackoverflow.com/questions/29359907/social-network-vk-auth-with-martini)']","['COMMENT', 'NN']"
-4,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-5,"    ""log""","['""log""']",['STRING_LITERAL']
-6,"    ""github.com/go-martini/martini""","['""github.com/go-martini/martini""']",['STRING_LITERAL']
-7,"    ""github.com/yanple/vk_api""","['""github.com/yanple/vk_api""']",['STRING_LITERAL']
-8,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-9,),[')'],['PUNCTUATION']
-10,var api vk_api.Api,"['var', 'api', 'vk_api', '.', 'Api']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-11,func prepareMartini() *martini.ClassicMartini {,"['func', 'prepareMartini', '()', '*', 'martini', '.', 'ClassicMartini', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-12,    m := martini.Classic(),"['m', ':=', 'martini.Classic()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-13,"    m.Get(""/vk/auth"", func(w http.ResponseWriter, r *http.Request) {","['m.Get(""/vk/auth"", func(w http.ResponseWriter, r *http.Request)', '{']","['FUNCTION_CALL', 'PUNCTUATION']"
-14,"        authUrl, err := api.GetAuthUrl(","['authUrl', ',', 'err', ':=', 'api', '.', 'GetAuthUrl', '(']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-15,"        ""http://localhost:3000/vk/token"",","['""http://localhost:3000/vk/token""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-16,"        ""app client id"",","['""app client id""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-17,"        ""wall,offline"")","['""wall,offline""', ')']","['STRING_LITERAL', 'PUNCTUATION']"
-18,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-19,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-20,        },['}'],['PUNCTUATION']
-21,"        http.Redirect(w, r, authUrl, http.StatusFound)","['http.Redirect(w, r, authUrl, http.StatusFound)']",['FUNCTION_CALL']
-22,    }),['})'],['PUNCTUATION']
-23,"    m.Get(""/vk/token"", func(w http.ResponseWriter, r *http.Request) {","['m.Get(""/vk/token"", func(w http.ResponseWriter, r *http.Request)', '{']","['FUNCTION_CALL', 'PUNCTUATION']"
-24,"        code := r.URL.Query().Get(""code"")","['code', ':=', 'r', '.', 'URL.Query().Get(""code"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-25,        err := api.OAuth(,"['err', ':=', 'api', '.', 'OAuth', '(']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-26,"        ""http://localhost:3000/vk/token"", // redirect uri","['""http://localhost:3000/vk/token""', ',', '//', 'redirect', 'uri']","['STRING_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'NN']"
-27,"        ""app secret key"",","['""app secret key""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-28,"        ""app client id"",","['""app client id""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-29,        code),"['code', ')']","['IDENTIFIER', 'PUNCTUATION']"
-30,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-31,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-32,        },['}'],['PUNCTUATION']
-33,"        http.Redirect(w, r, ""/"", http.StatusFound)","['http.Redirect(w, r, ""/"", http.StatusFound)']",['FUNCTION_CALL']
-34,    }),['})'],['PUNCTUATION']
-35,"    m.Get(""/"", func(w http.ResponseWriter, r *http.Request) string {","['m.Get(""/"", func(w http.ResponseWriter, r *http.Request)', 'string', '{']","['FUNCTION_CALL', 'IDENTIFIER', 'PUNCTUATION']"
-36,"        if api.AccessToken == """" {","['if', 'api', '.', 'AccessToken', '==', '""""', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'STRING_LITERAL', 'PUNCTUATION']"
-37,"            return ""Авторизоваться""","['return', '""Авторизоваться""']","['KEYWORD', 'STRING_LITERAL']"
-38,        },['}'],['PUNCTUATION']
-39,"        // Api have: AccessToken, UserId, ExpiresIn","['//', 'Api', 'have:', 'AccessToken,', 'UserId,', 'ExpiresIn']","['COMMENT', 'NNP', 'NN', 'NNP', 'NNP', 'NNP']"
-40,"        log.Println(""[LOG] martini.go:48 ->"", api.AccessToken)","['log.Println(""[LOG] martini.go:48 ->"", api.AccessToken)']",['FUNCTION_CALL']
-41,        // Make query,"['//', 'Make', 'query']","['COMMENT', 'NNP', 'NN']"
-42,        params := make(map[string]string),"['params', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-43,"        params[""domain""] = ""yanple""","['params', '[', '""domain""', ']', '=', '""yanple""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-44,"        params[""count""] = ""1""","['params', '[', '""count""', ']', '=', '""1""']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-45,"        strResp, err := api.Request(""wall.get"", params)","['strResp', ',', 'err', ':=', 'api.Request(""wall.get"", params)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-46,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-47,            panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-48,        },['}'],['PUNCTUATION']
-49,        return strResp,"['return', 'strResp']","['KEYWORD', 'IDENTIFIER']"
-50,    }),['})'],['PUNCTUATION']
-51,    return m,"['return', 'm']","['KEYWORD', 'IDENTIFIER']"
-52,},['}'],['PUNCTUATION']
-53,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-54,    prepareMartini().Run(),"['prepareMartini', '().', 'Run', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-55,},['}'],['PUNCTUATION']
-56,"
+So something like (don't know Go, but this should be close):
 
-Update 1:
-  Update your package with command: go get -u github.com/yanple/vk_api
-  Thanks for the comment.
-","['Update', '1:', 'Update', 'your', 'package', 'with', 'command:', 'go', 'get', '-u', 'github.com/yanple/vk_api', 'Thanks', 'for', 'the', 'comment.']","['VB', 'CD', 'NNP', 'PRP$', 'NN', 'IN', 'NN', 'VBP', 'VB', 'JJ', 'NN', 'NNP', 'IN', 'DT', 'NN']"
+","['Use', 'binary', 'shift', 'operators', 'to', 'load', 'seven', 'bits', 'at', 'a', 'time', 'into', 'a', 'bit', 'buffer,', 'and', 'whenever', 'the', 'bit', 'buffer', 'has', 'eight', 'bits,', 'output', 'that.', 'At', 'the', 'end,', 'if', 'there', 'are', 'any', 'bits', 'leftover,', 'output', 'a', 'final', 'byte', 'with', ""what's"", 'in', 'the', 'buffer.', 'So', 'something', 'like', ""(don't"", 'know', 'Go,', 'but', 'this', 'should', 'be', 'close):']","['NNP', 'JJ', 'NN', 'NNS', 'TO', 'VB', 'CD', 'NNS', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'JJ', 'CC', 'WRB', 'DT', 'NN', 'NN', 'VBZ', 'CD', 'NN', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'EX', 'VBP', 'DT', 'NNS', 'VBP', 'NN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'IN', 'DT', 'NN', 'RB', 'NN', 'IN', 'NNP', 'VBP', 'NNP', 'CC', 'DT', 'MD', 'VB', 'NN']"
+1,bits = 0,"['bits', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+2,bitbuf = 0,"['bitbuf', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+3,... some loop ...,"['...', 'some', 'loop', '...']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+4,    ...make your seven bits ...,"['...', 'make', 'your', 'seven', 'bits', '...']","['PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+5,    bitbuf |= sevenbits << bits,"['bitbuf', '|=', 'sevenbits', '<<', 'bits']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'BITWISE_OPERATOR', 'IDENTIFIER']"
+6,    bits += 7,"['bits', '+=', '7']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+7,    if bits >= 8 {,"['if', 'bits', '>=', '8', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+8,        output(bitbuf & 0xff),"['output', '(', 'bitbuf', '&', '0xff', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'BITWISE_OPERATOR', 'HEX_LITERAL', 'PUNCTUATION']"
+9,        bitbuf >>= 8;,"['bitbuf', '>>=', '8', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+10,        bits -= 8;,"['bits', '-=', '8', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+11,    },['}'],['PUNCTUATION']
+12,...,['...'],['PUNCTUATION']
+13,if bits > 0 {,"['if', 'bits', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+14,    output(bitbuf),"['output', '(', 'bitbuf', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+15,},['}'],['PUNCTUATION']

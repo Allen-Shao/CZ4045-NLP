@@ -1,140 +1,55 @@
 ,text,token,annotation
-0,"I have issue when using cgo with c struct array.
+0,"I try to write a function that validate data. Look at the following code:
 
-My program as follow:
+","['I', 'try', 'to', 'write', 'a', 'function', 'that', 'validate', 'data.', 'Look', 'at', 'the', 'following', 'code:']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'WDT', 'VBP', 'JJ', 'NNP', 'IN', 'DT', 'JJ', 'NN']"
+1,"func Create(name, email, password, local string, termOf bool) map[string]string {","['func', 'Create', '(', 'name', ',', 'email', ',', 'password', ',', 'local', 'string', ',', 'termOf', 'bool', ')', 'map', '[', 'string', ']', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+2,    wait := new(sync.WaitGroup),"['wait', ':=', 'new', '(', 'sync', '.', 'WaitGroup', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+3,    mutex := new(sync.Mutex),"['mutex', ':=', 'new', '(', 'sync', '.', 'Mutex', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+4,    errMsg := make(map[string]string),"['errMsg', ':=', 'make', '(', 'map', '[', 'string', ']', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+5,    if !termOf {,"['if', '!', 'termOf', '{']","['KEYWORD', 'LOGICAL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+6,        mutex.Lock(),['mutex.Lock()'],['FUNCTION_CALL']
+7,"        errMsg[""termOf""] = translate(local, ""text06"")","['errMsg', '[', '""termOf""', ']', '=', 'translate', '(', 'local', ',', '""text06""', ')']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+8,        mutex.Unlock(),['mutex.Unlock()'],['FUNCTION_CALL']
+9,    },['}'],['PUNCTUATION']
+10,    wait.Add(1),['wait.Add(1)'],['FUNCTION_CALL']
+11,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+12,"        err := ValidateName(name, local)","['err', ':=', 'ValidateName', '(', 'name', ',', 'local', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+13,        mutex.Lock(),['mutex.Lock()'],['FUNCTION_CALL']
+14,"        errMsg[""name""] = err.Error()","['errMsg', '[', '""name""', ']', '=', 'err.Error()']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+15,        mutex.Unlock(),['mutex.Unlock()'],['FUNCTION_CALL']
+16,        wait.Done(),['wait.Done()'],['FUNCTION_CALL']
+17,    }(),['}()'],['PUNCTUATION']
+18,    wait.Add(1),['wait.Add(1)'],['FUNCTION_CALL']
+19,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+20,"        err := ValidateEmail(email, local)","['err', ':=', 'ValidateEmail', '(', 'email', ',', 'local', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+21,        mutex.Lock(),['mutex.Lock()'],['FUNCTION_CALL']
+22,"        errMsg[""email""] = err.Error()","['errMsg', '[', '""email""', ']', '=', 'err.Error()']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+23,        mutex.Unlock(),['mutex.Unlock()'],['FUNCTION_CALL']
+24,        wait.Done(),['wait.Done()'],['FUNCTION_CALL']
+25,    }(),['}()'],['PUNCTUATION']
+26,    wait.Add(1),['wait.Add(1)'],['FUNCTION_CALL']
+27,    go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+28,"        err := ValidatePassword(password, local)","['err', ':=', 'ValidatePassword', '(', 'password', ',', 'local', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+29,        mutex.Lock(),['mutex.Lock()'],['FUNCTION_CALL']
+30,"        errMsg[""password""] = err.Error()","['errMsg', '[', '""password""', ']', '=', 'err.Error()']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+31,        mutex.Unlock(),['mutex.Unlock()'],['FUNCTION_CALL']
+32,        wait.Done(),['wait.Done()'],['FUNCTION_CALL']
+33,    }(),['}()'],['PUNCTUATION']
+34,    wait.Wait(),['wait.Wait()'],['FUNCTION_CALL']
+35,    // If errors appear,"['//', 'If', 'errors', 'appear']","['COMMENT', 'IN', 'NNS', 'VBP']"
+36,    if len(errMsg) > 0 {,"['if', 'len', '(', 'errMsg', ')', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+37,        return errMsg,"['return', 'errMsg']","['KEYWORD', 'IDENTIFIER']"
+38,    },['}'],['PUNCTUATION']
+39,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+40,},['}'],['PUNCTUATION']
+41,"
 
-I have struct in c  and contain a pointer to a c struct array. 
+As you can see here, I use three goroutines and in the goroutine I lock it to change errMsg variable map type. When I run the function, I've got compiler error
 
-In C, I provide a initialize function (take two parameter: the pointer to the variable, the length of the array inside the variable)  to malloc the memory of the variable. 
+","['As', 'you', 'can', 'see', 'here,', 'I', 'use', 'three', 'goroutines', 'and', 'in', 'the', 'goroutine', 'I', 'lock', 'it', 'to', 'change', 'errMsg', 'variable', 'map', 'type.', 'When', 'I', 'run', 'the', 'function,', ""I've"", 'got', 'compiler', 'error']","['IN', 'PRP', 'MD', 'VB', 'JJ', 'PRP', 'VBP', 'CD', 'NNS', 'CC', 'IN', 'DT', 'NN', 'PRP', 'VBP', 'PRP', 'TO', 'VB', 'RB', 'JJ', 'NNS', 'IN', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'NNP', 'VBD', 'JJ', 'NN']"
+42,runtime error: invalid memory address or nil pointer dereference,"['runtime', 'error', ':', 'invalid', 'memory', 'address', 'or', 'nil', 'pointer', 'dereference']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+43,[signal 0xc0000005 code=0x0 addr=0x14 pc=0x44206a],"['[', 'signal', '0xc', '0', '0', '0', '0', '0', '05', 'code', '=', '0', 'x0', 'addr', '=', '0x14', 'pc', '=', '0x442', '06', 'a', ']']","['PUNCTUATION', 'IDENTIFIER', 'HEX_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'HEX_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION']"
+44,"
 
-Then In go, I assign the value to this variable and assign value to the array in variable.  And in go , I call another C function to using this variable. 
-
-After the C function handle it.  Go pick up the variable again and return to other Go function. 
-
-When I coded like this, I go a array like.  type *C.struct does not support indexing. 
-
-My code like follow.
-
-C:
-
-test.h
-
-","['I', 'have', 'issue', 'when', 'using', 'cgo', 'with', 'c', 'struct', 'array.', 'My', 'program', 'as', 'follow:', 'I', 'have', 'struct', 'in', 'c', 'and', 'contain', 'a', 'pointer', 'to', 'a', 'c', 'struct', 'array.', 'In', 'C,', 'I', 'provide', 'a', 'initialize', 'function', '(take', 'two', 'parameter:', 'the', 'pointer', 'to', 'the', 'variable,', 'the', 'length', 'of', 'the', 'array', 'inside', 'the', 'variable)', 'to', 'malloc', 'the', 'memory', 'of', 'the', 'variable.', 'Then', 'In', 'go,', 'I', 'assign', 'the', 'value', 'to', 'this', 'variable', 'and', 'assign', 'value', 'to', 'the', 'array', 'in', 'variable.', 'And', 'in', 'go', ',', 'I', 'call', 'another', 'C', 'function', 'to', 'using', 'this', 'variable.', 'After', 'the', 'C', 'function', 'handle', 'it.', 'Go', 'pick', 'up', 'the', 'variable', 'again', 'and', 'return', 'to', 'other', 'Go', 'function.', 'When', 'I', 'coded', 'like', 'this,', 'I', 'go', 'a', 'array', 'like.', 'type', '*C.struct', 'does', 'not', 'support', 'indexing.', 'My', 'code', 'like', 'follow.', 'C:', 'test.h']","['PRP', 'VBP', 'NN', 'WRB', 'VBG', 'NN', 'IN', 'JJ', 'NN', 'JJ', 'NNP', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'VBN', 'IN', 'NN', 'CC', 'VB', 'DT', 'NN', 'TO', 'DT', 'JJ', 'NN', 'NN', 'IN', 'NNP', 'PRP', 'VBP', 'DT', 'JJ', 'NN', 'VBP', 'CD', 'VBP', 'DT', 'NN', 'TO', 'DT', 'NN', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RB', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'TO', 'DT', 'JJ', 'CC', 'JJ', 'NN', 'TO', 'DT', 'NN', 'IN', 'NN', 'CC', 'IN', 'NN', ',', 'PRP', 'VBP', 'DT', 'NNP', 'NN', 'TO', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'NN', 'NN', 'NNP', 'VBZ', 'RP', 'DT', 'NN', 'RB', 'CC', 'VB', 'TO', 'JJ', 'NNP', 'NN', 'WRB', 'PRP', 'VBD', 'IN', 'NN', 'PRP', 'VBP', 'DT', 'NN', 'NN', 'NN', 'NN', 'VBZ', 'RB', 'VB', 'VB', 'NNP', 'NN', 'IN', 'NN', 'NNP', 'NN']"
-1,typedef struct,"['type', 'def', 'struct']","['KEYWORD', 'IDENTIFIER', 'KEYWORD']"
-2,{,['{'],['PUNCTUATION']
-3,    int     profileCnt;,"['int', 'profileCnt', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-4,    _profile   *profile;                      //pointer to profile array,"['_profile', '*', 'profile', ';', '//', 'pointer', 'to', 'profile', 'array']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'TO', 'VB', 'NN']"
-5,}_profiles;,"['}', '_profiles', ';']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-6,// variable using in Go,"['//', 'variable', 'using', 'in', 'Go']","['COMMENT', 'JJ', 'VBG', 'IN', 'NNP']"
-7,typedef struct,"['type', 'def', 'struct']","['KEYWORD', 'IDENTIFIER', 'KEYWORD']"
-8,{,['{'],['PUNCTUATION']
-9,    int     profileId;              ,"['int', 'profileId', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-10,    _name   userName;               ,"['_name', 'userName', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-11,    char         *dateOfBirth;          ,"['char', '*', 'dateOfBirth', ';']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-12,    int     stateFipsId;            ,"['int', 'stateFipsId', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-13,}_profile;,"['}', '_profile', ';']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-14,typedef struct,"['type', 'def', 'struct']","['KEYWORD', 'IDENTIFIER', 'KEYWORD']"
-15,{,['{'],['PUNCTUATION']
-16,    char    first[32];,"['char', 'first', '[', '32', '];']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-17,    char    last[32];,"['char', 'last', '[', '32', '];']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-18,} _name;,"['}', '_name', ';']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-19,"void initializeProfiles(_profiles *profiles, int profileCount, bool create);","['void', 'initializeProfiles', '(', '_profiles', '*', 'profiles', ',', 'int', 'profileCount', ',', 'bool', 'create', ');']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-20,"int doSomething _In_C( _profiles *profiles, int log);","['int', 'doSomething', '_In_C', '(', '_profiles', '*', 'profiles', ',', 'int', 'log', ');']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-21,"
-
-test.c
-
-",['test.c'],['NN']
-22,"void initializeProfiles(_profiles *profiles, int profileCount, bool create)","['void', 'initializeProfiles', '(', '_profiles', '*', 'profiles', ',', 'int', 'profileCount', ',', 'bool', 'create', ')']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-23,{,['{'],['PUNCTUATION']
-24,    profiles->profileCnt = profileCount;                                                ,"['profiles', '->', 'profileCnt', '=', 'profileCount', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-25,//  initialize profiles struct & profile[] Array,"['//', 'initialize', 'profiles', 'struct', '&', 'profile[]', 'Array']","['COMMENT', 'VB', 'NNS', 'VB', 'CC', 'VB', 'NN']"
-26,    if (profileCount > 0),"['if', '(', 'profileCount', '>', '0', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-27,    {,['{'],['PUNCTUATION']
-28,        if (create == true),"['if', '(', 'create', '==', 'true', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-29,            profiles->profile = malloc(profileCount * sizeof *profiles->profile + 1);           //  allocate memory for profiles[numProfiles],"['profiles', '->', 'profile', '=', 'malloc', '(', 'profileCount', '*', 'sizeof', '*', 'profiles', '->', 'profile', '+', '1', ');', '//', 'allocate', 'memory', 'for', 'profiles[numProfiles]']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'JJ', 'NN', 'IN', 'NN']"
-30,            for (int i = 0; i profileCnt; i++),"['for', '(', 'int', 'i', '=', '0', ';', 'i', 'profileCnt', ';', 'i', '++)']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-31,"            initializeProfile(&profiles->profile[i], create);","['initializeProfile', '(&', 'profiles', '->', 'profile', '[', 'i', '],', 'create', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-32,        if (create == false),"['if', '(', 'create', '==', 'false', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-33,        {,['{'],['PUNCTUATION']
-34,            free(profiles->profile);,"['free', '(', 'profiles', '->', 'profile', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-35,            profiles->profileCnt = 0;,"['profiles', '->', 'profileCnt', '=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-36,        },['}'],['PUNCTUATION']
-37,    },['}'],['PUNCTUATION']
-38,    else,['else'],['KEYWORD']
-39,        profiles->profile = NULL;,"['profiles', '->', 'profile', '=', 'NULL', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-40,} ,['}'],['PUNCTUATION']
-41,"void initializeProfile(_profile *profile, bool create)","['void', 'initializeProfile', '(', '_profile', '*', 'profile', ',', 'bool', 'create', ')']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-42,{,['{'],['PUNCTUATION']
-43,    if (create == true),"['if', '(', 'create', '==', 'true', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-44,    {       ,['{'],['PUNCTUATION']
-45,        profile->dateOfBirth = NULL;            ,"['profile', '->', 'dateOfBirth', '=', 'NULL', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-46,    },['}'],['PUNCTUATION']
-47,    profile->profileId = 0;                 ,"['profile', '->', 'profileId', '=', '0', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-48,"    memset(profile->userName.first, '\0', sizeof(profile->userName.first));     ","['memset', '(', 'profile', '->', 'userName', '.', 'first', ',', ""'\\0'"", ',', 'sizeof', '(', 'profile', '->', 'userName', '.', 'first', '));']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-49,"    memset(profile->userName.last, '\0', sizeof(profile->userName.last));       ","['memset', '(', 'profile', '->', 'userName', '.', 'last', ',', ""'\\0'"", ',', 'sizeof', '(', 'profile', '->', 'userName', '.', 'last', '));']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-50,    if (create == false),"['if', '(', 'create', '==', 'false', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-51,    {,['{'],['PUNCTUATION']
-52,        if (profile->dateOfBirth != NULL),"['if', '(', 'profile', '->', 'dateOfBirth', '!=', 'NULL', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-53,            free(profile->dateOfBirth);,"['free', '(', 'profile', '->', 'dateOfBirth', ');']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-54,    },['}'],['PUNCTUATION']
-55,},['}'],['PUNCTUATION']
-56,"int doSomething _In_C( _profiles *profiles, int log)","['int', 'doSomething', '_In_C', '(', '_profiles', '*', 'profiles', ',', 'int', 'log', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-57,{,['{'],['PUNCTUATION']
-58,    /*  ===========================================,"['/*', '===========================================']","['PUNCTUATION', 'PUNCTUATION']"
-59,    */  ====   did something to that variable============================,"['*/', '====', 'did', 'something', 'to', 'that', 'var', 'iable', '============================']","['PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-60,    if (errStatus.code == _SUCCESS),"['if', '(', 'errStatus', '.', 'code', '==', '_SUCCESS', ')']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-61,        return(_SUCCESS);,"['return', '(', '_SUCCESS', ');']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,    else,['else'],['KEYWORD']
-63,        return(FAILURE);,"['return', '(', 'FAILURE', ');']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-64,},['}'],['PUNCTUATION']
-65,"
-
-My GO code 
-
-","['My', 'GO', 'code']","['PRP$', 'NNP', 'NN']"
-66,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-67,//#cgo CFLAGS: -std=c99 -ggdb3 -O0 -Wall,"['//', '#cgo', 'CFLAGS:', '-std=c99', '-ggdb3', '-O0', '-Wall']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
-68,//#cgo CFLAGS: -I../../include/common,"['//', '#cgo', 'CFLAGS:', '-I../../include/common']","['COMMENT', 'JJ', 'NNP', 'NN']"
-69,//#cgo LDFLAGS: -L string.h,"['//', '#cgo', 'LDFLAGS:', '-L', 'string.h']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NN']"
-70,//#cgo LDFLAGS: -lstdc++ -lpthread -lm -lc -lssl -lcrypto,"['//', '#cgo', 'LDFLAGS:', '-lstdc++', '-lpthread', '-lm', '-lc', '-lssl', '-lcrypto']","['COMMENT', 'JJ', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'NN']"
-71,//#include ,"['//', '#include']","['COMMENT', 'NN']"
-72,//#include ,"['//', '#include']","['COMMENT', 'NN']"
-73,"//#include ""test.h""","['//', '#include', '""test.h""']","['COMMENT', 'NN', 'NN']"
-74,"import ""C""","['import', '""C""']","['KEYWORD', 'STRING_LITERAL']"
-75,"//import ""unsafe""","['//', 'import', '""unsafe""']","['COMMENT', 'NN', 'NN']"
-76,func Test() {,"['func', 'Test', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-77,    log := 1 // sets logging level,"['log', ':=', '1', '//', 'sets', 'logging', 'level']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'COMMENT', 'NNS', 'VBG', 'NN']"
-78,    numProfiles := 3,"['numProfiles', ':=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-79,    var profiles C._profiles,"['var', 'profiles', 'C', '.', '_profiles']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-80,"    C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(true))","['C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(true))']",['FUNCTION_CALL']
-81,    profiles.profile[0].profileId = C.int(2),"['profiles', '.', 'profile', '[', '0', '].', 'profileId', '=', 'C.int(2)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-82,    profiles.profile[0].stateFipsId = C.int(1),"['profiles', '.', 'profile', '[', '0', '].', 'stateFipsId', '=', 'C.int(1)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-83,"    profiles.profile[0].userName.first = C.CString(""test"")","['profiles', '.', 'profile', '[', '0', '].', 'userName', '.', 'first', '=', 'C.CString(""test"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-84,"    profiles.profile[0].userName.last = C.CString（""test""）","['profiles', '.', 'profile', '[', '0', '].', 'userName', '.', 'last', '=', 'C', '.', 'CString', '""test""']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL']"
-85,"    C.dosomething_In_C( &profiles,C.int(3))","['C.dosomething_In_C( &profiles,C.int(3))']",['FUNCTION_CALL']
-86,"    C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(false))","['C.initializeProfiles(&profiles, C.int(numProfiles), C.bool(false))']",['FUNCTION_CALL']
-87,"    fmt.Println(int(""get c variable and  return"")","['fmt.Println(int(""get c variable and  return"")']",['FUNCTION_CALL']
-88,},['}'],['PUNCTUATION']
-89,"
-
-When I compile  in like this
-            profiles.profile[0].profileId = C.int(2) 
-
-I got error message : 
-    invalid operation: profiles.profile[0] (type *C.struct___6 does not support indexing)  
-
-So, I try another solution.  Transfer the c struct array form c to go. like this 
-
-","['When', 'I', 'compile', 'in', 'like', 'this', 'profiles.profile[0].profileId', '=', 'C.int(2)', 'I', 'got', 'error', 'message', ':', 'invalid', 'operation:', 'profiles.profile[0]', '(type', '*C.struct___6', 'does', 'not', 'support', 'indexing)', 'So,', 'I', 'try', 'another', 'solution.', 'Transfer', 'the', 'c', 'struct', 'array', 'form', 'c', 'to', 'go.', 'like', 'this']","['WRB', 'PRP', 'VBP', 'IN', 'IN', 'DT', 'NN', 'VBZ', 'NNP', 'PRP', 'VBD', 'JJ', 'NN', ':', 'JJ', 'NN', 'NN', 'JJ', 'NN', 'VBZ', 'RB', 'VB', 'JJ', 'NNP', 'PRP', 'VBP', 'DT', 'NN', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'NN', 'NN', 'TO', 'VB', 'IN', 'DT']"
-90,    profile.profikes = (*[1 << 30]C._profile)(unsafe.Pointer(&profiles.profile))[:numProfiles:numProfiles],"['profile', '.', 'profikes', '=', '(*[', '1', '<<', '30', ']', 'C', '.', '_profile', ')(', 'unsafe.Pointer(&profiles.profile))', '[:', 'numProfiles', ':', 'numProfiles', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,"
-
-But get error like   cannot use (*[1073741824]C.struct___6)(unsafe.Pointer(&profiles.profile))[:numProfiles:numProfiles] (type []C.struct___6) as type *C.struct___6 in assignment    
-
-and I afraid It create another piece of memory,  when I call in dosomething_In_C function, it can not get the data. 
-
-Is anyone know how to fix this?
-
-Thank you 
-","['But', 'get', 'error', 'like', 'cannot', 'use', '(*[1073741824]C.struct___6)(unsafe.Pointer(&profiles.profile))[:numProfiles:numProfiles]', '(type', '[]C.struct___6)', 'as', 'type', '*C.struct___6', 'in', 'assignment', 'and', 'I', 'afraid', 'It', 'create', 'another', 'piece', 'of', 'memory,', 'when', 'I', 'call', 'in', 'dosomething_In_C', 'function,', 'it', 'can', 'not', 'get', 'the', 'data.', 'Is', 'anyone', 'know', 'how', 'to', 'fix', 'this?', 'Thank', 'you']","['CC', 'VB', 'NN', 'IN', 'NN', 'NN', 'NNP', 'NNP', 'NNP', 'IN', 'NN', 'NN', 'IN', 'NN', 'CC', 'PRP', 'VBP', 'PRP', 'VB', 'DT', 'NN', 'IN', 'NN', 'WRB', 'PRP', 'VBP', 'IN', 'NN', 'NN', 'PRP', 'MD', 'RB', 'VB', 'DT', 'NN', 'VBZ', 'NN', 'VB', 'WRB', 'TO', 'VB', 'JJ', 'NNP', 'PRP']"
+But when I remove in the goroutine all errMsg inserts, then the function works. I do not know the reason what I do wrong.
+","['But', 'when', 'I', 'remove', 'in', 'the', 'goroutine', 'all', 'errMsg', 'inserts,', 'then', 'the', 'function', 'works.', 'I', 'do', 'not', 'know', 'the', 'reason', 'what', 'I', 'do', 'wrong.']","['CC', 'WRB', 'PRP', 'VBP', 'IN', 'DT', 'NN', 'DT', 'VBP', 'NN', 'RB', 'DT', 'NN', 'NN', 'PRP', 'VBP', 'RB', 'VB', 'DT', 'NN', 'WP', 'PRP', 'VBP', 'VB']"

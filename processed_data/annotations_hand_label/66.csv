@@ -1,174 +1,121 @@
 ,text,token,annotation
-0,"I am trying to search youtube video by key like in the golang example. I modified that code a little to let it search by different keys several times. 
-When I search once it is ok. 
+0,"Great question!
 
-","['I', 'am', 'trying', 'to', 'search', 'youtube', 'video', 'by', 'key', 'like', 'in', 'the', 'golang', 'example.', 'I', 'modified', 'that', 'code', 'a', 'little', 'to', 'let', 'it', 'search', 'by', 'different', 'keys', 'several', 'times.', 'When', 'I', 'search', 'once', 'it', 'is', 'ok.']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'NN', 'NN', 'IN', 'JJ', 'IN', 'IN', 'DT', 'NN', 'NN', 'PRP', 'VBD', 'IN', 'NN', 'DT', 'JJ', 'TO', 'VB', 'PRP', 'VB', 'IN', 'JJ', 'NNS', 'JJ', 'IN', 'WRB', 'PRP', 'VBP', 'IN', 'PRP', 'VBZ', 'JJ']"
-1,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-2,"    result1, err1 := SearchYoutubeByKey(""hello"")","['result1', ',', 'err1', ':=', 'SearchYoutubeByKey', '(', '""hello""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-3,    if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-4,        panic(err1),"['panic', '(', 'err1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-5,    },['}'],['PUNCTUATION']
-6,    fmt.Println(result1),['fmt.Println(result1)'],['FUNCTION_CALL']
-7,"    // result2, err2 := SearchYoutubeByKey(""world"")","['//', 'result2,', 'err2', ':=', 'SearchYoutubeByKey(""world"")']","['COMMENT', 'NN', 'NN', 'NNP', 'NNP']"
-8,    // if err2 != nil {,"['//', 'if', 'err2', '!=', 'nil', '{']","['COMMENT', 'IN', 'JJ', 'NNP', 'NN', '(']"
-9,    //  panic(err2),"['//', 'panic(err2)']","['COMMENT', 'NN']"
-10,    // },"['//', '}']","['COMMENT', ')']"
-11,    // fmt.Println(result2),"['//', 'fmt.Println(result2)']","['COMMENT', 'NN']"
-12,},['}'],['PUNCTUATION']
-13,"
+Looking at the source code of go/doc, we can see that it has to deal with this same case in readType function. There, it says:
 
-But if I search twice ...
+","['Great', 'question!', 'Looking', 'at', 'the', 'source', 'code', 'of', 'go/doc,', 'we', 'can', 'see', 'that', 'it', 'has', 'to', 'deal', 'with', 'this', 'same', 'case', 'in', 'readType', 'function.', 'There,', 'it', 'says:']","['NNP', 'NN', 'VBG', 'IN', 'DT', 'NN', 'NN', 'IN', 'NN', 'PRP', 'MD', 'VB', 'IN', 'PRP', 'VBZ', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'NN', 'NNP', 'PRP', 'VBD']"
+1,"324     func (r *reader) readType(decl *ast.GenDecl, spec *ast.TypeSpec) {","['324', 'func', '(', 'r', '*', 'reader', ')', 'readType', '(', 'decl', '*', 'ast', '.', 'GenDecl', ',', 'spec', '*', 'ast', '.', 'TypeSpec', ')', '{']","['DECIMAL_LITERAL', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+2,...,['...'],['PUNCTUATION']
+3,334     // compute documentation,"['334', '//', 'compute', 'documentation']","['DECIMAL_LITERAL', 'COMMENT', 'NN', 'NN']"
+4,335     doc := spec.Doc,"['335', 'doc', ':=', 'spec', '.', 'Doc']","['DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+5,336     spec.Doc = nil // doc consumed - remove from AST,"['336', 'spec', '.', 'Doc', '=', 'nil', '//', 'doc', 'consumed', '-', 'remove', 'from', 'AST']","['DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'COMMENT', 'NN', 'VBD', ':', 'NN', 'IN', 'NNP']"
+6,337     if doc == nil {,"['337', 'if', 'doc', '==', 'nil', '{']","['DECIMAL_LITERAL', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+7,"338         // no doc associated with the spec, use the declaration doc, if any","['338', '//', 'no', 'doc', 'associated', 'with', 'the', 'spec,', 'use', 'the', 'declaration', 'doc,', 'if', 'any']","['DECIMAL_LITERAL', 'COMMENT', 'DT', 'NN', 'VBN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT']"
+8,339         doc = decl.Doc,"['339', 'doc', '=', 'decl', '.', 'Doc']","['DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+9,340     },"['340', '}']","['DECIMAL_LITERAL', 'PUNCTUATION']"
+10,...,['...'],['PUNCTUATION']
+11,"
 
-","['But', 'if', 'I', 'search', 'twice', '...']","['CC', 'IN', 'PRP', 'VBP', 'RB', ':']"
-14,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-15,"    result1, err1 := SearchYoutubeByKey(""hello"")","['result1', ',', 'err1', ':=', 'SearchYoutubeByKey', '(', '""hello""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-16,    if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-17,        panic(err1),"['panic', '(', 'err1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-18,    },['}'],['PUNCTUATION']
-19,    fmt.Println(result1),['fmt.Println(result1)'],['FUNCTION_CALL']
-20,"    result2, err2 := SearchYoutubeByKey(""world"")","['result2', ',', 'err2', ':=', 'SearchYoutubeByKey', '(', '""world""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-21,    if err2 != nil {,"['if', 'err2', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-22,        panic(err2),"['panic', '(', 'err2', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-23,    },['}'],['PUNCTUATION']
-24,    fmt.Println(result2),['fmt.Println(result2)'],['FUNCTION_CALL']
-25,},['}'],['PUNCTUATION']
-26,"
+Notice in particular how it needs to deal with the case where the AST does not have a doc attached to the TypeSpec. To do this, it falls back on the GenDecl. This gives us a clue as to how we might use the AST directly to parse doc comments for structs. Adapting the for loop in the question code to add a case for *ast.GenDecl:
 
-... then it panics with error message ...
+","['Notice', 'in', 'particular', 'how', 'it', 'needs', 'to', 'deal', 'with', 'the', 'case', 'where', 'the', 'AST', 'does', 'not', 'have', 'a', 'doc', 'attached', 'to', 'the', 'TypeSpec.', 'To', 'do', 'this,', 'it', 'falls', 'back', 'on', 'the', 'GenDecl.', 'This', 'gives', 'us', 'a', 'clue', 'as', 'to', 'how', 'we', 'might', 'use', 'the', 'AST', 'directly', 'to', 'parse', 'doc', 'comments', 'for', 'structs.', 'Adapting', 'the', 'for', 'loop', 'in', 'the', 'question', 'code', 'to', 'add', 'a', 'case', 'for', '*ast.GenDecl:']","['NNP', 'IN', 'JJ', 'WRB', 'PRP', 'VBZ', 'TO', 'VB', 'IN', 'DT', 'NN', 'WRB', 'DT', 'NNP', 'VBZ', 'RB', 'VB', 'DT', 'NN', 'VBN', 'TO', 'DT', 'NNP', 'TO', 'VB', 'VB', 'PRP', 'VBZ', 'RB', 'IN', 'DT', 'NNP', 'DT', 'VBZ', 'PRP', 'DT', 'NN', 'IN', 'TO', 'WRB', 'PRP', 'MD', 'VB', 'DT', 'NNP', 'RB', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'NN', 'VBG', 'DT', 'IN', 'NN', 'IN', 'DT', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN']"
+12,"for _, f := range d {","['for', '_', ',', 'f', ':=', 'range', 'd', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+13,"    ast.Inspect(f, func(n ast.Node) bool {","['ast.Inspect(f, func(n ast.Node)', 'bool', '{']","['FUNCTION_CALL', 'IDENTIFIER', 'PUNCTUATION']"
+14,        switch x := n.(type) {,"['switch', 'x', ':=', 'n', '.(', 'type', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
+15,        case *ast.FuncDecl:,"['case', '*', 'ast', '.', 'FuncDecl', ':']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+16,"            fmt.Printf(""%s:\tFuncDecl %s\t%s\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())","['fmt.Printf(""%s:\\tFuncDecl %s\\t%s\\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())']",['FUNCTION_CALL']
+17,        case *ast.TypeSpec:,"['case', '*', 'ast', '.', 'TypeSpec', ':']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+18,"            fmt.Printf(""%s:\tTypeSpec %s\t%s\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())","['fmt.Printf(""%s:\\tTypeSpec %s\\t%s\\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())']",['FUNCTION_CALL']
+19,        case *ast.Field:,"['case', '*', 'ast', '.', 'Field', ':']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+20,"            fmt.Printf(""%s:\tField %s\t%s\n"", fset.Position(n.Pos()), x.Names, x.Doc.Text())","['fmt.Printf(""%s:\\tField %s\\t%s\\n"", fset.Position(n.Pos()), x.Names, x.Doc.Text())']",['FUNCTION_CALL']
+21,        case *ast.GenDecl:,"['case', '*', 'ast', '.', 'GenDecl', ':']","['KEYWORD', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+22,"            fmt.Printf(""%s:\tGenDecl %s\n"", fset.Position(n.Pos()), x.Doc.Text())","['fmt.Printf(""%s:\\tGenDecl %s\\n"", fset.Position(n.Pos()), x.Doc.Text())']",['FUNCTION_CALL']
+23,        },['}'],['PUNCTUATION']
+24,        return true,"['return', 'true']","['KEYWORD', 'BOOLEAN_LITERAL']"
+25,    }),['})'],['PUNCTUATION']
+26,},['}'],['PUNCTUATION']
+27,"
 
-","['...', 'then', 'it', 'panics', 'with', 'error', 'message', '...']","[':', 'RB', 'PRP', 'VBZ', 'IN', 'NN', 'NN', ':']"
-27,flag redefined: query,"['flag', 'redefined', ':', 'query']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-28,"
+Running this gives us:
 
-... on line ...
+","['Running', 'this', 'gives', 'us:']","['VBG', 'DT', 'VBZ', 'JJ']"
+28,main.go:3:1:    GenDecl %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '3', ':', '1', ':', 'GenDecl', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+29,main.go:11:1:   GenDecl &{[%!s(*ast.Comment=&{69 // FirstType docs})]},"['main', '.', 'go', ':', '11', ':', '1', ':', 'GenDecl', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '69', '//', 'FirstType', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+30,main.go:11:6:   TypeSpec FirstType  %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '11', ':', '6', ':', 'TypeSpec', 'FirstType', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+31,main.go:13:2:   Field [FirstMember] &{[%!s(*ast.Comment=&{112 // FirstMember docs})]},"['main', '.', 'go', ':', '13', ':', '2', ':', 'Field', '[', 'FirstMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '112', '//', 'FirstMember', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+32,main.go:17:1:   GenDecl &{[%!s(*ast.Comment=&{155 // SecondType docs})]},"['main', '.', 'go', ':', '17', ':', '1', ':', 'GenDecl', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '155', '//', 'SecondType', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+33,main.go:17:6:   TypeSpec SecondType %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '17', ':', '6', ':', 'TypeSpec', 'SecondType', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+34,main.go:19:2:   Field [SecondMember]    &{[%!s(*ast.Comment=&{200 // SecondMember docs})]},"['main', '.', 'go', ':', '19', ':', '2', ':', 'Field', '[', 'SecondMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '200', '//', 'SecondMember', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+35,main.go:23:1:   FuncDecl main   &{[%!s(*ast.Comment=&{245 // Main docs})]},"['main', '.', 'go', ':', '23', ':', '1', ':', 'FuncDecl', 'main', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '245', '//', 'Main', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+36,main.go:33:23:  Field [n]   %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '33', ':', '23', ':', 'Field', '[', 'n', ']', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+37,main.go:33:35:  Field []    %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '33', ':', '35', ':', 'Field', '[]', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+38,"
 
-","['...', 'on', 'line', '...']","[':', 'IN', 'NN', ':']"
-29,"query := flag.String(""query"", str, ""Search term"")","['query', ':=', 'flag.String(""query"", str, ""Search term"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-30,"
+And, hey!
 
-Full code:
+We've printed out the long-lost FirstType docs and SecondType docs! But this is unsatisfactory. Why is the doc not attached to the TypeSpec? The go/doc/reader.go file goes to extraordinary lengths to circumvent this issue, actually generating a fake GenDecl and passing it to the readType function mentioned earlier, if there is no documentation associated with the struct declaration! 
 
-","['Full', 'code:']","['NNP', 'NN']"
-31,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-32,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-33,"    ""code.google.com/p/google-api-go-client/googleapi/transport""","['""code.google.com/p/google-api-go-client/googleapi/transport""']",['STRING_LITERAL']
-34,"    ""code.google.com/p/google-api-go-client/youtube/v3""","['""code.google.com/p/google-api-go-client/youtube/v3""']",['STRING_LITERAL']
-35,"    ""flag""","['""flag""']",['STRING_LITERAL']
-36,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-37,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-38,),[')'],['PUNCTUATION']
-39,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-40,"    maxResults = flag.Int64(""max-results"", 25, ""Max YouTube results"")","['maxResults', '=', 'flag.Int64(""max-results"", 25, ""Max YouTube results"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-41,    service    *youtube.Service,"['service', '*', 'youtube', '.', 'Service']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-42,    response   *youtube.SearchListResponse,"['response', '*', 'youtube', '.', 'SearchListResponse']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-43,),[')'],['PUNCTUATION']
-44,"const developerKey = ""youtube developer key""","['const', 'developerKey', '=', '""youtube developer key""']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-45,type YoutubeSearchResult struct {,"['type', 'YoutubeSearchResult', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-46,"    Title, YoutubeId string","['Title', ',', 'YoutubeId', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-47,},['}'],['PUNCTUATION']
-48,"func SearchYoutubeByKey(str string) (result []*YoutubeSearchResult, err error) {","['func', 'SearchYoutubeByKey', '(', 'str', 'string', ')', '(', 'result', '[]*', 'YoutubeSearchResult', ',', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-49,"    query := flag.String(""query"", str, ""Search term"")","['query', ':=', 'flag.String(""query"", str, ""Search term"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-50,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-51,    client := &http.Client{,"['client', ':=', '&', 'http', '.', 'Client', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-52,"        Transport: &transport.APIKey{Key: developerKey},","['Transport', ':', '&', 'transport', '.', 'APIKey', '{', 'Key', ':', 'developerKey', '},']","['IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-53,    },['}'],['PUNCTUATION']
-54,"    service, err = youtube.New(client)","['service', ',', 'err', '=', 'youtube.New(client)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-55,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-56,        return,['return'],['KEYWORD']
+","['And,', 'hey!', ""We've"", 'printed', 'out', 'the', 'long-lost', 'FirstType', 'docs', 'and', 'SecondType', 'docs!', 'But', 'this', 'is', 'unsatisfactory.', 'Why', 'is', 'the', 'doc', 'not', 'attached', 'to', 'the', 'TypeSpec?', 'The', 'go/doc/reader.go', 'file', 'goes', 'to', 'extraordinary', 'lengths', 'to', 'circumvent', 'this', 'issue,', 'actually', 'generating', 'a', 'fake', 'GenDecl', 'and', 'passing', 'it', 'to', 'the', 'readType', 'function', 'mentioned', 'earlier,', 'if', 'there', 'is', 'no', 'documentation', 'associated', 'with', 'the', 'struct', 'declaration!']","['NNP', 'NN', 'NNP', 'VBD', 'RP', 'DT', 'JJ', 'NNP', 'NN', 'CC', 'NNP', 'NN', 'CC', 'DT', 'VBZ', 'JJ', 'WRB', 'VBZ', 'DT', 'NN', 'RB', 'VBN', 'TO', 'DT', 'NNP', 'DT', 'NN', 'NN', 'VBZ', 'TO', 'JJ', 'NNS', 'TO', 'VB', 'DT', 'NN', 'RB', 'VBG', 'DT', 'JJ', 'NNP', 'CC', 'VBG', 'PRP', 'TO', 'DT', 'NN', 'NN', 'VBD', 'RB', 'IN', 'EX', 'VBZ', 'DT', 'NN', 'VBN', 'IN', 'DT', 'NN', 'NN']"
+39,   503  fake := &ast.GenDecl{,"['503', 'fake', ':=', '&', 'ast', '.', 'GenDecl', '{']","['DECIMAL_LITERAL', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+40,"   504   Doc: d.Doc,","['504', 'Doc', ':', 'd', '.', 'Doc', ',']","['DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+41,   505   // don't use the existing TokPos because it,"['505', '//', ""don't"", 'use', 'the', 'existing', 'TokPos', 'because', 'it']","['DECIMAL_LITERAL', 'COMMENT', 'NN', 'VB', 'DT', 'VBG', 'NNP', 'IN', 'PRP']"
+42,   506   // will lead to the wrong selection range for,"['506', '//', 'will', 'lead', 'to', 'the', 'wrong', 'selection', 'range', 'for']","['DECIMAL_LITERAL', 'COMMENT', 'MD', 'VB', 'TO', 'DT', 'JJ', 'NN', 'NN', 'IN']"
+43,   507   // the fake declaration if there are more,"['507', '//', 'the', 'fake', 'declaration', 'if', 'there', 'are', 'more']","['DECIMAL_LITERAL', 'COMMENT', 'DT', 'NN', 'NN', 'IN', 'EX', 'VBP', 'JJR']"
+44,   508   // than one type in the group (this affects,"['508', '//', 'than', 'one', 'type', 'in', 'the', 'group', '(this', 'affects']","['DECIMAL_LITERAL', 'COMMENT', 'IN', 'CD', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'NNS']"
+45,   509   // src/cmd/godoc/godoc.go's posLink_urlFunc),"['509', '//', ""src/cmd/godoc/godoc.go's"", 'posLink_urlFunc)']","['DECIMAL_LITERAL', 'COMMENT', 'NN', 'NN']"
+46,"   510   TokPos: s.Pos(),","['510', 'TokPos', ':', 's.Pos()', ',']","['DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
+47,"   511   Tok:    token.TYPE,","['511', 'Tok', ':', 'token', '.', 'TYPE', ',']","['DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+48,"   512   Specs:  []ast.Spec{s},","['512', 'Specs', ':', '[]', 'ast', '.', 'Spec', '{', 's', '},']","['DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+49,   513  },"['513', '}']","['DECIMAL_LITERAL', 'PUNCTUATION']"
+50,"
+
+But why all this?
+
+Imagine we changed the type definitions from code in the question slightly (defining structs like this is not common, but still valid Go):
+
+","['But', 'why', 'all', 'this?', 'Imagine', 'we', 'changed', 'the', 'type', 'definitions', 'from', 'code', 'in', 'the', 'question', 'slightly', '(defining', 'structs', 'like', 'this', 'is', 'not', 'common,', 'but', 'still', 'valid', 'Go):']","['CC', 'WRB', 'DT', 'NN', 'NNP', 'PRP', 'VBD', 'DT', 'NN', 'NNS', 'IN', 'NN', 'IN', 'DT', 'NN', 'RB', 'VBG', 'NNS', 'IN', 'DT', 'VBZ', 'RB', 'JJ', 'CC', 'RB', 'JJ', 'NNP']"
+51,// This documents FirstType and SecondType together,"['//', 'This', 'documents', 'FirstType', 'and', 'SecondType', 'together']","['COMMENT', 'DT', 'NNS', 'NNP', 'CC', 'NNP', 'RB']"
+52,type (,"['type', '(']","['KEYWORD', 'PUNCTUATION']"
+53,    // FirstType docs,"['//', 'FirstType', 'docs']","['COMMENT', 'NNP', 'NN']"
+54,    FirstType struct {,"['FirstType', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+55,        // FirstMember docs,"['//', 'FirstMember', 'docs']","['COMMENT', 'NNP', 'NN']"
+56,        FirstMember string,"['FirstMember', 'string']","['IDENTIFIER', 'IDENTIFIER']"
 57,    },['}'],['PUNCTUATION']
-58,    // Make the API call to YouTube.,"['//', 'Make', 'the', 'API', 'call', 'to', 'YouTube.']","['COMMENT', 'VB', 'DT', 'NNP', 'NN', 'TO', 'VB']"
-59,"    call := service.Search.List(""id,snippet"").","['call', ':=', 'service', '.', 'Search.List(""id,snippet"")', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-60,        Q(*query).,"['Q', '(*', 'query', ').']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-61,        MaxResults(*maxResults),"['MaxResults', '(*', 'maxResults', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-62,"    response, err = call.Do()","['response', ',', 'err', '=', 'call.Do()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-63,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-64,        return,['return'],['KEYWORD']
-65,    },['}'],['PUNCTUATION']
-66,    // Iterate through each item and add it to the correct list.,"['//', 'Iterate', 'through', 'each', 'item', 'and', 'add', 'it', 'to', 'the', 'correct', 'list.']","['COMMENT', 'NNP', 'IN', 'DT', 'NN', 'CC', 'VB', 'PRP', 'TO', 'DT', 'JJ', 'NN']"
-67,"    for _, item := range response.Items {","['for', '_', ',', 'item', ':=', 'range', 'response', '.', 'Items', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-68,        switch item.Id.Kind {,"['switch', 'item', '.', 'Id', '.', 'Kind', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-69,"        case ""youtube#video"":","['case', '""youtube#video""', ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-70,"            result = append(result, &YoutubeSearchResult{Title: item.Snippet.Title, YoutubeId: item.Id.VideoId})","['result', '=', 'append', '(', 'result', ',', '&', 'YoutubeSearchResult', '{', 'Title', ':', 'item', '.', 'Snippet', '.', 'Title', ',', 'YoutubeId', ':', 'item', '.', 'Id', '.', 'VideoId', '})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-71,        },['}'],['PUNCTUATION']
-72,    },['}'],['PUNCTUATION']
-73,    return,['return'],['KEYWORD']
-74,},['}'],['PUNCTUATION']
-75,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-76,"    result1, err1 := SearchYoutubeByKey(""hello"")","['result1', ',', 'err1', ':=', 'SearchYoutubeByKey', '(', '""hello""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-77,    if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-78,        panic(err1),"['panic', '(', 'err1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-79,    },['}'],['PUNCTUATION']
-80,    fmt.Println(result1),['fmt.Println(result1)'],['FUNCTION_CALL']
-81,"    result2, err2 := SearchYoutubeByKey(""world"")","['result2', ',', 'err2', ':=', 'SearchYoutubeByKey', '(', '""world""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-82,    if err2 != nil {,"['if', 'err2', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-83,        panic(err2),"['panic', '(', 'err2', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-84,    },['}'],['PUNCTUATION']
-85,    fmt.Println(result2),['fmt.Println(result2)'],['FUNCTION_CALL']
-86,},['}'],['PUNCTUATION']
-87,"
+58,    // SecondType docs,"['//', 'SecondType', 'docs']","['COMMENT', 'NNP', 'NN']"
+59,    SecondType struct {,"['SecondType', 'struct', '{']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+60,        // SecondMember docs,"['//', 'SecondMember', 'docs']","['COMMENT', 'NNP', 'NN']"
+61,        SecondMember string,"['SecondMember', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+62,    },['}'],['PUNCTUATION']
+63,),[')'],['PUNCTUATION']
+64,"
 
-So it is impossible to use this code on a website. Only the first user will be able to search first time, the others will fail.
+Run the code (including the case for ast.GenDecl) and we get:
 
-I cannot change flag during runtime but how to search by 2 different keys in one program? 
+","['Run', 'the', 'code', '(including', 'the', 'case', 'for', 'ast.GenDecl)', 'and', 'we', 'get:']","['VB', 'DT', 'NN', 'VBG', 'DT', 'NN', 'IN', 'NN', 'CC', 'PRP', 'VBP']"
+65,main.go:3:1:    GenDecl %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '3', ':', '1', ':', 'GenDecl', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+66,main.go:11:1:   GenDecl &{[%!s(*ast.Comment=&{69 // This documents FirstType and SecondType together})]},"['main', '.', 'go', ':', '11', ':', '1', ':', 'GenDecl', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '69', '//', 'This', 'documents', 'FirstType', 'and', 'SecondType', 'together})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'DT', 'NNS', 'NNP', 'CC', 'NNP', 'NN']"
+67,main.go:13:2:   TypeSpec FirstType  &{[%!s(*ast.Comment=&{129 // FirstType docs})]},"['main', '.', 'go', ':', '13', ':', '2', ':', 'TypeSpec', 'FirstType', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '129', '//', 'FirstType', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+68,main.go:15:3:   Field [FirstMember] &{[%!s(*ast.Comment=&{169 // FirstMember docs})]},"['main', '.', 'go', ':', '15', ':', '3', ':', 'Field', '[', 'FirstMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '169', '//', 'FirstMember', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+69,main.go:19:2:   TypeSpec SecondType &{[%!s(*ast.Comment=&{215 // SecondType docs})]},"['main', '.', 'go', ':', '19', ':', '2', ':', 'TypeSpec', 'SecondType', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '215', '//', 'SecondType', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+70,main.go:21:3:   Field [SecondMember]    &{[%!s(*ast.Comment=&{257 // SecondMember docs})]},"['main', '.', 'go', ':', '21', ':', '3', ':', 'Field', '[', 'SecondMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '257', '//', 'SecondMember', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+71,main.go:26:1:   FuncDecl main   &{[%!s(*ast.Comment=&{306 // Main docs})]},"['main', '.', 'go', ':', '26', ':', '1', ':', 'FuncDecl', 'main', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '306', '//', 'Main', 'docs})]}']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'COMMENT', 'NNP', 'NN']"
+72,main.go:36:23:  Field [n]   %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '36', ':', '23', ':', 'Field', '[', 'n', ']', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+73,main.go:36:35:  Field []    %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '36', ':', '35', ':', 'Field', '[]', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+74,"
 
-Update
+That's right
 
-working solution:
+Now the struct type definitions have their docs, and the GenDecl has its own documentation, too. In the first case, posted in the question, the doc was attached to GenDecl, since the AST sees the individual struct type definitions of ""contractions"" of the parenthesized-version of type definitions, and wants to handle all definitions the same, whether they are grouped or not. The same thing would happen with variable definitions, as in:
 
-","['So', 'it', 'is', 'impossible', 'to', 'use', 'this', 'code', 'on', 'a', 'website.', 'Only', 'the', 'first', 'user', 'will', 'be', 'able', 'to', 'search', 'first', 'time,', 'the', 'others', 'will', 'fail.', 'I', 'cannot', 'change', 'flag', 'during', 'runtime', 'but', 'how', 'to', 'search', 'by', '2', 'different', 'keys', 'in', 'one', 'program?', 'Update', 'working', 'solution:']","['IN', 'PRP', 'VBZ', 'JJ', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'RB', 'DT', 'JJ', 'NN', 'MD', 'VB', 'JJ', 'TO', 'VB', 'JJ', 'VB', 'DT', 'NNS', 'MD', 'VB', 'PRP', 'VBP', 'JJ', 'NN', 'IN', 'NN', 'CC', 'WRB', 'TO', 'VB', 'IN', 'CD', 'JJ', 'NNS', 'IN', 'CD', 'NN', 'NNP', 'NN', 'NN']"
-88,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
-89,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-90,"    ""code.google.com/p/google-api-go-client/googleapi/transport""","['""code.google.com/p/google-api-go-client/googleapi/transport""']",['STRING_LITERAL']
-91,"    ""code.google.com/p/google-api-go-client/youtube/v3""","['""code.google.com/p/google-api-go-client/youtube/v3""']",['STRING_LITERAL']
-92,"    ""flag""","['""flag""']",['STRING_LITERAL']
-93,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-94,"    ""net/http""","['""net/http""']",['STRING_LITERAL']
-95,),[')'],['PUNCTUATION']
-96,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-97,"    maxResults = flag.Int64(""max-results"", 25, ""Max YouTube results"")","['maxResults', '=', 'flag.Int64(""max-results"", 25, ""Max YouTube results"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-98,    service    *youtube.Service,"['service', '*', 'youtube', '.', 'Service']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-99,    response   *youtube.SearchListResponse,"['response', '*', 'youtube', '.', 'SearchListResponse']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-100,"    query      = flag.String(""query"", ""str"", ""Search term"")","['query', '=', 'flag.String(""query"", ""str"", ""Search term"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-101,),[')'],['PUNCTUATION']
-102,"const developerKey = ""youtube api key""","['const', 'developerKey', '=', '""youtube api key""']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-103,type YoutubeSearchResult struct {,"['type', 'YoutubeSearchResult', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-104,"    Title, YoutubeId string","['Title', ',', 'YoutubeId', 'string']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
-105,},['}'],['PUNCTUATION']
-106,"func SearchYoutubeByKey(str string) (result []*YoutubeSearchResult, err error) {","['func', 'SearchYoutubeByKey', '(', 'str', 'string', ')', '(', 'result', '[]*', 'YoutubeSearchResult', ',', 'err', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-107,    flag.Parse(),['flag.Parse()'],['FUNCTION_CALL']
-108,    client := &http.Client{,"['client', ':=', '&', 'http', '.', 'Client', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-109,"        Transport: &transport.APIKey{Key: developerKey},","['Transport', ':', '&', 'transport', '.', 'APIKey', '{', 'Key', ':', 'developerKey', '},']","['IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-110,    },['}'],['PUNCTUATION']
-111,"    service, err = youtube.New(client)","['service', ',', 'err', '=', 'youtube.New(client)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-112,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-113,        return,['return'],['KEYWORD']
-114,    },['}'],['PUNCTUATION']
-115,    // Make the API call to YouTube.,"['//', 'Make', 'the', 'API', 'call', 'to', 'YouTube.']","['COMMENT', 'VB', 'DT', 'NNP', 'NN', 'TO', 'VB']"
-116,"    call := service.Search.List(""id,snippet"").","['call', ':=', 'service', '.', 'Search.List(""id,snippet"")', '.']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-117,        Q(str).,"['Q', '(', 'str', ').']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-118,        MaxResults(*maxResults),"['MaxResults', '(*', 'maxResults', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-119,"    response, err = call.Do()","['response', ',', 'err', '=', 'call.Do()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-120,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-121,        return,['return'],['KEYWORD']
-122,    },['}'],['PUNCTUATION']
-123,    // Iterate through each item and add it to the correct list.,"['//', 'Iterate', 'through', 'each', 'item', 'and', 'add', 'it', 'to', 'the', 'correct', 'list.']","['COMMENT', 'NNP', 'IN', 'DT', 'NN', 'CC', 'VB', 'PRP', 'TO', 'DT', 'JJ', 'NN']"
-124,"    for _, item := range response.Items {","['for', '_', ',', 'item', ':=', 'range', 'response', '.', 'Items', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-125,        switch item.Id.Kind {,"['switch', 'item', '.', 'Id', '.', 'Kind', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-126,"        case ""youtube#video"":","['case', '""youtube#video""', ':']","['KEYWORD', 'STRING_LITERAL', 'PUNCTUATION']"
-127,"            result = append(result, &YoutubeSearchResult{Title: item.Snippet.Title, YoutubeId: item.Id.VideoId})","['result', '=', 'append', '(', 'result', ',', '&', 'YoutubeSearchResult', '{', 'Title', ':', 'item', '.', 'Snippet', '.', 'Title', ',', 'YoutubeId', ':', 'item', '.', 'Id', '.', 'VideoId', '})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-128,        },['}'],['PUNCTUATION']
-129,    },['}'],['PUNCTUATION']
-130,    return,['return'],['KEYWORD']
-131,},['}'],['PUNCTUATION']
-132,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-133,"    result1, err1 := SearchYoutubeByKey(""hello"")","['result1', ',', 'err1', ':=', 'SearchYoutubeByKey', '(', '""hello""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-134,    if err1 != nil {,"['if', 'err1', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-135,        panic(err1),"['panic', '(', 'err1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-136,    },['}'],['PUNCTUATION']
-137,    fmt.Println(result1),['fmt.Println(result1)'],['FUNCTION_CALL']
-138,"    result2, err2 := SearchYoutubeByKey(""world"")","['result2', ',', 'err2', ':=', 'SearchYoutubeByKey', '(', '""world""', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-139,    if err2 != nil {,"['if', 'err2', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-140,        panic(err2),"['panic', '(', 'err2', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-141,    },['}'],['PUNCTUATION']
-142,    fmt.Println(result2),['fmt.Println(result2)'],['FUNCTION_CALL']
-143,},['}'],['PUNCTUATION']
+","[""That's"", 'right', 'Now', 'the', 'struct', 'type', 'definitions', 'have', 'their', 'docs,', 'and', 'the', 'GenDecl', 'has', 'its', 'own', 'documentation,', 'too.', 'In', 'the', 'first', 'case,', 'posted', 'in', 'the', 'question,', 'the', 'doc', 'was', 'attached', 'to', 'GenDecl,', 'since', 'the', 'AST', 'sees', 'the', 'individual', 'struct', 'type', 'definitions', 'of', '""contractions""', 'of', 'the', 'parenthesized-version', 'of', 'type', 'definitions,', 'and', 'wants', 'to', 'handle', 'all', 'definitions', 'the', 'same,', 'whether', 'they', 'are', 'grouped', 'or', 'not.', 'The', 'same', 'thing', 'would', 'happen', 'with', 'variable', 'definitions,', 'as', 'in:']","['NNP', 'RB', 'RB', 'DT', 'NN', 'NN', 'NNS', 'VBP', 'PRP$', 'NN', 'CC', 'DT', 'NNP', 'VBZ', 'PRP$', 'JJ', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'VBN', 'IN', 'DT', 'NN', 'DT', 'NN', 'VBD', 'VBN', 'TO', 'NNP', 'IN', 'DT', 'NNP', 'VBZ', 'DT', 'JJ', 'NN', 'JJ', 'NNS', 'IN', 'NN', 'IN', 'DT', 'NN', 'IN', 'NN', 'NN', 'CC', 'VBZ', 'TO', 'VB', 'DT', 'NNS', 'DT', 'NN', 'IN', 'PRP', 'VBP', 'VBN', 'CC', 'IN', 'DT', 'JJ', 'NN', 'MD', 'VB', 'IN', 'JJ', 'NN', 'IN', 'NN']"
+75,// some general docs,"['//', 'some', 'general', 'docs']","['COMMENT', 'DT', 'JJ', 'NN']"
+76,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
+77,    // v docs,"['//', 'v', 'docs']","['COMMENT', 'NN', 'NN']"
+78,    v int,"['v', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+79,    // v2 docs,"['//', 'v2', 'docs']","['COMMENT', 'NN', 'NN']"
+80,    v2 string,"['v2', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+81,),[')'],['PUNCTUATION']
+82,"
+
+So if you wish to parse comments with pure AST, you need to be aware that this is how it works. But the preferred method, as @mjibson suggested, is to use go/doc. Good luck!
+","['So', 'if', 'you', 'wish', 'to', 'parse', 'comments', 'with', 'pure', 'AST,', 'you', 'need', 'to', 'be', 'aware', 'that', 'this', 'is', 'how', 'it', 'works.', 'But', 'the', 'preferred', 'method,', 'as', '@mjibson', 'suggested,', 'is', 'to', 'use', 'go/doc.', 'Good', 'luck!']","['RB', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'NNS', 'IN', 'JJ', 'NNP', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'IN', 'DT', 'VBZ', 'WRB', 'PRP', 'VBZ', 'CC', 'DT', 'JJ', 'NN', 'IN', 'NNP', 'NN', 'VBZ', 'TO', 'VB', 'JJ', 'NNP', 'NN']"

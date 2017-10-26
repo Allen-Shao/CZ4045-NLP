@@ -1,123 +1,74 @@
 ,text,token,annotation
-0,"Recently I started writing some tests for sending emails in my Google App Engine Go application. Part of the email sending process is saving the email in the datastore with this function:
+0,"With slice value type
 
-","['Recently', 'I', 'started', 'writing', 'some', 'tests', 'for', 'sending', 'emails', 'in', 'my', 'Google', 'App', 'Engine', 'Go', 'application.', 'Part', 'of', 'the', 'email', 'sending', 'process', 'is', 'saving', 'the', 'email', 'in', 'the', 'datastore', 'with', 'this', 'function:']","['RB', 'PRP', 'VBD', 'VBG', 'DT', 'NNS', 'IN', 'VBG', 'NNS', 'IN', 'PRP$', 'NNP', 'NNP', 'NNP', 'NNP', 'JJ', 'NNP', 'IN', 'DT', 'NN', 'VBG', 'NN', 'VBZ', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN']"
-1,"func PutInDatastoreFull(c appengine.Context, kind, stringID string, intID int64, parent *datastore.Key, variable interface{}) (*datastore.Key, error) {","['func', 'PutInDatastoreFull', '(', 'c', 'appengine', '.', 'Context', ',', 'kind', ',', 'stringID', 'string', ',', 'intID', 'int64', ',', 'parent', '*', 'datastore', '.', 'Key', ',', 'var', 'iable', 'interface', '{})', '(*', 'datastore', '.', 'Key', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-2,"    k := datastore.NewKey(c, kind, stringID, intID, parent)","['k', ':=', 'datastore.NewKey(c, kind, stringID, intID, parent)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-3,"    key, err := datastore.Put(c, k, variable)","['key', ',', 'err', ':=', 'datastore.Put(c, k, variable)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-4,"    return key, err","['return', 'key', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-5,},['}'],['PUNCTUATION']
+map is a good choice if you need fast lookup, but since you want to store multiple values for the same key, that warrants for a slice as the value type:
+
+","['With', 'slice', 'value', 'type', 'map', 'is', 'a', 'good', 'choice', 'if', 'you', 'need', 'fast', 'lookup,', 'but', 'since', 'you', 'want', 'to', 'store', 'multiple', 'values', 'for', 'the', 'same', 'key,', 'that', 'warrants', 'for', 'a', 'slice', 'as', 'the', 'value', 'type:']","['IN', 'JJ', 'NN', 'NN', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'VBP', 'JJ', 'NN', 'CC', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'WDT', 'NNS', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN']"
+1,m := map[int][]interface{}{},"['m', ':=', 'map', '[', 'int', '][]', 'interface', '{}{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+2,"m[1] = append(m[1], ""one"")","['m', '[', '1', ']', '=', 'append', '(', 'm', '[', '1', '],', '""one""', ')']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+3,"m[2] = append(m[2], ""two"")","['m', '[', '2', ']', '=', 'append', '(', 'm', '[', '2', '],', '""two""', ')']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+4,"m[1] = append(m[1], ""three"")","['m', '[', '1', ']', '=', 'append', '(', 'm', '[', '1', '],', '""three""', ')']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+5,fmt.Println(m[1]),['fmt.Println(m[1])'],['FUNCTION_CALL']
 6,"
 
-My tests query the datastore with this function:
+Output (try it on the Go Playground):
 
-","['My', 'tests', 'query', 'the', 'datastore', 'with', 'this', 'function:']","['PRP$', 'NNS', 'VBP', 'DT', 'NN', 'IN', 'DT', 'NN']"
-7,"func QueryGetAllWithLimit(c appengine.Context, kind string, limit int, dst interface{}) ([]*datastore.Key, error) {","['func', 'QueryGetAllWithLimit', '(', 'c', 'appengine', '.', 'Context', ',', 'kind', 'string', ',', 'limit', 'int', ',', 'dst', 'interface', '{})', '([]*', 'datastore', '.', 'Key', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-8,    q := datastore.NewQuery(kind).Limit(limit),"['q', ':=', 'datastore.NewQuery(kind).Limit(limit)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-9,"    return q.GetAll(c, dst)","['return', 'q.GetAll(c, dst)']","['KEYWORD', 'FUNCTION_CALL']"
-10,},['}'],['PUNCTUATION']
-11,"
+[one three]
 
-When I run it in development environment, it returns last emails without a problem. However, when I run it with goapp test, it returns no error and no data. Is this an expected behaviour for the testing environment, or did I just find some bug?
 
-EDIT:
+Note that using this map is a little less convenient, as when you want to add a new value you don't (can't) just assign it but you have to append to the existing slice associated with the key, and you have to assign back the (potentially) new slice.
 
-The test is:
+To ease this ""pain"", you may create your own type and provide helper methods to support different operations on the map. This is also true for the subsequent alternatives, so being a little more verbose does not necessarily mean you have to struggle with it.
 
-","['When', 'I', 'run', 'it', 'in', 'development', 'environment,', 'it', 'returns', 'last', 'emails', 'without', 'a', 'problem.', 'However,', 'when', 'I', 'run', 'it', 'with', 'goapp', 'test,', 'it', 'returns', 'no', 'error', 'and', 'no', 'data.', 'Is', 'this', 'an', 'expected', 'behaviour', 'for', 'the', 'testing', 'environment,', 'or', 'did', 'I', 'just', 'find', 'some', 'bug?', 'EDIT:', 'The', 'test', 'is:']","['WRB', 'PRP', 'VBP', 'PRP', 'IN', 'NN', 'NN', 'PRP', 'VBZ', 'JJ', 'NNS', 'IN', 'DT', 'NN', 'NNP', 'WRB', 'PRP', 'VBP', 'PRP', 'IN', 'NN', 'NN', 'PRP', 'VBZ', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'DT', 'DT', 'JJ', 'NN', 'IN', 'DT', 'VBG', 'NN', 'CC', 'VBD', 'PRP', 'RB', 'VB', 'DT', 'NN', 'NNP', 'DT', 'NN', 'NN']"
-12,//Testing file,"['//', 'Testing', 'file']","['COMMENT', 'VBG', 'NN']"
-13,func TestEmails(t *testing.T) {,"['func', 'TestEmails', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-14,"    c, err := aetest.NewContext(nil)","['c', ',', 'err', ':=', 'aetest.NewContext(nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-15,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-16,        t.Fatal(err),['t.Fatal(err)'],['FUNCTION_CALL']
-17,    },['}'],['PUNCTUATION']
-18,    defer c.Close(),"['defer', 'c.Close()']","['IDENTIFIER', 'FUNCTION_CALL']"
-19,"    err := NotifyAdminOfLowBalance(c, []string{""WARNING1"", ""WARNING2""})","['err', ':=', 'NotifyAdminOfLowBalance', '(', 'c', ',', '[]', 'string', '{', '""WARNING1""', ',', '""WARNING2""', '})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-20,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-21,        t.Fatal(err),['t.Fatal(err)'],['FUNCTION_CALL']
-22,    },['}'],['PUNCTUATION']
-23,"    emails, err := Data.LoadLastEmails(c, 100)","['emails', ',', 'err', ':=', 'Data.LoadLastEmails(c, 100)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-24,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-25,        t.Fatal(err),['t.Fatal(err)'],['FUNCTION_CALL']
-26,    },['}'],['PUNCTUATION']
-27,    if len(emails) == 0 { //test fails here,"['if', 'len', '(', 'emails', ')', '==', '0', '{', '//', 'test', 'fails', 'here']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'RB']"
-28,"        t.Fatal(""len(emails)==0"")","['t.Fatal(""len(emails)==0"")']",['FUNCTION_CALL']
-29,    },['}'],['PUNCTUATION']
-30,},['}'],['PUNCTUATION']
-31,//Production code,"['//', 'Production', 'code']","['COMMENT', 'NN', 'NN']"
-32,"func NotifyAdminOfLowBalance(c appengine.Context, warnings []string) error {","['func', 'NotifyAdminOfLowBalance', '(', 'c', 'appengine', '.', 'Context', ',', 'warnings', '[]', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-33,    not := Notification{},"['not', ':=', 'Notification', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-34,    not.Warnings = warnings,"['not', '.', 'Warnings', '=', 'warnings']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-35,    buff := new(bytes.Buffer),"['buff', ':=', 'new', '(', 'bytes', '.', 'Buffer', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-36,"    err := LowBalanceTemplate.Execute(buff, not);","['err', ':=', 'LowBalanceTemplate.Execute(buff, not)', ';']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION']"
-37,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-38,"        c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 1 - %v"", err)","['c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 1 - %v"", err)']",['FUNCTION_CALL']
-39,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-40,    },['}'],['PUNCTUATION']
-41,    emailBody := buff.String(),"['emailBody', ':=', 'buff.String()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-42,"    c.Debugf(""Backend Notifications - emailBody - %v"", emailBody)","['c.Debugf(""Backend Notifications - emailBody - %v"", emailBody)']",['FUNCTION_CALL']
-43,"    emailSubject := ""Low balance!""","['emailSubject', ':=', '""Low balance!""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-44,"    err = Email.SendHTMLEmail(c, emailSubject, DEFINE.AdminEmails, DEFINE.EmailSender, emailBody)","['err', '=', 'Email.SendHTMLEmail(c, emailSubject, DEFINE.AdminEmails, DEFINE.EmailSender, emailBody)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-45,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-46,"        c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 2 - %v"", err)","['c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 2 - %v"", err)']",['FUNCTION_CALL']
-47,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-48,    },['}'],['PUNCTUATION']
-49,"    err = Data.CreateAndSaveEmail(c, emailBody, emailSubject, ""ADMIN"", """", """", """")","['err', '=', 'Data.CreateAndSaveEmail(c, emailBody, emailSubject, ""ADMIN"", """", """", """")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-50,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-51,"        c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 3 - %v"", err)","['c.Errorf(""Backend Notifications - NotifyAdminOfLowBalance - error 3 - %v"", err)']",['FUNCTION_CALL']
-52,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-53,    },['}'],['PUNCTUATION']
-54,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-55,},['}'],['PUNCTUATION']
-56,//Data/Email.go file:,"['//', 'Data/Email.go', 'file:']","['COMMENT', 'NNP', 'NN']"
-57,"var EmailStr string = ""Email""","['var', 'EmailStr', 'string', '=', '""Email""']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-58,type Email struct {,"['type', 'Email', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-59,    //Class for handling Emails of what is happening in the system,"['//', 'Class', 'for', 'handling', 'Emails', 'of', 'what', 'is', 'happening', 'in', 'the', 'system']","['COMMENT', 'NN', 'IN', 'VBG', 'NNP', 'IN', 'WP', 'VBZ', 'VBG', 'IN', 'DT', 'NN']"
-60,    EmailID           string //ISO date?,"['EmailID', 'string', '//', 'ISO', 'date?']","['IDENTIFIER', 'IDENTIFIER', 'COMMENT', 'NNP', 'NN']"
-61,    Timestamp         time.Time,"['Timestamp', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-62,"    Body              string `datastore:""-""`","['Body', 'string', 'datastore', ':', '""-""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
-63,    BodyByte          []byte,"['BodyByte', '[]', 'byte']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-64,    Subject           string,"['Subject', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-65,    UserEmail         string,"['UserEmail', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-66,    RippleTxID        string,"['RippleTxID', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-67,    CoinTxID          string,"['CoinTxID', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-68,    Currency          string,"['Currency', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-69,},['}'],['PUNCTUATION']
-70,func (l *Email) LoadStrings() {,"['func', '(', 'l', '*', 'Email', ')', 'LoadStrings', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-71,    l.Body = mymath.Hex2ASCII(l.BodyByte),"['l', '.', 'Body', '=', 'mymath.Hex2ASCII(l.BodyByte)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-72,},['}'],['PUNCTUATION']
-73,"func CreateAndSaveEmail(c appengine.Context, body, subject, userEmail, rippleTx, coinTx, currency string) error {","['func', 'CreateAndSaveEmail', '(', 'c', 'appengine', '.', 'Context', ',', 'body', ',', 'subject', ',', 'userEmail', ',', 'rippleTx', ',', 'coinTx', ',', 'currency', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-74,    email := new(Email),"['email', ':=', 'new', '(', 'Email', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-75,    email.Timestamp = time.Now(),"['email', '.', 'Timestamp', '=', 'time.Now()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-76,"    email.EmailID = email.Timestamp.Format(""2006-01-02T15:04:05:"")+mymath.Int2Str(email.Timestamp.Nanosecond())","['email', '.', 'EmailID', '=', 'email', '.', 'Timestamp.Format(""2006-01-02T15:04:05:"")+mymath.Int2Str(email.Timestamp.Nanosecond())']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-77,    email.Body = body,"['email', '.', 'Body', '=', 'body']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-78,    email.BodyByte = mymath.ASCII2Hex(body),"['email', '.', 'BodyByte', '=', 'mymath.ASCII2Hex(body)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-79,    email.Subject = subject,"['email', '.', 'Subject', '=', 'subject']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-80,    email.UserEmail = userEmail,"['email', '.', 'UserEmail', '=', 'userEmail']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-81,    email.RippleTxID = rippleTx,"['email', '.', 'RippleTxID', '=', 'rippleTx']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-82,    email.CoinTxID = coinTx,"['email', '.', 'CoinTxID', '=', 'coinTx']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-83,    email.Currency = currency,"['email', '.', 'Currency', '=', 'currency']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
-84,"    keys, err := Datastore.PutInDatastoreFull(c, EmailStr, email.EmailID, 0, nil, email)","['keys', ',', 'err', ':=', 'Datastore.PutInDatastoreFull(c, EmailStr, email.EmailID, 0, nil, email)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-85,"    c.Debugf(""keys - %v, err - %v"", keys, err)","['c.Debugf(""keys - %v, err - %v"", keys, err)']",['FUNCTION_CALL']
-86,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-87,"        c.Errorf(""Email - CreateAndSaveEmail error 1 - %v"", err)","['c.Errorf(""Email - CreateAndSaveEmail error 1 - %v"", err)']",['FUNCTION_CALL']
-88,        return err,"['return', 'err']","['KEYWORD', 'IDENTIFIER']"
-89,    },['}'],['PUNCTUATION']
-90,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
-91,},['}'],['PUNCTUATION']
-92,"func LoadLastEmails(c appengine.Context, count int) ([]Email, error) {","['func', 'LoadLastEmails', '(', 'c', 'appengine', '.', 'Context', ',', 'count', 'int', ')', '([]', 'Email', ',', 'error', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-93,"    c.Debugf(""LoadLastEmails - %v"", count)","['c.Debugf(""LoadLastEmails - %v"", count)']",['FUNCTION_CALL']
-94,    dst := []Email{},"['dst', ':=', '[]', 'Email', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-95,"    keys, err := Datastore.QueryGetAllWithLimit(c, EmailStr, count, &dst)","['keys', ',', 'err', ':=', 'Datastore.QueryGetAllWithLimit(c, EmailStr, count, &dst)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-96,"    c.Debugf(""keys - %v, err - %v"", keys, err)","['c.Debugf(""keys - %v, err - %v"", keys, err)']",['FUNCTION_CALL']
-97,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-98,"        c.Errorf(""Email - LoadLastEmails error 1 - %v"", err)","['c.Errorf(""Email - LoadLastEmails error 1 - %v"", err)']",['FUNCTION_CALL']
-99,"        return nil, err","['return', 'nil', ',', 'err']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-100,    },['}'],['PUNCTUATION']
-101,"    c.Debugf(""dst - %v"", dst)","['c.Debugf(""dst - %v"", dst)']",['FUNCTION_CALL']
-102,"    return dst, nil","['return', 'dst', ',', 'nil']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-103,},['}'],['PUNCTUATION']
-104,"
+With pointer to slice value type
 
-And the Datastore functions were already included above
-","['And', 'the', 'Datastore', 'functions', 'were', 'already', 'included', 'above']","['CC', 'DT', 'NNP', 'NNS', 'VBD', 'RB', 'VBN', 'IN']"
+Note that you could avoid having to reassign the new slice if you would store pointers in the map, for example:
+
+","['Output', '(try', 'it', 'on', 'the', 'Go', 'Playground):', '[one', 'three]', 'Note', 'that', 'using', 'this', 'map', 'is', 'a', 'little', 'less', 'convenient,', 'as', 'when', 'you', 'want', 'to', 'add', 'a', 'new', 'value', 'you', ""don't"", ""(can't)"", 'just', 'assign', 'it', 'but', 'you', 'have', 'to', 'append', 'to', 'the', 'existing', 'slice', 'associated', 'with', 'the', 'key,', 'and', 'you', 'have', 'to', 'assign', 'back', 'the', '(potentially)', 'new', 'slice.', 'To', 'ease', 'this', '""pain"",', 'you', 'may', 'create', 'your', 'own', 'type', 'and', 'provide', 'helper', 'methods', 'to', 'support', 'different', 'operations', 'on', 'the', 'map.', 'This', 'is', 'also', 'true', 'for', 'the', 'subsequent', 'alternatives,', 'so', 'being', 'a', 'little', 'more', 'verbose', 'does', 'not', 'necessarily', 'mean', 'you', 'have', 'to', 'struggle', 'with', 'it.', 'With', 'pointer', 'to', 'slice', 'value', 'type', 'Note', 'that', 'you', 'could', 'avoid', 'having', 'to', 'reassign', 'the', 'new', 'slice', 'if', 'you', 'would', 'store', 'pointers', 'in', 'the', 'map,', 'for', 'example:']","['NNP', 'VBD', 'PRP', 'IN', 'DT', 'NNP', 'NNP', 'NNP', 'NN', 'NN', 'IN', 'VBG', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'JJR', 'NN', 'IN', 'WRB', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'VB', 'RB', 'VB', 'PRP', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'TO', 'DT', 'VBG', 'NN', 'VBN', 'IN', 'DT', 'NN', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'RP', 'DT', 'NN', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN', 'PRP', 'MD', 'VB', 'PRP$', 'JJ', 'NN', 'CC', 'VB', 'JJR', 'NNS', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'DT', 'NN', 'DT', 'VBZ', 'RB', 'JJ', 'IN', 'DT', 'JJ', 'NN', 'RB', 'VBG', 'DT', 'RB', 'RBR', 'JJ', 'VBZ', 'RB', 'RB', 'VB', 'PRP', 'VBP', 'TO', 'VB', 'IN', 'NN', 'IN', 'NN', 'TO', 'VB', 'NN', 'NN', 'NN', 'IN', 'PRP', 'MD', 'VB', 'VBG', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'NN', 'IN', 'NN']"
+7,m := map[int]*[]interface{}{},"['m', ':=', 'map', '[', 'int', ']*[]', 'interface', '{}{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+8,m[1] = &[]interface{}{},"['m', '[', '1', ']', '=', '&[]', 'interface', '{}{}']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+9,m[2] = &[]interface{}{},"['m', '[', '2', ']', '=', '&[]', 'interface', '{}{}']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
+10,s := m[1],"['s', ':=', 'm', '[', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+11,"*s = append(*s, ""one"")","['*', 's', '=', 'append', '(*', 's', ',', '""one""', ')']","['POINTER_OPERATOR', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+12,s = m[2],"['s', '=', 'm', '[', '2', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+13,"*s = append(*s, ""two"")","['*', 's', '=', 'append', '(*', 's', ',', '""two""', ')']","['POINTER_OPERATOR', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+14,s = m[1],"['s', '=', 'm', '[', '1', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+15,"*s = append(*s, ""three"")","['*', 's', '=', 'append', '(*', 's', ',', '""three""', ')']","['POINTER_OPERATOR', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+16,fmt.Println(m[1]),['fmt.Println(m[1])'],['FUNCTION_CALL']
+17,"
+
+Output (try it on the Go Playground):
+
+&[one three]
+
+
+You still have to assign back the slice returned by append(), but not to a map key but to the pointed value (acquired from / stored in the map).
+
+But as you can see, handling it is more hassle, but may be more efficient if you add new elements frequently. Also note that since zero value for any pointer type is nil, before you could add an element for a key, you first have to initialize it with a pointer to an existing, non-nil slice (but if you create your own type, you can hide this check and initialization).
+
+With map as value type
+
+Previous solutions (with slices in keys) are good, but if you also have to support frequent removal operation, they lag behind, as whenever you have to remove an element, you index the map to get the slice, and you have to search this slice and remove the element from it (and removing from a slice includes slice header update and copying subsequent elements to 1-less indices). If this slice is not sorted, this is a linear search and so it has O(n) complexity (where n is the number of elements associated with the same key, not the number of keys in the map). May not be acceptable depending on your case.
+
+To support fast element removal, you may keep the value slices sorted, and so finding the removable element in them is O(log(n)) complexity – acceptable in most cases.
+
+An even faster solution may use another map (as a set, see example #1 and example #2) as the value type, which will be O(1) complexity for removals too. Cool. It could look like this:
+
+","['Output', '(try', 'it', 'on', 'the', 'Go', 'Playground):', '&[one', 'three]', 'You', 'still', 'have', 'to', 'assign', 'back', 'the', 'slice', 'returned', 'by', 'append(),', 'but', 'not', 'to', 'a', 'map', 'key', 'but', 'to', 'the', 'pointed', 'value', '(acquired', 'from', '/', 'stored', 'in', 'the', 'map).', 'But', 'as', 'you', 'can', 'see,', 'handling', 'it', 'is', 'more', 'hassle,', 'but', 'may', 'be', 'more', 'efficient', 'if', 'you', 'add', 'new', 'elements', 'frequently.', 'Also', 'note', 'that', 'since', 'zero', 'value', 'for', 'any', 'pointer', 'type', 'is', 'nil,', 'before', 'you', 'could', 'add', 'an', 'element', 'for', 'a', 'key,', 'you', 'first', 'have', 'to', 'initialize', 'it', 'with', 'a', 'pointer', 'to', 'an', 'existing,', 'non-nil', 'slice', '(but', 'if', 'you', 'create', 'your', 'own', 'type,', 'you', 'can', 'hide', 'this', 'check', 'and', 'initialization).', 'With', 'map', 'as', 'value', 'type', 'Previous', 'solutions', '(with', 'slices', 'in', 'keys)', 'are', 'good,', 'but', 'if', 'you', 'also', 'have', 'to', 'support', 'frequent', 'removal', 'operation,', 'they', 'lag', 'behind,', 'as', 'whenever', 'you', 'have', 'to', 'remove', 'an', 'element,', 'you', 'index', 'the', 'map', 'to', 'get', 'the', 'slice,', 'and', 'you', 'have', 'to', 'search', 'this', 'slice', 'and', 'remove', 'the', 'element', 'from', 'it', '(and', 'removing', 'from', 'a', 'slice', 'includes', 'slice', 'header', 'update', 'and', 'copying', 'subsequent', 'elements', 'to', '1-less', 'indices).', 'If', 'this', 'slice', 'is', 'not', 'sorted,', 'this', 'is', 'a', 'linear', 'search', 'and', 'so', 'it', 'has', 'O(n)', 'complexity', '(where', 'n', 'is', 'the', 'number', 'of', 'elements', 'associated', 'with', 'the', 'same', 'key,', 'not', 'the', 'number', 'of', 'keys', 'in', 'the', 'map).', 'May', 'not', 'be', 'acceptable', 'depending', 'on', 'your', 'case.', 'To', 'support', 'fast', 'element', 'removal,', 'you', 'may', 'keep', 'the', 'value', 'slices', 'sorted,', 'and', 'so', 'finding', 'the', 'removable', 'element', 'in', 'them', 'is', 'O(log(n))', 'complexity', '\xe2\x80\x93', 'acceptable', 'in', 'most', 'cases.', 'An', 'even', 'faster', 'solution', 'may', 'use', 'another', 'map', '(as', 'a', 'set,', 'see', 'example', '#1', 'and', 'example', '#2)', 'as', 'the', 'value', 'type,', 'which', 'will', 'be', 'O(1)', 'complexity', 'for', 'removals', 'too.', 'Cool.', 'It', 'could', 'look', 'like', 'this:']","['NNP', 'VBD', 'PRP', 'IN', 'DT', 'NNP', 'NNP', 'NNP', 'NN', 'PRP', 'RB', 'VBP', 'TO', 'VB', 'RP', 'DT', 'NN', 'VBN', 'IN', 'NN', 'CC', 'RB', 'TO', 'DT', 'NN', 'NN', 'CC', 'TO', 'DT', 'VBN', 'NN', 'VBN', 'IN', 'NN', 'VBN', 'IN', 'DT', 'NN', 'CC', 'IN', 'PRP', 'MD', 'VB', 'VBG', 'PRP', 'VBZ', 'RBR', 'JJ', 'CC', 'MD', 'VB', 'RBR', 'JJ', 'IN', 'PRP', 'VBP', 'JJ', 'NNS', 'NN', 'RB', 'VBP', 'IN', 'IN', 'CD', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'JJ', 'IN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBP', 'TO', 'VB', 'PRP', 'IN', 'DT', 'NN', 'TO', 'DT', 'JJ', 'JJ', 'NN', 'NN', 'IN', 'PRP', 'VBP', 'PRP$', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'CC', 'NN', 'IN', 'NN', 'IN', 'NN', 'VBP', 'JJ', 'NNS', 'VBP', 'NNS', 'IN', 'NN', 'VBP', 'VBN', 'CC', 'IN', 'PRP', 'RB', 'VBP', 'TO', 'VB', 'JJ', 'NN', 'IN', 'PRP', 'VBP', 'RB', 'IN', 'NN', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'PRP', 'NN', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NN', 'CC', 'VB', 'DT', 'NN', 'IN', 'PRP', 'VBZ', 'VBG', 'IN', 'DT', 'NN', 'VBZ', 'JJ', 'NN', 'NN', 'CC', 'VBG', 'JJ', 'NNS', 'TO', 'JJ', 'NN', 'IN', 'DT', 'NN', 'VBZ', 'RB', 'JJ', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'CC', 'RB', 'PRP', 'VBZ', 'VBN', 'NN', 'NNP', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'NNS', 'VBN', 'IN', 'DT', 'JJ', 'NN', 'RB', 'DT', 'NN', 'IN', 'NNS', 'IN', 'DT', 'NN', 'NNP', 'RB', 'VB', 'JJ', 'VBG', 'IN', 'PRP$', 'NN', 'TO', 'VB', 'RB', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'VBZ', 'JJ', 'CC', 'RB', 'VBG', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'VBZ', 'NNP', 'NN', 'NNP', 'JJ', 'IN', 'JJS', 'VBP', 'DT', 'RB', 'JJR', 'NN', 'MD', 'VB', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'NN', 'NNP', 'CC', 'NN', 'NN', 'IN', 'DT', 'NN', 'NN', 'WDT', 'MD', 'VB', 'NNP', 'NN', 'IN', 'NNS', 'VBP', 'NNP', 'PRP', 'MD', 'VB', 'IN', 'NN']"
+18,m := map[int]map[interface{}]bool{},"['m', ':=', 'map', '[', 'int', ']', 'map', '[', 'interface', '{}]', 'bool', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+19,m[1] = map[interface{}]bool{},"['m', '[', '1', ']', '=', 'map', '[', 'interface', '{}]', 'bool', '{}']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+20,m[2] = map[interface{}]bool{},"['m', '[', '2', ']', '=', 'map', '[', 'interface', '{}]', 'bool', '{}']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+21,"m[1][""one""] = true","['m', '[', '1', '][', '""one""', ']', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+22,"m[2][""two""] = true","['m', '[', '2', '][', '""two""', ']', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+23,"m[1][""three""] = true","['m', '[', '1', '][', '""three""', ']', '=', 'true']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'BOOLEAN_LITERAL']"
+24,fmt.Println(m[1]),['fmt.Println(m[1])'],['FUNCTION_CALL']
+25,"
+
+Output (try it on the Go Playground):
+
+","['Output', '(try', 'it', 'on', 'the', 'Go', 'Playground):']","['NNP', 'VBD', 'PRP', 'IN', 'DT', 'NNP', 'NNP']"
+26,map[one:true three:true],"['map', '[', 'one', ':', 'true', 'three', ':', 'true', ']']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
+27,"
+
+Just as with the pointer-to-slice value type, you first have to initialize a value for a key with a non-nil map before you can actually ""add"" values to it. Hide this by creating your own type and adding methods.
+","['Just', 'as', 'with', 'the', 'pointer-to-slice', 'value', 'type,', 'you', 'first', 'have', 'to', 'initialize', 'a', 'value', 'for', 'a', 'key', 'with', 'a', 'non-nil', 'map', 'before', 'you', 'can', 'actually', '""add""', 'values', 'to', 'it.', 'Hide', 'this', 'by', 'creating', 'your', 'own', 'type', 'and', 'adding', 'methods.']","['RB', 'IN', 'IN', 'DT', 'JJ', 'NN', 'NN', 'PRP', 'RB', 'VBP', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'PRP', 'MD', 'RB', 'VB', 'NNS', 'TO', 'VB', 'NNP', 'DT', 'IN', 'VBG', 'PRP$', 'JJ', 'NN', 'CC', 'VBG', 'NN']"

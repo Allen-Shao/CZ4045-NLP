@@ -1,20 +1,99 @@
 ,text,token,annotation
-0,"The problem isn't in your Python, because the Go program gets the same error without being called from Python. In your main func, you are creating a slice called v, starting from argument position 1, so excluding the name of the program:
+0,"I need to insert two records in Oracle database from my go application using sqlx (https://github.com/jmoiron/sqlx) with go-oci8 (https://github.com/mattn/go-oci8) driver.
+Second record references previous one by foreign key.
+So I need to have primary key of first record (it is assigned from sequence with before insert trigger on first table) before I can insert second record.
 
-","['The', 'problem', ""isn't"", 'in', 'your', 'Python,', 'because', 'the', 'Go', 'program', 'gets', 'the', 'same', 'error', 'without', 'being', 'called', 'from', 'Python.', 'In', 'your', 'main', 'func,', 'you', 'are', 'creating', 'a', 'slice', 'called', 'v,', 'starting', 'from', 'argument', 'position', '1,', 'so', 'excluding', 'the', 'name', 'of', 'the', 'program:']","['DT', 'NN', 'NN', 'IN', 'PRP$', 'NNP', 'IN', 'DT', 'NNP', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'VBG', 'VBN', 'IN', 'NNP', 'IN', 'PRP$', 'JJ', 'NN', 'PRP', 'VBP', 'VBG', 'DT', 'NN', 'VBN', 'NN', 'VBG', 'IN', 'JJ', 'NN', 'CD', 'RB', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NN']"
-1,for i := 1; i < len(args); i++ {,"['for', 'i', ':=', '1', ';', 'i', '<', 'len', '(', 'args', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-2,"    f,_ := strconv.Atoi(os.Args[i])","['f', ',', '_', ':=', 'strconv.Atoi(os.Args[i])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-3,"    v = append(v, f)","['v', '=', 'append', '(', 'v', ',', 'f', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-4,},['}'],['PUNCTUATION']
-5,"
+So I experimented to get last inserted id:
 
-But then you're giving mergesort the length of args, not the length of v, so it's an off-by-one error as it's been told v has 1 more element than it actually does. Down the line the program tries to access an element of v that's beyond the end of the slice:
+","['I', 'need', 'to', 'insert', 'two', 'records', 'in', 'Oracle', 'database', 'from', 'my', 'go', 'application', 'using', 'sqlx', '(https://github.com/jmoiron/sqlx)', 'with', 'go-oci8', '(https://github.com/mattn/go-oci8)', 'driver.', 'Second', 'record', 'references', 'previous', 'one', 'by', 'foreign', 'key.', 'So', 'I', 'need', 'to', 'have', 'primary', 'key', 'of', 'first', 'record', '(it', 'is', 'assigned', 'from', 'sequence', 'with', 'before', 'insert', 'trigger', 'on', 'first', 'table)', 'before', 'I', 'can', 'insert', 'second', 'record.', 'So', 'I', 'experimented', 'to', 'get', 'last', 'inserted', 'id:']","['PRP', 'VBP', 'TO', 'VB', 'CD', 'NNS', 'IN', 'NNP', 'NN', 'IN', 'PRP$', 'JJ', 'NN', 'VBG', 'JJ', 'NN', 'IN', 'JJ', 'JJ', 'JJ', 'NNP', 'NN', 'VBZ', 'JJ', 'CD', 'IN', 'JJ', 'NNS', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'NN', 'VBZ', 'VBN', 'IN', 'NN', 'IN', 'IN', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'IN', 'PRP', 'MD', 'VB', 'JJ', 'NN', 'NNP', 'PRP', 'VBD', 'TO', 'VB', 'JJ', 'JJ', 'NN']"
+1,create table t(x int primary key);,"['create', 'table', 't', '(', 'x', 'int', 'primary', 'key', ');']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+2,create sequence x_seq;,"['create', 'sequence', 'x_seq', ';']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+3,"
 
-","['But', 'then', ""you're"", 'giving', 'mergesort', 'the', 'length', 'of', 'args,', 'not', 'the', 'length', 'of', 'v,', 'so', ""it's"", 'an', 'off-by-one', 'error', 'as', ""it's"", 'been', 'told', 'v', 'has', '1', 'more', 'element', 'than', 'it', 'actually', 'does.', 'Down', 'the', 'line', 'the', 'program', 'tries', 'to', 'access', 'an', 'element', 'of', 'v', ""that's"", 'beyond', 'the', 'end', 'of', 'the', 'slice:']","['CC', 'RB', 'RB', 'VBG', 'NN', 'DT', 'NN', 'IN', 'NN', 'RB', 'DT', 'NN', 'IN', 'NNS', 'RB', 'VB', 'DT', 'JJ', 'NN', 'IN', 'NN', 'VBN', 'VBN', 'NN', 'VBZ', 'CD', 'JJR', 'NN', 'IN', 'PRP', 'RB', 'VBZ', 'RP', 'DT', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'NN', 'DT', 'NN', 'IN', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN']"
-6,"mergesort(v, 0, len(args) - 1)","['mergesort', '(', 'v', ',', '0', ',', 'len', '(', 'args', ')', '-', '1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-7,"
+LastInsertId failed for me:
 
-Try ",['Try'],['VB']
-8,"mergesort(v, 0, len(v) - 1)","['mergesort', '(', 'v', ',', '0', ',', 'len', '(', 'v', ')', '-', '1', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-9," in your main function, instead.
-","['in', 'your', 'main', 'function,', 'instead.']","['IN', 'PRP$', 'JJ', 'NN', 'NN']"
+","['LastInsertId', 'failed', 'for', 'me:']","['NNP', 'VBD', 'IN', 'NN']"
+4,import(,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+5,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+6,"    ""github.com/jmoiron/sqlx""","['""github.com/jmoiron/sqlx""']",['STRING_LITERAL']
+7,"    _ ""github.com/mattn/go-oci8""","['_', '""github.com/mattn/go-oci8""']","['IDENTIFIER', 'STRING_LITERAL']"
+8,),[')'],['PUNCTUATION']
+9,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+10,"    db, err := sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")","['db', ',', 'err', ':=', 'sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+11,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+12,       fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+13,    },['}'],['PUNCTUATION']
+14,"    sql := ""insert into t values(x_seq.nextval)""","['sql', ':=', '""insert into t values(x_seq.nextval)""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+15,"    r, err := db.Exec(sql)","['r', ',', 'err', ':=', 'db.Exec(sql)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+16,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+17,       fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+18,    },['}'],['PUNCTUATION']
+19,    fmt.Println(r.RowsAffected()),['fmt.Println(r.RowsAffected())'],['FUNCTION_CALL']
+20,    fmt.Println(r.LastInsertId()),['fmt.Println(r.LastInsertId())'],['FUNCTION_CALL']
+21,},['}'],['PUNCTUATION']
+22,"
+
+Output:
+
+",['Output:'],['NN']
+23,1 ,['1'],['DECIMAL_LITERAL']
+24,0 LastInsertId not supported,"['0', 'LastInsertId', 'not', 'supported']","['OCTAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+25,"
+
+Then I tried to make stored function that inserts record and returns primary key.
+
+","['Then', 'I', 'tried', 'to', 'make', 'stored', 'function', 'that', 'inserts', 'record', 'and', 'returns', 'primary', 'key.']","['RB', 'PRP', 'VBD', 'TO', 'VB', 'JJ', 'NN', 'WDT', 'VBZ', 'NN', 'CC', 'NNS', 'JJ', 'NNS']"
+26,create function f(x int) return int as,"['create', 'func', 'tion', 'f', '(', 'x', 'int', ')', 'return', 'int', 'as']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+27,v int;,"['v', 'int', ';']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+28,begin,['begin'],['IDENTIFIER']
+29,    insert into t values(x),"['insert', 'into', 't', 'values', '(', 'x', ')']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+30,    returning x into v;,"['return', 'ing', 'x', 'into', 'v', ';']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+31,    return v;,"['return', 'v', ';']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+32,end;,"['end', ';']","['IDENTIFIER', 'PUNCTUATION']"
+33,"
+
+But I failed to find a way to get its result. PostgreSQL style select fails:
+
+","['But', 'I', 'failed', 'to', 'find', 'a', 'way', 'to', 'get', 'its', 'result.', 'PostgreSQL', 'style', 'select', 'fails:']","['CC', 'PRP', 'VBD', 'TO', 'VB', 'DT', 'NN', 'TO', 'VB', 'PRP$', 'NN', 'NNP', 'NN', 'NN', 'NN']"
+34,SQL> select f(9) from dual;,"['SQL', '>', 'select', 'f', '(', '9', ')', 'from', 'dual', ';']","['IDENTIFIER', 'RELATION_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+35,select f(9) from dual,"['select', 'f', '(', '9', ')', 'from', 'dual']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER']"
+36,       *,['*'],['ARITHMETIC_OPERATOR']
+37,ERROR at line 1:,"['ERROR', 'at', 'line', '1', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+38,ORA-14551: cannot perform a DML operation inside a query,"['ORA', '-', '14551', ':', 'cannot', 'perform', 'a', 'DML', 'operation', 'inside', 'a', 'query']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
+39,"ORA-06512: at ""INTEGR.F"", line 1","['ORA', '-', '06512', ':', 'at', '""INTEGR.F""', ',', 'line', '1']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'DECIMAL_LITERAL']"
+40,"
+
+And OCI8 style variable binding does not work:
+
+","['And', 'OCI8', 'style', 'variable', 'binding', 'does', 'not', 'work:']","['CC', 'NNP', 'NN', 'JJ', 'NN', 'VBZ', 'RB', 'VB']"
+41,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+42,import(,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+43,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+44,"    ""github.com/jmoiron/sqlx""","['""github.com/jmoiron/sqlx""']",['STRING_LITERAL']
+45,"    _ ""github.com/mattn/go-oci8""","['_', '""github.com/mattn/go-oci8""']","['IDENTIFIER', 'STRING_LITERAL']"
+46,),[')'],['PUNCTUATION']
+47,func main(){,"['func', 'main', '(){']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+48,"    db, err := sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")","['db', ',', 'err', ':=', 'sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+49,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+50,       fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+51,    },['}'],['PUNCTUATION']
+52,"    sql := sqlx.Rebind(sqlx.NAMED,""begin ? := f(?); end;"")","['sql', ':=', 'sqlx.Rebind(sqlx.NAMED,""begin ? := f(?); end;"")']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+53,    var a int,"['var', 'a', 'int']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+54,"    _, err = db.Exec(sql, a, 333)","['_', ',', 'err', '=', 'db.Exec(sql, a, 333)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+55,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+56,       fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
+57,    },['}'],['PUNCTUATION']
+58,    fmt.Println(sql),['fmt.Println(sql)'],['FUNCTION_CALL']
+59,    fmt.Println(a),['fmt.Println(a)'],['FUNCTION_CALL']
+60,},['}'],['PUNCTUATION']
+61,"
+
+Output:
+
+",['Output:'],['NN']
+62,begin :arg1 := f(:arg2); end;,"['begin', ':', 'arg1', ':=', 'f', '(:', 'arg2', ');', 'end', ';']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+63,0,['0'],['OCTAL_LITERAL']
+64,"
+
+How to get last inserted ID, or how to get value from stored funcion in Go from Oracle?
+","['How', 'to', 'get', 'last', 'inserted', 'ID,', 'or', 'how', 'to', 'get', 'value', 'from', 'stored', 'funcion', 'in', 'Go', 'from', 'Oracle?']","['WRB', 'TO', 'VB', 'JJ', 'JJ', 'NNP', 'CC', 'WRB', 'TO', 'VB', 'NN', 'IN', 'VBN', 'NN', 'IN', 'NNP', 'IN', 'NNP']"

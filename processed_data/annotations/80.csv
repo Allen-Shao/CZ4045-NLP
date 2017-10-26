@@ -1,17 +1,27 @@
 ,text,token,annotation
-0,"From Go net/http documentation:
+0,"I fully understood my question, it was about RSA_public_decrypt method of openssl: https://www.openssl.org/docs/man1.1.0/crypto/RSA_public_decrypt.html
 
+I did not found any pure-golang realization. Realization with cgo: https://github.com/dgkang/rsa/blob/master/rsa/rsa.go
 
-  For control over proxies, TLS configuration, keep-alives, compression, and other settings, create a Transport:
+UPD, work for me:
 
-
-","['From', 'Go', 'net/http', 'documentation:', 'For', 'control', 'over', 'proxies,', 'TLS', 'configuration,', 'keep-alives,', 'compression,', 'and', 'other', 'settings,', 'create', 'a', 'Transport:']","['IN', 'NNP', 'JJ', 'NN', 'IN', 'NN', 'IN', 'JJ', 'NNP', 'NN', 'NN', 'NN', 'CC', 'JJ', 'NN', 'VBP', 'DT', 'NN']"
-1,tr := &http.Transport{,"['tr', ':=', '&', 'http', '.', 'Transport', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-2,"    TLSClientConfig:    &tls.Config{...},","['TLSClientConfig', ':', '&', 'tls', '.', 'Config', '{...},']","['IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-3,"    DisableCompression: true,","['DisableCompression', ':', 'true', ',']","['IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-4,},['}'],['PUNCTUATION']
-5,client := &http.Client{Transport: tr},"['client', ':=', '&', 'http', '.', 'Client', '{', 'Transport', ':', 'tr', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-6,"
-
-From the appengine documentation it appears you can use the net/http package as usual with a few tweaks.
-","['From', 'the', 'appengine', 'documentation', 'it', 'appears', 'you', 'can', 'use', 'the', 'net/http', 'package', 'as', 'usual', 'with', 'a', 'few', 'tweaks.']","['IN', 'DT', 'NN', 'NN', 'PRP', 'VBZ', 'PRP', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'IN', 'DT', 'JJ', 'NN']"
+","['I', 'fully', 'understood', 'my', 'question,', 'it', 'was', 'about', 'RSA_public_decrypt', 'method', 'of', 'openssl:', 'https://www.openssl.org/docs/man1.1.0/crypto/RSA_public_decrypt.html', 'I', 'did', 'not', 'found', 'any', 'pure-golang', 'realization.', 'Realization', 'with', 'cgo:', 'https://github.com/dgkang/rsa/blob/master/rsa/rsa.go', 'UPD,', 'work', 'for', 'me:']","['PRP', 'RB', 'VBD', 'PRP$', 'NN', 'PRP', 'VBD', 'IN', 'NNP', 'NN', 'IN', 'JJ', 'NN', 'PRP', 'VBD', 'RB', 'VBN', 'DT', 'JJ', 'NN', 'NNP', 'IN', 'NN', 'NN', 'NNP', 'NN', 'IN', 'NN']"
+1,"func RSA_public_decrypt(pubKey *rsa.PublicKey, data []byte) []byte {","['func', 'RSA_public_decrypt', '(', 'pubKey', '*', 'rsa', '.', 'PublicKey', ',', 'data', '[]', 'byte', ')', '[]', 'byte', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+2,    c := new(big.Int),"['c', ':=', 'new', '(', 'big', '.', 'Int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+3,    m := new(big.Int),"['m', ':=', 'new', '(', 'big', '.', 'Int', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+4,    m.SetBytes(data),['m.SetBytes(data)'],['FUNCTION_CALL']
+5,    e := big.NewInt(int64(pubKey.E)),"['e', ':=', 'big.NewInt(int64(pubKey.E))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+6,"    c.Exp(m, e, pubKey.N)","['c.Exp(m, e, pubKey.N)']",['FUNCTION_CALL']
+7,    out := c.Bytes(),"['out', ':=', 'c.Bytes()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+8,    skip := 0,"['skip', ':=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
+9,    for i := 2; i < len(out); i++ {,"['for', 'i', ':=', '2', ';', 'i', '<', 'len', '(', 'out', ');', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+10,        if i+1 >= len(out) {,"['if', 'i', '+', '1', '>=', 'len', '(', 'out', ')', '{']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+11,            break,['break'],['KEYWORD']
+12,        },['}'],['PUNCTUATION']
+13,        if out[i] == 0xff && out[i+1] == 0 {,"['if', 'out', '[', 'i', ']', '==', '0xff', '&&', 'out', '[', 'i', '+', '1', ']', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'HEX_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
+14,            skip = i + 2,"['skip', '=', 'i', '+', '2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
+15,            break,['break'],['KEYWORD']
+16,        },['}'],['PUNCTUATION']
+17,    },['}'],['PUNCTUATION']
+18,    return out[skip:],"['return', 'out', '[', 'skip', ':]']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+19,},['}'],['PUNCTUATION']

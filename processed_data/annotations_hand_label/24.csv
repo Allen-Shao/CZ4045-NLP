@@ -1,23 +1,30 @@
 ,text,token,annotation
-0,"You are pushing an array of Sales with syntax for a single item.
-It should be either a single Sales object to push:
+0,"You should not try to get value from sC channel in main function because the only value you send to it is  consumed by getC function in seperate go routine. While trying to read sC channel main function blocks waiting for something and it never ends. Go routine getS is finished, go routine getC has consumed value from channel sC and has also finished. There is nothing in channel sC anymore.
 
-","['You', 'are', 'pushing', 'an', 'array', 'of', 'Sales', 'with', 'syntax', 'for', 'a', 'single', 'item.', 'It', 'should', 'be', 'either', 'a', 'single', 'Sales', 'object', 'to', 'push:']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'IN', 'NNS', 'IN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'MD', 'VB', 'CC', 'DT', 'JJ', 'NNS', 'VBP', 'TO', 'VB']"
-1,addsales:= Sales{,"['addsales', ':=', 'Sales', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-2,"    FIRSTNAME : ""chetan"",","['FIRSTNAME', ':', '""chetan""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-3,"    LASTNAME : ""kumar"",","['LASTNAME', ':', '""kumar""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-4,"    AGE : 24,","['AGE', ':', '24', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-5,"},","['},']",['PUNCTUATION']
-6,"change := bson.M{""$push"":bson.M{""user.$.sales"":addsales}}","['chan', 'ge', ':=', 'bson', '.', 'M', '{', '""$push""', ':', 'bson', '.', 'M', '{', '""user.$.sales""', ':', 'addsales', '}}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-7,"
+The possible solution is to create another channel s2C and send to it value received from sC channel. 
 
-or use $each modifier to push multiple items:
+The complete correct code would look like this:
 
-","['or', 'use', '$each', 'modifier', 'to', 'push', 'multiple', 'items:']","['CC', 'VB', 'NN', 'NN', 'TO', 'VB', 'JJ', 'NN']"
-8,addsales:= []Sales{Sales{,"['addsales', ':=', '[]', 'Sales', '{', 'Sales', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-9,"    FIRSTNAME : ""chetan"",","['FIRSTNAME', ':', '""chetan""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-10,"    LASTNAME : ""kumar"",","['LASTNAME', ':', '""kumar""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-11,"    AGE : 24,","['AGE', ':', '24', ',']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-12,"    },","['},']",['PUNCTUATION']
+","['You', 'should', 'not', 'try', 'to', 'get', 'value', 'from', 'sC', 'channel', 'in', 'main', 'function', 'because', 'the', 'only', 'value', 'you', 'send', 'to', 'it', 'is', 'consumed', 'by', 'getC', 'function', 'in', 'seperate', 'go', 'routine.', 'While', 'trying', 'to', 'read', 'sC', 'channel', 'main', 'function', 'blocks', 'waiting', 'for', 'something', 'and', 'it', 'never', 'ends.', 'Go', 'routine', 'getS', 'is', 'finished,', 'go', 'routine', 'getC', 'has', 'consumed', 'value', 'from', 'channel', 'sC', 'and', 'has', 'also', 'finished.', 'There', 'is', 'nothing', 'in', 'channel', 'sC', 'anymore.', 'The', 'possible', 'solution', 'is', 'to', 'create', 'another', 'channel', 's2C', 'and', 'send', 'to', 'it', 'value', 'received', 'from', 'sC', 'channel.', 'The', 'complete', 'correct', 'code', 'would', 'look', 'like', 'this:']","['PRP', 'MD', 'RB', 'VB', 'TO', 'VB', 'NN', 'IN', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', 'PRP', 'VBP', 'TO', 'PRP', 'VBZ', 'VBN', 'IN', 'NN', 'NN', 'IN', 'NN', 'VBP', 'NN', 'IN', 'VBG', 'TO', 'VB', 'JJ', 'NNS', 'JJ', 'NN', 'NNS', 'VBG', 'IN', 'NN', 'CC', 'PRP', 'RB', 'VBD', 'NNP', 'JJ', 'NN', 'VBZ', 'JJ', 'VBP', 'JJ', 'NN', 'VBZ', 'VBN', 'NN', 'IN', 'NN', 'NN', 'CC', 'VBZ', 'RB', 'VBN', 'EX', 'VBZ', 'NN', 'IN', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'NN', 'CC', 'NN', 'TO', 'PRP', 'NN', 'VBD', 'IN', 'JJ', 'VBP', 'DT', 'JJ', 'NN', 'NN', 'MD', 'VB', 'IN', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+3,    sC := make(chan string),"['sC', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+4,    go getS(sC),"['go', 'getS', '(', 'sC', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+5,    s2C := make(chan string),"['s2C', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+6,    cC := make(chan string),"['cC', ':=', 'make', '(', 'chan', 'string', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+7,"    go getC(s2C, cC)","['go', 'getC', '(', 's2C', ',', 'cC', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+8,    s := <-sC,"['s', ':=', '<-', 'sC']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+9,    println(s),"['println', '(', 's', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+10,    s2C <- s,"['s2C', '<-', 's']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+11,    c := <-cC,"['c', ':=', '<-', 'cC']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+12,    println(c),"['println', '(', 'c', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 13,},['}'],['PUNCTUATION']
-14,"change := bson.M{""$push"":bson.M{""user.$.sales"":bson.M{""$each"":addsales}}}","['chan', 'ge', ':=', 'bson', '.', 'M', '{', '""$push""', ':', 'bson', '.', 'M', '{', '""user.$.sales""', ':', 'bson', '.', 'M', '{', '""$each""', ':', 'addsales', '}}}']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+14,func getS(sC chan string) {,"['func', 'getS', '(', 'sC', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+15,"    s :=  "" simple completed ""","['s', ':=', '"" simple completed ""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+16,    sC <- s,"['sC', '<-', 's']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+17,},['}'],['PUNCTUATION']
+18,"func getC(sC chan string, cC chan string) {","['func', 'getC', '(', 'sC', 'chan', 'string', ',', 'cC', 'chan', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+19,    s := <-sC,"['s', ':=', '<-', 'sC']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+20,"    c := s + "" more ""","['c', ':=', 's', '+', '"" more ""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
+21,    cC <- c,"['cC', '<-', 'c']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
+22,},['}'],['PUNCTUATION']

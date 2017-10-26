@@ -1,124 +1,53 @@
 ,text,token,annotation
-0,"I have an application running on a server which takes requests from a phone app and then load balances the request across worker servers. I'm trying to add a timeout in the case that messages on the main server that have been in the outbound queue for the length of the timeout are removed from the queue. More specifically, the application on the main server is written in golang and implements the Paranoid Pirate Pattern of load balancing. The code I currently have is:
+0,"I know this is very basic, but i think the official documentation at [beego website][1]
 
-","['I', 'have', 'an', 'application', 'running', 'on', 'a', 'server', 'which', 'takes', 'requests', 'from', 'a', 'phone', 'app', 'and', 'then', 'load', 'balances', 'the', 'request', 'across', 'worker', 'servers.', ""I'm"", 'trying', 'to', 'add', 'a', 'timeout', 'in', 'the', 'case', 'that', 'messages', 'on', 'the', 'main', 'server', 'that', 'have', 'been', 'in', 'the', 'outbound', 'queue', 'for', 'the', 'length', 'of', 'the', 'timeout', 'are', 'removed', 'from', 'the', 'queue.', 'More', 'specifically,', 'the', 'application', 'on', 'the', 'main', 'server', 'is', 'written', 'in', 'golang', 'and', 'implements', 'the', 'Paranoid', 'Pirate', 'Pattern', 'of', 'load', 'balancing.', 'The', 'code', 'I', 'currently', 'have', 'is:']","['PRP', 'VBP', 'DT', 'NN', 'VBG', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'NNS', 'IN', 'DT', 'NN', 'NN', 'CC', 'RB', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'NN', 'NN', 'NNP', 'VBG', 'TO', 'VB', 'DT', 'NN', 'IN', 'DT', 'NN', 'WDT', 'VBZ', 'IN', 'DT', 'JJ', 'NN', 'WDT', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBP', 'VBN', 'IN', 'DT', 'NN', 'JJR', 'JJ', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'VBN', 'IN', 'NN', 'CC', 'VBZ', 'DT', 'NNP', 'NNP', 'NNP', 'IN', 'NN', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBP', 'NNS']"
-1,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
-2,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
-3,"    zmq ""github.com/pebbe/zmq4""","['zmq', '""github.com/pebbe/zmq4""']","['IDENTIFIER', 'STRING_LITERAL']"
-4,"    ""time""","['""time""']",['STRING_LITERAL']
-5,),[')'],['PUNCTUATION']
-6,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
-7,    HEARTBEAT_LIVENESS = 3,"['HEARTBEAT_LIVENESS', '=', '3']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-8,    HEARTBEAT_INTERVAL = 1500 * time.Millisecond,"['HEARTBEAT_INTERVAL', '=', '1500', '*', 'time', '.', 'Millisecond']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-9,"    MESSAGE_READY     = ""\001""","['MESSAGE_READY', '=', '""\\001""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-10,"    MESSAGE_HEARTBEAT = ""\002""","['MESSAGE_HEARTBEAT', '=', '""\\002""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
-11,),[')'],['PUNCTUATION']
-12,var (,"['var', '(']","['KEYWORD', 'PUNCTUATION']"
-13,    client *zmq.Socket,"['client', '*', 'zmq', '.', 'Socket']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-14,    backend *zmq.Socket,"['backend', '*', 'zmq', '.', 'Socket']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-15,    frontend *zmq.Socket,"['frontend', '*', 'zmq', '.', 'Socket']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-16,    workerPoller *zmq.Poller,"['workerPoller', '*', 'zmq', '.', 'Poller']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-17,    brokerPoller *zmq.Poller,"['brokerPoller', '*', 'zmq', '.', 'Poller']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-18,    workerQueue []Worker,"['workerQueue', '[]', 'Worker']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-19,),[')'],['PUNCTUATION']
-20,type Worker struct {,"['type', 'Worker', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-21,    Id string,"['Id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-22,    Expire time.Time,"['Expire', 'time', '.', 'Time']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-23,},['}'],['PUNCTUATION']
-24,type RequestWrapper {,"['type', 'RequestWrapper', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-25,    RequestToSend Request,"['RequestToSend', 'Request']","['IDENTIFIER', 'IDENTIFIER']"
-26,},['}'],['PUNCTUATION']
-27,func NewWorker(id string) Worker {,"['func', 'NewWorker', '(', 'id', 'string', ')', 'Worker', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-28,    return Worker{,"['return', 'Worker', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-29,"        Id: id,","['Id', ':', 'id', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-30,"        Expire: time.Now().Add(HEARTBEAT_INTERVAL * HEARTBEAT_LIVENESS),","['Expire', ':', 'time.Now().Add(HEARTBEAT_INTERVAL * HEARTBEAT_LIVENESS)', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
-31,    },['}'],['PUNCTUATION']
-32,},['}'],['PUNCTUATION']
-33,"func AddReadyWorker(workers []Worker, worker Worker) []Worker {","['func', 'AddReadyWorker', '(', 'workers', '[]', 'Worker', ',', 'worker', 'Worker', ')', '[]', 'Worker', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-34,"    fmt.Println(worker.Id, "" joined"")","['fmt.Println(worker.Id, "" joined"")']",['FUNCTION_CALL']
-35,"    for i, w := range workers {","['for', 'i', ',', 'w', ':=', 'range', 'workers', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-36,        if worker.Id == w.Id {,"['if', 'worker', '.', 'Id', '==', 'w', '.', 'Id', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-37,            if i == 0 {,"['if', 'i', '==', '0', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-38,                workers = workers[1:],"['workers', '=', 'workers', '[', '1', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-39,            } else if i == len(workers)-1 {,"['}', 'else', 'if', 'i', '==', 'len', '(', 'workers', ')-', '1', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-40,                workers = workers[:i],"['workers', '=', 'workers', '[:', 'i', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-41,            } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-42,"                workers = append(workers[:i], workers[i+1:]...)","['workers', '=', 'append', '(', 'workers', '[:', 'i', '],', 'workers', '[', 'i', '+', '1', ':]...)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-43,            },['}'],['PUNCTUATION']
-44,            break,['break'],['KEYWORD']
-45,        },['}'],['PUNCTUATION']
-46,    },['}'],['PUNCTUATION']
-47,"    return append(workers, worker)","['return', 'append', '(', 'workers', ',', 'worker', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-48,},['}'],['PUNCTUATION']
-49,func PurgeInactiveWorkers() {,"['func', 'PurgeInactiveWorkers', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-50,    now := time.Now(),"['now', ':=', 'time.Now()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-51,"    for i, worker := range workerQueue {","['for', 'i', ',', 'worker', ':=', 'range', 'workerQueue', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-52,        if now.Before(worker.Expire) {,"['if', 'now.Before(worker.Expire)', '{']","['KEYWORD', 'FUNCTION_CALL', 'PUNCTUATION']"
-53,            workerQueue = workerQueue[i:],"['workerQueue', '=', 'workerQueue', '[', 'i', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-54,            return,['return'],['KEYWORD']
-55,        },['}'],['PUNCTUATION']
-56,    },['}'],['PUNCTUATION']
-57,    workerQueue = workerQueue[0:0],"['workerQueue', '=', 'workerQueue', '[', '0', ':', '0', ']']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-58,},['}'],['PUNCTUATION']
-59,func LoadBalance() {,"['func', 'LoadBalance', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-60,// Loop:,"['//', 'Loop:']","['COMMENT', 'NN']"
-61,    heartbeat := time.Tick(HEARTBEAT_INTERVAL),"['heartbeat', ':=', 'time.Tick(HEARTBEAT_INTERVAL)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-62,    for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-63,        var sockets []zmq.Polled,"['var', 'sockets', '[]', 'zmq', '.', 'Polled']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-64,"        // If you have available workers, poll on the both front and backend","['//', 'If', 'you', 'have', 'available', 'workers,', 'poll', 'on', 'the', 'both', 'front', 'and', 'backend']","['COMMENT', 'IN', 'PRP', 'VBP', 'JJ', 'NNS', 'NN', 'IN', 'DT', 'DT', 'JJ', 'CC', 'VB']"
-65,        // If not poll on backend with infinite timeout,"['//', 'If', 'not', 'poll', 'on', 'backend', 'with', 'infinite', 'timeout']","['COMMENT', 'IN', 'RB', 'VB', 'IN', 'NN', 'IN', 'NN', 'NN']"
-66,        if len(workerQueue) > 0 {,"['if', 'len', '(', 'workerQueue', ')', '>', '0', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION']"
-67,"            sockets, _ = brokerPoller.Poll(HEARTBEAT_INTERVAL)","['sockets', ',', '_', '=', 'brokerPoller.Poll(HEARTBEAT_INTERVAL)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-68,        } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-69,"            sockets, _ = workerPoller.Poll(HEARTBEAT_INTERVAL)","['sockets', ',', '_', '=', 'workerPoller.Poll(HEARTBEAT_INTERVAL)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-70,        },['}'],['PUNCTUATION']
-71,"        for _, socket := range sockets {","['for', '_', ',', 'socket', ':=', 'range', 'sockets', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-72,            switch socket.Socket {,"['switch', 'socket', '.', 'Socket', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-73,                // backend is a router,"['//', 'backend', 'is', 'a', 'router']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN']"
-74,                case backend:,"['case', 'backend', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-75,"                    workerId, _ := backend.Recv(0)","['workerId', ',', '_', ':=', 'backend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-76,"                    workerQueue = AddReadyWorker(workerQueue, NewWorker(workerId))","['workerQueue', '=', 'AddReadyWorker', '(', 'workerQueue', ',', 'NewWorker', '(', 'workerId', '))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-77,"                    clientId, _ := backend.Recv(0)","['clientId', ',', '_', ':=', 'backend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-78,                    if clientId != MESSAGE_READY && clientId != MESSAGE_HEARTBEAT {,"['if', 'clientId', '!=', 'MESSAGE_READY', '&&', 'clientId', '!=', 'MESSAGE_HEARTBEAT', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-79,"                        route, _ := backend.Recv(0)","['route', ',', '_', ':=', 'backend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-80,"                        message, _ := backend.RecvBytes(0)","['message', ',', '_', ':=', 'backend.RecvBytes(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-81,"                        fmt.Println(""Received response"")","['fmt.Println(""Received response"")']",['FUNCTION_CALL']
-82,"                        RouteResponse(route, message)","['RouteResponse', '(', 'route', ',', 'message', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-83,"                        // frontend.Send(clientId, zmq.SNDMORE)","['//', 'frontend.Send(clientId,', 'zmq.SNDMORE)']","['COMMENT', 'NN', 'NN']"
-84,"                        // frontend.Send("""", zmq.SNDMORE)","['//', 'frontend.Send("""",', 'zmq.SNDMORE)']","['COMMENT', 'NN', 'NN']"
-85,"                        // frontend.SendBytes(message, 0)","['//', 'frontend.SendBytes(message,', '0)']","['COMMENT', 'NN', 'CD']"
-86,                    },['}'],['PUNCTUATION']
-87,                // frontend is a dealer,"['//', 'frontend', 'is', 'a', 'dealer']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN']"
-88,                case frontend:,"['case', 'frontend', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-89,"                    clientId, _ := frontend.Recv(0)","['clientId', ',', '_', ':=', 'frontend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-90,"                    route, _ := frontend.Recv(0)","['route', ',', '_', ':=', 'frontend.Recv(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-91,"                    message, _ := frontend.RecvBytes(0)","['message', ',', '_', ':=', 'frontend.RecvBytes(0)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-92,"                    backend.Send(workerQueue[0].Id, zmq.SNDMORE)","['backend.Send(workerQueue[0].Id, zmq.SNDMORE)']",['FUNCTION_CALL']
-93,"                    backend.Send(clientId, zmq.SNDMORE)","['backend.Send(clientId, zmq.SNDMORE)']",['FUNCTION_CALL']
-94,"                    backend.Send(route, zmq.SNDMORE)","['backend.Send(route, zmq.SNDMORE)']",['FUNCTION_CALL']
-95,"                    backend.SendBytes(message, 0)","['backend.SendBytes(message, 0)']",['FUNCTION_CALL']
-96,                    workerQueue = workerQueue[1:],"['workerQueue', '=', 'workerQueue', '[', '1', ':]']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-97,            },['}'],['PUNCTUATION']
-98,        },['}'],['PUNCTUATION']
-99,        select {,"['select', '{']","['KEYWORD', 'PUNCTUATION']"
-100,            case <-heartbeat:,"['case', '<-', 'heartbeat', ':']","['KEYWORD', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-101,"                for _, worker := range workerQueue {","['for', '_', ',', 'worker', ':=', 'range', 'workerQueue', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-102,"                    backend.Send(worker.Id, zmq.SNDMORE)","['backend.Send(worker.Id, zmq.SNDMORE)']",['FUNCTION_CALL']
-103,"                    backend.Send(MESSAGE_HEARTBEAT, 0)","['backend.Send(MESSAGE_HEARTBEAT, 0)']",['FUNCTION_CALL']
-104,                },['}'],['PUNCTUATION']
-105,                break,['break'],['KEYWORD']
-106,            default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-107,        },['}'],['PUNCTUATION']
-108,        PurgeInactiveWorkers(),"['PurgeInactiveWorkers', '()']","['IDENTIFIER', 'PUNCTUATION']"
-109,    },['}'],['PUNCTUATION']
-110,},['}'],['PUNCTUATION']
-111,"
+[1]: http://beego.me/docs/mvc/model/query.md doesn't give clear direction.
 
-If the backend sends a message, but it is not actually sent to a worker in some period of time, I want it to expire and not ever be sent. Is there a socket option that can accomplish this? If not, what would I have to do to accomplish this?
+I made a RESTful API using beego framework. As it promised, it generates basic CRUD code for my app. The problem is READ method doesn't return all data. By all data  I mean data in a table including data from all tables related to it. 
 
-Two ways I think I can do this without socket options are:
+this is the output from the generated code (i'm using swagger to call it):
 
-1) Have the backend wrap the message in a wrapper and send to a golang queue and not through zeromq. The wrapper contains the time that the message was ""sent"". The backend concurrently pulls from the front of the golang queue one at a time and checks if the message is expired. If so, don't send, if not, send the message. I could have the backend add the message to the golang queue first and then truly send it out after in the same block of code. That way, I don't need a lock.
+","['I', 'know', 'this', 'is', 'very', 'basic,', 'but', 'i', 'think', 'the', 'official', 'documentation', 'at', '[beego', 'website][1]', '[1]:', 'http://beego.me/docs/mvc/model/query.md', ""doesn't"", 'give', 'clear', 'direction.', 'I', 'made', 'a', 'RESTful', 'API', 'using', 'beego', 'framework.', 'As', 'it', 'promised,', 'it', 'generates', 'basic', 'CRUD', 'code', 'for', 'my', 'app.', 'The', 'problem', 'is', 'READ', 'method', ""doesn't"", 'return', 'all', 'data.', 'By', 'all', 'data', 'I', 'mean', 'data', 'in', 'a', 'table', 'including', 'data', 'from', 'all', 'tables', 'related', 'to', 'it.', 'this', 'is', 'the', 'output', 'from', 'the', 'generated', 'code', ""(i'm"", 'using', 'swagger', 'to', 'call', 'it):']","['PRP', 'VBP', 'DT', 'VBZ', 'RB', 'JJ', 'CC', 'JJ', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'NNP', 'VBP', 'NNP', 'VBP', 'JJ', 'CD', 'JJ', 'NN', 'PRP', 'VBD', 'DT', 'JJ', 'NNP', 'VBG', 'JJ', 'NN', 'IN', 'PRP', 'VBZ', 'PRP', 'VBZ', 'JJ', 'NNP', 'NN', 'IN', 'PRP$', 'NN', 'DT', 'NN', 'VBZ', 'NNP', 'NN', 'NNS', 'VBP', 'DT', 'NNS', 'IN', 'DT', 'NNS', 'PRP', 'VBP', 'NNS', 'IN', 'DT', 'NN', 'VBG', 'NNS', 'IN', 'DT', 'NNS', 'VBN', 'TO', 'VB', 'DT', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'VBG', 'JJR', 'TO', 'VB', 'NN']"
+1,{,['{'],['PUNCTUATION']
+2,"  ""data"": [","['""data""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+3,    {,['{'],['PUNCTUATION']
+4,"      ""Id"": 1,","['""Id""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+5,"      ""CustomerId"": {","['""CustomerId""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+6,"        ""Id"": 2,","['""Id""', ':', '2', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+7,"        ""Name"": """",","['""Name""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+8,"        ""Phone"": """",","['""Phone""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+9,"        ""Email"": """",","['""Email""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+10,"        ""CreatedAt"": ""0001-01-01T00:00:00Z"",","['""CreatedAt""', ':', '""0001-01-01T00:00:00Z""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+11,"        ""UpdatedAt"": ""0001-01-01T00:00:00Z""","['""UpdatedAt""', ':', '""0001-01-01T00:00:00Z""']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL']"
+12,"      },","['},']",['PUNCTUATION']
+13,"      ""Saldo"": 2500000,","['""Saldo""', ':', '2500000', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+14,"      ""CreatedAt"": ""2014-12-10T08:10:10+07:00"",","['""CreatedAt""', ':', '""2014-12-10T08:10:10+07:00""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+15,"      ""UpdatedAt"": ""2014-12-10T08:10:10+07:00""","['""UpdatedAt""', ':', '""2014-12-10T08:10:10+07:00""']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL']"
+16,    },['}'],['PUNCTUATION']
+17,"  ],","['],']",['PUNCTUATION']
+18,"  ""totals"": 1","['""totals""', ':', '1']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+19,},['}'],['PUNCTUATION']
+20,"
 
-2) Send the wrapper message through zeromq to a retriever and the retriever checks if its expired and returns early. I don't like this because it seems like its bad for performance.
-","['If', 'the', 'backend', 'sends', 'a', 'message,', 'but', 'it', 'is', 'not', 'actually', 'sent', 'to', 'a', 'worker', 'in', 'some', 'period', 'of', 'time,', 'I', 'want', 'it', 'to', 'expire', 'and', 'not', 'ever', 'be', 'sent.', 'Is', 'there', 'a', 'socket', 'option', 'that', 'can', 'accomplish', 'this?', 'If', 'not,', 'what', 'would', 'I', 'have', 'to', 'do', 'to', 'accomplish', 'this?', 'Two', 'ways', 'I', 'think', 'I', 'can', 'do', 'this', 'without', 'socket', 'options', 'are:', '1)', 'Have', 'the', 'backend', 'wrap', 'the', 'message', 'in', 'a', 'wrapper', 'and', 'send', 'to', 'a', 'golang', 'queue', 'and', 'not', 'through', 'zeromq.', 'The', 'wrapper', 'contains', 'the', 'time', 'that', 'the', 'message', 'was', '""sent"".', 'The', 'backend', 'concurrently', 'pulls', 'from', 'the', 'front', 'of', 'the', 'golang', 'queue', 'one', 'at', 'a', 'time', 'and', 'checks', 'if', 'the', 'message', 'is', 'expired.', 'If', 'so,', ""don't"", 'send,', 'if', 'not,', 'send', 'the', 'message.', 'I', 'could', 'have', 'the', 'backend', 'add', 'the', 'message', 'to', 'the', 'golang', 'queue', 'first', 'and', 'then', 'truly', 'send', 'it', 'out', 'after', 'in', 'the', 'same', 'block', 'of', 'code.', 'That', 'way,', 'I', ""don't"", 'need', 'a', 'lock.', '2)', 'Send', 'the', 'wrapper', 'message', 'through', 'zeromq', 'to', 'a', 'retriever', 'and', 'the', 'retriever', 'checks', 'if', 'its', 'expired', 'and', 'returns', 'early.', 'I', ""don't"", 'like', 'this', 'because', 'it', 'seems', 'like', 'its', 'bad', 'for', 'performance.']","['IN', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'CC', 'PRP', 'VBZ', 'RB', 'RB', 'VBN', 'TO', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'PRP', 'TO', 'VB', 'CC', 'RB', 'RB', 'VB', 'VBN', 'NNP', 'EX', 'DT', 'NN', 'NN', 'WDT', 'MD', 'VB', 'VB', 'IN', 'JJ', 'WP', 'MD', 'PRP', 'VB', 'TO', 'VB', 'TO', 'VB', 'PRP', 'CD', 'NNS', 'PRP', 'VBP', 'PRP', 'MD', 'VB', 'DT', 'IN', 'NN', 'NNS', 'VBP', 'CD', 'VBP', 'DT', 'NN', 'VBD', 'DT', 'NN', 'IN', 'DT', 'NN', 'CC', 'VB', 'TO', 'DT', 'NN', 'NN', 'CC', 'RB', 'IN', 'NN', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBD', 'VBN', 'DT', 'NN', 'RB', 'VBZ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBD', 'CD', 'IN', 'DT', 'NN', 'CC', 'NNS', 'IN', 'DT', 'NN', 'VBZ', 'JJ', 'IN', 'JJ', 'NN', 'NN', 'IN', 'JJ', 'VBP', 'DT', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'TO', 'DT', 'NN', 'NN', 'RB', 'CC', 'RB', 'RB', 'VB', 'PRP', 'RP', 'IN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'VB', 'DT', 'JJ', 'CD', 'VBP', 'DT', 'NN', 'NN', 'IN', 'NN', 'TO', 'DT', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'IN', 'PRP$', 'JJ', 'CC', 'NNS', 'VBP', 'PRP', 'VBP', 'IN', 'DT', 'IN', 'PRP', 'VBZ', 'IN', 'PRP$', 'JJ', 'IN', 'NN']"
+see, it doesn't return the Name, Phone, and Email.
+so i look into documentation and found this method RelatedSel() but still I have no idea how to use it properly.
+
+here's my code:
+
+","['see,', 'it', ""doesn't"", 'return', 'the', 'Name,', 'Phone,', 'and', 'Email.', 'so', 'i', 'look', 'into', 'documentation', 'and', 'found', 'this', 'method', 'RelatedSel()', 'but', 'still', 'I', 'have', 'no', 'idea', 'how', 'to', 'use', 'it', 'properly.', ""here's"", 'my', 'code:']","['NN', 'PRP', 'VBZ', 'VB', 'DT', 'NNP', 'NNP', 'CC', 'NNP', 'IN', 'JJ', 'VBP', 'IN', 'NN', 'CC', 'VBD', 'DT', 'NN', 'NNP', 'CC', 'RB', 'PRP', 'VBP', 'DT', 'NN', 'WRB', 'TO', 'VB', 'PRP', 'JJ', 'JJ', 'PRP$', 'NN']"
+21,"func GetAllCustomerSaldo(query map[string]string, fields []string, sortby []string, order []string,","['func', 'GetAllCustomerSaldo', '(', 'query', 'map', '[', 'string', ']', 'string', ',', 'fields', '[]', 'string', ',', 'sortby', '[]', 'string', ',', 'order', '[]', 'string', ',']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+22,"    offset int64, limit int64) (ml []interface{}, err error, totals int64) {","['offset', 'int64', ',', 'limit', 'int64', ')', '(', 'ml', '[]', 'interface', '{},', 'err', 'error', ',', 'totals', 'int64', ')', '{']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+23,    o := orm.NewOrm(),"['o', ':=', 'orm.NewOrm()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+24,    qs := o.QueryTable(new(CustomerSaldo)),"['qs', ':=', 'o.QueryTable(new(CustomerSaldo))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+25,"    qs.RelatedSel(""CustomerId__Customers"").All(&CustomerSaldo{})","['qs.RelatedSel(""CustomerId__Customers"").All(&CustomerSaldo{})']",['FUNCTION_CALL']
+26,...,['...'],['PUNCTUATION']
+27,"
+
+after trying many parameter possibilities, i still get this error:
+
+","['after', 'trying', 'many', 'parameter', 'possibilities,', 'i', 'still', 'get', 'this', 'error:']","['IN', 'VBG', 'JJ', 'NN', 'NN', 'NN', 'RB', 'VB', 'DT', 'NN']"
+28,Handler crashed with error unknown model/table name `Customers`,"['Handler', 'crashed', 'with', 'error', 'unknown', 'model/table', 'name', 'Customers']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DIRECTORY', 'IDENTIFIER', 'IDENTIFIER']"
+29,"
+
+Anyone here have same problem with me? any solution guys?
+","['Anyone', 'here', 'have', 'same', 'problem', 'with', 'me?', 'any', 'solution', 'guys?']","['NN', 'RB', 'VBP', 'JJ', 'NN', 'IN', 'NN', 'DT', 'NN', 'NN']"

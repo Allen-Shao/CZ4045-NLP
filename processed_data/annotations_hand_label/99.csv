@@ -1,76 +1,23 @@
 ,text,token,annotation
-0,"According to the error message, the error is on this line:
+0,"Admittedly, it's somewhat of a quirk, but there's an explanation for it.
 
-","['According', 'to', 'the', 'error', 'message,', 'the', 'error', 'is', 'on', 'this', 'line:']","['VBG', 'TO', 'DT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'IN', 'DT', 'NN']"
-1,"local res = redis.call(""HMSET"", KEYS[1], unpack(a))","['local', 'res', '=', 'redis.call(""HMSET"", KEYS[1], unpack(a))']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-2,"
+Imagine an interface{} variable as a struct composed of two fields: one is the type and another is the data. ([]int and nil). Actually, it looks just like that in the Go runtime.
 
-The issue is that the application is passing two arguments to the script, the key and argv converted to a string. The call unpack(a) yields a single value.
+","['Admittedly,', ""it's"", 'somewhat', 'of', 'a', 'quirk,', 'but', ""there's"", 'an', 'explanation', 'for', 'it.', 'Imagine', 'an', 'interface{}', 'variable', 'as', 'a', 'struct', 'composed', 'of', 'two', 'fields:', 'one', 'is', 'the', 'type', 'and', 'another', 'is', 'the', 'data.', '([]int', 'and', 'nil).', 'Actually,', 'it', 'looks', 'just', 'like', 'that', 'in', 'the', 'Go', 'runtime.']","['NNP', 'VBZ', 'RB', 'IN', 'DT', 'NN', 'CC', 'VBP', 'DT', 'NN', 'IN', 'JJ', 'NNP', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', 'VBN', 'IN', 'CD', 'JJ', 'CD', 'VBZ', 'DT', 'NN', 'CC', 'DT', 'VBZ', 'DT', 'JJ', 'NN', 'CC', 'JJ', 'NNP', 'PRP', 'VBZ', 'RB', 'IN', 'DT', 'IN', 'DT', 'NNP', 'NN']"
+1,struct Iface                                                                                                                   ,"['struct', 'Iface']","['KEYWORD', 'IDENTIFIER']"
+2,{                                                                                                                              ,['{'],['PUNCTUATION']
+3,    Itab*   tab;                                                                                                               ,"['Itab', '*', 'tab', ';']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+4,    void*   data;                                                                                                              ,"['void', '*', 'data', ';']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+5,};   ,['};'],['PUNCTUATION']
+6,"
 
-The fix is to pass each argument separately to the script:
+When you pass your nil slice to yes, only nil is passed as the value, so your comparison boils down to nil == nil. 
 
-","['The', 'issue', 'is', 'that', 'the', 'application', 'is', 'passing', 'two', 'arguments', 'to', 'the', 'script,', 'the', 'key', 'and', 'argv', 'converted', 'to', 'a', 'string.', 'The', 'call', 'unpack(a)', 'yields', 'a', 'single', 'value.', 'The', 'fix', 'is', 'to', 'pass', 'each', 'argument', 'separately', 'to', 'the', 'script:']","['DT', 'NN', 'VBZ', 'IN', 'DT', 'NN', 'VBZ', 'VBG', 'CD', 'NNS', 'TO', 'DT', 'NN', 'DT', 'NN', 'CC', 'RB', 'VBN', 'TO', 'DT', 'NN', 'DT', 'NN', 'JJ', 'NNS', 'DT', 'JJ', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'RB', 'TO', 'DT', 'NN']"
-3,"reply, errS := rScript.Do(retryConn,","['reply', ',', 'errS', ':=', 'rScript', '.', 'Do', '(', 'retryConn', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-4,"   ""JJNb324a680c35d11e6a1123c15c2d271f21481871788G"",","['""JJNb324a680c35d11e6a1123c15c2d271f21481871788G""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-5,"   ""30000"",","['""30000""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-6,"   ""SSF_lastAccessedDate"", ""1481627386"",","['""SSF_lastAccessedDate""', ',', '""1481627386""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-7,"   ""SSF_expiryDate"", ""2481657386"")","['""SSF_expiryDate""', ',', '""2481657386""', ')']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-8,"
+Meanwhile, calling no automatically wraps your variable in an interface{} type and the call becomes something akin to ","['When', 'you', 'pass', 'your', 'nil', 'slice', 'to', 'yes,', 'only', 'nil', 'is', 'passed', 'as', 'the', 'value,', 'so', 'your', 'comparison', 'boils', 'down', 'to', 'nil', '==', 'nil.', 'Meanwhile,', 'calling', 'no', 'automatically', 'wraps', 'your', 'variable', 'in', 'an', 'interface{}', 'type', 'and', 'the', 'call', 'becomes', 'something', 'akin', 'to']","['WRB', 'PRP', 'VBP', 'PRP$', 'JJ', 'NN', 'TO', 'VB', 'RB', 'NN', 'VBZ', 'VBN', 'IN', 'DT', 'NN', 'RB', 'PRP$', 'NN', 'VBZ', 'RB', 'TO', 'VB', 'NNP', 'JJ', 'NNP', 'VBG', 'DT', 'RB', 'VBZ', 'PRP$', 'JJ', 'IN', 'DT', 'NN', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'NN', 'JJ', 'TO']"
+7,"no(interface{[]int, nil})","['no', '(', 'interface', '{[]', 'int', ',', 'nil', '})']","['IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+8,. So the comparison in no could be seen as ,"['.', 'So', 'the', 'comparison', 'in', 'no', 'could', 'be', 'seen', 'as']","['.', 'IN', 'DT', 'NN', 'IN', 'DT', 'MD', 'VB', 'VBN', 'IN']"
+9,"interface{[]int, nil} == nil","['interface', '{[]', 'int', ',', 'nil', '}', '==', 'nil']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER']"
+10,", which turns out to be false in go.
 
-I recommend initializing a package level variable with the script so the hash of the script text is computed once instead of on every use of the script:
-
-","['I', 'recommend', 'initializing', 'a', 'package', 'level', 'variable', 'with', 'the', 'script', 'so', 'the', 'hash', 'of', 'the', 'script', 'text', 'is', 'computed', 'once', 'instead', 'of', 'on', 'every', 'use', 'of', 'the', 'script:']","['PRP', 'VBP', 'VBG', 'DT', 'NN', 'NN', 'JJ', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'NN', 'VBZ', 'VBN', 'RB', 'RB', 'IN', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN']"
-9,"var rScript = redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1]) == 1 then","['var', 'rScript', '=', 'redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1])', '==', '1', 'then']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-10,"    local keyvalues = redis.call(""HGETALL"", KEYS[1])","['local', 'keyvalues', '=', 'redis.call(""HGETALL"", KEYS[1])']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-11,    local a = {},"['local', 'a', '=', '{}']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION']"
-12,"    for i=2, table.getn(ARGV) do","['for', 'i', '=', '2', ',', 'table.getn(ARGV)', 'do']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'FUNCTION_CALL', 'IDENTIFIER']"
-13,      a[i-1] = ARGV[i],"['a', '[', 'i', '-', '1', ']', '=', 'ARGV', '[', 'i', ']']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-14,    end,['end'],['IDENTIFIER']
-15,"    local res = redis.call(""HMSET"", KEYS[1], unpack(a))","['local', 'res', '=', 'redis.call(""HMSET"", KEYS[1], unpack(a))']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-16,"    redis.call(""EXPIRE"", KEYS[1], ARGV[1])  ","['redis.call(""EXPIRE"", KEYS[1], ARGV[1])']",['FUNCTION_CALL']
-17,    return keyvalues,"['return', 'keyvalues']","['KEYWORD', 'IDENTIFIER']"
-18,else,['else'],['KEYWORD']
-19,"    return 2 -- ""Key doesn't exists""","['return', '2', '--', '""Key doesn\'t exists""']","['KEYWORD', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
-20,end`),"['end', ')']","['IDENTIFIER', 'PUNCTUATION']"
-21,"
-
-and use this script in main():
-
-","['and', 'use', 'this', 'script', 'in', 'main():']","['CC', 'VB', 'DT', 'NN', 'IN', 'NN']"
-22,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-23,  ...,['...'],['PUNCTUATION']
-24,"  reply, errS := rScript.Do(retryConn,","['reply', ',', 'errS', ':=', 'rScript', '.', 'Do', '(', 'retryConn', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-25,"   ""JJNb324a680c35d11e6a1123c15c2d271f21481871788G"",","['""JJNb324a680c35d11e6a1123c15c2d271f21481871788G""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-26,"   ""30000"",","['""30000""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-27,"   ""SSF_lastAccessedDate"", ""1481627386"",","['""SSF_lastAccessedDate""', ',', '""1481627386""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-28,"   ""SSF_expiryDate"", ""2481657386"")","['""SSF_expiryDate""', ',', '""2481657386""', ')']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-29,  ...,['...'],['PUNCTUATION']
-30,},['}'],['PUNCTUATION']
-31,"
-
-Also, use table.remove to simplify the script:
-
-","['Also,', 'use', 'table.remove', 'to', 'simplify', 'the', 'script:']","['NNP', 'NN', 'NN', 'TO', 'VB', 'DT', 'NN']"
-32,"var rScript = redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1]) == 1 then","['var', 'rScript', '=', 'redis.NewScript(1, `if redis.call(""EXISTS"", KEYS[1])', '==', '1', 'then']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER']"
-33,"    local keyvalues = redis.call(""HGETALL"", KEYS[1])","['local', 'keyvalues', '=', 'redis.call(""HGETALL"", KEYS[1])']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-34,"    local expires = table.remove(ARGV, 1)","['local', 'expires', '=', 'table.remove(ARGV, 1)']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-35,"    local res = redis.call(""HMSET"", KEYS[1], unpack(ARGV))","['local', 'res', '=', 'redis.call(""HMSET"", KEYS[1], unpack(ARGV))']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-36,"    redis.call(""EXPIRE"", KEYS[1], expires)  ","['redis.call(""EXPIRE"", KEYS[1], expires)']",['FUNCTION_CALL']
-37,    return keyvalues,"['return', 'keyvalues']","['KEYWORD', 'IDENTIFIER']"
-38,else,['else'],['KEYWORD']
-39,"    return 2 -- ""Key doesn't exists""","['return', '2', '--', '""Key doesn\'t exists""']","['KEYWORD', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'STRING_LITERAL']"
-40,end`),"['end', ')']","['IDENTIFIER', 'PUNCTUATION']"
-41,"
-
-Use redis.Strings to convert the slice of []byte returned from the server to a slice of strings:
-
-","['Use', 'redis.Strings', 'to', 'convert', 'the', 'slice', 'of', '[]byte', 'returned', 'from', 'the', 'server', 'to', 'a', 'slice', 'of', 'strings:']","['NNP', 'NNS', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'VBN', 'IN', 'DT', 'NN', 'TO', 'DT', 'NN', 'IN', 'NN']"
-42,"  reply, errS := redis.Strings(rScript.Do(retryConn,","['reply', ',', 'errS', ':=', 'redis', '.', 'Strings', '(', 'rScript', '.', 'Do', '(', 'retryConn', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-43,"   ""JJNb324a680c35d11e6a1123c15c2d271f21481871788G"",","['""JJNb324a680c35d11e6a1123c15c2d271f21481871788G""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-44,"   ""30000"",","['""30000""', ',']","['STRING_LITERAL', 'PUNCTUATION']"
-45,"   ""SSF_lastAccessedDate"", ""1481627386"",","['""SSF_lastAccessedDate""', ',', '""1481627386""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-46,"   ""SSF_expiryDate"", ""2481657386""))","['""SSF_expiryDate""', ',', '""2481657386""', '))']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-47,"
-
-Printing this reply will give the result you are expecting.
-","['Printing', 'this', 'reply', 'will', 'give', 'the', 'result', 'you', 'are', 'expecting.']","['VBG', 'DT', 'NN', 'MD', 'VB', 'DT', 'NN', 'PRP', 'VBP', 'JJ']"
+The issue is actually explained in the Go FAQ.
+","[',', 'which', 'turns', 'out', 'to', 'be', 'false', 'in', 'go.', 'The', 'issue', 'is', 'actually', 'explained', 'in', 'the', 'Go', 'FAQ.']","[',', 'WDT', 'VBZ', 'RP', 'TO', 'VB', 'JJ', 'IN', 'NN', 'DT', 'NN', 'VBZ', 'RB', 'VBN', 'IN', 'DT', 'NNP', 'NNP']"

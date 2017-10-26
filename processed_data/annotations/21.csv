@@ -1,11 +1,63 @@
 ,text,token,annotation
-0,"
+0,"I have to deserialize some binary messages coming from another application. I would love to use restruct.io but some fields in the message structure use a ""non-standard"" number of bits ( 5 bits, 3 bits, ... 10 bits ... ).
 
-Every ""component"" of the GameFont struct is working properly (I've used them with the rotating cubes), so every function calls the GL corresponding one.
+Is there any way to handle this type of structs? I have been searching for some time without any success so any help will be very welcomed. 
 
-Also the texture is being drawed correctly, I've saved it to the disk and it looks like this:
+thanks in advance
 
+I wil try to give an example to clarify my question. Given the code: 
 
+","['I', 'have', 'to', 'deserialize', 'some', 'binary', 'messages', 'coming', 'from', 'another', 'application.', 'I', 'would', 'love', 'to', 'use', 'restruct.io', 'but', 'some', 'fields', 'in', 'the', 'message', 'structure', 'use', 'a', '""non-standard""', 'number', 'of', 'bits', '(', '5', 'bits,', '3', 'bits,', '...', '10', 'bits', '...', ').', 'Is', 'there', 'any', 'way', 'to', 'handle', 'this', 'type', 'of', 'structs?', 'I', 'have', 'been', 'searching', 'for', 'some', 'time', 'without', 'any', 'success', 'so', 'any', 'help', 'will', 'be', 'very', 'welcomed.', 'thanks', 'in', 'advance', 'I', 'wil', 'try', 'to', 'give', 'an', 'example', 'to', 'clarify', 'my', 'question.', 'Given', 'the', 'code:']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NNS', 'VBG', 'IN', 'DT', 'NN', 'PRP', 'MD', 'VB', 'TO', 'VB', 'NN', 'CC', 'DT', 'NNS', 'IN', 'DT', 'NN', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NNS', '(', 'CD', 'RB', 'CD', 'NNS', ':', 'CD', 'NNS', ':', 'NN', 'VBZ', 'RB', 'DT', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'VBN', 'VBG', 'IN', 'DT', 'NN', 'IN', 'DT', 'NN', 'RB', 'DT', 'NN', 'MD', 'VB', 'RB', 'JJ', 'NNS', 'IN', 'NN', 'PRP', 'VBP', 'VB', 'TO', 'VB', 'DT', 'NN', 'TO', 'VB', 'PRP$', 'NN', 'VBN', 'DT', 'NN']"
+1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+3,"    ""encoding/binary""","['""encoding/binary""']",['STRING_LITERAL']
+4,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+5,"    restruct ""gopkg.in/restruct.v1""","['restruct', '""gopkg.in/restruct.v1""']","['IDENTIFIER', 'STRING_LITERAL']"
+6,),[')'],['PUNCTUATION']
+7,type MessageType uint8,"['type', 'MessageType', 'uint8']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+8,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
+9,    MessageTypeOne MessageType = iota + 1,"['MessageTypeOne', 'MessageType', '=', 'iota', '+', '1']","['IDENTIFIER', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL']"
+10,    MessageTypeTwo,['MessageTypeTwo'],['IDENTIFIER']
+11,    MessageTypeThree,['MessageTypeThree'],['IDENTIFIER']
+12,),[')'],['PUNCTUATION']
+13,// Message is the data to deserialize from the binary stream,"['//', 'Message', 'is', 'the', 'data', 'to', 'deserialize', 'from', 'the', 'binary', 'stream']","['COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN']"
+14,type Message struct {,"['type', 'Message', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
+15,"    Length     uint32      `struct:""uint32""` // message size in bytes (including length)","['Length', 'uint32', 'struct', ':', '""uint32""', '//', 'message', 'size', 'in', 'bytes', '(including', 'length)']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'NN', 'NN', 'IN', 'NNS', 'VBG', 'NN']"
+16,"    Type       MessageType `struct:""uint8""`","['Type', 'MessageType', 'struct', ':', '""uint8""']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL']"
+17,"    Version    uint8       `struct:""uint8:4""` // Just need 4 bits","['Version', 'uint8', 'struct', ':', '""uint8:4""', '//', 'Just', 'need', '4', 'bits']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'RB', 'VB', 'CD', 'NNS']"
+18,"    Subversion uint8       `struct:""uint8:2""` // just need 2 bits","['Subversion', 'uint8', 'struct', ':', '""uint8:2""', '//', 'just', 'need', '2', 'bits']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'RB', 'VB', 'CD', 'NNS']"
+19,"    Optional   uint8       `struct:""uint8:1""` // just one bit --> '1' means next field is NOT present","['Optional', 'uint8', 'struct', ':', '""uint8:1""', '//', 'just', 'one', 'bit', '-->', ""'1'"", 'means', 'next', 'field', 'is', 'NOT', 'present']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'RB', 'CD', 'NN', 'JJ', 'POS', 'NNS', 'JJ', 'NN', 'VBZ', 'NNP', 'JJ']"
+20,    NodeName   string      ``,"['NodeName', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+21,"    ANumber    uint16      `struct:""uint16:10""` // just need 10 bits","['ANumber', 'uint16', 'struct', ':', '""uint16:10""', '//', 'just', 'need', '10', 'bits']","['IDENTIFIER', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'STRING_LITERAL', 'COMMENT', 'RB', 'VB', 'CD', 'NNS']"
+22,},['}'],['PUNCTUATION']
+23,// (length(4)+type(1)+(version(4bits)+Subversion(2bits)+Optional(1bit))) = 6 bytes,"['//', '(length(4)+type(1)+(version(4bits)+Subversion(2bits)+Optional(1bit)))', '=', '6', 'bytes']","['COMMENT', 'JJ', '$', 'CD', 'NNS']"
+24,// need 32bit alignment,"['//', 'need', '32bit', 'alignment']","['COMMENT', 'NN', 'CD', 'NN']"
+25,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+26,"    var inStream = []byte{0x08, // just 8 bytes needed","['var', 'inStream', '=', '[]', 'byte', '{', '0', 'x08', ',', '//', 'just', '8', 'bytes', 'needed']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'RB', 'CD', 'NNS', 'VBD']"
+27,"        0x01,       // messge type = MessageTypeOne","['0', 'x01', ',', '//', 'messge', 'type', '=', 'MessageTypeOne']","['OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'NN', 'NNP', 'NNP']"
+28,"        0x4a,       // Version=0100 Subversion=10 Optional=1 ANumber = 0 (MSB bit)","['0x4a', ',', '//', 'Version=0100', 'Subversion=10', 'Optional=1', 'ANumber', '=', '0', '(MSB', 'bit)']","['HEX_LITERAL', 'PUNCTUATION', 'COMMENT', 'NNP', 'NNP', 'NNP', 'NNP', 'NNP', 'CD', 'NNP', 'NN']"
+29,"        0x00, 0x60, // ANumber(000 0000 011) Padding = 0 0000 for 32 bits alignment","['0', 'x00', ',', '0x6', '0', ',', '//', 'ANumber(000', '0000', '011)', 'Padding', '=', '0', '0000', 'for', '32', 'bits', 'alignment']","['OCTAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'HEX_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN', 'CD', 'CD', 'VBG', 'RB', 'CD', 'CD', 'IN', 'CD', 'NNS', 'NN']"
+30,    },['}'],['PUNCTUATION']
+31,    var msg Message,"['var', 'msg', 'Message']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
+32,"    err := restruct.Unpack(inStream, binary.BigEndian, &msg)","['err', ':=', 'restruct.Unpack(inStream, binary.BigEndian, &msg)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+33,    if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+34,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+35,    },['}'],['PUNCTUATION']
+36,    fmt.Println(msg),['fmt.Println(msg)'],['FUNCTION_CALL']
+37,    // Expected:,"['//', 'Expected:']","['COMMENT', 'NN']"
+38,    // msg.Length = 8,"['//', 'msg.Length', '=', '8']","['COMMENT', 'NN', 'VBZ', 'CD']"
+39,    // msg.Type = 1,"['//', 'msg.Type', '=', '1']","['COMMENT', 'NN', 'VBZ', 'CD']"
+40,    // msg.Version = 4,"['//', 'msg.Version', '=', '4']","['COMMENT', 'NN', 'VBZ', 'CD']"
+41,    // msg.Subversion = 2,"['//', 'msg.Subversion', '=', '2']","['COMMENT', 'NN', 'VBZ', 'CD']"
+42,    // msg.Optional = 1,"['//', 'msg.Optional', '=', '1']","['COMMENT', 'JJ', 'NN', 'CD']"
+43,"    // msg.NodeName = """"","['//', 'msg.NodeName', '=', '""""']","['COMMENT', 'NN', 'NNP', 'NN']"
+44,    // msg.ANumber = 3,"['//', 'msg.ANumber', '=', '3']","['COMMENT', 'VB', 'CD', 'CD']"
+45,},['}'],['PUNCTUATION']
+46,"
 
-And still, there's no text on the screen.
-","['Every', '""component""', 'of', 'the', 'GameFont', 'struct', 'is', 'working', 'properly', ""(I've"", 'used', 'them', 'with', 'the', 'rotating', 'cubes),', 'so', 'every', 'function', 'calls', 'the', 'GL', 'corresponding', 'one.', 'Also', 'the', 'texture', 'is', 'being', 'drawed', 'correctly,', ""I've"", 'saved', 'it', 'to', 'the', 'disk', 'and', 'it', 'looks', 'like', 'this:', 'And', 'still,', ""there's"", 'no', 'text', 'on', 'the', 'screen.']","['DT', 'NN', 'IN', 'DT', 'NNP', 'NN', 'VBZ', 'VBG', 'RB', 'VBN', 'VBN', 'PRP', 'IN', 'DT', 'VBG', 'NN', 'RB', 'DT', 'NN', 'VBZ', 'DT', 'NNP', 'NN', 'NN', 'RB', 'DT', 'NN', 'VBZ', 'VBG', 'VBN', 'NN', 'NNP', 'VBD', 'PRP', 'TO', 'DT', 'NN', 'CC', 'PRP', 'VBZ', 'IN', 'NN', 'CC', 'NN', 'NN', 'DT', 'NN', 'IN', 'DT', 'NN']"
+I will receive inStream from a TCP connection and will want to deserialize the binary data and get a Message struct with the expected values ... 
+
+Hope this will clarify my question.
+
+Thanks again ;)
+","['I', 'will', 'receive', 'inStream', 'from', 'a', 'TCP', 'connection', 'and', 'will', 'want', 'to', 'deserialize', 'the', 'binary', 'data', 'and', 'get', 'a', 'Message', 'struct', 'with', 'the', 'expected', 'values', '...', 'Hope', 'this', 'will', 'clarify', 'my', 'question.', 'Thanks', 'again', ';)']","['PRP', 'MD', 'VB', 'NN', 'IN', 'DT', 'NNP', 'NN', 'CC', 'MD', 'VB', 'TO', 'VB', 'DT', 'JJ', 'NNS', 'CC', 'VB', 'DT', 'NNP', 'NN', 'IN', 'DT', 'JJ', 'NNS', ':', 'VBP', 'DT', 'MD', 'VB', 'PRP$', 'JJ', 'NNP', 'RB', 'VBP']"
