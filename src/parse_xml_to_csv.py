@@ -83,6 +83,8 @@ with open("./Posts.xml", "r") as f:
 					body = key_content(line, "Body")
 					accept = key_content(line, "AcceptedAnswerId")
 					answer_count = key_content(line, "AnswerCount")
+                    if (answer_count < 1):
+                        continue
 					question = Question(cur_id, title, body, accept, answer_count)
 					
 
