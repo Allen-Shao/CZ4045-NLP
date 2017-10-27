@@ -1,0 +1,42 @@
+,text,token
+0,"I like the answers here so far and I want to add one that allows you to do static type checking on the interface you pass in using an interface:
+
+","['I', 'like', 'the', 'answers', 'here', 'so', 'far', 'and', 'I', 'want', 'to', 'add', 'one', 'that', 'allows', 'you', 'to', 'do', 'static', 'type', 'checking', 'on', 'the', 'interface', 'you', 'pass', 'in', 'using', 'an', 'interface:']"
+1,package main,"['package', 'main']"
+2,import (,"['import', '(']"
+3,"    ""fmt""","['""fmt""']"
+4,),[')']
+5,type Animalizer interface {,"['type', 'Animalizer', 'interface', '{']"
+6,    GetColour() string,"['GetColour', '()', 'string']"
+7,},['}']
+8,type Animal struct {,"['type', 'Animal', 'struct', '{']"
+9,    Colour string,"['Colour', 'string']"
+10,    Name   string,"['Name', 'string']"
+11,},['}']
+12,type Dog struct {,"['type', 'Dog', 'struct', '{']"
+13,    Animal,['Animal']
+14,},['}']
+15,func (a *Animal) GetColour() string {,"['func', '(', 'a', '*', 'Animal', ')', 'GetColour', '()', 'string', '{']"
+16,    return a.Colour,"['return', 'a', '.', 'Colour']"
+17,},['}']
+18,func PrintColour(a Animalizer) {,"['func', 'PrintColour', '(', 'a', 'Animalizer', ')', '{']"
+19,    fmt.Print(a.GetColour()),['fmt.Print(a.GetColour())']
+20,},['}']
+21,func main() {,"['func', 'main', '()', '{']"
+22,    a := new(Animal),"['a', ':=', 'new', '(', 'Animal', ')']"
+23,"    a.Colour = ""Void""","['a', '.', 'Colour', '=', '""Void""']"
+24,    d := new(Dog),"['d', ':=', 'new', '(', 'Dog', ')']"
+25,"    d.Colour = ""Black""","['d', '.', 'Colour', '=', '""Black""']"
+26,    PrintColour(a),"['PrintColour', '(', 'a', ')']"
+27,    PrintColour(d),"['PrintColour', '(', 'd', ')']"
+28,},['}']
+29,"
+
+On the playground
+
+It will be possible to add further fields to Dog. The difference to Uriel's Answer is that calls to PrintColour will fail at compile time if something else than a struct implementing Animalizer is passed in. 
+
+Also you won't have to use a typeswitch since the compiler knows an Animalizer is implementing GetColour.
+
+And, finally, the behaviour (printing) is separated from the struct, GetColour just returns the colour.
+","['On', 'the', 'playground', 'It', 'will', 'be', 'possible', 'to', 'add', 'further', 'fields', 'to', 'Dog.', 'The', 'difference', 'to', ""Uriel's"", 'Answer', 'is', 'that', 'calls', 'to', 'PrintColour', 'will', 'fail', 'at', 'compile', 'time', 'if', 'something', 'else', 'than', 'a', 'struct', 'implementing', 'Animalizer', 'is', 'passed', 'in.', 'Also', 'you', ""won't"", 'have', 'to', 'use', 'a', 'typeswitch', 'since', 'the', 'compiler', 'knows', 'an', 'Animalizer', 'is', 'implementing', 'GetColour.', 'And,', 'finally,', 'the', 'behaviour', '(printing)', 'is', 'separated', 'from', 'the', 'struct,', 'GetColour', 'just', 'returns', 'the', 'colour.']"

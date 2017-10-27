@@ -1,0 +1,30 @@
+,text,token
+0,"You should not try to get value from sC channel in main function because the only value you send to it is  consumed by getC function in seperate go routine. While trying to read sC channel main function blocks waiting for something and it never ends. Go routine getS is finished, go routine getC has consumed value from channel sC and has also finished. There is nothing in channel sC anymore.
+
+The possible solution is to create another channel s2C and send to it value received from sC channel. 
+
+The complete correct code would look like this:
+
+","['You', 'should', 'not', 'try', 'to', 'get', 'value', 'from', 'sC', 'channel', 'in', 'main', 'function', 'because', 'the', 'only', 'value', 'you', 'send', 'to', 'it', 'is', 'consumed', 'by', 'getC', 'function', 'in', 'seperate', 'go', 'routine.', 'While', 'trying', 'to', 'read', 'sC', 'channel', 'main', 'function', 'blocks', 'waiting', 'for', 'something', 'and', 'it', 'never', 'ends.', 'Go', 'routine', 'getS', 'is', 'finished,', 'go', 'routine', 'getC', 'has', 'consumed', 'value', 'from', 'channel', 'sC', 'and', 'has', 'also', 'finished.', 'There', 'is', 'nothing', 'in', 'channel', 'sC', 'anymore.', 'The', 'possible', 'solution', 'is', 'to', 'create', 'another', 'channel', 's2C', 'and', 'send', 'to', 'it', 'value', 'received', 'from', 'sC', 'channel.', 'The', 'complete', 'correct', 'code', 'would', 'look', 'like', 'this:']"
+1,package main,"['package', 'main']"
+2,func main() {,"['func', 'main', '()', '{']"
+3,    sC := make(chan string),"['sC', ':=', 'make', '(', 'chan', 'string', ')']"
+4,    go getS(sC),"['go', 'getS', '(', 'sC', ')']"
+5,    s2C := make(chan string),"['s2C', ':=', 'make', '(', 'chan', 'string', ')']"
+6,    cC := make(chan string),"['cC', ':=', 'make', '(', 'chan', 'string', ')']"
+7,"    go getC(s2C, cC)","['go', 'getC', '(', 's2C', ',', 'cC', ')']"
+8,    s := <-sC,"['s', ':=', '<-', 'sC']"
+9,    println(s),"['println', '(', 's', ')']"
+10,    s2C <- s,"['s2C', '<-', 's']"
+11,    c := <-cC,"['c', ':=', '<-', 'cC']"
+12,    println(c),"['println', '(', 'c', ')']"
+13,},['}']
+14,func getS(sC chan string) {,"['func', 'getS', '(', 'sC', 'chan', 'string', ')', '{']"
+15,"    s :=  "" simple completed ""","['s', ':=', '"" simple completed ""']"
+16,    sC <- s,"['sC', '<-', 's']"
+17,},['}']
+18,"func getC(sC chan string, cC chan string) {","['func', 'getC', '(', 'sC', 'chan', 'string', ',', 'cC', 'chan', 'string', ')', '{']"
+19,    s := <-sC,"['s', ':=', '<-', 'sC']"
+20,"    c := s + "" more ""","['c', ':=', 's', '+', '"" more ""']"
+21,    cC <- c,"['cC', '<-', 'c']"
+22,},['}']

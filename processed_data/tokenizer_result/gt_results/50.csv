@@ -1,0 +1,38 @@
+,text,token
+0,"You've got two things at work here.  The first of which is that Go is compiled to machine code and run directly on the CPU while Python is compiled to bytecode run against a (particularly slow) VM.
+
+The second, and more significant, thing impacting performance is that the semantics of the two programs are actually significantly different.  The Go version makes a ""box"" called ""x"" that holds a number and increments that by 1 on each pass through the program.  The Python version actually has to create a new ""box"" (int object) on each cycle (and, eventually, has to throw them away).  We can demonstrate this by modifying your programs slightly:
+
+","[""You've"", 'got', 'two', 'things', 'at', 'work', 'here.', 'The', 'first', 'of', 'which', 'is', 'that', 'Go', 'is', 'compiled', 'to', 'machine', 'code', 'and', 'run', 'directly', 'on', 'the', 'CPU', 'while', 'Python', 'is', 'compiled', 'to', 'bytecode', 'run', 'against', 'a', '(particularly', 'slow)', 'VM.', 'The', 'second,', 'and', 'more', 'significant,', 'thing', 'impacting', 'performance', 'is', 'that', 'the', 'semantics', 'of', 'the', 'two', 'programs', 'are', 'actually', 'significantly', 'different.', 'The', 'Go', 'version', 'makes', 'a', '""box""', 'called', '""x""', 'that', 'holds', 'a', 'number', 'and', 'increments', 'that', 'by', '1', 'on', 'each', 'pass', 'through', 'the', 'program.', 'The', 'Python', 'version', 'actually', 'has', 'to', 'create', 'a', 'new', '""box""', '(int', 'object)', 'on', 'each', 'cycle', '(and,', 'eventually,', 'has', 'to', 'throw', 'them', 'away).', 'We', 'can', 'demonstrate', 'this', 'by', 'modifying', 'your', 'programs', 'slightly:']"
+1,package main,"['package', 'main']"
+2,import (,"['import', '(']"
+3,"    ""fmt""","['""fmt""']"
+4,),[')']
+5,func main() {,"['func', 'main', '()', '{']"
+6,    for i := 0; i < 10; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', '10', ';', 'i', '++', '{']"
+7,"        fmt.Printf(""%d %p\n"", i, &i)","['fmt.Printf(""%d %p\\n"", i, &i)']"
+8,    },['}']
+9,},['}']
+10,"
+
+...and:
+
+",['...and:']
+11,x = 0;,"['x', '=', '0', ';']"
+12,while x < 10:,"['while', 'x', '<', '10', ':']"
+13,    x += 1,"['x', '+=', '1']"
+14,"    print x, id(x)","['print', 'x', ',', 'id', '(', 'x', ')']"
+15,"
+
+This is because Go, due to it's C roots, takes a variable name to refer to a place, where Python takes variable names to refer to things.  Since an integer is considered a unique, immutable entity in python, we must constantly make new ones.  Python should be slower than Go but you've picked a worst-case scenario - in the Benchmarks Game, we see go being, on average, about 25x times faster (100x in the worst case).
+
+You've probably read that, if your Python programs are too slow, you can speed them up by moving things into C.  Fortunately, in this case, somebody's already done this for you.  If you rewrite your empty loop to use xrange() like so:
+
+","['This', 'is', 'because', 'Go,', 'due', 'to', ""it's"", 'C', 'roots,', 'takes', 'a', 'variable', 'name', 'to', 'refer', 'to', 'a', 'place,', 'where', 'Python', 'takes', 'variable', 'names', 'to', 'refer', 'to', 'things.', 'Since', 'an', 'integer', 'is', 'considered', 'a', 'unique,', 'immutable', 'entity', 'in', 'python,', 'we', 'must', 'constantly', 'make', 'new', 'ones.', 'Python', 'should', 'be', 'slower', 'than', 'Go', 'but', ""you've"", 'picked', 'a', 'worst-case', 'scenario', '-', 'in', 'the', 'Benchmarks', 'Game,', 'we', 'see', 'go', 'being,', 'on', 'average,', 'about', '25x', 'times', 'faster', '(100x', 'in', 'the', 'worst', 'case).', ""You've"", 'probably', 'read', 'that,', 'if', 'your', 'Python', 'programs', 'are', 'too', 'slow,', 'you', 'can', 'speed', 'them', 'up', 'by', 'moving', 'things', 'into', 'C.', 'Fortunately,', 'in', 'this', 'case,', ""somebody's"", 'already', 'done', 'this', 'for', 'you.', 'If', 'you', 'rewrite', 'your', 'empty', 'loop', 'to', 'use', 'xrange()', 'like', 'so:']"
+16,for x in xrange(1000000000):,"['for', 'x', 'in', 'xrange', '(', '1000000000', '):']"
+17,    pass,['pass']
+18,"print ""Done.""","['print', '""Done.""']"
+19,"
+
+...you'll see it run about twice as fast.  If you find loop counters to actually be a major bottleneck in your program, it might be time to investigate a new way of solving the problem.
+","[""...you'll"", 'see', 'it', 'run', 'about', 'twice', 'as', 'fast.', 'If', 'you', 'find', 'loop', 'counters', 'to', 'actually', 'be', 'a', 'major', 'bottleneck', 'in', 'your', 'program,', 'it', 'might', 'be', 'time', 'to', 'investigate', 'a', 'new', 'way', 'of', 'solving', 'the', 'problem.']"

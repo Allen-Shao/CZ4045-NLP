@@ -1,0 +1,70 @@
+,text,token
+0,"Create a struct that implements an interface.
+Encapsulate it into another struct.
+Fetch the struct / dereference it.
+
+
+Fetching gets pointer to the implementation of the interface.
+Dereferencing the pointer results in another point to the interface.
+
+
+Why wouldn't dereferencing the pointer to the implementation gives the implementation instance?
+
+","['Create', 'a', 'struct', 'that', 'implements', 'an', 'interface.', 'Encapsulate', 'it', 'into', 'another', 'struct.', 'Fetch', 'the', 'struct', '/', 'dereference', 'it.', 'Fetching', 'gets', 'pointer', 'to', 'the', 'implementation', 'of', 'the', 'interface.', 'Dereferencing', 'the', 'pointer', 'results', 'in', 'another', 'point', 'to', 'the', 'interface.', 'Why', ""wouldn't"", 'dereferencing', 'the', 'pointer', 'to', 'the', 'implementation', 'gives', 'the', 'implementation', 'instance?']"
+1,package main,"['package', 'main']"
+2,import (,"['import', '(']"
+3,"    ""fmt""","['""fmt""']"
+4,"    ""net/http""","['""net/http""']"
+5,"    ""golang.org/x/net/http2""","['""golang.org/x/net/http2""']"
+6,),[')']
+7,func main() {,"['func', 'main', '()', '{']"
+8,    transport := &http2.Transport{},"['transport', ':=', '&', 'http2', '.', 'Transport', '{}']"
+9,    client := &http.Client{Transport: transport},"['client', ':=', '&', 'http', '.', 'Client', '{', 'Transport', ':', 'transport', '}']"
+10,    tmp1 := client.Transport,"['tmp1', ':=', 'client', '.', 'Transport']"
+11,    tmp2 := &client.Transport,"['tmp2', ':=', '&', 'client', '.', 'Transport']"
+12,    tmp3 := &tmp1,"['tmp3', ':=', '&', 'tmp1']"
+13,"    fmt.Printf(""%T\n%T\n%T\n"", tmp1, tmp2, tmp3)","['fmt.Printf(""%T\\n%T\\n%T\\n"", tmp1, tmp2, tmp3)']"
+14,    //dialTLS := tmp1.DialTLS,"['//', 'dialTLS', ':=', 'tmp1.DialTLS']"
+15,},['}']
+16,"
+
+This code outputs...
+
+*http2.Transport
+*http.RoundTripper
+*http.RoundTripper
+
+
+As well, trying to access a property of the tmp1 (uncommenting ","['This', 'code', 'outputs...', '*http2.Transport', '*http.RoundTripper', '*http.RoundTripper', 'As', 'well,', 'trying', 'to', 'access', 'a', 'property', 'of', 'the', 'tmp1', '(uncommenting']"
+17,dialTLS := tmp1.DialTLS,"['dialTLS', ':=', 'tmp1', '.', 'DialTLS']"
+18,") results in compile error...
+
+tmp1.DialTLS undefined (type http.RoundTripper has no field or method DialTLS)
+
+
+...even though fmt.Printf(""%+v"", tmp1) outputs...
+
+&{DialTLS: TLSClientConfig:0xc8203ec8c0 ConnPool: DisableCompression:false MaxHeaderListSize:0 t1: connPoolOnce:{m:{state:0 sema:0} done:0} connPoolOrDef:}
+
+
+What I am attempting to do is access DialTLS in the Transport instance.
+","[')', 'results', 'in', 'compile', 'error...', 'tmp1.DialTLS', 'undefined', '(type', 'http.RoundTripper', 'has', 'no', 'field', 'or', 'method', 'DialTLS)', '...even', 'though', 'fmt.Printf(""%+v"",', 'tmp1)', 'outputs...', '&{DialTLS:', 'TLSClientConfig:0xc8203ec8c0', 'ConnPool:', 'DisableCompression:false', 'MaxHeaderListSize:0', 't1:', 'connPoolOnce:{m:{state:0', 'sema:0}', 'done:0}', 'connPoolOrDef:}', 'What', 'I', 'am', 'attempting', 'to', 'do', 'is', 'access', 'DialTLS', 'in', 'the', 'Transport', 'instance.']"
+19,*http2.Transport,"['*', 'http2', '.', 'Transport']"
+20,*http.RoundTripper,"['*', 'http', '.', 'RoundTripper']"
+21,*http.RoundTripper,"['*', 'http', '.', 'RoundTripper']"
+22,") results in compile error...
+
+","[')', 'results', 'in', 'compile', 'error...']"
+23,tmp1.DialTLS undefined (type http.RoundTripper has no field or method DialTLS),"['tmp1', '.', 'DialTLS', 'undefined', '(', 'type', 'http', '.', 'RoundTripper', 'has', 'no', 'field', 'or', 'method', 'DialTLS', ')']"
+24,"
+
+...even though ","['...even', 'though']"
+25,"fmt.Printf(""%+v"", tmp1)","['fmt.Printf(""%+v"", tmp1)']"
+26," outputs...
+
+",['outputs...']
+27,&{DialTLS: TLSClientConfig:0xc8203ec8c0 ConnPool: DisableCompression:false MaxHeaderListSize:0 t1: connPoolOnce:{m:{state:0 sema:0} done:0} connPoolOrDef:},"['&{', 'DialTLS', ':', 'TLSClientConfig', ':', '0xc82', '03', 'ec8c0', 'ConnPool', ':', 'DisableCompression', ':', 'false', 'MaxHeaderListSize', ':', '0', 't1', ':', 'connPoolOnce', ':{', 'm', ':{', 'state', ':', '0', 'sema', ':', '0', '}', 'done', ':', '0', '}', 'connPoolOrDef', ':}']"
+28,"
+
+What I am attempting to do is access DialTLS in the Transport instance.
+","['What', 'I', 'am', 'attempting', 'to', 'do', 'is', 'access', 'DialTLS', 'in', 'the', 'Transport', 'instance.']"

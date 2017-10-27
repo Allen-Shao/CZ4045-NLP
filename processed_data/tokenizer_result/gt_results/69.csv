@@ -1,0 +1,99 @@
+,text,token
+0,"I need to insert two records in Oracle database from my go application using sqlx (https://github.com/jmoiron/sqlx) with go-oci8 (https://github.com/mattn/go-oci8) driver.
+Second record references previous one by foreign key.
+So I need to have primary key of first record (it is assigned from sequence with before insert trigger on first table) before I can insert second record.
+
+So I experimented to get last inserted id:
+
+","['I', 'need', 'to', 'insert', 'two', 'records', 'in', 'Oracle', 'database', 'from', 'my', 'go', 'application', 'using', 'sqlx', '(https://github.com/jmoiron/sqlx)', 'with', 'go-oci8', '(https://github.com/mattn/go-oci8)', 'driver.', 'Second', 'record', 'references', 'previous', 'one', 'by', 'foreign', 'key.', 'So', 'I', 'need', 'to', 'have', 'primary', 'key', 'of', 'first', 'record', '(it', 'is', 'assigned', 'from', 'sequence', 'with', 'before', 'insert', 'trigger', 'on', 'first', 'table)', 'before', 'I', 'can', 'insert', 'second', 'record.', 'So', 'I', 'experimented', 'to', 'get', 'last', 'inserted', 'id:']"
+1,create table t(x int primary key);,"['create', 'table', 't', '(', 'x', 'int', 'primary', 'key', ');']"
+2,create sequence x_seq;,"['create', 'sequence', 'x_seq', ';']"
+3,"
+
+LastInsertId failed for me:
+
+","['LastInsertId', 'failed', 'for', 'me:']"
+4,import(,"['import', '(']"
+5,"    ""fmt""","['""fmt""']"
+6,"    ""github.com/jmoiron/sqlx""","['""github.com/jmoiron/sqlx""']"
+7,"    _ ""github.com/mattn/go-oci8""","['_', '""github.com/mattn/go-oci8""']"
+8,),[')']
+9,func main(){,"['func', 'main', '(){']"
+10,"    db, err := sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")","['db', ',', 'err', ':=', 'sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")']"
+11,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+12,       fmt.Println(err),['fmt.Println(err)']
+13,    },['}']
+14,"    sql := ""insert into t values(x_seq.nextval)""","['sql', ':=', '""insert into t values(x_seq.nextval)""']"
+15,"    r, err := db.Exec(sql)","['r', ',', 'err', ':=', 'db.Exec(sql)']"
+16,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+17,       fmt.Println(err),['fmt.Println(err)']
+18,    },['}']
+19,    fmt.Println(r.RowsAffected()),['fmt.Println(r.RowsAffected())']
+20,    fmt.Println(r.LastInsertId()),['fmt.Println(r.LastInsertId())']
+21,},['}']
+22,"
+
+Output:
+
+",['Output:']
+23,1 ,['1']
+24,0 LastInsertId not supported,"['0', 'LastInsertId', 'not', 'supported']"
+25,"
+
+Then I tried to make stored function that inserts record and returns primary key.
+
+","['Then', 'I', 'tried', 'to', 'make', 'stored', 'function', 'that', 'inserts', 'record', 'and', 'returns', 'primary', 'key.']"
+26,create function f(x int) return int as,"['create', 'func', 'tion', 'f', '(', 'x', 'int', ')', 'return', 'int', 'as']"
+27,v int;,"['v', 'int', ';']"
+28,begin,['begin']
+29,    insert into t values(x),"['insert', 'into', 't', 'values', '(', 'x', ')']"
+30,    returning x into v;,"['return', 'ing', 'x', 'into', 'v', ';']"
+31,    return v;,"['return', 'v', ';']"
+32,end;,"['end', ';']"
+33,"
+
+But I failed to find a way to get its result. PostgreSQL style select fails:
+
+","['But', 'I', 'failed', 'to', 'find', 'a', 'way', 'to', 'get', 'its', 'result.', 'PostgreSQL', 'style', 'select', 'fails:']"
+34,SQL> select f(9) from dual;,"['SQL', '>', 'select', 'f', '(', '9', ')', 'from', 'dual', ';']"
+35,select f(9) from dual,"['select', 'f', '(', '9', ')', 'from', 'dual']"
+36,       *,['*']
+37,ERROR at line 1:,"['ERROR', 'at', 'line', '1', ':']"
+38,ORA-14551: cannot perform a DML operation inside a query,"['ORA', '-', '14551', ':', 'cannot', 'perform', 'a', 'DML', 'operation', 'inside', 'a', 'query']"
+39,"ORA-06512: at ""INTEGR.F"", line 1","['ORA', '-', '06512', ':', 'at', '""INTEGR.F""', ',', 'line', '1']"
+40,"
+
+And OCI8 style variable binding does not work:
+
+","['And', 'OCI8', 'style', 'variable', 'binding', 'does', 'not', 'work:']"
+41,package main,"['package', 'main']"
+42,import(,"['import', '(']"
+43,"    ""fmt""","['""fmt""']"
+44,"    ""github.com/jmoiron/sqlx""","['""github.com/jmoiron/sqlx""']"
+45,"    _ ""github.com/mattn/go-oci8""","['_', '""github.com/mattn/go-oci8""']"
+46,),[')']
+47,func main(){,"['func', 'main', '(){']"
+48,"    db, err := sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")","['db', ',', 'err', ':=', 'sqlx.Connect(""oci8"", ""integr/integr@localhost:49161/xe"")']"
+49,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+50,       fmt.Println(err),['fmt.Println(err)']
+51,    },['}']
+52,"    sql := sqlx.Rebind(sqlx.NAMED,""begin ? := f(?); end;"")","['sql', ':=', 'sqlx.Rebind(sqlx.NAMED,""begin ? := f(?); end;"")']"
+53,    var a int,"['var', 'a', 'int']"
+54,"    _, err = db.Exec(sql, a, 333)","['_', ',', 'err', '=', 'db.Exec(sql, a, 333)']"
+55,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+56,       fmt.Println(err),['fmt.Println(err)']
+57,    },['}']
+58,    fmt.Println(sql),['fmt.Println(sql)']
+59,    fmt.Println(a),['fmt.Println(a)']
+60,},['}']
+61,"
+
+Output:
+
+",['Output:']
+62,begin :arg1 := f(:arg2); end;,"['begin', ':', 'arg1', ':=', 'f', '(:', 'arg2', ');', 'end', ';']"
+63,0,['0']
+64,"
+
+How to get last inserted ID, or how to get value from stored funcion in Go from Oracle?
+","['How', 'to', 'get', 'last', 'inserted', 'ID,', 'or', 'how', 'to', 'get', 'value', 'from', 'stored', 'funcion', 'in', 'Go', 'from', 'Oracle?']"

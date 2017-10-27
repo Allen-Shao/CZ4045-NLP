@@ -1,0 +1,163 @@
+,text,token
+0,You may use one ,"['You', 'may', 'use', 'one']"
+1,func Save(d interface{}),"['func', 'Save', '(', 'd', 'interface', '{})']"
+2," like this:
+
+","['like', 'this:']"
+3,package main,"['package', 'main']"
+4,import (,"['import', '(']"
+5,"    ""encoding/json""","['""encoding/json""']"
+6,"    ""fmt""","['""fmt""']"
+7,),[')']
+8,type User struct {,"['type', 'User', 'struct', '{']"
+9,    ID   int,"['ID', 'int']"
+10,    Name string,"['Name', 'string']"
+11,},['}']
+12,type Admin struct {,"['type', 'Admin', 'struct', '{']"
+13,    User,['User']
+14,    Level int,"['Level', 'int']"
+15,},['}']
+16,func main() {,"['func', 'main', '()', '{']"
+17,    Save(User{}),"['Save', '(', 'User', '{})']"
+18,    Save(Admin{}),"['Save', '(', 'Admin', '{})']"
+19,},['}']
+20,func Save(d interface{}) {,"['func', 'Save', '(', 'd', 'interface', '{})', '{']"
+21,"    body, err := json.Marshal(d)","['body', ',', 'err', ':=', 'json.Marshal(d)']"
+22,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+23,        panic(err),"['panic', '(', 'err', ')']"
+24,    },['}']
+25,    st := string(body),"['st', ':=', 'string', '(', 'body', ')']"
+26,    fmt.Println(st),['fmt.Println(st)']
+27,},['}']
+28,"
+
+output:
+
+",['output:']
+29,"{""ID"":0,""Name"":""""}","['{', '""ID""', ':', '0', ',', '""Name""', ':', '""""', '}']"
+30,"{""ID"":0,""Name"":"""",""Level"":0}","['{', '""ID""', ':', '0', ',', '""Name""', ':', '""""', ',', '""Level""', ':', '0', '}']"
+31,"
+
+
+
+for your case, use this one function for all types:
+
+","['for', 'your', 'case,', 'use', 'this', 'one', 'function', 'for', 'all', 'types:']"
+32,"func Save(i interface{}, id int) {","['func', 'Save', '(', 'i', 'interface', '{},', 'id', 'int', ')', '{']"
+33,"    data, err := json.Marshal(i)","['data', ',', 'err', ':=', 'json.Marshal(i)']"
+34,    check(err),"['check', '(', 'err', ')']"
+35,    if id == 0 {,"['if', 'id', '==', '0', '{']"
+36,"        _, err = app.DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))']"
+37,    } else {,"['}', 'else', '{']"
+38,"        _, err = app.DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)']"
+39,    },['}']
+40,    check(err),"['check', '(', 'err', ')']"
+41,},['}']
+42,"
+
+And call it like this:
+
+","['And', 'call', 'it', 'like', 'this:']"
+43,u := User{},"['u', ':=', 'User', '{}']"
+44,a := Admin{},"['a', ':=', 'Admin', '{}']"
+45,"Save(u, u.ID)","['Save', '(', 'u', ',', 'u', '.', 'ID', ')']"
+46,"Save(a, a.ID)","['Save', '(', 'a', ',', 'a', '.', 'ID', ')']"
+47,"
+
+
+
+And Yes, this is even simplifies call to Save to one parameter:
+
+","['And', 'Yes,', 'this', 'is', 'even', 'simplifies', 'call', 'to', 'Save', 'to', 'one', 'parameter:']"
+48,package main,"['package', 'main']"
+49,import (,"['import', '(']"
+50,"    ""encoding/json""","['""encoding/json""']"
+51,"    ""fmt""","['""fmt""']"
+52,),[')']
+53,type Model interface {,"['type', 'Model', 'interface', '{']"
+54,    ID() int,"['ID', '()', 'int']"
+55,    setID(int),"['setID', '(', 'int', ')']"
+56,},['}']
+57,type User struct {,"['type', 'User', 'struct', '{']"
+58,    Id   int,"['Id', 'int']"
+59,    Name string,"['Name', 'string']"
+60,},['}']
+61,func (t User) ID() int      { return t.Id },"['func', '(', 't', 'User', ')', 'ID', '()', 'int', '{', 'return', 't', '.', 'Id', '}']"
+62,func (t User) setID(id int) { t.Id = id },"['func', '(', 't', 'User', ')', 'setID', '(', 'id', 'int', ')', '{', 't', '.', 'Id', '=', 'id', '}']"
+63,type Admin struct {,"['type', 'Admin', 'struct', '{']"
+64,    User,['User']
+65,    Level int,"['Level', 'int']"
+66,},['}']
+67,func main() {,"['func', 'main', '()', '{']"
+68,    Save(User{}),"['Save', '(', 'User', '{})']"
+69,    Save(Admin{}),"['Save', '(', 'Admin', '{})']"
+70,},['}']
+71,func Save(d Model) {,"['func', 'Save', '(', 'd', 'Model', ')', '{']"
+72,"    body, err := json.Marshal(d)","['body', ',', 'err', ':=', 'json.Marshal(d)']"
+73,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+74,        panic(err),"['panic', '(', 'err', ')']"
+75,    },['}']
+76,    st := string(body),"['st', ':=', 'string', '(', 'body', ')']"
+77,    fmt.Println(st),['fmt.Println(st)']
+78,"    fmt.Println(""ID is "", d.ID())","['fmt.Println(""ID is "", d.ID())']"
+79,},['}']
+80,"
+
+output:
+
+",['output:']
+81,"{""Id"":0,""Name"":""""}","['{', '""Id""', ':', '0', ',', '""Name""', ':', '""""', '}']"
+82,ID is  0,"['ID', 'is', '0']"
+83,"{""Id"":0,""Name"":"""",""Level"":0}","['{', '""Id""', ':', '0', ',', '""Name""', ':', '""""', ',', '""Level""', ':', '0', '}']"
+84,ID is  0,"['ID', 'is', '0']"
+85,"
+
+
+
+Now You may use this one function for all types:
+
+","['Now', 'You', 'may', 'use', 'this', 'one', 'function', 'for', 'all', 'types:']"
+86,func Save(i Model) {,"['func', 'Save', '(', 'i', 'Model', ')', '{']"
+87,"    data, err := json.Marshal(i)","['data', ',', 'err', ':=', 'json.Marshal(i)']"
+88,    check(err),"['check', '(', 'err', ')']"
+89,    id := i.ID(),"['id', ':=', 'i.ID()']"
+90,    if id == 0 {,"['if', 'id', '==', '0', '{']"
+91,"        _, err = app.DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`INSERT INTO users(data) VALUES ($1) `, string(data))']"
+92,    } else {,"['}', 'else', '{']"
+93,"        _, err = app.DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)","['_', ',', 'err', '=', 'app', '.', 'DB.Exec(`UPDATE users SET data = $1 WHERE id=$2`, string(data), id)']"
+94,    },['}']
+95,    check(err),"['check', '(', 'err', ')']"
+96,},['}']
+97,"
+
+And call it like this:
+
+","['And', 'call', 'it', 'like', 'this:']"
+98,u := User{},"['u', ':=', 'User', '{}']"
+99,a := Admin{},"['a', ':=', 'Admin', '{}']"
+100,Save(u),"['Save', '(', 'u', ')']"
+101,Save(a),"['Save', '(', 'a', ')']"
+102,"
+
+
+
+Effective Go:
+
+
+  Getters
+  
+  Go doesn't provide automatic support for getters and setters. There's
+  nothing wrong with providing getters and setters yourself, and it's
+  often appropriate to do so, but it's neither idiomatic nor necessary
+  to put Get into the getter's name. If you have a field called owner
+  (lower case, unexported), the getter method should be called Owner
+  (upper case, exported), not GetOwner. The use of upper-case names for
+  export provides the hook to discriminate the field from the method. A
+  setter function, if needed, will likely be called SetOwner. Both names
+  read well in practice:
+
+","['Effective', 'Go:', 'Getters', 'Go', ""doesn't"", 'provide', 'automatic', 'support', 'for', 'getters', 'and', 'setters.', ""There's"", 'nothing', 'wrong', 'with', 'providing', 'getters', 'and', 'setters', 'yourself,', 'and', ""it's"", 'often', 'appropriate', 'to', 'do', 'so,', 'but', ""it's"", 'neither', 'idiomatic', 'nor', 'necessary', 'to', 'put', 'Get', 'into', 'the', ""getter's"", 'name.', 'If', 'you', 'have', 'a', 'field', 'called', 'owner', '(lower', 'case,', 'unexported),', 'the', 'getter', 'method', 'should', 'be', 'called', 'Owner', '(upper', 'case,', 'exported),', 'not', 'GetOwner.', 'The', 'use', 'of', 'upper-case', 'names', 'for', 'export', 'provides', 'the', 'hook', 'to', 'discriminate', 'the', 'field', 'from', 'the', 'method.', 'A', 'setter', 'function,', 'if', 'needed,', 'will', 'likely', 'be', 'called', 'SetOwner.', 'Both', 'names', 'read', 'well', 'in', 'practice:']"
+103,owner := obj.Owner(),"['owner', ':=', 'obj.Owner()']"
+104,if owner != user {,"['if', 'owner', '!=', 'user', '{']"
+105,    obj.SetOwner(user),['obj.SetOwner(user)']
+106,},['}']

@@ -1,0 +1,121 @@
+,text,token
+0,"Great question!
+
+Looking at the source code of go/doc, we can see that it has to deal with this same case in readType function. There, it says:
+
+","['Great', 'question!', 'Looking', 'at', 'the', 'source', 'code', 'of', 'go/doc,', 'we', 'can', 'see', 'that', 'it', 'has', 'to', 'deal', 'with', 'this', 'same', 'case', 'in', 'readType', 'function.', 'There,', 'it', 'says:']"
+1,"324     func (r *reader) readType(decl *ast.GenDecl, spec *ast.TypeSpec) {","['324', 'func', '(', 'r', '*', 'reader', ')', 'readType', '(', 'decl', '*', 'ast', '.', 'GenDecl', ',', 'spec', '*', 'ast', '.', 'TypeSpec', ')', '{']"
+2,...,['...']
+3,334     // compute documentation,"['334', '// compute documentation']"
+4,335     doc := spec.Doc,"['335', 'doc', ':=', 'spec', '.', 'Doc']"
+5,336     spec.Doc = nil // doc consumed - remove from AST,"['336', 'spec', '.', 'Doc', '=', 'nil', '// doc consumed - remove from AST']"
+6,337     if doc == nil {,"['337', 'if', 'doc', '==', 'nil', '{']"
+7,"338         // no doc associated with the spec, use the declaration doc, if any","['338', '// no doc associated with the spec, use the declaration doc, if any']"
+8,339         doc = decl.Doc,"['339', 'doc', '=', 'decl', '.', 'Doc']"
+9,340     },"['340', '}']"
+10,...,['...']
+11,"
+
+Notice in particular how it needs to deal with the case where the AST does not have a doc attached to the TypeSpec. To do this, it falls back on the GenDecl. This gives us a clue as to how we might use the AST directly to parse doc comments for structs. Adapting the for loop in the question code to add a case for *ast.GenDecl:
+
+","['Notice', 'in', 'particular', 'how', 'it', 'needs', 'to', 'deal', 'with', 'the', 'case', 'where', 'the', 'AST', 'does', 'not', 'have', 'a', 'doc', 'attached', 'to', 'the', 'TypeSpec.', 'To', 'do', 'this,', 'it', 'falls', 'back', 'on', 'the', 'GenDecl.', 'This', 'gives', 'us', 'a', 'clue', 'as', 'to', 'how', 'we', 'might', 'use', 'the', 'AST', 'directly', 'to', 'parse', 'doc', 'comments', 'for', 'structs.', 'Adapting', 'the', 'for', 'loop', 'in', 'the', 'question', 'code', 'to', 'add', 'a', 'case', 'for', '*ast.GenDecl:']"
+12,"for _, f := range d {","['for', '_', ',', 'f', ':=', 'range', 'd', '{']"
+13,"    ast.Inspect(f, func(n ast.Node) bool {","['ast.Inspect(f, func(n ast.Node)', 'bool', '{']"
+14,        switch x := n.(type) {,"['switch', 'x', ':=', 'n', '.(', 'type', ')', '{']"
+15,        case *ast.FuncDecl:,"['case', '*', 'ast', '.', 'FuncDecl', ':']"
+16,"            fmt.Printf(""%s:\tFuncDecl %s\t%s\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())","['fmt.Printf(""%s:\\tFuncDecl %s\\t%s\\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())']"
+17,        case *ast.TypeSpec:,"['case', '*', 'ast', '.', 'TypeSpec', ':']"
+18,"            fmt.Printf(""%s:\tTypeSpec %s\t%s\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())","['fmt.Printf(""%s:\\tTypeSpec %s\\t%s\\n"", fset.Position(n.Pos()), x.Name, x.Doc.Text())']"
+19,        case *ast.Field:,"['case', '*', 'ast', '.', 'Field', ':']"
+20,"            fmt.Printf(""%s:\tField %s\t%s\n"", fset.Position(n.Pos()), x.Names, x.Doc.Text())","['fmt.Printf(""%s:\\tField %s\\t%s\\n"", fset.Position(n.Pos()), x.Names, x.Doc.Text())']"
+21,        case *ast.GenDecl:,"['case', '*', 'ast', '.', 'GenDecl', ':']"
+22,"            fmt.Printf(""%s:\tGenDecl %s\n"", fset.Position(n.Pos()), x.Doc.Text())","['fmt.Printf(""%s:\\tGenDecl %s\\n"", fset.Position(n.Pos()), x.Doc.Text())']"
+23,        },['}']
+24,        return true,"['return', 'true']"
+25,    }),['})']
+26,},['}']
+27,"
+
+Running this gives us:
+
+","['Running', 'this', 'gives', 'us:']"
+28,main.go:3:1:    GenDecl %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '3', ':', '1', ':', 'GenDecl', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+29,main.go:11:1:   GenDecl &{[%!s(*ast.Comment=&{69 // FirstType docs})]},"['main', '.', 'go', ':', '11', ':', '1', ':', 'GenDecl', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '69', '// FirstType docs})]}']"
+30,main.go:11:6:   TypeSpec FirstType  %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '11', ':', '6', ':', 'TypeSpec', 'FirstType', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+31,main.go:13:2:   Field [FirstMember] &{[%!s(*ast.Comment=&{112 // FirstMember docs})]},"['main', '.', 'go', ':', '13', ':', '2', ':', 'Field', '[', 'FirstMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '112', '// FirstMember docs})]}']"
+32,main.go:17:1:   GenDecl &{[%!s(*ast.Comment=&{155 // SecondType docs})]},"['main', '.', 'go', ':', '17', ':', '1', ':', 'GenDecl', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '155', '// SecondType docs})]}']"
+33,main.go:17:6:   TypeSpec SecondType %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '17', ':', '6', ':', 'TypeSpec', 'SecondType', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+34,main.go:19:2:   Field [SecondMember]    &{[%!s(*ast.Comment=&{200 // SecondMember docs})]},"['main', '.', 'go', ':', '19', ':', '2', ':', 'Field', '[', 'SecondMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '200', '// SecondMember docs})]}']"
+35,main.go:23:1:   FuncDecl main   &{[%!s(*ast.Comment=&{245 // Main docs})]},"['main', '.', 'go', ':', '23', ':', '1', ':', 'FuncDecl', 'main', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '245', '// Main docs})]}']"
+36,main.go:33:23:  Field [n]   %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '33', ':', '23', ':', 'Field', '[', 'n', ']', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+37,main.go:33:35:  Field []    %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '33', ':', '35', ':', 'Field', '[]', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+38,"
+
+And, hey!
+
+We've printed out the long-lost FirstType docs and SecondType docs! But this is unsatisfactory. Why is the doc not attached to the TypeSpec? The go/doc/reader.go file goes to extraordinary lengths to circumvent this issue, actually generating a fake GenDecl and passing it to the readType function mentioned earlier, if there is no documentation associated with the struct declaration! 
+
+","['And,', 'hey!', ""We've"", 'printed', 'out', 'the', 'long-lost', 'FirstType', 'docs', 'and', 'SecondType', 'docs!', 'But', 'this', 'is', 'unsatisfactory.', 'Why', 'is', 'the', 'doc', 'not', 'attached', 'to', 'the', 'TypeSpec?', 'The', 'go/doc/reader.go', 'file', 'goes', 'to', 'extraordinary', 'lengths', 'to', 'circumvent', 'this', 'issue,', 'actually', 'generating', 'a', 'fake', 'GenDecl', 'and', 'passing', 'it', 'to', 'the', 'readType', 'function', 'mentioned', 'earlier,', 'if', 'there', 'is', 'no', 'documentation', 'associated', 'with', 'the', 'struct', 'declaration!']"
+39,   503  fake := &ast.GenDecl{,"['503', 'fake', ':=', '&', 'ast', '.', 'GenDecl', '{']"
+40,"   504   Doc: d.Doc,","['504', 'Doc', ':', 'd', '.', 'Doc', ',']"
+41,   505   // don't use the existing TokPos because it,"['505', ""// don't use the existing TokPos because it""]"
+42,   506   // will lead to the wrong selection range for,"['506', '// will lead to the wrong selection range for']"
+43,   507   // the fake declaration if there are more,"['507', '// the fake declaration if there are more']"
+44,   508   // than one type in the group (this affects,"['508', '// than one type in the group (this affects']"
+45,   509   // src/cmd/godoc/godoc.go's posLink_urlFunc),"['509', ""// src/cmd/godoc/godoc.go's posLink_urlFunc)""]"
+46,"   510   TokPos: s.Pos(),","['510', 'TokPos', ':', 's.Pos()', ',']"
+47,"   511   Tok:    token.TYPE,","['511', 'Tok', ':', 'token', '.', 'TYPE', ',']"
+48,"   512   Specs:  []ast.Spec{s},","['512', 'Specs', ':', '[]', 'ast', '.', 'Spec', '{', 's', '},']"
+49,   513  },"['513', '}']"
+50,"
+
+But why all this?
+
+Imagine we changed the type definitions from code in the question slightly (defining structs like this is not common, but still valid Go):
+
+","['But', 'why', 'all', 'this?', 'Imagine', 'we', 'changed', 'the', 'type', 'definitions', 'from', 'code', 'in', 'the', 'question', 'slightly', '(defining', 'structs', 'like', 'this', 'is', 'not', 'common,', 'but', 'still', 'valid', 'Go):']"
+51,// This documents FirstType and SecondType together,"['//', 'This', 'documents', 'FirstType', 'and', 'SecondType', 'together']"
+52,type (,"['type', '(']"
+53,    // FirstType docs,"['//', 'FirstType', 'docs']"
+54,    FirstType struct {,"['FirstType', 'struct', '{']"
+55,        // FirstMember docs,"['//', 'FirstMember', 'docs']"
+56,        FirstMember string,"['FirstMember', 'string']"
+57,    },['}']
+58,    // SecondType docs,"['//', 'SecondType', 'docs']"
+59,    SecondType struct {,"['SecondType', 'struct', '{']"
+60,        // SecondMember docs,"['//', 'SecondMember', 'docs']"
+61,        SecondMember string,"['SecondMember', 'string']"
+62,    },['}']
+63,),[')']
+64,"
+
+Run the code (including the case for ast.GenDecl) and we get:
+
+","['Run', 'the', 'code', '(including', 'the', 'case', 'for', 'ast.GenDecl)', 'and', 'we', 'get:']"
+65,main.go:3:1:    GenDecl %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '3', ':', '1', ':', 'GenDecl', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+66,main.go:11:1:   GenDecl &{[%!s(*ast.Comment=&{69 // This documents FirstType and SecondType together})]},"['main', '.', 'go', ':', '11', ':', '1', ':', 'GenDecl', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '69', '// This documents FirstType and SecondType together})]}']"
+67,main.go:13:2:   TypeSpec FirstType  &{[%!s(*ast.Comment=&{129 // FirstType docs})]},"['main', '.', 'go', ':', '13', ':', '2', ':', 'TypeSpec', 'FirstType', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '129', '// FirstType docs})]}']"
+68,main.go:15:3:   Field [FirstMember] &{[%!s(*ast.Comment=&{169 // FirstMember docs})]},"['main', '.', 'go', ':', '15', ':', '3', ':', 'Field', '[', 'FirstMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '169', '// FirstMember docs})]}']"
+69,main.go:19:2:   TypeSpec SecondType &{[%!s(*ast.Comment=&{215 // SecondType docs})]},"['main', '.', 'go', ':', '19', ':', '2', ':', 'TypeSpec', 'SecondType', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '215', '// SecondType docs})]}']"
+70,main.go:21:3:   Field [SecondMember]    &{[%!s(*ast.Comment=&{257 // SecondMember docs})]},"['main', '.', 'go', ':', '21', ':', '3', ':', 'Field', '[', 'SecondMember', ']', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '257', '// SecondMember docs})]}']"
+71,main.go:26:1:   FuncDecl main   &{[%!s(*ast.Comment=&{306 // Main docs})]},"['main', '.', 'go', ':', '26', ':', '1', ':', 'FuncDecl', 'main', '&{[%!', 's', '(*', 'ast', '.', 'Comment', '=&{', '306', '// Main docs})]}']"
+72,main.go:36:23:  Field [n]   %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '36', ':', '23', ':', 'Field', '[', 'n', ']', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+73,main.go:36:35:  Field []    %!s(*ast.CommentGroup=),"['main', '.', 'go', ':', '36', ':', '35', ':', 'Field', '[]', '%!', 's', '(*', 'ast', '.', 'CommentGroup', '=)']"
+74,"
+
+That's right
+
+Now the struct type definitions have their docs, and the GenDecl has its own documentation, too. In the first case, posted in the question, the doc was attached to GenDecl, since the AST sees the individual struct type definitions of ""contractions"" of the parenthesized-version of type definitions, and wants to handle all definitions the same, whether they are grouped or not. The same thing would happen with variable definitions, as in:
+
+","[""That's"", 'right', 'Now', 'the', 'struct', 'type', 'definitions', 'have', 'their', 'docs,', 'and', 'the', 'GenDecl', 'has', 'its', 'own', 'documentation,', 'too.', 'In', 'the', 'first', 'case,', 'posted', 'in', 'the', 'question,', 'the', 'doc', 'was', 'attached', 'to', 'GenDecl,', 'since', 'the', 'AST', 'sees', 'the', 'individual', 'struct', 'type', 'definitions', 'of', '""contractions""', 'of', 'the', 'parenthesized-version', 'of', 'type', 'definitions,', 'and', 'wants', 'to', 'handle', 'all', 'definitions', 'the', 'same,', 'whether', 'they', 'are', 'grouped', 'or', 'not.', 'The', 'same', 'thing', 'would', 'happen', 'with', 'variable', 'definitions,', 'as', 'in:']"
+75,// some general docs,"['//', 'some', 'general', 'docs']"
+76,var (,"['var', '(']"
+77,    // v docs,"['//', 'v', 'docs']"
+78,    v int,"['v', 'int']"
+79,    // v2 docs,"['//', 'v2', 'docs']"
+80,    v2 string,"['v2', 'string']"
+81,),[')']
+82,"
+
+So if you wish to parse comments with pure AST, you need to be aware that this is how it works. But the preferred method, as @mjibson suggested, is to use go/doc. Good luck!
+","['So', 'if', 'you', 'wish', 'to', 'parse', 'comments', 'with', 'pure', 'AST,', 'you', 'need', 'to', 'be', 'aware', 'that', 'this', 'is', 'how', 'it', 'works.', 'But', 'the', 'preferred', 'method,', 'as', '@mjibson', 'suggested,', 'is', 'to', 'use', 'go/doc.', 'Good', 'luck!']"

@@ -1,0 +1,52 @@
+,text,token
+0,"You might try working directly with templates.  Example:
+
+","['You', 'might', 'try', 'working', 'directly', 'with', 'templates.', 'Example:']"
+1,package main,"['package', 'main']"
+2,import (,"['import', '(']"
+3,"    ""bytes""","['""bytes""']"
+4,"    ""encoding/xml""","['""encoding/xml""']"
+5,"    ""fmt""","['""fmt""']"
+6,"    ""text/template""","['""text/template""']"
+7,),[')']
+8,type ele struct {,"['type', 'ele', 'struct', '{']"
+9,    Name  string,"['Name', 'string']"
+10,    Attrs []attr,"['Attrs', '[]', 'attr']"
+11,},['}']
+12,type attr struct {,"['type', 'attr', 'struct', '{']"
+13,"    Name, Value string","['Name', ',', 'Value', 'string']"
+14,},['}']
+15,var x = `,"['var', 'x', '=']"
+16,`,[]
+17,func main() {,"['func', 'main', '()', '{']"
+18,"    // template function ""xml"" defined here does basic escaping,","['//', 'template', 'function', '""xml""', 'defined', 'here', 'does', 'basic', 'escaping,']"
+19,"    // important for handling special characters such as "".","['//', 'important', 'for', 'handling', 'special', 'characters', 'such', 'as', '"".']"
+20,"    t := template.New("""").Funcs(template.FuncMap{""xml"": func(s string) string {","['t', ':=', 'template.New("""").Funcs(template.FuncMap{""xml"": func(s string)', 'string', '{']"
+21,        var b bytes.Buffer,"['var', 'b', 'bytes', '.', 'Buffer']"
+22,"        xml.Escape(&b, []byte(s))","['xml.Escape(&b, []byte(s))']"
+23,        return b.String(),"['return', 'b.String()']"
+24,    }}),['}})']
+25,    template.Must(t.Parse(x)),['template.Must(t.Parse(x))']
+26,    e := ele{,"['e', ':=', 'ele', '{']"
+27,"        Name: ""Meh"",","['Name', ':', '""Meh""', ',']"
+28,        Attrs: []attr{,"['Attrs', ':', '[]', 'attr', '{']"
+29,"            {""hi"", ""there""},","['{', '""hi""', ',', '""there""', '},']"
+30,"            {""um"", `I said ""hello?""`},","['{', '""um""', ',', 'I', 'said', '""hello?""', '},']"
+31,"        },","['},']"
+32,    },['}']
+33,    b := new(bytes.Buffer),"['b', ':=', 'new', '(', 'bytes', '.', 'Buffer', ')']"
+34,"    err := t.Execute(b, e)","['err', ':=', 't.Execute(b, e)']"
+35,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
+36,        fmt.Println(err),['fmt.Println(err)']
+37,        return,['return']
+38,    },['}']
+39,    fmt.Println(b),['fmt.Println(b)']
+40,},['}']
+41,"
+
+Output:
+
+
+
+
+",['Output:']
