@@ -1,0 +1,38 @@
+,text,token,annotation
+0,"Given this Go text/template code:
+
+","['Given', 'this', 'Go', 'text/template', 'code', ':']","['VBN', 'DT', 'NNP', 'JJ', 'NN', ':']"
+1,Let's say:,"['Let', 's', 'say', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+2,"{{ if eq .Foo ""foo"" }}","['{{', 'if', 'eq', '.', 'Foo', '""foo""', '}}']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION']"
+3,"Hello, StackOverflow!","['Hello', ',', 'StackOverflow', '!']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
+4,"{{ else if eq .Foo ""bar"" }}","['{{', 'else', 'if', 'eq', '.', 'Foo', '""bar""', '}}']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION']"
+5,"Hello, World!","['Hello', ',', 'World', '!']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
+6,{{ end }},"['{{', 'end', '}}']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+7,"
+
+We get the following output in case Foo equals ""foo"":
+
+","['We', 'get', 'the', 'following', 'output', 'in', 'case', 'Foo', 'equals', '``', 'foo', ""''"", ':']","['PRP', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'NN', 'NNP', 'VBZ', '``', 'JJ', ""''"", ':']"
+8,Let's say:,"['Let', 's', 'say', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+9,"Hello, StackOverflow!","['Hello', ',', 'StackOverflow', '!']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
+10,"
+
+(followed by a newline)
+
+Is there a way to get rid of the extra newlines?
+
+I would expect that this can be accomplished using the {{- and -}} syntax:
+
+","['(', 'followed', 'by', 'a', 'newline', ')', 'Is', 'there', 'a', 'way', 'to', 'get', 'rid', 'of', 'the', 'extra', 'newlines', '?', 'I', 'would', 'expect', 'that', 'this', 'can', 'be', 'accomplished', 'using', 'the', '{', '{', '-', 'and', '-', '}', '}', 'syntax', ':']","['(', 'VBN', 'IN', 'DT', 'NN', ')', 'VBZ', 'EX', 'DT', 'NN', 'TO', 'VB', 'JJ', 'IN', 'DT', 'JJ', 'NNS', '.', 'PRP', 'MD', 'VB', 'IN', 'DT', 'MD', 'VB', 'VBN', 'VBG', 'DT', '(', '(', ':', 'CC', ':', ')', ')', 'NN', ':']"
+11,Let's say:,"['Let', 's', 'say', ':']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
+12,"{{- if eq .Foo ""foo"" }}","['{{-', 'if', 'eq', '.', 'Foo', '""foo""', '}}']","['PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION']"
+13,"Hello, StackOverflow!","['Hello', ',', 'StackOverflow', '!']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
+14,"{{- else if eq .Foo ""bar"" }}","['{{-', 'else', 'if', 'eq', '.', 'Foo', '""bar""', '}}']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'STRING_LITERAL', 'PUNCTUATION']"
+15,"Hello, World!","['Hello', ',', 'World', '!']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'LOGICAL_OPERATOR']"
+16,{{- end }},"['{{-', 'end', '}}']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+17,"
+
+However, that yields an ","['However', ',', 'that', 'yields', 'an']","['RB', ',', 'IN', 'NNS', 'DT']"
+18,"illegal number syntax: ""-""","['illegal', 'number', 'syntax', ':', '""-""']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL']"
+19," error.
+","['error', '.']","['NN', '.']"

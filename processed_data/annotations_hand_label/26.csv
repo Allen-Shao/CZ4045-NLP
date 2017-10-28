@@ -1,32 +1,32 @@
 ,text,token,annotation
 0,"Maybe this will do what you want. Disclaimer: I am not an expert in openpgp; I don't know whether this is correct or not. But it does work with gpg --import.
 
-","['Maybe', 'this', 'will', 'do', 'what', 'you', 'want.', 'Disclaimer:', 'I', 'am', 'not', 'an', 'expert', 'in', 'openpgp;', 'I', ""don't"", 'know', 'whether', 'this', 'is', 'correct', 'or', 'not.', 'But', 'it', 'does', 'work', 'with', 'gpg', '--import.']","['RB', 'DT', 'MD', 'VB', 'WP', 'PRP', 'VBP', 'NNP', 'PRP', 'VBP', 'RB', 'DT', 'NN', 'IN', 'NN', 'PRP', 'VBP', 'VB', 'IN', 'DT', 'VBZ', 'JJ', 'CC', 'JJ', 'CC', 'PRP', 'VBZ', 'VB', 'IN', 'JJ', 'NN']"
+","['Maybe', 'this', 'will', 'do', 'what', 'you', 'want', '.', 'Disclaimer', ':', 'I', 'am', 'not', 'an', 'expert', 'in', 'openpgp', ';', 'I', 'do', ""n't"", 'know', 'whether', 'this', 'is', 'correct', 'or', 'not', '.', 'But', 'it', 'does', 'work', 'with', 'gpg', '--', 'import', '.']","['RB', 'DT', 'MD', 'VB', 'WP', 'PRP', 'VBP', '.', 'NN', ':', 'PRP', 'VBP', 'RB', 'DT', 'NN', 'IN', 'NN', ':', 'PRP', 'VBP', 'RB', 'VB', 'IN', 'DT', 'VBZ', 'JJ', 'CC', 'RB', '.', 'CC', 'PRP', 'VBZ', 'VB', 'IN', ‘NN', ':', 'NN', '.']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
 3,"        ""fmt""","['""fmt""']",['STRING_LITERAL']
 4,"        ""os""","['""os""']",['STRING_LITERAL']
-5,"        ""golang.org/x/crypto/openpgp""","['""golang.org/x/crypto/openpgp""']",['STRING_LITERAL']
-6,"        ""golang.org/x/crypto/openpgp/armor""","['""golang.org/x/crypto/openpgp/armor""']",['STRING_LITERAL']
+5,"        ""golang.org/x/crypto/openpgp""","['""golang.org/x/crypto/openpgp""']",[‘DIRECTORY']
+6,"        ""golang.org/x/crypto/openpgp/armor""","['""golang.org/x/crypto/openpgp/armor""']",[‘DIRECTORY']
 7,),[')'],['PUNCTUATION']
 8,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 9,        var e *openpgp.Entity,"['var', 'e', '*', 'openpgp', '.', 'Entity']","['KEYWORD', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-10,"        e, err := openpgp.NewEntity(""itis"", ""test"", ""itis@itis3.com"", nil)","['e', ',', 'err', ':=', 'openpgp.NewEntity(""itis"", ""test"", ""itis@itis3.com"", nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-11,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+10,"e, err := openpgp.NewEntity(""itis"", ""test"", ""itis@itis3.com"", nil)","['e', ',', 'err', ':=', 'openpgp.NewEntity(""itis"", ""test"", ""itis@itis3.com"", nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+11,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 12,                fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 13,                return,['return'],['KEYWORD']
 14,        },['}'],['PUNCTUATION']
 15,        // Add more identities here if you wish,"['//', 'Add', 'more', 'identities', 'here', 'if', 'you', 'wish']","['COMMENT', 'NNP', 'JJR', 'NNS', 'RB', 'IN', 'PRP', 'VBP']"
-16,        // Sign all the identities,"['//', 'Sign', 'all', 'the', 'identities']","['COMMENT', 'NNP', 'PDT', 'DT', 'NNS']"
+16,        // Sign all the identities,"['//', 'Sign', 'all', 'the', 'identities']","['COMMENT', ‘VBP', 'PDT', 'DT', 'NNS']"
 17,"        for _, id := range e.Identities {","['for', '_', ',', 'id', ':=', 'range', 'e', '.', 'Identities', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 18,"                err := id.SelfSignature.SignUserId(id.UserId.Id, e.PrimaryKey, e.PrivateKey, nil)","['err', ':=', 'id', '.', 'SelfSignature.SignUserId(id.UserId.Id, e.PrimaryKey, e.PrivateKey, nil)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
-19,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+19,                if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 20,                        fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 21,                        return,['return'],['KEYWORD']
 22,                },['}'],['PUNCTUATION']
 23,        },['}'],['PUNCTUATION']
 24,"        w, err := armor.Encode(os.Stdout, openpgp.PublicKeyType, nil)","['w', ',', 'err', ':=', 'armor.Encode(os.Stdout, openpgp.PublicKeyType, nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-25,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+25,        if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 26,                fmt.Println(err),['fmt.Println(err)'],['FUNCTION_CALL']
 27,                return,['return'],['KEYWORD']
 28,        },['}'],['PUNCTUATION']

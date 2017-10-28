@@ -1,0 +1,94 @@
+,text,token,annotation
+0,"I want to sign a public key from ascii armor with a private key in go language.For that I developed following code but the problem is when I check the signature in gpg --check-sigs the signature created by code is shown as ""bad Signature"".Please Help as I cant figure out any way of solving it.I have already postd on golang-nuts.I am just learning golang for my college project and I am stuck here,Please help.
+
+","['I', 'want', 'to', 'sign', 'a', 'public', 'key', 'from', 'ascii', 'armor', 'with', 'a', 'private', 'key', 'in', 'go', 'language.For', 'that', 'I', 'developed', 'following', 'code', 'but', 'the', 'problem', 'is', 'when', 'I', 'check', 'the', 'signature', 'in', 'gpg', '--', 'check-sigs', 'the', 'signature', 'created', 'by', 'code', 'is', 'shown', 'as', '``', 'bad', 'Signature', ""''"", '.Please', 'Help', 'as', 'I', 'cant', 'figure', 'out', 'any', 'way', 'of', 'solving', 'it.I', 'have', 'already', 'postd', 'on', 'golang-nuts.I', 'am', 'just', 'learning', 'golang', 'for', 'my', 'college', 'project', 'and', 'I', 'am', 'stuck', 'here', ',', 'Please', 'help', '.']","['PRP', 'VBP', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NN', 'NN', 'IN', 'PRP', 'VBD', 'VBG', 'NN', 'CC', 'DT', 'NN', 'VBZ', 'WRB', 'PRP', 'VBP', 'DT', 'NN', 'IN', 'NN', ':', 'JJ', 'DT', 'NN', 'VBN', 'IN', 'NN', 'VBZ', 'VBN', 'IN', '``', 'JJ', 'NN', ""''"", 'NN', 'NNP', 'IN', 'PRP', 'VBP', 'NN', 'RP', 'DT', 'NN', 'IN', 'VBG', 'NNS', 'VBP', 'RB', 'VBN', 'IN', 'JJ', 'VBP', 'RB', 'VBG', 'NN', 'IN', 'PRP$', 'NN', 'NN', 'CC', 'PRP', 'VBP', 'RB', 'RB', ',', 'NNP', 'NN', '.']"
+1,    // signer,"['//', 'signer']","['COMMENT', 'NN']"
+2,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
+3,import (,"['import', '(']","['KEYWORD', 'PUNCTUATION']"
+4,"    ""bytes""","['""bytes""']",['STRING_LITERAL']
+5,"    ""code.google.com/p/go.crypto/openpgp""","['""code.google.com/p/go.crypto/openpgp""']",['STRING_LITERAL']
+6,"    ""code.google.com/p/go.crypto/openpgp/armor""","['""code.google.com/p/go.crypto/openpgp/armor""']",['STRING_LITERAL']
+7,"    ""code.google.com/p/go.crypto/openpgp/packet""","['""code.google.com/p/go.crypto/openpgp/packet""']",['STRING_LITERAL']
+8,"    ""fmt""","['""fmt""']",['STRING_LITERAL']
+9,),[')'],['PUNCTUATION']
+10,// This function takes asciiarmored private key which will sign the public key,"['//', 'This', 'function', 'takes', 'asciiarmored', 'private', 'key', 'which', 'will', 'sign', 'the', 'public', 'key']","['COMMENT', 'DT', 'NN', 'VBZ', 'JJ', 'JJ', 'NN', 'WDT', 'MD', 'VB', 'DT', 'JJ', 'NN']"
+11,"//Public key is also ascii armored,pripwd is password of private key in string","['//', 'Public', 'key', 'is', 'also', 'ascii', 'armored', ',', 'pripwd', 'is', 'password', 'of', 'private', 'key', 'in', 'string']","['COMMENT', 'NNP', 'NN', 'VBZ', 'RB', 'JJ', 'VBD', ',', 'NN', 'VBZ', 'NN', 'IN', 'JJ', 'NN', 'IN', 'NN']"
+12,//This function will return ascii armored signed public key i.e. (pubkey+sign by prikey),"['//', 'This', 'function', 'will', 'return', 'ascii', 'armored', 'signed', 'public', 'key', 'i.e', '.', '(', 'pubkey+sign', 'by', 'prikey', ')']","['COMMENT', 'DT', 'NN', 'MD', 'VB', 'RB', 'JJ', 'VBN', 'JJ', 'NN', 'NN', '.', '(', 'NN', 'IN', 'NN', ')']"
+13,"func SignPubKeyPKS(asciiPub string, asciiPri string, pripwd string) (asciiSignedKey string) {","['func', 'SignPubKeyPKS', '(', 'asciiPub', 'string', ',', 'asciiPri', 'string', ',', 'pripwd', 'string', ')', '(', 'asciiSignedKey', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+14,    //get Private key from armor,"['//', 'get', 'Private', 'key', 'from', 'armor']","['COMMENT', 'VB', 'JJ', 'NN', 'IN', 'NN']"
+15,"    _, priEnt := getPri(asciiPri, pripwd) //pripwd is the password todecrypt the private key","['_', ',', 'priEnt', ':=', 'getPri', '(', 'asciiPri', ',', 'pripwd', ')', '//', 'pripwd', 'is', 'the', 'password', 'todecrypt', 'the', 'private', 'key']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'NN', 'VBZ', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN']"
+16,"    _, pubEnt := getPub(asciiPub)         //This will generate signature and add it to pubEnt","['_', ',', 'pubEnt', ':=', 'getPub', '(', 'asciiPub', ')', '//', 'This', 'will', 'generate', 'signature', 'and', 'add', 'it', 'to', 'pubEnt']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'COMMENT', 'DT', 'MD', 'VB', 'NN', 'CC', 'VB', 'PRP', 'TO', 'VB']"
+17,"    usrIdstring := """"","['usrIdstring', ':=', '""""']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'STRING_LITERAL']"
+18,"    for _, uIds := range pubEnt.Identities {","['for', '_', ',', 'uIds', ':=', 'range', 'pubEnt', '.', 'Identities', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+19,        usrIdstring = uIds.Name,"['usrIdstring', '=', 'uIds', '.', 'Name']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+20,    },['}'],['PUNCTUATION']
+21,    fmt.Println(usrIdstring),['fmt.Println(usrIdstring)'],['FUNCTION_CALL']
+22,"    errSign := pubEnt.SignIdentity(usrIdstring, &priEnt, nil)","['errSign', ':=', 'pubEnt.SignIdentity(usrIdstring, &priEnt, nil)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+23,    if errSign != nil {,"['if', 'errSign', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+24,"        fmt.Println(""Signing Key "", errSign.Error())","['fmt.Println(""Signing Key "", errSign.Error())']",['FUNCTION_CALL']
+25,        return,['return'],['KEYWORD']
+26,    },['}'],['PUNCTUATION']
+27,    asciiSignedKey = PubEntToAsciiArmor(pubEnt),"['asciiSignedKey', '=', 'PubEntToAsciiArmor', '(', 'pubEnt', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+28,    return,['return'],['KEYWORD']
+29,},['}'],['PUNCTUATION']
+30,//get packet.PublicKey and openpgp.Entity of Public Key from ascii armor,"['//', 'get', 'packet.PublicKey', 'and', 'openpgp.Entity', 'of', 'Public', 'Key', 'from', 'ascii', 'armor']","['COMMENT', 'VB', 'NN', 'CC', 'NN', 'IN', 'NNP', 'NNP', 'IN', 'JJ', 'NN']"
+31,"func getPub(asciiPub string) (pubKey packet.PublicKey, retEntity openpgp.Entity) {","['func', 'getPub', '(', 'asciiPub', 'string', ')', '(', 'pubKey', 'packet', '.', 'PublicKey', ',', 'retEntity', 'openpgp', '.', 'Entity', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+32,    read1 := bytes.NewReader([]byte(asciiPub)),"['read1', ':=', 'bytes.NewReader([]byte(asciiPub))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+33,"    entityList, errReadArm := openpgp.ReadArmoredKeyRing(read1)","['entityList', ',', 'errReadArm', ':=', 'openpgp.ReadArmoredKeyRing(read1)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+34,    if errReadArm != nil {,"['if', 'errReadArm', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+35,"        fmt.Println(""Reading Pubkey "", errReadArm.Error())","['fmt.Println(""Reading Pubkey "", errReadArm.Error())']",['FUNCTION_CALL']
+36,        return,['return'],['KEYWORD']
+37,    },['}'],['PUNCTUATION']
+38,"    for _, pubKeyEntity := range entityList {","['for', '_', ',', 'pubKeyEntity', ':=', 'range', 'entityList', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+39,        if pubKeyEntity.PrimaryKey != nil {,"['if', 'pubKeyEntity', '.', 'PrimaryKey', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+40,            pubKey = *pubKeyEntity.PrimaryKey,"['pubKey', '=', '*', 'pubKeyEntity', '.', 'PrimaryKey']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+41,            retEntity = *pubKeyEntity,"['retEntity', '=', '*', 'pubKeyEntity']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER']"
+42,        },['}'],['PUNCTUATION']
+43,    },['}'],['PUNCTUATION']
+44,    return,['return'],['KEYWORD']
+45,},['}'],['PUNCTUATION']
+46,//get packet.PrivateKEy and openpgp.Entity of Private Key from ascii armor,"['//', 'get', 'packet.PrivateKEy', 'and', 'openpgp.Entity', 'of', 'Private', 'Key', 'from', 'ascii', 'armor']","['COMMENT', 'VB', 'NN', 'CC', 'NN', 'IN', 'NNP', 'NNP', 'IN', 'JJ', 'NN']"
+47,"func getPri(asciiPri string, pripwd string) (priKey packet.PrivateKey, priEnt openpgp.Entity) {","['func', 'getPri', '(', 'asciiPri', 'string', ',', 'pripwd', 'string', ')', '(', 'priKey', 'packet', '.', 'PrivateKey', ',', 'priEnt', 'openpgp', '.', 'Entity', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+48,    read1 := bytes.NewReader([]byte(asciiPri)),"['read1', ':=', 'bytes.NewReader([]byte(asciiPri))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+49,"    entityList, errReadArm := openpgp.ReadArmoredKeyRing(read1)","['entityList', ',', 'errReadArm', ':=', 'openpgp.ReadArmoredKeyRing(read1)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+50,    if errReadArm != nil {,"['if', 'errReadArm', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+51,"        fmt.Println(""Reading PriKey "", errReadArm.Error())","['fmt.Println(""Reading PriKey "", errReadArm.Error())']",['FUNCTION_CALL']
+52,        return,['return'],['KEYWORD']
+53,    },['}'],['PUNCTUATION']
+54,"    for _, can_pri := range entityList {","['for', '_', ',', 'can_pri', ':=', 'range', 'entityList', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+55,        smPr := can_pri.PrivateKey,"['smPr', ':=', 'can_pri', '.', 'PrivateKey']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
+56,        retEntity := can_pri,"['retEntity', ':=', 'can_pri']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
+57,        if smPr == nil {,"['if', 'smPr', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+58,"            fmt.Println(""No Private Key"")","['fmt.Println(""No Private Key"")']",['FUNCTION_CALL']
+59,            return,['return'],['KEYWORD']
+60,        },['}'],['PUNCTUATION']
+61,        priKey = *smPr,"['priKey', '=', '*', 'smPr']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER']"
+62,        errDecr := priKey.Decrypt([]byte(pripwd)),"['errDecr', ':=', 'priKey.Decrypt([]byte(pripwd))']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+63,        if errDecr != nil {,"['if', 'errDecr', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+64,"            fmt.Println(""Decrypting "", errDecr.Error())","['fmt.Println(""Decrypting "", errDecr.Error())']",['FUNCTION_CALL']
+65,            return,['return'],['KEYWORD']
+66,        },['}'],['PUNCTUATION']
+67,        retEntity.PrivateKey = &priKey,"['retEntity', '.', 'PrivateKey', '=', '&', 'priKey']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER']"
+68,        priEnt = *retEntity,"['priEnt', '=', '*', 'retEntity']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER']"
+69,    },['}'],['PUNCTUATION']
+70,    return,['return'],['KEYWORD']
+71,},['}'],['PUNCTUATION']
+72,//Create ASscii Armor from openpgp.Entity,"['//', 'Create', 'ASscii', 'Armor', 'from', 'openpgp.Entity']","['COMMENT', 'NNP', 'NNP', 'NNP', 'IN', 'NN']"
+73,func PubEntToAsciiArmor(pubEnt openpgp.Entity) (asciiEntity string) {,"['func', 'PubEntToAsciiArmor', '(', 'pubEnt', 'openpgp', '.', 'Entity', ')', '(', 'asciiEntity', 'string', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+74,    gotWriter := bytes.NewBuffer(nil),"['go', 'tWriter', ':=', 'bytes.NewBuffer(nil)']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+75,"    wr, errEncode := armor.Encode(gotWriter, openpgp.PublicKeyType, nil)","['wr', ',', 'errEncode', ':=', 'armor.Encode(gotWriter, openpgp.PublicKeyType, nil)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+76,    if errEncode != nil {,"['if', 'errEncode', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+77,"        fmt.Println(""Encoding Armor "", errEncode.Error())","['fmt.Println(""Encoding Armor "", errEncode.Error())']",['FUNCTION_CALL']
+78,        return,['return'],['KEYWORD']
+79,    },['}'],['PUNCTUATION']
+80,    errSerial := pubEnt.Serialize(wr),"['errSerial', ':=', 'pubEnt.Serialize(wr)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+81,    if errSerial != nil {,"['if', 'errSerial', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+82,"        fmt.Println(""Serializing PubKey "", errSerial.Error())","['fmt.Println(""Serializing PubKey "", errSerial.Error())']",['FUNCTION_CALL']
+83,    },['}'],['PUNCTUATION']
+84,    errClosing := wr.Close(),"['errClosing', ':=', 'wr.Close()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+85,    if errClosing != nil {,"['if', 'errClosing', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+86,"        fmt.Println(""Closing writer "", errClosing.Error())","['fmt.Println(""Closing writer "", errClosing.Error())']",['FUNCTION_CALL']
+87,    },['}'],['PUNCTUATION']
+88,    asciiEntity = gotWriter.String(),"['asciiEntity', '=', 'go', 'tWriter.String()']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'FUNCTION_CALL']"
+89,    return,['return'],['KEYWORD']
+90,},['}'],['PUNCTUATION']
