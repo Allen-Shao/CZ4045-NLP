@@ -1,0 +1,15 @@
+,text,token
+0,"In looking at Go and Erlang's approach to concurrency, I noticed that they both rely on message passing.
+
+This approach obviously alleviates the need for complex locks because there is no shared state.
+
+However, consider the case of many clients wanting parallel read-only access to a single large data structure in memory -- like a suffix array.
+
+My questions:
+
+
+Will using shared state be faster and use less memory than message passing, as locks will mostly be unnecessary because the data is read-only, and only needs to exist in a single location?
+How would this problem be approached in a message passing context? Would there be a single process with access to the data structure and clients would simply need to sequentially request data from it? Or, if possible, would the data be chunked to create several processes that hold chunks?
+Given the architecture of modern CPUs & memory, is there much difference between the two solutions -- i.e., can shared memory be read in parallel by multiple cores -- meaning there is no hardware bottleneck that would otherwise make both implementations roughly perform the same?
+
+","['In', 'looking', 'at', 'Go', 'and', ""Erlang's"", 'approach', 'to', 'concurrency', ',', 'I', 'noticed', 'that', 'they', 'both', 'rely', 'on', 'message', 'passing', '.', 'This', 'approach', 'obviously', 'alleviates', 'the', 'need', 'for', 'complex', 'locks', 'because', 'there', 'is', 'no', 'shared', 'state', '.', 'However', ',', 'consider', 'the', 'case', 'of', 'many', 'clients', 'wanting', 'parallel', 'read-only', 'access', 'to', 'a', 'single', 'large', 'data', 'structure', 'in', 'memory', '--', 'like', 'a', 'suffix', 'array', '.', 'My', 'questions', ':', 'Will', 'using', 'shared', 'state', 'be', 'faster', 'and', 'use', 'less', 'memory', 'than', 'message', 'passing', ',', 'as', 'locks', 'will', 'mostly', 'be', 'unnecessary', 'because', 'the', 'data', 'is', 'read-only', ',', 'and', 'only', 'needs', 'to', 'exist', 'in', 'a', 'single', 'location', '?', 'How', 'would', 'this', 'problem', 'be', 'approached', 'in', 'a', 'message', 'passing', 'context', '?', 'Would', 'there', 'be', 'a', 'single', 'process', 'with', 'access', 'to', 'the', 'data', 'structure', 'and', 'clients', 'would', 'simply', 'need', 'to', 'sequentially', 'request', 'data', 'from', 'it', '?', 'Or', ',', 'if', 'possible', ',', 'would', 'the', 'data', 'be', 'chunked', 'to', 'create', 'several', 'processes', 'that', 'hold', 'chunks', '?', 'Given', 'the', 'architecture', 'of', 'modern', 'CPUs', '&', 'memory', ',', 'is', 'there', 'much', 'difference', 'between', 'the', 'two', 'solutions', '--', 'i.e.', ',', 'can', 'shared', 'memory', 'be', 'read', 'in', 'parallel', 'by', 'multiple', 'cores', '--', 'meaning', 'there', 'is', 'no', 'hardware', 'bottleneck', 'that', 'would', 'otherwise', 'make', 'both', 'implementations', 'roughly', 'perform', 'the', 'same', '?']"

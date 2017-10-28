@@ -1,0 +1,40 @@
+,text,token
+0,"Refactor your code, move the limit outside of your function which tests can change:
+
+","['Refactor', 'your', 'code', ',', 'move', 'the', 'limit', 'outside', 'of', 'your', 'function', 'which', 'tests', 'can', 'change', ':']"
+1,var limit = 1 << 32,"['var', 'limit', '=', '1', '<<', '32']"
+2,"var ErrTooLarge = errors.New(""String is too large!"")","['var', 'ErrTooLarge', '=', 'errors.New(""String is too large!"")']"
+3,func Process(s string) error {,"['func', 'Process', '(', 's', 'string', ')', 'error', '{']"
+4,    if len(s) > limit {,"['if', 'len', '(', 's', ')', '>', 'limit', '{']"
+5,        return ErrTooLarge,"['return', 'ErrTooLarge']"
+6,    },['}']
+7,    // All OK,"['//', 'All', 'OK']"
+8,    return nil,"['return', 'nil']"
+9,},['}']
+10,"
+
+Testing it:
+
+","['Testing', 'it', ':']"
+11,func TestProcess(t *testing.T) {,"['func', 'TestProcess', '(', 't', '*', 'testing', '.', 'T', ')', '{']"
+12,    // Save limit and restore it at the end:,"['//', 'Save', 'limit', 'and', 'restore', 'it', 'at', 'the', 'end', ':']"
+13,    old := limit,"['old', ':=', 'limit']"
+14,    defer func() { limit = old }(),"['defer', 'func', '()', '{', 'limit', '=', 'old', '}()']"
+15,    // Test success,"['//', 'Test', 'success']"
+16,"    if err := Process(""123""); err != nil {","['if', 'err', ':=', 'Process', '(', '""123""', ');', 'err', '!=', 'nil', '{']"
+17,"        t.Errorf(""Expected success, got: %v"", err)","['t.Errorf(""Expected success, got: %v"", err)']"
+18,    },['}']
+19,    // Test failure (too large string),"['//', 'Test', 'failure', '(', 'too', 'large', 'string', ')']"
+20,    limit = 5,"['limit', '=', '5']"
+21,"    if err := Process(""123456""); err != ErrTooLarge {","['if', 'err', ':=', 'Process', '(', '""123456""', ');', 'err', '!=', 'ErrTooLarge', '{']"
+22,"        t.Errorf(""Expected ErrTooLarge, got: %v"", err)","['t.Errorf(""Expected ErrTooLarge, got: %v"", err)']"
+23,    },['}']
+24,},['}']
+25,"
+
+Running go test -cover:
+
+","['Running', 'go', 'test', '-cover:']"
+26,PASS,['PASS']
+27,coverage: 100.0% of statements,"['coverage', ':', '100', '.', '0', '%', 'of', 'statements']"
+28,ok      play    0.001s,"['ok', 'play', '0', '.', '0', '01', 's']"

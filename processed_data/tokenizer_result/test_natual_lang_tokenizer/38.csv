@@ -1,0 +1,73 @@
+,text,token
+0,"So, lets look at what's really going on in your source. You have two goroutines (there's more than two, but we're going to focus on the explicit ones), main and readFromChannel. 
+
+Lets look at what readFromChannel does:
+
+","['So', ',', 'lets', 'look', 'at', ""what's"", 'really', 'going', 'on', 'in', 'your', 'source', '.', 'You', 'have', 'two', 'goroutines', '(', ""there's"", 'more', 'than', 'two', ',', 'but', ""we're"", 'going', 'to', 'focus', 'on', 'the', 'explicit', 'ones)', ',', 'main', 'and', 'readFromChannel', '.', 'Lets', 'look', 'at', 'what', 'readFromChannel', 'does', ':']"
+1,"if channel `c` is not empty before `ti` has expired, print its contents and return, after signalling its completion to wait group.","['if', 'chan', 'nel', 'c', 'is', 'not', 'empty', 'before', 'ti', 'has', 'expired', ',', 'print', 'its', 'contents', 'and', 'return', ',', 'after', 'signalling', 'its', 'completion', 'to', 'wait', 'group', '.']"
+2,"if `ti` has expired before `c` is not empty, print ""TIMED OUT"" and return, after signalling its completion to wait group.","['if', 'ti', 'has', 'expired', 'before', 'c', 'is', 'not', 'empty', ',', 'print', '""TIMED OUT""', 'and', 'return', ',', 'after', 'signalling', 'its', 'completion', 'to', 'wait', 'group', '.']"
+3,"
+
+now Main:
+
+","['now', 'Main', ':']"
+4,adds to waitgroup ,"['adds', 'to', 'waitgroup']"
+5,make a channel `c`,"['make', 'a', 'chan', 'nel', 'c']"
+6,start a goroutine `readFromChannel`,"['start', 'a', 'go', 'routine', 'readFromChannel']"
+7,sleep for 5 seconds,"['sleep', 'for', '5', 'seconds']"
+8,send 10 to channel `c`,"['send', '10', 'to', 'chan', 'nel', 'c']"
+9,call wait for waitgroup,"['call', 'wait', 'for', 'waitgroup']"
+10,"
+
+Now, lets go through the flow of execution for your code, concurrently (your code may/ may not execute in this order every time, keep that in mind)
+
+","['Now', ',', 'lets', 'go', 'through', 'the', 'flow', 'of', 'execution', 'for', 'your', 'code', ',', 'concurrently', '(', 'your', 'code', 'may', '/', 'may', 'not', 'execute', 'in', 'this', 'order', 'every', 'time', ',', 'keep', 'that', 'in', 'mind', ')']"
+11,1) wg.Add(1),"['1', ')', 'wg.Add(1)']"
+12,2) c := make(chan int),"['2', ')', 'c', ':=', 'make', '(', 'chan', 'int', ')']"
+13,"3) go readFromChannel(c, time.After(time.Duration(2)*time.Second))","['3', ')', 'go', 'readFromChannel', '(', 'c', ',', 'time.After(time.Duration(2)*time.Second))']"
+14,#timer ti starts#,"['timer', 'ti', 'starts']"
+15,4) time.Sleep(time.Duration(5) * time.Second),"['4', ')', 'time.Sleep(time.Duration(5) * time.Second)']"
+16,#MAIN Goroutine begins sleep,"['MAIN', 'Goroutine', 'begins', 'sleep']"
+17,#timer ti expires#,"['timer', 'ti', 'expires']"
+18,5) case <-ti:,"['5', ')', 'case', '<-', 'ti', ':']"
+19,"6) fmt.Println(""TIMED OUT"")","['6', ')', 'fmt.Println(""TIMED OUT"")']"
+20,7) wg.Done(),"['7', ')', 'wg.Done()']"
+21,# readFromChannel Goroutine returns #,"['readFromChannel', 'Goroutine', 'return', 's']"
+22,#MAIN Goroutine exits sleep#,"['MAIN', 'Goroutine', 'exits', 'sleep']"
+23,8) c<-10,"['8', ')', 'c', '<-', '10']"
+24,9) ......#DEADLOCK#,"['9', ')', '......', 'DEADLOCK']"
+25,"
+
+Now you can guess why you got a deadlock. In go, non buffered channels will block until something happens on the other end of the channel, regardless of whether you're sending or receiving. So c  will block until something reads from the other end of c, but the goroutine you had for that has dropped out of the picture 2 seconds ago. Therefore, c blocks forever, and since main is the last goroutine left, you get a Deadlock.
+
+How to prevent it? When using channels, ensure that there's always a receive at the other end of the channel for every send. You can also use a buffered channel, but in your code above, it would not be the ""right"" solution. 
+
+Here's my fix for the deadlock:
+
+","['Now', 'you', 'can', 'guess', 'why', 'you', 'got', 'a', 'deadlock', '.', 'In', 'go', ',', 'non', 'buffered', 'channels', 'will', 'block', 'until', 'something', 'happens', 'on', 'the', 'other', 'end', 'of', 'the', 'channel', ',', 'regardless', 'of', 'whether', ""you're"", 'sending', 'or', 'receiving', '.', 'So', 'c', 'will', 'block', 'until', 'something', 'reads', 'from', 'the', 'other', 'end', 'of', 'c', ',', 'but', 'the', 'goroutine', 'you', 'had', 'for', 'that', 'has', 'dropped', 'out', 'of', 'the', 'picture', '2', 'seconds', 'ago', '.', 'Therefore', ',', 'c', 'blocks', 'forever', ',', 'and', 'since', 'main', 'is', 'the', 'last', 'goroutine', 'left', ',', 'you', 'get', 'a', 'Deadlock', '.', 'How', 'to', 'prevent', 'it', '?', 'When', 'using', 'channels', ',', 'ensure', 'that', ""there's"", 'always', 'a', 'receive', 'at', 'the', 'other', 'end', 'of', 'the', 'channel', 'for', 'every', 'send', '.', 'You', 'can', 'also', 'use', 'a', 'buffered', 'channel', ',', 'but', 'in', 'your', 'code', 'above', ',', 'it', 'would', 'not', 'be', 'the', '""right""', 'solution', '.', ""Here's"", 'my', 'fix', 'for', 'the', 'deadlock', ':']"
+26,func main() {,"['func', 'main', '()', '{']"
+27,    wg.Add(1),['wg.Add(1)']
+28,    c := make(chan int),"['c', ':=', 'make', '(', 'chan', 'int', ')']"
+29,"    go readFromChannel(c, time.After(time.Duration(2)*time.Second))","['go', 'readFromChannel', '(', 'c', ',', 'time.After(time.Duration(2)*time.Second))']"
+30,    time.Sleep(time.Duration(5) * time.Second),['time.Sleep(time.Duration(5) * time.Second)']
+31,    c <- 10,"['c', '<-', '10']"
+32,    wg.Wait(),['wg.Wait()']
+33,},['}']
+34,"func readFromChannel(c chan int, ti <-chan time.Time) {","['func', 'readFromChannel', '(', 'c', 'chan', 'int', ',', 'ti', '<-', 'chan', 'time', '.', 'Time', ')', '{']"
+35,        // the forloop will run forever,"['//', 'the', 'forloop', 'will', 'run', 'forever']"
+36,    loop: // **,"['loop', ':', '// **']"
+37,    for {,"['for', '{']"
+38,        select {,"['select', '{']"
+39,            case x := <-c:,"['case', 'x', ':=', '<-', 'c', ':']"
+40,"                    fmt.Println(""Read"", x)","['fmt.Println(""Read"", x)']"
+41,                    break loop // breaks out of the for loop and the select **,"['break', 'loop', '// breaks out of the for loop and the select **']"
+42,            case <-ti:,"['case', '<-', 'ti', ':']"
+43,"                    fmt.Println(""TIMED OUT"")","['fmt.Println(""TIMED OUT"")']"
+44,            },['}']
+45,    },['}']
+46,    wg.Done(),['wg.Done()']
+47,} ,['}']
+48,"
+
+** see this answer for details
+","['**', 'see', 'this', 'answer', 'for', 'details']"

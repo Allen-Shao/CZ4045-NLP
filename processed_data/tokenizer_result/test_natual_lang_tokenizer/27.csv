@@ -1,0 +1,30 @@
+,text,token
+0,"Know that Reader.ReadString() returns you a string value with the delimieter. So r.ReadString('\n') will return you a string with the trailing newline character.
+
+And when you split the string at the commas, the last part will contain the newline character, and attempting to parse the number from it will fail, as shown in this example:
+
+","['Know', 'that', 'Reader.ReadString(', ')', 'returns', 'you', 'a', 'string', 'value', 'with', 'the', 'delimieter', '.', 'So', ""r.ReadString('\\n'"", ')', 'will', 'return', 'you', 'a', 'string', 'with', 'the', 'trailing', 'newline', 'character', '.', 'And', 'when', 'you', 'split', 'the', 'string', 'at', 'the', 'commas', ',', 'the', 'last', 'part', 'will', 'contain', 'the', 'newline', 'character', ',', 'and', 'attempting', 'to', 'parse', 'the', 'number', 'from', 'it', 'will', 'fail', ',', 'as', 'shown', 'in', 'this', 'example', ':']"
+1,"line := ""0,1,2\n""","['line', ':=', '""0,1,2\\n""']"
+2,"for _, ele := range strings.Split(line, "","") {","['for', '_', ',', 'ele', ':=', 'range', 'strings.Split(line, "","")', '{']"
+3,"    fmt.Println(strconv.ParseInt(ele, 10, 64))","['fmt.Println(strconv.ParseInt(ele, 10, 64))']"
+4,},['}']
+5,"
+
+Output (try it on the Go Playground):
+
+","['Output', '(', 'try', 'it', 'on', 'the', 'Go', 'Playground)', ':']"
+6,0 ,['0']
+7,1 ,['1']
+8,"0 strconv.ParseInt: parsing ""2\n"": invalid syntax","['0', 'strconv', '.', 'ParseInt', ':', 'parsing', '""2\\n""', ':', 'invalid', 'syntax']"
+9,"
+
+You religiously omit error checks, don't do that! As you can see in the above example, checking and printing the error returned by strconv.ParseInt() immediately revealed the error and what's going wrong.
+
+What you may do is cut the trailing newline character before attempting to parse any number from it, e.g.:
+
+","['You', 'religiously', 'omit', 'error', 'checks', ',', ""don't"", 'do', 'that', '!', 'As', 'you', 'can', 'see', 'in', 'the', 'above', 'example', ',', 'checking', 'and', 'printing', 'the', 'error', 'returned', 'by', 'strconv.ParseInt(', ')', 'immediately', 'revealed', 'the', 'error', 'and', ""what's"", 'going', 'wrong', '.', 'What', 'you', 'may', 'do', 'is', 'cut', 'the', 'trailing', 'newline', 'character', 'before', 'attempting', 'to', 'parse', 'any', 'number', 'from', 'it', ',', 'e.g.', ':']"
+10,"strconv.ParseInt(strings.TrimSpace(ele), 10, 64)","['strconv.ParseInt(strings.TrimSpace(ele), 10, 64)']"
+11,"
+
+Or use the bufio.Scanner which can scan lines and it cuts trailing newlines automatically.
+","['Or', 'use', 'the', 'bufio.Scanner', 'which', 'can', 'scan', 'lines', 'and', 'it', 'cuts', 'trailing', 'newlines', 'automatically', '.']"

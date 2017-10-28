@@ -1,0 +1,41 @@
+,text,token
+0,"Time zone setting is not supported directly, but you may use a custom log.Formatter in which you may ""switch"" to the time zone of your choice, UTC included.
+
+A simple usage that uses the local time zone (not UTC) may look like this:
+
+","['Time', 'zone', 'setting', 'is', 'not', 'supported', 'directly', ',', 'but', 'you', 'may', 'use', 'a', 'custom', 'log.Formatter', 'in', 'which', 'you', 'may', '""switch""', 'to', 'the', 'time', 'zone', 'of', 'your', 'choice', ',', 'UTC', 'included', '.', 'A', 'simple', 'usage', 'that', 'uses', 'the', 'local', 'time', 'zone', '(', 'not', 'UTC', ')', 'may', 'look', 'like', 'this', ':']"
+1,import (,"['import', '(']"
+2,"    log ""github.com/Sirupsen/logrus""","['log', '""github.com/Sirupsen/logrus""']"
+3,),[')']
+4,func main() {,"['func', 'main', '()', '{']"
+5,    log.SetFormatter(&log.JSONFormatter{}),['log.SetFormatter(&log.JSONFormatter{})']
+6,"    log.Info(""Testing"")","['log.Info(""Testing"")']"
+7,},['}']
+8,"
+
+Output (time is formatted using my +01 local timezone):
+
+","['Output', '(', 'time', 'is', 'formatted', 'using', 'my', '+', '01', 'local', 'timezone)', ':']"
+9,"{""level"":""info"",""msg"":""Testing"",""time"":""2016-11-09T09:28:02+01:00""}","['{', '""level""', ':', '""info""', ',', '""msg""', ':', '""Testing""', ',', '""time""', ':', '""2016-11-09T09:28:02+01:00""', '}']"
+10,"
+
+Now let's create a custom log.Formatter which switches to UTC:
+
+","['Now', ""let's"", 'create', 'a', 'custom', 'log.Formatter', 'which', 'switches', 'to', 'UTC', ':']"
+11,type UTCFormatter struct {,"['type', 'UTCFormatter', 'struct', '{']"
+12,    log.Formatter,"['log', '.', 'Formatter']"
+13,},['}']
+14,"func (u UTCFormatter) Format(e *log.Entry) ([]byte, error) {","['func', '(', 'u', 'UTCFormatter', ')', 'Format', '(', 'e', '*', 'log', '.', 'Entry', ')', '([]', 'byte', ',', 'error', ')', '{']"
+15,    e.Time = e.Time.UTC(),"['e', '.', 'Time', '=', 'e', '.', 'Time.UTC()']"
+16,    return u.Formatter.Format(e),"['return', 'u', '.', 'Formatter.Format(e)']"
+17,},['}']
+18,func main() {,"['func', 'main', '()', '{']"
+19,    log.SetFormatter(UTCFormatter{&log.JSONFormatter{}}),['log.SetFormatter(UTCFormatter{&log.JSONFormatter{}})']
+20,"    log.Info(""Testing"")","['log.Info(""Testing"")']"
+21,},['}']
+22,"
+
+Output (time is formatted in UTC timezone):
+
+","['Output', '(', 'time', 'is', 'formatted', 'in', 'UTC', 'timezone)', ':']"
+23,"{""level"":""info"",""msg"":""Testing"",""time"":""2016-11-09T08:28:09Z""}","['{', '""level""', ':', '""info""', ',', '""msg""', ':', '""Testing""', ',', '""time""', ':', '""2016-11-09T08:28:09Z""', '}']"

@@ -1,0 +1,16 @@
+,text,token
+0,"In this code, no guarantees.
+
+The main problem with the given sample code lies not in the channel behavior, but rather in the numerous created goroutines. All the goroutines are ""fired"" inside the same imbricated loop without further synchronization, so even before they start to send messages, we simply don't know which ones will execute first.
+
+However this rises a legitimate question in general : if we somehow garantee the order of several blocking send instructions, are we guaranteed to receive them in the same order?
+
+The ""happens-before"" property of the sendings is difficult to create. I fear it is impossible because :
+
+
+Anything can happen before the sending instruction : for example, other goroutines performing their own sendings or not
+A goroutine being blocked in a sending cannot simultaneously manage other sorts of synchronization
+
+
+For example, if I have 10 goroutines numbered 1 to 10, I have no way of letting them send their own number to the channel, concurrently, in the right order. All I can do is use various kinds of sequential tricks like doing the sorting in 1 single goroutine.
+","['In', 'this', 'code', ',', 'no', 'guarantees', '.', 'The', 'main', 'problem', 'with', 'the', 'given', 'sample', 'code', 'lies', 'not', 'in', 'the', 'channel', 'behavior', ',', 'but', 'rather', 'in', 'the', 'numerous', 'created', 'goroutines', '.', 'All', 'the', 'goroutines', 'are', '""fired""', 'inside', 'the', 'same', 'imbricated', 'loop', 'without', 'further', 'synchronization', ',', 'so', 'even', 'before', 'they', 'start', 'to', 'send', 'messages', ',', 'we', 'simply', ""don't"", 'know', 'which', 'ones', 'will', 'execute', 'first', '.', 'However', 'this', 'rises', 'a', 'legitimate', 'question', 'in', 'general', ':', 'if', 'we', 'somehow', 'garantee', 'the', 'order', 'of', 'several', 'blocking', 'send', 'instructions', ',', 'are', 'we', 'guaranteed', 'to', 'receive', 'them', 'in', 'the', 'same', 'order', '?', 'The', '""happens-before""', 'property', 'of', 'the', 'sendings', 'is', 'difficult', 'to', 'create', '.', 'I', 'fear', 'it', 'is', 'impossible', 'because', ':', 'Anything', 'can', 'happen', 'before', 'the', 'sending', 'instruction', ':', 'for', 'example', ',', 'other', 'goroutines', 'performing', 'their', 'own', 'sendings', 'or', 'not', 'A', 'goroutine', 'being', 'blocked', 'in', 'a', 'sending', 'cannot', 'simultaneously', 'manage', 'other', 'sorts', 'of', 'synchronization', 'For', 'example', ',', 'if', 'I', 'have', '10', 'goroutines', 'numbered', '1', 'to', '10', ',', 'I', 'have', 'no', 'way', 'of', 'letting', 'them', 'send', 'their', 'own', 'number', 'to', 'the', 'channel', ',', 'concurrently', ',', 'in', 'the', 'right', 'order', '.', 'All', 'I', 'can', 'do', 'is', 'use', 'various', 'kinds', 'of', 'sequential', 'tricks', 'like', 'doing', 'the', 'sorting', 'in', '1', 'single', 'goroutine', '.']"
