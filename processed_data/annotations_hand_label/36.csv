@@ -1,57 +1,55 @@
 ,text,token,annotation
-0,"I've already tried to authenticate using OAuth sucessfully with golang.com/x/oauth2 library.
-
-","['I', ""'ve"", 'already', 'tried', 'to', 'authenticate', 'using', 'OAuth', 'sucessfully', 'with', 'golang.com/x/oauth2', 'library', '.']","['PRP', 'VBP', 'RB', 'VBN', 'TO', 'VB', 'VBG', 'NNP', 'RB', 'IN', 'JJ', 'NN', '.']"
-1,// provider variable is oauth2.Config,"['//', 'provider', 'variable', 'is', 'oauth2.Config']","['COMMENT', 'NN', 'NN', 'VBZ', 'JJ']"
-2,// scope is: https://www.googleapis.com/auth/userinfo.email,"['//', 'scope', 'is', ':', 'https', ':', 'www.googleapis.com/auth/userinfo.email']","['COMMENT', 'NN', 'VBZ', ':', 'NN', ':', 'NN']"
-3,url := provider.AuthCodeURL(``) // redirect URL,"['url', ':=', 'provider.AuthCodeURL(``)', '//', 'redirect', 'URL']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'COMMENT', 'NN', 'NNP']"
+0,I've already tried to authenticate using OAuth sucessfully with golang.com/x/oauth2 library.,"['I', ""'ve"", 'already', 'tried', 'to', 'authenticate', 'using', 'OAuth', 'sucessfully', 'with', 'golang.com/x/oauth2', 'library', '.']","['PRP', 'VBP', 'RB', 'VBN', 'TO', 'VB', 'VBG', 'NNP', 'RB', 'IN', ‘DIRECTORY', 'NN', '.']"
+1,// provider variable is oauth2.Config,"['//', 'provider', 'variable', 'is', 'oauth2.Config']","['COMMENT', 'NN', 'NN', 'VBZ', ‘IDENTIFIER’]"
+2,// scope is: https://www.googleapis.com/auth/userinfo.email,"['//', 'scope', 'is', ':', 'https:www.googleapis.com/auth/userinfo.email']","['COMMENT', 'NN', 'VBZ', ':', ‘DIRECTORY']"
+3,url := provider.AuthCodeURL(``) // redirect URL,"['url', ':=', 'provider.AuthCodeURL(``)', '//', 'redirect', 'URL']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'COMMENT', ‘VB', 'NNP']"
 4,"
 
 after getting redirected back from the client, I send the auth_code successfully
 
 ","['after', 'getting', 'redirected', 'back', 'from', 'the', 'client', ',', 'I', 'send', 'the', 'auth_code', 'successfully']","['IN', 'VBG', 'VBD', 'RB', 'IN', 'DT', 'NN', ',', 'PRP', 'VBP', 'DT', 'NN', 'RB']"
 5,auth_code := ctx.Request.URL.RawQuery // code=XXXX,"['auth_code', ':=', 'ctx', '.', 'Request', '.', 'URL', '.', 'RawQuery', '//', 'code=XXXX']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'COMMENT', 'NN']"
-6,if len(auth_code) > 5 {,"['if', 'len', '(', 'auth_code', ')', '>', '5', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-7,    auth_code = auth_code[5:] // XXXX,"['auth_code', '=', 'auth_code', '[', '5', ':]', '//', 'XXXX']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN']"
+6,if len(auth_code) > 5 {,"['if', 'len(auth_code)', '>', '5', '{']","['KEYWORD', ‘FUNCTION_CALL’, 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+7,auth_code = auth_code[5:] // XXXX,"['auth_code', '=', 'auth_code', '[', '5', ':]', '//', 'XXXX']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'COMMENT', 'NN']"
 8,},['}'],['PUNCTUATION']
 9,"tok, err := provider.Exchange(oauth2.NoContext, auth_code)","['tok', ',', 'err', ':=', 'provider.Exchange(oauth2.NoContext, auth_code)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-10,if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-11,"    client := provider.Client(oauth2.NoContext, tok)","['client', ':=', 'provider.Client(oauth2.NoContext, tok)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-12,    email_url := `https://www.googleapis.com/auth/userinfo.email`,"['email_url', ':=', 'https', '://', 'www', '.', 'go', 'ogleapis', '.', 'com/auth/userinfo.email`']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
-13,    //Log.Describe(client),"['//', 'Log.Describe', '(', 'client', ')']","['COMMENT', 'NNP', '(', 'NN', ')']"
+10,if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
+11,"client := provider.Client(oauth2.NoContext, tok)","['client', ':=', 'provider.Client(oauth2.NoContext, tok)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+12,    email_url := `https://www.googleapis.com/auth/userinfo.email`,"['email_url', ':=', ‘`https://www.googleapis.com/auth/userinfo.email`’]","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DIRECTORY']"
+13,    //Log.Describe(client),"['//', 'Log.Describe(client)']","['COMMENT', ‘FUNCTION_CALL’]"
 14,"    response, err := client.Get(email_url) ","['response', ',', 'err', ':=', 'client.Get(email_url)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-15,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+15,    if err == nil {,"['if', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 16,"        ctx.Render(`login_oauth`, response)","['ctx.Render(`login_oauth`, response)']",['FUNCTION_CALL']
-17,        //handled = true,"['//', 'handled', '=', 'true']","['COMMENT', 'VBN', 'CD', 'JJ']"
+17,        //handled = true,"['//', 'handled', '=', 'true']","['COMMENT', 'IDENTIFIER', ‘ASSIGNMENT_OPERATOR', ‘BOOLEAN_LITERAL’]"
 18,    },['}'],['PUNCTUATION']
 19,},['}'],['PUNCTUATION']
-20,//Log.Describe(err),"['//', 'Log.Describe', '(', 'err', ')']","['COMMENT', 'NNP', '(', 'NN', ')']"
+20,//Log.Describe(err),"['//', 'Log.Describe(err)']","['COMMENT', ‘FUNCTION_CALL’]"
 21,"
 
 I found nothing that tells the e-mail part on the response (the Body is empty):
 
 ","['I', 'found', 'nothing', 'that', 'tells', 'the', 'e-mail', 'part', 'on', 'the', 'response', '(', 'the', 'Body', 'is', 'empty', ')', ':']","['PRP', 'VBD', 'NN', 'WDT', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', '(', 'DT', 'NN', 'VBZ', 'JJ', ')', ':']"
 22,{,['{'],['PUNCTUATION']
-23,"    ""Status"": ""200 OK"",","['""Status""', ':', '""200 OK""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-24,"    ""StatusCode"": 200,","['""StatusCode""', ':', '200', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-25,"    ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-26,"    ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-27,"    ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+23,"""Status"": ""200 OK"",","['""Status""', ':', '""200 OK""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+24,"""StatusCode"": 200,","['""StatusCode""', ':', '200', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+25,"""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+26,"""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+27,"""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
 28,"    ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 29,"        ""Alternate-Protocol"": [","['""Alternate-Protocol""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-30,"            ""443:quic,p=0.5""","['""443:quic,p=0.5""']",['STRING_LITERAL']
+30,"""443:quic,p=0.5""","['""443:quic,p=0.5""']",['STRING_LITERAL']
 31,"        ],","['],']",['PUNCTUATION']
 32,"        ""Cache-Control"": [","['""Cache-Control""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-33,"            ""private, max-age=0""","['""private, max-age=0""']",['STRING_LITERAL']
+33,"""private, max-age=0""","['""private, max-age=0""']",['STRING_LITERAL']
 34,"        ],","['],']",['PUNCTUATION']
 35,"        ""Content-Type"": [","['""Content-Type""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 36,"            ""text/plain""","['""text/plain""']",['STRING_LITERAL']
 37,"        ],","['],']",['PUNCTUATION']
 38,"        ""Date"": [","['""Date""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-39,"            ""Tue, 14 Apr 2015 05:52:17 GMT""","['""Tue, 14 Apr 2015 05:52:17 GMT""']",['STRING_LITERAL']
+39,"""Tue, 14 Apr 2015 05:52:17 GMT""","['""Tue, 14 Apr 2015 05:52:17 GMT""']",['STRING_LITERAL']
 40,"        ],","['],']",['PUNCTUATION']
 41,"        ""Expires"": [","['""Expires""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-42,"            ""Tue, 14 Apr 2015 05:52:17 GMT""","['""Tue, 14 Apr 2015 05:52:17 GMT""']",['STRING_LITERAL']
+42,"""Tue, 14 Apr 2015 05:52:17 GMT""","['""Tue, 14 Apr 2015 05:52:17 GMT""']",['STRING_LITERAL']
 43,"        ],","['],']",['PUNCTUATION']
 44,"        ""Server"": [","['""Server""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 45,"            ""GSE""","['""GSE""']",['STRING_LITERAL']
@@ -63,75 +61,67 @@ I found nothing that tells the e-mail part on the response (the Body is empty):
 51,"            ""SAMEORIGIN""","['""SAMEORIGIN""']",['STRING_LITERAL']
 52,"        ],","['],']",['PUNCTUATION']
 53,"        ""X-Xss-Protection"": [","['""X-Xss-Protection""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-54,"            ""1; mode=block""","['""1; mode=block""']",['STRING_LITERAL']
+54,"""1; mode=block""","['""1; mode=block""']",['STRING_LITERAL']
 55,        ],[']'],['PUNCTUATION']
 56,"    },","['},']",['PUNCTUATION']
 57,"    ""Body"": {}, // empty!!!","['""Body""', ':', '{},', '//', 'empty', '!', '!', '!']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION', 'COMMENT', 'JJ', '.', '.', '.']"
-58,"    ""ContentLength"": -1,","['""ContentLength""', ':', '-', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+58,"""ContentLength"": -1,","['""ContentLength""', ':', '-1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
 59,"    ""TransferEncoding"": [","['""TransferEncoding""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 60,"        ""chunked""","['""chunked""']",['STRING_LITERAL']
 61,"    ],","['],']",['PUNCTUATION']
 62,"    ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
-63,"    ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+63,"    ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
 64,"    ""Request"": {","['""Request""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 65,"        ""Method"": ""GET"",","['""Method""', ':', '""GET""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
 66,"        ""URL"": {","['""URL""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 67,"            ""Scheme"": ""https"",","['""Scheme""', ':', '""https""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
 68,"            ""Opaque"": """",","['""Opaque""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-69,"            ""User"": null,","['""User""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+69,"            ""User"": null,","['""User""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
 70,"            ""Host"": ""www.googleapis.com"",","['""Host""', ':', '""www.googleapis.com""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-71,"            ""Path"": ""/auth/userinfo.email"",","['""Path""', ':', '""/auth/userinfo.email""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+71,"            ""Path"": ""/auth/userinfo.email"",","['""Path""', ':', '""/auth/userinfo.email""', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘DIRECTORY', 'PUNCTUATION']"
 72,"            ""RawQuery"": """",","['""RawQuery""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
 73,"            ""Fragment"": """"","['""Fragment""', ':', '""""']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL']"
 74,"        },","['},']",['PUNCTUATION']
-75,"        ""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-76,"        ""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-77,"        ""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+75,"""Proto"": ""HTTP/1.1"",","['""Proto""', ':', '""HTTP/1.1""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+76,"""ProtoMajor"": 1,","['""ProtoMajor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+77,"""ProtoMinor"": 1,","['""ProtoMinor""', ':', '1', ',']","['STRING_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
 78,"        ""Header"": {","['""Header""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 79,"            ""Authorization"": [","['""Authorization""', ':', '[']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
-80,"                ""Bearer ya29.VQFRHDe21t7g2cUhN8sUwjpRRi10XldgLe0RFhMe2ZxgyRo7q90HoKES5WmcucwKqtjZdq_KvYjKiQ""","['""Bearer ya29.VQFRHDe21t7g2cUhN8sUwjpRRi10XldgLe0RFhMe2ZxgyRo7q90HoKES5WmcucwKqtjZdq_KvYjKiQ""']",['STRING_LITERAL']
+80,"""Bearer ya29.VQFRHDe21t7g2cUhN8sUwjpRRi10XldgLe0RFhMe2ZxgyRo7q90HoKES5WmcucwKqtjZdq_KvYjKiQ""","['""Bearer ya29.VQFRHDe21t7g2cUhN8sUwjpRRi10XldgLe0RFhMe2ZxgyRo7q90HoKES5WmcucwKqtjZdq_KvYjKiQ""']",['STRING_LITERAL']
 81,            ],[']'],['PUNCTUATION']
 82,"        },","['},']",['PUNCTUATION']
-83,"        ""Body"": null,","['""Body""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-84,"        ""ContentLength"": 0,","['""ContentLength""', ':', '0', ',']","['STRING_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'PUNCTUATION']"
-85,"        ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+83,"        ""Body"": null,","['""Body""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
+84,"""ContentLength"": 0,","['""ContentLength""', ':', '0', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘DECIMAL_LITERAL', 'PUNCTUATION']"
+85,"        ""TransferEncoding"": null,","['""TransferEncoding""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
 86,"        ""Close"": false,","['""Close""', ':', 'false', ',']","['STRING_LITERAL', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION']"
 87,"        ""Host"": ""www.googleapis.com"",","['""Host""', ':', '""www.googleapis.com""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-88,"        ""Form"": null,","['""Form""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-89,"        ""PostForm"": null,","['""PostForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-90,"        ""MultipartForm"": null,","['""MultipartForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-91,"        ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+88,"        ""Form"": null,","['""Form""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
+89,"        ""PostForm"": null,","['""PostForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
+90,"        ""MultipartForm"": null,","['""MultipartForm""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
+91,"        ""Trailer"": null,","['""Trailer""', ':', 'null', ',']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
 92,"        ""RemoteAddr"": """",","['""RemoteAddr""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
 93,"        ""RequestURI"": """",","['""RequestURI""', ':', '""""', ',']","['STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-94,"        ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER']"
+94,"        ""TLS"": null","['""TLS""', ':', 'null']","['STRING_LITERAL', 'PUNCTUATION', ‘RESERVED']"
 95,"    },","['},']",['PUNCTUATION']
 96,"    ""TLS"": {","['""TLS""', ':', '{']","['STRING_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 97,         // really long output,"['//', 'really', 'long', 'output']","['COMMENT', 'RB', 'JJ', 'NN']"
 98,    },['}'],['PUNCTUATION']
 99,},['}'],['PUNCTUATION']
-100,"
+100,"First question, how to get the e-mail correctly? without using Google+ API.
 
-First question, how to get the e-mail correctly? without using Google+ API.
-
-edit #2 I've tried using another scope for oauth2.Config:
-
-","['First', 'question', ',', 'how', 'to', 'get', 'the', 'e-mail', 'correctly', '?', 'without', 'using', 'Google+', 'API', '.', 'edit', '#', '2', 'I', ""'ve"", 'tried', 'using', 'another', 'scope', 'for', 'oauth2.Config', ':']","['NNP', 'NN', ',', 'WRB', 'TO', 'VB', 'DT', 'NN', 'RB', '.', 'IN', 'VBG', 'NNP', 'NNP', '.', 'NN', '#', 'CD', 'PRP', 'VBP', 'VBN', 'VBG', 'DT', 'NN', 'IN', 'NN', ':']"
-101,https://www.googleapis.com/auth/plus.profile.emails.read,"['https', '://', 'www', '.', 'go', 'ogleapis', '.', 'com/auth/plus.profile.emails.read']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
-102,https://www.googleapis.com/auth/plus.login,"['https', '://', 'www', '.', 'go', 'ogleapis', '.', 'com/auth/plus.login']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
-103,https://www.googleapis.com/auth/plus.me,"['https', '://', 'www', '.', 'go', 'ogleapis', '.', 'com/auth/plus.me']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
+edit #2 I've tried using another scope for oauth2.Config:","['First', 'question', ',', 'how', 'to', 'get', 'the', 'e-mail', 'correctly', '?', 'without', 'using', 'Google+', 'API', '.', 'edit', '#', '2', 'I', ""'ve"", 'tried', 'using', 'another', 'scope', 'for', 'oauth2.Config', ':']","['NNP', 'NN', ',', 'WRB', 'TO', 'VB', 'DT', 'NN', 'RB', '.', 'IN', 'VBG', 'NNP', 'NNP', '.', 'NN', '#', 'CD', 'PRP', 'VBP', 'VBN', 'VBG', 'DT', 'NN', 'IN', 'NN', ':']"
+101,https://www.googleapis.com/auth/plus.profile.emails.read,['https://www.googleapis.com/auth/plus.profile.emails.read'],[‘DIRECTORY’]
+102,https://www.googleapis.com/auth/plus.login,[‘https://www.googleapis.com/auth/plus.login’],[‘DIRECTORY’]
+103,https://www.googleapis.com/auth/plus.me,[‘https://www.googleapis.com/auth/plus.me’],[‘DIRECTORY’]
 104,"
 
 and try to retrieve the e-mail using newer API:
 
-","['and', 'try', 'to', 'retrieve', 'the', 'e-mail', 'using', 'newer', 'API', ':']","['CC', 'VB', 'TO', 'VB', 'DT', 'JJ', 'VBG', 'JJR', 'NN', ':']"
-105,https://www.googleapis.com/plus/v1/people/me,"['https', '://', 'www', '.', 'go', 'ogleapis', '.', 'com/plus/v1/people/me']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
-106,"
+","['and', 'try', 'to', 'retrieve', 'the', 'e-mail', 'using', 'newer', 'API', ':']","['CC', 'VB', 'TO', 'VB', 'DT', 'NN', 'VBG', 'JJR', ‘NNP', ':']"
+105,https://www.googleapis.com/plus/v1/people/me,[‘https://www.googleapis.com/plus/v1/people/me’],[‘DIRECTORY’]
+106,"but it gives 403 Forbidden
 
-but it gives 403 Forbidden
-
-edit #3 I've tried using another scope:
-
-","['but', 'it', 'gives', '403', 'Forbidden', 'edit', '#', '3', 'I', ""'ve"", 'tried', 'using', 'another', 'scope', ':']","['CC', 'PRP', 'VBZ', 'CD', 'NNP', 'NN', '#', 'CD', 'PRP', 'VBP', 'VBN', 'VBG', 'DT', 'NN', ':']"
+edit #3 I've tried using another scope:","['but', 'it', 'gives', '403', 'Forbidden', 'edit', '#', '3', 'I', ""'ve"", 'tried', 'using', 'another', 'scope', ':']","['CC', 'PRP', 'VBZ', 'CD', 'NNP', 'NN', '#', 'CD', 'PRP', 'VBP', 'VBN', 'VBG', 'DT', 'NN', ':']"
 107,openid,['openid'],['IDENTIFIER']
 108,profile,['profile'],['IDENTIFIER']
 109,email,['email'],['IDENTIFIER']
@@ -139,11 +129,8 @@ edit #3 I've tried using another scope:
 
 and try to retrieve the e-mail using this URL:
 
-","['and', 'try', 'to', 'retrieve', 'the', 'e-mail', 'using', 'this', 'URL', ':']","['CC', 'VB', 'TO', 'VB', 'DT', 'JJ', 'VBG', 'DT', 'NN', ':']"
-111,https://www.googleapis.com/oauth2/v3/userinfo,"['https', '://', 'www', '.', 'go', 'ogleapis', '.', 'com/oauth2/v3/userinfo']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DIRECTORY']"
-112,"
+","['and', 'try', 'to', 'retrieve', 'the', 'e-mail', 'using', 'this', 'URL', ':']","['CC', 'VB', 'TO', 'VB', 'DT', 'NN', 'VBG', 'DT', ‘NNP', ':']"
+111,https://www.googleapis.com/oauth2/v3/userinfo,[‘https://www.googleapis.com/oauth2/v3/userinfo’],[‘DIRECTORY’]
+112,"but it still give empty Body as before.
 
-but it still give empty Body as before.
-
-Second question, can I reuse the oauth2.Config (provider) variable for another user? or should I create a copies for each user?
-","['but', 'it', 'still', 'give', 'empty', 'Body', 'as', 'before', '.', 'Second', 'question', ',', 'can', 'I', 'reuse', 'the', 'oauth2.Config', '(', 'provider', ')', 'variable', 'for', 'another', 'user', '?', 'or', 'should', 'I', 'create', 'a', 'copies', 'for', 'each', 'user', '?']","['CC', 'PRP', 'RB', 'VB', 'JJ', 'NNP', 'IN', 'RB', '.', 'JJ', 'NN', ',', 'MD', 'PRP', 'VB', 'DT', 'NN', '(', 'NN', ')', 'NN', 'IN', 'DT', 'NN', '.', 'CC', 'MD', 'PRP', 'VB', 'DT', 'NNS', 'IN', 'DT', 'NN', '.']"
+Second question, can I reuse the oauth2.Config (provider) variable for another user? or should I create a copies for each user?","['but', 'it', 'still', 'give', 'empty', 'Body', 'as', 'before', '.', 'Second', 'question', ',', 'can', 'I', 'reuse', 'the', 'oauth2.Config', '(', 'provider', ')', 'variable', 'for', 'another', 'user', '?', 'or', 'should', 'I', 'create', 'a', 'copies', 'for', 'each', 'user', '?']","['CC', 'PRP', 'RB', 'VB', 'JJ', 'NNP', 'IN', 'RB', '.', 'JJ', 'NN', ',', 'MD', 'PRP', 'VB', 'DT', 'NN', '(', 'NN', ')', 'NN', 'IN', 'DT', 'NN', '.', 'CC', 'MD', 'PRP', 'VB', 'DT', 'NNS', 'IN', 'DT', 'NN', '.']"

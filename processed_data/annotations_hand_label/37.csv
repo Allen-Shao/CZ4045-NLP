@@ -6,12 +6,12 @@
 2,ua := UserAccount{},"['ua', ':=', 'UserAccount', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 3,t := query.Run(ctx),"['t', ':=', 'query.Run(ctx)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 4,for ; ; {,"['for', ';', ';', '{']","['KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'PUNCTUATION']"
-5,"    if _, err = t.Next(&ua); err == nil {","['if', '_', ',', 'err', '=', 't.Next(&ua)', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+5,"    if _, err = t.Next(&ua); err == nil {","['if', '_', ',', 'err', '=', 't.Next(&ua)', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 6,"        log.Debugf(ctx, ""Current: %s"", ua)","['log.Debugf(ctx, ""Current: %s"", ua)']",['FUNCTION_CALL']
 7,    } else if err == datastore.Done {,"['}', 'else', 'if', 'err', '==', 'datastore', '.', 'Done', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 8,        break,['break'],['KEYWORD']
 9,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-10,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+10,        panic(err),[‘panic(err)'],[‘FUNCTION_CALL’]
 11,    },['}'],['PUNCTUATION']
 12,},['}'],['PUNCTUATION']
 13,"
@@ -19,10 +19,8 @@
 When the development server terminates, it states that it's ""saving search indexes"":
 
 ","['When', 'the', 'development', 'server', 'terminates', ',', 'it', 'states', 'that', 'it', ""'s"", '``', 'saving', 'search', 'indexes', ""''"", ':']","['WRB', 'DT', 'NN', 'NN', 'NNS', ',', 'PRP', 'VBZ', 'IN', 'PRP', 'VBZ', '``', 'VBG', 'NN', 'NNS', ""''"", ':']"
-14,"INFO     2016-08-08 05:09:52,894 api_server.py:651] Saving search indexes","['INFO', '2016', '-', '0', '8', '-', '0', '8', '05', ':', '0', '9', ':', '52', ',', '894', 'api_server', '.', 'py', ':', '651', ']', 'Saving', 'search', 'indexes']","['IDENTIFIER', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER']"
-15,"
-
-However, since an ""index.yaml"" file doesn't appear, I'm assuming that no indices needed to be created, which means that my query must not've had the desired effect?
+14,"INFO     2016-08-08 05:09:52,894 api_server.py:651] Saving search indexes","[‘INFO’, ‘2016-08-08’, ’05:09:52,894’,  ‘api_server.py:651]’,  ‘Saving’, ‘search’,  ‘indexes’]","[‘IDENTIFIER’, ‘STRING_LITERAL’, ‘STRING_LITERAL’, ‘IDENTIFIER’, ‘VBG’, ‘NN’, ‘NNS’]"
+15,"However, since an ""index.yaml"" file doesn't appear, I'm assuming that no indices needed to be created, which means that my query must not've had the desired effect?
 
 What am I missing?
 
@@ -34,11 +32,9 @@ Edit 2:
 
 For the purpose of testing, I've created the following model with the following code. They both exhibit the same behavior as my original model and code.
 
-Definition:
-
-","['However', ',', 'since', 'an', '``', 'index.yaml', ""''"", 'file', 'does', ""n't"", 'appear', ',', 'I', ""'m"", 'assuming', 'that', 'no', 'indices', 'needed', 'to', 'be', 'created', ',', 'which', 'means', 'that', 'my', 'query', 'must', 'not', ""'ve"", 'had', 'the', 'desired', 'effect', '?', 'What', 'am', 'I', 'missing', '?', 'Edit', ':', 'Note', 'that', 'the', 'record', 'was', 'previously', 'created', 'and', 'the', 'application', 'stopped', 'and', 'started', 'many', 'times', 'since', '.', 'I', 'sincerely', 'doubt', 'this', 'is', 'a', 'eventual-consistency', 'thing', '.', 'Edit', '2', ':', 'For', 'the', 'purpose', 'of', 'testing', ',', 'I', ""'ve"", 'created', 'the', 'following', 'model', 'with', 'the', 'following', 'code', '.', 'They', 'both', 'exhibit', 'the', 'same', 'behavior', 'as', 'my', 'original', 'model', 'and', 'code', '.', 'Definition', ':']","['RB', ',', 'IN', 'DT', '``', 'NN', ""''"", 'NN', 'VBZ', 'RB', 'VB', ',', 'PRP', 'VBP', 'VBG', 'IN', 'DT', 'NNS', 'VBN', 'TO', 'VB', 'VBN', ',', 'WDT', 'VBZ', 'IN', 'PRP$', 'NN', 'MD', 'RB', 'VBP', 'VBD', 'DT', 'VBN', 'NN', '.', 'WP', 'VBP', 'PRP', 'VBG', '.', 'NN', ':', 'NN', 'IN', 'DT', 'NN', 'VBD', 'RB', 'VBN', 'CC', 'DT', 'NN', 'VBD', 'CC', 'VBD', 'JJ', 'NNS', 'IN', '.', 'PRP', 'RB', 'VB', 'DT', 'VBZ', 'DT', 'JJ', 'NN', '.', 'CC', 'CD', ':', 'IN', 'DT', 'NN', 'IN', 'VBG', ',', 'PRP', 'VBP', 'VBN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', '.', 'PRP', 'DT', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'PRP$', 'JJ', 'NN', 'CC', 'NN', '.', 'NN', ':']"
+Definition:","['However', ',', 'since', 'an', '``', 'index.yaml', ""''"", 'file', 'does', ""n't"", 'appear', ',', 'I', ""'m"", 'assuming', 'that', 'no', 'indices', 'needed', 'to', 'be', 'created', ',', 'which', 'means', 'that', 'my', 'query', 'must', 'not', ""'ve"", 'had', 'the', 'desired', 'effect', '?', 'What', 'am', 'I', 'missing', '?', 'Edit', ':', 'Note', 'that', 'the', 'record', 'was', 'previously', 'created', 'and', 'the', 'application', 'stopped', 'and', 'started', 'many', 'times', 'since', '.', 'I', 'sincerely', 'doubt', 'this', 'is', 'a', 'eventual-consistency', 'thing', '.', 'Edit', '2', ':', 'For', 'the', 'purpose', 'of', 'testing', ',', 'I', ""'ve"", 'created', 'the', 'following', 'model', 'with', 'the', 'following', 'code', '.', 'They', 'both', 'exhibit', 'the', 'same', 'behavior', 'as', 'my', 'original', 'model', 'and', 'code', '.', 'Definition', ':']","['RB', ',', 'IN', 'DT', '``', 'NN', ""''"", 'NN', 'VBZ', 'RB', 'VB', ',', 'PRP', 'VBP', 'VBG', 'IN', 'DT', 'NNS', 'VBN', 'TO', 'VB', 'VBN', ',', 'WDT', 'VBZ', 'IN', 'PRP$', 'NN', 'MD', 'RB', 'VBP', 'VBD', 'DT', 'VBN', 'NN', '.', 'WP', 'VBP', 'PRP', 'VBG', '.', 'VB', ':', 'VB', 'IN', 'DT', 'NN', 'VBD', 'RB', 'VBN', 'CC', 'DT', 'NN', 'VBD', 'CC', 'VBD', 'JJ', 'NNS', 'IN', '.', 'PRP', 'RB', 'VB', 'DT', 'VBZ', 'DT', 'JJ', 'NN', '.', ‘NN', 'CD', ':', 'IN', 'DT', 'NN', 'IN', 'VBG', ',', 'PRP', 'VBP', 'VBN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', '.', 'PRP', 'DT', 'VBP', 'DT', 'JJ', 'NN', 'IN', 'PRP$', 'JJ', 'NN', 'CC', 'NN', '.', 'NN', ‘:']"
 16,type TestEntity struct {,"['type', 'TestEntity', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-17,    Email string,"['Email', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+17,    Email string,"['Email', 'string']","['IDENTIFIER', ‘RESERVED']"
 18,},['}'],['PUNCTUATION']
 19,"
 
@@ -52,8 +48,8 @@ Code:
 24,},['}'],['PUNCTUATION']
 25,"k := datastore.NewKey(ctx, ""TestEntity"", ""123"", 0, nil)","['k', ':=', 'datastore.NewKey(ctx, ""TestEntity"", ""123"", 0, nil)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 26,"_, err = datastore.Put(ctx, k, te)","['_', ',', 'err', '=', 'datastore.Put(ctx, k, te)']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-27,if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-28,    panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+27,if err != nil {,"['if', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
+28,    panic(err),[‘panic(err)’],[‘FUNCTION_CALL’]
 29,},['}'],['PUNCTUATION']
 30,"log.Debugf(ctx, ""Waiting."")","['log.Debugf(ctx, ""Waiting."")']",['FUNCTION_CALL']
 31,time.Sleep(1 * time.Second),['time.Sleep(1 * time.Second)'],['FUNCTION_CALL']
@@ -66,13 +62,13 @@ Code:
 38,te = &TestEntity{},"['te', '=', '&', 'TestEntity', '{}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 39,t := query.Run(ctx),"['t', ':=', 'query.Run(ctx)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 40,for ; ; {,"['for', ';', ';', '{']","['KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'PUNCTUATION']"
-41,"    if _, err = t.Next(te); err == nil {","['if', '_', ',', 'err', '=', 't.Next(te)', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+41,"    if _, err = t.Next(te); err == nil {","['if', '_', ',', 'err', '=', 't.Next(te)', ';', 'err', '==', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 42,"        log.Debugf(ctx, ""Found: [%s]"", te.Email)","['log.Debugf(ctx, ""Found: [%s]"", te.Email)']",['FUNCTION_CALL']
 43,    } else if err == datastore.Done {,"['}', 'else', 'if', 'err', '==', 'datastore', '.', 'Done', '{']","['PUNCTUATION', 'KEYWORD', 'KEYWORD', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 44,"        log.Debugf(ctx, ""Done."")","['log.Debugf(ctx, ""Done."")']",['FUNCTION_CALL']
 45,        break,['break'],['KEYWORD']
 46,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-47,        panic(err),"['panic', '(', 'err', ')']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+47,        panic(err),[‘panic(err)’],[‘FUNCTION_CALL’]
 48,    },['}'],['PUNCTUATION']
 49,},['}'],['PUNCTUATION']
 50,"
@@ -80,11 +76,11 @@ Code:
 Results:
 
 ","['Results', ':']","['NNS', ':']"
-51,2016/08/09 02:11:36 DEBUG: Putting.,"['2016/08/09', '02', ':', '11', ':', '36', 'DEBUG', ':', 'Putting', '.']","['DIRECTORY', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-52,2016/08/09 02:11:36 DEBUG: Waiting.,"['2016/08/09', '02', ':', '11', ':', '36', 'DEBUG', ':', 'Waiting', '.']","['DIRECTORY', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-53,2016/08/09 02:11:37 DEBUG: GetAll: [{anothertest@a.b}],"['2016/08/09', '02', ':', '11', ':', '37', 'DEBUG', ':', 'GetAll', ':', '[{', 'anothertest', 'a', '.', 'b', '}]']","['DIRECTORY', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-54,2016/08/09 02:11:37 DEBUG: Running query.,"['2016/08/09', '02', ':', '11', ':', '37', 'DEBUG', ':', 'Running', 'query', '.']","['DIRECTORY', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION']"
-55,2016/08/09 02:11:37 DEBUG: Done.,"['2016/08/09', '02', ':', '11', ':', '37', 'DEBUG', ':', 'Done', '.']","['DIRECTORY', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+51,2016/08/09 02:11:36 DEBUG: Putting.,"[‘2016/08/09’, ’02:11:36’,  ‘DEBUG: Putting.’]","[‘STRING_LITERA’, ‘STRING_LITERA’, ‘STRING_LITERA’]"
+52,2016/08/09 02:11:36 DEBUG: Waiting.,"[‘2016/08/09’, ’02:11:36’, ‘DEBUG: Waiting.’]","[‘STRING_LITERA’, ‘STRING_LITERA’, ‘STRING_LITERA’]"
+53,2016/08/09 02:11:37 DEBUG: GetAll: [{anothertest@a.b}],"[‘2016/08/09’, ’02:11:37’, ‘DEBUG: GetAll: [{anothertest@a.b}]']","[‘STRING_LITERA’, ‘STRING_LITERA’, ‘STRING_LITERA’]"
+54,2016/08/09 02:11:37 DEBUG: Running query.,"[‘2016/08/09’ ’02:11:37’, ‘DEBUG: Running query.’]","[‘STRING_LITERA’, ‘STRING_LITERA’, ‘STRING_LITERA’]"
+55,2016/08/09 02:11:37 DEBUG: Done.,"[‘2016/08/09’, ’02:11:37’, ‘DEBUG: Running query.’]","[‘STRING_LITERA’, ‘STRING_LITERA’, ‘STRING_LITERA’]"
 56,"
 
 Screenshot of Viewer:
