@@ -1,0 +1,36 @@
+,text,token
+0,"I have an SDL2 go program which tries to write a pixel array to the screen. When I try and update the texture with the new pixels the program panics with a runtime error:
+
+","['I', 'have', 'an', 'SDL2', 'go', 'program', 'which', 'tries', 'to', 'write', 'a', 'pixel', 'array', 'to', 'the', 'screen', '.', 'When I', 'try', 'and', 'update', 'the', 'texture', 'with', 'the', 'new', 'pixels', 'the', 'program', 'panics', 'with', 'a', 'runtime', 'error', ':']"
+1,fatal error: unexpected signal during runtime execution,"['fatal', 'error', ':', 'unexpected', 'signal', 'during', 'runtime', 'execution']"
+2,"
+
+Unfortunately I can find little to no documentation about how to pass around unsafe pointers in Go and I'm not sure if I'm approaching this correctly, here is some example code that exhibits the problem:
+
+","['Unfortunately I', 'can', 'find', 'little', 'to', 'no', 'documentation', 'about', 'how', 'to', 'pass', 'around', 'unsafe', 'pointers', 'in', 'Go', 'and', ""I'm"", 'not', 'sure', 'if', ""I'm"", 'approaching', 'this', 'correctly', ',', 'here', 'is', 'some', 'example', 'code', 'that', 'exhibits', 'the', 'problem', ':']"
+3,func main() {,"['func', 'main()', '{']"
+4,"    window := sdl.CreateWindow(""test"", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,","['window', ':=', 'sdl', '.', 'CreateWindow', '(', '""test""', ',', 'sdl', '.', 'WINDOWPOS_UNDEFINED', ',', 'sdl', '.', 'WINDOWPOS_UNDEFINED', ',']"
+5,"        800, 600, sdl.WINDOW_SHOWN)","['800', ',', '600', ',', 'sdl', '.', 'WINDOW_SHOWN', ')']"
+6,"    renderer := sdl.CreateRenderer(window, -1, 0)","['renderer', ':=', 'sdl.CreateRenderer(window, -1, 0)']"
+7,"    texture := sdl.CreateTexture(renderer, sdl.PIXELFORMAT_ARGB8888,","['texture', ':=', 'sdl', '.', 'CreateTexture', '(', 'renderer', ',', 'sdl', '.', 'PIXELFORMAT_ARGB8888', ',']"
+8,"        sdl.TEXTUREACCESS_STATIC, 800, 600)","['sdl', '.', 'TEXTUREACCESS_STATIC', ',', '800', ',', '600', ')']"
+9,    defer renderer.Destroy(),"['defer', 'renderer.Destroy()']"
+10,    defer texture.Destroy(),"['defer', 'texture.Destroy()']"
+11,    defer window.Destroy(),"['defer', 'window.Destroy()']"
+12,    for {,"['for', '{']"
+13,"        pixels := make([]uint32, 800*600)","['pixels', ':=', 'make([]uint32, 800*600)']"
+14,"        texture.Update(nil, unsafe.Pointer(&pixels), int(800*unsafe.Sizeof(pixels)))","['texture.Update(nil, unsafe.Pointer(&pixels), int(800*unsafe.Sizeof(pixels)))']"
+15,        window.UpdateSurface(),['window.UpdateSurface()']
+16,        renderer.Clear(),['renderer.Clear()']
+17,"        renderer.Copy(texture, nil, nil)","['renderer.Copy(texture, nil, nil)']"
+18,        renderer.Present(),['renderer.Present()']
+19,    },['}']
+20,    sdl.Delay(1000),['sdl.Delay(1000)']
+21,    sdl.Quit(),['sdl.Quit()']
+22,},['}']
+23,"
+
+This code will compile with no errors, but when ran it will produce a runtime panic, but I can't see what would cause that in this code.
+
+I am using these SDL2 Go bindings: https://github.com/veandco/go-sdl2
+","['This', 'code', 'will', 'compile', 'with', 'no', 'errors', ',', 'but', 'when', 'ran', 'it', 'will', 'produce', 'a', 'runtime', 'panic', ',', 'but', 'I', ""can't"", 'see', 'what', 'would', 'cause', 'that', 'in', 'this', 'code', '.', 'I', 'am', 'using', 'these', 'SDL2', 'Go', 'bindings', ':', 'https://github.com/veandco/go-sdl2']"

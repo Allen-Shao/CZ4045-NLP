@@ -1,0 +1,74 @@
+,text,token
+0,"With slice value type
+
+map is a good choice if you need fast lookup, but since you want to store multiple values for the same key, that warrants for a slice as the value type:
+
+","['With', 'slice', 'value', 'type', 'map', 'is', 'a', 'good', 'choice', 'if', 'you', 'need', 'fast', 'lookup', ',', 'but', 'since', 'you', 'want', 'to', 'store', 'multiple', 'values', 'for', 'the', 'same', 'key', ',', 'that', 'warrants', 'for', 'a', 'slice', 'as', 'the', 'value', 'type', ':']"
+1,m := map[int][]interface{}{},"['m', ':=', 'map', '[', 'int', '][]', 'interface', '{}{}']"
+2,"m[1] = append(m[1], ""one"")","['m', '[', '1', ']', '=', 'append(m[1], ""one"")']"
+3,"m[2] = append(m[2], ""two"")","['m', '[', '2', ']', '=', 'append(m[2], ""two"")']"
+4,"m[1] = append(m[1], ""three"")","['m', '[', '1', ']', '=', 'append(m[1], ""three"")']"
+5,fmt.Println(m[1]),['fmt.Println(m[1])']
+6,"
+
+Output (try it on the Go Playground):
+
+[one three]
+
+
+Note that using this map is a little less convenient, as when you want to add a new value you don't (can't) just assign it but you have to append to the existing slice associated with the key, and you have to assign back the (potentially) new slice.
+
+To ease this ""pain"", you may create your own type and provide helper methods to support different operations on the map. This is also true for the subsequent alternatives, so being a little more verbose does not necessarily mean you have to struggle with it.
+
+With pointer to slice value type
+
+Note that you could avoid having to reassign the new slice if you would store pointers in the map, for example:
+
+","['Output', '(', 'try', 'it', 'on', 'the', 'Go Playground', ')', ':', '[', 'one', 'three', ']', 'Note', 'that', 'using', 'this', 'map', 'is', 'a', 'little', 'less', 'convenient', ',', 'as', 'when', 'you', 'want', 'to', 'add', 'a', 'new', 'value', 'you', ""don't"", ""(can't)"", 'just', 'assign', 'it', 'but', 'you', 'have', 'to', 'append', 'to', 'the', 'existing', 'slice', 'associated', 'with', 'the', 'key', ',', 'and', 'you', 'have', 'to', 'assign', 'back', 'the', '(potentially)', 'new', 'slice', '.', 'To', 'ease', 'this', '""pain"",', 'you', 'may', 'create', 'your', 'own', 'type', 'and', 'provide', 'helper', 'methods', 'to', 'support', 'different', 'operations', 'on', 'the', 'map', '.', 'This', 'is', 'also', 'true', 'for', 'the', 'subsequent', 'alternatives', ',', 'so', 'being', 'a', 'little', 'more', 'verbose', 'does', 'not', 'necessarily', 'mean', 'you', 'have', 'to', 'struggle', 'with', 'it', '.', 'With', 'pointer', 'to', 'slice', 'value', 'type', 'Note', 'that', 'you', 'could', 'avoid', 'having', 'to', 'reassign', 'the', 'new', 'slice', 'if', 'you', 'would', 'store', 'pointers', 'in', 'the', 'map', ',', 'for', 'example', ':']"
+7,m := map[int]*[]interface{}{},"['m', ':=', 'map', '[', 'int', ']*[]', 'interface', '{}{}']"
+8,m[1] = &[]interface{}{},"['m', '[', '1', ']', '=', '&[]', 'interface', '{}{}']"
+9,m[2] = &[]interface{}{},"['m', '[', '2', ']', '=', '&[]', 'interface', '{}{}']"
+10,s := m[1],"['s', ':=', 'm', '[', '1', ']']"
+11,"*s = append(*s, ""one"")","['*', 's', '=', 'append(*s, ""one"")']"
+12,s = m[2],"['s', '=', 'm', '[', '2', ']']"
+13,"*s = append(*s, ""two"")","['*', 's', '=', 'append(*s, ""two"")']"
+14,s = m[1],"['s', '=', 'm', '[', '1', ']']"
+15,"*s = append(*s, ""three"")","['*', 's', '=', 'append(*s, ""three"")']"
+16,fmt.Println(m[1]),['fmt.Println(m[1])']
+17,"
+
+Output (try it on the Go Playground):
+
+&[one three]
+
+
+You still have to assign back the slice returned by append(), but not to a map key but to the pointed value (acquired from / stored in the map).
+
+But as you can see, handling it is more hassle, but may be more efficient if you add new elements frequently. Also note that since zero value for any pointer type is nil, before you could add an element for a key, you first have to initialize it with a pointer to an existing, non-nil slice (but if you create your own type, you can hide this check and initialization).
+
+With map as value type
+
+Previous solutions (with slices in keys) are good, but if you also have to support frequent removal operation, they lag behind, as whenever you have to remove an element, you index the map to get the slice, and you have to search this slice and remove the element from it (and removing from a slice includes slice header update and copying subsequent elements to 1-less indices). If this slice is not sorted, this is a linear search and so it has O(n) complexity (where n is the number of elements associated with the same key, not the number of keys in the map). May not be acceptable depending on your case.
+
+To support fast element removal, you may keep the value slices sorted, and so finding the removable element in them is O(log(n)) complexity – acceptable in most cases.
+
+An even faster solution may use another map (as a set, see example #1 and example #2) as the value type, which will be O(1) complexity for removals too. Cool. It could look like this:
+
+","['Output', '(', 'try', 'it', 'on', 'the', 'Go Playground', ')', ':', '&', '[', 'one', 'three', ']', 'You', 'still', 'have', 'to', 'assign', 'back', 'the', 'slice', 'returned', 'by', 'append', '(', ')', ',', 'but', 'not', 'to', 'a', 'map', 'key', 'but', 'to', 'the', 'pointed', 'value', '(', 'acquired', 'from', '/', 'stored', 'in', 'the', 'map', ')', '.', 'But', 'as', 'you', 'can', 'see', ',', 'handling', 'it', 'is', 'more', 'hassle', ',', 'but', 'may', 'be', 'more', 'efficient', 'if', 'you', 'add', 'new', 'elements', 'frequently', '.', 'Also', 'note', 'that', 'since', 'zero', 'value', 'for', 'any', 'pointer', 'type', 'is', 'nil', ',', 'before', 'you', 'could', 'add', 'an', 'element', 'for', 'a', 'key', ',', 'you', 'first', 'have', 'to', 'initialize', 'it', 'with', 'a', 'pointer', 'to', 'an', 'existing', ',', 'non-nil', 'slice', '(', 'but', 'if', 'you', 'create', 'your', 'own', 'type', ',', 'you', 'can', 'hide', 'this', 'check', 'and', 'initialization', ')', '.', 'With', 'map', 'as', 'value', 'type', 'Previous', 'solutions', '(', 'with', 'slices', 'in', 'keys', ')', 'are', 'good', ',', 'but', 'if', 'you', 'also', 'have', 'to', 'support', 'frequent', 'removal', 'operation', ',', 'they', 'lag', 'behind', ',', 'as', 'whenever', 'you', 'have', 'to', 'remove', 'an', 'element', ',', 'you', 'index', 'the', 'map', 'to', 'get', 'the', 'slice', ',', 'and', 'you', 'have', 'to', 'search', 'this', 'slice', 'and', 'remove', 'the', 'element', 'from', 'it', '(', 'and', 'removing', 'from', 'a', 'slice', 'includes', 'slice', 'header', 'update', 'and', 'copying', 'subsequent', 'elements', 'to', '1-less', 'indices', ')', '.', 'If', 'this', 'slice', 'is', 'not', 'sorted', ',', 'this', 'is', 'a', 'linear', 'search', 'and', 'so', 'it', 'has', 'O(n', ')', 'complexity', '(', 'where', 'n', 'is', 'the', 'number', 'of', 'elements', 'associated', 'with', 'the', 'same', 'key', ',', 'not', 'the', 'number', 'of', 'keys', 'in', 'the', 'map', ')', '.', 'May', 'not', 'be', 'acceptable', 'depending', 'on', 'your', 'case', '.', 'To', 'support', 'fast', 'element', 'removal', ',', 'you', 'may', 'keep', 'the', 'value', 'slices', 'sorted', ',', 'and', 'so', 'finding', 'the', 'removable', 'element', 'in', 'them', 'is', 'O(log(n', ')', ')', 'complexity', '–', 'acceptable', 'in', 'most', 'cases', '.', 'An', 'even', 'faster', 'solution', 'may', 'use', 'another', 'map', '(', 'as', 'a', 'set', ',', 'see', 'example', '#', '1', 'and', 'example', '#2)', 'as', 'the', 'value', 'type', ',', 'which', 'will', 'be', 'O(1', ')', 'complexity', 'for', 'removals', 'too', '.', 'Cool', '.', 'It', 'could', 'look', 'like', 'this', ':']"
+18,m := map[int]map[interface{}]bool{},"['m', ':=', 'map', '[', 'int', ']', 'map', '[', 'interface', '{}]', 'bool', '{}']"
+19,m[1] = map[interface{}]bool{},"['m', '[', '1', ']', '=', 'map', '[', 'interface', '{}]', 'bool', '{}']"
+20,m[2] = map[interface{}]bool{},"['m', '[', '2', ']', '=', 'map', '[', 'interface', '{}]', 'bool', '{}']"
+21,"m[1][""one""] = true","['m', '[', '1', '][', '""one""', ']', '=', 'true']"
+22,"m[2][""two""] = true","['m', '[', '2', '][', '""two""', ']', '=', 'true']"
+23,"m[1][""three""] = true","['m', '[', '1', '][', '""three""', ']', '=', 'true']"
+24,fmt.Println(m[1]),['fmt.Println(m[1])']
+25,"
+
+Output (try it on the Go Playground):
+
+","['Output', '(', 'try', 'it', 'on', 'the', 'Go', 'Playground', ')', ':']"
+26,map[one:true three:true],"['map', '[', 'one', ':', 'true', 'three', ':', 'true', ']']"
+27,"
+
+Just as with the pointer-to-slice value type, you first have to initialize a value for a key with a non-nil map before you can actually ""add"" values to it. Hide this by creating your own type and adding methods.
+","['Just', 'as', 'with', 'the', 'pointer-to-slice', 'value', 'type', ',', 'you', 'first', 'have', 'to', 'initialize', 'a', 'value', 'for', 'a', 'key', 'with', 'a', 'non-nil', 'map', 'before', 'you', 'can', 'actually', '""add""', 'values', 'to', 'it', '.', 'Hide', 'this', 'by', 'creating', 'your', 'own', 'type', 'and', 'adding', 'methods', '.']"

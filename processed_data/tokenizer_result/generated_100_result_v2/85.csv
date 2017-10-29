@@ -1,0 +1,21 @@
+,text,token
+0,"Use binary shift operators to load seven bits at a time into a bit buffer, and whenever the bit buffer has eight bits, output that.  At the end, if there are any bits leftover, output a final byte with what's in the buffer.
+
+So something like (don't know Go, but this should be close):
+
+","['Use', 'binary', 'shift', 'operators', 'to', 'load', 'seven', 'bits', 'at', 'a', 'time', 'into', 'a', 'bit', 'buffer', ',', 'and', 'whenever', 'the', 'bit', 'buffer', 'has', 'eight', 'bits', ',', 'output', 'that', '.', 'At', 'the', 'end', ',', 'if', 'there', 'are', 'any', 'bits', 'leftover', ',', 'output', 'a', 'final', 'byte', 'with', ""what's"", 'in', 'the', 'buffer', '.', 'So', 'something', 'like', '(', ""don't"", 'know', 'Go', ',', 'but', 'this', 'should', 'be', 'close', ')', ':']"
+1,bits = 0,"['bits', '=', '0']"
+2,bitbuf = 0,"['bitbuf', '=', '0']"
+3,... some loop ...,"['...', 'some', 'loop', '...']"
+4,    ...make your seven bits ...,"['...', 'make', 'your', 'seven', 'bits', '...']"
+5,    bitbuf |= sevenbits << bits,"['bitbuf', '|=', 'sevenbits', '<<', 'bits']"
+6,    bits += 7,"['bits', '+=', '7']"
+7,    if bits >= 8 {,"['if', 'bits', '>=', '8', '{']"
+8,        output(bitbuf & 0xff),['output(bitbuf & 0xff)']
+9,        bitbuf >>= 8;,"['bitbuf', '>>=', '8', ';']"
+10,        bits -= 8;,"['bits', '-=', '8', ';']"
+11,    },['}']
+12,...,['...']
+13,if bits > 0 {,"['if', 'bits', '>', '0', '{']"
+14,    output(bitbuf),['output(bitbuf)']
+15,},['}']

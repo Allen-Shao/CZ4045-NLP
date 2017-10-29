@@ -1,0 +1,19 @@
+,text,token
+0,"Can anyone tell my why this wouldn't compile?
+
+","['Can', 'anyone', 'tell', 'my', 'why', 'this', ""wouldn't"", 'compile', '?']"
+1,package main,"['package', 'main']"
+2,type myint int,"['type', 'myint', 'int']"
+3,func set(a **myint) {,"['func', 'set(a **myint)', '{']"
+4,    i := myint(5),"['i', ':=', 'myint(5)']"
+5,    *a = &i ,"['*', 'a', '=', '&', 'i']"
+6,},['}']
+7,func main() {,"['func', 'main()', '{']"
+8,    var k *int,"['var', 'k', '*', 'int']"
+9,    set( (**myint)(&k) ) // cannot convert &k (type **int) to type **myint,"['set( (**myint)(&k) ) // cannot convert &k (type **int)', 'to', 'type', '**', 'myint']"
+10,    print( *k ),['print( *k )']
+11,},['}']
+12,"
+
+My reasoning so far is this. All types in Golang are different, but it allows to convert from one type to another with C-like cast syntax as long as underlying types are identical. In my example, converting 'int' to 'myint' is not a problem. '*int' to '*myint' isn't either. It's when you have pointer to pointer problems arise. I've been stuck on this for the second day now. Any help is appreciated.
+","['My', 'reasoning', 'so', 'far', 'is', 'this', '.', 'All', 'types', 'in', 'Golang', 'are', 'different', ',', 'but', 'it', 'allows', 'to', 'convert', 'from', 'one', 'type', 'to', 'another', 'with', 'C-like', 'cast', 'syntax', 'as', 'long', 'as', 'underlying', 'types', 'are', 'identical', '.', 'In', 'my', 'example', ',', 'converting', ""'int'"", 'to', ""'myint'"", 'is', 'not', 'a', 'problem', '.', ""'*int'"", 'to', ""'*myint'"", ""isn't"", 'either', '.', ""It's"", 'when', 'you', 'have', 'pointer', 'to', 'pointer', 'problems', 'arise', '.', ""I've"", 'been', 'stuck', 'on', 'this', 'for', 'the', 'second', 'day', 'now', '.', 'Any', 'help', 'is', 'appreciated', '.']"
