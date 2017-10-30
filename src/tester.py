@@ -16,7 +16,6 @@ def read_csv(dirname):
 			t = t.replace("‘", "'")
 			t = t.replace("“", '"')
 			t = t.replace("”", '"')
-			t = t.replace(":", ":")
 
 			t = t.replace("''s'", "\"'s\"")# Special Handle
 			# start = t.find("[")
@@ -72,14 +71,14 @@ for i in range(len(generated_texts)):
 	start_generated = end_generated = 0
 	start_test = end_test = 0
 
-	while (i_generated < len(generated_token) or i_test < len(generated_token)):
+	while (i_generated < len(generated_token) or i_test < len(test_token)):
 		# if generated_token[i_generated] == test_token[i_test]:
-		input()
-		print(i_generated, i_test)
+		# input()
+		# print(i_generated, i_test)
 		generated_processed = replace_quotation_annotation("".join(generated_token[start_generated:i_generated+1]).replace(" ", ""))
 		test_processed = replace_quotation_annotation("".join(test_token[start_test:i_test+1]).replace(" ", ""))
-		print(generated_processed)
-		print(test_processed)
+		# print(generated_processed)
+		# print(test_processed)
 		if generated_processed == test_processed:
 		 # or (join(generated_token[start_generated:i_generated+1]) == " ".join(test_token[start_test:i_test+1])):
 			end_generated = i_generated
@@ -98,11 +97,27 @@ for i in range(len(generated_texts)):
 			start_test = end_test = i_test
 			continue
 		else:
+			
 			if len(generated_processed) > len(test_processed):
 				i_test += 1
-				continue
 			elif len(generated_processed) < len(test_processed):
 				i_generated += 1
+			else:
+				wrong += i_test - start_test + 1
+				print("Wrong tokens: ")
+				print("Generated: " + str(generated_token[start_generated:i_generated+1]))
+				print("Test: " + str(test_token[start_test:i_test+1]))
+				print()
+				i_generated += 1
+				i_test += 1
+				start_generated = end_generated = i_generated
+				start_test = end_test = i_test
+
+			if (i_test >= len(test_token)) or (i_generated >= len(generated_token)):
+				break
 			# else:
 				#TODO: SIMPLY WRONG
+print("Total token number: ", end="")
+print(sum([len(a) for a in test_tokens]))
+print("Total wront token number: ", end="")
 print(wrong)
