@@ -3,24 +3,24 @@
 
 ","['Another', 'approach', 'is', 'using', 'sync.Cond', 'and', 'atomic', ',', 'something', 'along', 'the', 'lines', 'of', ':']","['DT', 'NN', 'VBZ', 'VBG', 'NN', 'CC', 'JJ', ',', 'NN', 'IN', 'DT', 'NNS', 'IN', ':']"
 1,type Server struct {,"['type', 'Server', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-2,    s     chan int,"['s', 'chan', 'int']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
-3,    r     chan int,"['r', 'chan', 'int']","['IDENTIFIER', 'KEYWORD', 'IDENTIFIER']"
+2,    s     chan int,"['s', 'chan', 'int']","['IDENTIFIER', 'KEYWORD', ‘RESERVED']"
+3,    r     chan int,"['r', 'chan', 'int']","['IDENTIFIER', 'KEYWORD', ‘RESERVED']"
 4,    c     *sync.Cond,"['c', '*', 'sync', '.', 'Cond']","['IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-5,    state uint32,"['state', 'uint32']","['IDENTIFIER', 'IDENTIFIER']"
+5,state uint32,"['state', 'uint32']","['IDENTIFIER', 'IDENTIFIER']"
 6,},['}'],['PUNCTUATION']
 7,const (,"['const', '(']","['KEYWORD', 'PUNCTUATION']"
-8,    sNormal       = 0,"['sNormal', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL']"
-9,    sQuitting     = 1,"['sQuitting', '=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-10,    sReconnecting = 2,"['sReconnecting', '=', '2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+8,sNormal       = 0,"['sNormal', '=', '0']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘DECIMAL_LITERAL']"
+9,sQuitting     = 1,"['sQuitting', '=', '1']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+10,sReconnecting = 2,"['sReconnecting', '=', '2']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
 11,),[')'],['PUNCTUATION']
 12,func New() *Server {,"['func', 'New', '()', '*', 'Server', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 13,    s := &Server{,"['s', ':=', '&', 'Server', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
-14,"        s: make(chan int),","['s', ':', 'make', '(', 'chan', 'int', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-15,"        r: make(chan int),","['r', ':', 'make', '(', 'chan', 'int', '),']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+14,"        s: make(chan int),","['s', ':', ‘make(chan int)’, ‘,’]","['IDENTIFIER', 'PUNCTUATION', ‘FUNCTION_CALL’, ‘PUNCTUATION’]"
+15,"        r: make(chan int),","['r', ':', ‘make(chan int)’, ‘,’]","['IDENTIFIER', 'PUNCTUATION', ‘FUNCTION_CALL’, ‘PUNCTUATION’]"
 16,"        c: sync.NewCond(&sync.Mutex{}),","['c', ':', 'sync.NewCond(&sync.Mutex{})', ',']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL', 'PUNCTUATION']"
 17,    },['}'],['PUNCTUATION']
 18,    go s.sender(),"['go', 's.sender()']","['KEYWORD', 'FUNCTION_CALL']"
-19,    // go s.receiver(),"['//', 'go', 's.receiver', '(', ')']","['COMMENT', 'VB', 'RB', '(', ')']"
+19,    // go s.receiver(),"['//', 'go', 's.receiver()']","['COMMENT', ‘FUNCTION_CALL’]"
 20,    return s,"['return', 's']","['KEYWORD', 'IDENTIFIER']"
 21,},['}'],['PUNCTUATION']
 22,func (s *Server) sender() {,"['func', '(', 's', '*', 'Server', ')', 'sender', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
@@ -30,34 +30,34 @@
 26,        case data := <-s.s:,"['case', 'data', ':=', '<-', 's', '.', 's', ':']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 27,        //do stuff with data,"['//', 'do', 'stuff', 'with', 'data']","['COMMENT', 'VB', 'NN', 'IN', 'NNS']"
 28,        default:,"['default', ':']","['KEYWORD', 'PUNCTUATION']"
-29,            s.c.L.Lock(),"['s', '.', 'c', '.', 'L.Lock()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+29,            s.c.L.Lock(),[’s.c.L.Lock()’],[‘FUNCTION_CALL’]
 30,        L:,"['L', ':']","['IDENTIFIER', 'PUNCTUATION']"
 31,            for {,"['for', '{']","['KEYWORD', 'PUNCTUATION']"
-32,                switch atomic.LoadUint32(&s.state) {,"['switch', 'atomic.LoadUint32(&s.state)', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'PUNCTUATION']"
+32,switch atomic.LoadUint32(&s.state) {,"['switch', 'atomic.LoadUint32(&s.state)', '{']","['IDENTIFIER', 'FUNCTION_CALL', 'PUNCTUATION']"
 33,                case sNormal:,"['case', 'sNormal', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 34,                    break L,"['break', 'L']","['KEYWORD', 'IDENTIFIER']"
 35,                case sReconnecting:,"['case', 'sReconnecting', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 36,                case sQuitting:,"['case', 'sQuitting', ':']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-37,                    s.c.L.Unlock(),"['s', '.', 'c', '.', 'L.Unlock()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+37,                    s.c.L.Unlock(),[’s.c.L.Unlock()’],[‘FUNCTION_CALL’]
 38,                    return,['return'],['KEYWORD']
 39,                },['}'],['PUNCTUATION']
-40,                s.c.Wait(),"['s', '.', 'c.Wait()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+40,                s.c.Wait(),[’s.c.Wait()’],['FUNCTION_CALL']
 41,            },['}'],['PUNCTUATION']
-42,            s.c.L.Unlock(),"['s', '.', 'c', '.', 'L.Unlock()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+42,            s.c.L.Unlock(),[’s.c.L.Unlock()’],['FUNCTION_CALL']
 43,        },['}'],['PUNCTUATION']
 44,    },['}'],['PUNCTUATION']
 45,},['}'],['PUNCTUATION']
-46,//repeat for receiver,"['//', 'repeat', 'for', 'receiver']","['COMMENT', 'NN', 'IN', 'NN']"
+46,//repeat for receiver,"['//', 'repeat', 'for', 'receiver']","['COMMENT', ‘VB', 'IN', 'NN']"
 47,func (s *Server) Reconnect() {,"['func', '(', 's', '*', 'Server', ')', 'Reconnect', '()', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-48,    var cannotReconnect bool,"['var', 'cannotReconnect', 'bool']","['KEYWORD', 'IDENTIFIER', 'IDENTIFIER']"
-49,"    atomic.StoreUint32(&s.state, sReconnecting)","['atomic.StoreUint32(&s.state, sReconnecting)']",['FUNCTION_CALL']
+48,    var cannotReconnect bool,"['var', 'cannotReconnect', 'bool']","['KEYWORD', 'IDENTIFIER', ‘RESERVED']"
+49,"atomic.StoreUint32(&s.state, sReconnecting)","['atomic.StoreUint32(&s.state, sReconnecting)']",['FUNCTION_CALL']
 50,    //keep trying to reconnect,"['//', 'keep', 'trying', 'to', 'reconnect']","['COMMENT', 'VB', 'VBG', 'TO', 'VB']"
 51,    if cannotReconnect {,"['if', 'cannotReconnect', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
-52,"        atomic.StoreUint32(&s.state, sQuitting)","['atomic.StoreUint32(&s.state, sQuitting)']",['FUNCTION_CALL']
+52,"atomic.StoreUint32(&s.state, sQuitting)","['atomic.StoreUint32(&s.state, sQuitting)']",['FUNCTION_CALL']
 53,    } else {,"['}', 'else', '{']","['PUNCTUATION', 'KEYWORD', 'PUNCTUATION']"
-54,"        atomic.StoreUint32(&s.state, sNormal)","['atomic.StoreUint32(&s.state, sNormal)']",['FUNCTION_CALL']
+54,"atomic.StoreUint32(&s.state, sNormal)","['atomic.StoreUint32(&s.state, sNormal)']",['FUNCTION_CALL']
 55,    },['}'],['PUNCTUATION']
-56,    s.c.Broadcast(),"['s', '.', 'c.Broadcast()']","['IDENTIFIER', 'PUNCTUATION', 'FUNCTION_CALL']"
+56,    s.c.Broadcast(),[’s.c.Broadcast()’],['FUNCTION_CALL']
 57,},['}'],['PUNCTUATION']
 58,"
 

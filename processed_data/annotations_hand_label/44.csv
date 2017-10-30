@@ -1,22 +1,20 @@
 ,text,token,annotation
-0,"I'm having a hard time understanding how buffered channels work. Based on the following example, i'm trying to utilize 2 threads at a time to print out the current time, with approximately 2 second delays between every 2 go calls:
-
-","['I', ""'m"", 'having', 'a', 'hard', 'time', 'understanding', 'how', 'buffered', 'channels', 'work', '.', 'Based', 'on', 'the', 'following', 'example', ',', 'i', ""'m"", 'trying', 'to', 'utilize', '2', 'threads', 'at', 'a', 'time', 'to', 'print', 'out', 'the', 'current', 'time', ',', 'with', 'approximately', '2', 'second', 'delays', 'between', 'every', '2', 'go', 'calls', ':']","['PRP', 'VBP', 'VBG', 'DT', 'JJ', 'NN', 'VBG', 'WRB', 'JJ', 'NNS', 'NN', '.', 'VBN', 'IN', 'DT', 'JJ', 'NN', ',', 'JJ', 'VBP', 'VBG', 'TO', 'VB', 'CD', 'NNS', 'IN', 'DT', 'NN', 'TO', 'VB', 'RP', 'DT', 'JJ', 'NN', ',', 'IN', 'RB', 'CD', 'JJ', 'NNS', 'IN', 'DT', 'CD', 'VBP', 'NNS', ':']"
+0,"I'm having a hard time understanding how buffered channels work. Based on the following example, i'm trying to utilize 2 threads at a time to print out the current time, with approximately 2 second delays between every 2 go calls:","['I', ""'m"", 'having', 'a', 'hard', 'time', 'understanding', 'how', 'buffered', 'channels', 'work', '.', 'Based', 'on', 'the', 'following', 'example', ',', 'i', ""'m"", 'trying', 'to', 'utilize', '2', 'threads', 'at', 'a', 'time', 'to', 'print', 'out', 'the', 'current', 'time', ',', 'with', 'approximately', '2', 'second', 'delays', 'between', 'every', '2', 'go', 'calls', ':']","['PRP', 'VBP', 'VBG', 'DT', 'JJ', 'NN', 'VBG', 'WRB', 'JJ', 'NNS', ‘VB', '.', 'VBN', 'IN', 'DT', 'JJ', 'NN', ',', ‘PRP', 'VBP', 'VBG', 'TO', 'VB', 'CD', 'NNS', 'IN', 'DT', 'NN', 'TO', 'VB', 'RP', 'DT', 'JJ', 'NN', ',', 'IN', 'RB', 'CD', ‘NN', 'NNS', 'IN', 'DT', 'CD', 'NNP', 'NNS', ':']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,"import ""fmt""","['import', '""fmt""']","['KEYWORD', 'STRING_LITERAL']"
 3,"import ""time""","['import', '""time""']","['KEYWORD', 'STRING_LITERAL']"
 4,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-5,    returnCurrentTime := func() string  {,"['return', 'CurrentTime', ':=', 'func', '()', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+5,    returnCurrentTime := func() string  {,"['return', 'CurrentTime', ':=', 'func', '()', 'string', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', ‘RESERVED', 'PUNCTUATION']"
 6,        return time.Now().String(),"['return', 'time.Now().String()']","['KEYWORD', 'FUNCTION_CALL']"
 7,    },['}'],['PUNCTUATION']
-8,"    c := make(chan string, 2)","['c', ':=', 'make', '(', 'chan', 'string', ',', '2', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+8,"c := make(chan string, 2)","[‘c := make(chan string, 2)’]",[‘FUNCTION_CALL’]
 9,    asyncReturnCurrentTime := func(c chan string) {,"['asyncReturnCurrentTime', ':=', 'func', '(', 'c', 'chan', 'string', ')', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-10,        time.Sleep(2001 * time.Millisecond),['time.Sleep(2001 * time.Millisecond)'],['FUNCTION_CALL']
-11,        c <- returnCurrentTime(),"['c', '<-', 'return', 'CurrentTime', '()']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+10,time.Sleep(2001 * time.Millisecond),['time.Sleep(2001 * time.Millisecond)'],['FUNCTION_CALL']
+11,        c <- returnCurrentTime(),"['c', '<-', 'returnCurrentTime()']","['IDENTIFIER', 'CHANNEL_OPERATOR', ‘FUNCTION_CALL’]"
 12,    },['}'],['PUNCTUATION']
-13,    for i := 1; i != 7; i++ {,"['for', 'i', ':=', '1', ';', 'i', '!=', '7', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-14,        go asyncReturnCurrentTime(c),"['go', 'asyncReturnCurrentTime', '(', 'c', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-15,        if(i % 3 == 0) {,"['if', '(', 'i', '%', '3', '==', '0', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
+13,for i := 1; i != 7; i++ {,"['for', 'i', ':=', '1', ';', 'i', '!=', '7', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+14,        go asyncReturnCurrentTime(c),"['go', 'asyncReturnCurrentTime(c)']","['KEYWORD', ‘FUNCTION_CALL’]"
+15,if(i % 3 == 0) {,"['if', '(', 'i', '%', '3', '==', '0', ')', '{']","['KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'RELATION_OPERATOR', ‘DECIMAL_LITERAL', 'PUNCTUATION', 'PUNCTUATION']"
 16,            fmt.Println(<- c),['fmt.Println(<- c)'],['FUNCTION_CALL']
 17,            fmt.Println(<- c),['fmt.Println(<- c)'],['FUNCTION_CALL']
 18,            fmt.Println(<- c),['fmt.Println(<- c)'],['FUNCTION_CALL']
@@ -29,26 +27,22 @@
 This produces
 
 ","['This', 'produces']","['DT', 'VBZ']"
-24,2013-02-27 03:17:50,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '50']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-25,2013-02-27 03:17:50,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '50']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-26,2013-02-27 03:17:50,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '50']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-27,2013-02-27 03:17:52,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '52']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-28,2013-02-27 03:17:52,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '52']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-29,2013-02-27 03:17:52,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '52']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-30,"
-
-What i'm expecting regarding the seconds is 2 second delays between ever 2 go calls and in this case the following result
-
-","['What', 'i', ""'m"", 'expecting', 'regarding', 'the', 'seconds', 'is', '2', 'second', 'delays', 'between', 'ever', '2', 'go', 'calls', 'and', 'in', 'this', 'case', 'the', 'following', 'result']","['WP', 'VBZ', 'VBP', 'VBG', 'VBG', 'DT', 'NNS', 'VBZ', 'CD', 'JJ', 'NNS', 'IN', 'RB', 'CD', 'VBP', 'NNS', 'CC', 'IN', 'DT', 'NN', 'DT', 'JJ', 'NN']"
-31,2013-02-27 03:17:50,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '50']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-32,2013-02-27 03:17:50,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '50']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-33,2013-02-27 03:17:52 <- 3rd call with 2 buffer slots,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '52', '<-', '3', 'rd', 'call', 'with', '2', 'buffer', 'slots']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'CHANNEL_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
-34,2013-02-27 03:17:54,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '54']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-35,2013-02-27 03:17:54,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '54']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL']"
-36,2013-02-27 03:17:56 <- 3rd call with 2 buffer slots,"['2013', '-', '02', '-', '27', '03', ':', '17', ':', '56', '<-', '3', 'rd', 'call', 'with', '2', 'buffer', 'slots']","['DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'OCTAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'CHANNEL_OPERATOR', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'DECIMAL_LITERAL', 'IDENTIFIER', 'IDENTIFIER']"
+24,2013-02-27 03:17:50,"[‘2013-02-27’, ’03:17:50’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+25,2013-02-27 03:17:50,"[‘2013-02-27’, ’03:17:50’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+26,2013-02-27 03:17:50,"[‘2013-02-27’, ’03:17:50’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+27,2013-02-27 03:17:52,"[‘2013-02-27’, ’03:17:52’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+28,2013-02-27 03:17:52,"[‘2013-02-27’, ’03:17:52’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+29,2013-02-27 03:17:52,"[‘2013-02-27’, ’03:17:52’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+30,What i'm expecting regarding the seconds is 2 second delays between ever 2 go calls and in this case the following result,"['What', 'i', ""'m"", 'expecting', 'regarding', 'the', 'seconds', 'is', '2', 'second', 'delays', 'between', 'ever', '2', 'go', 'calls', 'and', 'in', 'this', 'case', 'the', 'following', 'result']","['WP', ‘PRP', 'VBP', 'VBG', 'VBG', 'DT', 'NNS', 'VBZ', 'CD', 'NN', 'NNS', 'IN', 'RB', 'CD', ‘NNP', 'NNS', 'CC', 'IN', 'DT', 'NN', 'DT', 'JJ', 'NN']"
+31,2013-02-27 03:17:50,"[‘2013-02-27’, ’03:17:50’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+32,2013-02-27 03:17:50,"[‘2013-02-27’, ’03:17:50’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+33,2013-02-27 03:17:52 <- 3rd call with 2 buffer slots,"[‘2013-02-27’, ’03:17:50’, ‘<-‘,  ‘3rd’, ‘call’, ‘with’, ‘2’, ‘buffer’, ‘slots’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’, ‘SYM’, ‘CD’, ‘NN’, ‘IN’, ‘CD’, ‘NN’, ‘NNS’]"
+34,2013-02-27 03:17:54,"[‘2013-02-27’, ’03:17:54’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+35,2013-02-27 03:17:54,"[‘2013-02-27’, ’03:17:54’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’]"
+36,2013-02-27 03:17:56 <- 3rd call with 2 buffer slots,"[‘2013-02-27’, ’03:17:56’, ‘<-‘,  ‘3rd’, ‘call’, ‘with’, ‘2’, ‘buffer’, ‘slots’]","[‘STRING_LITERAL’, ‘STRING_LITERAL’, ‘SYM’, ‘CD’, ‘NN’, ‘IN’, ‘CD’, ‘NN’, ‘NNS’]"
 37,"
 
 Obviously i misunderstood the concept of buffered channels, would somebody please be kind enough to explain the fault in my logic and how to achieve the expected result?
 
 Thank you
-","['Obviously', 'i', 'misunderstood', 'the', 'concept', 'of', 'buffered', 'channels', ',', 'would', 'somebody', 'please', 'be', 'kind', 'enough', 'to', 'explain', 'the', 'fault', 'in', 'my', 'logic', 'and', 'how', 'to', 'achieve', 'the', 'expected', 'result', '?', 'Thank', 'you']","['RB', 'JJ', 'VBD', 'DT', 'NN', 'IN', 'JJ', 'NNS', ',', 'MD', 'VB', 'JJ', 'VB', 'NN', 'JJ', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP$', 'NN', 'CC', 'WRB', 'TO', 'VB', 'DT', 'JJ', 'NN', '.', 'NNP', 'PRP']"
+","['Obviously', 'i', 'misunderstood', 'the', 'concept', 'of', 'buffered', 'channels', ',', 'would', 'somebody', 'please', 'be', 'kind', 'enough', 'to', 'explain', 'the', 'fault', 'in', 'my', 'logic', 'and', 'how', 'to', 'achieve', 'the', 'expected', 'result', '?', 'Thank', 'you']","['RB', ‘PRP', 'VBD', 'DT', 'NN', 'IN', 'JJ', 'NNS', ',', 'MD', ‘NN', ‘VB', 'VB', 'JJ', 'RB', 'TO', 'VB', 'DT', 'NN', 'IN', 'PRP$', 'NN', 'CC', 'WRB', 'TO', 'VB', 'DT', 'JJ', 'NN', '.', ‘VB', 'PRP']"

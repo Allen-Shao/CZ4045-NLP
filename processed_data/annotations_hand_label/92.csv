@@ -3,14 +3,12 @@
 
 I am not sure why, but this code below crashes ~30% of the time when I call it with the argv parameter ""100000"".
 
-Here is the crash:
-
-","['I', 'am', 'trying', 'to', 'write', 'to', '100000', 'files', 'in', 'parallel', 'with', 'Go', '.', 'I', 'am', 'not', 'sure', 'why', ',', 'but', 'this', 'code', 'below', 'crashes', '~30', '%', 'of', 'the', 'time', 'when', 'I', 'call', 'it', 'with', 'the', 'argv', 'parameter', '``', '100000', ""''"", '.', 'Here', 'is', 'the', 'crash', ':']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'TO', 'CD', 'NNS', 'IN', 'NN', 'IN', 'NNP', '.', 'PRP', 'VBP', 'RB', 'JJ', 'WRB', ',', 'CC', 'DT', 'NN', 'IN', 'NNS', 'CD', 'NN', 'IN', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'PRP', 'IN', 'DT', 'NN', 'NN', '``', 'CD', ""''"", '.', 'RB', 'VBZ', 'DT', 'NN', ':']"
-1,goroutine 3749 [chan send]:,"['go', 'routine', '3749', '[', 'chan', 'send', ']:']","['KEYWORD', 'IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+Here is the crash:","['I', 'am', 'trying', 'to', 'write', 'to', '100000', 'files', 'in', 'parallel', 'with', 'Go', '.', 'I', 'am', 'not', 'sure', 'why', ',', 'but', 'this', 'code', 'below', 'crashes', '~30', '%', 'of', 'the', 'time', 'when', 'I', 'call', 'it', 'with', 'the', 'argv', 'parameter', '``', '100000', ""''"", '.', 'Here', 'is', 'the', 'crash', ':']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'TO', 'CD', 'NNS', 'IN', 'NN', 'IN', 'NNP', '.', 'PRP', 'VBP', 'RB', 'JJ', 'WRB', ',', 'CC', 'DT', 'NN', 'IN', ‘VBZ', 'CD', 'NN', 'IN', 'DT', 'NN', 'WRB', 'PRP', 'VBP', 'PRP', 'IN', 'DT', 'NN', 'NN', '``', 'CD', ""''"", '.', 'RB', 'VBZ', 'DT', 'NN', ':']"
+1,goroutine 3749 [chan send]:,"['goroutine', '3749', '[', 'chan', 'send', ']:']","['IDENTIFIER', 'DECIMAL_LITERAL', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
 2,"main.CallShellCommand(0xc820016180, 0xea1)","['main.CallShellCommand(0xc820016180, 0xea1)']",['FUNCTION_CALL']
-3,        .../parallel.go:13 +0x1bf,"['.../', 'parallel', '.', 'go', ':', '13', '+', '0x1bf']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+3,.../parallel.go:13 +0x1bf,"['.../', 'parallel', '.', 'go', ':', '13', '+', '0x1bf']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
 4,created by main.main,"['created', 'by', 'main', '.', 'main']","['IDENTIFIER', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER']"
-5,        .../parallel.go:22 +0xbd,"['.../', 'parallel', '.', 'go', ':', '22', '+', '0xbd']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
+5,.../parallel.go:22 +0xbd,"['.../', 'parallel', '.', 'go', ':', '22', '+', '0xbd']","['PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'PUNCTUATION', 'DECIMAL_LITERAL', 'ARITHMETIC_OPERATOR', 'HEX_LITERAL']"
 6,"
 
 Here is the code:
@@ -22,27 +20,23 @@ Here is the code:
 10,"import ""strconv""","['import', '""strconv""']","['KEYWORD', 'STRING_LITERAL']"
 11,"import ""os""","['import', '""os""']","['KEYWORD', 'STRING_LITERAL']"
 12,"import ""runtime""","['import', '""runtime""']","['KEYWORD', 'STRING_LITERAL']"
-13,"func CallCommand(ch chan struct{}, id int) {","['func', 'CallCommand', '(', 'ch', 'chan', 'struct', '{},', 'id', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-14,"    ioutil.WriteFile(fmt.Sprintf(""/tmp/my_prefix_%d"", id), []byte(""HELLO\n""), 0644)","['ioutil.WriteFile(fmt.Sprintf(""/tmp/my_prefix_%d"", id), []byte(""HELLO\\n""), 0644)']",['FUNCTION_CALL']
+13,"func CallCommand(ch chan struct{}, id int) {","['func', 'CallCommand', '(', 'ch', 'chan', 'struct', '{},', 'id', 'int', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'KEYWORD', 'KEYWORD', 'PUNCTUATION', 'IDENTIFIER', ‘RESERVED', 'PUNCTUATION', 'PUNCTUATION']"
+14,"ioutil.WriteFile(fmt.Sprintf(""/tmp/my_prefix_%d"", id), []byte(""HELLO\n""), 0644)","['ioutil.WriteFile(fmt.Sprintf(""/tmp/my_prefix_%d"", id), []byte(""HELLO\\n""), 0644)']",['FUNCTION_CALL']
 15,    ch <- struct{}{},"['ch', '<-', 'struct', '{}{}']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'KEYWORD', 'PUNCTUATION']"
 16,},['}'],['PUNCTUATION']
 17,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-18,    runtime.GOMAXPROCS(4),['runtime.GOMAXPROCS(4)'],['FUNCTION_CALL']
-19,"    n, _ := strconv.Atoi(os.Args[1])","['n', ',', '_', ':=', 'strconv.Atoi(os.Args[1])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-20,    ch := make(chan struct{}),"['ch', ':=', 'make', '(', 'chan', 'struct', '{})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'KEYWORD', 'PUNCTUATION']"
-21,    for i := 0; i < n; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'n', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
-22,"        go CallCommand(ch, i+1)","['go', 'CallCommand', '(', 'ch', ',', 'i', '+', '1', ')']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+18,runtime.GOMAXPROCS(4),['runtime.GOMAXPROCS(4)'],['FUNCTION_CALL']
+19,"n, _ := strconv.Atoi(os.Args[1])","['n', ',', '_', ':=', 'strconv.Atoi(os.Args[1])']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
+20,    ch := make(chan struct{}),"['ch', ':=', 'make(chan struct{})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
+21,for i := 0; i < n; i++ {,"['for', 'i', ':=', '0', ';', 'i', '<', 'n', ';', 'i', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+22,"go CallCommand(ch, i+1)","['go', 'CallCommand(ch, i+1)']","['KEYWORD', ‘FUNCTION_CALL’]"
 23,    },['}'],['PUNCTUATION']
-24,    for j := 0; j < n; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'n', ';', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'OCTAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
+24,for j := 0; j < n; j++ {,"['for', 'j', ':=', '0', ';', 'j', '<', 'n', ';', 'j', '++', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘DECIMAL_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'PUNCTUATION']"
 25,        <-ch,"['<-', 'ch']","['CHANNEL_OPERATOR', 'IDENTIFIER']"
 26,    },['}'],['PUNCTUATION']
 27,},['}'],['PUNCTUATION']
-28,"
-
-For the record:
+28,"For the record:
 
 
 My computer has 4 cores
-This is go 1.5.3
-
-","['For', 'the', 'record', ':', 'My', 'computer', 'has', '4', 'cores', 'This', 'is', 'go', '1.5.3']","['IN', 'DT', 'NN', ':', 'PRP$', 'NN', 'VBZ', 'CD', 'NNS', 'DT', 'VBZ', 'VB', 'CD']"
+This is go 1.5.3","['For', 'the', 'record', ':', 'My', 'computer', 'has', '4', 'cores', 'This', 'is', 'go', '1.5.3']","['IN', 'DT', 'NN', ':', 'PRP$', 'NN', 'VBZ', 'CD', 'NNS', 'DT', 'VBZ', ‘NNP', 'CD']"

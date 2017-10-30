@@ -1,32 +1,32 @@
 ,text,token,annotation
 0,"Refactor your code, move the limit outside of your function which tests can change:
 
-","['Refactor', 'your', 'code', ',', 'move', 'the', 'limit', 'outside', 'of', 'your', 'function', 'which', 'tests', 'can', 'change', ':']","['NNP', 'PRP$', 'NN', ',', 'VBP', 'DT', 'NN', 'IN', 'IN', 'PRP$', 'NN', 'WDT', 'NNS', 'MD', 'VB', ':']"
+","['Refactor', 'your', 'code', ',', 'move', 'the', 'limit', 'outside', 'of', 'your', 'function', 'which', 'tests', 'can', 'change', ':']","[‘VB', 'PRP$', 'NN', ',', 'VBP', 'DT', 'NN', 'IN', 'IN', 'PRP$', 'NN', 'WDT', 'NNS', 'MD', 'VB', ':']"
 1,var limit = 1 << 32,"['var', 'limit', '=', '1', '<<', '32']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL', 'BITWISE_OPERATOR', 'DECIMAL_LITERAL']"
 2,"var ErrTooLarge = errors.New(""String is too large!"")","['var', 'ErrTooLarge', '=', 'errors.New(""String is too large!"")']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
-3,func Process(s string) error {,"['func', 'Process', '(', 's', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-4,    if len(s) > limit {,"['if', 'len', '(', 's', ')', '>', 'limit', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+3,func Process(s string) error {,"['func', 'Process', '(', 's', 'string', ')', 'error', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', ‘RESERVED', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+4,    if len(s) > limit {,"['if', 'len(s)', '>', 'limit', '{']","['KEYWORD', ‘FUNCTION_CALL’, 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 5,        return ErrTooLarge,"['return', 'ErrTooLarge']","['KEYWORD', 'IDENTIFIER']"
 6,    },['}'],['PUNCTUATION']
-7,    // All OK,"['//', 'All', 'OK']","['COMMENT', 'DT', 'NNP']"
-8,    return nil,"['return', 'nil']","['KEYWORD', 'IDENTIFIER']"
+7,    // All OK,"['//', 'All', 'OK']","['COMMENT', 'DT', ‘JJ']"
+8,    return nil,"['return', 'nil']","['KEYWORD', ‘RESERVED']"
 9,},['}'],['PUNCTUATION']
 10,"
 
 Testing it:
 
 ","['Testing', 'it', ':']","['VBG', 'PRP', ':']"
-11,func TestProcess(t *testing.T) {,"['func', 'TestProcess', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
-12,    // Save limit and restore it at the end:,"['//', 'Save', 'limit', 'and', 'restore', 'it', 'at', 'the', 'end', ':']","['COMMENT', 'NNP', 'NN', 'CC', 'VB', 'PRP', 'IN', 'DT', 'NN', ':']"
+11,func TestProcess(t *testing.T) {,"['func', 'TestProcess', '(', 't', '*', 'testing', '.', 'T', ')', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', ‘POINTER_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
+12,    // Save limit and restore it at the end:,"['//', 'Save', 'limit', 'and', 'restore', 'it', 'at', 'the', 'end', ':']","['COMMENT', ‘VB’, 'NN', 'CC', 'VB', 'PRP', 'IN', 'DT', 'NN', ':']"
 13,    old := limit,"['old', ':=', 'limit']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER']"
 14,    defer func() { limit = old }(),"['defer', 'func', '()', '{', 'limit', '=', 'old', '}()']","['IDENTIFIER', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 15,    // Test success,"['//', 'Test', 'success']","['COMMENT', 'NNP', 'NN']"
-16,"    if err := Process(""123""); err != nil {","['if', 'err', ':=', 'Process', '(', '""123""', ');', 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+16,"if err := Process(""123""); err != nil {","['if', 'err', ':=', ‘Process(“123”)', ‘;’, 'err', '!=', 'nil', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', ‘RESERVED', 'PUNCTUATION']"
 17,"        t.Errorf(""Expected success, got: %v"", err)","['t.Errorf(""Expected success, got: %v"", err)']",['FUNCTION_CALL']
 18,    },['}'],['PUNCTUATION']
 19,    // Test failure (too large string),"['//', 'Test', 'failure', '(', 'too', 'large', 'string', ')']","['COMMENT', 'NN', 'NN', '(', 'RB', 'JJ', 'NN', ')']"
-20,    limit = 5,"['limit', '=', '5']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
-21,"    if err := Process(""123456""); err != ErrTooLarge {","['if', 'err', ':=', 'Process', '(', '""123456""', ');', 'err', '!=', 'ErrTooLarge', '{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+20,limit = 5,"['limit', '=', '5']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'DECIMAL_LITERAL']"
+21,"if err := Process(""123456""); err != ErrTooLarge {","['if', 'err', ':=', ‘Process(“123456”)’, ‘;', 'err', '!=', 'ErrTooLarge', ‘{']","['KEYWORD', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’, 'PUNCTUATION', 'IDENTIFIER', 'RELATION_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
 22,"        t.Errorf(""Expected ErrTooLarge, got: %v"", err)","['t.Errorf(""Expected ErrTooLarge, got: %v"", err)']",['FUNCTION_CALL']
 23,    },['}'],['PUNCTUATION']
 24,},['}'],['PUNCTUATION']
@@ -34,7 +34,7 @@ Testing it:
 
 Running go test -cover:
 
-","['Running', 'go', 'test', '-cover', ':']","['VBG', 'VB', 'NN', 'NN', ':']"
+","['Running', 'go', 'test', '-cover', ':']","['VBG', ‘NNP', 'NN', 'NN', ':']"
 26,PASS,['PASS'],['IDENTIFIER']
-27,coverage: 100.0% of statements,"['coverage', ':', '100', '.', '0', '%', 'of', 'statements']","['IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
-28,ok      play    0.001s,"['ok', 'play', '0', '.', '0', '01', 's']","['IDENTIFIER', 'IDENTIFIER', 'OCTAL_LITERAL', 'PUNCTUATION', 'OCTAL_LITERAL', 'OCTAL_LITERAL', 'IDENTIFIER']"
+27,coverage: 100.0% of statements,"['coverage', ':', '100.0', '%', 'of', 'statements']","['IDENTIFIER', 'PUNCTUATION', 'FLOATING_LITERAL', 'ARITHMETIC_OPERATOR', 'IDENTIFIER', 'IDENTIFIER']"
+28,ok      play    0.001s,"['ok', 'play', '0.001', 's']","['IDENTIFIER', 'IDENTIFIER', ‘FLOATING_LITERAL', 'IDENTIFIER']"

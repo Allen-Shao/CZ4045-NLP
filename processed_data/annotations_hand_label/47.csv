@@ -3,20 +3,20 @@
 
 There is a section in which GitHub returns a code and you have to make a POST request to https://github.com/login/oauth/access_token with code, client_id and client_secret.
 
-","['I', ""'m"", 'trying', 'to', 'implement', 'oauth-workflow', 'for', 'GitHub', 'in', 'golang', 'and', 'using', 'https', ':', '//github.com/franela/goreq', 'to', 'perform', 'http', '(', 's', ')', 'requests', '.', 'There', 'is', 'a', 'section', 'in', 'which', 'GitHub', 'returns', 'a', 'code', 'and', 'you', 'have', 'to', 'make', 'a', 'POST', 'request', 'to', 'https', ':', '//github.com/login/oauth/access_token', 'with', 'code', ',', 'client_id', 'and', 'client_secret', '.']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'JJ', 'IN', 'NNP', 'IN', 'NN', 'CC', 'VBG', 'NN', ':', 'NN', 'TO', 'VB', 'NN', '(', 'PRP', ')', 'VBZ', '.', 'EX', 'VBZ', 'DT', 'NN', 'IN', 'WDT', 'NNP', 'VBZ', 'DT', 'NN', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NNP', 'NN', 'TO', 'VB', ':', 'VBN', 'IN', 'NN', ',', 'NN', 'CC', 'NN', '.']"
+","['I', ""'m"", 'trying', 'to', 'implement', 'oauth-workflow', 'for', 'GitHub', 'in', 'golang', 'and', 'using', 'https://github.com/franela/goreq', 'to', 'perform', 'http(s)', 'requests', '.', 'There', 'is', 'a', 'section', 'in', 'which', 'GitHub', 'returns', 'a', 'code', 'and', 'you', 'have', 'to', 'make', 'a', 'POST', 'request', 'to', 'http://github.com/login/oauth/access_token', 'with', 'code', ',', 'client_id', 'and', 'client_secret', '.']","['PRP', 'VBP', 'VBG', 'TO', 'VB', 'JJ', 'IN', 'NNP', 'IN', 'NN', 'CC', 'VBG', ‘DIRECTORY’, 'TO', 'VB', ‘NN', 'NNS', '.', 'EX', 'VBZ', 'DT', 'NN', 'IN', 'WDT', 'NNP', 'VBZ', 'DT', 'NN', 'CC', 'PRP', 'VBP', 'TO', 'VB', 'DT', 'NNP', 'NN', 'TO', 'DIRECTORY', 'IN', 'NN', ',', 'NN', 'CC', 'NN', '.']"
 1,package main,"['package', 'main']","['KEYWORD', 'IDENTIFIER']"
 2,"import ""fmt""","['import', '""fmt""']","['KEYWORD', 'STRING_LITERAL']"
 3,"import ""github.com/franela/goreq""","['import', '""github.com/franela/goreq""']","['KEYWORD', 'STRING_LITERAL']"
 4,type param struct {,"['type', 'param', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-5,  code string,"['code', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-6,  client_id string,"['client_id', 'string']","['IDENTIFIER', 'IDENTIFIER']"
-7,  client_secret string,"['client_secret', 'string']","['IDENTIFIER', 'IDENTIFIER']"
+5,  code string,"['code', 'string']","['IDENTIFIER', ‘RESERVED']"
+6,  client_id string,"['client_id', 'string']","['IDENTIFIER', ‘RESERVED']"
+7,  client_secret string,"['client_secret', 'string']","['IDENTIFIER', ‘RESERVED']"
 8,},['}'],['PUNCTUATION']
 9,func main() {,"['func', 'main', '()', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION']"
 10,"  params := param {code: ""XX"", client_id:""XX"", client_secret: ""XX""}","['params', ':=', 'param', '{', 'code', ':', '""XX""', ',', 'client_id', ':', '""XX""', ',', 'client_secret', ':', '""XX""', '}']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-11,  req := goreq.Request{,"['req', ':=', 'go', 'req', '.', 'Request', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
+11,  req := goreq.Request{,"['req', ':=', 'goreq', '.', 'Request', '{']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR','IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 12,"    Method : ""POST"",","['Method', ':', '""POST""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
-13,"    Uri : ""https://github.com/login/oauth/access_token"",","['Uri', ':', '""https://github.com/login/oauth/access_token""', ',']","['IDENTIFIER', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
+13,"    Uri : ""https://github.com/login/oauth/access_token"",","['Uri', ':', '""https://github.com/login/oauth/access_token""', ',']","['IDENTIFIER', 'PUNCTUATION', ‘DIRECTORY', 'PUNCTUATION']"
 14,"    Body : params,","['Body', ':', 'params', ',']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 15,  },['}'],['PUNCTUATION']
 16,"  req.AddHeader(""Content-Type"", ""application/json"")","['req.AddHeader(""Content-Type"", ""application/json"")']",['FUNCTION_CALL']
@@ -24,9 +24,7 @@ There is a section in which GitHub returns a code and you have to make a POST re
 18,"  res, _ := req.Do()","['res', ',', '_', ':=', 'req.Do()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'FUNCTION_CALL']"
 19,  fmt.Println(res.Body.ToString()),['fmt.Println(res.Body.ToString())'],['FUNCTION_CALL']
 20,},['}'],['PUNCTUATION']
-21,"
-
-It is giving 404 with ","['It', 'is', 'giving', '404', 'with']","['PRP', 'VBZ', 'VBG', 'CD', 'IN']"
+21,It is giving 404 with,"['It', 'is', 'giving', '404', 'with']","['PRP', 'VBZ', 'VBG', 'CD', 'IN']"
 22,"{""error"":""Not Found""}","['{', '""error""', ':', '""Not Found""', '}']","['PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION', 'STRING_LITERAL', 'PUNCTUATION']"
 23," message always.
 While using Python, I'm getting the correct results with the same input data.

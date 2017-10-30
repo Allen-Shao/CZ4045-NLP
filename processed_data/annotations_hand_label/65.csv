@@ -3,11 +3,9 @@
 
 You want to send values to 2 different channels. Sending a value to a channel is not an assignment, so you can't send on both channels in one step.
 
-First store the values returned by boolInt(), then send the values to the 2 channels like this:
-
-","['Using', '2', 'different', 'channels', 'You', 'want', 'to', 'send', 'values', 'to', '2', 'different', 'channels', '.', 'Sending', 'a', 'value', 'to', 'a', 'channel', 'is', 'not', 'an', 'assignment', ',', 'so', 'you', 'ca', ""n't"", 'send', 'on', 'both', 'channels', 'in', 'one', 'step', '.', 'First', 'store', 'the', 'values', 'returned', 'by', 'boolInt', '(', ')', ',', 'then', 'send', 'the', 'values', 'to', 'the', '2', 'channels', 'like', 'this', ':']","['VBG', 'CD', 'JJ', 'NNS', 'PRP', 'VBP', 'TO', 'VB', 'NNS', 'TO', 'CD', 'JJ', 'NNS', '.', 'VBG', 'DT', 'NN', 'TO', 'DT', 'NN', 'VBZ', 'RB', 'DT', 'NN', ',', 'IN', 'PRP', 'MD', 'RB', 'VB', 'IN', 'DT', 'NNS', 'IN', 'CD', 'NN', '.', 'NNP', 'VBD', 'DT', 'NNS', 'VBN', 'IN', 'NN', '(', ')', ',', 'RB', 'VB', 'DT', 'NNS', 'TO', 'DT', 'CD', 'NNS', 'IN', 'DT', ':']"
+First store the values returned by boolInt(), then send the values to the 2 channels like this:","['Using', '2', 'different', 'channels', 'You', 'want', 'to', 'send', 'values', 'to', '2', 'different', 'channels', '.', 'Sending', 'a', 'value', 'to', 'a', 'channel', 'is', 'not', 'an', 'assignment', ',', 'so', 'you', 'ca', ""n't"", 'send', 'on', 'both', 'channels', 'in', 'one', 'step', '.', 'First', 'store', 'the', 'values', 'returned', 'by', ‘boolInt( )', ',', 'then', 'send', 'the', 'values', 'to', 'the', '2', 'channels', 'like', 'this', ':']","['VBG', 'CD', 'JJ', 'NNS', 'PRP', 'VBP', 'TO', 'VB', 'NNS', 'TO', 'CD', 'JJ', 'NNS', '.', 'VBG', 'DT', 'NN', 'TO', 'DT', 'NN', 'VBZ', 'RB', 'DT', 'NN', ',', 'IN', 'PRP', 'MD', 'RB', 'VB', 'IN', 'DT', 'NNS', 'IN', 'CD', 'NN', '.', 'NNP', 'VBD', 'DT', 'NNS', 'VBN', 'IN', ‘NN', ',', 'RB', 'VB', 'DT', 'NNS', 'TO', 'DT', 'CD', 'NNS', 'IN', 'DT', ':']"
 1,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-2,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+2,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
 3,    chanBool <- b,"['chan', 'Bool', '<-', 'b']","['KEYWORD', 'IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
 4,    chanInt <- i,"['chan', 'Int', '<-', 'i']","['KEYWORD', 'IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
 5,}(),['}()'],['PUNCTUATION']
@@ -17,7 +15,7 @@ Testing it:
 
 ","['Testing', 'it', ':']","['VBG', 'PRP', ':']"
 7,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-8,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+8,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
 9,    chanBool <- b,"['chan', 'Bool', '<-', 'b']","['KEYWORD', 'IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
 10,    chanInt <- i,"['chan', 'Int', '<-', 'i']","['KEYWORD', 'IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
 11,}(),['}()'],['PUNCTUATION']
@@ -28,8 +26,8 @@ Testing it:
 Output:
 
 ","['Output', ':']","['NN', ':']"
-15,Received bool: false,"['Received', 'bool', ':', 'false']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL']"
-16,Received int: 1,"['Received', 'int', ':', '1']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'DECIMAL_LITERAL']"
+15,Received bool: false,"['Received', 'bool', ':', 'false']","['IDENTIFIER', ‘RESERVED', 'PUNCTUATION', 'BOOLEAN_LITERAL']"
+16,Received int: 1,"['Received', 'int', ':', '1']","['IDENTIFIER', ‘RESERVED', 'PUNCTUATION', 'DECIMAL_LITERAL']"
 17,"
 
 Note: you first have to receive from chanBool because you created unbuffered channels, and because in the example we first send to chanBool, that blocks until the sent value is recevied and only then proceeds to send a value to the chanInt. Attempting to receive from chanInt first would cause a deadlock (","['Note', ':', 'you', 'first', 'have', 'to', 'receive', 'from', 'chanBool', 'because', 'you', 'created', 'unbuffered', 'channels', ',', 'and', 'because', 'in', 'the', 'example', 'we', 'first', 'send', 'to', 'chanBool', ',', 'that', 'blocks', 'until', 'the', 'sent', 'value', 'is', 'recevied', 'and', 'only', 'then', 'proceeds', 'to', 'send', 'a', 'value', 'to', 'the', 'chanInt', '.', 'Attempting', 'to', 'receive', 'from', 'chanInt', 'first', 'would', 'cause', 'a', 'deadlock', '(']","['NN', ':', 'PRP', 'RB', 'VBP', 'TO', 'VB', 'IN', 'NN', 'IN', 'PRP', 'VBD', 'JJ', 'NNS', ',', 'CC', 'RB', 'IN', 'DT', 'NN', 'PRP', 'RB', 'VBP', 'TO', 'VB', ',', 'IN', 'NNS', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'VBN', 'CC', 'RB', 'RB', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'TO', 'DT', 'NN', '.', 'VBG', 'TO', 'VB', 'IN', 'NN', 'RB', 'MD', 'VB', 'DT', 'NN', '(']"
@@ -40,19 +38,19 @@ Solution using only one channel
 
 If you want to send multiple values on a channel, you can create a wrapper struct for the values:
 
-","[')', '.', 'Solution', 'using', 'only', 'one', 'channel', 'If', 'you', 'want', 'to', 'send', 'multiple', 'values', 'on', 'a', 'channel', ',', 'you', 'can', 'create', 'a', 'wrapper', 'struct', 'for', 'the', 'values', ':']","[')', '.', 'NN', 'VBG', 'RB', 'CD', 'NN', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'DT', 'NN', ',', 'PRP', 'MD', 'VB', 'DT', 'JJR', 'NN', 'IN', 'DT', 'NNS', ':']"
+","[')', '.', 'Solution', 'using', 'only', 'one', 'channel', 'If', 'you', 'want', 'to', 'send', 'multiple', 'values', 'on', 'a', 'channel', ',', 'you', 'can', 'create', 'a', 'wrapper', 'struct', 'for', 'the', 'values', ':']","[‘)', '.', 'NN', 'VBG', 'RB', 'CD', 'NN', 'IN', 'PRP', 'VBP', 'TO', 'VB', 'JJ', 'NNS', 'IN', 'DT', 'NN', ',', 'PRP', 'MD', 'VB', 'DT', 'NN', 'NN', 'IN', 'DT', 'NNS', ':']"
 20,type MyStruct struct {,"['type', 'MyStruct', 'struct', '{']","['KEYWORD', 'IDENTIFIER', 'KEYWORD', 'PUNCTUATION']"
-21,    b bool,"['b', 'bool']","['IDENTIFIER', 'IDENTIFIER']"
-22,    i int,"['i', 'int']","['IDENTIFIER', 'IDENTIFIER']"
+21,    b bool,"['b', 'bool']","['IDENTIFIER', ‘RESERVED']"
+22,    i int,"['i', 'int']","['IDENTIFIER', ‘RESERVED']"
 23,},['}'],['PUNCTUATION']
 24,"
 
 And using it:
 
 ","['And', 'using', 'it', ':']","['CC', 'VBG', 'PRP', ':']"
-25,ch := make(chan MyStruct),"['ch', ':=', 'make', '(', 'chan', 'MyStruct', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+25,ch := make(chan MyStruct),"['ch', ':=', ‘make(chan MyStruct)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
 26,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-27,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+27,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
 28,"    ch <- MyStruct{b, i}","['ch', '<-', 'MyStruct', '{', 'b', ',', 'i', '}']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
 29,}(),['}()'],['PUNCTUATION']
 30,"fmt.Println(""Received value:"", <-ch)","['fmt.Println(""Received value:"", <-ch)']",['FUNCTION_CALL']
@@ -62,35 +60,27 @@ Output:
 
 ","['Output', ':']","['NN', ':']"
 32,Received value: {false 1},"['Received', 'value', ':', '{', 'false', '1', '}']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'DECIMAL_LITERAL', 'PUNCTUATION']"
-33,"
+33,"Note: You could also use a []interface{} slice as a wrapper, but a struct provides a clearer way and type safety to its fields.
 
-Note: You could also use a []interface{} slice as a wrapper, but a struct provides a clearer way and type safety to its fields.
-
-Note #2: It would make things easier and clearer if the boolInt() function itself would return a MyStruct value:
-
-","['Note', ':', 'You', 'could', 'also', 'use', 'a', '[', ']', 'interface', '{', '}', 'slice', 'as', 'a', 'wrapper', ',', 'but', 'a', 'struct', 'provides', 'a', 'clearer', 'way', 'and', 'type', 'safety', 'to', 'its', 'fields', '.', 'Note', '#', '2', ':', 'It', 'would', 'make', 'things', 'easier', 'and', 'clearer', 'if', 'the', 'boolInt', '(', ')', 'function', 'itself', 'would', 'return', 'a', 'MyStruct', 'value', ':']","['NN', ':', 'PRP', 'MD', 'RB', 'VB', 'DT', 'NN', 'NNP', 'NN', '(', ')', 'NN', 'IN', 'DT', 'NN', ',', 'CC', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'CC', 'NN', 'NN', 'TO', 'PRP$', 'NNS', '.', 'NNP', '#', 'CD', ':', 'PRP', 'MD', 'VB', 'NNS', 'JJR', 'CC', 'JJR', 'IN', 'DT', 'NN', '(', ')', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NNP', 'NN', ':']"
-34,func boolInt() MyStruct {,"['func', 'boolInt', '()', 'MyStruct', '{']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'PUNCTUATION']"
-35,"    return MyStruct{false, 1}","['return', 'MyStruct', '{', 'false', ',', '1', '}']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
+Note #2: It would make things easier and clearer if the boolInt() function itself would return a MyStruct value:","['Note', ':', 'You', 'could', 'also', 'use', 'a', '[]interface{}', 'slice', 'as', 'a', 'wrapper', ',', 'but', 'a', 'struct', 'provides', 'a', 'clearer', 'way', 'and', 'type', 'safety', 'to', 'its', 'fields', '.', 'Note', '#', '2', ':', 'It', 'would', 'make', 'things', 'easier', 'and', 'clearer', 'if', 'the', ‘boolInt( )', 'function', 'itself', 'would', 'return', 'a', 'MyStruct', 'value', ':']","['NN', ':', 'PRP', 'MD', 'RB', 'VB', 'DT', 'NN', 'NN', 'IN', 'DT', 'NN', ',', 'CC', 'DT', 'NN', 'VBZ', 'DT', 'JJ', 'NN', 'CC', 'NN', 'NN', 'TO', 'PRP$', 'NNS', '.', 'NNP', '#', 'CD', ':', 'PRP', 'MD', 'VB', 'NNS', 'JJR', 'CC', 'JJR', 'IN', 'DT', 'NN', 'NN', 'PRP', 'MD', 'VB', 'DT', 'NNP', 'NN', ':']"
+34,func boolInt() MyStruct {,"['func', ‘boolInt( )', 'MyStruct', '{']","['KEYWORD', ‘FUNCTION_CALL’, 'IDENTIFIER', 'PUNCTUATION']"
+35,"return MyStruct{false, 1}","['return', 'MyStruct', '{', 'false', ',', '1', '}']","['KEYWORD', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'PUNCTUATION', 'DECIMAL_LITERAL', 'PUNCTUATION']"
 36,},['}'],['PUNCTUATION']
 37,"
 
 In which case code would be as simple as this:
 
 ","['In', 'which', 'case', 'code', 'would', 'be', 'as', 'simple', 'as', 'this', ':']","['IN', 'WDT', 'NN', 'NN', 'MD', 'VB', 'RB', 'JJ', 'IN', 'DT', ':']"
-38,ch := make(chan MyStruct),"['ch', ':=', 'make', '(', 'chan', 'MyStruct', ')']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'IDENTIFIER', 'PUNCTUATION']"
+38,ch := make(chan MyStruct),"['ch', ':=', ‘make(chan MyStruct)']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
 39,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-40,    ch <- boolInt(),"['ch', '<-', 'boolInt', '()']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+40,    ch <- boolInt(),"['ch', '<-', 'boolInt()']","['IDENTIFIER', 'CHANNEL_OPERATOR', ‘FUNCTION_CALL’]"
 41,}(),['}()'],['PUNCTUATION']
-42,"
+42,"Alternative 1 channel solution
 
-Alternative 1 channel solution
-
-Another option is to make the channel type interface{} so it can receive values of any type, and just send/receive multiple values on it:
-
-","['Alternative', '1', 'channel', 'solution', 'Another', 'option', 'is', 'to', 'make', 'the', 'channel', 'type', 'interface', '{', '}', 'so', 'it', 'can', 'receive', 'values', 'of', 'any', 'type', ',', 'and', 'just', 'send/receive', 'multiple', 'values', 'on', 'it', ':']","['JJ', 'CD', 'NN', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'NN', 'NN', '(', ')', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'NN', ',', 'CC', 'RB', 'JJ', 'JJ', 'NNS', 'IN', 'PRP', ':']"
-43,ch := make(chan interface{}),"['ch', ':=', 'make', '(', 'chan', 'interface', '{})']","['IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION', 'KEYWORD', 'KEYWORD', 'PUNCTUATION']"
+Another option is to make the channel type interface{} so it can receive values of any type, and just send/receive multiple values on it:","['Alternative', '1', 'channel', 'solution', 'Another', 'option', 'is', 'to', 'make', 'the', 'channel', 'type', ‘interface{ }', 'so', 'it', 'can', 'receive', 'values', 'of', 'any', 'type', ',', 'and', 'just', 'send/receive', 'multiple', 'values', 'on', 'it', ':']","['JJ', 'CD', 'NN', 'NN', 'DT', 'NN', 'VBZ', 'TO', 'VB', 'DT', 'NN', 'NN', 'NN', 'IN', 'PRP', 'MD', 'VB', 'NNS', 'IN', 'DT', 'NN', ',', 'CC', 'RB', ‘VB', 'JJ', 'NNS', 'IN', 'PRP', ':']"
+43,ch := make(chan interface{}),"['ch', ':=', ‘make(chan interface{})']","['IDENTIFIER', ‘ASSIGNMENT_OPERATOR’, ‘FUNCTION_CALL’]"
 44,go func() {,"['go', 'func', '()', '{']","['KEYWORD', 'KEYWORD', 'PUNCTUATION', 'PUNCTUATION']"
-45,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt', '()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', 'IDENTIFIER', 'PUNCTUATION']"
+45,"    b, i := boolInt()","['b', ',', 'i', ':=', 'boolInt()']","['IDENTIFIER', 'PUNCTUATION', 'IDENTIFIER', 'ASSIGNMENT_OPERATOR', ‘FUNCTION_CALL’]"
 46,    ch <- b,"['ch', '<-', 'b']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
 47,    ch <- i,"['ch', '<-', 'i']","['IDENTIFIER', 'CHANNEL_OPERATOR', 'IDENTIFIER']"
 48,}(),['}()'],['PUNCTUATION']
@@ -100,4 +90,4 @@ Another option is to make the channel type interface{} so it can receive values 
 Output:
 
 ","['Output', ':']","['NN', ':']"
-51,Received values: false 1,"['Received', 'values', ':', 'false', '1']","['IDENTIFIER', 'IDENTIFIER', 'PUNCTUATION', 'BOOLEAN_LITERAL', 'DECIMAL_LITERAL']"
+51,Received values: false 1,"['Received', 'values', ':', 'false', '1']","['VBD', 'NNS', ‘:', 'BOOLEAN_LITERAL', ‘CD']"
