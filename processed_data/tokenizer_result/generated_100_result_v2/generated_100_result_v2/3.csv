@@ -1,0 +1,332 @@
+,text,token
+0,"Problem: There is a list of tables associated keys. It is necessary to implement CRUD for each table + some functional on the specifics of the table (pagination, etc.).
+Troubles: duplicated in each of the functional implementation for each table About 50% of the code.
+Question: What are the ways on the specifics of the language, of the optimization / refactoring / use similar code patterns?
+
+Example code part
+
+
+","['Problem', ':', 'There', 'is', 'a', 'list', 'of', 'tables', 'associated', 'keys', '.', 'It', 'is', 'necessary', 'to', 'implement', 'CRUD', 'for', 'each', 'table', '+', 'some', 'functional', 'on', 'the', 'specifics', 'of', 'the', 'table', '(pagination,', 'etc', '.', ')', '.', 'Troubles', ':', 'duplicated', 'in', 'each', 'of', 'the', 'functional', 'implementation', 'for', 'each', 'table', 'About', '50', '%', 'of', 'the', 'code', '.', 'Question', ':', 'What', 'are', 'the', 'ways', 'on', 'the', 'specifics', 'of', 'the', 'language', ',', 'of', 'the', 'optimization', '/', 'refactoring', '/', 'use', 'similar', 'code', 'patterns', '?', 'Example', 'code', 'part']"
+1,//------------------------------------------------------------------,"['//', '------------------------------------------------------------------']"
+2,//  user,"['//', 'user']"
+3,//----------------------------------------------------------------------,"['//', '----------------------------------------------------------------------']"
+4,"func (d *Database) UserCreate(email, password, username string, role int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserCreate(email, password, username string, role int)', '*', 'Answer', '{']"
+5,    //variables,"['//', 'variables']"
+6,"    answer := d.initCall(""UserCreate"")","['answer', ':=', 'd.initCall(""UserCreate"")']"
+7,    user := new(User),"['user', ':=', 'new(User)']"
+8,    //check exist user,"['//', 'check', 'exist', 'user']"
+9,"    if userExist := d.DB.Find(&User{}, &User{Email:email}).Error; userExist == nil {","['if', 'userExist', ':=', 'd', '.', 'DB.Find(&User{}, &User{Email:email})', '.', 'Error', ';', 'userExist', '==', 'nil', '{']"
+10,"        answer.AnswerJSON.ErrorAnswer.Message = ""[usercreate] user already exist""","['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', '""[usercreate] user already exist""']"
+11,        answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']"
+12,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+13,    } else {,"['}', 'else', '{']"
+14,        userinfo := UserInfo{Data:time.Now()},"['userinfo', ':=', 'UserInfo', '{', 'Data', ':', 'time.Now()', '}']"
+15,        session := Session{Data:time.Now()},"['session', ':=', 'Session', '{', 'Data', ':', 'time.Now()', '}']"
+16,        cook := Cook{},"['cook', ':=', 'Cook', '{}']"
+17,        //make support  tables object,"['//', 'make', 'support', 'tables', 'object']"
+18,        //userinfo object,"['//', 'userinfo', 'object']"
+19,        userinfo.Password = password,"['userinfo', '.', 'Password', '=', 'password']"
+20,        userinfo.Username = username,"['userinfo', '.', 'Username', '=', 'username']"
+21,        //cook object,"['//', 'cook', 'object']"
+22,        cook.SessionID = session.ID,"['cook', '.', 'SessionID', '=', 'session', '.', 'ID']"
+23,"        cook.Cookie = d.cookgeneratenew(""somesaltforcooksgenerate"")","['cook', '.', 'Cookie', '=', 'd.cookgeneratenew(""somesaltforcooksgenerate"")']"
+24,        cook.Status = true,"['cook', '.', 'Status', '=', 'true']"
+25,        cook.Lastconnect = time.Now(),"['cook', '.', 'Lastconnect', '=', 'time.Now()']"
+26,        cook.CountConnect += 1,"['cook', '.', 'CountConnect', '+=', '1']"
+27,        //user object,"['//', 'user', 'object']"
+28,        user.Email = email,"['user', '.', 'Email', '=', 'email']"
+29,        user.Session = session,"['user', '.', 'Session', '=', 'session']"
+30,        user.UserInfo = userinfo,"['user', '.', 'UserInfo', '=', 'userinfo']"
+31,        user.Cook = cook,"['user', '.', 'Cook', '=', 'cook']"
+32,        user.Role = int64(role),"['user', '.', 'Role', '=', 'int64(role)']"
+33,        //make request + //serizlizations to json answer,"['//', 'make', 'request', '+', 'serizlizations', 'to', 'json', 'answer']"
+34,        if err := d.DB.Create(user).Error; err != nil {,"['if', 'err', ':=', 'd', '.', 'DB.Create(user)', '.', 'Error', ';', 'err', '!=', 'nil', '{']"
+35,            answer.AnswerJSON.ErrorAnswer.Message = err.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'err.Error()']"
+36,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+37,        } else {,"['}', 'else', '{']"
+38,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']"
+39,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+40,        },['}']
+41,    },['}']
+42,    d.serilize(answer),['d.serilize(answer)']
+43,    return answer,"['return', 'answer']"
+44,},['}']
+45,func (d *Database) UserDelete(userid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserDelete(userid int64)', '*', 'Answer', '{']"
+46,"    answer := d.initCall(""UserDelete"")","['answer', ':=', 'd.initCall(""UserDelete"")']"
+47,    user := new(User),"['user', ':=', 'new(User)']"
+48,    //check exists,"['//', 'check', 'exists']"
+49,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists == nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '==', 'nil', '{']"
+50,        if userDelete := d.DB.Delete(user).Error; userDelete != nil {,"['if', 'userDelete', ':=', 'd', '.', 'DB.Delete(user)', '.', 'Error', ';', 'userDelete', '!=', 'nil', '{']"
+51,            answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']"
+52,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+53,        } else {,"['}', 'else', '{']"
+54,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+55,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+56,        },['}']
+57,    } else {,"['}', 'else', '{']"
+58,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']"
+59,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+60,    },['}']
+61,    d.serilize(answer),['d.serilize(answer)']
+62,    return answer,"['return', 'answer']"
+63,},['}']
+64,func (d *Database) UserRead(userid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserRead(userid int64)', '*', 'Answer', '{']"
+65,"    answer := d.initCall(""UserRead"")","['answer', ':=', 'd.initCall(""UserRead"")']"
+66,    user := new(User),"['user', ':=', 'new(User)']"
+67,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists != nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '!=', 'nil', '{']"
+68,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']"
+69,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+70,    } else {,"['}', 'else', '{']"
+71,        if rel := d.DB.Model(user).Related(&user.Session).Error; rel != nil {,"['if', 'rel', ':=', 'd', '.', 'DB.Model(user).Related(&user.Session)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']"
+72,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']"
+73,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']"
+74,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+75,        } else if rel = d.DB.Model(user).Related(&user.UserInfo).Error; rel != nil {,"['}', 'else', 'if', 'rel', '=', 'd', '.', 'DB.Model(user).Related(&user.UserInfo)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']"
+76,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']"
+77,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']"
+78,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+79,        } else if rel = d.DB.Model(user).Related(&user.Cook).Error; rel != nil {,"['}', 'else', 'if', 'rel', '=', 'd', '.', 'DB.Model(user).Related(&user.Cook)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']"
+80,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']"
+81,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']"
+82,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+83,        } else {,"['}', 'else', '{']"
+84,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']"
+85,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+86,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+87,        },['}']
+88,    },['}']
+89,    d.serilize(answer),['d.serilize(answer)']
+90,    return answer,"['return', 'answer']"
+91,},['}']
+92,func (d *Database) UserReadAll() *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'UserReadAll()', '*', 'Answer', '{']"
+93,"    answer := d.initCall(""UserReadAll"")","['answer', ':=', 'd.initCall(""UserReadAll"")']"
+94,    users := []User{},"['users', ':=', '[]', 'User', '{}']"
+95,    if usersGet := d.DB.Find(&users).Error; usersGet != nil {,"['if', 'usersGet', ':=', 'd', '.', 'DB.Find(&users)', '.', 'Error', ';', 'usersGet', '!=', 'nil', '{']"
+96,        answer.AnswerJSON.ErrorAnswer.Message = usersGet.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'usersGet.Error()']"
+97,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+98,    } else {,"['}', 'else', '{']"
+99,"        for _, user := range users {","['for', '_', ',', 'user', ':=', 'range', 'users', '{']"
+100,            d.DB.Model(user).Related(&user.Session),"['d', '.', 'DB.Model(user).Related(&user.Session)']"
+101,            d.DB.Model(user).Related(&user.UserInfo),"['d', '.', 'DB.Model(user).Related(&user.UserInfo)']"
+102,            d.DB.Model(user).Related(&user.Cook),"['d', '.', 'DB.Model(user).Related(&user.Cook)']"
+103,        },['}']
+104,        answer.AnswerJSON.Result = users,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'users']"
+105,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+106,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+107,    },['}']
+108,    d.serilize(answer),['d.serilize(answer)']
+109,    return answer,"['return', 'answer']"
+110,},['}']
+111,"func (d *Database) UserUpdate(userid int64, uu *UserUpdateStruct) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserUpdate(userid int64, uu *UserUpdateStruct)', '*', 'Answer', '{']"
+112,"    answer := d.initCall(""UserUpdate"")","['answer', ':=', 'd.initCall(""UserUpdate"")']"
+113,    user := new(User),"['user', ':=', 'new(User)']"
+114,"    if userExists := d.DB.Find(user, ""ID = ?"", userid).Error; userExists != nil {","['if', 'userExists', ':=', 'd', '.', 'DB.Find(user, ""ID = ?"", userid)', '.', 'Error', ';', 'userExists', '!=', 'nil', '{']"
+115,        answer.AnswerJSON.ErrorAnswer.Message = userExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'userExists.Error()']"
+116,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+117,    } else {,"['}', 'else', '{']"
+118,        //get relevating struct info,"['//', 'get', 'relevating', 'struct', 'info']"
+119,        d.DB.Model(user).Related(&user.Session),"['d', '.', 'DB.Model(user).Related(&user.Session)']"
+120,        d.DB.Model(user).Related(&user.UserInfo),"['d', '.', 'DB.Model(user).Related(&user.UserInfo)']"
+121,        d.DB.Model(user).Related(&user.Cook),"['d', '.', 'DB.Model(user).Related(&user.Cook)']"
+122,        //update columns,"['//', 'update', 'columns']"
+123,"        if uu.Email != """" {","['if', 'uu', '.', 'Email', '!=', '""""', '{']"
+124,            user.Email = uu.Email,"['user', '.', 'Email', '=', 'uu', '.', 'Email']"
+125,        },['}']
+126,        if uu.Avatar > 0 {,"['if', 'uu', '.', 'Avatar', '>', '0', '{']"
+127,            user.UserInfo.Avatar = uu.Avatar,"['user', '.', 'UserInfo', '.', 'Avatar', '=', 'uu', '.', 'Avatar']"
+128,        },['}']
+129,"        if uu.Birthday != """" {","['if', 'uu', '.', 'Birthday', '!=', '""""', '{']"
+130,            user.UserInfo.Birthday = uu.Birthday,"['user', '.', 'UserInfo', '.', 'Birthday', '=', 'uu', '.', 'Birthday']"
+131,        },['}']
+132,"        if uu.Location != """" {","['if', 'uu', '.', 'Location', '!=', '""""', '{']"
+133,            user.UserInfo.Location = uu.Location,"['user', '.', 'UserInfo', '.', 'Location', '=', 'uu', '.', 'Location']"
+134,        },['}']
+135,"        if uu.Male != """" {","['if', 'uu', '.', 'Male', '!=', '""""', '{']"
+136,            user.UserInfo.Male = uu.Male,"['user', '.', 'UserInfo', '.', 'Male', '=', 'uu', '.', 'Male']"
+137,        },['}']
+138,"        if uu.Password != """" {","['if', 'uu', '.', 'Password', '!=', '""""', '{']"
+139,            user.UserInfo.Password = uu.Password,"['user', '.', 'UserInfo', '.', 'Password', '=', 'uu', '.', 'Password']"
+140,        },['}']
+141,        if uu.Role > 0 {,"['if', 'uu', '.', 'Role', '>', '0', '{']"
+142,            if roleErr := d.DB.Find(&Role{}).Error; roleErr != nil {,"['if', 'roleErr', ':=', 'd', '.', 'DB.Find(&Role{})', '.', 'Error', ';', 'roleErr', '!=', 'nil', '{']"
+143,                //role not found,"['//', 'role', 'not', 'found']"
+144,"                fmt.Printf(""[userupdate] role not found `%d`\n"", uu.Role)","['fmt.Printf(""[userupdate] role not found `%d`\\n"", uu.Role)']"
+145,            } else {,"['}', 'else', '{']"
+146,                user.Role = uu.Role,"['user', '.', 'Role', '=', 'uu', '.', 'Role']"
+147,            },['}']
+148,        },['}']
+149,        //update,"['//', 'update']"
+150,        if errUpdate := d.DB.Save(user).Error; errUpdate != nil {,"['if', 'errUpdate', ':=', 'd', '.', 'DB.Save(user)', '.', 'Error', ';', 'errUpdate', '!=', 'nil', '{']"
+151,            answer.AnswerJSON.ErrorAnswer.Message = errUpdate.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errUpdate.Error()']"
+152,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+153,        } else {,"['}', 'else', '{']"
+154,            answer.AnswerJSON.Result = user,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'user']"
+155,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+156,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+157,        },['}']
+158,    },['}']
+159,    d.serilize(answer),['d.serilize(answer)']
+160,    return answer,"['return', 'answer']"
+161,},['}']
+162,"func (d *Database) UserPaginate(page, countPage int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'UserPaginate(page, countPage int)', '*', 'Answer', '{']"
+163,"    answer := d.initCall(""UserPaginate"")","['answer', ':=', 'd.initCall(""UserPaginate"")']"
+164,    result := []*User{},"['result', ':=', '[]*', 'User', '{}']"
+165,    if errPag := d.DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result).Error; errPag != nil {,"['if', 'errPag', ':=', 'd', '.', 'DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result)', '.', 'Error', ';', 'errPag', '!=', 'nil', '{']"
+166,        answer.AnswerJSON.ErrorAnswer.Message = errPag.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errPag.Error()']"
+167,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+168,    } else {,"['}', 'else', '{']"
+169,"        for _, user := range result {","['for', '_', ',', 'user', ':=', 'range', 'result', '{']"
+170,            d.DB.Model(&user).Related(&user.Session),"['d', '.', 'DB.Model(&user).Related(&user.Session)']"
+171,            d.DB.Model(&user).Related(&user.UserInfo),"['d', '.', 'DB.Model(&user).Related(&user.UserInfo)']"
+172,            d.DB.Model(&user).Related(&user.Cook),"['d', '.', 'DB.Model(&user).Related(&user.Cook)']"
+173,        },['}']
+174,        answer.AnswerJSON.Result = result,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'result']"
+175,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+176,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+177,    },['}']
+178,    d.serilize(answer),['d.serilize(answer)']
+179,    return answer,"['return', 'answer']"
+180,},['}']
+181,//-------------------------------------------------------------------,"['//', '-------------------------------------------------------------------']"
+182,//  category,"['//', 'category']"
+183,//--------------------------------------------------------------------,"['//', '--------------------------------------------------------------------']"
+184,func (d *Database) CategoryCreate(name string) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryCreate(name string)', '*', 'Answer', '{']"
+185,    //variables,"['//', 'variables']"
+186,"    answer := d.initCall(""CategoryCreate"")","['answer', ':=', 'd.initCall(""CategoryCreate"")']"
+187,    cat := new(Category),"['cat', ':=', 'new(Category)']"
+188,    //check exist user,"['//', 'check', 'exist', 'user']"
+189,"    if catExist := d.DB.Find(&Category{}, &Category{Name:name}).Error; catExist == nil {","['if', 'catExist', ':=', 'd', '.', 'DB.Find(&Category{}, &Category{Name:name})', '.', 'Error', ';', 'catExist', '==', 'nil', '{']"
+190,"        answer.AnswerJSON.ErrorAnswer.Message = ""[categorycreate] category already exist""","['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', '""[categorycreate] category already exist""']"
+191,        answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']"
+192,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+193,    } else {,"['}', 'else', '{']"
+194,        cat.Name = name,"['cat', '.', 'Name', '=', 'name']"
+195,        //make request + //serizlizations to json answer,"['//', 'make', 'request', '+', 'serizlizations', 'to', 'json', 'answer']"
+196,        if err := d.DB.Create(cat).Error; err != nil {,"['if', 'err', ':=', 'd', '.', 'DB.Create(cat)', '.', 'Error', ';', 'err', '!=', 'nil', '{']"
+197,            answer.AnswerJSON.ErrorAnswer.Message = err.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'err.Error()']"
+198,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+199,        } else {,"['}', 'else', '{']"
+200,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']"
+201,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+202,        },['}']
+203,    },['}']
+204,    d.serilize(answer),['d.serilize(answer)']
+205,    return answer,"['return', 'answer']"
+206,},['}']
+207,func (d *Database) CategoryDelete(catid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryDelete(catid int64)', '*', 'Answer', '{']"
+208,"    answer := d.initCall(""CategoryDelete"")","['answer', ':=', 'd.initCall(""CategoryDelete"")']"
+209,    cat := new(Category),"['cat', ':=', 'new(Category)']"
+210,    //check exists,"['//', 'check', 'exists']"
+211,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists == nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '==', 'nil', '{']"
+212,        if catDelete := d.DB.Delete(cat).Error; catDelete != nil {,"['if', 'catDelete', ':=', 'd', '.', 'DB.Delete(cat)', '.', 'Error', ';', 'catDelete', '!=', 'nil', '{']"
+213,            answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']"
+214,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+215,        } else {,"['}', 'else', '{']"
+216,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+217,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+218,        },['}']
+219,    } else {,"['}', 'else', '{']"
+220,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']"
+221,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+222,    },['}']
+223,    d.serilize(answer),['d.serilize(answer)']
+224,    return answer,"['return', 'answer']"
+225,},['}']
+226,func (d *Database) CategoryRead(catid int64) *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryRead(catid int64)', '*', 'Answer', '{']"
+227,"    answer := d.initCall(""CategoryRead"")","['answer', ':=', 'd.initCall(""CategoryRead"")']"
+228,    cat := new(Category),"['cat', ':=', 'new(Category)']"
+229,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists != nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '!=', 'nil', '{']"
+230,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']"
+231,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+232,    } else {,"['}', 'else', '{']"
+233,        if rel := d.DB.Model(cat).Related(&cat.Post).Error; rel != nil {,"['if', 'rel', ':=', 'd', '.', 'DB.Model(cat).Related(&cat.Post)', '.', 'Error', ';', 'rel', '!=', 'nil', '{']"
+234,            answer.AnswerJSON.Result = nil,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'nil']"
+235,            answer.AnswerJSON.ErrorAnswer.Message = rel.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'rel.Error()']"
+236,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+237,        } else {,"['}', 'else', '{']"
+238,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']"
+239,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']"
+240,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']"
+241,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']"
+242,            },['}']
+243,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']"
+244,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+245,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+246,        },['}']
+247,    },['}']
+248,    d.serilize(answer),['d.serilize(answer)']
+249,    return answer,"['return', 'answer']"
+250,},['}']
+251,func (d *Database) CategoryReadAll() *Answer {,"['func', '(', 'd', '*', 'Database', ')', 'CategoryReadAll()', '*', 'Answer', '{']"
+252,"    answer := d.initCall(""CategoryReadAll"")","['answer', ':=', 'd.initCall(""CategoryReadAll"")']"
+253,    cats := []Category{},"['cats', ':=', '[]', 'Category', '{}']"
+254,    if catsGet := d.DB.Find(&cats).Error; catsGet != nil {,"['if', 'catsGet', ':=', 'd', '.', 'DB.Find(&cats)', '.', 'Error', ';', 'catsGet', '!=', 'nil', '{']"
+255,        answer.AnswerJSON.ErrorAnswer.Message = catsGet.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catsGet.Error()']"
+256,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+257,    } else {,"['}', 'else', '{']"
+258,        //categorys,"['//', 'categorys']"
+259,"        for _, cat := range cats {","['for', '_', ',', 'cat', ':=', 'range', 'cats', '{']"
+260,            d.DB.Model(cat).Related(&cat.Post),"['d', '.', 'DB.Model(cat).Related(&cat.Post)']"
+261,            //get relete POST,"['//', 'get', 'relete', 'POST']"
+262,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']"
+263,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']"
+264,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']"
+265,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']"
+266,            },['}']
+267,        },['}']
+268,        answer.AnswerJSON.Result = cats,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cats']"
+269,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+270,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+271,    },['}']
+272,    d.serilize(answer),['d.serilize(answer)']
+273,    return answer,"['return', 'answer']"
+274,},['}']
+275,"func (d *Database) CategoryUpdate(catid int64, name string) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'CategoryUpdate(catid int64, name string)', '*', 'Answer', '{']"
+276,"    answer := d.initCall(""CategoryUpdate"")","['answer', ':=', 'd.initCall(""CategoryUpdate"")']"
+277,    cat := new(Category),"['cat', ':=', 'new(Category)']"
+278,"    if catExists := d.DB.Find(cat, ""ID = ?"", catid).Error; catExists != nil {","['if', 'catExists', ':=', 'd', '.', 'DB.Find(cat, ""ID = ?"", catid)', '.', 'Error', ';', 'catExists', '!=', 'nil', '{']"
+279,        answer.AnswerJSON.ErrorAnswer.Message = catExists.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'catExists.Error()']"
+280,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+281,    } else {,"['}', 'else', '{']"
+282,        //get relevating struct info,"['//', 'get', 'relevating', 'struct', 'info']"
+283,        d.DB.Model(cat).Related(&cat.Post),"['d', '.', 'DB.Model(cat).Related(&cat.Post)']"
+284,        //update columns,"['//', 'update', 'columns']"
+285,"        if name != """" {","['if', 'name', '!=', '""""', '{']"
+286,            cat.Name = name,"['cat', '.', 'Name', '=', 'name']"
+287,        },['}']
+288,        //update,"['//', 'update']"
+289,        if errUpdate := d.DB.Save(cat).Error; errUpdate != nil {,"['if', 'errUpdate', ':=', 'd', '.', 'DB.Save(cat)', '.', 'Error', ';', 'errUpdate', '!=', 'nil', '{']"
+290,            answer.AnswerJSON.ErrorAnswer.Message = errUpdate.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errUpdate.Error()']"
+291,            answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+292,        } else {,"['}', 'else', '{']"
+293,            answer.AnswerJSON.Result = cat,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'cat']"
+294,            answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+295,            answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+296,        },['}']
+297,    },['}']
+298,    d.serilize(answer),['d.serilize(answer)']
+299,    return answer,"['return', 'answer']"
+300,},['}']
+301,"func (d *Database) CategoryPaginate(page, countPage int) *Answer {","['func', '(', 'd', '*', 'Database', ')', 'CategoryPaginate(page, countPage int)', '*', 'Answer', '{']"
+302,"    answer := d.initCall(""CategoryPaginate"")","['answer', ':=', 'd.initCall(""CategoryPaginate"")']"
+303,    result := []*Category{},"['result', ':=', '[]*', 'Category', '{}']"
+304,    if errPag := d.DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result).Error; errPag != nil {,"['if', 'errPag', ':=', 'd', '.', 'DB.Limit(countPage).Offset((page * countPage) - countPage).Find(&result)', '.', 'Error', ';', 'errPag', '!=', 'nil', '{']"
+305,        answer.AnswerJSON.ErrorAnswer.Message = errPag.Error(),"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '.', 'Message', '=', 'errPag.Error()']"
+306,        answer.AnswerJSON.Status = false,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'false']"
+307,    } else {,"['}', 'else', '{']"
+308,"        for _, cat := range result {","['for', '_', ',', 'cat', ':=', 'range', 'result', '{']"
+309,            d.DB.Model(&cat).Related(&cat.Post),"['d', '.', 'DB.Model(&cat).Related(&cat.Post)']"
+310,            //get relete POST,"['//', 'get', 'relete', 'POST']"
+311,"            for x, p := range cat.Post {","['for', 'x', ',', 'p', ':=', 'range', 'cat', '.', 'Post', '{']"
+312,                d.DB.Model(&p).Related(&p.Comment),"['d', '.', 'DB.Model(&p).Related(&p.Comment)']"
+313,                d.DB.Model(&p).Related(&p.PostSeo),"['d', '.', 'DB.Model(&p).Related(&p.PostSeo)']"
+314,                cat.Post[x] = p,"['cat', '.', 'Post', '[', 'x', ']', '=', 'p']"
+315,            },['}']
+316,        },['}']
+317,        answer.AnswerJSON.Result = result,"['answer', '.', 'AnswerJSON', '.', 'Result', '=', 'result']"
+318,        answer.AnswerJSON.ErrorAnswer = nil,"['answer', '.', 'AnswerJSON', '.', 'ErrorAnswer', '=', 'nil']"
+319,        answer.AnswerJSON.Status = true,"['answer', '.', 'AnswerJSON', '.', 'Status', '=', 'true']"
+320,    },['}']
+321,    d.serilize(answer),['d.serilize(answer)']
+322,    return answer,"['return', 'answer']"
+323,},['}']
