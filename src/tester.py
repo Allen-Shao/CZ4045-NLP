@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import os.path as path
 import os
 import ast
@@ -45,9 +45,11 @@ test_texts, test_tokens = read_csv(test_directory)
 
 if (len(generated_texts) != len(test_texts)):
 	print("Err: Length of two datasets differ!")
+	print(len(generated_texts), len(test_texts))
 	exit()
 
 wrong = 0
+writer = open("./test_report2.txt", 'w')
 
 for i in range(len(generated_texts)):
 	# generated_text = generated_texts[i].strip('\n')
@@ -62,7 +64,7 @@ for i in range(len(generated_texts)):
 
 	generated_token = generated_tokens[i]
 	test_token = test_tokens[i]
-	
+
 	if (i==459):
 		continue
 
@@ -80,6 +82,9 @@ for i in range(len(generated_texts)):
 		# if generated_token[i_generated] == test_token[i_test]:
 		# print(i_generated, i_test)
 		# input()
+		# print(start_generated)
+		# print(i_generated)
+		# print(i_test)
 		generated_processed = replace_quotation_annotation("".join(generated_token[start_generated:i_generated+1]).replace(" ", ""))
 		test_processed = replace_quotation_annotation("".join(test_token[start_test:i_test+1]).replace(" ", ""))
 		# print(generated_processed)
@@ -88,13 +93,21 @@ for i in range(len(generated_texts)):
 		 # or (join(generated_token[start_generated:i_generated+1]) == " ".join(test_token[start_test:i_test+1])):
 			end_generated = i_generated
 			end_test = i_test
-			if ((end_generated - start_generated) > 0) or ((end_test - start_test) > 0)  :
+			# if ((end_generated - start_generated) > 0) or ((end_test - start_test) > 0)  :
+			if (end_generated - start_generated) != (end_test - start_test):
+
 				#NOT MATCH
 				wrong += end_test - start_test + 1
 				print("Wrong tokens: ")
+				writer.write("Wrong tokens: \n")
 				print("Generated: " + str(generated_token[start_generated:i_generated+1]))
+				print("Generated: " + str(generated_token))
+				writer.write("Generated: " + str(generated_token[start_generated:i_generated+1]) + '\n')
 				print("Test: " + str(test_token[start_test:i_test+1]))
+				print("Test: " + str(test_token))
+				writer.write("Test: " + str(test_token[start_test:i_test+1]) + '\n')
 				print()
+				writer.write('\n')
 
 			i_generated += 1
 			i_test += 1
@@ -102,27 +115,60 @@ for i in range(len(generated_texts)):
 			start_test = end_test = i_test
 			continue
 		else:
+			# print("if != ")
+			# print(generated_token[i_generated])
+			# print(generated_processed)
+			# print(generated_token)
+			# print(test_token[i_test])
+			# print(test_processed)
+			# print(test_token)
 			if (i_test+1 >= len(test_token)) or (i_generated+1 >= len(generated_token)):
 				break
 
-			if generated_token[i_generated+1] == test_token[i_test+1]:
-				#WRONG TOKEN
-				# print(generated_token[i_generated+1], test_token[i_test+1])
+			# if generated_token[i_generated+1] == test_token[i_test+1]:
+			# 	print(" if != ==")
+			# 	#WRONG TOKEN
+			# 	print(generated_token[i_generated+1], test_token[i_test+1])
+			# 	wrong += i_test - start_test + 1
+			# 	print("Wrong tokens: ")
+			# 	writer.write("Wrong tokens: \n")
+			# 	print("Generated: " + str(generated_token[start_generated:i_generated+1]))
+			# 	writer.write("Generated: " + str(generated_token[start_generated:i_generated+1]) + '\n')
+			# 	print("Test: " + str(test_token[start_test:i_test+1]))
+			# 	writer.write("Test: " + str(test_token[start_test:i_test+1]) + '\n')
+			# 	print()
+			# 	writer.write('\n')
+			# 	i_generated += 1
+			# 	i_test += 1
+			# 	start_generated = end_generated = i_generated
+			# 	start_test = end_test = i_test
+			# 	continue
+
+			# if len(generated_processed) > len(test_processed):
+			if generated_processed.find(test_processed) != -1:
+				i_test += 1
+			# elif len(generated_processed) < len(test_processed):
+			elif test_processed.find(generated_processed) != -1:
+				i_generated += 1
+			else:
 				wrong += i_test - start_test + 1
 				print("Wrong tokens: ")
+				writer.write("Wrong tokens: \n")
 				print("Generated: " + str(generated_token[start_generated:i_generated+1]))
+				print("Generated: " + str(generated_token))
+				writer.write("Generated: " + str(generated_token[start_generated:i_generated+1]) + '\n')
 				print("Test: " + str(test_token[start_test:i_test+1]))
+				print("Test: " + str(test_token))
+				writer.write("Test: " + str(test_token[start_test:i_test+1]) + '\n')
 				print()
+				writer.write('\n')
 				i_generated += 1
 				i_test += 1
 				start_generated = end_generated = i_generated
 				start_test = end_test = i_test
 				continue
-			
-			if len(generated_processed) > len(test_processed):
-				i_test += 1
-			elif len(generated_processed) < len(test_processed):
-				i_generated += 1
+			# else:
+			# 	print("handle else")
 			# else:
 				# wrong += i_test - start_test + 1
 				# print("Wrong tokens: ")
@@ -137,6 +183,12 @@ for i in range(len(generated_texts)):
 			# else:
 				#TODO: SIMPLY WRONG
 print("Total token number: ", end="")
+writer.write("Total token number: \n")
 print(sum([len(a) for a in test_tokens]))
+writer.write(str(sum([len(a) for a in test_tokens])) + '\n')
 print("Total wront token number: ", end="")
+writer.write("Total wrong token number: \n")
 print(wrong)
+writer.write(str(wrong))
+
+writer.close()

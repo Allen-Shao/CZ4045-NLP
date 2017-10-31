@@ -7,7 +7,7 @@ A simple usage that uses the local time zone (not UTC) may look like this:
 1,import (,"['import', '(']"
 2,"    log ""github.com/Sirupsen/logrus""","['log', '""github.com/Sirupsen/logrus""']"
 3,),[')']
-4,func main() {,"['func', 'main()', '{']"
+4,func main() {,"['func', 'main', '()', '{']"
 5,    log.SetFormatter(&log.JSONFormatter{}),['log.SetFormatter(&log.JSONFormatter{})']
 6,"    log.Info(""Testing"")","['log.Info(""Testing"")']"
 7,},['}']
@@ -25,11 +25,11 @@ Now let's create a custom log.Formatter which switches to UTC:
 11,type UTCFormatter struct {,"['type', 'UTCFormatter', 'struct', '{']"
 12,    log.Formatter,"['log', '.', 'Formatter']"
 13,},['}']
-14,"func (u UTCFormatter) Format(e *log.Entry) ([]byte, error) {","['func', '(', 'u', 'UTCFormatter', ')', 'Format(e *log.Entry) ([]byte, error)', '{']"
+14,"func (u UTCFormatter) Format(e *log.Entry) ([]byte, error) {","['func', '(', 'u', 'UTCFormatter', ')', 'Format', '(', 'e', '*', 'log', '.', 'Entry', ')', '([]', 'byte', ',', 'error', ')', '{']"
 15,    e.Time = e.Time.UTC(),"['e', '.', 'Time', '=', 'e', '.', 'Time.UTC()']"
 16,    return u.Formatter.Format(e),"['return', 'u', '.', 'Formatter.Format(e)']"
 17,},['}']
-18,func main() {,"['func', 'main()', '{']"
+18,func main() {,"['func', 'main', '()', '{']"
 19,    log.SetFormatter(UTCFormatter{&log.JSONFormatter{}}),['log.SetFormatter(UTCFormatter{&log.JSONFormatter{}})']
 20,"    log.Info(""Testing"")","['log.Info(""Testing"")']"
 21,},['}']

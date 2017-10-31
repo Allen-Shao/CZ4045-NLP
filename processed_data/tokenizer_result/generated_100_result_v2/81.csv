@@ -12,14 +12,14 @@
 8,type Joker struct {,"['type', 'Joker', 'struct', '{']"
 9,    Name string,"['Name', 'string']"
 10,},['}']
-11,func (j Joker) Hello() {,"['func', '(', 'j', 'Joker', ')', 'Hello()', '{']"
+11,func (j Joker) Hello() {,"['func', '(', 'j', 'Joker', ')', 'Hello', '()', '{']"
 12,"    fmt.Println(j.Name, ""says, \""Hello!\"""")","['fmt.Println(j.Name, ""says, \\""Hello!\\"""")']"
 13,},['}']
-14,func main() {,"['func', 'main()', '{']"
+14,func main() {,"['func', 'main', '()', '{']"
 15,"    var j Joker = Joker{""Peter""}","['var', 'j', 'Joker', '=', 'Joker', '{', '""Peter""', '}']"
 16,    invokeHello(j),['invokeHello(j)']
 17,},['}']
-18,func invokeHello(p Person) {,"['func', 'invokeHello(p Person)', '{']"
+18,func invokeHello(p Person) {,"['func', 'invokeHello', '(', 'p', 'Person', ')', '{']"
 19,    p.Hello(),['p.Hello()']
 20,},['}']
 21,"
@@ -44,14 +44,14 @@ But when I change the Hello method to receive a pointer, I get errors.
 32,type Joker struct {,"['type', 'Joker', 'struct', '{']"
 33,    Name string,"['Name', 'string']"
 34,},['}']
-35,func (j *Joker) Hello() {,"['func', '(', 'j', '*', 'Joker', ')', 'Hello()', '{']"
+35,func (j *Joker) Hello() {,"['func', '(', 'j', '*', 'Joker', ')', 'Hello', '()', '{']"
 36,"    fmt.Println(j.Name, ""says, \""Hello!\"""")","['fmt.Println(j.Name, ""says, \\""Hello!\\"""")']"
 37,},['}']
-38,func main() {,"['func', 'main()', '{']"
+38,func main() {,"['func', 'main', '()', '{']"
 39,"    var j *Joker = &Joker{""Peter""}","['var', 'j', '*', 'Joker', '=', '&', 'Joker', '{', '""Peter""', '}']"
 40,    invokeHello(j),['invokeHello(j)']
 41,},['}']
-42,func invokeHello(p *Person) {,"['func', 'invokeHello(p *Person)', '{']"
+42,func invokeHello(p *Person) {,"['func', 'invokeHello', '(', 'p', '*', 'Person', ')', '{']"
 43,    p.Hello(),['p.Hello()']
 44,},['}']
 45,"
@@ -60,7 +60,7 @@ Here are the errors.
 
 ","['Here', 'are', 'the', 'errors', '.']"
 46,$ go run bar.go,"['$', 'go', 'run', 'bar', '.', 'go']"
-47,# command-line-arguments,"['command', '-', 'line', '-', 'arguments']"
+47,# command-line-arguments,"['#', 'command', '-', 'line', '-', 'arguments']"
 48,./bar.go:21: cannot use j (type *Joker) as type *Person in argument to invokeHello:,"['./', 'bar', '.', 'go', ':', '21', ':', 'cannot', 'use', 'j (type *Joker)', 'as', 'type', '*', 'Person', 'in', 'argument', 'to', 'invokeHello', ':']"
 49,"    *Person is pointer to interface, not interface","['*', 'Person', 'is', 'pointer', 'to', 'interface', ',', 'not', 'interface']"
 50,./bar.go:25: p.Hello undefined (type *Person has no field or method Hello),"['./', 'bar', '.', 'go', ':', '25', ':', 'p', '.', 'Hello', 'undefined (type *Person has no field or method Hello)']"
