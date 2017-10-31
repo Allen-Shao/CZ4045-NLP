@@ -33,19 +33,19 @@ Here's the complete code:
 9,if *metaGzip {,"['if', '*', 'metaGzip', '{']"
 10,    var b = &bytes.Buffer{},"['var', 'b', '=', '&', 'bytes', '.', 'Buffer', '{}']"
 11,    w := gzip.NewWriter(b),"['w', ':=', 'gzip.NewWriter(b)']"
-12,"    if _, err := io.Copy(w, file); err != nil {","['if', '_', ',', 'err', ':=', 'io.Copy(w, file)', ';', 'err', '!=', 'nil', '{']"
+12,"    if _, err := io.Copy(w, file); err != nil {","['if', '_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'w', ',', 'file', ');', 'err', '!=', 'nil', '{']"
 13,        panic(err),['panic(err)']
 14,    },['}']
-15,    if err := w.Close(); err != nil { // This also flushes,"['if', 'err', ':=', 'w.Close()', ';', 'err', '!=', 'nil', '{', '//', 'This', 'also', 'flushes']"
+15,    if err := w.Close(); err != nil { // This also flushes,"['if', 'err', ':=', 'w', '.', 'Close', '();', 'err', '!=', 'nil', '{', '//', 'This', 'also', 'flushes']"
 16,        panic(err),['panic(err)']
 17,    },['}']
-18,"    if _, err := file.Seek(0, 0); err != nil {","['if', '_', ',', 'err', ':=', 'file.Seek(0, 0)', ';', 'err', '!=', 'nil', '{']"
+18,"    if _, err := file.Seek(0, 0); err != nil {","['if', '_', ',', 'err', ':=', 'file', '.', 'Seek', '(', '0', ',', '0', ');', 'err', '!=', 'nil', '{']"
 19,        panic(err),['panic(err)']
 20,    },['}']
-21,"    if _, err := io.Copy(file, b); err != nil {","['if', '_', ',', 'err', ':=', 'io.Copy(file, b)', ';', 'err', '!=', 'nil', '{']"
+21,"    if _, err := io.Copy(file, b); err != nil {","['if', '_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'file', ',', 'b', ');', 'err', '!=', 'nil', '{']"
 22,        panic(err),['panic(err)']
 23,    },['}']
-24,    if err := file.Truncate(int64(b.Len())); err != nil {,"['if', 'err', ':=', 'file.Truncate(int64(b.Len()))', ';', 'err', '!=', 'nil', '{']"
+24,    if err := file.Truncate(int64(b.Len())); err != nil {,"['if', 'err', ':=', 'file', '.', 'Truncate', '(', 'int64', '(', 'b', '.', 'Len', '()));', 'err', '!=', 'nil', '{']"
 25,        panic(err),['panic(err)']
 26,    },['}']
 27,},['}']
@@ -64,10 +64,10 @@ Note: The above code will replace the file content on your disk. If you don't wa
 36,if *metaGzip {,"['if', '*', 'metaGzip', '{']"
 37,    var b = &bytes.Buffer{},"['var', 'b', '=', '&', 'bytes', '.', 'Buffer', '{}']"
 38,    w := gzip.NewWriter(b),"['w', ':=', 'gzip.NewWriter(b)']"
-39,"    if _, err := io.Copy(w, file); err != nil {","['if', '_', ',', 'err', ':=', 'io.Copy(w, file)', ';', 'err', '!=', 'nil', '{']"
+39,"    if _, err := io.Copy(w, file); err != nil {","['if', '_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'w', ',', 'file', ');', 'err', '!=', 'nil', '{']"
 40,        panic(err),['panic(err)']
 41,    },['}']
-42,    if err := w.Close(); err != nil { // This also flushes,"['if', 'err', ':=', 'w.Close()', ';', 'err', '!=', 'nil', '{', '//', 'This', 'also', 'flushes']"
+42,    if err := w.Close(); err != nil { // This also flushes,"['if', 'err', ':=', 'w', '.', 'Close', '();', 'err', '!=', 'nil', '{', '//', 'This', 'also', 'flushes']"
 43,        panic(err),['panic(err)']
 44,    },['}']
 45,    input = b,"['input', '=', 'b']"
@@ -82,7 +82,7 @@ Note #2: If you don't want to ""work"" with the compressed data but you just wan
 It could look like this:
 
 ","['Note', '#2:', 'If', 'you', 'do', ""n't"", 'want', 'to', '""work""', 'with', 'the', 'compressed', 'data', 'but', 'you', 'just', 'want', 'to', 'send', 'it', 'e.g', '.', 'as', 'the', 'web', 'response', ',', 'you', 'do', ""n't"", 'even', 'need', 'the', 'bytes.Buffer', ',', 'you', 'can', 'just', '""stream""', 'the', 'compressed', 'data', 'to', 'the', 'http.ResponseWriter', '.', 'It', 'could', 'look', 'like', 'this', ':']"
-51,"func myHandler(w http.ResponseWriter, r *http.Request) {","['func', 'myHandler(w http.ResponseWriter, r *http.Request)', '{']"
+51,"func myHandler(w http.ResponseWriter, r *http.Request) {","['func', 'myHandler', '(', 'w', 'http', '.', 'ResponseWriter', ',', 'r', '*', 'http', '.', 'Request', ')', '{']"
 52,"    file, err := os.Open(fileName)","['file', ',', 'err', ':=', 'os.Open(fileName)']"
 53,    if err != nil {,"['if', 'err', '!=', 'nil', '{']"
 54,"        http.NotFound(w, r)","['http.NotFound(w, r)']"
@@ -90,7 +90,7 @@ It could look like this:
 56,    defer file.Close(),"['defer', 'file.Close()']"
 57,    gz := gzip.NewWriter(w),"['gz', ':=', 'gzip.NewWriter(w)']"
 58,    defer gz.Close(),"['defer', 'gz.Close()']"
-59,"    if _, err := io.Copy(gz, file); err != nil {","['if', '_', ',', 'err', ':=', 'io.Copy(gz, file)', ';', 'err', '!=', 'nil', '{']"
+59,"    if _, err := io.Copy(gz, file); err != nil {","['if', '_', ',', 'err', ':=', 'io', '.', 'Copy', '(', 'gz', ',', 'file', ');', 'err', '!=', 'nil', '{']"
 60,        // handle error,"['//', 'handle', 'error']"
 61,    },['}']
 62,},['}']

@@ -13,7 +13,7 @@
 9,    sQuitting     = 1,"['sQuitting', '=', '1']"
 10,    sReconnecting = 2,"['sReconnecting', '=', '2']"
 11,),[')']
-12,func New() *Server {,"['func', 'New()', '*', 'Server', '{']"
+12,func New() *Server {,"['func', 'New', '()', '*', 'Server', '{']"
 13,    s := &Server{,"['s', ':=', '&', 'Server', '{']"
 14,"        s: make(chan int),","['s', ':', 'make(chan int)', ',']"
 15,"        r: make(chan int),","['r', ':', 'make(chan int)', ',']"
@@ -23,7 +23,7 @@
 19,    // go s.receiver(),"['//', 'go', 's.receiver()']"
 20,    return s,"['return', 's']"
 21,},['}']
-22,func (s *Server) sender() {,"['func', '(', 's', '*', 'Server', ')', 'sender()', '{']"
+22,func (s *Server) sender() {,"['func', '(', 's', '*', 'Server', ')', 'sender', '()', '{']"
 23,    //,['//']
 24,    for {,"['for', '{']"
 25,        select {,"['select', '{']"
@@ -33,7 +33,7 @@
 29,            s.c.L.Lock(),"['s', '.', 'c', '.', 'L.Lock()']"
 30,        L:,"['L', ':']"
 31,            for {,"['for', '{']"
-32,                switch atomic.LoadUint32(&s.state) {,"['switch', 'atomic.LoadUint32(&s.state)', '{']"
+32,                switch atomic.LoadUint32(&s.state) {,"['switch', 'atomic', '.', 'LoadUint32', '(&', 's', '.', 'state', ')', '{']"
 33,                case sNormal:,"['case', 'sNormal', ':']"
 34,                    break L,"['break', 'L']"
 35,                case sReconnecting:,"['case', 'sReconnecting', ':']"
@@ -48,7 +48,7 @@
 44,    },['}']
 45,},['}']
 46,//repeat for receiver,"['//', 'repeat', 'for', 'receiver']"
-47,func (s *Server) Reconnect() {,"['func', '(', 's', '*', 'Server', ')', 'Reconnect()', '{']"
+47,func (s *Server) Reconnect() {,"['func', '(', 's', '*', 'Server', ')', 'Reconnect', '()', '{']"
 48,    var cannotReconnect bool,"['var', 'cannotReconnect', 'bool']"
 49,"    atomic.StoreUint32(&s.state, sReconnecting)","['atomic.StoreUint32(&s.state, sReconnecting)']"
 50,    //keep trying to reconnect,"['//', 'keep', 'trying', 'to', 'reconnect']"
