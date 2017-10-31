@@ -7,7 +7,7 @@ def read_csv(dirname, file_number):
 	text = []
 	token = []
 
-	df = pd.read_csv(path.join(dirname, str(file_number)+'.csv'))
+	df = pd.read_csv(path.join(dirname, str(file_number)+'.csv'), encoding='utf-8')
 	# print(path.join(dirname, str(i)+'.csv'))
 	text.extend(df['text'].tolist())
 	for t in df['token'].tolist():
@@ -113,7 +113,7 @@ def find_wrong_token(generated_texts, generated_tokens, test_texts, test_tokens,
 
 # mian
 
-writer = open("./test_report2.txt", 'w')
+writer = open("./test_report2.txt", 'w', encoding='utf-8')
 total_wrong = 0
 total_token_number = 0
 for i in range(100):
