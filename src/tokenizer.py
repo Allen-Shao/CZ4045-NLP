@@ -46,9 +46,8 @@ def tokenize_code(code, dic, post):
         post.append(line_info)
     return dic, post
 
-def split_punc(token):
-    if token == '...':
-        return [token, token]
+ddef split_punc(token):
+
     punc = string.punctuation.replace('/', '')
     punctuation_mark = r"[{}]".format(punc) # create the pattern
     left = '<{[('
@@ -57,7 +56,7 @@ def split_punc(token):
 #         print("first char is punctuation mark")
         token_lst = []
         iter_token = iter(range(len(token)))
-        for i in iter_token:
+        for i in iter_token: 
             if token[i] in punc:
                 if token[i] in left:
                     corresponding_right = right[left.index(token[i])]
@@ -71,6 +70,18 @@ def split_punc(token):
                 # copy the word token in front for later processing
                 token_lst.insert(0, token[i:])
                 break
+        omit = ''
+        lst = token_lst[:]
+        for i in range(len(lst)-1, -1, -1):
+            if token_lst[i] == '.':
+                omit += token_lst[i]
+            else:
+                if len(omit) >= 3:
+                    token_lst = token_lst[:i+1]
+                    token_lst.append(omit)
+                    if (i+len(omit)+1) < len(lst):
+                        token_lst += lst[i+len(omit)+1:]
+                    break
         return token_lst
     elif re.match(punctuation_mark, token[-1]) and not re.match(punctuation_mark, token[0]):
 #         print("last char is punctuation mark")
@@ -78,7 +89,7 @@ def split_punc(token):
         iter_token = iter(range(len(token)-1, -1, -1))
         for i in iter_token:
             if token[i] in punc:
-
+                
                 if token[i] in right:
                     corresponding_left = left[right.index(token[i])]
                     if corresponding_left in token:
@@ -91,7 +102,18 @@ def split_punc(token):
                 # copy the word token in front for later processing
                 token_lst.insert(0, token[:i+1])
                 break
-
+        omit = ''
+        lst = token_lst[:]
+        for i in range(len(lst)-1, -1, -1):
+            if token_lst[i] == '.':
+                omit += token_lst[i]
+            else:
+                if len(omit) >= 3:
+                    token_lst = token_lst[:i+1]
+                    token_lst.append(omit)
+                    if (i+len(omit)+1) < len(lst):
+                        token_lst += lst[i+len(omit)+1:]
+                    break        
         return token_lst
     else:
         return [token, token]
