@@ -26,6 +26,7 @@ def main():
     args = parser.parse_args()
     sample(args)
 
+
 def sample(args):
     with open(os.path.join(args.save_dir, 'config.pkl'), 'rb') as f:
         saved_args = cPickle.load(f)
