@@ -83,7 +83,7 @@ ddef split_punc(token):
 #         print("first char is punctuation mark")
         token_lst = []
         iter_token = iter(range(len(token)))
-        for i in iter_token: 
+        for i in iter_token:
             if token[i] in punc:
                 if token[i] in left:
                     corresponding_right = right[left.index(token[i])]
@@ -116,7 +116,7 @@ ddef split_punc(token):
         iter_token = iter(range(len(token)-1, -1, -1))
         for i in iter_token:
             if token[i] in punc:
-                
+
                 if token[i] in right:
                     corresponding_left = left[right.index(token[i])]
                     if corresponding_left in token:
@@ -140,54 +140,19 @@ ddef split_punc(token):
                     token_lst.append(omit)
                     if (i+len(omit)+1) < len(lst):
                         token_lst += lst[i+len(omit)+1:]
-                    break        
+                    break
         return token_lst
     else:
         return [token, token]
 
 def tokenize_natural_language(txt):
-#     re_entity = r'(?:[A-Z][A-Za-z]*\s)*[A-Z][A-Za-z]*'
 
-#     entities = RegexpTokenizer(re_entity).tokenize(txt)
-#     name_entities = []
-#     for entity in entities:
-#         if " " not in entity:
-#             break
-#         satisfier = True
-#         pos = nltk.pos_tag(entity.split(" "))[0][1]:
-#         if pos == 'DT' or pos == 'PRP'or pos == 'CC' or pos == 'WRB' or pos == 'IN':
-#             satisfier = False
-#             break
-#         if satisfier:
-#             name_entities.append(entity)
-
-#     if name_entities:
-#         print(name_entities)
-#     dic = {entity:entity.split(" ") for entity in name_entities}
-#     entity_tokens = [item for sublist in dic.values() for item in sublist]
     space_tokenizer = RegexpTokenizer(r'\S+')
     tokens = space_tokenizer.tokenize(txt)
 
     new_token_list = []
-#     find_entity = False
     iter_tokens = iter(tokens)
     for token in iter_tokens:
-#         for key, val in dic.items():
-#             index = tokens.index(token)
-#             if token in val and (index+len(val)) < len(tokens):
-#                 reconstruct = " ".join([tokens[t] for t in range(index, index + len(val))])
-#                 splited = split_punc(reconstruct)
-#                 if splited[0] == key:
-#                     new_token_list += splited[1:]
-#                     if len(val) != 1:
-#                         for n in range(len(val)-1):
-#                             next(iter_tokens)
-#                     find_entity = True
-#                     break
-#         if find_entity:
-#             find_entity = False
-#             continue
-
         new_token_list += split_punc(token)[1:]
 
     # split abbreviation
@@ -296,8 +261,12 @@ def main():
                      help="the csv file containing all the selected questions")
     parser.add_argument("--selected_answers", type=str, default='./answers.csv',
                      help="the csv file containing all the selected answers")
-    parser.add_argument("--test_dataset", type=str, default='./100_posts.csv', 
+    parser.add_argument("--test_dataset", type=str, default='./100_posts.csv',
                      help="the csv file containing selected data used for further testing")
+    parser.add_argument("--output_directory_test", type=str, default='./',
+                     help="the output directory for stroing tokenizer_result for test set")
+    parser.add_argument("--output_directory_all", type=str, default='./',
+                     help="the output directory for stroing tokenizer_result for all dataset")
     args = parser.parse_args()
 
     all_codes = pd.read_csv(os.path.abspath(args.code))
@@ -327,14 +296,13 @@ def main():
 
     code_tokenizer = RegexpTokenizer(patterns)
 
-    if not os.path.exists('./processed_gt_data/'):
-        os.makedirs('./processed_gt_data/')
     # tokenize all ground truth posts
-    gt_results = _tokenizer(ground_truth_post, ground_truth_code_blk, './processed_gt_data/', True, 100)
-    print("The ground truth tokenization result is under ./processed_gt_data/")
+    gt_results = _tokenizer(ground_truth_post, ground_truth_code_blk, os.path.abspath(args.output_directory_test), True, 100)
+    print("Finish test dataset tokenization")
 
-    if not os.path.exists('./processed_all_data/'):
-        os.makedirs('./processed_all_data/')
     # tokenize all posts from 700 threads
-    all_results = _tokenizer(selected_post, all_codes , './processed_all_data/', False)
-    print("The overall tokenization result is under ./processed_all_data/")
+    all_results = _tokenizer(selected_post, all_codes , os.path.abspath(args.output_directory_all), False)
+    print("Finish overall dataset tokenization")
+
+if __name__ == '__main__':
+    main()

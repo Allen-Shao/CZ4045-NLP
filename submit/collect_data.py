@@ -54,8 +54,6 @@ def dump_data(output_directory):
 	question_df.to_csv(path.join(output_directory, "questions.csv"))
 	answer_df.to_csv(path.join(output_directory, "answers.csv"))
 
-
-# Main
 def collect_data(input_file, output_directory, target_tag):
 	questions_count = 0
 	questions = [] # Keep all the questions in list, later convert to DataFrame
@@ -90,7 +88,7 @@ def collect_data(input_file, output_directory, target_tag):
 						if (answer_count < 1):
 							continue
 						question = Question(cur_id, title, body, accept, answer_count)
-						
+
 
 						questions.append(question.__dict__)
 						question_ids.append(cur_id)
@@ -123,7 +121,7 @@ def collect_data(input_file, output_directory, target_tag):
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--input_xml', type=str, default='./Posts.xml', 
+	parser.add_argument('--input_xml', type=str, default='./Posts.xml',
 					help='the xml file containing raw data')
 	parser.add_argument('--output_directory', type=str, default='./csv',
 					help='the output directory to store processed csv')
@@ -134,7 +132,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-
-
-
-
