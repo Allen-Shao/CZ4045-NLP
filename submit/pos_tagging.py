@@ -12,3 +12,5 @@ def main():
 	text = nltk.word_tokenize(args.sentence)
 	print(nltk.pos_tag(text))
 
+if __name__ == '__main__':
+    main()
