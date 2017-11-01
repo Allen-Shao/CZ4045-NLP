@@ -5,6 +5,18 @@ Dependencies:
 	- NLTK (http://www.nltk.org/install.html)
 	- TensorFlow (https://www.tensorflow.org/install/)
 
+Dataset:
+	- selected_answers.csv (https://www.dropbox.com/s/gbhibawnwpm19h0/selected_answers.csv?dl=0)
+		This file contains all the answers from the selected 700 threads.
+	- selected_questions.csv (https://www.dropbox.com/s/7witiicpk4fedch/selected_questions.csv?dl=0)
+		This file contains all the questions from the selected 700 threads.
+	- 100_testset_post.csv (https://www.dropbox.com/s/jegpok2yia56tau/100_testset_post.csv?dl=0)
+		This file contains 100 posts for annotation as well as later testing.
+	- annotated_results.csv (https://www.dropbox.com/sh/ga0gmlj1kbx6yt8/AACEE9KuQ0xYNET11-prDAeta?dl=0)
+		This folder contains 100 annotated posts.
+	- code.csv (#TO BE ADDED)
+		This file contains all the code blocks filtered from the dataset containing 700 threads.
+
 File Hierarchy:
 	- collect_data.py 
 		This file is to collect and convert data from the original "Posts.xml" to several Pandas Dataframe and then store them in the csv format for further processing. The output include 3 files: "questions.csv" including all the question posts, "answers.csv" including all the answers posts, "code.csv" including code blocks in each post accordingly.
