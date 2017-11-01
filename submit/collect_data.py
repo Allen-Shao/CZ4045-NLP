@@ -118,10 +118,10 @@ def collect_data(input_file, output_directory, target_tag):
 							continue
 						question = Question(cur_id, title, body, accept, answer_count)
 						if (code_beginning in body):
-						code_list = find_code(body)
-						for code in code_list:
-							new_code_section = (cur_id, strip_html(code)) 
-							codes.append(new_code_section)
+							code_list = find_code(body)
+							for code in code_list:
+								new_code_section = (cur_id, strip_html(code)) 
+								codes.append(new_code_section)
 
 						questions.append(question.__dict__)
 						question_ids.append(cur_id)
@@ -135,10 +135,10 @@ def collect_data(input_file, output_directory, target_tag):
 						answer = Answer(cur_id, body, parent_id)
 						answers.append(answer.__dict__)
 						if (code_beginning in body):
-						code_list = find_code(body)
-						for code in code_list:
-							new_code_section = (cur_id, strip_html(code)) 
-							codes.append(new_code_section)
+							code_list = find_code(body)
+							for code in code_list:
+								new_code_section = (cur_id, strip_html(code)) 
+								codes.append(new_code_section)
 
 				# CheckPoint
 				if questions_count == 1000:

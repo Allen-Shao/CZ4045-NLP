@@ -22,8 +22,8 @@ def main():
                       help="the csv file containing all the selected questions")
     parser.add_argument("--selected_answers", type=str, default='./selected_answers.csv',
                       help="the csv file containing all the selected answers")
-    parser.add_argument("--output_file", type=str, default='./stemming_result', 
-                      help='the output file')
+    parser.add_argument("--output_directory", type=str, default='./', 
+                      help='the output directory to store stemming result')
     args = parser.parse_args()
     stemming(args)
 
@@ -31,13 +31,11 @@ def main():
 def stemming(args):
     ans_path = os.path.abspath(args.selected_answers)
     qns_path = os.path.abspath(args.selected_questions)
-    output = os.path.abspath(args.output_file)
+    output = os.path.join(os.path.abspath(args.output_directory), 'stemmer_result.txt')
 
     tokenizer = RegexpTokenizer(r'\w+')
     stemmer = SnowballStemmer("english")
 
-    print(ans_path)
-    print(qns_path)
     ans = pd.read_csv(ans_path)
     qns = pd.read_csv(qns_path)
 

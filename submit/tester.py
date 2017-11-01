@@ -8,7 +8,6 @@ def read_csv(dirname, file_number):
 	token = []
 
 	df = pd.read_csv(path.join(dirname, str(file_number)+'.csv'), encoding='utf-8')
-	# print(path.join(dirname, str(i)+'.csv'))
 	text.extend(df['text'].tolist())
 	for t in df['token'].tolist():
 		# annotation typo
@@ -93,14 +92,14 @@ def find_wrong_token(generated_texts, generated_tokens, test_texts, test_tokens,
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--generated_results', type=str, default='./',
-					help='the path for all the generated csv')
+					help='the directory where all the generated csv file are stored')
 	parser.add_argument('--annotated_results', type=str, default='./',
-					help='the path for all the annotated csv')
+					help='the directory where all the annotated csv file are stored')
 	parser.add_argument('--output_directory',  type=str, default='./',
 					help='the output directory to store test report')
 	args = parser.parse_args()
 
-	writer = open(path.abspath(args.output_directory), 'w', encoding='utf-8')
+	writer = open(path.join(path.abspath(args.output_directory), 'test_report.txt'), 'w', encoding='utf-8')
 
 	total_wrong = 0
 	total_token_number = 0

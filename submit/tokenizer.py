@@ -7,7 +7,7 @@ from nltk import pos_tag, word_tokenize
 import argparse
 import os
 
-def get_patterns():
+def tokenize_code(code, dic, post):
     identifier = r'[a-zA-Z_][\d\w_]*'
 
     keywords = r'''break|default|func|interface|select|case|defer
@@ -30,12 +30,12 @@ def get_patterns():
     function_call = r'(?:\w+\.\w+\s*\(.*\))|(?:\w+\s*\(.*\))'
     directory = r'/?\w+/(?:.+/)*\S+/?'
 
-    return special + '|' + keywords + '|' + function_call + '|' + string_literal + '|' + comments + '|'\
+    patterns = special + '|' + keywords + '|' + function_call + '|' + string_literal + '|' + comments + '|'\
             + directory + '|' + identifier + '|' + floating_literal + '|' \
             + hex_literal + '|' + operators + '|' + octal_literal + '|' \
             + decimal_literal
 
-def tokenize_code(code, dic, post):
+    code_tokenizer = RegexpTokenizer(patterns)
     code_lines = list(filter(None, code.split('\n')))
     for line in code_lines:
         # store line info then append to 'post' array
@@ -73,7 +73,7 @@ def tokenize_code(code, dic, post):
         post.append(line_info)
     return dic, post
 
-ddef split_punc(token):
+def split_punc(token):
 
     punc = string.punctuation.replace('/', '')
     punctuation_mark = r"[{}]".format(punc) # create the pattern
@@ -246,27 +246,25 @@ def _tokenizer(post_df, code_df, store_directory, store_each_post = False, proce
             break
     # df for all posts
     results = pd.DataFrame(tokenization, columns = ['post_id', 'text', 'tokens'])
-    results.to_csv(os.path.join(store_directory + 'overall_results.csv'))
+    results.to_csv(os.path.join(store_directory, 'overall_results.csv'))
     return results
 
-
-patterns = get_patterns()
 
 # main
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--code", type=str, default='./code.csv',
                      help="the csv file containing all the code blocks")
-    parser.add_argument("selected_questions", type=str, default='./questions.csv',
+    parser.add_argument("--selected_questions", type=str, default='./questions.csv',
                      help="the csv file containing all the selected questions")
     parser.add_argument("--selected_answers", type=str, default='./answers.csv',
                      help="the csv file containing all the selected answers")
     parser.add_argument("--test_dataset", type=str, default='./100_posts.csv',
                      help="the csv file containing selected data used for further testing")
     parser.add_argument("--output_directory_test", type=str, default='./',
-                     help="the output directory for stroing tokenizer_result for test set")
+                     help="the output directory for storing tokenizer_result for test set")
     parser.add_argument("--output_directory_all", type=str, default='./',
-                     help="the output directory for stroing tokenizer_result for all dataset")
+                     help="the output directory for storing tokenizer_result for all dataset")
     args = parser.parse_args()
 
     all_codes = pd.read_csv(os.path.abspath(args.code))
@@ -291,10 +289,6 @@ def main():
     print(str(n) + " number of posts do not have code block")
     ground_truth_code_blk = pd.DataFrame(groud_truth_code_blk_list, columns=['PostId', 'Code'])
     ground_truth_code_blk.set_index('PostId', inplace=True)
-
-
-
-    code_tokenizer = RegexpTokenizer(patterns)
 
     # tokenize all ground truth posts
     gt_results = _tokenizer(ground_truth_post, ground_truth_code_blk, os.path.abspath(args.output_directory_test), True, 100)

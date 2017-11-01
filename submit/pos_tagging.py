@@ -6,7 +6,7 @@ import argparse
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument('sentence', type=str, help='input sentence for postagging')
+	parser.add_argument('sentence', type=str, help='input sentence for POS tagging')
 	args = parser.parse_args()
 
 	text = nltk.word_tokenize(args.sentence)
