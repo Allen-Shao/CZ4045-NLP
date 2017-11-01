@@ -8,7 +8,7 @@ import os
 from six.moves import cPickle
 
 from utils import TextLoader
-from model import Model
+from word_lstm_model import Model
 
 def main():
     parser = argparse.ArgumentParser()
